@@ -1,0 +1,7 @@
+module: AWSSDKSwift
+author: Yuki Takei
+sourcekitten_sourcefile: awssdkswift.json
+author_url: https://github.com/noppoMan
+github_url: https://github.com/noppoMan/aws-sdk-swift
+copyright: '© Copyright (c) 2017 Yuki Takei(noppoMan)'
+theme: fullwidth

@@ -1,0 +1,8 @@
+    public func {{ functionName }}({{ arguments }}) throws -> {{ outputType }} {
+        return try invokeRequest(
+            path: "{{ path }}",
+            httpMethod: "{{ httpMethod }}",
+            httpHeaders: {{ httpHeaders }},
+            input: input
+        )
+    }
