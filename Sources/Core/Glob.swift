@@ -24,7 +24,7 @@ public class Glob {
             return files
         }
         
-        for i in (0..<gt.gl_matchc) {
+        for i in (0..<gt.gl_pathc) {
             let x = gt.gl_pathv[Int(i)]
             let c = UnsafePointer<CChar>(x)!
             let s = String.init(cString: c)

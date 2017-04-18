@@ -163,7 +163,16 @@ extension Signers {
         }
         
         func signature(url: URL, headers: [String: String], datetime: String, method: String, bodyDigest: String) -> String {
-            let secretBytes = Array(String(format: "AWS4%@", self.credentials.secretAccessKey).utf8)
+            
+            #if os(Linux)
+                let secretAccessKey = self.credentials.secretAccessKey.withCString {
+                    String(format: "AWS4%@", $0)
+                }
+            #else
+                let secretAccessKey = String(format: "AWS4%@", self.credentials.secretAccessKey)
+            #endif
+            
+            let secretBytes = Array(secretAccessKey.utf8)
             let date = hmac(string: datetime.substring(to: datetime.index(datetime.startIndex, offsetBy: 8)), key: secretBytes)
             
             let region = hmac(string: self.region.rawValue, key: date)
