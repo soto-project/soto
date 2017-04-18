@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Redshift
-public enum RedshiftError: Error {
+public enum RedshiftError: AWSErrorType {
     case clusterParameterGroupNotFoundFault(message: String?)
     case clusterNotFoundFault(message: String?)
     case resizeNotFoundFault(message: String?)

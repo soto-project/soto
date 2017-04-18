@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Elasticache
-public enum ElasticacheError: Error {
+public enum ElasticacheError: AWSErrorType {
     case reservedCacheNodeNotFoundFault(message: String?)
     case invalidParameterValueException(message: String?)
     case invalidParameterCombinationException(message: String?)

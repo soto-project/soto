@@ -32,39 +32,39 @@ AWS IoT AWS IoT-Data enables secure, bi-directional communication between Intern
 */
 public struct Dataiot {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.iot",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [DataiotError.self]
         )
     }
 
     ///  Updates the thing shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
     public func updateThingShadow(_ input: UpdateThingShadowRequest) throws -> UpdateThingShadowResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateThingShadow", path: "/things/\(input.thingName)/shadow", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DataiotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the thing shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
     public func deleteThingShadow(_ input: DeleteThingShadowRequest) throws -> DeleteThingShadowResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteThingShadow", path: "/things/\(input.thingName)/shadow", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try DataiotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: "DELETE", input: input)
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
     public func publish(_ input: PublishRequest) throws {
-        _ = try request.invoke(operation: "Publish", path: "/topics/\(input.topic)?qos=\(input.qos?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input)
     }
 
     ///  Gets the thing shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
     public func getThingShadow(_ input: GetThingShadowRequest) throws -> GetThingShadowResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetThingShadow", path: "/things/\(input.thingName)/shadow", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try DataiotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: "GET", input: input)
     }
 
 

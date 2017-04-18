@@ -29,13 +29,15 @@ import Core
 
 extension Streamsdynamodb {
 
-    public struct DescribeStreamInput: Serializable, Initializable {
+    public struct DescribeStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the stream.
-        var streamArn: String = ""
+        public var streamArn: String = ""
         /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation. 
-        var exclusiveStartShardId: String? = nil
+        public var exclusiveStartShardId: String? = nil
         /// The maximum number of shard objects to return. The upper limit is 100.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -47,11 +49,13 @@ extension Streamsdynamodb {
 
     }
 
-    public struct KeySchemaElement: Serializable, Initializable {
+    public struct KeySchemaElement: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of a key attribute.
-        var attributeName: String = ""
+        public var attributeName: String = ""
         /// The attribute data, consisting of the data type and the attribute value itself.
-        var keyType: String = ""
+        public var keyType: String = ""
 
         public init() {}
 
@@ -62,13 +66,15 @@ extension Streamsdynamodb {
 
     }
 
-    public struct Shard: Serializable, Initializable {
+    public struct Shard: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The system-generated identifier for this shard.
-        var shardId: String? = nil
+        public var shardId: String? = nil
         /// The range of possible sequence numbers for the shard.
-        var sequenceNumberRange: SequenceNumberRange? = nil
+        public var sequenceNumberRange: SequenceNumberRange? = nil
         /// The shard ID of the current shard's parent.
-        var parentShardId: String? = nil
+        public var parentShardId: String? = nil
 
         public init() {}
 
@@ -80,9 +86,11 @@ extension Streamsdynamodb {
 
     }
 
-    public struct DescribeStreamOutput: Serializable, Initializable {
+    public struct DescribeStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
-        var streamDescription: StreamDescription? = nil
+        public var streamDescription: StreamDescription? = nil
 
         public init() {}
 
@@ -92,21 +100,23 @@ extension Streamsdynamodb {
 
     }
 
-    public struct Record: Serializable, Initializable {
+    public struct Record: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
-        var eventName: String? = nil
+        public var eventName: String? = nil
         /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
-        var eventSource: String? = nil
+        public var eventSource: String? = nil
         /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"  
-        var userIdentity: Identity? = nil
+        public var userIdentity: Identity? = nil
         /// A globally unique identifier for the event that was recorded in this stream record.
-        var eventID: String? = nil
+        public var eventID: String? = nil
         /// The main body of the stream record, containing all of the DynamoDB-specific fields.
-        var dynamodb: StreamRecord? = nil
+        public var dynamodb: StreamRecord? = nil
         /// The region in which the GetRecords request was received.
-        var awsRegion: String? = nil
+        public var awsRegion: String? = nil
         /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
-        var eventVersion: String? = nil
+        public var eventVersion: String? = nil
 
         public init() {}
 
@@ -122,15 +132,17 @@ extension Streamsdynamodb {
 
     }
 
-    public struct GetShardIteratorInput: Serializable, Initializable {
+    public struct GetShardIteratorInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
-        var shardIteratorType: String = ""
+        public var shardIteratorType: String = ""
         /// The sequence number of a stream record in the shard from which to start reading.
-        var sequenceNumber: String? = nil
+        public var sequenceNumber: String? = nil
         /// The Amazon Resource Name (ARN) for the stream.
-        var streamArn: String = ""
+        public var streamArn: String = ""
         /// The identifier of the shard. The iterator will be returned for this shard ID.
-        var shardId: String = ""
+        public var shardId: String = ""
 
         public init() {}
 
@@ -143,11 +155,13 @@ extension Streamsdynamodb {
 
     }
 
-    public struct SequenceNumberRange: Serializable, Initializable {
+    public struct SequenceNumberRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The last sequence number.
-        var endingSequenceNumber: String? = nil
+        public var endingSequenceNumber: String? = nil
         /// The first sequence number.
-        var startingSequenceNumber: String? = nil
+        public var startingSequenceNumber: String? = nil
 
         public init() {}
 
@@ -158,13 +172,15 @@ extension Streamsdynamodb {
 
     }
 
-    public struct Stream: Serializable, Initializable {
+    public struct Stream: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the stream.
-        var streamArn: String? = nil
+        public var streamArn: String? = nil
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
-        var streamLabel: String? = nil
+        public var streamLabel: String? = nil
         /// The DynamoDB table with which the stream is associated.
-        var tableName: String? = nil
+        public var tableName: String? = nil
 
         public init() {}
 
@@ -176,11 +192,13 @@ extension Streamsdynamodb {
 
     }
 
-    public struct GetRecordsInput: Serializable, Initializable {
+    public struct GetRecordsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of records to return from the shard. The upper limit is 1000.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
-        var shardIterator: String = ""
+        public var shardIterator: String = ""
 
         public init() {}
 
@@ -191,9 +209,11 @@ extension Streamsdynamodb {
 
     }
 
-    public struct GetShardIteratorOutput: Serializable, Initializable {
+    public struct GetShardIteratorOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
-        var shardIterator: String? = nil
+        public var shardIterator: String? = nil
 
         public init() {}
 
@@ -203,11 +223,13 @@ extension Streamsdynamodb {
 
     }
 
-    public struct Identity: Serializable, Initializable {
+    public struct Identity: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of the identity. For Time To Live, the type is "Service".
-        var type: String? = nil
+        public var type: String? = nil
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
-        var principalId: String? = nil
+        public var principalId: String? = nil
 
         public init() {}
 
@@ -218,27 +240,29 @@ extension Streamsdynamodb {
 
     }
 
-    public struct AttributeValue: Serializable, Initializable {
+    public struct AttributeValue: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A Number Set data type.
-        var nS: [String]? = nil
+        public var nS: [String]? = nil
         /// A Number data type.
-        var n: String? = nil
+        public var n: String? = nil
         /// A Boolean data type.
-        var bOOL: Bool? = nil
+        public var bOOL: Bool? = nil
         /// A Binary Set data type.
-        var bS: [Data]? = nil
+        public var bS: [Data]? = nil
         /// A List data type.
-        var l: [AttributeValue]? = nil
+        public var l: [AttributeValue]? = nil
         /// A Null data type.
-        var nULL: Bool? = nil
+        public var nULL: Bool? = nil
         /// A Binary data type.
-        var b: Data? = nil
+        public var b: Data? = nil
         /// A Map data type.
-        var m: [String: AttributeValue]? = nil
+        public var m: [String: AttributeValue]? = nil
         /// A String Set data type.
-        var sS: [String]? = nil
+        public var sS: [String]? = nil
         /// A String data type.
-        var s: String? = nil
+        public var s: String? = nil
 
         public init() {}
 
@@ -257,11 +281,13 @@ extension Streamsdynamodb {
 
     }
 
-    public struct ListStreamsOutput: Serializable, Initializable {
+    public struct ListStreamsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of stream descriptors associated with the current account and endpoint.
-        var streams: [Stream]? = nil
+        public var streams: [Stream]? = nil
         /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
-        var lastEvaluatedStreamArn: String? = nil
+        public var lastEvaluatedStreamArn: String? = nil
 
         public init() {}
 
@@ -272,13 +298,15 @@ extension Streamsdynamodb {
 
     }
 
-    public struct ListStreamsInput: Serializable, Initializable {
+    public struct ListStreamsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
-        var exclusiveStartStreamArn: String? = nil
+        public var exclusiveStartStreamArn: String? = nil
         /// If this parameter is provided, then only the streams associated with this table name are returned.
-        var tableName: String? = nil
+        public var tableName: String? = nil
         /// The maximum number of streams to return. The upper limit is 100.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -290,11 +318,13 @@ extension Streamsdynamodb {
 
     }
 
-    public struct GetRecordsOutput: Serializable, Initializable {
+    public struct GetRecordsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
-        var nextShardIterator: String? = nil
+        public var nextShardIterator: String? = nil
         /// The stream records from the shard, which were retrieved using the shard iterator.
-        var records: [Record]? = nil
+        public var records: [Record]? = nil
 
         public init() {}
 
@@ -305,21 +335,23 @@ extension Streamsdynamodb {
 
     }
 
-    public struct StreamRecord: Serializable, Initializable {
+    public struct StreamRecord: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sequence number of the stream record.
-        var sequenceNumber: String? = nil
+        public var sequenceNumber: String? = nil
         /// The primary key attribute(s) for the DynamoDB item that was modified.
-        var keys: [String: AttributeValue]? = nil
+        public var keys: [String: AttributeValue]? = nil
         /// The item in the DynamoDB table as it appeared after it was modified.
-        var newImage: [String: AttributeValue]? = nil
+        public var newImage: [String: AttributeValue]? = nil
         /// The size of the stream record, in bytes.
-        var sizeBytes: Int64? = nil
+        public var sizeBytes: Int64? = nil
         /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
-        var streamViewType: String? = nil
+        public var streamViewType: String? = nil
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
-        var approximateCreationDateTime: Date? = nil
+        public var approximateCreationDateTime: Date? = nil
         /// The item in the DynamoDB table as it appeared before it was modified.
-        var oldImage: [String: AttributeValue]? = nil
+        public var oldImage: [String: AttributeValue]? = nil
 
         public init() {}
 
@@ -335,25 +367,27 @@ extension Streamsdynamodb {
 
     }
 
-    public struct StreamDescription: Serializable, Initializable {
+    public struct StreamDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key attribute(s) of the stream's DynamoDB table.
-        var keySchema: [KeySchemaElement]? = nil
+        public var keySchema: [KeySchemaElement]? = nil
         /// The Amazon Resource Name (ARN) for the stream.
-        var streamArn: String? = nil
+        public var streamArn: String? = nil
         /// The date and time when the request to create this stream was issued.
-        var creationRequestDateTime: Date? = nil
+        public var creationRequestDateTime: Date? = nil
         /// The shards that comprise the stream.
-        var shards: [Shard]? = nil
+        public var shards: [Shard]? = nil
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
-        var streamLabel: String? = nil
+        public var streamLabel: String? = nil
         /// The DynamoDB table with which the stream is associated.
-        var tableName: String? = nil
+        public var tableName: String? = nil
         /// Indicates the format of the records within this stream:    KEYS_ONLY - only the key attributes of items that were modified in the DynamoDB table.    NEW_IMAGE - entire items from the table, as they appeared after they were modified.    OLD_IMAGE - entire items from the table, as they appeared before they were modified.    NEW_AND_OLD_IMAGES - both the new and the old images of the items from the table.  
-        var streamViewType: String? = nil
+        public var streamViewType: String? = nil
         /// Indicates the current status of the stream:    ENABLING - Streams is currently being enabled on the DynamoDB table.    ENABLED - the stream is enabled.    DISABLING - Streams is currently being disabled on the DynamoDB table.    DISABLED - the stream is disabled.  
-        var streamStatus: String? = nil
+        public var streamStatus: String? = nil
         /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
-        var lastEvaluatedShardId: String? = nil
+        public var lastEvaluatedShardId: String? = nil
 
         public init() {}
 

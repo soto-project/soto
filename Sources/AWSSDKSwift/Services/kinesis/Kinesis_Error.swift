@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Kinesis
-public enum KinesisError: Error {
+public enum KinesisError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidArgumentException(message: String?)
     case provisionedThroughputExceededException(message: String?)

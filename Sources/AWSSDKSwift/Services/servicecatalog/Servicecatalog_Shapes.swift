@@ -29,13 +29,15 @@ import Core
 
 extension Servicecatalog {
 
-    public struct DeletePortfolioShareInput: Serializable, Initializable {
+    public struct DeletePortfolioShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The account ID associated with the share to delete.
-        var accountId: String = ""
+        public var accountId: String = ""
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -47,13 +49,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DisassociatePrincipalFromPortfolioInput: Serializable, Initializable {
+    public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
-        var principalARN: String = ""
+        public var principalARN: String = ""
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -65,11 +69,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DeletePortfolioInput: Serializable, Initializable {
+    public struct DeletePortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the portfolio for the delete request.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -80,13 +86,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProvisioningParametersOutput: Serializable, Initializable {
+    public struct DescribeProvisioningParametersOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
-        var usageInstructions: [UsageInstruction]? = nil
+        public var usageInstructions: [UsageInstruction]? = nil
         /// The list of parameters used to successfully provision the product. Each parameter includes a list of allowable values and additional metadata about each parameter.
-        var provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil
+        public var provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil
         /// The list of constraint summaries that apply to provisioning this product.
-        var constraintSummaries: [ConstraintSummary]? = nil
+        public var constraintSummaries: [ConstraintSummary]? = nil
 
         public init() {}
 
@@ -98,15 +106,17 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisioningArtifactProperties: Serializable, Initializable {
+    public struct ProvisioningArtifactProperties: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The text description of the provisioning artifact properties.
-        var description: String? = nil
+        public var description: String? = nil
         /// The type of the provisioning artifact properties.
-        var type: String? = nil
+        public var type: String? = nil
         /// The name assigned to the provisioning artifact properties.
-        var name: String? = nil
+        public var name: String? = nil
         /// Additional information about the provisioning artifact properties.
-        var info: [String: String] = [:]
+        public var info: [String: String] = [:]
 
         public init() {}
 
@@ -119,11 +129,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProductAsAdminOutput: Serializable, Initializable {
+    public struct DescribeProductAsAdminOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Tags associated with the product.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// Detailed product view information.
-        var productViewDetail: ProductViewDetail? = nil
+        public var productViewDetail: ProductViewDetail? = nil
 
         public init() {}
 
@@ -134,11 +146,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPortfolioAccessOutput: Serializable, Initializable {
+    public struct ListPortfolioAccessOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// List of account IDs associated with access to the portfolio.
-        var accountIds: [String]? = nil
+        public var accountIds: [String]? = nil
 
         public init() {}
 
@@ -149,13 +163,15 @@ extension Servicecatalog {
 
     }
 
-    public struct CreateProductOutput: Serializable, Initializable {
+    public struct CreateProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Tags successfully associated with the new product.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The resulting detailed product view information.
-        var productViewDetail: ProductViewDetail? = nil
+        public var productViewDetail: ProductViewDetail? = nil
         /// The resulting detailed provisioning artifact information.
-        var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
 
         public init() {}
 
@@ -167,11 +183,13 @@ extension Servicecatalog {
 
     }
 
-    public struct UsageInstruction: Serializable, Initializable {
+    public struct UsageInstruction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The usage instruction type for the value.
-        var type: String? = nil
+        public var type: String? = nil
         /// The usage instruction value for this type.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -182,13 +200,15 @@ extension Servicecatalog {
 
     }
 
-    public struct CreatePortfolioShareInput: Serializable, Initializable {
+    public struct CreatePortfolioShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The account ID with which to share the portfolio.
-        var accountId: String = ""
+        public var accountId: String = ""
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -200,11 +220,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProductViewOutput: Serializable, Initializable {
+    public struct DescribeProductViewOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The summary metadata about the specified product.
-        var productViewSummary: ProductViewSummary? = nil
+        public var productViewSummary: ProductViewSummary? = nil
         /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
-        var provisioningArtifacts: [ProvisioningArtifact]? = nil
+        public var provisioningArtifacts: [ProvisioningArtifact]? = nil
 
         public init() {}
 
@@ -215,11 +237,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ScanProvisionedProductsOutput: Serializable, Initializable {
+    public struct ScanProvisionedProductsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of ProvisionedProduct detail objects.
-        var provisionedProducts: [ProvisionedProductDetail]? = nil
+        public var provisionedProducts: [ProvisionedProductDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -230,11 +254,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeConstraintInput: Serializable, Initializable {
+    public struct DescribeConstraintInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the constraint.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -245,15 +271,17 @@ extension Servicecatalog {
 
     }
 
-    public struct ConstraintDetail: Serializable, Initializable {
+    public struct ConstraintDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the constraint.
-        var constraintId: String? = nil
+        public var constraintId: String? = nil
         /// The type of the constraint.
-        var type: String? = nil
+        public var type: String? = nil
         /// The owner of the constraint.
-        var owner: String? = nil
+        public var owner: String? = nil
         /// The text description of the constraint.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -266,11 +294,13 @@ extension Servicecatalog {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The esired value for this key.
-        var value: String = ""
+        public var value: String = ""
         /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -281,11 +311,13 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdatePortfolioOutput: Serializable, Initializable {
+    public struct UpdatePortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resulting detailed portfolio information.
-        var portfolioDetail: PortfolioDetail? = nil
+        public var portfolioDetail: PortfolioDetail? = nil
         /// Tags associated with the portfolio.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -296,11 +328,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProductInput: Serializable, Initializable {
+    public struct DescribeProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The ProductId of the product to describe.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -311,11 +345,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListRecordHistoryOutput: Serializable, Initializable {
+    public struct ListRecordHistoryOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of record detail objects, listed in reverse chronological order.
-        var recordDetails: [RecordDetail]? = nil
+        public var recordDetails: [RecordDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -326,15 +362,17 @@ extension Servicecatalog {
 
     }
 
-    public struct ScanProvisionedProductsInput: Serializable, Initializable {
+    public struct ScanProvisionedProductsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The access level for obtaining results. If left unspecified, User level access is used.
-        var accessLevelFilter: AccessLevelFilter? = nil
+        public var accessLevelFilter: AccessLevelFilter? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -347,19 +385,21 @@ extension Servicecatalog {
 
     }
 
-    public struct CreatePortfolioInput: Serializable, Initializable {
+    public struct CreatePortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The text description of the portfolio.
-        var description: String? = nil
+        public var description: String? = nil
         /// The name of the portfolio provider.
-        var providerName: String = ""
+        public var providerName: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// Tags to associate with the new portfolio.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The name to use for display purposes.
-        var displayName: String = ""
+        public var displayName: String = ""
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        var idempotencyToken: String = ""
+        public var idempotencyToken: String = ""
 
         public init() {}
 
@@ -374,11 +414,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListRecordHistorySearchFilter: Serializable, Initializable {
+    public struct ListRecordHistorySearchFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The filter value for Key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The filter key.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -389,13 +431,15 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPortfoliosInput: Serializable, Initializable {
+    public struct ListPortfoliosInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -407,17 +451,21 @@ extension Servicecatalog {
 
     }
 
-    public struct AcceptPortfolioShareOutput: Serializable, Initializable {
+    public struct AcceptPortfolioShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListLaunchPathsOutput: Serializable, Initializable {
+    public struct ListLaunchPathsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of launch path information summaries for the specified PageToken.
-        var launchPathSummaries: [LaunchPathSummary]? = nil
+        public var launchPathSummaries: [LaunchPathSummary]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -428,11 +476,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListConstraintsForPortfolioOutput: Serializable, Initializable {
+    public struct ListConstraintsForPortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of detailed constraint information objects.
-        var constraintDetails: [ConstraintDetail]? = nil
+        public var constraintDetails: [ConstraintDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -443,11 +493,13 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateProductOutput: Serializable, Initializable {
+    public struct UpdateProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Tags associated with the product.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The resulting detailed product view information.
-        var productViewDetail: ProductViewDetail? = nil
+        public var productViewDetail: ProductViewDetail? = nil
 
         public init() {}
 
@@ -458,23 +510,25 @@ extension Servicecatalog {
 
     }
 
-    public struct SearchProductsAsAdminInput: Serializable, Initializable {
+    public struct SearchProductsAsAdminInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sort field specifier. If no value is specified, results are not sorted.
-        var sortBy: String? = nil
+        public var sortBy: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// Access level of the source of the product.
-        var productSource: String? = nil
+        public var productSource: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String? = nil
+        public var portfolioId: String? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
         /// The sort order specifier. If no value is specified, results are not sorted.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the administrator has access.
-        var filters: [String: [String]]? = nil
+        public var filters: [String: [String]]? = nil
 
         public init() {}
 
@@ -491,25 +545,27 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisionProductInput: Serializable, Initializable {
+    public struct ProvisionProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        var provisioningArtifactId: String = ""
+        public var provisioningArtifactId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
-        var notificationArns: [String]? = nil
+        public var notificationArns: [String]? = nil
         /// A list of tags to use as provisioning options.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// An idempotency token that uniquely identifies the provisioning request. 
-        var provisionToken: String = ""
+        public var provisionToken: String = ""
         /// The identifier of the path for this product's provisioning. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        var pathId: String? = nil
+        public var pathId: String? = nil
         /// Parameters specified by the administrator that are required for provisioning the product.
-        var provisioningParameters: [ProvisioningParameter]? = nil
+        public var provisioningParameters: [ProvisioningParameter]? = nil
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// A user-friendly name to identify the ProvisionedProduct object. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
-        var provisionedProductName: String = ""
+        public var provisionedProductName: String = ""
 
         public init() {}
 
@@ -527,13 +583,15 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateProvisioningParameter: Serializable, Initializable {
+    public struct UpdateProvisioningParameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value to use for updating the product provisioning. Any constraints on this value can be found in the ProvisioningArtifactParameter parameter for Key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
-        var key: String? = nil
+        public var key: String? = nil
         /// If true, uses the currently set value for Key, ignoring UpdateProvisioningParameter.Value.
-        var usePreviousValue: Bool? = nil
+        public var usePreviousValue: Bool? = nil
 
         public init() {}
 
@@ -545,21 +603,23 @@ extension Servicecatalog {
 
     }
 
-    public struct CreateConstraintInput: Serializable, Initializable {
+    public struct CreateConstraintInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The constraint parameters.
-        var parameters: String = ""
+        public var parameters: String = ""
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        var idempotencyToken: String = ""
+        public var idempotencyToken: String = ""
         /// The type of the constraint.
-        var type: String = ""
+        public var type: String = ""
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The text description of the constraint.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -575,15 +635,17 @@ extension Servicecatalog {
 
     }
 
-    public struct LaunchPathSummary: Serializable, Initializable {
+    public struct LaunchPathSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of constraints on the portfolio-product relationship.
-        var constraintSummaries: [ConstraintSummary]? = nil
+        public var constraintSummaries: [ConstraintSummary]? = nil
         /// List of tags used by this launch path.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// Corresponds to the name of the portfolio to which the user was assigned.
-        var name: String? = nil
+        public var name: String? = nil
         /// The unique identifier of the product path.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -596,29 +658,33 @@ extension Servicecatalog {
 
     }
 
-    public struct AssociatePrincipalWithPortfolioOutput: Serializable, Initializable {
+    public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateProvisionedProductInput: Serializable, Initializable {
+    public struct UpdateProvisionedProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        var provisioningArtifactId: String? = nil
+        public var provisioningArtifactId: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The idempotency token that uniquely identifies the provisioning update request.
-        var updateToken: String = ""
+        public var updateToken: String = ""
         /// The identifier of the ProvisionedProduct object to update. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        var provisionedProductId: String? = nil
+        public var provisionedProductId: String? = nil
         /// The identifier of the path to use in the updated ProvisionedProduct object. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        var pathId: String? = nil
+        public var pathId: String? = nil
         /// A list of ProvisioningParameter objects used to update the ProvisionedProduct object.
-        var provisioningParameters: [UpdateProvisioningParameter]? = nil
+        public var provisioningParameters: [UpdateProvisioningParameter]? = nil
         /// The identifier of the ProvisionedProduct object.
-        var productId: String? = nil
+        public var productId: String? = nil
         /// The updated name of the ProvisionedProduct object . You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        var provisionedProductName: String? = nil
+        public var provisionedProductName: String? = nil
 
         public init() {}
 
@@ -635,31 +701,37 @@ extension Servicecatalog {
 
     }
 
-    public struct CreatePortfolioShareOutput: Serializable, Initializable {
+    public struct CreatePortfolioShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DisassociateProductFromPortfolioOutput: Serializable, Initializable {
+    public struct DisassociateProductFromPortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ProvisioningArtifactParameter: Serializable, Initializable {
+    public struct ProvisioningArtifactParameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The parameter type.
-        var parameterType: String? = nil
+        public var parameterType: String? = nil
         /// The text description of the parameter.
-        var description: String? = nil
+        public var description: String? = nil
         /// The list of constraints that the administrator has put on the parameter.
-        var parameterConstraints: ParameterConstraints? = nil
+        public var parameterConstraints: ParameterConstraints? = nil
         /// The default value for this parameter.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
         /// If this value is true, the value for this parameter is obfuscated from view when the parameter is retrieved. This parameter is used to hide sensitive information.
-        var isNoEcho: Bool? = nil
+        public var isNoEcho: Bool? = nil
         /// The parameter key. 
-        var parameterKey: String? = nil
+        public var parameterKey: String? = nil
 
         public init() {}
 
@@ -674,11 +746,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPrincipalsForPortfolioOutput: Serializable, Initializable {
+    public struct ListPrincipalsForPortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IAM principals (users or roles) associated with the portfolio.
-        var principals: [Principal]? = nil
+        public var principals: [Principal]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -689,15 +763,17 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeRecordInput: Serializable, Initializable {
+    public struct DescribeRecordInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The record identifier of the ProvisionedProduct object for which to retrieve output information. This is the RecordDetail.RecordId obtained from the request operation's response.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -710,11 +786,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPortfoliosForProductOutput: Serializable, Initializable {
+    public struct ListPortfoliosForProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of detailed portfolio information objects.
-        var portfolioDetails: [PortfolioDetail]? = nil
+        public var portfolioDetails: [PortfolioDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -725,13 +803,15 @@ extension Servicecatalog {
 
     }
 
-    public struct CreateConstraintOutput: Serializable, Initializable {
+    public struct CreateConstraintOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resulting detailed constraint information.
-        var constraintDetail: ConstraintDetail? = nil
+        public var constraintDetail: ConstraintDetail? = nil
         /// The status of the current request.
-        var status: String? = nil
+        public var status: String? = nil
         /// The resulting constraint parameters.
-        var constraintParameters: String? = nil
+        public var constraintParameters: String? = nil
 
         public init() {}
 
@@ -743,15 +823,17 @@ extension Servicecatalog {
 
     }
 
-    public struct ProductViewDetail: Serializable, Initializable {
+    public struct ProductViewDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Current status of the product.
-        var status: String? = nil
+        public var status: String? = nil
         /// The ARN associated with the product.
-        var productARN: String? = nil
+        public var productARN: String? = nil
         /// The summary metadata about the specified product view.
-        var productViewSummary: ProductViewSummary? = nil
+        public var productViewSummary: ProductViewSummary? = nil
         /// The UTC timestamp of the creation time.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
 
         public init() {}
 
@@ -764,15 +846,17 @@ extension Servicecatalog {
 
     }
 
-    public struct CreateProvisioningArtifactInput: Serializable, Initializable {
+    public struct CreateProvisioningArtifactInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The parameters to use when creating the new provisioning artifact.
-        var parameters: ProvisioningArtifactProperties = ProvisioningArtifactProperties()
+        public var parameters: ProvisioningArtifactProperties = ProvisioningArtifactProperties()
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        var idempotencyToken: String = ""
+        public var idempotencyToken: String = ""
 
         public init() {}
 
@@ -785,13 +869,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProvisioningArtifactInput: Serializable, Initializable {
+    public struct DescribeProvisioningArtifactInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the provisioning artifact.
-        var provisioningArtifactId: String = ""
+        public var provisioningArtifactId: String = ""
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -803,13 +889,15 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateConstraintOutput: Serializable, Initializable {
+    public struct UpdateConstraintOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resulting detailed constraint information.
-        var constraintDetail: ConstraintDetail? = nil
+        public var constraintDetail: ConstraintDetail? = nil
         /// The status of the current request.
-        var status: String? = nil
+        public var status: String? = nil
         /// The resulting updated constraint parameters.
-        var constraintParameters: String? = nil
+        public var constraintParameters: String? = nil
 
         public init() {}
 
@@ -821,13 +909,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeRecordOutput: Serializable, Initializable {
+    public struct DescribeRecordOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Detailed record information for the specified product. 
-        var recordDetail: RecordDetail? = nil
+        public var recordDetail: RecordDetail? = nil
         /// A list of outputs for the specified Product object created as the result of a request. For example, a CloudFormation-backed product that creates an S3 bucket would have an output for the S3 bucket URL.
-        var recordOutputs: [RecordOutput]? = nil
+        public var recordOutputs: [RecordOutput]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -839,9 +929,11 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateProvisionedProductOutput: Serializable, Initializable {
+    public struct UpdateProvisionedProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
-        var recordDetail: RecordDetail? = nil
+        public var recordDetail: RecordDetail? = nil
 
         public init() {}
 
@@ -851,11 +943,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListProvisioningArtifactsOutput: Serializable, Initializable {
+    public struct ListProvisioningArtifactsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of detailed provisioning artifact information objects.
-        var provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil
+        public var provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -866,9 +960,11 @@ extension Servicecatalog {
 
     }
 
-    public struct TerminateProvisionedProductOutput: Serializable, Initializable {
+    public struct TerminateProvisionedProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
-        var recordDetail: RecordDetail? = nil
+        public var recordDetail: RecordDetail? = nil
 
         public init() {}
 
@@ -878,11 +974,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisioningParameter: Serializable, Initializable {
+    public struct ProvisioningParameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value to use for provisioning. Any constraints on this value can be found in ProvisioningArtifactParameter for Key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -893,13 +991,15 @@ extension Servicecatalog {
 
     }
 
-    public struct RecordOutput: Serializable, Initializable {
+    public struct RecordOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The output value.
-        var outputValue: String? = nil
+        public var outputValue: String? = nil
         /// The output key.
-        var outputKey: String? = nil
+        public var outputKey: String? = nil
         /// The text description of the output.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -911,15 +1011,17 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisioningArtifact: Serializable, Initializable {
+    public struct ProvisioningArtifact: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The text description of the artifact.
-        var description: String? = nil
+        public var description: String? = nil
         /// The name of the artifact.
-        var name: String? = nil
+        public var name: String? = nil
         /// The UTC timestamp of the creation time.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// The identifier for the artifact.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -932,21 +1034,25 @@ extension Servicecatalog {
 
     }
 
-    public struct AssociateProductWithPortfolioOutput: Serializable, Initializable {
+    public struct AssociateProductWithPortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListLaunchPathsInput: Serializable, Initializable {
+    public struct ListLaunchPathsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The product identifier.. Identifies the product for which to retrieve LaunchPathSummaries information.
-        var productId: String = ""
+        public var productId: String = ""
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -959,19 +1065,23 @@ extension Servicecatalog {
 
     }
 
-    public struct DeleteConstraintOutput: Serializable, Initializable {
+    public struct DeleteConstraintOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct SearchProductsOutput: Serializable, Initializable {
+    public struct SearchProductsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of the product view aggregation value objects.
-        var productViewAggregations: [String: [ProductViewAggregationValue]]? = nil
+        public var productViewAggregations: [String: [ProductViewAggregationValue]]? = nil
         /// A list of the product view summary objects.
-        var productViewSummaries: [ProductViewSummary]? = nil
+        public var productViewSummaries: [ProductViewSummary]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -983,17 +1093,21 @@ extension Servicecatalog {
 
     }
 
-    public struct DisassociatePrincipalFromPortfolioOutput: Serializable, Initializable {
+    public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteConstraintInput: Serializable, Initializable {
+    public struct DeleteConstraintInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the constraint to delete.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1004,11 +1118,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProductViewInput: Serializable, Initializable {
+    public struct DescribeProductViewInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The ProductViewId of the product to describe.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1019,13 +1135,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DeleteProvisioningArtifactInput: Serializable, Initializable {
+    public struct DeleteProvisioningArtifactInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the provisioning artifact for the delete request.
-        var provisioningArtifactId: String = ""
+        public var provisioningArtifactId: String = ""
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -1037,9 +1155,11 @@ extension Servicecatalog {
 
     }
 
-    public struct ParameterConstraints: Serializable, Initializable {
+    public struct ParameterConstraints: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The values that the administrator has allowed for the parameter.
-        var allowedValues: [String]? = nil
+        public var allowedValues: [String]? = nil
 
         public init() {}
 
@@ -1049,15 +1169,17 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPortfoliosForProductInput: Serializable, Initializable {
+    public struct ListPortfoliosForProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1070,19 +1192,21 @@ extension Servicecatalog {
 
     }
 
-    public struct PortfolioDetail: Serializable, Initializable {
+    public struct PortfolioDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name to use for display purposes.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The name of the portfolio provider.
-        var providerName: String? = nil
+        public var providerName: String? = nil
         /// The ARN assigned to the portfolio.
-        var aRN: String? = nil
+        public var aRN: String? = nil
         /// The text description of the portfolio.
-        var description: String? = nil
+        public var description: String? = nil
         /// The UTC timestamp of the creation time.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// The identifier for the portfolio.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -1097,15 +1221,17 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProvisioningParametersInput: Serializable, Initializable {
+    public struct DescribeProvisioningParametersInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        var provisioningArtifactId: String = ""
+        public var provisioningArtifactId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The identifier of the path for this product's provisioning. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        var pathId: String? = nil
+        public var pathId: String? = nil
 
         public init() {}
 
@@ -1118,11 +1244,13 @@ extension Servicecatalog {
 
     }
 
-    public struct SearchProductsAsAdminOutput: Serializable, Initializable {
+    public struct SearchProductsAsAdminOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of detailed product view information objects.
-        var productViewDetails: [ProductViewDetail]? = nil
+        public var productViewDetails: [ProductViewDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -1133,11 +1261,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ProductViewAggregationValue: Serializable, Initializable {
+    public struct ProductViewAggregationValue: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the product view aggregation.
-        var value: String? = nil
+        public var value: String? = nil
         /// An approximate count of the products that match the value.
-        var approximateCount: Int32? = nil
+        public var approximateCount: Int32? = nil
 
         public init() {}
 
@@ -1148,13 +1278,15 @@ extension Servicecatalog {
 
     }
 
-    public struct ListAcceptedPortfolioSharesInput: Serializable, Initializable {
+    public struct ListAcceptedPortfolioSharesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1166,19 +1298,21 @@ extension Servicecatalog {
 
     }
 
-    public struct SearchProductsInput: Serializable, Initializable {
+    public struct SearchProductsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The sort field specifier. If no value is specified, results are not sorted.
-        var sortBy: String? = nil
+        public var sortBy: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the calling user has access. 
-        var filters: [String: [String]]? = nil
+        public var filters: [String: [String]]? = nil
         /// The sort order specifier. If no value is specified, results are not sorted.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1193,11 +1327,13 @@ extension Servicecatalog {
 
     }
 
-    public struct RecordError: Serializable, Initializable {
+    public struct RecordError: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The numeric value of the error.
-        var code: String? = nil
+        public var code: String? = nil
         /// The text description of the error.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1208,13 +1344,15 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateConstraintInput: Serializable, Initializable {
+    public struct UpdateConstraintInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The updated text description of the constraint.
-        var description: String? = nil
+        public var description: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the constraint to update.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1226,25 +1364,27 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisionedProductDetail: Serializable, Initializable {
+    public struct ProvisionedProductDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current status of the ProvisionedProduct.
-        var status: String? = nil
+        public var status: String? = nil
         /// The ARN associated with the ProvisionedProduct object.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The record identifier of the last request performed on this ProvisionedProduct object.
-        var lastRecordId: String? = nil
+        public var lastRecordId: String? = nil
         /// The user-friendly name of the ProvisionedProduct object.
-        var name: String? = nil
+        public var name: String? = nil
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        var idempotencyToken: String? = nil
+        public var idempotencyToken: String? = nil
         /// The type of the ProvisionedProduct object.
-        var type: String? = nil
+        public var type: String? = nil
         /// The current status message of the ProvisionedProduct.
-        var statusMessage: String? = nil
+        public var statusMessage: String? = nil
         /// The UTC timestamp of the creation time.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// The identifier of the ProvisionedProduct object.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -1262,9 +1402,11 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisionProductOutput: Serializable, Initializable {
+    public struct ProvisionProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
-        var recordDetail: RecordDetail? = nil
+        public var recordDetail: RecordDetail? = nil
 
         public init() {}
 
@@ -1274,11 +1416,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DeleteProductInput: Serializable, Initializable {
+    public struct DeleteProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the product for the delete request.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1289,11 +1433,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListProvisioningArtifactsInput: Serializable, Initializable {
+    public struct ListProvisioningArtifactsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -1304,17 +1450,19 @@ extension Servicecatalog {
 
     }
 
-    public struct ListRecordHistoryInput: Serializable, Initializable {
+    public struct ListRecordHistoryInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The access level for obtaining results. If left unspecified, User level access is used.
-        var accessLevelFilter: AccessLevelFilter? = nil
+        public var accessLevelFilter: AccessLevelFilter? = nil
         /// The filter to limit search results. 
-        var searchFilter: ListRecordHistorySearchFilter? = nil
+        public var searchFilter: ListRecordHistorySearchFilter? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1328,15 +1476,17 @@ extension Servicecatalog {
 
     }
 
-    public struct AssociateProductWithPortfolioInput: Serializable, Initializable {
+    public struct AssociateProductWithPortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the source portfolio to use with this association.
-        var sourcePortfolioId: String? = nil
+        public var sourcePortfolioId: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
 
         public init() {}
 
@@ -1349,29 +1499,31 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateProductInput: Serializable, Initializable {
+    public struct UpdateProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the product for the update request.
-        var id: String = ""
+        public var id: String = ""
         /// Tags to remove from the existing list of tags associated with the product.
-        var removeTags: [String]? = nil
+        public var removeTags: [String]? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The updated support email for the product.
-        var supportEmail: String? = nil
+        public var supportEmail: String? = nil
         /// The updated product name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The updated distributor of the product.
-        var distributor: String? = nil
+        public var distributor: String? = nil
         /// Tags to add to the existing list of tags associated with the product.
-        var addTags: [Tag]? = nil
+        public var addTags: [Tag]? = nil
         /// The updated support URL for the product.
-        var supportUrl: String? = nil
+        public var supportUrl: String? = nil
         /// The updated owner of the product.
-        var owner: String? = nil
+        public var owner: String? = nil
         /// The updated support description for the product.
-        var supportDescription: String? = nil
+        public var supportDescription: String? = nil
         /// The updated text description of the product.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1391,17 +1543,19 @@ extension Servicecatalog {
 
     }
 
-    public struct TerminateProvisionedProductInput: Serializable, Initializable {
+    public struct TerminateProvisionedProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If set to true, AWS Service Catalog stops managing the specified ProvisionedProduct object even if it cannot delete the underlying resources.
-        var ignoreErrors: Bool? = nil
+        public var ignoreErrors: Bool? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the ProvisionedProduct object is terminated, further requests to terminate the same ProvisionedProduct object always return ResourceNotFound regardless of the value of TerminateToken.
-        var terminateToken: String = ""
+        public var terminateToken: String = ""
         /// The identifier of the ProvisionedProduct object to terminate. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        var provisionedProductId: String? = nil
+        public var provisionedProductId: String? = nil
         /// The name of the ProvisionedProduct object to terminate. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        var provisionedProductName: String? = nil
+        public var provisionedProductName: String? = nil
 
         public init() {}
 
@@ -1415,23 +1569,27 @@ extension Servicecatalog {
 
     }
 
-    public struct RejectPortfolioShareOutput: Serializable, Initializable {
+    public struct RejectPortfolioShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateProvisioningArtifactInput: Serializable, Initializable {
+    public struct UpdateProvisioningArtifactInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the provisioning artifact for the update request.
-        var provisioningArtifactId: String = ""
+        public var provisioningArtifactId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The updated name of the provisioning artifact.
-        var name: String? = nil
+        public var name: String? = nil
         /// The updated text description of the provisioning artifact.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1445,11 +1603,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribePortfolioOutput: Serializable, Initializable {
+    public struct DescribePortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Detailed portfolio information.
-        var portfolioDetail: PortfolioDetail? = nil
+        public var portfolioDetail: PortfolioDetail? = nil
         /// Tags associated with the portfolio.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -1460,11 +1620,13 @@ extension Servicecatalog {
 
     }
 
-    public struct CreatePortfolioOutput: Serializable, Initializable {
+    public struct CreatePortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resulting detailed portfolio information.
-        var portfolioDetail: PortfolioDetail? = nil
+        public var portfolioDetail: PortfolioDetail? = nil
         /// Tags successfully associated with the new portfolio.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -1475,11 +1637,13 @@ extension Servicecatalog {
 
     }
 
-    public struct AccessLevelFilter: Serializable, Initializable {
+    public struct AccessLevelFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the user to which the access level applies. A value of Self is currently supported.
-        var value: String? = nil
+        public var value: String? = nil
         /// Specifies the access level.  Account allows results at the account level.   Role allows results based on the federated role of the specified user.  User allows results limited to the specified user. 
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -1490,11 +1654,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ConstraintSummary: Serializable, Initializable {
+    public struct ConstraintSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of the constraint. 
-        var type: String? = nil
+        public var type: String? = nil
         /// The text description of the constraint.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1505,29 +1671,31 @@ extension Servicecatalog {
 
     }
 
-    public struct ProductViewSummary: Serializable, Initializable {
+    public struct ProductViewSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A value of false indicates that the product does not have a default path, while a value of true indicates that it does. If it's false, call ListLaunchPaths to disambiguate between paths. If true, ListLaunchPaths is not required, and the output of the ProductViewSummary operation can be used directly with DescribeProvisioningParameters.
-        var hasDefaultPath: Bool? = nil
+        public var hasDefaultPath: Bool? = nil
         /// Short description of the product.
-        var shortDescription: String? = nil
+        public var shortDescription: String? = nil
         /// The product view identifier.
-        var id: String? = nil
+        public var id: String? = nil
         /// The email contact information to obtain support for this Product.
-        var supportEmail: String? = nil
+        public var supportEmail: String? = nil
         /// The name of the product.
-        var name: String? = nil
+        public var name: String? = nil
         /// The distributor of the product. Contact the product administrator for the significance of this value.
-        var distributor: String? = nil
+        public var distributor: String? = nil
         /// The URL information to obtain support for this Product.
-        var supportUrl: String? = nil
+        public var supportUrl: String? = nil
         /// The owner of the product. Contact the product administrator for the significance of this value.
-        var owner: String? = nil
+        public var owner: String? = nil
         /// The product identifier.
-        var productId: String? = nil
+        public var productId: String? = nil
         /// The description of the support for this Product.
-        var supportDescription: String? = nil
+        public var supportDescription: String? = nil
         /// The product type. Contact the product administrator for the significance of this value.
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -1547,11 +1715,13 @@ extension Servicecatalog {
 
     }
 
-    public struct RejectPortfolioShareInput: Serializable, Initializable {
+    public struct RejectPortfolioShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -1562,13 +1732,15 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdateProvisioningArtifactOutput: Serializable, Initializable {
+    public struct UpdateProvisioningArtifactOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the current request.
-        var status: String? = nil
+        public var status: String? = nil
         /// The resulting detailed provisioning artifact information.
-        var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
         /// Additional information about the provisioning artifact update request.
-        var info: [String: String]? = nil
+        public var info: [String: String]? = nil
 
         public init() {}
 
@@ -1580,13 +1752,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeConstraintOutput: Serializable, Initializable {
+    public struct DescribeConstraintOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Detailed constraint information.
-        var constraintDetail: ConstraintDetail? = nil
+        public var constraintDetail: ConstraintDetail? = nil
         /// The status of the current request.
-        var status: String? = nil
+        public var status: String? = nil
         /// The current parameters associated with the specified constraint.
-        var constraintParameters: String? = nil
+        public var constraintParameters: String? = nil
 
         public init() {}
 
@@ -1598,11 +1772,13 @@ extension Servicecatalog {
 
     }
 
-    public struct Principal: Serializable, Initializable {
+    public struct Principal: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
-        var principalARN: String? = nil
+        public var principalARN: String? = nil
         /// The principal type. Must be IAM 
-        var principalType: String? = nil
+        public var principalType: String? = nil
 
         public init() {}
 
@@ -1613,17 +1789,19 @@ extension Servicecatalog {
 
     }
 
-    public struct ProvisioningArtifactDetail: Serializable, Initializable {
+    public struct ProvisioningArtifactDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The text description of the provisioning artifact.
-        var description: String? = nil
+        public var description: String? = nil
         /// The type of the provisioning artifact.
-        var type: String? = nil
+        public var type: String? = nil
         /// The name assigned to the provisioning artifact.
-        var name: String? = nil
+        public var name: String? = nil
         /// The UTC timestamp of the creation time.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// The identifier of the provisioning artifact.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -1637,17 +1815,19 @@ extension Servicecatalog {
 
     }
 
-    public struct ListConstraintsForPortfolioInput: Serializable, Initializable {
+    public struct ListConstraintsForPortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The product identifier.
-        var productId: String? = nil
+        public var productId: String? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1661,13 +1841,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DisassociateProductFromPortfolioInput: Serializable, Initializable {
+    public struct DisassociateProductFromPortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The product identifier.
-        var productId: String = ""
+        public var productId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -1679,11 +1861,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPortfoliosOutput: Serializable, Initializable {
+    public struct ListPortfoliosOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of detailed portfolio information objects.
-        var portfolioDetails: [PortfolioDetail]? = nil
+        public var portfolioDetails: [PortfolioDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -1694,21 +1878,25 @@ extension Servicecatalog {
 
     }
 
-    public struct DeleteProductOutput: Serializable, Initializable {
+    public struct DeleteProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListPrincipalsForPortfolioInput: Serializable, Initializable {
+    public struct ListPrincipalsForPortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1721,23 +1909,29 @@ extension Servicecatalog {
 
     }
 
-    public struct DeleteProvisioningArtifactOutput: Serializable, Initializable {
+    public struct DeleteProvisioningArtifactOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeletePortfolioShareOutput: Serializable, Initializable {
+    public struct DeletePortfolioShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeProductOutput: Serializable, Initializable {
+    public struct DescribeProductOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The summary metadata about the specified product.
-        var productViewSummary: ProductViewSummary? = nil
+        public var productViewSummary: ProductViewSummary? = nil
         /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts parameter represent the ways the specified product can be provisioned.
-        var provisioningArtifacts: [ProvisioningArtifact]? = nil
+        public var provisioningArtifacts: [ProvisioningArtifact]? = nil
 
         public init() {}
 
@@ -1748,33 +1942,35 @@ extension Servicecatalog {
 
     }
 
-    public struct RecordDetail: Serializable, Initializable {
+    public struct RecordDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        var provisioningArtifactId: String? = nil
+        public var provisioningArtifactId: String? = nil
         /// The time when the record for the ProvisionedProduct object was last updated.
-        var updatedTime: Date? = nil
+        public var updatedTime: Date? = nil
         /// The user-friendly name of the ProvisionedProduct object.
-        var provisionedProductName: String? = nil
+        public var provisionedProductName: String? = nil
         /// The identifier of the path for this product's provisioning.
-        var pathId: String? = nil
+        public var pathId: String? = nil
         /// The product identifier.
-        var productId: String? = nil
+        public var productId: String? = nil
         /// The UTC timestamp of the creation time.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// A list of errors that occurred while processing the request.
-        var recordErrors: [RecordError]? = nil
+        public var recordErrors: [RecordError]? = nil
         /// The status of the ProvisionedProduct object.
-        var status: String? = nil
+        public var status: String? = nil
         /// The identifier of the ProvisionedProduct object.
-        var provisionedProductId: String? = nil
+        public var provisionedProductId: String? = nil
         /// The record type for this record.
-        var recordType: String? = nil
+        public var recordType: String? = nil
         /// The identifier of the ProvisionedProduct object record.
-        var recordId: String? = nil
+        public var recordId: String? = nil
         /// The type of the ProvisionedProduct object.
-        var provisionedProductType: String? = nil
+        public var provisionedProductType: String? = nil
         /// List of tags associated with this record.
-        var recordTags: [RecordTag]? = nil
+        public var recordTags: [RecordTag]? = nil
 
         public init() {}
 
@@ -1796,13 +1992,15 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProvisioningArtifactOutput: Serializable, Initializable {
+    public struct DescribeProvisioningArtifactOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the current request.
-        var status: String? = nil
+        public var status: String? = nil
         /// Detailed provisioning artifact information.
-        var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
         /// Additional information about the provisioning artifact.
-        var info: [String: String]? = nil
+        public var info: [String: String]? = nil
 
         public init() {}
 
@@ -1814,11 +2012,13 @@ extension Servicecatalog {
 
     }
 
-    public struct AcceptPortfolioShareInput: Serializable, Initializable {
+    public struct AcceptPortfolioShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 
@@ -1829,11 +2029,13 @@ extension Servicecatalog {
 
     }
 
-    public struct RecordTag: Serializable, Initializable {
+    public struct RecordTag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value for this tag.
-        var value: String? = nil
+        public var value: String? = nil
         /// The key for this tag.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -1844,11 +2046,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListAcceptedPortfolioSharesOutput: Serializable, Initializable {
+    public struct ListAcceptedPortfolioSharesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of detailed portfolio information objects.
-        var portfolioDetails: [PortfolioDetail]? = nil
+        public var portfolioDetails: [PortfolioDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -1859,21 +2063,23 @@ extension Servicecatalog {
 
     }
 
-    public struct UpdatePortfolioInput: Serializable, Initializable {
+    public struct UpdatePortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the portfolio for the update request.
-        var id: String = ""
+        public var id: String = ""
         /// Tags to remove from the existing list of tags associated with the portfolio.
-        var removeTags: [String]? = nil
+        public var removeTags: [String]? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The name to use for display purposes.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// Tags to add to the existing list of tags associated with the portfolio.
-        var addTags: [Tag]? = nil
+        public var addTags: [Tag]? = nil
         /// The updated name of the portfolio provider.
-        var providerName: String? = nil
+        public var providerName: String? = nil
         /// The updated text description of the portfolio.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1889,21 +2095,25 @@ extension Servicecatalog {
 
     }
 
-    public struct DeletePortfolioOutput: Serializable, Initializable {
+    public struct DeletePortfolioOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AssociatePrincipalWithPortfolioInput: Serializable, Initializable {
+    public struct AssociatePrincipalWithPortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
-        var principalARN: String = ""
+        public var principalARN: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The principal type. Must be IAM 
-        var principalType: String = ""
+        public var principalType: String = ""
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
 
         public init() {}
 
@@ -1916,11 +2126,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribeProductAsAdminInput: Serializable, Initializable {
+    public struct DescribeProductAsAdminInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the product for which to retrieve information.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1931,11 +2143,13 @@ extension Servicecatalog {
 
     }
 
-    public struct DescribePortfolioInput: Serializable, Initializable {
+    public struct DescribePortfolioInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// The identifier of the portfolio for which to retrieve information.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1946,31 +2160,33 @@ extension Servicecatalog {
 
     }
 
-    public struct CreateProductInput: Serializable, Initializable {
+    public struct CreateProductInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
         /// Contact email for product support.
-        var supportEmail: String? = nil
+        public var supportEmail: String? = nil
         /// The name of the product.
-        var name: String = ""
+        public var name: String = ""
         /// The distributor of the product.
-        var distributor: String? = nil
+        public var distributor: String? = nil
         /// The type of the product to create.
-        var productType: String = ""
+        public var productType: String = ""
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        var idempotencyToken: String = ""
+        public var idempotencyToken: String = ""
         /// Tags to associate with the new product.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// Parameters for the provisioning artifact.
-        var provisioningArtifactParameters: ProvisioningArtifactProperties = ProvisioningArtifactProperties()
+        public var provisioningArtifactParameters: ProvisioningArtifactProperties = ProvisioningArtifactProperties()
         /// Contact URL for product support.
-        var supportUrl: String? = nil
+        public var supportUrl: String? = nil
         /// The owner of the product.
-        var owner: String = ""
+        public var owner: String = ""
         /// Support information about the product.
-        var supportDescription: String? = nil
+        public var supportDescription: String? = nil
         /// The text description of the product.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1991,13 +2207,15 @@ extension Servicecatalog {
 
     }
 
-    public struct CreateProvisioningArtifactOutput: Serializable, Initializable {
+    public struct CreateProvisioningArtifactOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the current request.
-        var status: String? = nil
+        public var status: String? = nil
         /// The resulting detailed provisioning artifact information.
-        var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
         /// Additional information about the provisioning artifact create request.
-        var info: [String: String]? = nil
+        public var info: [String: String]? = nil
 
         public init() {}
 
@@ -2009,11 +2227,13 @@ extension Servicecatalog {
 
     }
 
-    public struct ListPortfolioAccessInput: Serializable, Initializable {
+    public struct ListPortfolioAccessInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The portfolio identifier.
-        var portfolioId: String = ""
+        public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        var acceptLanguage: String? = nil
+        public var acceptLanguage: String? = nil
 
         public init() {}
 

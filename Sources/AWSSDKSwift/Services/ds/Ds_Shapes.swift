@@ -29,15 +29,19 @@ import Core
 
 extension Ds {
 
-    public struct EnableRadiusResult: Serializable, Initializable {
+    public struct EnableRadiusResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteDirectoryResult: Serializable, Initializable {
+    public struct DeleteDirectoryResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The directory identifier.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -47,11 +51,13 @@ extension Ds {
 
     }
 
-    public struct DeleteTrustRequest: Serializable, Initializable {
+    public struct DeleteTrustRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
-        var deleteAssociatedConditionalForwarder: Bool? = nil
+        public var deleteAssociatedConditionalForwarder: Bool? = nil
         /// The Trust ID of the trust relationship to be deleted.
-        var trustId: String = ""
+        public var trustId: String = ""
 
         public init() {}
 
@@ -62,15 +68,17 @@ extension Ds {
 
     }
 
-    public struct DescribeTrustsRequest: Serializable, Initializable {
+    public struct DescribeTrustsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
-        var trustIds: [String]? = nil
+        public var trustIds: [String]? = nil
         /// The maximum number of objects to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The DescribeTrustsResult.NextToken value from a previous call to DescribeTrusts. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -83,9 +91,11 @@ extension Ds {
 
     }
 
-    public struct CreateTrustResult: Serializable, Initializable {
+    public struct CreateTrustResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the trust relationship that was created.
-        var trustId: String? = nil
+        public var trustId: String? = nil
 
         public init() {}
 
@@ -95,11 +105,13 @@ extension Ds {
 
     }
 
-    public struct RemoveIpRoutesRequest: Serializable, Initializable {
+    public struct RemoveIpRoutesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// IP address blocks that you want to remove.
-        var cidrIps: [String] = []
+        public var cidrIps: [String] = []
 
         public init() {}
 
@@ -110,11 +122,13 @@ extension Ds {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        var value: String = ""
+        public var value: String = ""
         /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -125,19 +139,23 @@ extension Ds {
 
     }
 
-    public struct CreateConditionalForwarderResult: Serializable, Initializable {
+    public struct CreateConditionalForwarderResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Computer: Serializable, Initializable {
+    public struct Computer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the computer.
-        var computerId: String? = nil
+        public var computerId: String? = nil
         /// The computer name.
-        var computerName: String? = nil
+        public var computerName: String? = nil
         /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
-        var computerAttributes: [Attribute]? = nil
+        public var computerAttributes: [Attribute]? = nil
 
         public init() {}
 
@@ -149,11 +167,13 @@ extension Ds {
 
     }
 
-    public struct Attribute: Serializable, Initializable {
+    public struct Attribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the attribute.
-        var value: String? = nil
+        public var value: String? = nil
         /// The name of the attribute.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -164,11 +184,13 @@ extension Ds {
 
     }
 
-    public struct CreateAliasRequest: Serializable, Initializable {
+    public struct CreateAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
-        var alias: String = ""
+        public var alias: String = ""
         /// The identifier of the directory for which to create the alias.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -179,19 +201,21 @@ extension Ds {
 
     }
 
-    public struct DirectoryConnectSettingsDescription: Serializable, Initializable {
+    public struct DirectoryConnectSettingsDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of subnet identifiers in the VPC that the AD connector is in.
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         /// The security group identifier for the AD Connector directory.
-        var securityGroupId: String? = nil
+        public var securityGroupId: String? = nil
         /// A list of the Availability Zones that the directory is in.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// The identifier of the VPC that the AD Connector is in.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         /// The username of the service account in the on-premises directory.
-        var customerUserName: String? = nil
+        public var customerUserName: String? = nil
         /// The IP addresses of the AD Connector servers.
-        var connectIps: [String]? = nil
+        public var connectIps: [String]? = nil
 
         public init() {}
 
@@ -206,11 +230,13 @@ extension Ds {
 
     }
 
-    public struct DescribeSnapshotsResult: Serializable, Initializable {
+    public struct DescribeSnapshotsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        var snapshots: [Snapshot]? = nil
+        public var snapshots: [Snapshot]? = nil
 
         public init() {}
 
@@ -221,11 +247,13 @@ extension Ds {
 
     }
 
-    public struct AddTagsToResourceRequest: Serializable, Initializable {
+    public struct AddTagsToResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier (ID) for the directory to which to add the tag.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The tags to be assigned to the directory.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -236,9 +264,11 @@ extension Ds {
 
     }
 
-    public struct DeleteDirectoryRequest: Serializable, Initializable {
+    public struct DeleteDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory to delete.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -248,11 +278,13 @@ extension Ds {
 
     }
 
-    public struct IpRoute: Serializable, Initializable {
+    public struct IpRoute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
-        var cidrIp: String? = nil
+        public var cidrIp: String? = nil
         /// Description of the address block.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -263,43 +295,45 @@ extension Ds {
 
     }
 
-    public struct DirectoryDescription: Serializable, Initializable {
+    public struct DirectoryDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The short name of the directory.
-        var shortName: String? = nil
+        public var shortName: String? = nil
         /// Specifies when the directory was created.
-        var launchTime: Date? = nil
+        public var launchTime: Date? = nil
         /// The current stage of the directory.
-        var stage: String? = nil
+        public var stage: String? = nil
         /// The directory identifier.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
         /// The date and time that the stage was last updated.
-        var stageLastUpdatedDateTime: Date? = nil
+        public var stageLastUpdatedDateTime: Date? = nil
         /// The textual description for the directory.
-        var description: String? = nil
+        public var description: String? = nil
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
-        var vpcSettings: DirectoryVpcSettingsDescription? = nil
+        public var vpcSettings: DirectoryVpcSettingsDescription? = nil
         /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
-        var ssoEnabled: Bool? = nil
+        public var ssoEnabled: Bool? = nil
         /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
-        var radiusSettings: RadiusSettings? = nil
+        public var radiusSettings: RadiusSettings? = nil
         /// Additional information about the directory stage.
-        var stageReason: String? = nil
+        public var stageReason: String? = nil
         /// The fully-qualified name of the directory.
-        var name: String? = nil
+        public var name: String? = nil
         /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
-        var accessUrl: String? = nil
+        public var accessUrl: String? = nil
         /// The directory size.
-        var size: String? = nil
+        public var size: String? = nil
         /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
-        var alias: String? = nil
+        public var alias: String? = nil
         /// The status of the RADIUS MFA server connection.
-        var radiusStatus: String? = nil
+        public var radiusStatus: String? = nil
         /// The directory size.
-        var type: String? = nil
+        public var type: String? = nil
         /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
-        var connectSettings: DirectoryConnectSettingsDescription? = nil
+        public var connectSettings: DirectoryConnectSettingsDescription? = nil
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
-        var dnsIpAddrs: [String]? = nil
+        public var dnsIpAddrs: [String]? = nil
 
         public init() {}
 
@@ -326,13 +360,15 @@ extension Ds {
 
     }
 
-    public struct UpdateConditionalForwarderRequest: Serializable, Initializable {
+    public struct UpdateConditionalForwarderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
-        var dnsIpAddrs: [String] = []
+        public var dnsIpAddrs: [String] = []
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
-        var remoteDomainName: String = ""
+        public var remoteDomainName: String = ""
 
         public init() {}
 
@@ -344,27 +380,29 @@ extension Ds {
 
     }
 
-    public struct Trust: Serializable, Initializable {
+    public struct Trust: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
-        var remoteDomainName: String? = nil
+        public var remoteDomainName: String? = nil
         /// The date and time that the trust relationship was last updated.
-        var lastUpdatedDateTime: Date? = nil
+        public var lastUpdatedDateTime: Date? = nil
         /// The trust relationship type.
-        var trustType: String? = nil
+        public var trustType: String? = nil
         /// The reason for the TrustState.
-        var trustStateReason: String? = nil
+        public var trustStateReason: String? = nil
         /// The Directory ID of the AWS directory involved in the trust relationship.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
         /// The trust relationship state.
-        var trustState: String? = nil
+        public var trustState: String? = nil
         /// The date and time that the trust relationship was created.
-        var createdDateTime: Date? = nil
+        public var createdDateTime: Date? = nil
         /// The unique ID of the trust relationship.
-        var trustId: String? = nil
+        public var trustId: String? = nil
         /// The date and time that the TrustState was last updated.
-        var stateLastUpdatedDateTime: Date? = nil
+        public var stateLastUpdatedDateTime: Date? = nil
         /// The trust relationship direction.
-        var trustDirection: String? = nil
+        public var trustDirection: String? = nil
 
         public init() {}
 
@@ -383,13 +421,15 @@ extension Ds {
 
     }
 
-    public struct ListIpRoutesRequest: Serializable, Initializable {
+    public struct ListIpRoutesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -401,23 +441,27 @@ extension Ds {
 
     }
 
-    public struct RemoveTagsFromResourceResult: Serializable, Initializable {
+    public struct RemoveTagsFromResourceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct EventTopic: Serializable, Initializable {
+    public struct EventTopic: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The SNS topic ARN (Amazon Resource Name).
-        var topicArn: String? = nil
+        public var topicArn: String? = nil
         /// The name of an AWS SNS topic the receives status messages from the directory.
-        var topicName: String? = nil
+        public var topicName: String? = nil
         /// The date and time of when you associated your directory with the SNS topic.
-        var createdDateTime: Date? = nil
+        public var createdDateTime: Date? = nil
         /// The topic registration status.
-        var status: String? = nil
+        public var status: String? = nil
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -431,11 +475,13 @@ extension Ds {
 
     }
 
-    public struct DirectoryVpcSettings: Serializable, Initializable {
+    public struct DirectoryVpcSettings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the VPC in which to create the directory.
-        var vpcId: String = ""
+        public var vpcId: String = ""
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
 
         public init() {}
 
@@ -446,13 +492,15 @@ extension Ds {
 
     }
 
-    public struct ListTagsForResourceRequest: Serializable, Initializable {
+    public struct ListTagsForResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier (ID) of the directory for which you want to retrieve tags.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// Reserved for future use.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reserved for future use.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -464,11 +512,13 @@ extension Ds {
 
     }
 
-    public struct DescribeTrustsResult: Serializable, Initializable {
+    public struct DescribeTrustsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        var trusts: [Trust]? = nil
+        public var trusts: [Trust]? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -479,16 +529,18 @@ extension Ds {
 
     }
 
-    public struct CreateMicrosoftADRequest: Serializable, Initializable {
-        var vpcSettings: DirectoryVpcSettings = DirectoryVpcSettings()
+    public struct CreateMicrosoftADRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var vpcSettings: DirectoryVpcSettings = DirectoryVpcSettings()
         /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
-        var shortName: String? = nil
+        public var shortName: String? = nil
         /// The fully qualified domain name for the directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
-        var name: String = ""
+        public var name: String = ""
         /// The password for the default administrative user named Admin.
-        var password: String = ""
+        public var password: String = ""
         /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -502,31 +554,35 @@ extension Ds {
 
     }
 
-    public struct AddTagsToResourceResult: Serializable, Initializable {
+    public struct AddTagsToResourceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DirectoryLimits: Serializable, Initializable {
+    public struct DirectoryLimits: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of cloud directories allowed in the region.
-        var cloudOnlyDirectoriesLimit: Int32? = nil
+        public var cloudOnlyDirectoriesLimit: Int32? = nil
         /// Indicates if the cloud directory limit has been reached.
-        var cloudOnlyDirectoriesLimitReached: Bool? = nil
+        public var cloudOnlyDirectoriesLimitReached: Bool? = nil
         /// The current number of connected directories in the region.
-        var connectedDirectoriesCurrentCount: Int32? = nil
+        public var connectedDirectoriesCurrentCount: Int32? = nil
         /// The current number of cloud directories in the region.
-        var cloudOnlyDirectoriesCurrentCount: Int32? = nil
+        public var cloudOnlyDirectoriesCurrentCount: Int32? = nil
         /// The maximum number of Microsoft AD directories allowed in the region.
-        var cloudOnlyMicrosoftADLimit: Int32? = nil
+        public var cloudOnlyMicrosoftADLimit: Int32? = nil
         /// The current number of Microsoft AD directories in the region.
-        var cloudOnlyMicrosoftADCurrentCount: Int32? = nil
+        public var cloudOnlyMicrosoftADCurrentCount: Int32? = nil
         /// Indicates if the Microsoft AD directory limit has been reached.
-        var cloudOnlyMicrosoftADLimitReached: Bool? = nil
+        public var cloudOnlyMicrosoftADLimitReached: Bool? = nil
         /// Indicates if the connected directory limit has been reached.
-        var connectedDirectoriesLimitReached: Bool? = nil
+        public var connectedDirectoriesLimitReached: Bool? = nil
         /// The maximum number of connected directories allowed in the region.
-        var connectedDirectoriesLimit: Int32? = nil
+        public var connectedDirectoriesLimit: Int32? = nil
 
         public init() {}
 
@@ -544,13 +600,15 @@ extension Ds {
 
     }
 
-    public struct ListSchemaExtensionsRequest: Serializable, Initializable {
+    public struct ListSchemaExtensionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory from which to retrieve the schema extension information.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of items to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -562,11 +620,13 @@ extension Ds {
 
     }
 
-    public struct DeregisterEventTopicRequest: Serializable, Initializable {
+    public struct DeregisterEventTopicRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the SNS topic from which to remove the directory as a publisher.
-        var topicName: String = ""
+        public var topicName: String = ""
         /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -577,15 +637,19 @@ extension Ds {
 
     }
 
-    public struct EnableSsoResult: Serializable, Initializable {
+    public struct EnableSsoResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetDirectoryLimitsResult: Serializable, Initializable {
+    public struct GetDirectoryLimitsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A DirectoryLimits object that contains the directory limits for the current region.
-        var directoryLimits: DirectoryLimits? = nil
+        public var directoryLimits: DirectoryLimits? = nil
 
         public init() {}
 
@@ -595,9 +659,11 @@ extension Ds {
 
     }
 
-    public struct ConnectDirectoryResult: Serializable, Initializable {
+    public struct ConnectDirectoryResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the new directory.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -607,11 +673,13 @@ extension Ds {
 
     }
 
-    public struct DescribeConditionalForwardersRequest: Serializable, Initializable {
+    public struct DescribeConditionalForwardersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
-        var remoteDomainNames: [String]? = nil
+        public var remoteDomainNames: [String]? = nil
         /// The directory ID for which to get the list of associated conditional forwarders.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -622,19 +690,23 @@ extension Ds {
 
     }
 
-    public struct GetDirectoryLimitsRequest: Serializable, Initializable {
+    public struct GetDirectoryLimitsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct EnableSsoRequest: Serializable, Initializable {
+    public struct EnableSsoRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
-        var password: String? = nil
+        public var password: String? = nil
         /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
-        var userName: String? = nil
+        public var userName: String? = nil
         /// The identifier of the directory for which to enable single-sign on.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -646,15 +718,17 @@ extension Ds {
 
     }
 
-    public struct StartSchemaExtensionRequest: Serializable, Initializable {
+    public struct StartSchemaExtensionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory for which the schema extension will be applied to.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// If true, creates a snapshot of the directory before applying the schema extension.
-        var createSnapshotBeforeSchemaExtension: Bool = false
+        public var createSnapshotBeforeSchemaExtension: Bool = false
         /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
-        var ldifContent: String = ""
+        public var ldifContent: String = ""
         /// A description of the schema extension.
-        var description: String = ""
+        public var description: String = ""
 
         public init() {}
 
@@ -667,31 +741,39 @@ extension Ds {
 
     }
 
-    public struct RestoreFromSnapshotResult: Serializable, Initializable {
+    public struct RestoreFromSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteConditionalForwarderResult: Serializable, Initializable {
+    public struct DeleteConditionalForwarderResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct RemoveIpRoutesResult: Serializable, Initializable {
+    public struct RemoveIpRoutesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ConditionalForwarder: Serializable, Initializable {
+    public struct ConditionalForwarder: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
-        var dnsIpAddrs: [String]? = nil
+        public var dnsIpAddrs: [String]? = nil
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
-        var replicationScope: String? = nil
+        public var replicationScope: String? = nil
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
-        var remoteDomainName: String? = nil
+        public var remoteDomainName: String? = nil
 
         public init() {}
 
@@ -703,11 +785,13 @@ extension Ds {
 
     }
 
-    public struct EnableRadiusRequest: Serializable, Initializable {
+    public struct EnableRadiusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A RadiusSettings object that contains information about the RADIUS server.
-        var radiusSettings: RadiusSettings = RadiusSettings()
+        public var radiusSettings: RadiusSettings = RadiusSettings()
         /// The identifier of the directory for which to enable MFA.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -718,11 +802,13 @@ extension Ds {
 
     }
 
-    public struct CreateSnapshotRequest: Serializable, Initializable {
+    public struct CreateSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The descriptive name to apply to the snapshot.
-        var name: String? = nil
+        public var name: String? = nil
         /// The identifier of the directory of which to take a snapshot.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -733,11 +819,13 @@ extension Ds {
 
     }
 
-    public struct ListTagsForResourceResult: Serializable, Initializable {
+    public struct ListTagsForResourceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Reserved for future use.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// List of tags returned by the ListTagsForResource operation.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -748,9 +836,11 @@ extension Ds {
 
     }
 
-    public struct GetSnapshotLimitsResult: Serializable, Initializable {
+    public struct GetSnapshotLimitsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
-        var snapshotLimits: SnapshotLimits? = nil
+        public var snapshotLimits: SnapshotLimits? = nil
 
         public init() {}
 
@@ -760,21 +850,23 @@ extension Ds {
 
     }
 
-    public struct SchemaExtensionInfo: Serializable, Initializable {
+    public struct SchemaExtensionInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the schema extension.
-        var schemaExtensionId: String? = nil
+        public var schemaExtensionId: String? = nil
         /// The reason for the SchemaExtensionStatus.
-        var schemaExtensionStatusReason: String? = nil
+        public var schemaExtensionStatusReason: String? = nil
         /// The date and time that the schema extension was completed.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
         /// The identifier of the directory to which the schema extension is applied.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
         /// The date and time that the schema extension started being applied to the directory.
-        var startDateTime: Date? = nil
+        public var startDateTime: Date? = nil
         /// The current status of the schema extension.
-        var schemaExtensionStatus: String? = nil
+        public var schemaExtensionStatus: String? = nil
         /// A description of the schema extension.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -790,13 +882,15 @@ extension Ds {
 
     }
 
-    public struct DescribeDirectoriesRequest: Serializable, Initializable {
+    public struct DescribeDirectoriesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of identifiers of the directories for which to obtain the information. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
-        var directoryIds: [String]? = nil
+        public var directoryIds: [String]? = nil
 
         public init() {}
 
@@ -808,9 +902,11 @@ extension Ds {
 
     }
 
-    public struct CreateComputerResult: Serializable, Initializable {
+    public struct CreateComputerResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A Computer object that represents the computer account.
-        var computer: Computer? = nil
+        public var computer: Computer? = nil
 
         public init() {}
 
@@ -820,17 +916,21 @@ extension Ds {
 
     }
 
-    public struct UpdateRadiusResult: Serializable, Initializable {
+    public struct UpdateRadiusResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteConditionalForwarderRequest: Serializable, Initializable {
+    public struct DeleteConditionalForwarderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The directory ID for which you are deleting the conditional forwarder.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
-        var remoteDomainName: String = ""
+        public var remoteDomainName: String = ""
 
         public init() {}
 
@@ -841,9 +941,11 @@ extension Ds {
 
     }
 
-    public struct StartSchemaExtensionResult: Serializable, Initializable {
+    public struct StartSchemaExtensionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the schema extension that will be applied.
-        var schemaExtensionId: String? = nil
+        public var schemaExtensionId: String? = nil
 
         public init() {}
 
@@ -853,9 +955,11 @@ extension Ds {
 
     }
 
-    public struct DescribeConditionalForwardersResult: Serializable, Initializable {
+    public struct DescribeConditionalForwardersResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of conditional forwarders that have been created.
-        var conditionalForwarders: [ConditionalForwarder]? = nil
+        public var conditionalForwarders: [ConditionalForwarder]? = nil
 
         public init() {}
 
@@ -865,13 +969,15 @@ extension Ds {
 
     }
 
-    public struct SnapshotLimits: Serializable, Initializable {
+    public struct SnapshotLimits: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of manual snapshots allowed.
-        var manualSnapshotsLimit: Int32? = nil
+        public var manualSnapshotsLimit: Int32? = nil
         /// Indicates if the manual snapshot limit has been reached.
-        var manualSnapshotsLimitReached: Bool? = nil
+        public var manualSnapshotsLimitReached: Bool? = nil
         /// The current number of manual snapshots of the directory.
-        var manualSnapshotsCurrentCount: Int32? = nil
+        public var manualSnapshotsCurrentCount: Int32? = nil
 
         public init() {}
 
@@ -883,17 +989,19 @@ extension Ds {
 
     }
 
-    public struct CreateComputerRequest: Serializable, Initializable {
+    public struct CreateComputerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The fully-qualified distinguished name of the organizational unit to place the computer account in.
-        var organizationalUnitDistinguishedName: String? = nil
+        public var organizationalUnitDistinguishedName: String? = nil
         /// The name of the computer account.
-        var computerName: String = ""
+        public var computerName: String = ""
         /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
-        var computerAttributes: [Attribute]? = nil
+        public var computerAttributes: [Attribute]? = nil
         /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter.
-        var password: String = ""
+        public var password: String = ""
         /// The identifier of the directory in which to create the computer account.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -907,15 +1015,17 @@ extension Ds {
 
     }
 
-    public struct DescribeSnapshotsRequest: Serializable, Initializable {
+    public struct DescribeSnapshotsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
-        var snapshotIds: [String]? = nil
+        public var snapshotIds: [String]? = nil
         /// The maximum number of objects to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The DescribeSnapshotsResult.NextToken value from a previous call to DescribeSnapshots. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The identifier of the directory for which to retrieve snapshot information.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -928,11 +1038,13 @@ extension Ds {
 
     }
 
-    public struct DescribeEventTopicsRequest: Serializable, Initializable {
+    public struct DescribeEventTopicsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
-        var topicNames: [String]? = nil
+        public var topicNames: [String]? = nil
         /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -943,15 +1055,17 @@ extension Ds {
 
     }
 
-    public struct DirectoryVpcSettingsDescription: Serializable, Initializable {
+    public struct DirectoryVpcSettingsDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifiers of the subnets for the directory servers.
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         /// The list of Availability Zones that the directory is in.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// The security group identifier for the directory. If the directory was created before 8/1/2014, this is the identifier of the directory members security group that was created when the directory was created. If the directory was created after this date, this value is null.
-        var securityGroupId: String? = nil
+        public var securityGroupId: String? = nil
         /// The identifier of the VPC that the directory is in.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
 
         public init() {}
 
@@ -964,9 +1078,11 @@ extension Ds {
 
     }
 
-    public struct DeleteTrustResult: Serializable, Initializable {
+    public struct DeleteTrustResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Trust ID of the trust relationship that was deleted.
-        var trustId: String? = nil
+        public var trustId: String? = nil
 
         public init() {}
 
@@ -976,11 +1092,13 @@ extension Ds {
 
     }
 
-    public struct CreateAliasResult: Serializable, Initializable {
+    public struct CreateAliasResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The alias for the directory.
-        var alias: String? = nil
+        public var alias: String? = nil
         /// The identifier of the directory.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -991,23 +1109,25 @@ extension Ds {
 
     }
 
-    public struct RadiusSettings: Serializable, Initializable {
+    public struct RadiusSettings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
-        var radiusPort: Int32? = nil
+        public var radiusPort: Int32? = nil
         /// The protocol specified for your RADIUS endpoints.
-        var authenticationProtocol: String? = nil
+        public var authenticationProtocol: String? = nil
         /// The maximum number of times that communication with the RADIUS server is attempted.
-        var radiusRetries: Int32? = nil
+        public var radiusRetries: Int32? = nil
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
-        var radiusTimeout: Int32? = nil
+        public var radiusTimeout: Int32? = nil
         /// Not currently used.
-        var useSameUsername: Bool? = nil
+        public var useSameUsername: Bool? = nil
         /// Not currently used.
-        var sharedSecret: String? = nil
+        public var sharedSecret: String? = nil
         /// Not currently used.
-        var displayLabel: String? = nil
+        public var displayLabel: String? = nil
         /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
-        var radiusServers: [String]? = nil
+        public var radiusServers: [String]? = nil
 
         public init() {}
 
@@ -1024,25 +1144,29 @@ extension Ds {
 
     }
 
-    public struct RegisterEventTopicResult: Serializable, Initializable {
+    public struct RegisterEventTopicResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Snapshot: Serializable, Initializable {
+    public struct Snapshot: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The snapshot identifier.
-        var snapshotId: String? = nil
+        public var snapshotId: String? = nil
         /// The snapshot status.
-        var status: String? = nil
+        public var status: String? = nil
         /// The date and time that the snapshot was taken.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// The snapshot type.
-        var type: String? = nil
+        public var type: String? = nil
         /// The descriptive name of the snapshot.
-        var name: String? = nil
+        public var name: String? = nil
         /// The directory identifier.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -1057,9 +1181,11 @@ extension Ds {
 
     }
 
-    public struct RestoreFromSnapshotRequest: Serializable, Initializable {
+    public struct RestoreFromSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the snapshot to restore from.
-        var snapshotId: String = ""
+        public var snapshotId: String = ""
 
         public init() {}
 
@@ -1069,9 +1195,11 @@ extension Ds {
 
     }
 
-    public struct DeleteSnapshotResult: Serializable, Initializable {
+    public struct DeleteSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory snapshot that was deleted.
-        var snapshotId: String? = nil
+        public var snapshotId: String? = nil
 
         public init() {}
 
@@ -1081,19 +1209,21 @@ extension Ds {
 
     }
 
-    public struct CreateDirectoryRequest: Serializable, Initializable {
+    public struct CreateDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A textual description for the directory.
-        var description: String? = nil
+        public var description: String? = nil
         /// A DirectoryVpcSettings object that contains additional information for the operation.
-        var vpcSettings: DirectoryVpcSettings? = nil
+        public var vpcSettings: DirectoryVpcSettings? = nil
         /// The short name of the directory, such as CORP.
-        var shortName: String? = nil
+        public var shortName: String? = nil
         /// The fully qualified name for the directory, such as corp.example.com.
-        var name: String = ""
+        public var name: String = ""
         /// The size of the directory.
-        var size: String = ""
+        public var size: String = ""
         /// The password for the directory administrator. The directory creation process creates a directory administrator account with the username Administrator and this password.
-        var password: String = ""
+        public var password: String = ""
 
         public init() {}
 
@@ -1108,11 +1238,13 @@ extension Ds {
 
     }
 
-    public struct UpdateRadiusRequest: Serializable, Initializable {
+    public struct UpdateRadiusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A RadiusSettings object that contains information about the RADIUS server.
-        var radiusSettings: RadiusSettings = RadiusSettings()
+        public var radiusSettings: RadiusSettings = RadiusSettings()
         /// The identifier of the directory for which to update the RADIUS server information.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -1123,13 +1255,15 @@ extension Ds {
 
     }
 
-    public struct DisableSsoRequest: Serializable, Initializable {
+    public struct DisableSsoRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
-        var password: String? = nil
+        public var password: String? = nil
         /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
-        var userName: String? = nil
+        public var userName: String? = nil
         /// The identifier of the directory for which to disable single-sign on.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -1141,9 +1275,11 @@ extension Ds {
 
     }
 
-    public struct DeleteSnapshotRequest: Serializable, Initializable {
+    public struct DeleteSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory snapshot to be deleted.
-        var snapshotId: String = ""
+        public var snapshotId: String = ""
 
         public init() {}
 
@@ -1153,19 +1289,21 @@ extension Ds {
 
     }
 
-    public struct CreateTrustRequest: Serializable, Initializable {
+    public struct CreateTrustRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Directory ID of the Microsoft AD in the AWS cloud for which to establish the trust relationship.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// The direction of the trust relationship.
-        var trustDirection: String = ""
+        public var trustDirection: String = ""
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        var conditionalForwarderIpAddrs: [String]? = nil
+        public var conditionalForwarderIpAddrs: [String]? = nil
         /// The trust relationship type.
-        var trustType: String? = nil
+        public var trustType: String? = nil
         /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
-        var trustPassword: String = ""
+        public var trustPassword: String = ""
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
-        var remoteDomainName: String = ""
+        public var remoteDomainName: String = ""
 
         public init() {}
 
@@ -1180,9 +1318,11 @@ extension Ds {
 
     }
 
-    public struct VerifyTrustRequest: Serializable, Initializable {
+    public struct VerifyTrustRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique Trust ID of the trust relationship to verify.
-        var trustId: String = ""
+        public var trustId: String = ""
 
         public init() {}
 
@@ -1192,11 +1332,13 @@ extension Ds {
 
     }
 
-    public struct RegisterEventTopicRequest: Serializable, Initializable {
+    public struct RegisterEventTopicRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
-        var topicName: String = ""
+        public var topicName: String = ""
         /// The Directory ID that will publish status messages to the SNS topic.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -1207,9 +1349,11 @@ extension Ds {
 
     }
 
-    public struct CreateSnapshotResult: Serializable, Initializable {
+    public struct CreateSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the snapshot that was created.
-        var snapshotId: String? = nil
+        public var snapshotId: String? = nil
 
         public init() {}
 
@@ -1219,13 +1363,15 @@ extension Ds {
 
     }
 
-    public struct AddIpRoutesRequest: Serializable, Initializable {
+    public struct AddIpRoutesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
-        var updateSecurityGroupForDirectoryControllers: Bool? = nil
+        public var updateSecurityGroupForDirectoryControllers: Bool? = nil
         /// Identifier (ID) of the directory to which to add the address block.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
-        var ipRoutes: [IpRoute] = []
+        public var ipRoutes: [IpRoute] = []
 
         public init() {}
 
@@ -1237,11 +1383,13 @@ extension Ds {
 
     }
 
-    public struct RemoveTagsFromResourceRequest: Serializable, Initializable {
+    public struct RemoveTagsFromResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier (ID) of the directory from which to remove the tag.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The tag key (name) of the tag to be removed.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -1252,17 +1400,21 @@ extension Ds {
 
     }
 
-    public struct AddIpRoutesResult: Serializable, Initializable {
+    public struct AddIpRoutesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CancelSchemaExtensionRequest: Serializable, Initializable {
+    public struct CancelSchemaExtensionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the schema extension that will be canceled.
-        var schemaExtensionId: String = ""
+        public var schemaExtensionId: String = ""
         /// The identifier of the directory whose schema extension will be canceled.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -1273,11 +1425,13 @@ extension Ds {
 
     }
 
-    public struct DescribeDirectoriesResult: Serializable, Initializable {
+    public struct DescribeDirectoriesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        var directoryDescriptions: [DirectoryDescription]? = nil
+        public var directoryDescriptions: [DirectoryDescription]? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1288,9 +1442,11 @@ extension Ds {
 
     }
 
-    public struct CreateMicrosoftADResult: Serializable, Initializable {
+    public struct CreateMicrosoftADResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory that was created.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -1300,9 +1456,11 @@ extension Ds {
 
     }
 
-    public struct GetSnapshotLimitsRequest: Serializable, Initializable {
+    public struct GetSnapshotLimitsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the identifier of the directory to obtain the limits for.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -1312,17 +1470,21 @@ extension Ds {
 
     }
 
-    public struct DisableRadiusResult: Serializable, Initializable {
+    public struct DisableRadiusResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListSchemaExtensionsResult: Serializable, Initializable {
+    public struct ListSchemaExtensionsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Information about the schema extensions applied to the directory.
-        var schemaExtensionsInfo: [SchemaExtensionInfo]? = nil
+        public var schemaExtensionsInfo: [SchemaExtensionInfo]? = nil
 
         public init() {}
 
@@ -1333,15 +1495,19 @@ extension Ds {
 
     }
 
-    public struct DeregisterEventTopicResult: Serializable, Initializable {
+    public struct DeregisterEventTopicResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeEventTopicsResult: Serializable, Initializable {
+    public struct DescribeEventTopicsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
-        var eventTopics: [EventTopic]? = nil
+        public var eventTopics: [EventTopic]? = nil
 
         public init() {}
 
@@ -1351,19 +1517,21 @@ extension Ds {
 
     }
 
-    public struct IpRouteInfo: Serializable, Initializable {
+    public struct IpRouteInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Description of the IpRouteInfo.
-        var description: String? = nil
+        public var description: String? = nil
         /// The status of the IP address block.
-        var ipRouteStatusMsg: String? = nil
+        public var ipRouteStatusMsg: String? = nil
         /// The date and time the address block was added to the directory.
-        var addedDateTime: Date? = nil
+        public var addedDateTime: Date? = nil
         /// IP address block in the IpRoute.
-        var cidrIp: String? = nil
+        public var cidrIp: String? = nil
         /// The reason for the IpRouteStatusMsg.
-        var ipRouteStatusReason: String? = nil
+        public var ipRouteStatusReason: String? = nil
         /// Identifier (ID) of the directory associated with the IP addresses.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -1378,19 +1546,21 @@ extension Ds {
 
     }
 
-    public struct ConnectDirectoryRequest: Serializable, Initializable {
+    public struct ConnectDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The password for the on-premises user account.
-        var password: String = ""
+        public var password: String = ""
         /// A textual description for the directory.
-        var description: String? = nil
+        public var description: String? = nil
         /// The NetBIOS name of the on-premises directory, such as CORP.
-        var shortName: String? = nil
+        public var shortName: String? = nil
         /// A DirectoryConnectSettings object that contains additional information for the operation.
-        var connectSettings: DirectoryConnectSettings = DirectoryConnectSettings()
+        public var connectSettings: DirectoryConnectSettings = DirectoryConnectSettings()
         /// The size of the directory.
-        var size: String = ""
+        public var size: String = ""
         /// The fully-qualified name of the on-premises directory, such as corp.example.com.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -1405,9 +1575,11 @@ extension Ds {
 
     }
 
-    public struct VerifyTrustResult: Serializable, Initializable {
+    public struct VerifyTrustResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique Trust ID of the trust relationship that was verified.
-        var trustId: String? = nil
+        public var trustId: String? = nil
 
         public init() {}
 
@@ -1417,19 +1589,23 @@ extension Ds {
 
     }
 
-    public struct DisableSsoResult: Serializable, Initializable {
+    public struct DisableSsoResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateConditionalForwarderRequest: Serializable, Initializable {
+    public struct CreateConditionalForwarderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        var dnsIpAddrs: [String] = []
+        public var dnsIpAddrs: [String] = []
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
-        var remoteDomainName: String = ""
+        public var remoteDomainName: String = ""
 
         public init() {}
 
@@ -1441,21 +1617,27 @@ extension Ds {
 
     }
 
-    public struct CancelSchemaExtensionResult: Serializable, Initializable {
+    public struct CancelSchemaExtensionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateConditionalForwarderResult: Serializable, Initializable {
+    public struct UpdateConditionalForwarderResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DisableRadiusRequest: Serializable, Initializable {
+    public struct DisableRadiusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory for which to disable MFA.
-        var directoryId: String = ""
+        public var directoryId: String = ""
 
         public init() {}
 
@@ -1465,9 +1647,11 @@ extension Ds {
 
     }
 
-    public struct CreateDirectoryResult: Serializable, Initializable {
+    public struct CreateDirectoryResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the directory that was created.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
 
         public init() {}
 
@@ -1477,11 +1661,13 @@ extension Ds {
 
     }
 
-    public struct ListIpRoutesResult: Serializable, Initializable {
+    public struct ListIpRoutesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of IpRoutes.
-        var ipRoutesInfo: [IpRouteInfo]? = nil
+        public var ipRoutesInfo: [IpRouteInfo]? = nil
 
         public init() {}
 
@@ -1492,15 +1678,17 @@ extension Ds {
 
     }
 
-    public struct DirectoryConnectSettings: Serializable, Initializable {
+    public struct DirectoryConnectSettings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of subnet identifiers in the VPC in which the AD Connector is created.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
         /// The identifier of the VPC in which the AD Connector is created.
-        var vpcId: String = ""
+        public var vpcId: String = ""
         /// The username of an account in the on-premises directory that is used to connect to the directory. This account must have the following privileges:   Read users and groups   Create computer objects   Join computers to the domain  
-        var customerUserName: String = ""
+        public var customerUserName: String = ""
         /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
-        var customerDnsIps: [String] = []
+        public var customerDnsIps: [String] = []
 
         public init() {}
 

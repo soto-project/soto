@@ -29,11 +29,13 @@ import Core
 
 extension Firehose {
 
-    public struct ProcessingConfiguration: Serializable, Initializable {
+    public struct ProcessingConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The data processors.
-        var processors: [Processor]? = nil
+        public var processors: [Processor]? = nil
         /// Enables or disables data processing.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
 
         public init() {}
 
@@ -44,9 +46,11 @@ extension Firehose {
 
     }
 
-    public struct DescribeDeliveryStreamOutput: Serializable, Initializable {
+    public struct DescribeDeliveryStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the delivery stream.
-        var deliveryStreamDescription: DeliveryStreamDescription = DeliveryStreamDescription()
+        public var deliveryStreamDescription: DeliveryStreamDescription = DeliveryStreamDescription()
 
         public init() {}
 
@@ -56,29 +60,31 @@ extension Firehose {
 
     }
 
-    public struct RedshiftDestinationConfiguration: Serializable, Initializable {
+    public struct RedshiftDestinationConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The COPY command.
-        var copyCommand: CopyCommand = CopyCommand()
+        public var copyCommand: CopyCommand = CopyCommand()
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
-        var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
+        public var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
         /// The ARN of the AWS credentials.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The name of the user.
-        var username: String = ""
+        public var username: String = ""
         /// The configuration for backup in Amazon S3.
-        var s3BackupConfiguration: S3DestinationConfiguration? = nil
+        public var s3BackupConfiguration: S3DestinationConfiguration? = nil
         /// The database connection string.
-        var clusterJDBCURL: String = ""
+        public var clusterJDBCURL: String = ""
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The user password.
-        var password: String = ""
+        public var password: String = ""
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
-        var retryOptions: RedshiftRetryOptions? = nil
+        public var retryOptions: RedshiftRetryOptions? = nil
         /// The Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
 
         public init() {}
 
@@ -98,13 +104,15 @@ extension Firehose {
 
     }
 
-    public struct CopyCommand: Serializable, Initializable {
+    public struct CopyCommand: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the target table. The table must already exist in the database.
-        var dataTableName: String = ""
+        public var dataTableName: String = ""
         /// A comma-separated list of column names.
-        var dataTableColumns: String? = nil
+        public var dataTableColumns: String? = nil
         /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '| - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
-        var copyOptions: String? = nil
+        public var copyOptions: String? = nil
 
         public init() {}
 
@@ -116,27 +124,29 @@ extension Firehose {
 
     }
 
-    public struct ExtendedS3DestinationConfiguration: Serializable, Initializable {
+    public struct ExtendedS3DestinationConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the S3 bucket.
-        var bucketARN: String = ""
+        public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        var encryptionConfiguration: EncryptionConfiguration? = nil
+        public var encryptionConfiguration: EncryptionConfiguration? = nil
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The configuration for backup in Amazon S3.
-        var s3BackupConfiguration: S3DestinationConfiguration? = nil
+        public var s3BackupConfiguration: S3DestinationConfiguration? = nil
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        var compressionFormat: String? = nil
+        public var compressionFormat: String? = nil
         /// The buffering option.
-        var bufferingHints: BufferingHints? = nil
+        public var bufferingHints: BufferingHints? = nil
 
         public init() {}
 
@@ -155,9 +165,11 @@ extension Firehose {
 
     }
 
-    public struct ElasticsearchRetryOptions: Serializable, Initializable {
+    public struct ElasticsearchRetryOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose re-attempts delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
-        var durationInSeconds: Int32? = nil
+        public var durationInSeconds: Int32? = nil
 
         public init() {}
 
@@ -167,9 +179,11 @@ extension Firehose {
 
     }
 
-    public struct PutRecordOutput: Serializable, Initializable {
+    public struct PutRecordOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the record.
-        var recordId: String = ""
+        public var recordId: String = ""
 
         public init() {}
 
@@ -179,17 +193,19 @@ extension Firehose {
 
     }
 
-    public struct DestinationDescription: Serializable, Initializable {
+    public struct DestinationDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// [Deprecated] The destination in Amazon S3.
-        var s3DestinationDescription: S3DestinationDescription? = nil
+        public var s3DestinationDescription: S3DestinationDescription? = nil
         /// The ID of the destination.
-        var destinationId: String = ""
+        public var destinationId: String = ""
         /// The destination in Amazon Redshift.
-        var redshiftDestinationDescription: RedshiftDestinationDescription? = nil
+        public var redshiftDestinationDescription: RedshiftDestinationDescription? = nil
         /// The destination in Amazon S3.
-        var extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil
+        public var extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil
         /// The destination in Amazon ES.
-        var elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil
+        public var elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil
 
         public init() {}
 
@@ -203,21 +219,23 @@ extension Firehose {
 
     }
 
-    public struct UpdateDestinationInput: Serializable, Initializable {
+    public struct UpdateDestinationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes an update for a destination in Amazon ES.
-        var elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil
+        public var elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil
         /// The name of the delivery stream.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service to perform conditional operations. For example, if there is a interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
-        var currentDeliveryStreamVersionId: String = ""
+        public var currentDeliveryStreamVersionId: String = ""
         /// The ID of the destination.
-        var destinationId: String = ""
+        public var destinationId: String = ""
         /// Describes an update for a destination in Amazon S3.
-        var extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil
+        public var extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil
         /// Describes an update for a destination in Amazon Redshift.
-        var redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil
+        public var redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil
         /// [Deprecated] Describes an update for a destination in Amazon S3.
-        var s3DestinationUpdate: S3DestinationUpdate? = nil
+        public var s3DestinationUpdate: S3DestinationUpdate? = nil
 
         public init() {}
 
@@ -233,11 +251,13 @@ extension Firehose {
 
     }
 
-    public struct ListDeliveryStreamsOutput: Serializable, Initializable {
+    public struct ListDeliveryStreamsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the delivery streams.
-        var deliveryStreamNames: [String] = []
+        public var deliveryStreamNames: [String] = []
         /// Indicates whether there are more delivery streams available to list.
-        var hasMoreDeliveryStreams: Bool = false
+        public var hasMoreDeliveryStreams: Bool = false
 
         public init() {}
 
@@ -248,27 +268,29 @@ extension Firehose {
 
     }
 
-    public struct RedshiftDestinationDescription: Serializable, Initializable {
+    public struct RedshiftDestinationDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The configuration for backup in Amazon S3.
-        var s3BackupDescription: S3DestinationDescription? = nil
+        public var s3BackupDescription: S3DestinationDescription? = nil
         /// The COPY command.
-        var copyCommand: CopyCommand = CopyCommand()
+        public var copyCommand: CopyCommand = CopyCommand()
         /// The ARN of the AWS credentials.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The Amazon S3 destination.
-        var s3DestinationDescription: S3DestinationDescription = S3DestinationDescription()
+        public var s3DestinationDescription: S3DestinationDescription = S3DestinationDescription()
         /// The name of the user.
-        var username: String = ""
+        public var username: String = ""
         /// The database connection string.
-        var clusterJDBCURL: String = ""
+        public var clusterJDBCURL: String = ""
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
-        var retryOptions: RedshiftRetryOptions? = nil
+        public var retryOptions: RedshiftRetryOptions? = nil
 
         public init() {}
 
@@ -287,11 +309,13 @@ extension Firehose {
 
     }
 
-    public struct ListDeliveryStreamsInput: Serializable, Initializable {
+    public struct ListDeliveryStreamsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of delivery streams to list.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The name of the delivery stream to start the list with.
-        var exclusiveStartDeliveryStreamName: String? = nil
+        public var exclusiveStartDeliveryStreamName: String? = nil
 
         public init() {}
 
@@ -302,21 +326,23 @@ extension Firehose {
 
     }
 
-    public struct S3DestinationConfiguration: Serializable, Initializable {
+    public struct S3DestinationConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the S3 bucket.
-        var bucketARN: String = ""
+        public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        var encryptionConfiguration: EncryptionConfiguration? = nil
+        public var encryptionConfiguration: EncryptionConfiguration? = nil
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
-        var compressionFormat: String? = nil
+        public var compressionFormat: String? = nil
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        var bufferingHints: BufferingHints? = nil
+        public var bufferingHints: BufferingHints? = nil
 
         public init() {}
 
@@ -332,21 +358,23 @@ extension Firehose {
 
     }
 
-    public struct S3DestinationDescription: Serializable, Initializable {
+    public struct S3DestinationDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the S3 bucket.
-        var bucketARN: String = ""
+        public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
+        public var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        var compressionFormat: String = ""
+        public var compressionFormat: String = ""
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        var bufferingHints: BufferingHints = BufferingHints()
+        public var bufferingHints: BufferingHints = BufferingHints()
 
         public init() {}
 
@@ -362,9 +390,11 @@ extension Firehose {
 
     }
 
-    public struct DeleteDeliveryStreamInput: Serializable, Initializable {
+    public struct DeleteDeliveryStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the delivery stream.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
 
         public init() {}
 
@@ -374,35 +404,39 @@ extension Firehose {
 
     }
 
-    public struct UpdateDestinationOutput: Serializable, Initializable {
+    public struct UpdateDestinationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct RedshiftDestinationUpdate: Serializable, Initializable {
+    public struct RedshiftDestinationUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The COPY command.
-        var copyCommand: CopyCommand? = nil
+        public var copyCommand: CopyCommand? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
         /// The name of the user.
-        var username: String? = nil
+        public var username: String? = nil
         /// The Amazon S3 destination for backup.
-        var s3BackupUpdate: S3DestinationUpdate? = nil
+        public var s3BackupUpdate: S3DestinationUpdate? = nil
         /// The Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The database connection string.
-        var clusterJDBCURL: String? = nil
+        public var clusterJDBCURL: String? = nil
         /// The Amazon S3 destination. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationUpdate.S3Update because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
-        var s3Update: S3DestinationUpdate? = nil
+        public var s3Update: S3DestinationUpdate? = nil
         /// The user password.
-        var password: String? = nil
+        public var password: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
-        var retryOptions: RedshiftRetryOptions? = nil
+        public var retryOptions: RedshiftRetryOptions? = nil
 
         public init() {}
 
@@ -422,11 +456,13 @@ extension Firehose {
 
     }
 
-    public struct BufferingHints: Serializable, Initializable {
+    public struct BufferingHints: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
-        var intervalInSeconds: Int32? = nil
+        public var intervalInSeconds: Int32? = nil
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        var sizeInMBs: Int32? = nil
+        public var sizeInMBs: Int32? = nil
 
         public init() {}
 
@@ -437,9 +473,11 @@ extension Firehose {
 
     }
 
-    public struct RedshiftRetryOptions: Serializable, Initializable {
+    public struct RedshiftRetryOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The length of time during which Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
-        var durationInSeconds: Int32? = nil
+        public var durationInSeconds: Int32? = nil
 
         public init() {}
 
@@ -449,21 +487,23 @@ extension Firehose {
 
     }
 
-    public struct S3DestinationUpdate: Serializable, Initializable {
+    public struct S3DestinationUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the S3 bucket.
-        var bucketARN: String? = nil
+        public var bucketARN: String? = nil
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        var encryptionConfiguration: EncryptionConfiguration? = nil
+        public var encryptionConfiguration: EncryptionConfiguration? = nil
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
-        var compressionFormat: String? = nil
+        public var compressionFormat: String? = nil
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        var bufferingHints: BufferingHints? = nil
+        public var bufferingHints: BufferingHints? = nil
 
         public init() {}
 
@@ -479,11 +519,13 @@ extension Firehose {
 
     }
 
-    public struct PutRecordBatchOutput: Serializable, Initializable {
+    public struct PutRecordBatchOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
-        var requestResponses: [PutRecordBatchResponseEntry] = []
+        public var requestResponses: [PutRecordBatchResponseEntry] = []
         /// The number of records that might have failed processing.
-        var failedPutCount: Int32 = 0
+        public var failedPutCount: Int32 = 0
 
         public init() {}
 
@@ -494,9 +536,11 @@ extension Firehose {
 
     }
 
-    public struct CreateDeliveryStreamOutput: Serializable, Initializable {
+    public struct CreateDeliveryStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the delivery stream.
-        var deliveryStreamARN: String? = nil
+        public var deliveryStreamARN: String? = nil
 
         public init() {}
 
@@ -506,27 +550,29 @@ extension Firehose {
 
     }
 
-    public struct ElasticsearchDestinationUpdate: Serializable, Initializable {
+    public struct ElasticsearchDestinationUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Elasticsearch type name.
-        var typeName: String? = nil
+        public var typeName: String? = nil
         /// The Elasticsearch index name.
-        var indexName: String? = nil
+        public var indexName: String? = nil
         /// The Elasticsearch index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for Amazon Elasticsearch Service Destination. Default value is OneDay.
-        var indexRotationPeriod: String? = nil
+        public var indexRotationPeriod: String? = nil
         /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN.
-        var domainARN: String? = nil
+        public var domainARN: String? = nil
         /// The ARN of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
         /// The Amazon S3 destination.
-        var s3Update: S3DestinationUpdate? = nil
+        public var s3Update: S3DestinationUpdate? = nil
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon ES. Default value is 300 (5 minutes).
-        var retryOptions: ElasticsearchRetryOptions? = nil
+        public var retryOptions: ElasticsearchRetryOptions? = nil
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used. 
-        var bufferingHints: ElasticsearchBufferingHints? = nil
+        public var bufferingHints: ElasticsearchBufferingHints? = nil
 
         public init() {}
 
@@ -545,17 +591,19 @@ extension Firehose {
 
     }
 
-    public struct CreateDeliveryStreamInput: Serializable, Initializable {
+    public struct CreateDeliveryStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The destination in Amazon ES. You can specify only one destination.
-        var elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil
+        public var elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil
         /// The destination in Amazon S3. You can specify only one destination.
-        var extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil
+        public var extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil
         /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
-        var s3DestinationConfiguration: S3DestinationConfiguration? = nil
+        public var s3DestinationConfiguration: S3DestinationConfiguration? = nil
         /// The destination in Amazon Redshift. You can specify only one destination.
-        var redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil
+        public var redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil
         /// The name of the delivery stream. This name must be unique per AWS account in the same region. You can have multiple delivery streams with the same name if they are in different accounts or different regions.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
 
         public init() {}
 
@@ -569,29 +617,31 @@ extension Firehose {
 
     }
 
-    public struct ElasticsearchDestinationConfiguration: Serializable, Initializable {
+    public struct ElasticsearchDestinationConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Elasticsearch type name.
-        var typeName: String = ""
+        public var typeName: String = ""
         /// The Elasticsearch index name.
-        var indexName: String = ""
+        public var indexName: String = ""
         /// The configuration for the intermediate Amazon S3 location from which Amazon ES obtains data.
-        var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
+        public var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
         /// The Elasticsearch index rotation period. Index rotation appends a timestamp to the IndexName to facilitate expiration of old data. For more information, see Index Rotation for Amazon Elasticsearch Service Destination. The default value is OneDay.
-        var indexRotationPeriod: String? = nil
+        public var indexRotationPeriod: String? = nil
         /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
-        var domainARN: String = ""
+        public var domainARN: String = ""
         /// The ARN of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for Amazon Elasticsearch Service Destination. Default value is FailedDocumentsOnly.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
-        var retryOptions: ElasticsearchRetryOptions? = nil
+        public var retryOptions: ElasticsearchRetryOptions? = nil
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
-        var bufferingHints: ElasticsearchBufferingHints? = nil
+        public var bufferingHints: ElasticsearchBufferingHints? = nil
 
         public init() {}
 
@@ -611,9 +661,11 @@ extension Firehose {
 
     }
 
-    public struct Record: Serializable, Initializable {
+    public struct Record: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
-        var data: Data = Data()
+        public var data: Data = Data()
 
         public init() {}
 
@@ -623,11 +675,13 @@ extension Firehose {
 
     }
 
-    public struct PutRecordBatchInput: Serializable, Initializable {
+    public struct PutRecordBatchInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// One or more records.
-        var records: [Record] = []
+        public var records: [Record] = []
         /// The name of the delivery stream.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
 
         public init() {}
 
@@ -638,11 +692,13 @@ extension Firehose {
 
     }
 
-    public struct ProcessorParameter: Serializable, Initializable {
+    public struct ProcessorParameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the parameter.
-        var parameterName: String = ""
+        public var parameterName: String = ""
         /// The parameter value.
-        var parameterValue: String = ""
+        public var parameterValue: String = ""
 
         public init() {}
 
@@ -653,9 +709,11 @@ extension Firehose {
 
     }
 
-    public struct KMSEncryptionConfig: Serializable, Initializable {
+    public struct KMSEncryptionConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the encryption key. Must belong to the same region as the destination Amazon S3 bucket.
-        var aWSKMSKeyARN: String = ""
+        public var aWSKMSKeyARN: String = ""
 
         public init() {}
 
@@ -665,27 +723,29 @@ extension Firehose {
 
     }
 
-    public struct ExtendedS3DestinationDescription: Serializable, Initializable {
+    public struct ExtendedS3DestinationDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The configuration for backup in Amazon S3.
-        var s3BackupDescription: S3DestinationDescription? = nil
+        public var s3BackupDescription: S3DestinationDescription? = nil
         /// The ARN of the S3 bucket.
-        var bucketARN: String = ""
+        public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
+        public var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        var compressionFormat: String = ""
+        public var compressionFormat: String = ""
         /// The buffering option.
-        var bufferingHints: BufferingHints = BufferingHints()
+        public var bufferingHints: BufferingHints = BufferingHints()
 
         public init() {}
 
@@ -704,11 +764,13 @@ extension Firehose {
 
     }
 
-    public struct PutRecordInput: Serializable, Initializable {
+    public struct PutRecordInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The record.
-        var record: Record = Record()
+        public var record: Record = Record()
         /// The name of the delivery stream.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
 
         public init() {}
 
@@ -719,17 +781,21 @@ extension Firehose {
 
     }
 
-    public struct DeleteDeliveryStreamOutput: Serializable, Initializable {
+    public struct DeleteDeliveryStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Processor: Serializable, Initializable {
+    public struct Processor: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of processor.
-        var type: String = ""
+        public var type: String = ""
         /// The processor parameters.
-        var parameters: [ProcessorParameter]? = nil
+        public var parameters: [ProcessorParameter]? = nil
 
         public init() {}
 
@@ -740,27 +806,29 @@ extension Firehose {
 
     }
 
-    public struct ExtendedS3DestinationUpdate: Serializable, Initializable {
+    public struct ExtendedS3DestinationUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the S3 bucket.
-        var bucketARN: String? = nil
+        public var bucketARN: String? = nil
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        var encryptionConfiguration: EncryptionConfiguration? = nil
+        public var encryptionConfiguration: EncryptionConfiguration? = nil
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
         /// The Amazon S3 destination for backup.
-        var s3BackupUpdate: S3DestinationUpdate? = nil
+        public var s3BackupUpdate: S3DestinationUpdate? = nil
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// Enables or disables Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. 
-        var compressionFormat: String? = nil
+        public var compressionFormat: String? = nil
         /// The buffering option.
-        var bufferingHints: BufferingHints? = nil
+        public var bufferingHints: BufferingHints? = nil
 
         public init() {}
 
@@ -779,13 +847,15 @@ extension Firehose {
 
     }
 
-    public struct CloudWatchLoggingOptions: Serializable, Initializable {
+    public struct CloudWatchLoggingOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
-        var logStreamName: String? = nil
+        public var logStreamName: String? = nil
         /// The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled.
-        var logGroupName: String? = nil
+        public var logGroupName: String? = nil
         /// Enables or disables CloudWatch logging.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
 
         public init() {}
 
@@ -797,13 +867,15 @@ extension Firehose {
 
     }
 
-    public struct DescribeDeliveryStreamInput: Serializable, Initializable {
+    public struct DescribeDeliveryStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the destination to start returning the destination information. Currently Firehose supports one destination per delivery stream.
-        var exclusiveStartDestinationId: String? = nil
+        public var exclusiveStartDestinationId: String? = nil
         /// The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The name of the delivery stream.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
 
         public init() {}
 
@@ -815,11 +887,13 @@ extension Firehose {
 
     }
 
-    public struct EncryptionConfiguration: Serializable, Initializable {
+    public struct EncryptionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The encryption key.
-        var kMSEncryptionConfig: KMSEncryptionConfig? = nil
+        public var kMSEncryptionConfig: KMSEncryptionConfig? = nil
         /// Specifically override existing encryption information to ensure no encryption is used.
-        var noEncryptionConfig: String? = nil
+        public var noEncryptionConfig: String? = nil
 
         public init() {}
 
@@ -830,23 +904,25 @@ extension Firehose {
 
     }
 
-    public struct DeliveryStreamDescription: Serializable, Initializable {
+    public struct DeliveryStreamDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The destinations.
-        var destinations: [DestinationDescription] = []
+        public var destinations: [DestinationDescription] = []
         /// The status of the delivery stream.
-        var deliveryStreamStatus: String = ""
+        public var deliveryStreamStatus: String = ""
         /// The date and time that the delivery stream was last updated.
-        var lastUpdateTimestamp: Date? = nil
+        public var lastUpdateTimestamp: Date? = nil
         /// The name of the delivery stream.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
-        var versionId: String = ""
+        public var versionId: String = ""
         /// The date and time that the delivery stream was created.
-        var createTimestamp: Date? = nil
+        public var createTimestamp: Date? = nil
         /// The Amazon Resource Name (ARN) of the delivery stream.
-        var deliveryStreamARN: String = ""
+        public var deliveryStreamARN: String = ""
         /// Indicates whether there are more destinations available to list.
-        var hasMoreDestinations: Bool = false
+        public var hasMoreDestinations: Bool = false
 
         public init() {}
 
@@ -863,29 +939,31 @@ extension Firehose {
 
     }
 
-    public struct ElasticsearchDestinationDescription: Serializable, Initializable {
+    public struct ElasticsearchDestinationDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Elasticsearch type name.
-        var typeName: String? = nil
+        public var typeName: String? = nil
         /// The Elasticsearch index name.
-        var indexName: String? = nil
+        public var indexName: String? = nil
         /// The Elasticsearch index rotation period
-        var indexRotationPeriod: String? = nil
+        public var indexRotationPeriod: String? = nil
         /// The ARN of the Amazon ES domain.
-        var domainARN: String? = nil
+        public var domainARN: String? = nil
         /// The ARN of the AWS credentials.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
         /// The Amazon S3 destination.
-        var s3DestinationDescription: S3DestinationDescription? = nil
+        public var s3DestinationDescription: S3DestinationDescription? = nil
         /// The data processing configuration.
-        var processingConfiguration: ProcessingConfiguration? = nil
+        public var processingConfiguration: ProcessingConfiguration? = nil
         /// The Amazon S3 backup mode.
-        var s3BackupMode: String? = nil
+        public var s3BackupMode: String? = nil
         /// The CloudWatch logging options.
-        var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
         /// The Amazon ES retry options.
-        var retryOptions: ElasticsearchRetryOptions? = nil
+        public var retryOptions: ElasticsearchRetryOptions? = nil
         /// The buffering options.
-        var bufferingHints: ElasticsearchBufferingHints? = nil
+        public var bufferingHints: ElasticsearchBufferingHints? = nil
 
         public init() {}
 
@@ -905,11 +983,13 @@ extension Firehose {
 
     }
 
-    public struct ElasticsearchBufferingHints: Serializable, Initializable {
+    public struct ElasticsearchBufferingHints: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        var sizeInMBs: Int32? = nil
+        public var sizeInMBs: Int32? = nil
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
-        var intervalInSeconds: Int32? = nil
+        public var intervalInSeconds: Int32? = nil
 
         public init() {}
 
@@ -920,13 +1000,15 @@ extension Firehose {
 
     }
 
-    public struct PutRecordBatchResponseEntry: Serializable, Initializable {
+    public struct PutRecordBatchResponseEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the record.
-        var recordId: String? = nil
+        public var recordId: String? = nil
         /// The error code for an individual record result.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The error message for an individual record result.
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
 
         public init() {}
 

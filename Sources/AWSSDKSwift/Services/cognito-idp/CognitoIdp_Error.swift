@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for CognitoIdp
-public enum CognitoIdpError: Error {
+public enum CognitoIdpError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidParameterException(message: String?)
     case unexpectedLambdaException(message: String?)

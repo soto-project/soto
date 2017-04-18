@@ -32,178 +32,164 @@ The WorkDocs API is designed for the following use cases:   File Migration: File
 */
 public struct Workdocs {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "workdocs",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [WorkdocsError.self]
         )
     }
 
     ///  Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
     public func getDocumentPath(_ input: GetDocumentPathRequest) throws -> GetDocumentPathResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocumentPath", path: "/api/v1/documents/\(input.documentId)/path?fields=\(input.fields?.description ?? "")&marker=\(input.marker?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocumentPath", path: "/api/v1/documents/{DocumentId}/path", httpMethod: "GET", input: input)
     }
 
     ///  Lists the specified notification subscriptions.
     public func describeNotificationSubscriptions(_ input: DescribeNotificationSubscriptionsRequest) throws -> DescribeNotificationSubscriptionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeNotificationSubscriptions", path: "/api/v1/organizations/\(input.organizationId)/subscriptions?marker=\(input.marker?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeNotificationSubscriptions", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: "GET", input: input)
     }
 
     ///  Creates a folder with the specified name and parent folder.
     public func createFolder(_ input: CreateFolderRequest) throws -> CreateFolderResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateFolder", path: "/api/v1/folders", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateFolder", path: "/api/v1/folders", httpMethod: "POST", input: input)
     }
 
     ///  Permanently deletes the specified document and its associated metadata.
     public func deleteDocument(_ input: DeleteDocumentRequest) throws {
-        _ = try request.invoke(operation: "DeleteDocument", path: "/api/v1/documents/\(input.documentId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Describes the permissions of a specified resource.
     public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest) throws -> DescribeResourcePermissionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeResourcePermissions", path: "/api/v1/resources/\(input.resourceId)/permissions?marker=\(input.marker?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     public func createUser(_ input: CreateUserRequest) throws -> CreateUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUser", path: "/api/v1/users", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUser", path: "/api/v1/users", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves version metadata for the specified document.
     public func getDocumentVersion(_ input: GetDocumentVersionRequest) throws -> GetDocumentVersionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocumentVersion", path: "/api/v1/documents/\(input.documentId)/versions/\(input.versionId)?fields=\(input.fields?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "GET", input: input)
     }
 
     ///  Removes the permission for the specified principal from the specified resource.
     public func removeResourcePermission(_ input: RemoveResourcePermissionRequest) throws {
-        _ = try request.invoke(operation: "RemoveResourcePermission", path: "/api/v1/resources/\(input.resourceId)/permissions/\(input.principalId)?type=\(input.principalType?.description ?? "")", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves the document versions for the specified document. By default, only active versions are returned.
     public func describeDocumentVersions(_ input: DescribeDocumentVersionsRequest) throws -> DescribeDocumentVersionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDocumentVersions", path: "/api/v1/documents/\(input.documentId)/versions?fields=\(input.fields?.description ?? "")&marker=\(input.marker?.description ?? "")&limit=\(input.limit?.description ?? "")&include=\(input.include?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDocumentVersions", path: "/api/v1/documents/{DocumentId}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the metadata of the specified folder.
     public func getFolder(_ input: GetFolderRequest) throws -> GetFolderResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetFolder", path: "/api/v1/folders/\(input.folderId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     public func describeUsers(_ input: DescribeUsersRequest) throws -> DescribeUsersResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeUsers", path: "/api/v1/users?fields=\(input.fields?.description ?? "")&marker=\(input.marker?.description ?? "")&userIds=\(input.userIds?.description ?? "")&limit=\(input.limit?.description ?? "")&organizationId=\(input.organizationId?.description ?? "")&sort=\(input.sort?.description ?? "")&include=\(input.include?.description ?? "")&query=\(input.query?.description ?? "")&order=\(input.order?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeUsers", path: "/api/v1/users", httpMethod: "GET", input: input)
     }
 
     ///  Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     public func updateFolder(_ input: UpdateFolderRequest) throws {
-        _ = try request.invoke(operation: "UpdateFolder", path: "/api/v1/folders/\(input.folderId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Removes all the permissions from the specified resource.
     public func removeAllResourcePermissions(_ input: RemoveAllResourcePermissionsRequest) throws {
-        _ = try request.invoke(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/\(input.resourceId)/permissions", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "DELETE", input: input)
     }
 
     ///  Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload. The client should make this call only when it no longer intends or fails to upload the document version.
     public func abortDocumentVersionUpload(_ input: AbortDocumentVersionUploadRequest) throws {
-        _ = try request.invoke(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/\(input.documentId)/versions/\(input.versionId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     public func deactivateUser(_ input: DeactivateUserRequest) throws {
-        _ = try request.invoke(operation: "DeactivateUser", path: "/api/v1/users/\(input.userId)/activation", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeactivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes the status of the document version to ACTIVE.  Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by InitiateDocumentVersionUpload. 
     public func updateDocumentVersion(_ input: UpdateDocumentVersionRequest) throws {
-        _ = try request.invoke(operation: "UpdateDocumentVersion", path: "/api/v1/documents/\(input.documentId)/versions/\(input.versionId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     public func updateUser(_ input: UpdateUserRequest) throws -> UpdateUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateUser", path: "/api/v1/users/\(input.userId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateUser", path: "/api/v1/users/{UserId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the specified attributes of the specified document. The user must have access to both the document and its parent folder, if applicable.
     public func updateDocument(_ input: UpdateDocumentRequest) throws {
-        _ = try request.invoke(operation: "UpdateDocument", path: "/api/v1/documents/\(input.documentId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Activates the specified user. Only active users can access Amazon WorkDocs.
     public func activateUser(_ input: ActivateUserRequest) throws -> ActivateUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ActivateUser", path: "/api/v1/users/\(input.userId)/activation", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ActivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the specified document object.
     public func getDocument(_ input: GetDocumentRequest) throws -> GetDocumentResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocument", path: "/api/v1/documents/\(input.documentId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "GET", input: input)
     }
 
     ///  Configure WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Confirm the Subscription in the Amazon Simple Notification Service Developer Guide.
     public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest) throws -> CreateNotificationSubscriptionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/\(input.organizationId)/subscriptions", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call UpdateDocumentVersion. To cancel the document upload, call AbortDocumentVersionUpload.
     public func initiateDocumentVersionUpload(_ input: InitiateDocumentVersionUploadRequest) throws -> InitiateDocumentVersionUploadResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the contents of the specified folder.
     public func deleteFolderContents(_ input: DeleteFolderContentsRequest) throws {
-        _ = try request.invoke(operation: "DeleteFolderContents", path: "/api/v1/folders/\(input.folderId)/contents", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "DELETE", input: input)
     }
 
     ///  Permanently deletes the specified folder and its contents.
     public func deleteFolder(_ input: DeleteFolderRequest) throws {
-        _ = try request.invoke(operation: "DeleteFolder", path: "/api/v1/folders/\(input.folderId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     public func addResourcePermissions(_ input: AddResourcePermissionsRequest) throws -> AddResourcePermissionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AddResourcePermissions", path: "/api/v1/resources/\(input.resourceId)/permissions", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AddResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified user from a Simple AD or Microsoft AD directory.
     public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try request.invoke(operation: "DeleteUser", path: "/api/v1/users/\(input.userId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified subscription from the specified organization.
     public func deleteNotificationSubscription(_ input: DeleteNotificationSubscriptionRequest) throws {
-        _ = try request.invoke(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/\(input.organizationId)/subscriptions/\(input.subscriptionId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
     public func getFolderPath(_ input: GetFolderPathRequest) throws -> GetFolderPathResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetFolderPath", path: "/api/v1/folders/\(input.folderId)/path?fields=\(input.fields?.description ?? "")&marker=\(input.marker?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: "GET", input: input)
     }
 
     ///  Describes the contents of the specified folder, including its documents and sub-folders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     public func describeFolderContents(_ input: DescribeFolderContentsRequest) throws -> DescribeFolderContentsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFolderContents", path: "/api/v1/folders/\(input.folderId)/contents?marker=\(input.marker?.description ?? "")&include=\(input.include?.description ?? "")&limit=\(input.limit?.description ?? "")&type=\(input.type?.description ?? "")&sort=\(input.sort?.description ?? "")&order=\(input.order?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try WorkdocsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "GET", input: input)
     }
 
 

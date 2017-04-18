@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Dynamodb
-public enum DynamodbError: Error {
+public enum DynamodbError: AWSErrorType {
     case conditionalCheckFailedException(message: String?)
     case provisionedThroughputExceededException(message: String?)
     case resourceNotFoundException(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Waf
-public enum WafError: Error {
+public enum WafError: AWSErrorType {
     case wAFInternalErrorException(message: String?)
     case wAFInvalidAccountException(message: String?)
     case wAFStaleDataException(message: String?)

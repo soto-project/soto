@@ -29,9 +29,14 @@ import Core
 
 extension Apigateway {
 
-    public struct DeleteApiKeyRequest: Serializable, Initializable {
+    public struct DeleteApiKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["api_Key": "apiKey"]
+        }
         /// The identifier of the ApiKey resource to be deleted.
-        var apiKey: String = ""
+        public var apiKey: String = ""
 
         public init() {}
 
@@ -41,17 +46,25 @@ extension Apigateway {
 
     }
 
-    public struct PutRestApiRequest: Serializable, Initializable {
+    public struct PutRestApiRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "body"
+        public var queryParams: [String: String] {
+            return ["failonwarnings": "failOnWarnings", "mode": "mode"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The identifier of the RestApi to be updated. 
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
-        var mode: String? = nil
+        public var mode: String? = nil
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
-        var failOnWarnings: Bool? = nil
+        public var failOnWarnings: Bool? = nil
         /// The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
-        var body: Data = Data()
+        public var body: Data = Data()
         /// Custom headers supplied as part of the request. 
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -65,9 +78,14 @@ extension Apigateway {
 
     }
 
-    public struct DeleteDomainNameRequest: Serializable, Initializable {
+    public struct DeleteDomainNameRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName"]
+        }
         /// The name of the DomainName resource to be deleted.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -77,11 +95,16 @@ extension Apigateway {
 
     }
 
-    public struct GetDocumentationVersionRequest: Serializable, Initializable {
+    public struct GetDocumentationVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
+        }
         /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
-        var documentationVersion: String = ""
+        public var documentationVersion: String = ""
         /// [Required] The identifier of the API of the to-be-retrieved documentation snapshot.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -92,11 +115,16 @@ extension Apigateway {
 
     }
 
-    public struct GetUsagePlanKeyRequest: Serializable, Initializable {
+    public struct GetUsagePlanKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["keyId": "keyId", "usageplanId": "usagePlanId"]
+        }
         /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
 
         public init() {}
 
@@ -107,13 +135,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateDocumentationVersionRequest: Serializable, Initializable {
+    public struct UpdateDocumentationVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
+        }
         /// [Required] The version identifier of the to-be-updated documentation version.
-        var documentationVersion: String = ""
+        public var documentationVersion: String = ""
         /// [Required] The identifier of an API of the to-be-updated documentation version.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -125,17 +158,22 @@ extension Apigateway {
 
     }
 
-    public struct CreateModelRequest: Serializable, Initializable {
+    public struct CreateModelRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The description of the model.
-        var description: String? = nil
+        public var description: String? = nil
         /// The content-type for the model.
-        var contentType: String = ""
+        public var contentType: String = ""
         /// The RestApi identifier under which the Model will be created.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the model.
-        var name: String = ""
+        public var name: String = ""
         /// The schema for the model. For application/json models, this should be JSON-schema draft v4 model.
-        var schema: String? = nil
+        public var schema: String? = nil
 
         public init() {}
 
@@ -149,17 +187,22 @@ extension Apigateway {
 
     }
 
-    public struct UpdateMethodResponseRequest: Serializable, Initializable {
+    public struct UpdateMethodResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the MethodResponse resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The status code for the MethodResponse resource.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
         /// The Resource identifier for the MethodResponse resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -173,13 +216,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateDeploymentRequest: Serializable, Initializable {
+    public struct UpdateDeploymentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
+        }
         /// The replacement identifier for the Deployment resource to change information about.
-        var deploymentId: String = ""
+        public var deploymentId: String = ""
         /// The replacement identifier of the RestApi resource for the Deployment resource to change information about.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -191,13 +239,18 @@ extension Apigateway {
 
     }
 
-    public struct DeleteMethodRequest: Serializable, Initializable {
+    public struct DeleteMethodRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// The RestApi identifier for the Method resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The HTTP verb of the Method resource.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// The Resource identifier for the Method resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -209,11 +262,16 @@ extension Apigateway {
 
     }
 
-    public struct GetStageRequest: Serializable, Initializable {
+    public struct GetStageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "stage_name": "stageName"]
+        }
         /// The identifier of the RestApi resource for the Stage resource to get information about.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the Stage resource to get information about.
-        var stageName: String = ""
+        public var stageName: String = ""
 
         public init() {}
 
@@ -224,17 +282,22 @@ extension Apigateway {
 
     }
 
-    public struct GetApiKeysRequest: Serializable, Initializable {
+    public struct GetApiKeysRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["includeValues": "includeValues", "position": "position", "limit": "limit", "name": "nameQuery", "customerId": "customerId"]
+        }
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
-        var includeValues: Bool? = nil
+        public var includeValues: Bool? = nil
         /// The position of the current ApiKeys resource to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The maximum number of ApiKeys to get information about.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The name of queried API keys.
-        var nameQuery: String? = nil
+        public var nameQuery: String? = nil
         /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
-        var customerId: String? = nil
+        public var customerId: String? = nil
 
         public init() {}
 
@@ -248,10 +311,12 @@ extension Apigateway {
 
     }
 
-    public struct BasePathMappings: Serializable, Initializable {
+    public struct BasePathMappings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of any BasePathMapping resources in the collection of base path mapping resources.
-        var items: [BasePathMapping]? = nil
-        var position: String? = nil
+        public var items: [BasePathMapping]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -262,19 +327,27 @@ extension Apigateway {
 
     }
 
-    public struct GetUsageRequest: Serializable, Initializable {
+    public struct GetUsageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["keyId": "keyId", "position": "position", "limit": "limit", "startDate": "startDate", "endDate": "endDate"]
+        }
+        public var pathParams: [String: String] {
+            return ["usageplanId": "usagePlanId"]
+        }
         /// The Id of the API key associated with the resultant usage data.
-        var keyId: String? = nil
+        public var keyId: String? = nil
         /// Position
-        var position: String? = nil
+        public var position: String? = nil
         /// The maximum number of results to be returned.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The starting date (e.g., 2016-01-01) of the usage data.
-        var startDate: String = ""
+        public var startDate: String = ""
         /// The Id of the usage plan associated with the usage data.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
         /// The ending date (e.g., 2016-12-31) of the usage data.
-        var endDate: String = ""
+        public var endDate: String = ""
 
         public init() {}
 
@@ -289,10 +362,12 @@ extension Apigateway {
 
     }
 
-    public struct SdkTypes: Serializable, Initializable {
+    public struct SdkTypes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The set of SdkType items that comprise this view of the SdkTypes collection.
-        var items: [SdkType]? = nil
-        var position: String? = nil
+        public var items: [SdkType]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -303,13 +378,18 @@ extension Apigateway {
 
     }
 
-    public struct GetIntegrationRequest: Serializable, Initializable {
+    public struct GetIntegrationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// Specifies a get integration request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a get integration request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// Specifies a get integration request's resource identifier
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -321,10 +401,12 @@ extension Apigateway {
 
     }
 
-    public struct RestApis: Serializable, Initializable {
+    public struct RestApis: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of links to the current page of RestApi resources.
-        var items: [RestApi]? = nil
-        var position: String? = nil
+        public var items: [RestApi]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -335,11 +417,16 @@ extension Apigateway {
 
     }
 
-    public struct GetDocumentationPartRequest: Serializable, Initializable {
+    public struct GetDocumentationPartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
+        }
         /// [Required] The identifier of the to-be-retrieved documentation part.
-        var documentationPartId: String = ""
+        public var documentationPartId: String = ""
         /// [Required] The identifier of an API of the to-be-retrieved documentation part.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -350,13 +437,21 @@ extension Apigateway {
 
     }
 
-    public struct GetDocumentationVersionsRequest: Serializable, Initializable {
+    public struct GetDocumentationVersionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The position of the returned DocumentationVersion in the DocumentationVersions collection.
-        var position: String? = nil
+        public var position: String? = nil
         /// [Required] The identifier of an API of the to-be-retrieved documentation versions.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The page size of the returned documentation versions.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -368,13 +463,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateBasePathMappingRequest: Serializable, Initializable {
+    public struct UpdateBasePathMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName", "base_path": "basePath"]
+        }
         /// The base path of the BasePathMapping resource to change.
-        var basePath: String = ""
+        public var basePath: String = ""
         /// The domain name of the BasePathMapping resource to change.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -386,9 +486,14 @@ extension Apigateway {
 
     }
 
-    public struct DeleteClientCertificateRequest: Serializable, Initializable {
+    public struct DeleteClientCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["clientcertificate_id": "clientCertificateId"]
+        }
         /// The identifier of the ClientCertificate resource to be deleted.
-        var clientCertificateId: String = ""
+        public var clientCertificateId: String = ""
 
         public init() {}
 
@@ -398,11 +503,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteModelRequest: Serializable, Initializable {
+    public struct DeleteModelRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "model_name": "modelName"]
+        }
         /// The RestApi under which the model will be deleted.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the model to delete.
-        var modelName: String = ""
+        public var modelName: String = ""
 
         public init() {}
 
@@ -413,17 +523,19 @@ extension Apigateway {
 
     }
 
-    public struct Resource: Serializable, Initializable {
+    public struct Resource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The parent resource's identifier.
-        var parentId: String? = nil
+        public var parentId: String? = nil
         /// The last path segment for this resource.
-        var pathPart: String? = nil
+        public var pathPart: String? = nil
         /// The full path for this resource.
-        var path: String? = nil
+        public var path: String? = nil
         /// The resource's identifier.
-        var id: String? = nil
+        public var id: String? = nil
         /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160608T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160608/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
-        var resourceMethods: [String: Method]? = nil
+        public var resourceMethods: [String: Method]? = nil
 
         public init() {}
 
@@ -437,11 +549,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteDocumentationVersionRequest: Serializable, Initializable {
+    public struct DeleteDocumentationVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
+        }
         /// [Required] The version identifier of a to-be-deleted documentation snapshot.
-        var documentationVersion: String = ""
+        public var documentationVersion: String = ""
         /// [Required] The identifier of an API of a to-be-deleted documentation snapshot.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -452,13 +569,21 @@ extension Apigateway {
 
     }
 
-    public struct GetAuthorizersRequest: Serializable, Initializable {
+    public struct GetAuthorizersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
-        var position: String? = nil
+        public var position: String? = nil
         /// The RestApi identifier for the Authorizers resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Limit the number of Authorizer resources in the response.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -470,19 +595,21 @@ extension Apigateway {
 
     }
 
-    public struct CreateDomainNameRequest: Serializable, Initializable {
+    public struct CreateDomainNameRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user-friendly name of the certificate.
-        var certificateName: String? = nil
+        public var certificateName: String? = nil
         /// [Deprecated] Your certificate's private key.
-        var certificatePrivateKey: String? = nil
+        public var certificatePrivateKey: String? = nil
         /// (Required) The name of the DomainName resource.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
-        var certificateChain: String? = nil
+        public var certificateChain: String? = nil
         /// [Deprecated] The body of the server certificate provided by your certificate authority.
-        var certificateBody: String? = nil
+        public var certificateBody: String? = nil
         /// The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -497,11 +624,13 @@ extension Apigateway {
 
     }
 
-    public struct ApiKeyIds: Serializable, Initializable {
+    public struct ApiKeyIds: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of all the ApiKey identifiers.
-        var ids: [String]? = nil
+        public var ids: [String]? = nil
         /// A list of warning messages.
-        var warnings: [String]? = nil
+        public var warnings: [String]? = nil
 
         public init() {}
 
@@ -512,31 +641,33 @@ extension Apigateway {
 
     }
 
-    public struct Stage: Serializable, Initializable {
+    public struct Stage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The version of the associated API documentation.
-        var documentationVersion: String? = nil
+        public var documentationVersion: String? = nil
         /// The status of the cache cluster for the stage, if enabled.
-        var cacheClusterStatus: String? = nil
+        public var cacheClusterStatus: String? = nil
         /// The size of the cache cluster for the stage, if enabled.
-        var cacheClusterSize: String? = nil
+        public var cacheClusterSize: String? = nil
         /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        var variables: [String: String]? = nil
+        public var variables: [String: String]? = nil
         /// The timestamp when the stage was created.
-        var createdDate: Date? = nil
+        public var createdDate: Date? = nil
         /// The stage's description.
-        var description: String? = nil
+        public var description: String? = nil
         /// The identifier of the Deployment that the stage points to.
-        var deploymentId: String? = nil
+        public var deploymentId: String? = nil
         /// The identifier of a client certificate for an API stage.
-        var clientCertificateId: String? = nil
+        public var clientCertificateId: String? = nil
         /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
-        var methodSettings: [String: MethodSetting]? = nil
+        public var methodSettings: [String: MethodSetting]? = nil
         /// The timestamp when the stage last updated.
-        var lastUpdatedDate: Date? = nil
+        public var lastUpdatedDate: Date? = nil
         /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to Amazon API Gateway.
-        var stageName: String? = nil
+        public var stageName: String? = nil
         /// Specifies whether a cache cluster is enabled for the stage.
-        var cacheClusterEnabled: Bool? = nil
+        public var cacheClusterEnabled: Bool? = nil
 
         public init() {}
 
@@ -557,13 +688,18 @@ extension Apigateway {
 
     }
 
-    public struct GetMethodRequest: Serializable, Initializable {
+    public struct GetMethodRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// The RestApi identifier for the Method resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies the method request's HTTP method type.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// The Resource identifier for the Method resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -575,10 +711,12 @@ extension Apigateway {
 
     }
 
-    public struct UsagePlans: Serializable, Initializable {
+    public struct UsagePlans: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Gets the current item when enumerating the collection of UsagePlan.
-        var items: [UsagePlan]? = nil
-        var position: String? = nil
+        public var items: [UsagePlan]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -589,11 +727,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteStageRequest: Serializable, Initializable {
+    public struct DeleteStageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "stage_name": "stageName"]
+        }
         /// The identifier of the RestApi resource for the Stage resource to delete.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the Stage resource to delete.
-        var stageName: String = ""
+        public var stageName: String = ""
 
         public init() {}
 
@@ -604,11 +747,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteDeploymentRequest: Serializable, Initializable {
+    public struct DeleteDeploymentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
+        }
         /// The identifier of the Deployment resource to delete.
-        var deploymentId: String = ""
+        public var deploymentId: String = ""
         /// The identifier of the RestApi resource for the Deployment resource to delete.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -619,21 +767,26 @@ extension Apigateway {
 
     }
 
-    public struct TestInvokeAuthorizerRequest: Serializable, Initializable {
+    public struct TestInvokeAuthorizerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
+        }
         /// Specifies a test invoke authorizer request's Authorizer ID.
-        var authorizerId: String = ""
+        public var authorizerId: String = ""
         /// [Required] A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
-        var headers: [String: String]? = nil
+        public var headers: [String: String]? = nil
         /// [Optional] The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
-        var pathWithQueryString: String? = nil
+        public var pathWithQueryString: String? = nil
         /// [Optional] The simulated request body of an incoming invocation request.
-        var body: String? = nil
+        public var body: String? = nil
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
-        var stageVariables: [String: String]? = nil
+        public var stageVariables: [String: String]? = nil
         /// Specifies a test invoke authorizer request's RestApi identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// [Optional] A key-value map of additional context variables.
-        var additionalContext: [String: String]? = nil
+        public var additionalContext: [String: String]? = nil
 
         public init() {}
 
@@ -649,25 +802,30 @@ extension Apigateway {
 
     }
 
-    public struct PutMethodRequest: Serializable, Initializable {
+    public struct PutMethodRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM.
-        var authorizerId: String? = nil
+        public var authorizerId: String? = nil
         /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        var requestModels: [String: String]? = nil
+        public var requestModels: [String: String]? = nil
         /// A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
-        var requestParameters: [String: Bool]? = nil
+        public var requestParameters: [String: Bool]? = nil
         /// Specifies the method request's HTTP method type.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// The RestApi identifier for the new Method resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies whether the method required a valid ApiKey.
-        var apiKeyRequired: Bool? = nil
+        public var apiKeyRequired: Bool? = nil
         /// Specifies the type of authorization used for the method.
-        var authorizationType: String = ""
+        public var authorizationType: String = ""
         /// The Resource identifier for the new Method resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
-        var operationName: String? = nil
+        public var operationName: String? = nil
 
         public init() {}
 
@@ -685,13 +843,21 @@ extension Apigateway {
 
     }
 
-    public struct GetBasePathMappingsRequest: Serializable, Initializable {
+    public struct GetBasePathMappingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName"]
+        }
         /// The position of the current BasePathMapping resource in the collection to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The domain name of a BasePathMapping resource.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// The maximum number of BasePathMapping resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -703,15 +869,17 @@ extension Apigateway {
 
     }
 
-    public struct PatchOperation: Serializable, Initializable {
+    public struct PatchOperation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Not supported.
-        var from: String? = nil
+        public var from: String? = nil
         /// The new target value of the update operation. 
-        var value: String? = nil
+        public var value: String? = nil
         /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
-        var path: String? = nil
+        public var path: String? = nil
         /// An update operation to be performed with this PATCH request. The valid value can be "add", "remove", or "replace". Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
-        var op: String? = nil
+        public var op: String? = nil
 
         public init() {}
 
@@ -724,23 +892,28 @@ extension Apigateway {
 
     }
 
-    public struct TestInvokeMethodRequest: Serializable, Initializable {
+    public struct TestInvokeMethodRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// A key-value map of headers to simulate an incoming invocation request.
-        var headers: [String: String]? = nil
+        public var headers: [String: String]? = nil
         /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
-        var pathWithQueryString: String? = nil
+        public var pathWithQueryString: String? = nil
         /// The simulated request body of an incoming invocation request.
-        var body: String? = nil
+        public var body: String? = nil
         /// Specifies a test invoke method request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
-        var stageVariables: [String: String]? = nil
+        public var stageVariables: [String: String]? = nil
         /// A ClientCertificate identifier to use in the test invocation. API Gateway will use the certificate when making the HTTPS request to the defined back-end endpoint.
-        var clientCertificateId: String? = nil
+        public var clientCertificateId: String? = nil
         /// Specifies a test invoke method request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a test invoke method request's resource ID.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -757,15 +930,20 @@ extension Apigateway {
 
     }
 
-    public struct CreateDocumentationVersionRequest: Serializable, Initializable {
+    public struct CreateDocumentationVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// [Required] The version identifier of the new snapshot.
-        var documentationVersion: String = ""
+        public var documentationVersion: String = ""
         /// [Required] Specifies the API identifier of the to-be-created documentation version.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The stage name to be associated with the new documentation snapshot.
-        var stageName: String? = nil
+        public var stageName: String? = nil
         /// A description about the new documentation snapshot.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -778,13 +956,21 @@ extension Apigateway {
 
     }
 
-    public struct GetDeploymentsRequest: Serializable, Initializable {
+    public struct GetDeploymentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The position of the current Deployment resource in the collection to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The identifier of the RestApi resource for the collection of Deployment resources to get information about.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The maximum number of Deployment resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -796,11 +982,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteUsagePlanKeyRequest: Serializable, Initializable {
+    public struct DeleteUsagePlanKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["keyId": "keyId", "usageplanId": "usagePlanId"]
+        }
         /// The Id of the UsagePlanKey resource to be deleted.
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
 
         public init() {}
 
@@ -811,17 +1002,19 @@ extension Apigateway {
 
     }
 
-    public struct TestInvokeMethodResponse: Serializable, Initializable {
+    public struct TestInvokeMethodResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon API Gateway execution log for the test invoke request.
-        var log: String? = nil
+        public var log: String? = nil
         /// The HTTP status code.
-        var status: Int32? = nil
+        public var status: Int32? = nil
         /// The headers of the HTTP response.
-        var headers: [String: String]? = nil
+        public var headers: [String: String]? = nil
         /// The execution latency of the test invoke request.
-        var latency: Int64? = nil
+        public var latency: Int64? = nil
         /// The body of the HTTP response.
-        var body: String? = nil
+        public var body: String? = nil
 
         public init() {}
 
@@ -835,11 +1028,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteResourceRequest: Serializable, Initializable {
+    public struct DeleteResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the Resource resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The identifier of the Resource resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -850,11 +1048,16 @@ extension Apigateway {
 
     }
 
-    public struct GetSdkTypesRequest: Serializable, Initializable {
+    public struct GetSdkTypesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
         /// The position of the last fetched element in the SdkTypes collection.
-        var position: String? = nil
+        public var position: String? = nil
         /// The maximum number of SdkType instances to be returned. 
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -865,10 +1068,12 @@ extension Apigateway {
 
     }
 
-    public struct Models: Serializable, Initializable {
+    public struct Models: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Gets the current Model resource in the collection.
-        var items: [Model]? = nil
-        var position: String? = nil
+        public var items: [Model]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -879,10 +1084,12 @@ extension Apigateway {
 
     }
 
-    public struct Resources: Serializable, Initializable {
+    public struct Resources: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Gets the current Resource resource in the collection.
-        var items: [Resource]? = nil
-        var position: String? = nil
+        public var items: [Resource]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -893,13 +1100,18 @@ extension Apigateway {
 
     }
 
-    public struct ExportResponse: Serializable, Initializable {
+    public struct ExportResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "body"
+        public var headerParams: [String: String] {
+            return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
+        }
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The content-disposition header value in the HTTP response.
-        var contentDisposition: String? = nil
+        public var contentDisposition: String? = nil
         /// The binary blob response to GetExport, which contains the export.
-        var body: Data? = nil
+        public var body: Data? = nil
 
         public init() {}
 
@@ -911,13 +1123,21 @@ extension Apigateway {
 
     }
 
-    public struct GetModelRequest: Serializable, Initializable {
+    public struct GetModelRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["flatten": "flatten"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "model_name": "modelName"]
+        }
         /// The RestApi identifier under which the Model exists.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
-        var flatten: Bool? = nil
+        public var flatten: Bool? = nil
         /// The name of the model as an identifier.
-        var modelName: String = ""
+        public var modelName: String = ""
 
         public init() {}
 
@@ -929,13 +1149,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateAuthorizerRequest: Serializable, Initializable {
+    public struct UpdateAuthorizerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
+        }
         /// The identifier of the Authorizer resource.
-        var authorizerId: String = ""
+        public var authorizerId: String = ""
         /// The RestApi identifier for the Authorizer resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -947,11 +1172,13 @@ extension Apigateway {
 
     }
 
-    public struct StageKey: Serializable, Initializable {
+    public struct StageKey: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of Stage resources that are associated with the ApiKey resource.
-        var restApiId: String? = nil
+        public var restApiId: String? = nil
         /// The stage name in the RestApi that the stage key references.
-        var stageName: String? = nil
+        public var stageName: String? = nil
 
         public init() {}
 
@@ -962,12 +1189,14 @@ extension Apigateway {
 
     }
 
-    public struct ApiKeys: Serializable, Initializable {
+    public struct ApiKeys: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of any ApiKey resources in the collection of ApiKey resources.
-        var items: [ApiKey]? = nil
-        var position: String? = nil
+        public var items: [ApiKey]? = nil
+        public var position: String? = nil
         /// A list of warning messages logged during the import of API keys when the failOnWarnings option is set to true.
-        var warnings: [String]? = nil
+        public var warnings: [String]? = nil
 
         public init() {}
 
@@ -979,23 +1208,28 @@ extension Apigateway {
 
     }
 
-    public struct CreateStageRequest: Serializable, Initializable {
+    public struct CreateStageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The version of the associated API documentation.
-        var documentationVersion: String? = nil
+        public var documentationVersion: String? = nil
         /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        var variables: [String: String]? = nil
+        public var variables: [String: String]? = nil
         /// The stage's cache cluster size.
-        var cacheClusterSize: String? = nil
+        public var cacheClusterSize: String? = nil
         /// The identifier of the Deployment resource for the Stage resource.
-        var deploymentId: String = ""
+        public var deploymentId: String = ""
         /// The identifier of the RestApi resource for the Stage resource to create.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name for the Stage resource.
-        var stageName: String = ""
+        public var stageName: String = ""
         /// The description of the Stage resource.
-        var description: String? = nil
+        public var description: String? = nil
         /// Whether cache clustering is enabled for the stage.
-        var cacheClusterEnabled: Bool? = nil
+        public var cacheClusterEnabled: Bool? = nil
 
         public init() {}
 
@@ -1012,9 +1246,14 @@ extension Apigateway {
 
     }
 
-    public struct GetSdkTypeRequest: Serializable, Initializable {
+    public struct GetSdkTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["sdktype_id": "id"]
+        }
         /// The identifier of the queried SdkType instance.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1024,13 +1263,18 @@ extension Apigateway {
 
     }
 
-    public struct ImportApiKeysRequest: Serializable, Initializable {
+    public struct ImportApiKeysRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "body"
+        public var queryParams: [String: String] {
+            return ["failonwarnings": "failOnWarnings", "format": "format"]
+        }
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
-        var body: Data = Data()
+        public var body: Data = Data()
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
-        var format: String = ""
+        public var format: String = ""
         /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
-        var failOnWarnings: Bool? = nil
+        public var failOnWarnings: Bool? = nil
 
         public init() {}
 
@@ -1042,27 +1286,29 @@ extension Apigateway {
 
     }
 
-    public struct MethodSetting: Serializable, Initializable {
+    public struct MethodSetting: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether data trace logging is enabled for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
-        var dataTraceEnabled: Bool? = nil
+        public var dataTraceEnabled: Bool? = nil
         /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
-        var metricsEnabled: Bool? = nil
+        public var metricsEnabled: Bool? = nil
         /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
-        var cachingEnabled: Bool? = nil
+        public var cachingEnabled: Bool? = nil
         /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
-        var cacheDataEncrypted: Bool? = nil
+        public var cacheDataEncrypted: Bool? = nil
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
-        var cacheTtlInSeconds: Int32? = nil
+        public var cacheTtlInSeconds: Int32? = nil
         /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
-        var throttlingBurstLimit: Int32? = nil
+        public var throttlingBurstLimit: Int32? = nil
         /// Specifies the throttling rate limit. The PATCH path for this setting is /{method_setting_key}/throttling/rateLimit, and the value is a double.
-        var throttlingRateLimit: Double? = nil
+        public var throttlingRateLimit: Double? = nil
         /// Specifies the logging level for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO.
-        var loggingLevel: String? = nil
+        public var loggingLevel: String? = nil
         /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
-        var unauthorizedCacheControlHeaderStrategy: String? = nil
+        public var unauthorizedCacheControlHeaderStrategy: String? = nil
         /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
-        var requireAuthorizationForCacheControl: Bool? = nil
+        public var requireAuthorizationForCacheControl: Bool? = nil
 
         public init() {}
 
@@ -1081,25 +1327,27 @@ extension Apigateway {
 
     }
 
-    public struct ApiKey: Serializable, Initializable {
+    public struct ApiKey: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the API Key.
-        var name: String? = nil
+        public var name: String? = nil
         /// The value of the API Key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The identifier of the API Key.
-        var id: String? = nil
+        public var id: String? = nil
         /// The timestamp when the API Key was created.
-        var createdDate: Date? = nil
+        public var createdDate: Date? = nil
         /// The description of the API Key.
-        var description: String? = nil
+        public var description: String? = nil
         /// A list of Stage resources that are associated with the ApiKey resource.
-        var stageKeys: [String]? = nil
+        public var stageKeys: [String]? = nil
         /// Specifies whether the API Key can be used by callers.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The timestamp when the API Key was last updated.
-        var lastUpdatedDate: Date? = nil
+        public var lastUpdatedDate: Date? = nil
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
-        var customerId: String? = nil
+        public var customerId: String? = nil
 
         public init() {}
 
@@ -1117,17 +1365,22 @@ extension Apigateway {
 
     }
 
-    public struct UpdateIntegrationResponseRequest: Serializable, Initializable {
+    public struct UpdateIntegrationResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// Specifies an update integration response request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies an update integration response request's status code.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
         /// Specifies an update integration response request's resource identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// Specifies an update integration response request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -1141,11 +1394,16 @@ extension Apigateway {
 
     }
 
-    public struct GetDomainNamesRequest: Serializable, Initializable {
+    public struct GetDomainNamesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
         /// The position of the current domain names to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The maximum number of DomainName resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -1156,17 +1414,19 @@ extension Apigateway {
 
     }
 
-    public struct DocumentationPartLocation: Serializable, Initializable {
+    public struct DocumentationPartLocation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
-        var name: String? = nil
+        public var name: String? = nil
         /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
-        var method: String? = nil
+        public var method: String? = nil
         /// The URL path of the target. It is a valid field for the API entity types of RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
-        var path: String? = nil
+        public var path: String? = nil
         /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
         /// The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHROZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
-        var type: String = ""
+        public var type: String = ""
 
         public init() {}
 
@@ -1180,11 +1440,13 @@ extension Apigateway {
 
     }
 
-    public struct MethodSnapshot: Serializable, Initializable {
+    public struct MethodSnapshot: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether the method requires a valid ApiKey.
-        var apiKeyRequired: Bool? = nil
+        public var apiKeyRequired: Bool? = nil
         /// Specifies the type of authorization used for the method.
-        var authorizationType: String? = nil
+        public var authorizationType: String? = nil
 
         public init() {}
 
@@ -1195,11 +1457,16 @@ extension Apigateway {
 
     }
 
-    public struct UpdateRestApiRequest: Serializable, Initializable {
+    public struct UpdateRestApiRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The ID of the RestApi you want to update.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -1210,17 +1477,19 @@ extension Apigateway {
 
     }
 
-    public struct DomainName: Serializable, Initializable {
+    public struct DomainName: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the certificate.
-        var certificateName: String? = nil
+        public var certificateName: String? = nil
         /// The name of the DomainName resource.
-        var domainName: String? = nil
+        public var domainName: String? = nil
         /// The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The timestamp when the certificate was uploaded.
-        var certificateUploadDate: Date? = nil
+        public var certificateUploadDate: Date? = nil
         /// The domain name of the Amazon CloudFront distribution. For more information, see the Amazon CloudFront documentation.
-        var distributionDomainName: String? = nil
+        public var distributionDomainName: String? = nil
 
         public init() {}
 
@@ -1234,17 +1503,25 @@ extension Apigateway {
 
     }
 
-    public struct GetExportRequest: Serializable, Initializable {
+    public struct GetExportRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["Accept": "accepts"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "stage_name": "stageName", "export_type": "exportType"]
+        }
         /// The identifier of the RestApi to be exported.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the Stage that will be exported.
-        var stageName: String = ""
+        public var stageName: String = ""
         /// The type of export. Currently only 'swagger' is supported.
-        var exportType: String = ""
+        public var exportType: String = ""
         /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType of swagger. This should be specified in the Accept header for direct API requests.
-        var accepts: String? = nil
+        public var accepts: String? = nil
         /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType swagger, any combination of the following parameters are supported: integrations will export the API with x-amazon-apigateway-integration extensions. authorizers will export the API with x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -1258,17 +1535,19 @@ extension Apigateway {
 
     }
 
-    public struct SdkConfigurationProperty: Serializable, Initializable {
+    public struct SdkConfigurationProperty: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of an SdkType configuration property.
-        var description: String? = nil
+        public var description: String? = nil
         /// The default value of an SdkType configuration property.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
         /// The name of a an SdkType configuration property.
-        var name: String? = nil
+        public var name: String? = nil
         /// A boolean flag of an SdkType configuration property to indicate if the associated SDK configuration property is required (true) or not (false).
-        var required: Bool? = nil
+        public var required: Bool? = nil
         /// The user-friendly name of an SdkType configuration property.
-        var friendlyName: String? = nil
+        public var friendlyName: String? = nil
 
         public init() {}
 
@@ -1282,13 +1561,21 @@ extension Apigateway {
 
     }
 
-    public struct GetModelsRequest: Serializable, Initializable {
+    public struct GetModelsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The position of the next set of results in the Models resource to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The RestApi identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The maximum number of models in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -1300,23 +1587,28 @@ extension Apigateway {
 
     }
 
-    public struct PutIntegrationResponseRequest: Serializable, Initializable {
+    public struct PutIntegrationResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "status_code": "statusCode", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// Specifies a put integration response request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// Specifies a put integration response request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a put integration response's templates.
-        var responseTemplates: [String: String]? = nil
+        public var responseTemplates: [String: String]? = nil
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix.
-        var responseParameters: [String: String]? = nil
+        public var responseParameters: [String: String]? = nil
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        var contentHandling: String? = nil
+        public var contentHandling: String? = nil
         /// Specifies a put integration response request's resource identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// Specifies the selection pattern of a put integration response.
-        var selectionPattern: String? = nil
+        public var selectionPattern: String? = nil
 
         public init() {}
 
@@ -1333,11 +1625,16 @@ extension Apigateway {
 
     }
 
-    public struct GetResourceRequest: Serializable, Initializable {
+    public struct GetResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The identifier for the Resource resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -1348,10 +1645,12 @@ extension Apigateway {
 
     }
 
-    public struct Deployments: Serializable, Initializable {
+    public struct Deployments: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of any Deployment resources in the collection of deployment resources.
-        var items: [Deployment]? = nil
-        var position: String? = nil
+        public var items: [Deployment]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -1362,11 +1661,16 @@ extension Apigateway {
 
     }
 
-    public struct FlushStageCacheRequest: Serializable, Initializable {
+    public struct FlushStageCacheRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "stage_name": "stageName"]
+        }
         /// The API identifier of the stage to flush its cache.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the stage to flush its cache.
-        var stageName: String = ""
+        public var stageName: String = ""
 
         public init() {}
 
@@ -1377,13 +1681,15 @@ extension Apigateway {
 
     }
 
-    public struct BasePathMapping: Serializable, Initializable {
+    public struct BasePathMapping: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The base path name that callers of the API must provide as part of the URL after the domain name.
-        var basePath: String? = nil
+        public var basePath: String? = nil
         /// The name of the API.
-        var restApiId: String? = nil
+        public var restApiId: String? = nil
         /// The name of the API's stage.
-        var stage: String? = nil
+        public var stage: String? = nil
 
         public init() {}
 
@@ -1395,9 +1701,14 @@ extension Apigateway {
 
     }
 
-    public struct GetClientCertificateRequest: Serializable, Initializable {
+    public struct GetClientCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["clientcertificate_id": "clientCertificateId"]
+        }
         /// The identifier of the ClientCertificate resource to be described.
-        var clientCertificateId: String = ""
+        public var clientCertificateId: String = ""
 
         public init() {}
 
@@ -1407,13 +1718,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateModelRequest: Serializable, Initializable {
+    public struct UpdateModelRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "model_name": "modelName"]
+        }
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
         /// The RestApi identifier under which the model exists.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the model to update.
-        var modelName: String = ""
+        public var modelName: String = ""
 
         public init() {}
 
@@ -1425,13 +1741,15 @@ extension Apigateway {
 
     }
 
-    public struct DocumentationPart: Serializable, Initializable {
+    public struct DocumentationPart: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The DocumentationPart identifier, generated by Amazon API Gateway when the DocumentationPart is created.
-        var id: String? = nil
+        public var id: String? = nil
         /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
-        var location: DocumentationPartLocation? = nil
+        public var location: DocumentationPartLocation? = nil
         /// A content map of API-specific key-value pairs describing the targeted API entity. The map must be encoded as a JSON string, e.g., "{ \"description\": \"The API does ...\" }". Only Swagger-compliant documentation-related fields from the properties map are exported and, hence, published as part of the API entity definitions, while the original documentation parts are exported in a Swagger extension of x-amazon-apigateway-documentation.
-        var properties: String? = nil
+        public var properties: String? = nil
 
         public init() {}
 
@@ -1443,10 +1761,12 @@ extension Apigateway {
 
     }
 
-    public struct ClientCertificates: Serializable, Initializable {
+    public struct ClientCertificates: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of any ClientCertificate resources in the collection of ClientCertificate resources.
-        var items: [ClientCertificate]? = nil
-        var position: String? = nil
+        public var items: [ClientCertificate]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -1457,11 +1777,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteBasePathMappingRequest: Serializable, Initializable {
+    public struct DeleteBasePathMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName", "base_path": "basePath"]
+        }
         /// The base path name of the BasePathMapping resource to delete.
-        var basePath: String = ""
+        public var basePath: String = ""
         /// The domain name of the BasePathMapping resource to delete.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1472,13 +1797,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateUsageRequest: Serializable, Initializable {
+    public struct UpdateUsageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["keyId": "keyId", "usageplanId": "usagePlanId"]
+        }
         /// The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The Id of the usage plan associated with the usage data.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -1490,17 +1820,19 @@ extension Apigateway {
 
     }
 
-    public struct CreateUsagePlanRequest: Serializable, Initializable {
+    public struct CreateUsagePlanRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The associated API stages of the usage plan.
-        var apiStages: [ApiStage]? = nil
+        public var apiStages: [ApiStage]? = nil
         /// The name of the usage plan.
-        var name: String = ""
+        public var name: String = ""
         /// The description of the usage plan.
-        var description: String? = nil
+        public var description: String? = nil
         /// The quota of the usage plan.
-        var quota: QuotaSettings? = nil
+        public var quota: QuotaSettings? = nil
         /// The throttling limits of the usage plan.
-        var throttle: ThrottleSettings? = nil
+        public var throttle: ThrottleSettings? = nil
 
         public init() {}
 
@@ -1514,15 +1846,17 @@ extension Apigateway {
 
     }
 
-    public struct SdkType: Serializable, Initializable {
+    public struct SdkType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of an SdkType.
-        var description: String? = nil
+        public var description: String? = nil
         /// A list of configuration properties of an SdkType.
-        var configurationProperties: [SdkConfigurationProperty]? = nil
+        public var configurationProperties: [SdkConfigurationProperty]? = nil
         /// The identifier of an SdkType instance.
-        var id: String? = nil
+        public var id: String? = nil
         /// The user-friendly name of an SdkType instance.
-        var friendlyName: String? = nil
+        public var friendlyName: String? = nil
 
         public init() {}
 
@@ -1535,29 +1869,31 @@ extension Apigateway {
 
     }
 
-    public struct Integration: Serializable, Initializable {
+    public struct Integration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" }    Creating an API 
-        var integrationResponses: [String: IntegrationResponse]? = nil
+        public var integrationResponses: [String: IntegrationResponse]? = nil
         /// Specifies the integration's cache namespace.
-        var cacheNamespace: String? = nil
+        public var cacheNamespace: String? = nil
         /// Specifies the integration's Uniform Resource Identifier (URI). For HTTP integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification. For AWS integrations, the URI should be of the form arn:aws:apigateway:{region}:{subdomain.service|service}:{path|action}/{service_api}. Region, subdomain and service are used to determine the right endpoint. For AWS services that use the Action= query string parameter, service_api should be a valid action for the desired service. For RESTful AWS service APIs, path is used to indicate that the remaining substring in the URI should be treated as the path to the resource, including the initial /.
-        var uri: String? = nil
+        public var uri: String? = nil
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
-        var requestParameters: [String: String]? = nil
+        public var requestParameters: [String: String]? = nil
         /// Specifies the integration's HTTP method type.
-        var httpMethod: String? = nil
+        public var httpMethod: String? = nil
         /// Specifies the integration's cache key parameters.
-        var cacheKeyParameters: [String]? = nil
+        public var cacheKeyParameters: [String]? = nil
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
-        var requestTemplates: [String: String]? = nil
+        public var requestTemplates: [String: String]? = nil
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        var contentHandling: String? = nil
+        public var contentHandling: String? = nil
         /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for Amazon API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
-        var credentials: String? = nil
+        public var credentials: String? = nil
         /// Specifies the integration's type. The valid value is HTTP for integrating with an HTTP back end, AWS for any AWS service endpoints, MOCK for testing without actually invoking the back end, HTTP_PROXY for integrating with the HTTP proxy integration, or AWS_PROXY for integrating with the Lambda proxy integration type.
-        var type: String? = nil
+        public var type: String? = nil
         ///   Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.    WHEN_NO_MATCH passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request.   WHEN_NO_TEMPLATES passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response.   NEVER rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.   
-        var passthroughBehavior: String? = nil
+        public var passthroughBehavior: String? = nil
 
         public init() {}
 
@@ -1577,16 +1913,18 @@ extension Apigateway {
 
     }
 
-    public struct Usage: Serializable, Initializable {
+    public struct Usage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
-        var items: [String: [[Int64]]]? = nil
-        var position: String? = nil
+        public var items: [String: [[Int64]]]? = nil
+        public var position: String? = nil
         /// The starting date of the usage data.
-        var startDate: String? = nil
+        public var startDate: String? = nil
         /// The plan Id associated with this usage data.
-        var usagePlanId: String? = nil
+        public var usagePlanId: String? = nil
         /// The ending date of the usage data.
-        var endDate: String? = nil
+        public var endDate: String? = nil
 
         public init() {}
 
@@ -1600,15 +1938,17 @@ extension Apigateway {
 
     }
 
-    public struct Deployment: Serializable, Initializable {
+    public struct Deployment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description for the deployment resource.
-        var description: String? = nil
+        public var description: String? = nil
         /// A summary of the RestApi at the date and time that the deployment resource was created.
-        var apiSummary: [String: [String: MethodSnapshot]]? = nil
+        public var apiSummary: [String: [String: MethodSnapshot]]? = nil
         /// The identifier for the deployment resource.
-        var id: String? = nil
+        public var id: String? = nil
         /// The date and time that the deployment resource was created.
-        var createdDate: Date? = nil
+        public var createdDate: Date? = nil
 
         public init() {}
 
@@ -1621,15 +1961,23 @@ extension Apigateway {
 
     }
 
-    public struct ImportDocumentationPartsRequest: Serializable, Initializable {
+    public struct ImportDocumentationPartsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "body"
+        public var queryParams: [String: String] {
+            return ["failonwarnings": "failOnWarnings", "mode": "mode"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// [Required] The identifier of an API of the to-be-imported documentation parts.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
-        var mode: String? = nil
+        public var mode: String? = nil
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
-        var failOnWarnings: Bool? = nil
+        public var failOnWarnings: Bool? = nil
         /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from a Swagger file, this is a JSON object.
-        var body: Data = Data()
+        public var body: Data = Data()
 
         public init() {}
 
@@ -1642,17 +1990,19 @@ extension Apigateway {
 
     }
 
-    public struct ClientCertificate: Serializable, Initializable {
+    public struct ClientCertificate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the client certificate.
-        var clientCertificateId: String? = nil
+        public var clientCertificateId: String? = nil
         /// The description of the client certificate.
-        var description: String? = nil
+        public var description: String? = nil
         /// The timestamp when the client certificate will expire.
-        var expirationDate: Date? = nil
+        public var expirationDate: Date? = nil
         /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
-        var pemEncodedCertificate: String? = nil
+        public var pemEncodedCertificate: String? = nil
         /// The timestamp when the client certificate was created.
-        var createdDate: Date? = nil
+        public var createdDate: Date? = nil
 
         public init() {}
 
@@ -1666,10 +2016,12 @@ extension Apigateway {
 
     }
 
-    public struct Authorizers: Serializable, Initializable {
+    public struct Authorizers: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Gets the current list of Authorizer resources in the collection.
-        var items: [Authorizer]? = nil
-        var position: String? = nil
+        public var items: [Authorizer]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -1680,13 +2032,15 @@ extension Apigateway {
 
     }
 
-    public struct DocumentationVersion: Serializable, Initializable {
+    public struct DocumentationVersion: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the API documentation snapshot.
-        var description: String? = nil
+        public var description: String? = nil
         /// The version identifier of the API documentation snapshot.
-        var version: String? = nil
+        public var version: String? = nil
         /// The date when the API documentation snapshot is created.
-        var createdDate: Date? = nil
+        public var createdDate: Date? = nil
 
         public init() {}
 
@@ -1698,15 +2052,20 @@ extension Apigateway {
 
     }
 
-    public struct CreateBasePathMappingRequest: Serializable, Initializable {
+    public struct CreateBasePathMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName"]
+        }
         /// The name of the API that you want to apply this mapping to.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The domain name of the BasePathMapping resource to create.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify a base path name after the domain name.
-        var basePath: String? = nil
+        public var basePath: String? = nil
         /// The name of the API's stage that you want to use for this mapping. Leave this blank if you do not want callers to explicitly specify the stage name after any base path name.
-        var stage: String? = nil
+        public var stage: String? = nil
 
         public init() {}
 
@@ -1719,11 +2078,16 @@ extension Apigateway {
 
     }
 
-    public struct UpdateApiKeyRequest: Serializable, Initializable {
+    public struct UpdateApiKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["api_Key": "apiKey"]
+        }
         /// The identifier of the ApiKey resource to be updated.
-        var apiKey: String = ""
+        public var apiKey: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -1734,9 +2098,14 @@ extension Apigateway {
 
     }
 
-    public struct GetRestApiRequest: Serializable, Initializable {
+    public struct GetRestApiRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The identifier of the RestApi resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -1746,9 +2115,11 @@ extension Apigateway {
 
     }
 
-    public struct Template: Serializable, Initializable {
+    public struct Template: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Apache Velocity Template Language (VTL) template content used for the template resource.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -1758,11 +2129,19 @@ extension Apigateway {
 
     }
 
-    public struct GetApiKeyRequest: Serializable, Initializable {
+    public struct GetApiKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["includeValue": "includeValue"]
+        }
+        public var pathParams: [String: String] {
+            return ["api_Key": "apiKey"]
+        }
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
-        var includeValue: Bool? = nil
+        public var includeValue: Bool? = nil
         /// The identifier of the ApiKey resource.
-        var apiKey: String = ""
+        public var apiKey: String = ""
 
         public init() {}
 
@@ -1773,13 +2152,18 @@ extension Apigateway {
 
     }
 
-    public struct CreateDocumentationPartRequest: Serializable, Initializable {
+    public struct CreateDocumentationPartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// [Required] The identifier of an API of the to-be-created documentation part.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// [Required] The location of the targeted API entity of the to-be-created documentation part.
-        var location: DocumentationPartLocation = DocumentationPartLocation()
+        public var location: DocumentationPartLocation = DocumentationPartLocation()
         /// [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only Swagger-compliant key-value pairs can be exported and, hence, published.
-        var properties: String = ""
+        public var properties: String = ""
 
         public init() {}
 
@@ -1791,11 +2175,13 @@ extension Apigateway {
 
     }
 
-    public struct ThrottleSettings: Serializable, Initializable {
+    public struct ThrottleSettings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
-        var burstLimit: Int32? = nil
+        public var burstLimit: Int32? = nil
         /// The API request steady-state rate limit.
-        var rateLimit: Double? = nil
+        public var rateLimit: Double? = nil
 
         public init() {}
 
@@ -1806,15 +2192,20 @@ extension Apigateway {
 
     }
 
-    public struct DeleteIntegrationResponseRequest: Serializable, Initializable {
+    public struct DeleteIntegrationResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// Specifies a delete integration response request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a delete integration response request's status code.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// Specifies a delete integration response request's resource identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// Specifies a delete integration response request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -1827,13 +2218,18 @@ extension Apigateway {
 
     }
 
-    public struct SdkResponse: Serializable, Initializable {
+    public struct SdkResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "body"
+        public var headerParams: [String: String] {
+            return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
+        }
         /// The content-type header value in the HTTP response.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The content-disposition header value in the HTTP response.
-        var contentDisposition: String? = nil
+        public var contentDisposition: String? = nil
         /// The binary blob response to GetSdk, which contains the generated SDK.
-        var body: Data? = nil
+        public var body: Data? = nil
 
         public init() {}
 
@@ -1845,13 +2241,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateResourceRequest: Serializable, Initializable {
+    public struct UpdateResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the Resource resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The identifier of the Resource resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -1863,15 +2264,20 @@ extension Apigateway {
 
     }
 
-    public struct UpdateIntegrationRequest: Serializable, Initializable {
+    public struct UpdateIntegrationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// Represents an update integration request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
         /// Represents an update integration request's resource identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// Represents an update integration request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -1884,10 +2290,12 @@ extension Apigateway {
 
     }
 
-    public struct UsagePlanKeys: Serializable, Initializable {
+    public struct UsagePlanKeys: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Gets the current item of the usage plan keys collection.
-        var items: [UsagePlanKey]? = nil
-        var position: String? = nil
+        public var items: [UsagePlanKey]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -1898,11 +2306,13 @@ extension Apigateway {
 
     }
 
-    public struct ApiStage: Serializable, Initializable {
+    public struct ApiStage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// API Id of the associated API stage in a usage plan.
-        var apiId: String? = nil
+        public var apiId: String? = nil
         /// API stage name of the associated API stage in a usage plan.
-        var stage: String? = nil
+        public var stage: String? = nil
 
         public init() {}
 
@@ -1913,13 +2323,18 @@ extension Apigateway {
 
     }
 
-    public struct CreateResourceRequest: Serializable, Initializable {
+    public struct CreateResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "parent_id": "parentId"]
+        }
         /// The identifier of the RestApi for the resource. 
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The last path segment for this resource.
-        var pathPart: String = ""
+        public var pathPart: String = ""
         /// The parent resource's identifier.
-        var parentId: String = ""
+        public var parentId: String = ""
 
         public init() {}
 
@@ -1931,15 +2346,20 @@ extension Apigateway {
 
     }
 
-    public struct GetMethodResponseRequest: Serializable, Initializable {
+    public struct GetMethodResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the MethodResponse resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The status code for the MethodResponse resource.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// The Resource identifier for the MethodResponse resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -1952,19 +2372,27 @@ extension Apigateway {
 
     }
 
-    public struct GetDocumentationPartsRequest: Serializable, Initializable {
+    public struct GetDocumentationPartsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "name": "nameQuery", "limit": "limit", "path": "path", "type": "type"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The position of the to-be-retrieved documentation part in the DocumentationParts collection.
-        var position: String? = nil
+        public var position: String? = nil
         /// [Required] The identifier of the API of the to-be-retrieved documentation parts.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The size of the paged results.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The path of API entities of the to-be-retrieved documentation parts.
-        var path: String? = nil
+        public var path: String? = nil
         /// The name of API entities of the to-be-retrieved documentation parts.
-        var nameQuery: String? = nil
+        public var nameQuery: String? = nil
         /// The type of API entities of the to-be-retrieved documentation parts. 
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -1979,11 +2407,16 @@ extension Apigateway {
 
     }
 
-    public struct GetDeploymentRequest: Serializable, Initializable {
+    public struct GetDeploymentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
+        }
         /// The identifier of the Deployment resource to get information about.
-        var deploymentId: String = ""
+        public var deploymentId: String = ""
         /// The identifier of the RestApi resource for the Deployment resource to get information about.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -1994,9 +2427,11 @@ extension Apigateway {
 
     }
 
-    public struct UpdateAccountRequest: Serializable, Initializable {
+    public struct UpdateAccountRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -2006,9 +2441,11 @@ extension Apigateway {
 
     }
 
-    public struct GenerateClientCertificateRequest: Serializable, Initializable {
+    public struct GenerateClientCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the ClientCertificate.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -2018,10 +2455,12 @@ extension Apigateway {
 
     }
 
-    public struct DomainNames: Serializable, Initializable {
+    public struct DomainNames: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of any DomainName resources in the collection of DomainName resources.
-        var items: [DomainName]? = nil
-        var position: String? = nil
+        public var items: [DomainName]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -2032,19 +2471,24 @@ extension Apigateway {
 
     }
 
-    public struct PutMethodResponseRequest: Serializable, Initializable {
+    public struct PutMethodResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the Method resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        var responseModels: [String: String]? = nil
+        public var responseModels: [String: String]? = nil
         /// The method response's status code.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// The Resource identifier for the Method resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
-        var responseParameters: [String: Bool]? = nil
+        public var responseParameters: [String: Bool]? = nil
 
         public init() {}
 
@@ -2059,21 +2503,23 @@ extension Apigateway {
 
     }
 
-    public struct UsagePlan: Serializable, Initializable {
+    public struct UsagePlan: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The associated API stages of a usage plan.
-        var apiStages: [ApiStage]? = nil
+        public var apiStages: [ApiStage]? = nil
         /// The maximum number of permitted requests per a given unit time interval.
-        var quota: QuotaSettings? = nil
+        public var quota: QuotaSettings? = nil
         /// The name of a usage plan.
-        var name: String? = nil
+        public var name: String? = nil
         /// The identifier of a UsagePlan resource.
-        var id: String? = nil
+        public var id: String? = nil
         /// The request throttle limits of a usage plan.
-        var throttle: ThrottleSettings? = nil
+        public var throttle: ThrottleSettings? = nil
         /// The description of a usage plan.
-        var description: String? = nil
+        public var description: String? = nil
         /// The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.
-        var productCode: String? = nil
+        public var productCode: String? = nil
 
         public init() {}
 
@@ -2089,13 +2535,21 @@ extension Apigateway {
 
     }
 
-    public struct GetResourcesRequest: Serializable, Initializable {
+    public struct GetResourcesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The position of the next set of results in the current Resources resource to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The RestApi identifier for the Resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The maximum number of Resource resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -2107,21 +2561,23 @@ extension Apigateway {
 
     }
 
-    public struct RestApi: Serializable, Initializable {
+    public struct RestApi: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
-        var binaryMediaTypes: [String]? = nil
+        public var binaryMediaTypes: [String]? = nil
         /// The API's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The API's identifier. This identifier is unique across all of your APIs in Amazon API Gateway.
-        var id: String? = nil
+        public var id: String? = nil
         /// The timestamp when the API was created.
-        var createdDate: Date? = nil
+        public var createdDate: Date? = nil
         /// The API's description.
-        var description: String? = nil
+        public var description: String? = nil
         /// A version identifier for the API.
-        var version: String? = nil
+        public var version: String? = nil
         /// The warning messages reported when failonwarnings is turned on during API import.
-        var warnings: [String]? = nil
+        public var warnings: [String]? = nil
 
         public init() {}
 
@@ -2137,17 +2593,19 @@ extension Apigateway {
 
     }
 
-    public struct IntegrationResponse: Serializable, Initializable {
+    public struct IntegrationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
-        var responseTemplates: [String: String]? = nil
+        public var responseTemplates: [String: String]? = nil
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        var contentHandling: String? = nil
+        public var contentHandling: String? = nil
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
-        var responseParameters: [String: String]? = nil
+        public var responseParameters: [String: String]? = nil
         /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
-        var selectionPattern: String? = nil
+        public var selectionPattern: String? = nil
 
         public init() {}
 
@@ -2161,15 +2619,17 @@ extension Apigateway {
 
     }
 
-    public struct Account: Serializable, Initializable {
+    public struct Account: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of features supported for the account. When usage plans are enabled, the features list will include an entry of "UsagePlans".
-        var features: [String]? = nil
+        public var features: [String]? = nil
         /// The version of the API keys used for the account.
-        var apiKeyVersion: String? = nil
+        public var apiKeyVersion: String? = nil
         /// Specifies the API request limits configured for the current Account.
-        var throttleSettings: ThrottleSettings? = nil
+        public var throttleSettings: ThrottleSettings? = nil
         /// The ARN of an Amazon CloudWatch role for the current Account. 
-        var cloudwatchRoleArn: String? = nil
+        public var cloudwatchRoleArn: String? = nil
 
         public init() {}
 
@@ -2182,27 +2642,32 @@ extension Apigateway {
 
     }
 
-    public struct CreateAuthorizerRequest: Serializable, Initializable {
+    public struct CreateAuthorizerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// [Required] The name of the authorizer.
-        var name: String = ""
+        public var name: String = ""
         /// A validation expression for the incoming identity.
-        var identityValidationExpression: String? = nil
+        public var identityValidationExpression: String? = nil
         /// The TTL of cached authorizer results.
-        var authorizerResultTtlInSeconds: Int32? = nil
+        public var authorizerResultTtlInSeconds: Int32? = nil
         /// [Required] Specifies the authorizer's Uniform Resource Identifier (URI).
-        var authorizerUri: String? = nil
+        public var authorizerUri: String? = nil
         /// Specifies the credentials required for the authorizer, if any.
-        var authorizerCredentials: String? = nil
+        public var authorizerCredentials: String? = nil
         /// The RestApi identifier under which the Authorizer will be created.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// [Required] The source of the identity in an incoming request.
-        var identitySource: String = ""
+        public var identitySource: String = ""
         /// Optional customer-defined field, used in Swagger imports/exports. Has no functional impact.
-        var authType: String? = nil
+        public var authType: String? = nil
         /// A list of the Cognito Your User Pool authorizer's provider ARNs.
-        var providerARNs: [String]? = nil
+        public var providerARNs: [String]? = nil
         /// [Required] The type of the authorizer.
-        var type: String = ""
+        public var type: String = ""
 
         public init() {}
 
@@ -2221,11 +2686,19 @@ extension Apigateway {
 
     }
 
-    public struct GetStagesRequest: Serializable, Initializable {
+    public struct GetStagesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["deploymentId": "deploymentId"]
+        }
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The stages' deployment identifiers.
-        var deploymentId: String? = nil
+        public var deploymentId: String? = nil
         /// The stages' API identifiers.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -2236,13 +2709,18 @@ extension Apigateway {
 
     }
 
-    public struct ImportRestApiRequest: Serializable, Initializable {
+    public struct ImportRestApiRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "body"
+        public var queryParams: [String: String] {
+            return ["failonwarnings": "failOnWarnings"]
+        }
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
-        var failOnWarnings: Bool? = nil
+        public var failOnWarnings: Bool? = nil
         /// The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
-        var body: Data = Data()
+        public var body: Data = Data()
         /// Custom header parameters as part of the request.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -2254,11 +2732,16 @@ extension Apigateway {
 
     }
 
-    public struct GetRestApisRequest: Serializable, Initializable {
+    public struct GetRestApisRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
         /// The position of the current RestApis resource in the collection to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The maximum number of RestApi resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -2269,15 +2752,20 @@ extension Apigateway {
 
     }
 
-    public struct GetSdkRequest: Serializable, Initializable {
+    public struct GetSdkRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["sdk_type": "sdkType", "restapi_id": "restApiId", "stage_name": "stageName"]
+        }
         /// The language for the generated SDK. Currently javascript, android, and objectivec (for iOS) are supported.
-        var sdkType: String = ""
+        public var sdkType: String = ""
         /// The identifier of the RestApi that the SDK will use.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the Stage that the SDK will use.
-        var stageName: String = ""
+        public var stageName: String = ""
         /// A key-value map of query string parameters that specify properties of the SDK, depending on the requested sdkType. For sdkType of objectivec, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -2290,20 +2778,22 @@ extension Apigateway {
 
     }
 
-    public struct TestInvokeAuthorizerResponse: Serializable, Initializable {
+    public struct TestInvokeAuthorizerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
-        var claims: [String: String]? = nil
+        public var claims: [String: String]? = nil
         /// The principal identity returned by the Authorizer
-        var principalId: String? = nil
+        public var principalId: String? = nil
         /// The Amazon API Gateway execution log for the test authorizer request.
-        var log: String? = nil
+        public var log: String? = nil
         /// The execution latency of the test authorizer request.
-        var latency: Int64? = nil
+        public var latency: Int64? = nil
         /// The JSON policy document returned by the Authorizer
-        var policy: String? = nil
+        public var policy: String? = nil
         /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
-        var clientStatus: Int32? = nil
-        var authorization: [String: [String]]? = nil
+        public var clientStatus: Int32? = nil
+        public var authorization: [String: [String]]? = nil
 
         public init() {}
 
@@ -2319,15 +2809,20 @@ extension Apigateway {
 
     }
 
-    public struct UpdateMethodRequest: Serializable, Initializable {
+    public struct UpdateMethodRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the Method resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
         /// The Resource identifier for the Method resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -2340,27 +2835,29 @@ extension Apigateway {
 
     }
 
-    public struct Authorizer: Serializable, Initializable {
+    public struct Authorizer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// [Required] The name of the authorizer.
-        var name: String? = nil
+        public var name: String? = nil
         /// The identifier for the authorizer resource.
-        var id: String? = nil
+        public var id: String? = nil
         /// A validation expression for the incoming identity. For TOKEN authorizers, this value should be a regular expression. The incoming token from the client is matched against this expression, and will proceed if the token matches. If the token doesn't match, the client receives a 401 Unauthorized response.
-        var identityValidationExpression: String? = nil
+        public var identityValidationExpression: String? = nil
         /// The TTL in seconds of cached authorizer results. If greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
-        var authorizerResultTtlInSeconds: Int32? = nil
+        public var authorizerResultTtlInSeconds: Int32? = nil
         /// [Required] Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
-        var authorizerUri: String? = nil
+        public var authorizerUri: String? = nil
         /// Specifies the credentials required for the authorizer, if any. Two options are available. To specify an IAM role for Amazon API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
-        var authorizerCredentials: String? = nil
+        public var authorizerCredentials: String? = nil
         /// [Required] The source of the identity in an incoming request. For a TOKEN authorizer, this value is a mapping expression with the same syntax as integration parameter mappings. The only valid source for tokens is 'header', so the expression should match 'method.request.header.[headerName]'. The value of the header '[headerName]' will be interpreted as the incoming token. For COGNITO_USER_POOLS authorizers, this property is used.
-        var identitySource: String? = nil
+        public var identitySource: String? = nil
         /// Optional customer-defined field, used in Swagger imports/exports. Has no functional impact.
-        var authType: String? = nil
+        public var authType: String? = nil
         /// A list of the provider ARNs of the authorizer. For an TOKEN authorizer, this is not defined. For authorizers of the COGNITO_USER_POOLS type, each element corresponds to a user pool ARN of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. 
-        var providerARNs: [String]? = nil
+        public var providerARNs: [String]? = nil
         /// [Required] The type of the authorizer. Currently, the valid type is TOKEN for a Lambda function or COGNITO_USER_POOLS for an Amazon Cognito user pool.
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -2379,13 +2876,18 @@ extension Apigateway {
 
     }
 
-    public struct GetUsagePlansRequest: Serializable, Initializable {
+    public struct GetUsagePlansRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["keyId": "keyId", "position": "position", "limit": "limit"]
+        }
         /// The identifier of the API key associated with the usage plans.
-        var keyId: String? = nil
+        public var keyId: String? = nil
         /// The zero-based array index specifying the position of the to-be-retrieved UsagePlan resource.
-        var position: String? = nil
+        public var position: String? = nil
         /// The number of UsagePlan resources to be returned as the result.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -2397,13 +2899,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateStageRequest: Serializable, Initializable {
+    public struct UpdateStageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "stage_name": "stageName"]
+        }
         /// The identifier of the RestApi resource for the Stage resource to change information about.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the Stage resource to change information about.
-        var stageName: String = ""
+        public var stageName: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -2415,11 +2922,16 @@ extension Apigateway {
 
     }
 
-    public struct GetClientCertificatesRequest: Serializable, Initializable {
+    public struct GetClientCertificatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "limit": "limit"]
+        }
         /// The position of the current ClientCertificate resource in the collection to get information about.
-        var position: String? = nil
+        public var position: String? = nil
         /// The maximum number of ClientCertificate resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -2430,9 +2942,14 @@ extension Apigateway {
 
     }
 
-    public struct GetUsagePlanRequest: Serializable, Initializable {
+    public struct GetUsagePlanRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["usageplanId": "usagePlanId"]
+        }
         /// The identifier of the UsagePlan resource to be retrieved.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
 
         public init() {}
 
@@ -2442,10 +2959,12 @@ extension Apigateway {
 
     }
 
-    public struct DocumentationParts: Serializable, Initializable {
+    public struct DocumentationParts: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of DocumentationPart resources in the DocumentationParts collection.
-        var items: [DocumentationPart]? = nil
-        var position: String? = nil
+        public var items: [DocumentationPart]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -2456,17 +2975,24 @@ extension Apigateway {
 
     }
 
-    public struct GetAccountRequest: Serializable, Initializable {
+    public struct GetAccountRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteDocumentationPartRequest: Serializable, Initializable {
+    public struct DeleteDocumentationPartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
+        }
         /// [Required] The identifier of the to-be-deleted documentation part.
-        var documentationPartId: String = ""
+        public var documentationPartId: String = ""
         /// [Required] Specifies the identifier of an API of the to-be-deleted documentation part.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -2477,17 +3003,19 @@ extension Apigateway {
 
     }
 
-    public struct CreateRestApiRequest: Serializable, Initializable {
+    public struct CreateRestApiRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the RestApi.
-        var description: String? = nil
+        public var description: String? = nil
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
-        var binaryMediaTypes: [String]? = nil
+        public var binaryMediaTypes: [String]? = nil
         /// The ID of the RestApi that you want to clone from.
-        var cloneFrom: String? = nil
+        public var cloneFrom: String? = nil
         /// The name of the RestApi.
-        var name: String = ""
+        public var name: String = ""
         /// A version identifier for the API.
-        var version: String? = nil
+        public var version: String? = nil
 
         public init() {}
 
@@ -2501,21 +3029,26 @@ extension Apigateway {
 
     }
 
-    public struct CreateDeploymentRequest: Serializable, Initializable {
+    public struct CreateDeploymentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// Enables a cache cluster for the Stage resource specified in the input.
-        var cacheClusterEnabled: Bool? = nil
+        public var cacheClusterEnabled: Bool? = nil
         /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        var variables: [String: String]? = nil
+        public var variables: [String: String]? = nil
         /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
-        var cacheClusterSize: String? = nil
+        public var cacheClusterSize: String? = nil
         /// The description for the Deployment resource to create.
-        var description: String? = nil
+        public var description: String? = nil
         /// The RestApi resource identifier for the Deployment resource to create.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the Stage resource for the Deployment resource to create.
-        var stageName: String? = nil
+        public var stageName: String? = nil
         /// The description of the Stage resource for the Deployment resource to create.
-        var stageDescription: String? = nil
+        public var stageDescription: String? = nil
 
         public init() {}
 
@@ -2531,11 +3064,16 @@ extension Apigateway {
 
     }
 
-    public struct GetBasePathMappingRequest: Serializable, Initializable {
+    public struct GetBasePathMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName", "base_path": "basePath"]
+        }
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
-        var basePath: String = ""
+        public var basePath: String = ""
         /// The domain name of the BasePathMapping resource to be described.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -2546,15 +3084,17 @@ extension Apigateway {
 
     }
 
-    public struct UsagePlanKey: Serializable, Initializable {
+    public struct UsagePlanKey: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of a usage plan key.
-        var name: String? = nil
+        public var name: String? = nil
         /// The value of a usage plan key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The Id of a usage plan key.
-        var id: String? = nil
+        public var id: String? = nil
         /// The type of a usage plan key. Currently, the valid key type is API_KEY.
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -2567,10 +3107,12 @@ extension Apigateway {
 
     }
 
-    public struct DocumentationVersions: Serializable, Initializable {
+    public struct DocumentationVersions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current page of DocumentationVersion items from the DocumentationVersions collection of an API.
-        var items: [DocumentationVersion]? = nil
-        var position: String? = nil
+        public var items: [DocumentationVersion]? = nil
+        public var position: String? = nil
 
         public init() {}
 
@@ -2581,11 +3123,16 @@ extension Apigateway {
 
     }
 
-    public struct UpdateDomainNameRequest: Serializable, Initializable {
+    public struct UpdateDomainNameRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName"]
+        }
         /// The name of the DomainName resource to be changed.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -2596,13 +3143,18 @@ extension Apigateway {
 
     }
 
-    public struct DeleteIntegrationRequest: Serializable, Initializable {
+    public struct DeleteIntegrationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
+        }
         /// Specifies a delete integration request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a delete integration request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// Specifies a delete integration request's resource identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -2614,13 +3166,18 @@ extension Apigateway {
 
     }
 
-    public struct CreateUsagePlanKeyRequest: Serializable, Initializable {
+    public struct CreateUsagePlanKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["usageplanId": "usagePlanId"]
+        }
         /// The identifier of a UsagePlanKey resource for a plan customer.
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The type of a UsagePlanKey resource for a plan customer.
-        var keyType: String = ""
+        public var keyType: String = ""
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
 
         public init() {}
 
@@ -2632,9 +3189,14 @@ extension Apigateway {
 
     }
 
-    public struct GetDomainNameRequest: Serializable, Initializable {
+    public struct GetDomainNameRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["domain_name": "domainName"]
+        }
         /// The name of the DomainName resource.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -2644,11 +3206,16 @@ extension Apigateway {
 
     }
 
-    public struct GetAuthorizerRequest: Serializable, Initializable {
+    public struct GetAuthorizerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
+        }
         /// The identifier of the Authorizer resource.
-        var authorizerId: String = ""
+        public var authorizerId: String = ""
         /// The RestApi identifier for the Authorizer resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -2659,15 +3226,23 @@ extension Apigateway {
 
     }
 
-    public struct GetUsagePlanKeysRequest: Serializable, Initializable {
+    public struct GetUsagePlanKeysRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["position": "position", "name": "nameQuery", "limit": "limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["usageplanId": "usagePlanId"]
+        }
         /// A query parameter specifying the zero-based index specifying the position of a usage plan key.
-        var position: String? = nil
+        public var position: String? = nil
         /// A query parameter specifying the maximum number usage plan keys returned by the GET request.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// A query parameter specifying the name of the to-be-returned usage plan keys.
-        var nameQuery: String? = nil
+        public var nameQuery: String? = nil
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
 
         public init() {}
 
@@ -2680,11 +3255,13 @@ extension Apigateway {
 
     }
 
-    public struct DocumentationPartIds: Serializable, Initializable {
+    public struct DocumentationPartIds: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of the returned documentation part identifiers.
-        var ids: [String]? = nil
+        public var ids: [String]? = nil
         /// A list of warning messages reported during import of documentation parts.
-        var warnings: [String]? = nil
+        public var warnings: [String]? = nil
 
         public init() {}
 
@@ -2695,33 +3272,38 @@ extension Apigateway {
 
     }
 
-    public struct PutIntegrationRequest: Serializable, Initializable {
+    public struct PutIntegrationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// Specifies a put integration input's cache namespace.
-        var cacheNamespace: String? = nil
+        public var cacheNamespace: String? = nil
         /// Specifies a put integration input's Uniform Resource Identifier (URI). When the integration type is HTTP or AWS, this field is required. For integration with Lambda as an AWS service proxy, this value is of the 'arn:aws:apigateway:&lt;region&gt;:lambda:path/2015-03-31/functions/&lt;functionArn&gt;/invocations' format.
-        var uri: String? = nil
+        public var uri: String? = nil
         /// Specifies a put integration input's cache key parameters.
-        var cacheKeyParameters: [String]? = nil
+        public var cacheKeyParameters: [String]? = nil
         /// Specifies a put integration request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a put integration input's type.
-        var type: String = ""
+        public var type: String = ""
         /// Specifies a put integration request's resource ID.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
-        var requestParameters: [String: String]? = nil
+        public var requestParameters: [String: String]? = nil
         /// Specifies a put integration request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
-        var requestTemplates: [String: String]? = nil
+        public var requestTemplates: [String: String]? = nil
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        var contentHandling: String? = nil
+        public var contentHandling: String? = nil
         /// Specifies whether credentials are required for a put integration.
-        var credentials: String? = nil
+        public var credentials: String? = nil
         /// Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
-        var integrationHttpMethod: String? = nil
+        public var integrationHttpMethod: String? = nil
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for unmapped content types through to the integration back end without transformation. NEVER rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response. WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to templates. However if there is at least one content type defined, unmapped content types will be rejected with the same 415 response. 
-        var passthroughBehavior: String? = nil
+        public var passthroughBehavior: String? = nil
 
         public init() {}
 
@@ -2743,11 +3325,16 @@ extension Apigateway {
 
     }
 
-    public struct UpdateClientCertificateRequest: Serializable, Initializable {
+    public struct UpdateClientCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["clientcertificate_id": "clientCertificateId"]
+        }
         /// The identifier of the ClientCertificate resource to be updated.
-        var clientCertificateId: String = ""
+        public var clientCertificateId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -2758,9 +3345,14 @@ extension Apigateway {
 
     }
 
-    public struct DeleteRestApiRequest: Serializable, Initializable {
+    public struct DeleteRestApiRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId"]
+        }
         /// The ID of the RestApi you want to delete.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -2770,13 +3362,15 @@ extension Apigateway {
 
     }
 
-    public struct MethodResponse: Serializable, Initializable {
+    public struct MethodResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. Amazon API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
-        var responseParameters: [String: Bool]? = nil
+        public var responseParameters: [String: Bool]? = nil
         /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
-        var responseModels: [String: String]? = nil
+        public var responseModels: [String: String]? = nil
         /// The method response's status code.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
 
         public init() {}
 
@@ -2788,11 +3382,16 @@ extension Apigateway {
 
     }
 
-    public struct GetModelTemplateRequest: Serializable, Initializable {
+    public struct GetModelTemplateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "model_name": "modelName"]
+        }
         /// The ID of the RestApi under which the model exists.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the model for which to generate a template.
-        var modelName: String = ""
+        public var modelName: String = ""
 
         public init() {}
 
@@ -2803,17 +3402,19 @@ extension Apigateway {
 
     }
 
-    public struct Model: Serializable, Initializable {
+    public struct Model: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the model.
-        var description: String? = nil
+        public var description: String? = nil
         /// The content-type for the model.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The name of the model.
-        var name: String? = nil
+        public var name: String? = nil
         /// The schema for the model. For application/json models, this should be JSON-schema draft v4 model. Do not include "\*/" characters in the description of any properties because such "\*/" characters may be interpreted as the closing marker for comments in some languages, such as Java or JavaScript, causing the installation of your API's SDK generated by API Gateway to fail.
-        var schema: String? = nil
+        public var schema: String? = nil
         /// The identifier for the model resource.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -2827,11 +3428,16 @@ extension Apigateway {
 
     }
 
-    public struct FlushStageAuthorizersCacheRequest: Serializable, Initializable {
+    public struct FlushStageAuthorizersCacheRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "stage_name": "stageName"]
+        }
         /// The API identifier of the stage to flush.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The name of the stage to flush.
-        var stageName: String = ""
+        public var stageName: String = ""
 
         public init() {}
 
@@ -2842,13 +3448,15 @@ extension Apigateway {
 
     }
 
-    public struct QuotaSettings: Serializable, Initializable {
+    public struct QuotaSettings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
-        var period: String? = nil
+        public var period: String? = nil
         /// The number of requests subtracted from the given limit in the initial time period.
-        var offset: Int32? = nil
+        public var offset: Int32? = nil
         /// The maximum number of requests that can be made in a given time period.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -2860,11 +3468,16 @@ extension Apigateway {
 
     }
 
-    public struct UpdateUsagePlanRequest: Serializable, Initializable {
+    public struct UpdateUsagePlanRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["usageplanId": "usagePlanId"]
+        }
         /// The Id of the to-be-updated usage plan.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -2875,9 +3488,11 @@ extension Apigateway {
 
     }
 
-    public struct Stages: Serializable, Initializable {
+    public struct Stages: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An individual Stage resource.
-        var item: [Stage]? = nil
+        public var item: [Stage]? = nil
 
         public init() {}
 
@@ -2887,25 +3502,27 @@ extension Apigateway {
 
     }
 
-    public struct Method: Serializable, Initializable {
+    public struct Method: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
-        var authorizerId: String? = nil
+        public var authorizerId: String? = nil
         /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
-        var methodResponses: [String: MethodResponse]? = nil
+        public var methodResponses: [String: MethodResponse]? = nil
         /// A key-value map specifying data schemas, represented by Model resources, (as the mapped value) of the request payloads of given content types (as the mapping key).
-        var requestModels: [String: String]? = nil
+        public var requestModels: [String: String]? = nil
         /// A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key is a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or templates.
-        var requestParameters: [String: Bool]? = nil
+        public var requestParameters: [String: Bool]? = nil
         /// The method's HTTP verb.
-        var httpMethod: String? = nil
+        public var httpMethod: String? = nil
         /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.   Example:  Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T213210Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true } ], "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:responses": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestTemplates": { "application/json": "{\n \"a\": \"$input.params('operand1')\",\n \"b\": \"$input.params('operand2')\", \n \"op\": \"$input.params('operator')\" \n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.operator": "integration.response.body.op", "method.response.header.operand_2": "integration.response.body.b", "method.response.header.operand_1": "integration.response.body.a" }, "responseTemplates": { "application/json": "#set($res = $input.path('$'))\n{\n \"result\": \"$res.a, $res.b, $res.op => $res.c\",\n \"a\" : \"$res.a\",\n \"b\" : \"$res.b\",\n \"op\" : \"$res.op\",\n \"c\" : \"$res.c\"\n}" }, "selectionPattern": "", "statusCode": "200" } } }    AWS CLI 
-        var methodIntegration: Integration? = nil
+        public var methodIntegration: Integration? = nil
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
-        var apiKeyRequired: Bool? = nil
+        public var apiKeyRequired: Bool? = nil
         /// The method's authorization type.
-        var authorizationType: String? = nil
+        public var authorizationType: String? = nil
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
-        var operationName: String? = nil
+        public var operationName: String? = nil
 
         public init() {}
 
@@ -2923,15 +3540,20 @@ extension Apigateway {
 
     }
 
-    public struct DeleteMethodResponseRequest: Serializable, Initializable {
+    public struct DeleteMethodResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// The RestApi identifier for the MethodResponse resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// The status code identifier for the MethodResponse resource.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// The Resource identifier for the MethodResponse resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 
@@ -2944,9 +3566,14 @@ extension Apigateway {
 
     }
 
-    public struct DeleteUsagePlanRequest: Serializable, Initializable {
+    public struct DeleteUsagePlanRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["usageplanId": "usagePlanId"]
+        }
         /// The Id of the to-be-deleted usage plan.
-        var usagePlanId: String = ""
+        public var usagePlanId: String = ""
 
         public init() {}
 
@@ -2956,13 +3583,18 @@ extension Apigateway {
 
     }
 
-    public struct UpdateDocumentationPartRequest: Serializable, Initializable {
+    public struct UpdateDocumentationPartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
+        }
         /// [Required] The identifier of the to-be-updated documentation part.
-        var documentationPartId: String = ""
+        public var documentationPartId: String = ""
         /// [Required] The identifier of an API of the to-be-updated documentation part.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        var patchOperations: [PatchOperation]? = nil
+        public var patchOperations: [PatchOperation]? = nil
 
         public init() {}
 
@@ -2974,21 +3606,23 @@ extension Apigateway {
 
     }
 
-    public struct CreateApiKeyRequest: Serializable, Initializable {
+    public struct CreateApiKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the ApiKey.
-        var name: String? = nil
+        public var name: String? = nil
         /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
-        var generateDistinctId: Bool? = nil
+        public var generateDistinctId: Bool? = nil
         /// Specifies a value of the API key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The description of the ApiKey.
-        var description: String? = nil
+        public var description: String? = nil
         /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
-        var stageKeys: [StageKey]? = nil
+        public var stageKeys: [StageKey]? = nil
         /// Specifies whether the ApiKey can be used by callers.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
-        var customerId: String? = nil
+        public var customerId: String? = nil
 
         public init() {}
 
@@ -3004,11 +3638,16 @@ extension Apigateway {
 
     }
 
-    public struct DeleteAuthorizerRequest: Serializable, Initializable {
+    public struct DeleteAuthorizerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
+        }
         /// The identifier of the Authorizer resource.
-        var authorizerId: String = ""
+        public var authorizerId: String = ""
         /// The RestApi identifier for the Authorizer resource.
-        var restApiId: String = ""
+        public var restApiId: String = ""
 
         public init() {}
 
@@ -3019,15 +3658,20 @@ extension Apigateway {
 
     }
 
-    public struct GetIntegrationResponseRequest: Serializable, Initializable {
+    public struct GetIntegrationResponseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
+        }
         /// Specifies a get integration response request's API identifier.
-        var restApiId: String = ""
+        public var restApiId: String = ""
         /// Specifies a get integration response request's status code.
-        var statusCode: String = ""
+        public var statusCode: String = ""
         /// Specifies a get integration response request's resource identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// Specifies a get integration response request's HTTP method.
-        var httpMethod: String = ""
+        public var httpMethod: String = ""
 
         public init() {}
 

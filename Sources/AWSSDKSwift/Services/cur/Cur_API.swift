@@ -32,35 +32,35 @@ All public APIs for AWS Cost and Usage Report service
 */
 public struct Cur {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSOrigamiServiceGatewayService",
             service: "cur",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CurError.self]
         )
     }
 
     ///  Describe a list of report definitions owned by the account
     public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) throws -> DescribeReportDefinitionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CurResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Create a new report definition
     public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> PutReportDefinitionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutReportDefinition", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CurResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a specified report definition
     public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) throws -> DeleteReportDefinitionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CurResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
 

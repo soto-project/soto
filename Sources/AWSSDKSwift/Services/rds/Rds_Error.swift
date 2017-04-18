@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Rds
-public enum RdsError: Error {
+public enum RdsError: AWSErrorType {
     case dBInstanceAlreadyExistsFault(message: String?)
     case insufficientDBInstanceCapacityFault(message: String?)
     case dBParameterGroupNotFoundFault(message: String?)

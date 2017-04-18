@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Config
-public enum ConfigError: Error {
+public enum ConfigError: AWSErrorType {
     case noSuchDeliveryChannelException(message: String?)
     case invalidParameterValueException(message: String?)
     case invalidNextTokenException(message: String?)

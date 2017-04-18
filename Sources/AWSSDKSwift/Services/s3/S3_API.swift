@@ -32,432 +32,389 @@ import Core
 */
 public struct S3 {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "s3",
-            endpoint: endpoint
+            serviceProtocol: .restxml,
+            endpoint: endpoint,
+            middlewares: [S3RequestMiddleware()],
+            possibleErrorTypes: [S3Error.self]
         )
     }
 
     ///  Sets an analytics configuration for the bucket (specified by the analytics configuration ID).
     public func putBucketAnalyticsConfiguration(_ input: PutBucketAnalyticsConfigurationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketAnalyticsConfiguration", path: "/\(input.bucket)?analytics&id=\(input.id)", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "PUT", input: input)
     }
 
     ///  Return torrent files from a bucket.
     public func getObjectTorrent(_ input: GetObjectTorrentRequest) throws -> GetObjectTorrentOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetObjectTorrent", path: "/\(input.bucket)/{Key+}?torrent", httpMethod: "GET", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetObjectTorrent", path: "/{Bucket}/{Key+}?torrent", httpMethod: "GET", input: input)
     }
 
     ///  Deprecated, see the PutBucketNotificationConfiguraiton operation.
     public func putBucketNotification(_ input: PutBucketNotificationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketNotification", path: "/\(input.bucket)?notification", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketNotification", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
 
     ///  Returns an inventory configuration (identified by the inventory ID) from the bucket.
     public func getBucketInventoryConfiguration(_ input: GetBucketInventoryConfigurationRequest) throws -> GetBucketInventoryConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketInventoryConfiguration", path: "/\(input.bucket)?inventory&id=\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "GET", input: input)
     }
 
     ///  Aborts a multipart upload.To verify that all parts have been removed, so you don't get charged for the part storage, you should call the List Parts operation and ensure the parts list is empty.
     public func abortMultipartUpload(_ input: AbortMultipartUploadRequest) throws -> AbortMultipartUploadOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AbortMultipartUpload", path: "/\(input.bucket)/{Key+}?uploadId=\(input.uploadId)", httpMethod: "DELETE", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AbortMultipartUpload", path: "/{Bucket}/{Key+}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the cors configuration for the bucket.
     public func getBucketCors(_ input: GetBucketCorsRequest) throws -> GetBucketCorsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketCors", path: "/\(input.bucket)?cors", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketCors", path: "/{Bucket}?cors", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the bucket. All objects (including all object versions and Delete Markers) in the bucket must be deleted before the bucket itself can be deleted.
     public func deleteBucket(_ input: DeleteBucketRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucket", path: "/\(input.bucket)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucket", path: "/{Bucket}", httpMethod: "DELETE", input: input)
     }
 
     ///  Uploads a part by copying data from an existing object as data source.
     public func uploadPartCopy(_ input: UploadPartCopyRequest) throws -> UploadPartCopyOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UploadPartCopy", path: "/\(input.bucket)/{Key+}?uploadId=\(input.uploadId)&partNumber=\(input.partNumber)", httpMethod: "PUT", httpHeaders: ["x-amz-request-payer": input.requestPayer, "x-amz-copy-source": input.copySource, "x-amz-copy-source-server-side-encryption-customer-key-MD5": input.copySourceSSECustomerKeyMD5, "x-amz-copy-source-if-modified-since": input.copySourceIfModifiedSince, "x-amz-copy-source-server-side-encryption-customer-algorithm": input.copySourceSSECustomerAlgorithm, "x-amz-copy-source-if-match": input.copySourceIfMatch, "x-amz-copy-source-server-side-encryption-customer-key": input.copySourceSSECustomerKey, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "x-amz-copy-source-range": input.copySourceRange, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "x-amz-copy-source-if-none-match": input.copySourceIfNoneMatch, "x-amz-copy-source-if-unmodified-since": input.copySourceIfUnmodifiedSince, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UploadPartCopy", path: "/{Bucket}/{Key+}", httpMethod: "PUT", input: input)
     }
 
     ///  Removes the null version (if there is one) of an object and inserts a delete marker, which becomes the latest version of the object. If there isn't a null version, Amazon S3 does not remove any objects.
     public func deleteObject(_ input: DeleteObjectRequest) throws -> DeleteObjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteObject", path: "/\(input.bucket)/{Key+}?versionId=\(input.versionId?.description ?? "")", httpMethod: "DELETE", httpHeaders: ["x-amz-mfa": input.mFA, "x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteObject", path: "/{Bucket}/{Key+}", httpMethod: "DELETE", input: input)
     }
 
     ///  Restores an archived copy of an object back into Amazon S3
     public func restoreObject(_ input: RestoreObjectRequest) throws -> RestoreObjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreObject", path: "/\(input.bucket)/{Key+}?restore&versionId=\(input.versionId?.description ?? "")", httpMethod: "POST", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreObject", path: "/{Bucket}/{Key+}?restore", httpMethod: "POST", input: input)
     }
 
     ///  This operation removes the website configuration from the bucket.
     public func deleteBucketWebsite(_ input: DeleteBucketWebsiteRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketWebsite", path: "/\(input.bucket)?website", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketWebsite", path: "/{Bucket}?website", httpMethod: "DELETE", input: input)
     }
 
     ///  uses the acl subresource to set the access control list (ACL) permissions for an object that already exists in a bucket
     public func putObjectAcl(_ input: PutObjectAclRequest) throws -> PutObjectAclOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutObjectAcl", path: "/\(input.bucket)/{Key+}?acl&versionId=\(input.versionId?.description ?? "")", httpMethod: "PUT", httpHeaders: ["x-amz-grant-write-acp": input.grantWriteACP, "Content-MD5": input.contentMD5, "x-amz-request-payer": input.requestPayer, "x-amz-grant-write": input.grantWrite, "x-amz-grant-read": input.grantRead, "x-amz-grant-full-control": input.grantFullControl, "x-amz-acl": input.aCL, "x-amz-grant-read-acp": input.grantReadACP], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutObjectAcl", path: "/{Bucket}/{Key+}?acl", httpMethod: "PUT", input: input)
     }
 
     ///  Returns the tag set associated with the bucket.
     public func getBucketTagging(_ input: GetBucketTaggingRequest) throws -> GetBucketTaggingOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketTagging", path: "/\(input.bucket)?tagging", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketTagging", path: "/{Bucket}?tagging", httpMethod: "GET", input: input)
     }
 
     ///  Returns some or all (up to 1000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. Note: ListObjectsV2 is the revised List Objects API and we recommend you use this revised API for new application development.
     public func listObjectsV2(_ input: ListObjectsV2Request) throws -> ListObjectsV2Output {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListObjectsV2", path: "/\(input.bucket)?list-type=2&continuation-token=\(input.continuationToken?.description ?? "")&start-after=\(input.startAfter?.description ?? "")&delimiter=\(input.delimiter?.description ?? "")&encoding-type=\(input.encodingType?.description ?? "")&prefix=\(input.prefix?.description ?? "")&fetch-owner=\(input.fetchOwner?.description ?? "")&max-keys=\(input.maxKeys?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListObjectsV2", path: "/{Bucket}?list-type=2", httpMethod: "GET", input: input)
     }
 
     ///  Gets an analytics configuration for the bucket (specified by the analytics configuration ID).
     public func getBucketAnalyticsConfiguration(_ input: GetBucketAnalyticsConfigurationRequest) throws -> GetBucketAnalyticsConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketAnalyticsConfiguration", path: "/\(input.bucket)?analytics&id=\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "GET", input: input)
     }
 
     ///  Returns the region the bucket resides in.
     public func getBucketLocation(_ input: GetBucketLocationRequest) throws -> GetBucketLocationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketLocation", path: "/\(input.bucket)?location", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketLocation", path: "/{Bucket}?location", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the replication configuration from the bucket.
     public func deleteBucketReplication(_ input: DeleteBucketReplicationRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketReplication", path: "/\(input.bucket)?replication", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketReplication", path: "/{Bucket}?replication", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns a list of inventory configurations for the bucket.
     public func listBucketInventoryConfigurations(_ input: ListBucketInventoryConfigurationsRequest) throws -> ListBucketInventoryConfigurationsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBucketInventoryConfigurations", path: "/\(input.bucket)?inventory&continuation-token=\(input.continuationToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBucketInventoryConfigurations", path: "/{Bucket}?inventory", httpMethod: "GET", input: input)
     }
 
     ///  Sets lifecycle configuration for your bucket. If a lifecycle configuration exists, it replaces it.
     public func putBucketLifecycleConfiguration(_ input: PutBucketLifecycleConfigurationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketLifecycleConfiguration", path: "/\(input.bucket)?lifecycle", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
     }
 
     ///  Returns some or all (up to 1000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket.
     public func listObjects(_ input: ListObjectsRequest) throws -> ListObjectsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListObjects", path: "/\(input.bucket)?marker=\(input.marker?.description ?? "")&prefix=\(input.prefix?.description ?? "")&max-keys=\(input.maxKeys?.description ?? "")&delimiter=\(input.delimiter?.description ?? "")&encoding-type=\(input.encodingType?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListObjects", path: "/{Bucket}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the notification configuration of a bucket.
     public func getBucketNotificationConfiguration(_ input: GetBucketNotificationConfigurationRequest) throws -> NotificationConfiguration {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketNotificationConfiguration", path: "/\(input.bucket)?notification", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketNotificationConfiguration", path: "/{Bucket}?notification", httpMethod: "GET", input: input)
     }
 
     ///  Sets the versioning state of an existing bucket. To set the versioning state, you must be the bucket owner.
     public func putBucketVersioning(_ input: PutBucketVersioningRequest) throws {
-        _ = try request.invoke(operation: "PutBucketVersioning", path: "/\(input.bucket)?versioning", httpMethod: "PUT", httpHeaders: ["x-amz-mfa": input.mFA, "Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketVersioning", path: "/{Bucket}?versioning", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes an inventory configuration (identified by the inventory ID) from the bucket.
     public func deleteBucketInventoryConfiguration(_ input: DeleteBucketInventoryConfigurationRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketInventoryConfiguration", path: "/\(input.bucket)?inventory&id=\(input.id)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the tag-set of an object.
     public func getObjectTagging(_ input: GetObjectTaggingRequest) throws -> GetObjectTaggingOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetObjectTagging", path: "/\(input.bucket)/{Key+}?tagging&versionId=\(input.versionId?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetObjectTagging", path: "/{Bucket}/{Key+}?tagging", httpMethod: "GET", input: input)
     }
 
     ///  Replaces a policy on a bucket. If the bucket already has a policy, the one in this request completely replaces it.
     public func putBucketPolicy(_ input: PutBucketPolicyRequest) throws {
-        _ = try request.invoke(operation: "PutBucketPolicy", path: "/\(input.bucket)?policy", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketPolicy", path: "/{Bucket}?policy", httpMethod: "PUT", input: input)
     }
 
     ///  Returns metadata about all of the versions of objects in a bucket.
     public func listObjectVersions(_ input: ListObjectVersionsRequest) throws -> ListObjectVersionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListObjectVersions", path: "/\(input.bucket)?versions&prefix=\(input.prefix?.description ?? "")&version-id-marker=\(input.versionIdMarker?.description ?? "")&max-keys=\(input.maxKeys?.description ?? "")&delimiter=\(input.delimiter?.description ?? "")&encoding-type=\(input.encodingType?.description ?? "")&key-marker=\(input.keyMarker?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListObjectVersions", path: "/{Bucket}?versions", httpMethod: "GET", input: input)
     }
 
     ///  Gets a metrics configuration (specified by the metrics configuration ID) from the bucket.
     public func getBucketMetricsConfiguration(_ input: GetBucketMetricsConfigurationRequest) throws -> GetBucketMetricsConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketMetricsConfiguration", path: "/\(input.bucket)?metrics&id=\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new bucket.
     public func createBucket(_ input: CreateBucketRequest) throws -> CreateBucketOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateBucket", path: "/\(input.bucket)", httpMethod: "PUT", httpHeaders: ["x-amz-grant-write-acp": input.grantWriteACP, "x-amz-grant-write": input.grantWrite, "x-amz-grant-read": input.grantRead, "x-amz-grant-full-control": input.grantFullControl, "x-amz-acl": input.aCL, "x-amz-grant-read-acp": input.grantReadACP], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateBucket", path: "/{Bucket}", httpMethod: "PUT", input: input)
     }
 
     ///  Returns the logging status of a bucket and the permissions users have to view and modify that status. To use GET, you must be the bucket owner.
     public func getBucketLogging(_ input: GetBucketLoggingRequest) throws -> GetBucketLoggingOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketLogging", path: "/\(input.bucket)?logging", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketLogging", path: "/{Bucket}?logging", httpMethod: "GET", input: input)
     }
 
     ///  Set the website configuration for a bucket.
     public func putBucketWebsite(_ input: PutBucketWebsiteRequest) throws {
-        _ = try request.invoke(operation: "PutBucketWebsite", path: "/\(input.bucket)?website", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketWebsite", path: "/{Bucket}?website", httpMethod: "PUT", input: input)
     }
 
     ///  Returns the accelerate configuration of a bucket.
     public func getBucketAccelerateConfiguration(_ input: GetBucketAccelerateConfigurationRequest) throws -> GetBucketAccelerateConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketAccelerateConfiguration", path: "/\(input.bucket)?accelerate", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketAccelerateConfiguration", path: "/{Bucket}?accelerate", httpMethod: "GET", input: input)
     }
 
     ///  Deletes an analytics configuration for the bucket (specified by the analytics configuration ID).
     public func deleteBucketAnalyticsConfiguration(_ input: DeleteBucketAnalyticsConfigurationRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketAnalyticsConfiguration", path: "/\(input.bucket)?analytics&id=\(input.id)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets the access control policy for the bucket.
     public func getBucketAcl(_ input: GetBucketAclRequest) throws -> GetBucketAclOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketAcl", path: "/\(input.bucket)?acl", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketAcl", path: "/{Bucket}?acl", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a metrics configuration (specified by the metrics configuration ID) from the bucket.
     public func deleteBucketMetricsConfiguration(_ input: DeleteBucketMetricsConfigurationRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketMetricsConfiguration", path: "/\(input.bucket)?metrics&id=\(input.id)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a new replication configuration (or replaces an existing one, if present).
     public func putBucketReplication(_ input: PutBucketReplicationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketReplication", path: "/\(input.bucket)?replication", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketReplication", path: "/{Bucket}?replication", httpMethod: "PUT", input: input)
     }
 
     ///  Returns a list of all buckets owned by the authenticated sender of the request.
     public func listBuckets() throws -> ListBucketsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBuckets", path: "/", httpMethod: "GET", httpHeaders: [:], input: nil)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBuckets", path: "/", httpMethod: "GET")
     }
 
     ///  This operation enables you to delete multiple objects from a bucket using a single HTTP request. You may specify up to 1000 keys.
     public func deleteObjects(_ input: DeleteObjectsRequest) throws -> DeleteObjectsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteObjects", path: "/\(input.bucket)?delete", httpMethod: "POST", httpHeaders: ["x-amz-mfa": input.mFA, "x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteObjects", path: "/{Bucket}?delete", httpMethod: "POST", input: input)
     }
 
     ///  Adds an inventory configuration (identified by the inventory ID) from the bucket.
     public func putBucketInventoryConfiguration(_ input: PutBucketInventoryConfigurationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketInventoryConfiguration", path: "/\(input.bucket)?inventory&id=\(input.id)", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration parameter enables the bucket owner (only) to specify that the person requesting the download will be charged for the download. Documentation on requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html
     public func putBucketRequestPayment(_ input: PutBucketRequestPaymentRequest) throws {
-        _ = try request.invoke(operation: "PutBucketRequestPayment", path: "/\(input.bucket)?requestPayment", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketRequestPayment", path: "/{Bucket}?requestPayment", httpMethod: "PUT", input: input)
     }
 
     ///  Deprecated, see the GetBucketNotificationConfiguration operation.
     public func getBucketNotification(_ input: GetBucketNotificationConfigurationRequest) throws -> NotificationConfigurationDeprecated {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketNotification", path: "/\(input.bucket)?notification", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketNotification", path: "/{Bucket}?notification", httpMethod: "GET", input: input)
     }
 
     ///  Deprecated, see the GetBucketLifecycleConfiguration operation.
     public func getBucketLifecycle(_ input: GetBucketLifecycleRequest) throws -> GetBucketLifecycleOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketLifecycle", path: "/\(input.bucket)?lifecycle", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "GET", input: input)
     }
 
     ///  Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. To set the logging status of a bucket, you must be the bucket owner.
     public func putBucketLogging(_ input: PutBucketLoggingRequest) throws {
-        _ = try request.invoke(operation: "PutBucketLogging", path: "/\(input.bucket)?logging", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketLogging", path: "/{Bucket}?logging", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes the tags from the bucket.
     public func deleteBucketTagging(_ input: DeleteBucketTaggingRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketTagging", path: "/\(input.bucket)?tagging", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketTagging", path: "/{Bucket}?tagging", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes the tag-set from an existing object.
     public func deleteObjectTagging(_ input: DeleteObjectTaggingRequest) throws -> DeleteObjectTaggingOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteObjectTagging", path: "/\(input.bucket)/{Key+}?tagging&versionId=\(input.versionId?.description ?? "")", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteObjectTagging", path: "/{Bucket}/{Key+}?tagging", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the lifecycle configuration information set on the bucket.
     public func getBucketLifecycleConfiguration(_ input: GetBucketLifecycleConfigurationRequest) throws -> GetBucketLifecycleConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketLifecycleConfiguration", path: "/\(input.bucket)?lifecycle", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "GET", input: input)
     }
 
     ///  This operation lists in-progress multipart uploads.
     public func listMultipartUploads(_ input: ListMultipartUploadsRequest) throws -> ListMultipartUploadsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListMultipartUploads", path: "/\(input.bucket)?uploads&prefix=\(input.prefix?.description ?? "")&upload-id-marker=\(input.uploadIdMarker?.description ?? "")&max-uploads=\(input.maxUploads?.description ?? "")&delimiter=\(input.delimiter?.description ?? "")&encoding-type=\(input.encodingType?.description ?? "")&key-marker=\(input.keyMarker?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListMultipartUploads", path: "/{Bucket}?uploads", httpMethod: "GET", input: input)
     }
 
     ///  Adds an object to a bucket.
     public func putObject(_ input: PutObjectRequest) throws -> PutObjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutObject", path: "/\(input.bucket)/{Key+}", httpMethod: "PUT", httpHeaders: ["Cache-Control": input.cacheControl, "Content-Length": input.contentLength, "x-amz-grant-write-acp": input.grantWriteACP, "x-amz-server-side-encryption-aws-kms-key-id": input.sSEKMSKeyId, "x-amz-request-payer": input.requestPayer, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5, "x-amz-grant-read": input.grantRead, "x-amz-grant-full-control": input.grantFullControl, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "Content-Language": input.contentLanguage, "x-amz-acl": input.aCL, "x-amz-website-redirect-location": input.websiteRedirectLocation, "x-amz-tagging": input.tagging, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "Content-Disposition": input.contentDisposition, "Content-MD5": input.contentMD5, "Expires": input.expires, "Content-Type": input.contentType, "x-amz-storage-class": input.storageClass, "x-amz-server-side-encryption": input.serverSideEncryption, "Content-Encoding": input.contentEncoding, "x-amz-grant-read-acp": input.grantReadACP], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutObject", path: "/{Bucket}/{Key+}", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes the policy from the bucket.
     public func deleteBucketPolicy(_ input: DeleteBucketPolicyRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketPolicy", path: "/\(input.bucket)?policy", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketPolicy", path: "/{Bucket}?policy", httpMethod: "DELETE", input: input)
     }
 
     ///  Sets the accelerate configuration of an existing bucket.
     public func putBucketAccelerateConfiguration(_ input: PutBucketAccelerateConfigurationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketAccelerateConfiguration", path: "/\(input.bucket)?accelerate", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutBucketAccelerateConfiguration", path: "/{Bucket}?accelerate", httpMethod: "PUT", input: input)
     }
 
     ///  This operation is useful to determine if a bucket exists and you have permission to access it.
     public func headBucket(_ input: HeadBucketRequest) throws {
-        _ = try request.invoke(operation: "HeadBucket", path: "/\(input.bucket)", httpMethod: "HEAD", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "HeadBucket", path: "/{Bucket}", httpMethod: "HEAD", input: input)
     }
 
     ///  Creates a copy of an object that is already stored in Amazon S3.
     public func copyObject(_ input: CopyObjectRequest) throws -> CopyObjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyObject", path: "/\(input.bucket)/{Key+}", httpMethod: "PUT", httpHeaders: ["x-amz-server-side-encryption-aws-kms-key-id": input.sSEKMSKeyId, "x-amz-request-payer": input.requestPayer, "x-amz-copy-source-server-side-encryption-customer-key-MD5": input.copySourceSSECustomerKeyMD5, "x-amz-copy-source-if-modified-since": input.copySourceIfModifiedSince, "x-amz-grant-full-control": input.grantFullControl, "x-amz-acl": input.aCL, "Content-Language": input.contentLanguage, "Content-Type": input.contentType, "x-amz-website-redirect-location": input.websiteRedirectLocation, "x-amz-server-side-encryption": input.serverSideEncryption, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "Content-Disposition": input.contentDisposition, "x-amz-copy-source-if-none-match": input.copySourceIfNoneMatch, "Content-Encoding": input.contentEncoding, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5, "x-amz-grant-read-acp": input.grantReadACP, "x-amz-grant-write-acp": input.grantWriteACP, "x-amz-grant-read": input.grantRead, "x-amz-copy-source": input.copySource, "x-amz-copy-source-server-side-encryption-customer-algorithm": input.copySourceSSECustomerAlgorithm, "x-amz-copy-source-if-match": input.copySourceIfMatch, "x-amz-copy-source-server-side-encryption-customer-key": input.copySourceSSECustomerKey, "x-amz-tagging-directive": input.taggingDirective, "x-amz-metadata-directive": input.metadataDirective, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "x-amz-tagging": input.tagging, "Expires": input.expires, "x-amz-storage-class": input.storageClass, "x-amz-copy-source-if-unmodified-since": input.copySourceIfUnmodifiedSince, "Cache-Control": input.cacheControl], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyObject", path: "/{Bucket}/{Key+}", httpMethod: "PUT", input: input)
     }
 
     ///  Returns the replication configuration of a bucket.
     public func getBucketReplication(_ input: GetBucketReplicationRequest) throws -> GetBucketReplicationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketReplication", path: "/\(input.bucket)?replication", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketReplication", path: "/{Bucket}?replication", httpMethod: "GET", input: input)
     }
 
     ///  Completes a multipart upload by assembling previously uploaded parts.
     public func completeMultipartUpload(_ input: CompleteMultipartUploadRequest) throws -> CompleteMultipartUploadOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CompleteMultipartUpload", path: "/\(input.bucket)/{Key+}?uploadId=\(input.uploadId)", httpMethod: "POST", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CompleteMultipartUpload", path: "/{Bucket}/{Key+}", httpMethod: "POST", input: input)
     }
 
     ///  Enables notifications of specified events for a bucket.
     public func putBucketNotificationConfiguration(_ input: PutBucketNotificationConfigurationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketNotificationConfiguration", path: "/\(input.bucket)?notification", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutBucketNotificationConfiguration", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the permissions on a bucket using access control lists (ACL).
     public func putBucketAcl(_ input: PutBucketAclRequest) throws {
-        _ = try request.invoke(operation: "PutBucketAcl", path: "/\(input.bucket)?acl", httpMethod: "PUT", httpHeaders: ["x-amz-grant-write-acp": input.grantWriteACP, "Content-MD5": input.contentMD5, "x-amz-grant-write": input.grantWrite, "x-amz-grant-read": input.grantRead, "x-amz-grant-full-control": input.grantFullControl, "x-amz-acl": input.aCL, "x-amz-grant-read-acp": input.grantReadACP], input: input)
+        _ = try client.send(operation: "PutBucketAcl", path: "/{Bucket}?acl", httpMethod: "PUT", input: input)
     }
 
     ///  Initiates a multipart upload and returns an upload ID.Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
     public func createMultipartUpload(_ input: CreateMultipartUploadRequest) throws -> CreateMultipartUploadOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateMultipartUpload", path: "/\(input.bucket)/{Key+}?uploads", httpMethod: "POST", httpHeaders: ["Cache-Control": input.cacheControl, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5, "x-amz-grant-write-acp": input.grantWriteACP, "x-amz-request-payer": input.requestPayer, "x-amz-server-side-encryption-aws-kms-key-id": input.sSEKMSKeyId, "x-amz-grant-read": input.grantRead, "x-amz-grant-full-control": input.grantFullControl, "x-amz-acl": input.aCL, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "Content-Language": input.contentLanguage, "Content-Type": input.contentType, "x-amz-storage-class": input.storageClass, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "Content-Disposition": input.contentDisposition, "Expires": input.expires, "x-amz-website-redirect-location": input.websiteRedirectLocation, "x-amz-server-side-encryption": input.serverSideEncryption, "Content-Encoding": input.contentEncoding, "x-amz-grant-read-acp": input.grantReadACP], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateMultipartUpload", path: "/{Bucket}/{Key+}?uploads", httpMethod: "POST", input: input)
     }
 
     ///  Sets the cors configuration for a bucket.
     public func putBucketCors(_ input: PutBucketCorsRequest) throws {
-        _ = try request.invoke(operation: "PutBucketCors", path: "/\(input.bucket)?cors", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketCors", path: "/{Bucket}?cors", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the supplied tag-set to an object that already exists in a bucket
     public func putObjectTagging(_ input: PutObjectTaggingRequest) throws -> PutObjectTaggingOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutObjectTagging", path: "/\(input.bucket)/{Key+}?tagging&versionId=\(input.versionId?.description ?? "")", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutObjectTagging", path: "/{Bucket}/{Key+}?tagging", httpMethod: "PUT", input: input)
     }
 
     ///  Lists the analytics configurations for the bucket.
     public func listBucketAnalyticsConfigurations(_ input: ListBucketAnalyticsConfigurationsRequest) throws -> ListBucketAnalyticsConfigurationsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBucketAnalyticsConfigurations", path: "/\(input.bucket)?analytics&continuation-token=\(input.continuationToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBucketAnalyticsConfigurations", path: "/{Bucket}?analytics", httpMethod: "GET", input: input)
     }
 
     ///  Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
     public func putBucketMetricsConfiguration(_ input: PutBucketMetricsConfigurationRequest) throws {
-        _ = try request.invoke(operation: "PutBucketMetricsConfiguration", path: "/\(input.bucket)?metrics&id=\(input.id)", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "PUT", input: input)
     }
 
     ///  Retrieves objects from Amazon S3.
     public func getObject(_ input: GetObjectRequest) throws -> GetObjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetObject", path: "/\(input.bucket)/{Key+}?response-content-encoding=\(input.responseContentEncoding?.description ?? "")&partNumber=\(input.partNumber?.description ?? "")&response-content-language=\(input.responseContentLanguage?.description ?? "")&versionId=\(input.versionId?.description ?? "")&response-cache-control=\(input.responseCacheControl?.description ?? "")&response-content-type=\(input.responseContentType?.description ?? "")&response-content-disposition=\(input.responseContentDisposition?.description ?? "")&response-expires=\(input.responseExpires?.description ?? "")", httpMethod: "GET", httpHeaders: ["If-Modified-Since": input.ifModifiedSince, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "Range": input.range, "x-amz-request-payer": input.requestPayer, "If-Match": input.ifMatch, "If-Unmodified-Since": input.ifUnmodifiedSince, "If-None-Match": input.ifNoneMatch, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetObject", path: "/{Bucket}/{Key+}", httpMethod: "GET", input: input)
     }
 
     ///  Lists the parts that have been uploaded for a specific multipart upload.
     public func listParts(_ input: ListPartsRequest) throws -> ListPartsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListParts", path: "/\(input.bucket)/{Key+}?max-parts=\(input.maxParts?.description ?? "")&uploadId=\(input.uploadId)&part-number-marker=\(input.partNumberMarker?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListParts", path: "/{Bucket}/{Key+}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the access control list (ACL) of an object.
     public func getObjectAcl(_ input: GetObjectAclRequest) throws -> GetObjectAclOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetObjectAcl", path: "/\(input.bucket)/{Key+}?acl&versionId=\(input.versionId?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amz-request-payer": input.requestPayer], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetObjectAcl", path: "/{Bucket}/{Key+}?acl", httpMethod: "GET", input: input)
     }
 
     ///  Uploads a part in a multipart upload.Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
     public func uploadPart(_ input: UploadPartRequest) throws -> UploadPartOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UploadPart", path: "/\(input.bucket)/{Key+}?uploadId=\(input.uploadId)&partNumber=\(input.partNumber)", httpMethod: "PUT", httpHeaders: ["Content-Length": input.contentLength, "Content-MD5": input.contentMD5, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "x-amz-request-payer": input.requestPayer, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UploadPart", path: "/{Bucket}/{Key+}", httpMethod: "PUT", input: input)
     }
 
     ///  Deprecated, see the PutBucketLifecycleConfiguration operation.
     public func putBucketLifecycle(_ input: PutBucketLifecycleRequest) throws {
-        _ = try request.invoke(operation: "PutBucketLifecycle", path: "/\(input.bucket)?lifecycle", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes the lifecycle configuration from the bucket.
     public func deleteBucketLifecycle(_ input: DeleteBucketLifecycleRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketLifecycle", path: "/\(input.bucket)?lifecycle", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the cors configuration information set for the bucket.
     public func deleteBucketCors(_ input: DeleteBucketCorsRequest) throws {
-        _ = try request.invoke(operation: "DeleteBucketCors", path: "/\(input.bucket)?cors", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBucketCors", path: "/{Bucket}?cors", httpMethod: "DELETE", input: input)
     }
 
     ///  Lists the metrics configurations for the bucket.
     public func listBucketMetricsConfigurations(_ input: ListBucketMetricsConfigurationsRequest) throws -> ListBucketMetricsConfigurationsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBucketMetricsConfigurations", path: "/\(input.bucket)?metrics&continuation-token=\(input.continuationToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBucketMetricsConfigurations", path: "/{Bucket}?metrics", httpMethod: "GET", input: input)
     }
 
     ///  Returns the versioning state of a bucket.
     public func getBucketVersioning(_ input: GetBucketVersioningRequest) throws -> GetBucketVersioningOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketVersioning", path: "/\(input.bucket)?versioning", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketVersioning", path: "/{Bucket}?versioning", httpMethod: "GET", input: input)
     }
 
     ///  Returns the request payment configuration of a bucket.
     public func getBucketRequestPayment(_ input: GetBucketRequestPaymentRequest) throws -> GetBucketRequestPaymentOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketRequestPayment", path: "/\(input.bucket)?requestPayment", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketRequestPayment", path: "/{Bucket}?requestPayment", httpMethod: "GET", input: input)
     }
 
     ///  Returns the website configuration for a bucket.
     public func getBucketWebsite(_ input: GetBucketWebsiteRequest) throws -> GetBucketWebsiteOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketWebsite", path: "/\(input.bucket)?website", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketWebsite", path: "/{Bucket}?website", httpMethod: "GET", input: input)
     }
 
     ///  Returns the policy of a specified bucket.
     public func getBucketPolicy(_ input: GetBucketPolicyRequest) throws -> GetBucketPolicyOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBucketPolicy", path: "/\(input.bucket)?policy", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBucketPolicy", path: "/{Bucket}?policy", httpMethod: "GET", input: input)
     }
 
     ///  The HEAD operation retrieves metadata from an object without returning the object itself. This operation is useful if you're only interested in an object's metadata. To use HEAD, you must have READ access to the object.
     public func headObject(_ input: HeadObjectRequest) throws -> HeadObjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "HeadObject", path: "/\(input.bucket)/{Key+}?versionId=\(input.versionId?.description ?? "")&partNumber=\(input.partNumber?.description ?? "")", httpMethod: "HEAD", httpHeaders: ["If-Modified-Since": input.ifModifiedSince, "x-amz-server-side-encryption-customer-key": input.sSECustomerKey, "Range": input.range, "x-amz-request-payer": input.requestPayer, "If-Match": input.ifMatch, "If-Unmodified-Since": input.ifUnmodifiedSince, "If-None-Match": input.ifNoneMatch, "x-amz-server-side-encryption-customer-algorithm": input.sSECustomerAlgorithm, "x-amz-server-side-encryption-customer-key-MD5": input.sSECustomerKeyMD5], input: input)
-        return try S3ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "HeadObject", path: "/{Bucket}/{Key+}", httpMethod: "HEAD", input: input)
     }
 
     ///  Sets the tags for a bucket.
     public func putBucketTagging(_ input: PutBucketTaggingRequest) throws {
-        _ = try request.invoke(operation: "PutBucketTagging", path: "/\(input.bucket)?tagging", httpMethod: "PUT", httpHeaders: ["Content-MD5": input.contentMD5], input: input)
+        _ = try client.send(operation: "PutBucketTagging", path: "/{Bucket}?tagging", httpMethod: "PUT", input: input)
     }
 
 

@@ -29,9 +29,11 @@ import Core
 
 extension OpsworksCm {
 
-    public struct DescribeAccountAttributesResponse: Serializable, Initializable {
+    public struct DescribeAccountAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The attributes that are currently set for the account. 
-        var attributes: [AccountAttribute]? = nil
+        public var attributes: [AccountAttribute]? = nil
 
         public init() {}
 
@@ -41,11 +43,13 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeEventsResponse: Serializable, Initializable {
+    public struct DescribeEventsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the response to a DescribeEvents request. 
-        var serverEvents: [ServerEvent]? = nil
+        public var serverEvents: [ServerEvent]? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -56,9 +60,11 @@ extension OpsworksCm {
 
     }
 
-    public struct AssociateNodeResponse: Serializable, Initializable {
+    public struct AssociateNodeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
-        var nodeAssociationStatusToken: String? = nil
+        public var nodeAssociationStatusToken: String? = nil
 
         public init() {}
 
@@ -68,41 +74,43 @@ extension OpsworksCm {
 
     }
 
-    public struct CreateServerRequest: Serializable, Initializable {
+    public struct CreateServerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The engine model, or option. Valid values include Single. 
-        var engineModel: String? = nil
+        public var engineModel: String? = nil
         /// Optional engine attributes on a specified server.   Attributes accepted in a createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.  
-        var engineAttributes: [EngineAttribute]? = nil
+        public var engineAttributes: [EngineAttribute]? = nil
         ///  If you specify this field, AWS OpsWorks for Chef Automate creates the server by using the backup represented by BackupId. 
-        var backupId: String? = nil
+        public var backupId: String? = nil
         ///  The service role that the AWS OpsWorks for Chef Automate service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a CloudFormation stack that includes the service role that you need. 
-        var serviceRoleArn: String = ""
+        public var serviceRoleArn: String = ""
         ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks for Chef Automate creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
-        var securityGroupIds: [String]? = nil
+        public var securityGroupIds: [String]? = nil
         ///  The Amazon EC2 instance type to use. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, or m4.2xlarge. 
-        var instanceType: String = ""
+        public var instanceType: String = ""
         ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks for Chef Automate deletes the oldest backups if this number is exceeded. The default value is 1. 
-        var backupRetentionCount: Int32? = nil
+        public var backupRetentionCount: Int32? = nil
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         ///  The start time for a one-hour period during which AWS OpsWorks for Chef Automate backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         ///  The major release version of the engine that you want to use. Values depend on the engine that you choose. 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
-        var instanceProfileArn: String = ""
+        public var instanceProfileArn: String = ""
         ///  The start time for a one-hour period each week during which AWS OpsWorks for Chef Automate performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters. 
-        var serverName: String = ""
+        public var serverName: String = ""
         ///  The configuration management engine to use. Valid values include Chef. 
-        var engine: String? = nil
+        public var engine: String? = nil
         ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
-        var disableAutomatedBackup: Bool? = nil
+        public var disableAutomatedBackup: Bool? = nil
         ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH. 
-        var keyPair: String? = nil
+        public var keyPair: String? = nil
         ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
-        var associatePublicIpAddress: Bool? = nil
+        public var associatePublicIpAddress: Bool? = nil
 
         public init() {}
 
@@ -128,11 +136,13 @@ extension OpsworksCm {
 
     }
 
-    public struct CreateBackupRequest: Serializable, Initializable {
+    public struct CreateBackupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the server that you want to back up. 
-        var serverName: String = ""
+        public var serverName: String = ""
         ///  A user-defined description of the backup. 
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -143,13 +153,15 @@ extension OpsworksCm {
 
     }
 
-    public struct UpdateServerEngineAttributesRequest: Serializable, Initializable {
+    public struct UpdateServerEngineAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the engine attribute to update. 
-        var attributeName: String = ""
+        public var attributeName: String = ""
         /// The value to set for the attribute. 
-        var attributeValue: String? = nil
+        public var attributeValue: String? = nil
         /// The name of the server to update. 
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -161,13 +173,15 @@ extension OpsworksCm {
 
     }
 
-    public struct AssociateNodeRequest: Serializable, Initializable {
+    public struct AssociateNodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the Chef client node. 
-        var nodeName: String = ""
+        public var nodeName: String = ""
         /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.   
-        var engineAttributes: [EngineAttribute] = []
+        public var engineAttributes: [EngineAttribute] = []
         /// The name of the server with which to associate the node. 
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -179,13 +193,15 @@ extension OpsworksCm {
 
     }
 
-    public struct AccountAttribute: Serializable, Initializable {
+    public struct AccountAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum allowed value. 
-        var maximum: Int32? = nil
+        public var maximum: Int32? = nil
         ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum of 50 manual backups saved.   
-        var name: String? = nil
+        public var name: String? = nil
         ///  The current usage, such as the current number of servers that are associated with the account. 
-        var used: Int32? = nil
+        public var used: Int32? = nil
 
         public init() {}
 
@@ -197,9 +213,11 @@ extension OpsworksCm {
 
     }
 
-    public struct StartMaintenanceResponse: Serializable, Initializable {
+    public struct StartMaintenanceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the response to a StartMaintenance request. 
-        var server: Server? = nil
+        public var server: Server? = nil
 
         public init() {}
 
@@ -209,9 +227,11 @@ extension OpsworksCm {
 
     }
 
-    public struct CreateBackupResponse: Serializable, Initializable {
+    public struct CreateBackupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Backup created by request.
-        var backup: Backup? = nil
+        public var backup: Backup? = nil
 
         public init() {}
 
@@ -221,10 +241,12 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeNodeAssociationStatusRequest: Serializable, Initializable {
-        var nodeAssociationStatusToken: String = ""
+    public struct DescribeNodeAssociationStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nodeAssociationStatusToken: String = ""
         /// The name of the server from which to disassociate the node. 
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -235,9 +257,11 @@ extension OpsworksCm {
 
     }
 
-    public struct StartMaintenanceRequest: Serializable, Initializable {
+    public struct StartMaintenanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the server on which to run maintenance. 
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -247,9 +271,11 @@ extension OpsworksCm {
 
     }
 
-    public struct UpdateServerResponse: Serializable, Initializable {
+    public struct UpdateServerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the response to a UpdateServer request. 
-        var server: Server? = nil
+        public var server: Server? = nil
 
         public init() {}
 
@@ -259,9 +285,11 @@ extension OpsworksCm {
 
     }
 
-    public struct DisassociateNodeResponse: Serializable, Initializable {
+    public struct DisassociateNodeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
-        var nodeAssociationStatusToken: String? = nil
+        public var nodeAssociationStatusToken: String? = nil
 
         public init() {}
 
@@ -271,13 +299,15 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeServersRequest: Serializable, Initializable {
+    public struct DescribeServersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Describes the server with the specified ServerName.
-        var serverName: String? = nil
+        public var serverName: String? = nil
 
         public init() {}
 
@@ -289,15 +319,17 @@ extension OpsworksCm {
 
     }
 
-    public struct ServerEvent: Serializable, Initializable {
+    public struct ServerEvent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon S3 URL of the event's log file.
-        var logUrl: String? = nil
+        public var logUrl: String? = nil
         /// The time when the event occurred. 
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// A human-readable informational or status message.
-        var message: String? = nil
+        public var message: String? = nil
         /// The name of the server on or for which the event occurred. 
-        var serverName: String? = nil
+        public var serverName: String? = nil
 
         public init() {}
 
@@ -310,15 +342,17 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeBackupsRequest: Serializable, Initializable {
+    public struct DescribeBackupsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns backups for the server with the specified ServerName. 
-        var serverName: String? = nil
+        public var serverName: String? = nil
         /// Describes a single backup. 
-        var backupId: String? = nil
+        public var backupId: String? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -331,61 +365,65 @@ extension OpsworksCm {
 
     }
 
-    public struct RestoreServerResponse: Serializable, Initializable {
+    public struct RestoreServerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Backup: Serializable, Initializable {
+    public struct Backup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The engine model that is obtained from the server when the backup is created. 
-        var engineModel: String? = nil
+        public var engineModel: String? = nil
         ///  The service role ARN that is obtained from the server when the backup is created. 
-        var serviceRoleArn: String? = nil
+        public var serviceRoleArn: String? = nil
         ///  This field is deprecated and is no longer used. 
-        var s3DataSize: Int32? = nil
+        public var s3DataSize: Int32? = nil
         ///  The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS 
-        var backupId: String? = nil
+        public var backupId: String? = nil
         ///  The security group IDs that are obtained from the server when the backup is created. 
-        var securityGroupIds: [String]? = nil
+        public var securityGroupIds: [String]? = nil
         ///  The version of AWS OpsWorks for Chef Automate-specific tools that is obtained from the server when the backup is created. 
-        var toolsVersion: String? = nil
+        public var toolsVersion: String? = nil
         ///  The instance type that is obtained from the server when the backup is created. 
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         ///  A user-provided description for a manual backup. This field is empty for automated backups. 
-        var description: String? = nil
+        public var description: String? = nil
         ///  The preferred backup period that is obtained from the server when the backup is created. 
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The status of a backup while in progress. 
-        var status: String? = nil
+        public var status: String? = nil
         ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         ///  The engine version that is obtained from the server when the backup is created. 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
-        var instanceProfileArn: String? = nil
+        public var instanceProfileArn: String? = nil
         ///  The preferred maintenance period that is obtained from the server when the backup is created. 
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         ///  The name of the server from which the backup was made. 
-        var serverName: String? = nil
+        public var serverName: String? = nil
         ///  The subnet IDs that are obtained from the server when the backup is created. 
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         ///  The backup type. Valid values are automated or manual. 
-        var backupType: String? = nil
+        public var backupType: String? = nil
         ///  The engine type that is obtained from the server when the backup is created. 
-        var engine: String? = nil
+        public var engine: String? = nil
         ///  This field is deprecated and is no longer used. 
-        var s3DataUrl: String? = nil
+        public var s3DataUrl: String? = nil
         ///  The Amazon S3 URL of the backup's log file. 
-        var s3LogUrl: String? = nil
+        public var s3LogUrl: String? = nil
         ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups. 
-        var userArn: String? = nil
+        public var userArn: String? = nil
         ///  An informational message about backup status. 
-        var statusDescription: String? = nil
+        public var statusDescription: String? = nil
         /// The ARN of the backup. 
-        var backupArn: String? = nil
+        public var backupArn: String? = nil
         ///  The key pair that is obtained from the server when the backup is created. 
-        var keyPair: String? = nil
+        public var keyPair: String? = nil
 
         public init() {}
 
@@ -418,9 +456,11 @@ extension OpsworksCm {
 
     }
 
-    public struct DeleteServerRequest: Serializable, Initializable {
+    public struct DeleteServerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the server to delete.
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -430,13 +470,15 @@ extension OpsworksCm {
 
     }
 
-    public struct DisassociateNodeRequest: Serializable, Initializable {
+    public struct DisassociateNodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the Chef client node. 
-        var nodeName: String = ""
+        public var nodeName: String = ""
         /// Engine attributes used for disassociating the node.   Attributes accepted in a DisassociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
-        var engineAttributes: [EngineAttribute]? = nil
+        public var engineAttributes: [EngineAttribute]? = nil
         /// The name of the server from which to disassociate the node. 
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -448,53 +490,55 @@ extension OpsworksCm {
 
     }
 
-    public struct Server: Serializable, Initializable {
+    public struct Server: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the server. 
-        var serverArn: String? = nil
+        public var serverArn: String? = nil
         /// The engine model of the server. The valid value in this release is Single. 
-        var engineModel: String? = nil
+        public var engineModel: String? = nil
         /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks for Chef Automate; they are returned only as part of the result of createServer().   Attributes returned in a createServer response:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.  
-        var engineAttributes: [EngineAttribute]? = nil
+        public var engineAttributes: [EngineAttribute]? = nil
         /// The service role ARN used to create the server. 
-        var serviceRoleArn: String? = nil
+        public var serviceRoleArn: String? = nil
         ///  The security group IDs for the server, as specified in the CloudFormation stack. These might not be the same security groups that are shown in the EC2 console. 
-        var securityGroupIds: [String]? = nil
+        public var securityGroupIds: [String]? = nil
         ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console. 
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// The number of automated backups to keep. 
-        var backupRetentionCount: Int32? = nil
+        public var backupRetentionCount: Int32? = nil
         ///  The subnet IDs specified in a CreateServer request. 
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         /// The preferred backup period specified for the server. 
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The engine version of the server. Because Chef is the engine available in this release, the valid value for EngineVersion is 12. 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The instance profile ARN of the server. 
-        var instanceProfileArn: String? = nil
+        public var instanceProfileArn: String? = nil
         ///  Depending on the server status, this field has either a human-readable message (such as a create or backup error), or an escaped block of JSON (used for health check results). 
-        var statusReason: String? = nil
+        public var statusReason: String? = nil
         /// The preferred maintenance period specified for the server. 
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// The name of the server. 
-        var serverName: String? = nil
+        public var serverName: String? = nil
         /// The engine type of the server. The valid value in this release is Chef. 
-        var engine: String? = nil
+        public var engine: String? = nil
         /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
-        var maintenanceStatus: String? = nil
+        public var maintenanceStatus: String? = nil
         /// The ARN of the CloudFormation stack that was used to create the server. 
-        var cloudFormationStackArn: String? = nil
+        public var cloudFormationStackArn: String? = nil
         ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state. 
-        var status: String? = nil
+        public var status: String? = nil
         /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
-        var disableAutomatedBackup: Bool? = nil
+        public var disableAutomatedBackup: Bool? = nil
         ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io 
-        var endpoint: String? = nil
+        public var endpoint: String? = nil
         /// Associate a public IP address with a server that you are launching. 
-        var associatePublicIpAddress: Bool? = nil
+        public var associatePublicIpAddress: Bool? = nil
         /// The key pair associated with the server. 
-        var keyPair: String? = nil
+        public var keyPair: String? = nil
 
         public init() {}
 
@@ -526,13 +570,15 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeEventsRequest: Serializable, Initializable {
+    public struct DescribeEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The name of the server for which you want to view events.
-        var serverName: String = ""
+        public var serverName: String = ""
 
         public init() {}
 
@@ -544,11 +590,13 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeServersResponse: Serializable, Initializable {
+    public struct DescribeServersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the response to a DescribeServers request. 
-        var servers: [Server]? = nil
+        public var servers: [Server]? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -559,15 +607,17 @@ extension OpsworksCm {
 
     }
 
-    public struct RestoreServerRequest: Serializable, Initializable {
+    public struct RestoreServerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The name of the server that you want to restore. 
-        var serverName: String = ""
+        public var serverName: String = ""
         ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         ///  The ID of the backup that you want to use to restore a server. 
-        var backupId: String = ""
+        public var backupId: String = ""
         ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
-        var keyPair: String? = nil
+        public var keyPair: String? = nil
 
         public init() {}
 
@@ -580,11 +630,13 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeBackupsResponse: Serializable, Initializable {
+    public struct DescribeBackupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Contains the response to a DescribeBackups request. 
-        var backups: [Backup]? = nil
+        public var backups: [Backup]? = nil
 
         public init() {}
 
@@ -595,15 +647,19 @@ extension OpsworksCm {
 
     }
 
-    public struct DescribeAccountAttributesRequest: Serializable, Initializable {
+    public struct DescribeAccountAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeNodeAssociationStatusResponse: Serializable, Initializable {
+    public struct DescribeNodeAssociationStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
-        var nodeAssociationStatus: String? = nil
+        public var nodeAssociationStatus: String? = nil
 
         public init() {}
 
@@ -613,9 +669,11 @@ extension OpsworksCm {
 
     }
 
-    public struct DeleteBackupRequest: Serializable, Initializable {
+    public struct DeleteBackupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
-        var backupId: String = ""
+        public var backupId: String = ""
 
         public init() {}
 
@@ -625,11 +683,13 @@ extension OpsworksCm {
 
     }
 
-    public struct EngineAttribute: Serializable, Initializable {
+    public struct EngineAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the engine attribute. 
-        var value: String? = nil
+        public var value: String? = nil
         /// The name of the engine attribute. 
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -640,15 +700,17 @@ extension OpsworksCm {
 
     }
 
-    public struct UpdateServerRequest: Serializable, Initializable {
-        var preferredBackupWindow: String? = nil
+    public struct UpdateServerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The name of the server to update. 
-        var serverName: String = ""
+        public var serverName: String = ""
         /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default. 
-        var disableAutomatedBackup: Bool? = nil
+        public var disableAutomatedBackup: Bool? = nil
         /// Sets the number of automated backups that you want to keep. 
-        var backupRetentionCount: Int32? = nil
-        var preferredMaintenanceWindow: String? = nil
+        public var backupRetentionCount: Int32? = nil
+        public var preferredMaintenanceWindow: String? = nil
 
         public init() {}
 
@@ -662,21 +724,27 @@ extension OpsworksCm {
 
     }
 
-    public struct DeleteServerResponse: Serializable, Initializable {
+    public struct DeleteServerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteBackupResponse: Serializable, Initializable {
+    public struct DeleteBackupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateServerResponse: Serializable, Initializable {
+    public struct CreateServerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The server that is created by the request. 
-        var server: Server? = nil
+        public var server: Server? = nil
 
         public init() {}
 
@@ -686,9 +754,11 @@ extension OpsworksCm {
 
     }
 
-    public struct UpdateServerEngineAttributesResponse: Serializable, Initializable {
+    public struct UpdateServerEngineAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the response to an UpdateServerEngineAttributes request. 
-        var server: Server? = nil
+        public var server: Server? = nil
 
         public init() {}
 

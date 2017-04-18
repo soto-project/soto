@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Sns
-public enum SnsError: Error {
+public enum SnsError: AWSErrorType {
     case throttledException(message: String?)
     case internalErrorException(message: String?)
     case authorizationErrorException(message: String?)

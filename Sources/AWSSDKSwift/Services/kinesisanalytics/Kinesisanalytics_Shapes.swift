@@ -29,11 +29,13 @@ import Core
 
 extension Kinesisanalytics {
 
-    public struct ListApplicationsResponse: Serializable, Initializable {
+    public struct ListApplicationsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns true if there are more applications to retrieve.
-        var hasMoreApplications: Bool = false
+        public var hasMoreApplications: Bool = false
         /// List of ApplicationSummary objects. 
-        var applicationSummaries: [ApplicationSummary] = []
+        public var applicationSummaries: [ApplicationSummary] = []
 
         public init() {}
 
@@ -44,15 +46,19 @@ extension Kinesisanalytics {
 
     }
 
-    public struct AddApplicationReferenceDataSourceResponse: Serializable, Initializable {
+    public struct AddApplicationReferenceDataSourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct InputParallelismUpdate: Serializable, Initializable {
+    public struct InputParallelismUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Number of in-application streams to create for the specified streaming source.
-        var countUpdate: Int32? = nil
+        public var countUpdate: Int32? = nil
 
         public init() {}
 
@@ -62,17 +68,21 @@ extension Kinesisanalytics {
 
     }
 
-    public struct UpdateApplicationResponse: Serializable, Initializable {
+    public struct UpdateApplicationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct KinesisStreamsOutput: Serializable, Initializable {
+    public struct KinesisStreamsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the destination Amazon Kinesis stream to write to.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
-        var roleARN: String = ""
+        public var roleARN: String = ""
 
         public init() {}
 
@@ -83,19 +93,21 @@ extension Kinesisanalytics {
 
     }
 
-    public struct InputUpdate: Serializable, Initializable {
+    public struct InputUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name prefix for in-application stream(s) that Kinesis Analytics creates for the specific streaming source.
-        var namePrefixUpdate: String? = nil
+        public var namePrefixUpdate: String? = nil
         /// Describes the parallelism updates (the number in-application streams Kinesis Analytics creates for the specific streaming source).
-        var inputParallelismUpdate: InputParallelismUpdate? = nil
+        public var inputParallelismUpdate: InputParallelismUpdate? = nil
         /// Input ID of the application input to be updated.
-        var inputId: String = ""
+        public var inputId: String = ""
         /// If a Amazon Kinesis stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
-        var kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil
+        public var kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil
         /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
-        var kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil
+        public var kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil
         /// Describes the data format on the streaming source, and how record elements on the streaming source map to columns of the in-application stream that is created.
-        var inputSchemaUpdate: InputSchemaUpdate? = nil
+        public var inputSchemaUpdate: InputSchemaUpdate? = nil
 
         public init() {}
 
@@ -110,11 +122,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisFirehoseInputDescription: Serializable, Initializable {
+    public struct KinesisFirehoseInputDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics assumes to access the stream.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
 
         public init() {}
 
@@ -125,11 +139,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisStreamsOutputUpdate: Serializable, Initializable {
+    public struct KinesisStreamsOutputUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        var roleARNUpdate: String? = nil
+        public var roleARNUpdate: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.
-        var resourceARNUpdate: String? = nil
+        public var resourceARNUpdate: String? = nil
 
         public init() {}
 
@@ -140,13 +156,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct AddApplicationReferenceDataSourceRequest: Serializable, Initializable {
+    public struct AddApplicationReferenceDataSourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        var currentApplicationVersionId: Int64 = 0
+        public var currentApplicationVersionId: Int64 = 0
         /// The reference data source can be an object in your Amazon S3 bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting in-application table that is created. You must also provide an IAM role with the necessary permissions that Amazon Kinesis Analytics can assume to read the object from your S3 bucket on your behalf.
-        var referenceDataSource: ReferenceDataSource = ReferenceDataSource()
+        public var referenceDataSource: ReferenceDataSource = ReferenceDataSource()
         /// Name of an existing application.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -158,11 +176,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisFirehoseInputUpdate: Serializable, Initializable {
+    public struct KinesisFirehoseInputUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
-        var roleARNUpdate: String? = nil
+        public var roleARNUpdate: String? = nil
         /// ARN of the input Amazon Kinesis Firehose delivery stream to read.
-        var resourceARNUpdate: String? = nil
+        public var resourceARNUpdate: String? = nil
 
         public init() {}
 
@@ -173,15 +193,19 @@ extension Kinesisanalytics {
 
     }
 
-    public struct AddApplicationOutputResponse: Serializable, Initializable {
+    public struct AddApplicationOutputResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateApplicationResponse: Serializable, Initializable {
+    public struct CreateApplicationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
-        var applicationSummary: ApplicationSummary = ApplicationSummary()
+        public var applicationSummary: ApplicationSummary = ApplicationSummary()
 
         public init() {}
 
@@ -191,11 +215,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct StartApplicationRequest: Serializable, Initializable {
+    public struct StartApplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
-        var inputConfigurations: [InputConfiguration] = []
+        public var inputConfigurations: [InputConfiguration] = []
         /// Name of the application.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -206,9 +232,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct StopApplicationRequest: Serializable, Initializable {
+    public struct StopApplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name of the running application to stop.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -218,13 +246,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct S3ReferenceDataSource: Serializable, Initializable {
+    public struct S3ReferenceDataSource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
-        var referenceRoleARN: String = ""
+        public var referenceRoleARN: String = ""
         /// Amazon Resource Name (ARN) of the S3 bucket.
-        var bucketARN: String = ""
+        public var bucketARN: String = ""
         /// Object key name containing reference data.
-        var fileKey: String = ""
+        public var fileKey: String = ""
 
         public init() {}
 
@@ -236,11 +266,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisFirehoseOutputUpdate: Serializable, Initializable {
+    public struct KinesisFirehoseOutputUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
-        var roleARNUpdate: String? = nil
+        public var roleARNUpdate: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.
-        var resourceARNUpdate: String? = nil
+        public var resourceARNUpdate: String? = nil
 
         public init() {}
 
@@ -251,9 +283,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct InputStartingPositionConfiguration: Serializable, Initializable {
+    public struct InputStartingPositionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The starting position on the stream.    LATEST - Start reading just after the most recent record in the stream.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
-        var inputStartingPosition: String? = nil
+        public var inputStartingPosition: String? = nil
 
         public init() {}
 
@@ -263,13 +297,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct S3ReferenceDataSourceUpdate: Serializable, Initializable {
+    public struct S3ReferenceDataSourceUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the S3 bucket.
-        var bucketARNUpdate: String? = nil
+        public var bucketARNUpdate: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application.
-        var referenceRoleARNUpdate: String? = nil
+        public var referenceRoleARNUpdate: String? = nil
         /// Object key name.
-        var fileKeyUpdate: String? = nil
+        public var fileKeyUpdate: String? = nil
 
         public init() {}
 
@@ -281,16 +317,20 @@ extension Kinesisanalytics {
 
     }
 
-    public struct AddApplicationInputResponse: Serializable, Initializable {
+    public struct AddApplicationInputResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct RecordFormat: Serializable, Initializable {
+    public struct RecordFormat: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of record format.
-        var recordFormatType: String = ""
-        var mappingParameters: MappingParameters? = nil
+        public var recordFormatType: String = ""
+        public var mappingParameters: MappingParameters? = nil
 
         public init() {}
 
@@ -301,17 +341,19 @@ extension Kinesisanalytics {
 
     }
 
-    public struct CreateApplicationRequest: Serializable, Initializable {
+    public struct CreateApplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
-        var inputs: [Input]? = nil
+        public var inputs: [Input]? = nil
         /// Name of your Amazon Kinesis Analytics application (for example, sample-app).
-        var applicationName: String = ""
+        public var applicationName: String = ""
         /// You can configure application output to write data from any of the in-application streams to up to five destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, or both. In the configuration, you specify the in-application stream name, the destination stream Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. In the output configuration, you also provide the output stream Amazon Resource Name (ARN) and the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to this stream on your behalf.
-        var outputs: [Output]? = nil
+        public var outputs: [Output]? = nil
         /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads input data and generates a running average of the number of advertisement clicks by vendor. You can also provide a series of SQL statements, where output of one statement can be used as the input for the next statement. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
-        var applicationCode: String? = nil
+        public var applicationCode: String? = nil
         /// Summary description of the application.
-        var applicationDescription: String? = nil
+        public var applicationDescription: String? = nil
 
         public init() {}
 
@@ -325,9 +367,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DestinationSchema: Serializable, Initializable {
+    public struct DestinationSchema: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the format of the records on the output stream.
-        var recordFormatType: String? = nil
+        public var recordFormatType: String? = nil
 
         public init() {}
 
@@ -337,11 +381,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DeleteApplicationRequest: Serializable, Initializable {
+    public struct DeleteApplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  You can use the DescribeApplication operation to get this value. 
-        var createTimestamp: Date = Date()
+        public var createTimestamp: Date = Date()
         /// Name of the Amazon Kinesis Analytics application to delete.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -352,19 +398,23 @@ extension Kinesisanalytics {
 
     }
 
-    public struct StopApplicationResponse: Serializable, Initializable {
+    public struct StopApplicationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DiscoverInputSchemaRequest: Serializable, Initializable {
+    public struct DiscoverInputSchemaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the streaming source.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
-        var roleARN: String = ""
+        public var roleARN: String = ""
         /// Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes.
-        var inputStartingPositionConfiguration: InputStartingPositionConfiguration = InputStartingPositionConfiguration()
+        public var inputStartingPositionConfiguration: InputStartingPositionConfiguration = InputStartingPositionConfiguration()
 
         public init() {}
 
@@ -376,13 +426,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DeleteApplicationOutputRequest: Serializable, Initializable {
+    public struct DeleteApplicationOutputRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
-        var currentApplicationVersionId: Int64 = 0
+        public var currentApplicationVersionId: Int64 = 0
         /// The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId. 
-        var outputId: String = ""
+        public var outputId: String = ""
         /// Amazon Kinesis Analytics application name.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -394,22 +446,24 @@ extension Kinesisanalytics {
 
     }
 
-    public struct InputDescription: Serializable, Initializable {
+    public struct InputDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the Firehose delivery stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        var kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil
+        public var kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil
         /// If an Amazon Kinesis stream is configured as streaming source, provides Amazon Kinesis stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        var kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil
+        public var kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil
         /// Describes the configured parallelism (number of in-application streams mapped to the streaming source).
-        var inputParallelism: InputParallelism? = nil
+        public var inputParallelism: InputParallelism? = nil
         /// In-application name prefix.
-        var namePrefix: String? = nil
+        public var namePrefix: String? = nil
         /// Returns the in-application stream names that are mapped to the stream source.
-        var inAppStreamNames: [String]? = nil
+        public var inAppStreamNames: [String]? = nil
         /// Point at which the application is configured to read from the input stream.
-        var inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil
-        var inputSchema: SourceSchema? = nil
+        public var inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil
+        public var inputSchema: SourceSchema? = nil
         /// Input ID associated with the application input. This is the ID that Amazon Kinesis Analytics assigns to each input configuration you add to your application. 
-        var inputId: String? = nil
+        public var inputId: String? = nil
 
         public init() {}
 
@@ -426,13 +480,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct ApplicationSummary: Serializable, Initializable {
+    public struct ApplicationSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the application.
-        var applicationARN: String = ""
+        public var applicationARN: String = ""
         /// Name of the application.
-        var applicationName: String = ""
+        public var applicationName: String = ""
         /// Status of the application.
-        var applicationStatus: String = ""
+        public var applicationStatus: String = ""
 
         public init() {}
 
@@ -444,9 +500,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct JSONMappingParameters: Serializable, Initializable {
+    public struct JSONMappingParameters: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Path to the top-level parent that contains the records. For example, consider the following JSON record: In the RecordRowPath, "$" refers to the root and path "$.vehicle.Model" refers to the specific "Model" key in the JSON.
-        var recordRowPath: String = ""
+        public var recordRowPath: String = ""
 
         public init() {}
 
@@ -456,13 +514,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct AddApplicationOutputRequest: Serializable, Initializable {
+    public struct AddApplicationOutputRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Version of the application to which you want add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
-        var currentApplicationVersionId: Int64 = 0
+        public var currentApplicationVersionId: Int64 = 0
         /// Name of the application to which you want to add the output configuration.
-        var applicationName: String = ""
+        public var applicationName: String = ""
         /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream or an Amazon Kinesis Firehose delivery stream), and record the formation to use when writing to the destination.
-        var output: Output = Output()
+        public var output: Output = Output()
 
         public init() {}
 
@@ -474,11 +534,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct CSVMappingParameters: Serializable, Initializable {
+    public struct CSVMappingParameters: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
-        var recordRowDelimiter: String = ""
+        public var recordRowDelimiter: String = ""
         /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
-        var recordColumnDelimiter: String = ""
+        public var recordColumnDelimiter: String = ""
 
         public init() {}
 
@@ -489,11 +551,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisStreamsInputDescription: Serializable, Initializable {
+    public struct KinesisStreamsInputDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
 
         public init() {}
 
@@ -504,17 +568,19 @@ extension Kinesisanalytics {
 
     }
 
-    public struct Input: Serializable, Initializable {
+    public struct Input: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        var kinesisFirehoseInput: KinesisFirehoseInput? = nil
+        public var kinesisFirehoseInput: KinesisFirehoseInput? = nil
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source.
-        var inputSchema: SourceSchema = SourceSchema()
+        public var inputSchema: SourceSchema = SourceSchema()
         /// Name prefix to use when creating in-application stream. Suppose you specify a prefix "MyInApplicationStream". Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001", "MyInApplicationStream_002" and so on. 
-        var namePrefix: String = ""
+        public var namePrefix: String = ""
         /// If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        var kinesisStreamsInput: KinesisStreamsInput? = nil
+        public var kinesisStreamsInput: KinesisStreamsInput? = nil
         /// Describes the number of in-application streams to create.  Data from your source will be routed to these in-application input streams.  (see Configuring Application Input.
-        var inputParallelism: InputParallelism? = nil
+        public var inputParallelism: InputParallelism? = nil
 
         public init() {}
 
@@ -528,11 +594,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisFirehoseOutputDescription: Serializable, Initializable {
+    public struct KinesisFirehoseOutputDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
 
         public init() {}
 
@@ -543,19 +611,23 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DeleteApplicationOutputResponse: Serializable, Initializable {
+    public struct DeleteApplicationOutputResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct SourceSchema: Serializable, Initializable {
+    public struct SourceSchema: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the format of the records on the streaming source.
-        var recordFormat: RecordFormat = RecordFormat()
+        public var recordFormat: RecordFormat = RecordFormat()
         /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
-        var recordEncoding: String? = nil
+        public var recordEncoding: String? = nil
         /// A list of RecordColumn objects.
-        var recordColumns: [RecordColumn] = []
+        public var recordColumns: [RecordColumn] = []
 
         public init() {}
 
@@ -567,11 +639,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisFirehoseInput: Serializable, Initializable {
+    public struct KinesisFirehoseInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the input Firehose delivery stream.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure the role has necessary permissions to access the stream.
-        var roleARN: String = ""
+        public var roleARN: String = ""
 
         public init() {}
 
@@ -582,11 +656,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct InputConfiguration: Serializable, Initializable {
+    public struct InputConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Input source ID. You can get this ID by calling the DescribeApplication operation.
-        var id: String = ""
+        public var id: String = ""
         /// Point at which you want the application to start processing records from the streaming source.
-        var inputStartingPositionConfiguration: InputStartingPositionConfiguration = InputStartingPositionConfiguration()
+        public var inputStartingPositionConfiguration: InputStartingPositionConfiguration = InputStartingPositionConfiguration()
 
         public init() {}
 
@@ -597,17 +673,19 @@ extension Kinesisanalytics {
 
     }
 
-    public struct OutputDescription: Serializable, Initializable {
+    public struct OutputDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes Amazon Kinesis stream configured as the destination where output is written.
-        var kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil
+        public var kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil
         /// Data format used for writing data to the destination.
-        var destinationSchema: DestinationSchema? = nil
+        public var destinationSchema: DestinationSchema? = nil
         /// Name of the in-application stream configured as output.
-        var name: String? = nil
+        public var name: String? = nil
         /// A unique identifier for the output configuration.
-        var outputId: String? = nil
+        public var outputId: String? = nil
         /// Describes the Amazon Kinesis Firehose delivery stream configured as the destination where output is written.
-        var kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil
+        public var kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil
 
         public init() {}
 
@@ -621,11 +699,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisFirehoseOutput: Serializable, Initializable {
+    public struct KinesisFirehoseOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
-        var roleARN: String = ""
+        public var roleARN: String = ""
 
         public init() {}
 
@@ -636,11 +716,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisStreamsInputUpdate: Serializable, Initializable {
+    public struct KinesisStreamsInputUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        var roleARNUpdate: String? = nil
+        public var roleARNUpdate: String? = nil
         /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
-        var resourceARNUpdate: String? = nil
+        public var resourceARNUpdate: String? = nil
 
         public init() {}
 
@@ -651,9 +733,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DescribeApplicationRequest: Serializable, Initializable {
+    public struct DescribeApplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name of the application.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -663,13 +747,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DiscoverInputSchemaResponse: Serializable, Initializable {
+    public struct DiscoverInputSchemaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
-        var inputSchema: SourceSchema? = nil
+        public var inputSchema: SourceSchema? = nil
         /// An array of elements, where each element corresponds to a row in a stream record (a stream record can have more than one row).
-        var parsedInputRecords: [[String]]? = nil
+        public var parsedInputRecords: [[String]]? = nil
         /// Raw stream data that was sampled to infer the schema.
-        var rawInputRecords: [String]? = nil
+        public var rawInputRecords: [String]? = nil
 
         public init() {}
 
@@ -681,29 +767,31 @@ extension Kinesisanalytics {
 
     }
 
-    public struct ApplicationDetail: Serializable, Initializable {
+    public struct ApplicationDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Description of the application.
-        var applicationDescription: String? = nil
+        public var applicationDescription: String? = nil
         /// Status of the application.
-        var applicationStatus: String = ""
+        public var applicationStatus: String = ""
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
-        var inputDescriptions: [InputDescription]? = nil
+        public var inputDescriptions: [InputDescription]? = nil
         /// Timestamp when the application was last updated.
-        var lastUpdateTimestamp: Date? = nil
+        public var lastUpdateTimestamp: Date? = nil
         /// Timestamp when the application version was created.
-        var createTimestamp: Date? = nil
+        public var createTimestamp: Date? = nil
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
-        var applicationCode: String? = nil
+        public var applicationCode: String? = nil
         /// Name of the application.
-        var applicationName: String = ""
+        public var applicationName: String = ""
         /// ARN of the application.
-        var applicationARN: String = ""
+        public var applicationARN: String = ""
         /// Provides the current application version.
-        var applicationVersionId: Int64 = 0
+        public var applicationVersionId: Int64 = 0
         /// Describes the application output configuration. For more information, see Configuring Application Output. 
-        var outputDescriptions: [OutputDescription]? = nil
+        public var outputDescriptions: [OutputDescription]? = nil
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
-        var referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil
+        public var referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil
 
         public init() {}
 
@@ -723,13 +811,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct InputSchemaUpdate: Serializable, Initializable {
+    public struct InputSchemaUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
-        var recordColumnUpdates: [RecordColumn]? = nil
+        public var recordColumnUpdates: [RecordColumn]? = nil
         /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
-        var recordEncodingUpdate: String? = nil
+        public var recordEncodingUpdate: String? = nil
         /// Specifies the format of the records on the streaming source.
-        var recordFormatUpdate: RecordFormat? = nil
+        public var recordFormatUpdate: RecordFormat? = nil
 
         public init() {}
 
@@ -741,9 +831,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct InputParallelism: Serializable, Initializable {
+    public struct InputParallelism: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Number of in-application streams to create. For more information, see Limits. 
-        var count: Int32? = nil
+        public var count: Int32? = nil
 
         public init() {}
 
@@ -753,11 +845,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct KinesisStreamsInput: Serializable, Initializable {
+    public struct KinesisStreamsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the input Amazon Kinesis stream to read.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        var roleARN: String = ""
+        public var roleARN: String = ""
 
         public init() {}
 
@@ -768,20 +862,24 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DeleteApplicationResponse: Serializable, Initializable {
+    public struct DeleteApplicationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ReferenceDataSourceDescription: Serializable, Initializable {
+    public struct ReferenceDataSourceDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the S3 bucket name, the object key name that contains the reference data. It also provides the Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application reference table.
-        var s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription = S3ReferenceDataSourceDescription()
+        public var s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription = S3ReferenceDataSourceDescription()
         /// ID of the reference data source. This is the ID that Amazon Kinesis Analytics assigns when you add the reference data source to your application using the AddApplicationReferenceDataSource operation.
-        var referenceId: String = ""
+        public var referenceId: String = ""
         /// The in-application table name created by the specific reference data source configuration.
-        var tableName: String = ""
-        var referenceSchema: SourceSchema? = nil
+        public var tableName: String = ""
+        public var referenceSchema: SourceSchema? = nil
 
         public init() {}
 
@@ -794,13 +892,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DeleteApplicationReferenceDataSourceRequest: Serializable, Initializable {
+    public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        var currentApplicationVersionId: Int64 = 0
+        public var currentApplicationVersionId: Int64 = 0
         /// ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource, Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. 
-        var referenceId: String = ""
+        public var referenceId: String = ""
         /// Name of an existing application.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -812,14 +912,16 @@ extension Kinesisanalytics {
 
     }
 
-    public struct ReferenceDataSourceUpdate: Serializable, Initializable {
+    public struct ReferenceDataSourceUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.
-        var s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil
+        public var s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil
         /// In-application table name that is created by this update.
-        var tableNameUpdate: String? = nil
-        var referenceSchemaUpdate: SourceSchema? = nil
+        public var tableNameUpdate: String? = nil
+        public var referenceSchemaUpdate: SourceSchema? = nil
         /// ID of the reference data source being updated. You can use the DescribeApplication operation to get this value.
-        var referenceId: String = ""
+        public var referenceId: String = ""
 
         public init() {}
 
@@ -832,14 +934,16 @@ extension Kinesisanalytics {
 
     }
 
-    public struct Output: Serializable, Initializable {
+    public struct Output: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
-        var kinesisFirehoseOutput: KinesisFirehoseOutput? = nil
-        var destinationSchema: DestinationSchema = DestinationSchema()
+        public var kinesisFirehoseOutput: KinesisFirehoseOutput? = nil
+        public var destinationSchema: DestinationSchema = DestinationSchema()
         /// Name of the in-application stream.
-        var name: String = ""
+        public var name: String = ""
         /// Identifies an Amazon Kinesis stream as the destination.
-        var kinesisStreamsOutput: KinesisStreamsOutput? = nil
+        public var kinesisStreamsOutput: KinesisStreamsOutput? = nil
 
         public init() {}
 
@@ -852,17 +956,21 @@ extension Kinesisanalytics {
 
     }
 
-    public struct StartApplicationResponse: Serializable, Initializable {
+    public struct StartApplicationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct KinesisStreamsOutputDescription: Serializable, Initializable {
+    public struct KinesisStreamsOutputDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
 
         public init() {}
 
@@ -873,13 +981,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct S3ReferenceDataSourceDescription: Serializable, Initializable {
+    public struct S3ReferenceDataSourceDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.
-        var referenceRoleARN: String = ""
+        public var referenceRoleARN: String = ""
         /// Amazon Resource Name (ARN) of the S3 bucket.
-        var bucketARN: String = ""
+        public var bucketARN: String = ""
         /// Amazon S3 object key name.
-        var fileKey: String = ""
+        public var fileKey: String = ""
 
         public init() {}
 
@@ -891,15 +1001,17 @@ extension Kinesisanalytics {
 
     }
 
-    public struct ApplicationUpdate: Serializable, Initializable {
+    public struct ApplicationUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes application output configuration updates.
-        var outputUpdates: [OutputUpdate]? = nil
+        public var outputUpdates: [OutputUpdate]? = nil
         /// Describes application reference data source updates.
-        var referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil
+        public var referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil
         /// Describes application code updates.
-        var applicationCodeUpdate: String? = nil
+        public var applicationCodeUpdate: String? = nil
         /// Describes application input configuration updates.
-        var inputUpdates: [InputUpdate]? = nil
+        public var inputUpdates: [InputUpdate]? = nil
 
         public init() {}
 
@@ -912,11 +1024,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct MappingParameters: Serializable, Initializable {
+    public struct MappingParameters: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
-        var cSVMappingParameters: CSVMappingParameters? = nil
+        public var cSVMappingParameters: CSVMappingParameters? = nil
         /// Provides additional mapping information when JSON is the record format on the streaming source.
-        var jSONMappingParameters: JSONMappingParameters? = nil
+        public var jSONMappingParameters: JSONMappingParameters? = nil
 
         public init() {}
 
@@ -927,16 +1041,18 @@ extension Kinesisanalytics {
 
     }
 
-    public struct OutputUpdate: Serializable, Initializable {
+    public struct OutputUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
-        var nameUpdate: String? = nil
+        public var nameUpdate: String? = nil
         /// Describes an Amazon Kinesis stream as the destination for the output.
-        var kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil
+        public var kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil
         /// Describes a Amazon Kinesis Firehose delivery stream as the destination for the output.
-        var kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil
-        var destinationSchemaUpdate: DestinationSchema? = nil
+        public var kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil
+        public var destinationSchemaUpdate: DestinationSchema? = nil
         /// Identifies the specific output configuration that you want to update.
-        var outputId: String = ""
+        public var outputId: String = ""
 
         public init() {}
 
@@ -950,11 +1066,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct ListApplicationsRequest: Serializable, Initializable {
+    public struct ListApplicationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Maximum number of applications to list.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
-        var exclusiveStartApplicationName: String? = nil
+        public var exclusiveStartApplicationName: String? = nil
 
         public init() {}
 
@@ -965,13 +1083,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct RecordColumn: Serializable, Initializable {
+    public struct RecordColumn: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Reference to the data element in the streaming input of the reference data source.
-        var mapping: String? = nil
+        public var mapping: String? = nil
         /// Name of the column created in the in-application input stream or reference table.
-        var name: String = ""
+        public var name: String = ""
         /// Type of column created in the in-application input stream or reference table.
-        var sqlType: String = ""
+        public var sqlType: String = ""
 
         public init() {}
 
@@ -983,9 +1103,11 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DescribeApplicationResponse: Serializable, Initializable {
+    public struct DescribeApplicationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
-        var applicationDetail: ApplicationDetail = ApplicationDetail()
+        public var applicationDetail: ApplicationDetail = ApplicationDetail()
 
         public init() {}
 
@@ -995,11 +1117,13 @@ extension Kinesisanalytics {
 
     }
 
-    public struct ReferenceDataSource: Serializable, Initializable {
-        var s3ReferenceDataSource: S3ReferenceDataSource? = nil
-        var referenceSchema: SourceSchema = SourceSchema()
+    public struct ReferenceDataSource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var s3ReferenceDataSource: S3ReferenceDataSource? = nil
+        public var referenceSchema: SourceSchema = SourceSchema()
         /// Name of the in-application table to create.
-        var tableName: String = ""
+        public var tableName: String = ""
 
         public init() {}
 
@@ -1011,13 +1135,15 @@ extension Kinesisanalytics {
 
     }
 
-    public struct UpdateApplicationRequest: Serializable, Initializable {
+    public struct UpdateApplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current application version ID. You can use the DescribeApplication operation to get this value.
-        var currentApplicationVersionId: Int64 = 0
+        public var currentApplicationVersionId: Int64 = 0
         /// Describes application updates.
-        var applicationUpdate: ApplicationUpdate = ApplicationUpdate()
+        public var applicationUpdate: ApplicationUpdate = ApplicationUpdate()
         /// Name of the Kinesis Analytics application to update.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 
@@ -1029,18 +1155,22 @@ extension Kinesisanalytics {
 
     }
 
-    public struct DeleteApplicationReferenceDataSourceResponse: Serializable, Initializable {
+    public struct DeleteApplicationReferenceDataSourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AddApplicationInputRequest: Serializable, Initializable {
+    public struct AddApplicationInputRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Current version of your Amazon Kinesis Analytics application. You can use the DescribeApplication operation to find the current application version.
-        var currentApplicationVersionId: Int64 = 0
-        var input: Input = Input()
+        public var currentApplicationVersionId: Int64 = 0
+        public var input: Input = Input()
         /// Name of your existing Amazon Kinesis Analytics application to which you want to add the streaming source.
-        var applicationName: String = ""
+        public var applicationName: String = ""
 
         public init() {}
 

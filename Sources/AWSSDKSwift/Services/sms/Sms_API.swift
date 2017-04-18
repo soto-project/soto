@@ -32,83 +32,75 @@ Amazon Server Migration Service automates the process of migrating servers to EC
 */
 public struct Sms {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSServerMigrationService_V2016_10_24",
             service: "sms",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [SmsError.self]
         )
     }
 
     ///  The StartOnDemandReplicationRun API is used to start a ReplicationRun on demand (in addition to those that are scheduled based on your frequency). This ReplicationRun will start immediately. StartOnDemandReplicationRun is subject to limits on how many on demand ReplicationRuns you may call per 24-hour period.
     public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest) throws -> StartOnDemandReplicationRunResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The UpdateReplicationJob API is used to change the settings of your existing ReplicationJob created using CreateReplicationJob. Calling this API will affect the next scheduled ReplicationRun.
     public func updateReplicationJob(_ input: UpdateReplicationJobRequest) throws -> UpdateReplicationJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The DeleteReplicationJob API is used to delete a ReplicationJob, resulting in no further ReplicationRuns. This will delete the contents of the S3 bucket used to store SMS artifacts, but will not delete any AMIs created by the SMS service.
     public func deleteReplicationJob(_ input: DeleteReplicationJobRequest) throws -> DeleteReplicationJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The CreateReplicationJob API is used to create a ReplicationJob to replicate a server on AWS. Call this API to first create a ReplicationJob, which will then schedule periodic ReplicationRuns to replicate your server to AWS. Each ReplicationRun will result in the creation of an AWS AMI.
     public func createReplicationJob(_ input: CreateReplicationJobRequest) throws -> CreateReplicationJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The GetServers API returns a list of all servers in your server catalog. For this call to succeed, you must previously have called ImportServerCatalog.
     public func getServers(_ input: GetServersRequest) throws -> GetServersResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetServers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The DisassociateConnector API will disassociate a connector from the Server Migration Service, rendering it unavailable to support replication jobs.
     public func disassociateConnector(_ input: DisassociateConnectorRequest) throws -> DisassociateConnectorResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateConnector", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateConnector", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The GetReplicationJobs API will return all of your ReplicationJobs and their details. This API returns a paginated list, that may be consecutively called with nextToken to retrieve all ReplicationJobs.
     public func getReplicationJobs(_ input: GetReplicationJobsRequest) throws -> GetReplicationJobsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The GetReplicationRuns API will return all ReplicationRuns for a given ReplicationJob. This API returns a paginated list, that may be consecutively called with nextToken to retrieve all ReplicationRuns for a ReplicationJob.
     public func getReplicationRuns(_ input: GetReplicationRunsRequest) throws -> GetReplicationRunsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The ImportServerCatalog API is used to gather the complete list of on-premises servers on your premises. This API call requires connectors to be installed and monitoring all servers you would like imported. This API call returns immediately, but may take some time to retrieve all of the servers.
     public func importServerCatalog(_ input: ImportServerCatalogRequest) throws -> ImportServerCatalogResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The DeleteServerCatalog API clears all servers from your server catalog. This means that these servers will no longer be accessible to the Server Migration Service.
     public func deleteServerCatalog(_ input: DeleteServerCatalogRequest) throws -> DeleteServerCatalogResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The GetConnectors API returns a list of connectors that are registered with the Server Migration Service.
     public func getConnectors(_ input: GetConnectorsRequest) throws -> GetConnectorsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetConnectors", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try SmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetConnectors", path: "/", httpMethod: "POST", input: input)
     }
 
 

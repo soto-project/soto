@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Codebuild
-public enum CodebuildError: Error {
+public enum CodebuildError: AWSErrorType {
     case invalidInputException(message: String?)
     case resourceNotFoundException(message: String?)
     case accountLimitExceededException(message: String?)

@@ -29,13 +29,15 @@ import Core
 
 extension Elasticmapreduce {
 
-    public struct InstanceFleetStatus: Serializable, Initializable {
+    public struct InstanceFleetStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A code representing the instance fleet status.
-        var state: String? = nil
+        public var state: String? = nil
         /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination.
-        var timeline: InstanceFleetTimeline? = nil
+        public var timeline: InstanceFleetTimeline? = nil
         /// Provides status change reason details for the instance fleet.
-        var stateChangeReason: InstanceFleetStateChangeReason? = nil
+        public var stateChangeReason: InstanceFleetStateChangeReason? = nil
 
         public init() {}
 
@@ -47,33 +49,35 @@ extension Elasticmapreduce {
 
     }
 
-    public struct JobFlowInstancesDetail: Serializable, Initializable {
+    public struct JobFlowInstancesDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon EC2 instance identifier of the master node.
-        var masterInstanceId: String? = nil
+        public var masterInstanceId: String? = nil
         /// The Hadoop version for the cluster.
-        var hadoopVersion: String? = nil
+        public var hadoopVersion: String? = nil
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour that an m1.small runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        var normalizedInstanceHours: Int32? = nil
+        public var normalizedInstanceHours: Int32? = nil
         /// For clusters launched within Amazon Virtual Private Cloud, this is the identifier of the subnet where the cluster was launched.
-        var ec2SubnetId: String? = nil
+        public var ec2SubnetId: String? = nil
         /// The name of an Amazon EC2 key pair that can be used to ssh to the master node.
-        var ec2KeyName: String? = nil
+        public var ec2KeyName: String? = nil
         /// Specifies whether the cluster should remain available after completing all steps.
-        var keepJobFlowAliveWhenNoSteps: Bool? = nil
+        public var keepJobFlowAliveWhenNoSteps: Bool? = nil
         /// Details about the instance groups in a cluster.
-        var instanceGroups: [InstanceGroupDetail]? = nil
+        public var instanceGroups: [InstanceGroupDetail]? = nil
         /// The Amazon EC2 master node instance type.
-        var masterInstanceType: String = ""
+        public var masterInstanceType: String = ""
         /// The DNS name of the master node.
-        var masterPublicDnsName: String? = nil
+        public var masterPublicDnsName: String? = nil
         /// The Amazon EC2 Availability Zone for the cluster.
-        var placement: PlacementType? = nil
+        public var placement: PlacementType? = nil
         /// The Amazon EC2 slave node instance type.
-        var slaveInstanceType: String = ""
+        public var slaveInstanceType: String = ""
         /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and slave node. If the value is greater than 1, one instance is the master node and all others are slave nodes.
-        var instanceCount: Int32 = 0
+        public var instanceCount: Int32 = 0
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
-        var terminationProtected: Bool? = nil
+        public var terminationProtected: Bool? = nil
 
         public init() {}
 
@@ -95,13 +99,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct PutAutoScalingPolicyOutput: Serializable, Initializable {
+    public struct PutAutoScalingPolicyOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the ID of the instance group to which the scaling policy is applied.
-        var instanceGroupId: String? = nil
+        public var instanceGroupId: String? = nil
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        var clusterId: String? = nil
+        public var clusterId: String? = nil
         /// The automatic scaling policy definition.
-        var autoScalingPolicy: AutoScalingPolicyDescription? = nil
+        public var autoScalingPolicy: AutoScalingPolicyDescription? = nil
 
         public init() {}
 
@@ -113,15 +119,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListStepsInput: Serializable, Initializable {
+    public struct ListStepsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The filter to limit the step list based on the identifier of the steps.
-        var stepIds: [String]? = nil
+        public var stepIds: [String]? = nil
         /// The filter to limit the step list based on certain states.
-        var stepStates: [String]? = nil
+        public var stepStates: [String]? = nil
         /// The identifier of the cluster for which to list the steps.
-        var clusterId: String = ""
+        public var clusterId: String = ""
 
         public init() {}
 
@@ -134,13 +142,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct SimpleScalingPolicyConfiguration: Serializable, Initializable {
+    public struct SimpleScalingPolicyConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
-        var scalingAdjustment: Int32 = 0
+        public var scalingAdjustment: Int32 = 0
         /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
-        var coolDown: Int32? = nil
+        public var coolDown: Int32? = nil
         /// The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment, which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment, which should be expressed as a decimal. For example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment, which should be expressed as a positive integer.
-        var adjustmentType: String? = nil
+        public var adjustmentType: String? = nil
 
         public init() {}
 
@@ -152,27 +162,29 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceFleet: Serializable, Initializable {
+    public struct InstanceFleet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        var targetOnDemandCapacity: Int32? = nil
+        public var targetOnDemandCapacity: Int32? = nil
         /// The current status of the instance fleet. 
-        var status: InstanceFleetStatus? = nil
+        public var status: InstanceFleetStatus? = nil
         /// The specification for the instance types that comprise an instance fleet. Up to five unique instance specifications may be defined for each instance fleet. 
-        var instanceTypeSpecifications: [InstanceTypeSpecification]? = nil
+        public var instanceTypeSpecifications: [InstanceTypeSpecification]? = nil
         /// Describes the launch specification for an instance fleet. 
-        var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
+        public var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
         /// The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity.
-        var provisionedOnDemandCapacity: Int32? = nil
+        public var provisionedOnDemandCapacity: Int32? = nil
         /// A friendly name for the instance fleet.
-        var name: String? = nil
+        public var name: String? = nil
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK. 
-        var instanceFleetType: String? = nil
+        public var instanceFleetType: String? = nil
         /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
-        var provisionedSpotCapacity: Int32? = nil
+        public var provisionedSpotCapacity: Int32? = nil
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        var targetSpotCapacity: Int32? = nil
+        public var targetSpotCapacity: Int32? = nil
         /// The unique identifier of the instance fleet.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -191,13 +203,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroupStatus: Serializable, Initializable {
+    public struct InstanceGroupStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current state of the instance group.
-        var state: String? = nil
+        public var state: String? = nil
         /// The timeline of the instance group status over time.
-        var timeline: InstanceGroupTimeline? = nil
+        public var timeline: InstanceGroupTimeline? = nil
         /// The status change reason details for the instance group.
-        var stateChangeReason: InstanceGroupStateChangeReason? = nil
+        public var stateChangeReason: InstanceGroupStateChangeReason? = nil
 
         public init() {}
 
@@ -209,11 +223,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct CreateSecurityConfigurationOutput: Serializable, Initializable {
+    public struct CreateSecurityConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the security configuration.
-        var name: String = ""
+        public var name: String = ""
         /// The date and time the security configuration was created.
-        var creationDateTime: Date = Date()
+        public var creationDateTime: Date = Date()
 
         public init() {}
 
@@ -224,13 +240,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct FailureDetails: Serializable, Initializable {
+    public struct FailureDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The reason for the step failure. In the case where the service cannot successfully determine the root cause of the failure, it returns "Unknown Error" as a reason.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The path to the log file where the step failure root cause was originally recorded.
-        var logFile: String? = nil
+        public var logFile: String? = nil
         /// The descriptive message including the error the EMR service has identified as the cause of step failure. This is text from an error log that describes the root cause of the failure.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -242,15 +260,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListClustersInput: Serializable, Initializable {
+    public struct ListClustersInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The cluster state filters to apply when listing clusters.
-        var clusterStates: [String]? = nil
+        public var clusterStates: [String]? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The creation date and time end value filter for listing clusters.
-        var createdBefore: Date? = nil
+        public var createdBefore: Date? = nil
         /// The creation date and time beginning value filter for listing clusters.
-        var createdAfter: Date? = nil
+        public var createdAfter: Date? = nil
 
         public init() {}
 
@@ -263,11 +283,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ClusterStateChangeReason: Serializable, Initializable {
+    public struct ClusterStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The programmatic code for the state change reason.
-        var code: String? = nil
+        public var code: String? = nil
         /// The descriptive message for the state change reason.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -278,13 +300,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct VolumeSpecification: Serializable, Initializable {
+    public struct VolumeSpecification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of I/O operations per second (IOPS) that the volume supports.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// The volume type. Volume types supported are gp2, io1, standard.
-        var volumeType: String = ""
+        public var volumeType: String = ""
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
-        var sizeInGB: Int32 = 0
+        public var sizeInGB: Int32 = 0
 
         public init() {}
 
@@ -296,15 +320,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Application: Serializable, Initializable {
+    public struct Application: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The version of the application.
-        var version: String? = nil
+        public var version: String? = nil
         /// The name of the application.
-        var name: String? = nil
+        public var name: String? = nil
         /// Arguments for Amazon EMR to pass to the application.
-        var args: [String]? = nil
+        public var args: [String]? = nil
         /// This option is for advanced users only. This is meta information about third-party applications that third-party vendors use for testing purposes.
-        var additionalInfo: [String: String]? = nil
+        public var additionalInfo: [String: String]? = nil
 
         public init() {}
 
@@ -317,9 +343,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeJobFlowsOutput: Serializable, Initializable {
+    public struct DescribeJobFlowsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of job flows matching the parameters supplied.
-        var jobFlows: [JobFlowDetail]? = nil
+        public var jobFlows: [JobFlowDetail]? = nil
 
         public init() {}
 
@@ -329,25 +357,27 @@ extension Elasticmapreduce {
 
     }
 
-    public struct CloudWatchAlarmDefinition: Serializable, Initializable {
+    public struct CloudWatchAlarmDefinition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value against which the specified statistic is compared.
-        var threshold: Double = 0
+        public var threshold: Double = 0
         /// The name of the CloudWatch metric that is watched to determine an alarm condition.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300.
-        var period: Int32 = 0
+        public var period: Int32 = 0
         /// The number of periods, expressed in seconds using Period, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
-        var evaluationPeriods: Int32? = nil
+        public var evaluationPeriods: Int32? = nil
         /// Determines how the metric specified by MetricName is compared to the value specified by Threshold.
-        var comparisonOperator: String = ""
+        public var comparisonOperator: String = ""
         /// The statistic to apply to the metric associated with the alarm. The default is AVERAGE.
-        var statistic: String? = nil
+        public var statistic: String? = nil
         /// The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// A CloudWatch metric dimension.
-        var dimensions: [MetricDimension]? = nil
+        public var dimensions: [MetricDimension]? = nil
         /// The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce.
-        var namespace: String? = nil
+        public var namespace: String? = nil
 
         public init() {}
 
@@ -365,11 +395,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources. 
-        var value: String? = nil
+        public var value: String? = nil
         /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources. 
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -380,13 +412,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeSecurityConfigurationOutput: Serializable, Initializable {
+    public struct DescribeSecurityConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The security configuration details in JSON format.
-        var securityConfiguration: String? = nil
+        public var securityConfiguration: String? = nil
         /// The name of the security configuration.
-        var name: String? = nil
+        public var name: String? = nil
         /// The date and time the security configuration was created
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
 
         public init() {}
 
@@ -398,9 +432,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct CancelStepsOutput: Serializable, Initializable {
+    public struct CancelStepsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
-        var cancelStepsInfoList: [CancelStepsInfo]? = nil
+        public var cancelStepsInfoList: [CancelStepsInfo]? = nil
 
         public init() {}
 
@@ -410,9 +446,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceFleetProvisioningSpecifications: Serializable, Initializable {
+    public struct InstanceFleetProvisioningSpecifications: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
-        var spotSpecification: SpotProvisioningSpecification = SpotProvisioningSpecification()
+        public var spotSpecification: SpotProvisioningSpecification = SpotProvisioningSpecification()
 
         public init() {}
 
@@ -422,13 +460,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct PutAutoScalingPolicyInput: Serializable, Initializable {
+    public struct PutAutoScalingPolicyInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the ID of the instance group to which the automatic scaling policy is applied.
-        var instanceGroupId: String = ""
+        public var instanceGroupId: String = ""
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        var clusterId: String = ""
+        public var clusterId: String = ""
         /// Specifies the definition of the automatic scaling policy.
-        var autoScalingPolicy: AutoScalingPolicy = AutoScalingPolicy()
+        public var autoScalingPolicy: AutoScalingPolicy = AutoScalingPolicy()
 
         public init() {}
 
@@ -440,13 +480,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ClusterTimeline: Serializable, Initializable {
+    public struct ClusterTimeline: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time when the cluster was ready to execute steps.
-        var readyDateTime: Date? = nil
+        public var readyDateTime: Date? = nil
         /// The creation date and time of the cluster.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
         /// The date and time when the cluster was terminated.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
 
         public init() {}
 
@@ -458,9 +500,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddJobFlowStepsOutput: Serializable, Initializable {
+    public struct AddJobFlowStepsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifiers of the list of steps added to the job flow.
-        var stepIds: [String]? = nil
+        public var stepIds: [String]? = nil
 
         public init() {}
 
@@ -470,31 +514,33 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Instance: Serializable, Initializable {
+    public struct Instance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of EBS volumes that are attached to this instance.
-        var ebsVolumes: [EbsVolume]? = nil
+        public var ebsVolumes: [EbsVolume]? = nil
         /// The unique identifier of the instance fleet to which an EC2 instance belongs.
-        var instanceFleetId: String? = nil
+        public var instanceFleetId: String? = nil
         /// The identifier of the instance group to which this instance belongs.
-        var instanceGroupId: String? = nil
+        public var instanceGroupId: String? = nil
         /// The current status of the instance.
-        var status: InstanceStatus? = nil
+        public var status: InstanceStatus? = nil
         /// The instance purchasing option. Valid values are ON_DEMAND or SPOT. 
-        var market: String? = nil
+        public var market: String? = nil
         /// The unique identifier for the instance in Amazon EMR.
-        var id: String? = nil
+        public var id: String? = nil
         /// The public IP address of the instance.
-        var publicIpAddress: String? = nil
+        public var publicIpAddress: String? = nil
         /// The public DNS name of the instance.
-        var publicDnsName: String? = nil
+        public var publicDnsName: String? = nil
         /// The private DNS name of the instance.
-        var privateDnsName: String? = nil
+        public var privateDnsName: String? = nil
         /// The EC2 instance type, for example m3.xlarge.
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// The unique identifier of the instance in Amazon EC2.
-        var ec2InstanceId: String? = nil
+        public var ec2InstanceId: String? = nil
         /// The private IP address of the instance.
-        var privateIpAddress: String? = nil
+        public var privateIpAddress: String? = nil
 
         public init() {}
 
@@ -515,11 +561,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ScalingAction: Serializable, Initializable {
+    public struct ScalingAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Not available for instance groups. Instance groups use the market type specified for the group.
-        var market: String? = nil
+        public var market: String? = nil
         /// The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
-        var simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration = SimpleScalingPolicyConfiguration()
+        public var simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration = SimpleScalingPolicyConfiguration()
 
         public init() {}
 
@@ -530,17 +578,19 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Step: Serializable, Initializable {
+    public struct Step: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-        var actionOnFailure: String? = nil
+        public var actionOnFailure: String? = nil
         /// The current execution status details of the cluster step.
-        var status: StepStatus? = nil
+        public var status: StepStatus? = nil
         /// The name of the cluster step.
-        var name: String? = nil
+        public var name: String? = nil
         /// The Hadoop job configuration of the cluster step.
-        var config: HadoopStepConfig? = nil
+        public var config: HadoopStepConfig? = nil
         /// The identifier of the cluster step.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -554,11 +604,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct CreateSecurityConfigurationInput: Serializable, Initializable {
+    public struct CreateSecurityConfigurationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The security configuration details in JSON format.
-        var securityConfiguration: String = ""
+        public var securityConfiguration: String = ""
         /// The name of the security configuration.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -569,11 +621,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListInstanceGroupsInput: Serializable, Initializable {
+    public struct ListInstanceGroupsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The identifier of the cluster for which to list the instance groups.
-        var clusterId: String = ""
+        public var clusterId: String = ""
 
         public init() {}
 
@@ -584,35 +638,37 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroup: Serializable, Initializable {
+    public struct InstanceGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
-        var bidPrice: String? = nil
+        public var bidPrice: String? = nil
         /// Policy for customizing shrink operations.
-        var shrinkPolicy: ShrinkPolicy? = nil
+        public var shrinkPolicy: ShrinkPolicy? = nil
         /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance uses an optimized configuration stack and provides additional, dedicated capacity for Amazon EBS I/O.
-        var ebsOptimized: Bool? = nil
+        public var ebsOptimized: Bool? = nil
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
-        var autoScalingPolicy: AutoScalingPolicyDescription? = nil
+        public var autoScalingPolicy: AutoScalingPolicyDescription? = nil
         /// The EC2 instance type for all instances in the instance group.
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// The identifier of the instance group.
-        var id: String? = nil
+        public var id: String? = nil
         /// The current status of the instance group.
-        var status: InstanceGroupStatus? = nil
+        public var status: InstanceGroupStatus? = nil
         /// The target number of instances for the instance group.
-        var requestedInstanceCount: Int32? = nil
+        public var requestedInstanceCount: Int32? = nil
         /// The type of the instance group. Valid values are MASTER, CORE or TASK.
-        var instanceGroupType: String? = nil
+        public var instanceGroupType: String? = nil
         /// The EBS block devices that are mapped to this instance group.
-        var ebsBlockDevices: [EbsBlockDevice]? = nil
+        public var ebsBlockDevices: [EbsBlockDevice]? = nil
         /// The name of the instance group.
-        var name: String? = nil
+        public var name: String? = nil
         /// The number of instances currently running in this instance group.
-        var runningInstanceCount: Int32? = nil
+        public var runningInstanceCount: Int32? = nil
         /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
-        var market: String? = nil
+        public var market: String? = nil
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
 
         public init() {}
 
@@ -635,25 +691,29 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddTagsOutput: Serializable, Initializable {
+    public struct AddTagsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct InstanceFleetConfig: Serializable, Initializable {
+    public struct InstanceFleetConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        var targetOnDemandCapacity: Int32? = nil
+        public var targetOnDemandCapacity: Int32? = nil
         /// The launch specification for the instance fleet.
-        var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
+        public var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
         /// The instance type configurations that define the EC2 instances in the instance fleet.
-        var instanceTypeConfigs: [InstanceTypeConfig]? = nil
+        public var instanceTypeConfigs: [InstanceTypeConfig]? = nil
         /// The friendly name of the instance fleet.
-        var name: String? = nil
+        public var name: String? = nil
         /// The node type that the instance fleet hosts. Valid values are MASTER,CORE,and TASK.
-        var instanceFleetType: String = ""
+        public var instanceFleetType: String = ""
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        var targetSpotCapacity: Int32? = nil
+        public var targetSpotCapacity: Int32? = nil
 
         public init() {}
 
@@ -668,11 +728,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListInstanceFleetsInput: Serializable, Initializable {
+    public struct ListInstanceFleetsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The unique identifier of the cluster.
-        var clusterId: String = ""
+        public var clusterId: String = ""
 
         public init() {}
 
@@ -683,13 +745,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Command: Serializable, Initializable {
+    public struct Command: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the command.
-        var name: String? = nil
+        public var name: String? = nil
         /// Arguments for Amazon EMR to pass to the command for execution.
-        var args: [String]? = nil
+        public var args: [String]? = nil
         /// The Amazon S3 location of the command script.
-        var scriptPath: String? = nil
+        public var scriptPath: String? = nil
 
         public init() {}
 
@@ -701,11 +765,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AutoScalingPolicyStatus: Serializable, Initializable {
+    public struct AutoScalingPolicyStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates the status of the automatic scaling policy.
-        var state: String? = nil
+        public var state: String? = nil
         /// The reason for a change in status.
-        var stateChangeReason: AutoScalingPolicyStateChangeReason? = nil
+        public var stateChangeReason: AutoScalingPolicyStateChangeReason? = nil
 
         public init() {}
 
@@ -716,11 +782,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListInstanceFleetsOutput: Serializable, Initializable {
+    public struct ListInstanceFleetsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The list of instance fleets for the cluster and given filters.
-        var instanceFleets: [InstanceFleet]? = nil
+        public var instanceFleets: [InstanceFleet]? = nil
 
         public init() {}
 
@@ -731,9 +799,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeStepOutput: Serializable, Initializable {
+    public struct DescribeStepOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The step details for the requested step identifier.
-        var step: Step? = nil
+        public var step: Step? = nil
 
         public init() {}
 
@@ -743,11 +813,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct PlacementType: Serializable, Initializable {
+    public struct PlacementType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
 
         public init() {}
 
@@ -758,11 +830,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct MetricDimension: Serializable, Initializable {
+    public struct MetricDimension: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The dimension value.
-        var value: String? = nil
+        public var value: String? = nil
         /// The dimension name.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -773,9 +847,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DeleteSecurityConfigurationInput: Serializable, Initializable {
+    public struct DeleteSecurityConfigurationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the security configuration.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -785,13 +861,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepConfig: Serializable, Initializable {
+    public struct StepConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JAR file used for the step.
-        var hadoopJarStep: HadoopJarStepConfig = HadoopJarStepConfig()
+        public var hadoopJarStep: HadoopJarStepConfig = HadoopJarStepConfig()
         /// The name of the step.
-        var name: String = ""
+        public var name: String = ""
         /// The action to take if the step fails.
-        var actionOnFailure: String? = nil
+        public var actionOnFailure: String? = nil
 
         public init() {}
 
@@ -803,9 +881,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeClusterOutput: Serializable, Initializable {
+    public struct DescribeClusterOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// This output contains the details for the requested cluster.
-        var cluster: Cluster? = nil
+        public var cluster: Cluster? = nil
 
         public init() {}
 
@@ -815,21 +895,23 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListInstancesInput: Serializable, Initializable {
+    public struct ListInstancesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the instance group for which to list the instances.
-        var instanceGroupId: String? = nil
+        public var instanceGroupId: String? = nil
         /// The unique identifier of the instance fleet.
-        var instanceFleetId: String? = nil
+        public var instanceFleetId: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The node type of the instance fleet. For example MASTER, CORE, or TASK.
-        var instanceFleetType: String? = nil
+        public var instanceFleetType: String? = nil
         /// The type of instance group for which to list the instances.
-        var instanceGroupTypes: [String]? = nil
+        public var instanceGroupTypes: [String]? = nil
         /// The identifier of the cluster for which to list the instances.
-        var clusterId: String = ""
+        public var clusterId: String = ""
         /// A list of instance states that will filter the instances returned with this request.
-        var instanceStates: [String]? = nil
+        public var instanceStates: [String]? = nil
 
         public init() {}
 
@@ -845,29 +927,31 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Ec2InstanceAttributes: Serializable, Initializable {
+    public struct Ec2InstanceAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the Amazon EC2 security group for the slave nodes.
-        var emrManagedSlaveSecurityGroup: String? = nil
+        public var emrManagedSlaveSecurityGroup: String? = nil
         /// Applies to clusters configured with the The list of availability zones to choose from. The service will choose the availability zone with the best mix of available capacity and lowest cost to launch the cluster. If you do not specify this value, the cluster is launched in any availability zone that the customer account has access to.
-        var requestedEc2AvailabilityZones: [String]? = nil
+        public var requestedEc2AvailabilityZones: [String]? = nil
         /// A list of additional Amazon EC2 security group IDs for the master node.
-        var additionalMasterSecurityGroups: [String]? = nil
+        public var additionalMasterSecurityGroups: [String]? = nil
         /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
-        var iamInstanceProfile: String? = nil
+        public var iamInstanceProfile: String? = nil
         /// The identifier of the Amazon EC2 security group for the master node.
-        var emrManagedMasterSecurityGroup: String? = nil
+        public var emrManagedMasterSecurityGroup: String? = nil
         /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
-        var ec2SubnetId: String? = nil
+        public var ec2SubnetId: String? = nil
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
-        var serviceAccessSecurityGroup: String? = nil
+        public var serviceAccessSecurityGroup: String? = nil
         /// A list of additional Amazon EC2 security group IDs for the slave nodes.
-        var additionalSlaveSecurityGroups: [String]? = nil
+        public var additionalSlaveSecurityGroups: [String]? = nil
         /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Amazon EMR chooses the EC2 subnet with the best performance and cost characteristics from among the list of RequestedEc2SubnetIds and launches all cluster instances within that subnet. If this value is not specified, and the account supports EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses Requested
-        var requestedEc2SubnetIds: [String]? = nil
+        public var requestedEc2SubnetIds: [String]? = nil
         /// The Availability Zone in which the cluster will run. 
-        var ec2AvailabilityZone: String? = nil
+        public var ec2AvailabilityZone: String? = nil
         /// The name of the Amazon EC2 key pair to use when connecting with SSH into the master node as a user named "hadoop".
-        var ec2KeyName: String? = nil
+        public var ec2KeyName: String? = nil
 
         public init() {}
 
@@ -887,11 +971,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct EbsVolume: Serializable, Initializable {
+    public struct EbsVolume: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The volume identifier of the EBS volume.
-        var volumeId: String? = nil
+        public var volumeId: String? = nil
         /// The device name that is exposed to the instance, such as /dev/sdh.
-        var device: String? = nil
+        public var device: String? = nil
 
         public init() {}
 
@@ -902,11 +988,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListSecurityConfigurationsOutput: Serializable, Initializable {
+    public struct ListSecurityConfigurationsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The creation date and time, and name, of each security configuration.
-        var securityConfigurations: [SecurityConfigurationSummary]? = nil
+        public var securityConfigurations: [SecurityConfigurationSummary]? = nil
 
         public init() {}
 
@@ -917,13 +1005,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepTimeline: Serializable, Initializable {
+    public struct StepTimeline: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time when the cluster step execution started.
-        var startDateTime: Date? = nil
+        public var startDateTime: Date? = nil
         /// The date and time when the cluster step was created.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
         /// The date and time when the cluster step execution completed or failed.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
 
         public init() {}
 
@@ -935,11 +1025,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceStateChangeReason: Serializable, Initializable {
+    public struct InstanceStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The programmable code for the state change reason.
-        var code: String? = nil
+        public var code: String? = nil
         /// The status change reason description.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -950,11 +1042,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AutoScalingPolicy: Serializable, Initializable {
+    public struct AutoScalingPolicy: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-        var rules: [ScalingRule] = []
+        public var rules: [ScalingRule] = []
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
-        var constraints: ScalingConstraints = ScalingConstraints()
+        public var constraints: ScalingConstraints = ScalingConstraints()
 
         public init() {}
 
@@ -965,13 +1059,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Configuration: Serializable, Initializable {
+    public struct Configuration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The classification within a configuration.
-        var classification: String? = nil
+        public var classification: String? = nil
         /// A list of additional configurations to apply within a configuration object.
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
         /// A set of properties specified within a configuration classification.
-        var properties: [String: String]? = nil
+        public var properties: [String: String]? = nil
 
         public init() {}
 
@@ -983,13 +1079,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct CancelStepsInfo: Serializable, Initializable {
+    public struct CancelStepsInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The reason for the failure if the CancelSteps request fails.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
-        var status: String? = nil
+        public var status: String? = nil
         /// The encrypted StepId of a step.
-        var stepId: String? = nil
+        public var stepId: String? = nil
 
         public init() {}
 
@@ -1001,17 +1099,21 @@ extension Elasticmapreduce {
 
     }
 
-    public struct RemoveTagsOutput: Serializable, Initializable {
+    public struct RemoveTagsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AutoScalingPolicyStateChangeReason: Serializable, Initializable {
+    public struct AutoScalingPolicyStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
-        var code: String? = nil
+        public var code: String? = nil
         /// A friendly, more verbose message that accompanies an automatic scaling policy state change.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -1022,11 +1124,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceFleetStateChangeReason: Serializable, Initializable {
+    public struct InstanceFleetStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A code corresponding to the reason the state change occurred.
-        var code: String? = nil
+        public var code: String? = nil
         /// An explanatory message.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -1037,15 +1141,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ScalingRule: Serializable, Initializable {
+    public struct ScalingRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The conditions that trigger an automatic scaling activity.
-        var action: ScalingAction = ScalingAction()
+        public var action: ScalingAction = ScalingAction()
         /// The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
-        var name: String = ""
+        public var name: String = ""
         /// The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
-        var trigger: ScalingTrigger = ScalingTrigger()
+        public var trigger: ScalingTrigger = ScalingTrigger()
         /// A friendly, more verbose description of the automatic scaling rule.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1058,9 +1164,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListSecurityConfigurationsInput: Serializable, Initializable {
+    public struct ListSecurityConfigurationsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1070,35 +1178,37 @@ extension Elasticmapreduce {
 
     }
 
-    public struct JobFlowDetail: Serializable, Initializable {
+    public struct JobFlowDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of steps run by the job flow.
-        var steps: [StepDetail]? = nil
+        public var steps: [StepDetail]? = nil
         /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
-        var supportedProducts: [String]? = nil
+        public var supportedProducts: [String]? = nil
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
-        var autoScalingRole: String? = nil
+        public var autoScalingRole: String? = nil
         /// The version of the AMI used to initialize Amazon EC2 instances in the job flow. For a list of AMI versions currently supported by Amazon EMR, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide. 
-        var amiVersion: String? = nil
+        public var amiVersion: String? = nil
         /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        var visibleToAllUsers: Bool? = nil
+        public var visibleToAllUsers: Bool? = nil
         /// The job flow identifier.
-        var jobFlowId: String = ""
+        public var jobFlowId: String = ""
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
         /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
-        var jobFlowRole: String? = nil
+        public var jobFlowRole: String? = nil
         /// A list of the bootstrap actions run by the job flow.
-        var bootstrapActions: [BootstrapActionDetail]? = nil
+        public var bootstrapActions: [BootstrapActionDetail]? = nil
         /// The name of the job flow.
-        var name: String = ""
+        public var name: String = ""
         /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        var scaleDownBehavior: String? = nil
+        public var scaleDownBehavior: String? = nil
         /// The location in Amazon S3 where log files for the job are stored.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// Describes the Amazon EC2 instances of the job flow.
-        var instances: JobFlowInstancesDetail = JobFlowInstancesDetail()
+        public var instances: JobFlowInstancesDetail = JobFlowInstancesDetail()
         /// Describes the execution status of the job flow.
-        var executionStatusDetail: JobFlowExecutionStatusDetail = JobFlowExecutionStatusDetail()
+        public var executionStatusDetail: JobFlowExecutionStatusDetail = JobFlowExecutionStatusDetail()
 
         public init() {}
 
@@ -1121,13 +1231,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroupTimeline: Serializable, Initializable {
+    public struct InstanceGroupTimeline: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time when the instance group became ready to perform tasks.
-        var readyDateTime: Date? = nil
+        public var readyDateTime: Date? = nil
         /// The creation date and time of the instance group.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
         /// The date and time when the instance group terminated.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
 
         public init() {}
 
@@ -1139,9 +1251,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ScalingTrigger: Serializable, Initializable {
+    public struct ScalingTrigger: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
-        var cloudWatchAlarmDefinition: CloudWatchAlarmDefinition = CloudWatchAlarmDefinition()
+        public var cloudWatchAlarmDefinition: CloudWatchAlarmDefinition = CloudWatchAlarmDefinition()
 
         public init() {}
 
@@ -1151,9 +1265,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct BootstrapActionDetail: Serializable, Initializable {
+    public struct BootstrapActionDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A description of the bootstrap action.
-        var bootstrapActionConfig: BootstrapActionConfig? = nil
+        public var bootstrapActionConfig: BootstrapActionConfig? = nil
 
         public init() {}
 
@@ -1163,15 +1279,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeJobFlowsInput: Serializable, Initializable {
+    public struct DescribeJobFlowsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Return only job flows whose state is contained in this list.
-        var jobFlowStates: [String]? = nil
+        public var jobFlowStates: [String]? = nil
         /// Return only job flows whose job flow ID is contained in this list.
-        var jobFlowIds: [String]? = nil
+        public var jobFlowIds: [String]? = nil
         /// Return only job flows created before this date and time.
-        var createdBefore: Date? = nil
+        public var createdBefore: Date? = nil
         /// Return only job flows created after this date and time.
-        var createdAfter: Date? = nil
+        public var createdAfter: Date? = nil
 
         public init() {}
 
@@ -1184,11 +1302,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct EbsBlockDeviceConfig: Serializable, Initializable {
+    public struct EbsBlockDeviceConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
-        var volumeSpecification: VolumeSpecification = VolumeSpecification()
+        public var volumeSpecification: VolumeSpecification = VolumeSpecification()
         /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
-        var volumesPerInstance: Int32? = nil
+        public var volumesPerInstance: Int32? = nil
 
         public init() {}
 
@@ -1199,11 +1319,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct SetTerminationProtectionInput: Serializable, Initializable {
+    public struct SetTerminationProtectionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows . 
-        var jobFlowIds: [String] = []
+        public var jobFlowIds: [String] = []
         /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
-        var terminationProtected: Bool = false
+        public var terminationProtected: Bool = false
 
         public init() {}
 
@@ -1214,11 +1336,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct RemoveTagsInput: Serializable, Initializable {
+    public struct RemoveTagsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// A list of tag keys to remove from a resource.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -1229,13 +1353,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceStatus: Serializable, Initializable {
+    public struct InstanceStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current state of the instance.
-        var state: String? = nil
+        public var state: String? = nil
         /// The timeline of the instance status over time.
-        var timeline: InstanceTimeline? = nil
+        public var timeline: InstanceTimeline? = nil
         /// The details of the status change reason for the instance.
-        var stateChangeReason: InstanceStateChangeReason? = nil
+        public var stateChangeReason: InstanceStateChangeReason? = nil
 
         public init() {}
 
@@ -1247,17 +1373,19 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepSummary: Serializable, Initializable {
+    public struct StepSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-        var actionOnFailure: String? = nil
+        public var actionOnFailure: String? = nil
         /// The current execution status details of the cluster step.
-        var status: StepStatus? = nil
+        public var status: StepStatus? = nil
         /// The name of the cluster step.
-        var name: String? = nil
+        public var name: String? = nil
         /// The Hadoop job configuration of the cluster step.
-        var config: HadoopStepConfig? = nil
+        public var config: HadoopStepConfig? = nil
         /// The identifier of the cluster step.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -1271,11 +1399,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct BootstrapActionConfig: Serializable, Initializable {
+    public struct BootstrapActionConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the bootstrap action.
-        var name: String = ""
+        public var name: String = ""
         /// The script run by the bootstrap action.
-        var scriptBootstrapAction: ScriptBootstrapActionConfig = ScriptBootstrapActionConfig()
+        public var scriptBootstrapAction: ScriptBootstrapActionConfig = ScriptBootstrapActionConfig()
 
         public init() {}
 
@@ -1286,11 +1416,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddInstanceGroupsOutput: Serializable, Initializable {
+    public struct AddInstanceGroupsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job flow ID in which the instance groups are added.
-        var jobFlowId: String? = nil
+        public var jobFlowId: String? = nil
         /// Instance group IDs of the newly created instance groups.
-        var instanceGroupIds: [String]? = nil
+        public var instanceGroupIds: [String]? = nil
 
         public init() {}
 
@@ -1301,11 +1433,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListInstancesOutput: Serializable, Initializable {
+    public struct ListInstancesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The list of instances for the cluster and given filters.
-        var instances: [Instance]? = nil
+        public var instances: [Instance]? = nil
 
         public init() {}
 
@@ -1316,13 +1450,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceFleetModifyConfig: Serializable, Initializable {
+    public struct InstanceFleetModifyConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
-        var targetOnDemandCapacity: Int32? = nil
+        public var targetOnDemandCapacity: Int32? = nil
         /// A unique identifier for the instance fleet.
-        var instanceFleetId: String = ""
+        public var instanceFleetId: String = ""
         /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
-        var targetSpotCapacity: Int32? = nil
+        public var targetSpotCapacity: Int32? = nil
 
         public init() {}
 
@@ -1334,11 +1470,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListInstanceGroupsOutput: Serializable, Initializable {
+    public struct ListInstanceGroupsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The list of instance groups for the cluster and given filters.
-        var instanceGroups: [InstanceGroup]? = nil
+        public var instanceGroups: [InstanceGroup]? = nil
 
         public init() {}
 
@@ -1349,11 +1487,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct SecurityConfigurationSummary: Serializable, Initializable {
+    public struct SecurityConfigurationSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the security configuration.
-        var name: String? = nil
+        public var name: String? = nil
         /// The date and time the security configuration was created.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
 
         public init() {}
 
@@ -1364,11 +1504,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddInstanceFleetOutput: Serializable, Initializable {
+    public struct AddInstanceFleetOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier of the cluster.
-        var clusterId: String? = nil
+        public var clusterId: String? = nil
         /// The unique identifier of the instance fleet.
-        var instanceFleetId: String? = nil
+        public var instanceFleetId: String? = nil
 
         public init() {}
 
@@ -1379,11 +1521,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListBootstrapActionsOutput: Serializable, Initializable {
+    public struct ListBootstrapActionsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The bootstrap actions associated with the cluster.
-        var bootstrapActions: [Command]? = nil
+        public var bootstrapActions: [Command]? = nil
 
         public init() {}
 
@@ -1394,11 +1538,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct CancelStepsInput: Serializable, Initializable {
+    public struct CancelStepsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
-        var stepIds: [String]? = nil
+        public var stepIds: [String]? = nil
         /// The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
-        var clusterId: String? = nil
+        public var clusterId: String? = nil
 
         public init() {}
 
@@ -1409,11 +1555,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ModifyInstanceFleetInput: Serializable, Initializable {
+    public struct ModifyInstanceFleetInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier of the cluster.
-        var clusterId: String = ""
+        public var clusterId: String = ""
         /// The unique identifier of the instance fleet.
-        var instanceFleet: InstanceFleetModifyConfig = InstanceFleetModifyConfig()
+        public var instanceFleet: InstanceFleetModifyConfig = InstanceFleetModifyConfig()
 
         public init() {}
 
@@ -1424,41 +1572,43 @@ extension Elasticmapreduce {
 
     }
 
-    public struct JobFlowInstancesConfig: Serializable, Initializable {
+    public struct JobFlowInstancesConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
-        var hadoopVersion: String? = nil
+        public var hadoopVersion: String? = nil
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
-        var instanceFleets: [InstanceFleetConfig]? = nil
+        public var instanceFleets: [InstanceFleetConfig]? = nil
         /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
-        var ec2SubnetId: String? = nil
+        public var ec2SubnetId: String? = nil
         /// The identifier of the Amazon EC2 security group for the master node.
-        var emrManagedMasterSecurityGroup: String? = nil
+        public var emrManagedMasterSecurityGroup: String? = nil
         /// Specifies whether the cluster should remain available after completing all steps.
-        var keepJobFlowAliveWhenNoSteps: Bool? = nil
+        public var keepJobFlowAliveWhenNoSteps: Bool? = nil
         /// The name of the EC2 key pair that can be used to ssh to the master node as the user called "hadoop."
-        var ec2KeyName: String? = nil
+        public var ec2KeyName: String? = nil
         /// Configuration for the instance groups in a cluster.
-        var instanceGroups: [InstanceGroupConfig]? = nil
+        public var instanceGroups: [InstanceGroupConfig]? = nil
         /// The EC2 instance type of the master node.
-        var masterInstanceType: String? = nil
+        public var masterInstanceType: String? = nil
         /// The identifier of the Amazon EC2 security group for the slave nodes.
-        var emrManagedSlaveSecurityGroup: String? = nil
+        public var emrManagedSlaveSecurityGroup: String? = nil
         /// A list of additional Amazon EC2 security group IDs for the master node.
-        var additionalMasterSecurityGroups: [String]? = nil
+        public var additionalMasterSecurityGroups: [String]? = nil
         /// The Availability Zone in which the cluster runs.
-        var placement: PlacementType? = nil
+        public var placement: PlacementType? = nil
         /// The EC2 instance type of the slave nodes.
-        var slaveInstanceType: String? = nil
+        public var slaveInstanceType: String? = nil
         /// Applies to clusters that use the instance fleet configuration. When multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-        var ec2SubnetIds: [String]? = nil
+        public var ec2SubnetIds: [String]? = nil
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
-        var serviceAccessSecurityGroup: String? = nil
+        public var serviceAccessSecurityGroup: String? = nil
         /// A list of additional Amazon EC2 security group IDs for the slave nodes.
-        var additionalSlaveSecurityGroups: [String]? = nil
+        public var additionalSlaveSecurityGroups: [String]? = nil
         /// The number of EC2 instances in the cluster.
-        var instanceCount: Int32? = nil
+        public var instanceCount: Int32? = nil
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
-        var terminationProtected: Bool? = nil
+        public var terminationProtected: Bool? = nil
 
         public init() {}
 
@@ -1484,19 +1634,21 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceTypeConfig: Serializable, Initializable {
+    public struct InstanceTypeConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets. 
-        var weightedCapacity: Int32? = nil
+        public var weightedCapacity: Int32? = nil
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%. 
-        var bidPrice: String? = nil
+        public var bidPrice: String? = nil
         /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number between 0 and 1000 (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
-        var bidPriceAsPercentageOfOnDemandPrice: Double? = nil
+        public var bidPriceAsPercentageOfOnDemandPrice: Double? = nil
         /// An EC2 instance type, such as m3.xlarge. 
-        var instanceType: String = ""
+        public var instanceType: String = ""
         /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType. 
-        var ebsConfiguration: EbsConfiguration? = nil
+        public var ebsConfiguration: EbsConfiguration? = nil
         /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster.
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
 
         public init() {}
 
@@ -1511,9 +1663,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct TerminateJobFlowsInput: Serializable, Initializable {
+    public struct TerminateJobFlowsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of job flows to be shutdown.
-        var jobFlowIds: [String] = []
+        public var jobFlowIds: [String] = []
 
         public init() {}
 
@@ -1523,15 +1677,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct HadoopJarStepConfig: Serializable, Initializable {
+    public struct HadoopJarStepConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
-        var mainClass: String? = nil
+        public var mainClass: String? = nil
         /// A path to a JAR file run during the step.
-        var jar: String = ""
+        public var jar: String = ""
         /// A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
-        var properties: [KeyValue]? = nil
+        public var properties: [KeyValue]? = nil
         /// A list of command line arguments passed to the JAR file's main function when executed.
-        var args: [String]? = nil
+        public var args: [String]? = nil
 
         public init() {}
 
@@ -1544,11 +1700,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ShrinkPolicy: Serializable, Initializable {
+    public struct ShrinkPolicy: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
-        var instanceResizePolicy: InstanceResizePolicy? = nil
+        public var instanceResizePolicy: InstanceResizePolicy? = nil
         /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
-        var decommissionTimeout: Int32? = nil
+        public var decommissionTimeout: Int32? = nil
 
         public init() {}
 
@@ -1559,11 +1717,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListBootstrapActionsInput: Serializable, Initializable {
+    public struct ListBootstrapActionsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The cluster identifier for the bootstrap actions to list.
-        var clusterId: String = ""
+        public var clusterId: String = ""
 
         public init() {}
 
@@ -1574,13 +1734,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceFleetTimeline: Serializable, Initializable {
+    public struct InstanceFleetTimeline: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time and date the instance fleet was ready to run jobs.
-        var readyDateTime: Date? = nil
+        public var readyDateTime: Date? = nil
         /// The time and date the instance fleet was created.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
         /// The time and date the instance fleet terminated.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
 
         public init() {}
 
@@ -1592,11 +1754,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ScalingConstraints: Serializable, Initializable {
+    public struct ScalingConstraints: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
-        var maxCapacity: Int32 = 0
+        public var maxCapacity: Int32 = 0
         /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
-        var minCapacity: Int32 = 0
+        public var minCapacity: Int32 = 0
 
         public init() {}
 
@@ -1607,13 +1771,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AutoScalingPolicyDescription: Serializable, Initializable {
+    public struct AutoScalingPolicyDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of an automatic scaling policy. 
-        var status: AutoScalingPolicyStatus? = nil
+        public var status: AutoScalingPolicyStatus? = nil
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-        var rules: [ScalingRule]? = nil
+        public var rules: [ScalingRule]? = nil
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
-        var constraints: ScalingConstraints? = nil
+        public var constraints: ScalingConstraints? = nil
 
         public init() {}
 
@@ -1625,11 +1791,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct SupportedProductConfig: Serializable, Initializable {
+    public struct SupportedProductConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the product configuration.
-        var name: String? = nil
+        public var name: String? = nil
         /// The list of user-supplied arguments.
-        var args: [String]? = nil
+        public var args: [String]? = nil
 
         public init() {}
 
@@ -1640,21 +1808,23 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceTypeSpecification: Serializable, Initializable {
+    public struct InstanceTypeSpecification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
-        var weightedCapacity: Int32? = nil
+        public var weightedCapacity: Int32? = nil
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD.
-        var bidPrice: String? = nil
+        public var bidPrice: String? = nil
         /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType.
-        var ebsBlockDevices: [EbsBlockDevice]? = nil
+        public var ebsBlockDevices: [EbsBlockDevice]? = nil
         /// Evaluates to TRUE when the specified InstanceType is EBS-optimized.
-        var ebsOptimized: Bool? = nil
+        public var ebsOptimized: Bool? = nil
         /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
-        var bidPriceAsPercentageOfOnDemandPrice: Double? = nil
+        public var bidPriceAsPercentageOfOnDemandPrice: Double? = nil
         /// The EC2 instance type, for example m3.xlarge.
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR.
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
 
         public init() {}
 
@@ -1670,17 +1840,19 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepExecutionStatusDetail: Serializable, Initializable {
+    public struct StepExecutionStatusDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start date and time of the step.
-        var startDateTime: Date? = nil
+        public var startDateTime: Date? = nil
         /// A description of the step's current state.
-        var lastStateChangeReason: String? = nil
+        public var lastStateChangeReason: String? = nil
         /// The creation date and time of the step.
-        var creationDateTime: Date = Date()
+        public var creationDateTime: Date = Date()
         /// The completion date and time of the step.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
         /// The state of the step.
-        var state: String = ""
+        public var state: String = ""
 
         public init() {}
 
@@ -1694,45 +1866,47 @@ extension Elasticmapreduce {
 
     }
 
-    public struct RunJobFlowInput: Serializable, Initializable {
+    public struct RunJobFlowInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of steps to run.
-        var steps: [StepConfig]? = nil
+        public var steps: [StepConfig]? = nil
         ///  Amazon EMR releases 4.x or later.  The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
-        var releaseLabel: String? = nil
+        public var releaseLabel: String? = nil
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.  A list of strings that indicates third-party software to use. For more information, see Use Third Party Applications with Amazon EMR. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
-        var supportedProducts: [String]? = nil
+        public var supportedProducts: [String]? = nil
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        var autoScalingRole: String? = nil
+        public var autoScalingRole: String? = nil
         /// The name of a security configuration to apply to the cluster.
-        var securityConfiguration: String? = nil
+        public var securityConfiguration: String? = nil
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use ReleaseLabel.  The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. The following values are valid:   The version number of the AMI to use, for example, "2.0."   If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20) you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above. For details about the AMI versions currently supported by Amazon Elastic MapReduce, see AMI Versions Supported in Elastic MapReduce in the Amazon Elastic MapReduce Developer Guide.   Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later). 
-        var amiVersion: String? = nil
+        public var amiVersion: String? = nil
         /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
-        var visibleToAllUsers: Bool? = nil
+        public var visibleToAllUsers: Bool? = nil
         ///  Amazon EMR releases 4.x or later.  A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
-        var applications: [Application]? = nil
+        public var applications: [Application]? = nil
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
-        var newSupportedProducts: [SupportedProductConfig]? = nil
+        public var newSupportedProducts: [SupportedProductConfig]? = nil
         /// Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
-        var jobFlowRole: String? = nil
+        public var jobFlowRole: String? = nil
         /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
-        var bootstrapActions: [BootstrapActionConfig]? = nil
+        public var bootstrapActions: [BootstrapActionConfig]? = nil
         /// The name of the job flow.
-        var name: String = ""
+        public var name: String = ""
         /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        var scaleDownBehavior: String? = nil
+        public var scaleDownBehavior: String? = nil
         /// A JSON string for selecting additional features.
-        var additionalInfo: String? = nil
+        public var additionalInfo: String? = nil
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// A specification of the number and type of Amazon EC2 instances.
-        var instances: JobFlowInstancesConfig = JobFlowInstancesConfig()
+        public var instances: JobFlowInstancesConfig = JobFlowInstancesConfig()
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for the EMR cluster you are creating.
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
 
         public init() {}
 
@@ -1760,17 +1934,21 @@ extension Elasticmapreduce {
 
     }
 
-    public struct RemoveAutoScalingPolicyOutput: Serializable, Initializable {
+    public struct RemoveAutoScalingPolicyOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AddJobFlowStepsInput: Serializable, Initializable {
+    public struct AddJobFlowStepsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A list of StepConfig to be executed by the job flow. 
-        var steps: [StepConfig] = []
+        public var steps: [StepConfig] = []
         /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters. 
-        var jobFlowId: String = ""
+        public var jobFlowId: String = ""
 
         public init() {}
 
@@ -1781,49 +1959,51 @@ extension Elasticmapreduce {
 
     }
 
-    public struct Cluster: Serializable, Initializable {
+    public struct Cluster: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
-        var releaseLabel: String? = nil
+        public var releaseLabel: String? = nil
         /// The name of the security configuration applied to the cluster.
-        var securityConfiguration: String? = nil
+        public var securityConfiguration: String? = nil
         /// A list of tags associated with a cluster.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        var visibleToAllUsers: Bool? = nil
+        public var visibleToAllUsers: Bool? = nil
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        var normalizedInstanceHours: Int32? = nil
+        public var normalizedInstanceHours: Int32? = nil
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        var autoScalingRole: String? = nil
+        public var autoScalingRole: String? = nil
         /// The applications installed on this cluster.
-        var applications: [Application]? = nil
+        public var applications: [Application]? = nil
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
         /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
-        var ec2InstanceAttributes: Ec2InstanceAttributes? = nil
+        public var ec2InstanceAttributes: Ec2InstanceAttributes? = nil
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
-        var instanceCollectionType: String? = nil
+        public var instanceCollectionType: String? = nil
         /// The unique identifier for the cluster.
-        var id: String? = nil
+        public var id: String? = nil
         /// The current status details about the cluster.
-        var status: ClusterStatus? = nil
+        public var status: ClusterStatus? = nil
         /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION is available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        var scaleDownBehavior: String? = nil
+        public var scaleDownBehavior: String? = nil
         /// The name of the cluster.
-        var name: String? = nil
+        public var name: String? = nil
         /// The AMI version running on this cluster.
-        var runningAmiVersion: String? = nil
+        public var runningAmiVersion: String? = nil
         /// The AMI version requested for this cluster.
-        var requestedAmiVersion: String? = nil
+        public var requestedAmiVersion: String? = nil
         /// The path to the Amazon S3 location where logs for this cluster are stored.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// The public DNS name of the master EC2 instance.
-        var masterPublicDnsName: String? = nil
+        public var masterPublicDnsName: String? = nil
         /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        var terminationProtected: Bool? = nil
+        public var terminationProtected: Bool? = nil
         ///  Amazon EMR releases 4.x or later.  The list of Configurations supplied to the EMR cluster.
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
         /// Specifies whether the cluster should terminate after completing all steps.
-        var autoTerminate: Bool? = nil
+        public var autoTerminate: Bool? = nil
 
         public init() {}
 
@@ -1853,11 +2033,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepDetail: Serializable, Initializable {
+    public struct StepDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the step status.
-        var executionStatusDetail: StepExecutionStatusDetail = StepExecutionStatusDetail()
+        public var executionStatusDetail: StepExecutionStatusDetail = StepExecutionStatusDetail()
         /// The step configuration.
-        var stepConfig: StepConfig = StepConfig()
+        public var stepConfig: StepConfig = StepConfig()
 
         public init() {}
 
@@ -1868,11 +2050,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct KeyValue: Serializable, Initializable {
+    public struct KeyValue: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value part of the identified key.
-        var value: String? = nil
+        public var value: String? = nil
         /// The unique identifier of a key value pair.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -1883,9 +2067,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeClusterInput: Serializable, Initializable {
+    public struct DescribeClusterInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the cluster to describe.
-        var clusterId: String = ""
+        public var clusterId: String = ""
 
         public init() {}
 
@@ -1895,11 +2081,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeStepInput: Serializable, Initializable {
+    public struct DescribeStepInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the cluster with steps to describe.
-        var clusterId: String = ""
+        public var clusterId: String = ""
         /// The identifier of the step to describe.
-        var stepId: String = ""
+        public var stepId: String = ""
 
         public init() {}
 
@@ -1910,9 +2098,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DescribeSecurityConfigurationInput: Serializable, Initializable {
+    public struct DescribeSecurityConfigurationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the security configuration.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -1922,9 +2112,11 @@ extension Elasticmapreduce {
 
     }
 
-    public struct RunJobFlowOutput: Serializable, Initializable {
+    public struct RunJobFlowOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An unique identifier for the job flow.
-        var jobFlowId: String? = nil
+        public var jobFlowId: String? = nil
 
         public init() {}
 
@@ -1934,11 +2126,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddInstanceGroupsInput: Serializable, Initializable {
+    public struct AddInstanceGroupsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Job flow in which to add the instance groups.
-        var jobFlowId: String = ""
+        public var jobFlowId: String = ""
         /// Instance groups to add.
-        var instanceGroups: [InstanceGroupConfig] = []
+        public var instanceGroups: [InstanceGroupConfig] = []
 
         public init() {}
 
@@ -1949,15 +2143,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ClusterSummary: Serializable, Initializable {
+    public struct ClusterSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The details about the current status of the cluster.
-        var status: ClusterStatus? = nil
+        public var status: ClusterStatus? = nil
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        var normalizedInstanceHours: Int32? = nil
+        public var normalizedInstanceHours: Int32? = nil
         /// The name of the cluster.
-        var name: String? = nil
+        public var name: String? = nil
         /// The unique identifier for the cluster.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -1970,11 +2166,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct SetVisibleToAllUsersInput: Serializable, Initializable {
+    public struct SetVisibleToAllUsersInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifiers of the job flows to receive the new visibility setting.
-        var jobFlowIds: [String] = []
+        public var jobFlowIds: [String] = []
         /// Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
-        var visibleToAllUsers: Bool = false
+        public var visibleToAllUsers: Bool = false
 
         public init() {}
 
@@ -1985,15 +2183,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroupModifyConfig: Serializable, Initializable {
+    public struct InstanceGroupModifyConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Unique ID of the instance group to expand or shrink.
-        var instanceGroupId: String = ""
+        public var instanceGroupId: String = ""
         /// Policy for customizing shrink operations.
-        var shrinkPolicy: ShrinkPolicy? = nil
+        public var shrinkPolicy: ShrinkPolicy? = nil
         /// Target size for the instance group.
-        var instanceCount: Int32? = nil
+        public var instanceCount: Int32? = nil
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
-        var eC2InstanceIdsToTerminate: [String]? = nil
+        public var eC2InstanceIdsToTerminate: [String]? = nil
 
         public init() {}
 
@@ -2006,11 +2206,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroupStateChangeReason: Serializable, Initializable {
+    public struct InstanceGroupStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The programmable code for the state change reason.
-        var code: String? = nil
+        public var code: String? = nil
         /// The status change reason description.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -2021,15 +2223,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepStatus: Serializable, Initializable {
+    public struct StepStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The reason for the step execution status change.
-        var stateChangeReason: StepStateChangeReason? = nil
+        public var stateChangeReason: StepStateChangeReason? = nil
         /// The details for the step failure including reason, message, and log file path where the root cause was identified.
-        var failureDetails: FailureDetails? = nil
+        public var failureDetails: FailureDetails? = nil
         /// The execution state of the cluster step.
-        var state: String? = nil
+        public var state: String? = nil
         /// The timeline of the cluster step status over time.
-        var timeline: StepTimeline? = nil
+        public var timeline: StepTimeline? = nil
 
         public init() {}
 
@@ -2042,11 +2246,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct EbsBlockDevice: Serializable, Initializable {
+    public struct EbsBlockDevice: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
-        var volumeSpecification: VolumeSpecification? = nil
+        public var volumeSpecification: VolumeSpecification? = nil
         /// The device name that is exposed to the instance, such as /dev/sdh.
-        var device: String? = nil
+        public var device: String? = nil
 
         public init() {}
 
@@ -2057,11 +2263,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct StepStateChangeReason: Serializable, Initializable {
+    public struct StepStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
-        var code: String? = nil
+        public var code: String? = nil
         /// The descriptive message for the state change reason.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -2072,13 +2280,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ClusterStatus: Serializable, Initializable {
+    public struct ClusterStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current state of the cluster.
-        var state: String? = nil
+        public var state: String? = nil
         /// A timeline that represents the status of a cluster over the lifetime of the cluster.
-        var timeline: ClusterTimeline? = nil
+        public var timeline: ClusterTimeline? = nil
         /// The reason for the cluster status change.
-        var stateChangeReason: ClusterStateChangeReason? = nil
+        public var stateChangeReason: ClusterStateChangeReason? = nil
 
         public init() {}
 
@@ -2090,11 +2300,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ModifyInstanceGroupsInput: Serializable, Initializable {
+    public struct ModifyInstanceGroupsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the cluster to which the instance group belongs.
-        var clusterId: String? = nil
+        public var clusterId: String? = nil
         /// Instance groups to change.
-        var instanceGroups: [InstanceGroupModifyConfig]? = nil
+        public var instanceGroups: [InstanceGroupModifyConfig]? = nil
 
         public init() {}
 
@@ -2105,17 +2317,21 @@ extension Elasticmapreduce {
 
     }
 
-    public struct DeleteSecurityConfigurationOutput: Serializable, Initializable {
+    public struct DeleteSecurityConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListClustersOutput: Serializable, Initializable {
+    public struct ListClustersOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The list of clusters for the account based on the given filters.
-        var clusters: [ClusterSummary]? = nil
+        public var clusters: [ClusterSummary]? = nil
 
         public init() {}
 
@@ -2126,25 +2342,27 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroupConfig: Serializable, Initializable {
+    public struct InstanceGroupConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
-        var bidPrice: String? = nil
+        public var bidPrice: String? = nil
         /// Market type of the EC2 instances used to create a cluster node.
-        var market: String? = nil
+        public var market: String? = nil
         /// The role of the instance group in the cluster.
-        var instanceRole: String = ""
+        public var instanceRole: String = ""
         /// Friendly name given to the instance group.
-        var name: String? = nil
+        public var name: String? = nil
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
-        var autoScalingPolicy: AutoScalingPolicy? = nil
+        public var autoScalingPolicy: AutoScalingPolicy? = nil
         /// Target number of instances for the instance group.
-        var instanceCount: Int32 = 0
+        public var instanceCount: Int32 = 0
         /// The EC2 instance type for all instances in the instance group.
-        var instanceType: String = ""
+        public var instanceType: String = ""
         /// EBS configurations that will be attached to each EC2 instance in the instance group.
-        var ebsConfiguration: EbsConfiguration? = nil
+        public var ebsConfiguration: EbsConfiguration? = nil
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
-        var configurations: [Configuration]? = nil
+        public var configurations: [Configuration]? = nil
 
         public init() {}
 
@@ -2162,35 +2380,37 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceGroupDetail: Serializable, Initializable {
+    public struct InstanceGroupDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Unique identifier for the instance group.
-        var instanceGroupId: String? = nil
+        public var instanceGroupId: String? = nil
         /// Bid price for EC2 Instances when launching nodes as Spot Instances, expressed in USD.
-        var bidPrice: String? = nil
+        public var bidPrice: String? = nil
         /// Actual count of running instances.
-        var instanceRunningCount: Int32 = 0
+        public var instanceRunningCount: Int32 = 0
         /// The date/time the instance group was terminated.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
-        var state: String = ""
+        public var state: String = ""
         /// Details regarding the state of the instance group.
-        var lastStateChangeReason: String? = nil
+        public var lastStateChangeReason: String? = nil
         /// EC2 instance type.
-        var instanceType: String = ""
+        public var instanceType: String = ""
         /// The date/time the instance group was available to the cluster.
-        var readyDateTime: Date? = nil
+        public var readyDateTime: Date? = nil
         /// The date/time the instance group was created.
-        var creationDateTime: Date = Date()
+        public var creationDateTime: Date = Date()
         /// Target number of instances to run in the instance group.
-        var instanceRequestCount: Int32 = 0
+        public var instanceRequestCount: Int32 = 0
         /// Friendly name for the instance group.
-        var name: String? = nil
+        public var name: String? = nil
         /// Instance group role in the cluster
-        var instanceRole: String = ""
+        public var instanceRole: String = ""
         /// Market type of the EC2 instances used to create a cluster node.
-        var market: String = ""
+        public var market: String = ""
         /// The date/time the instance group was started.
-        var startDateTime: Date? = nil
+        public var startDateTime: Date? = nil
 
         public init() {}
 
@@ -2213,11 +2433,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ListStepsOutput: Serializable, Initializable {
+    public struct ListStepsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The filtered list of steps for the cluster.
-        var steps: [StepSummary]? = nil
+        public var steps: [StepSummary]? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -2228,15 +2450,17 @@ extension Elasticmapreduce {
 
     }
 
-    public struct HadoopStepConfig: Serializable, Initializable {
+    public struct HadoopStepConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a main class in its manifest file.
-        var mainClass: String? = nil
+        public var mainClass: String? = nil
         /// The path to the JAR file that runs during the step.
-        var jar: String? = nil
+        public var jar: String? = nil
         /// The list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
-        var properties: [String: String]? = nil
+        public var properties: [String: String]? = nil
         /// The list of command line arguments to pass to the JAR file's main function for execution.
-        var args: [String]? = nil
+        public var args: [String]? = nil
 
         public init() {}
 
@@ -2249,11 +2473,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct EbsConfiguration: Serializable, Initializable {
+    public struct EbsConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether an Amazon EBS volume is EBS-optimized.
-        var ebsOptimized: Bool? = nil
+        public var ebsOptimized: Bool? = nil
         /// An array of Amazon EBS volume specifications attached to a cluster instance.
-        var ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil
+        public var ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil
 
         public init() {}
 
@@ -2264,13 +2490,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceTimeline: Serializable, Initializable {
+    public struct InstanceTimeline: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time when the instance was ready to perform tasks.
-        var readyDateTime: Date? = nil
+        public var readyDateTime: Date? = nil
         /// The creation date and time of the instance.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
         /// The date and time when the instance was terminated.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
 
         public init() {}
 
@@ -2282,13 +2510,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct InstanceResizePolicy: Serializable, Initializable {
+    public struct InstanceResizePolicy: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specific list of instances to be terminated when shrinking an instance group.
-        var instancesToTerminate: [String]? = nil
+        public var instancesToTerminate: [String]? = nil
         /// Decommissioning timeout override for the specific list of instances to be terminated.
-        var instanceTerminationTimeout: Int32? = nil
+        public var instanceTerminationTimeout: Int32? = nil
         /// Specific list of instances to be protected when shrinking an instance group.
-        var instancesToProtect: [String]? = nil
+        public var instancesToProtect: [String]? = nil
 
         public init() {}
 
@@ -2300,11 +2530,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddTagsInput: Serializable, Initializable {
+    public struct AddTagsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -2315,11 +2547,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct ScriptBootstrapActionConfig: Serializable, Initializable {
+    public struct ScriptBootstrapActionConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of command line arguments to pass to the bootstrap action script.
-        var args: [String]? = nil
+        public var args: [String]? = nil
         /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
-        var path: String = ""
+        public var path: String = ""
 
         public init() {}
 
@@ -2330,11 +2564,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct AddInstanceFleetInput: Serializable, Initializable {
+    public struct AddInstanceFleetInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier of the cluster.
-        var clusterId: String = ""
+        public var clusterId: String = ""
         /// Specifies the configuration of the instance fleet.
-        var instanceFleet: InstanceFleetConfig = InstanceFleetConfig()
+        public var instanceFleet: InstanceFleetConfig = InstanceFleetConfig()
 
         public init() {}
 
@@ -2345,13 +2581,15 @@ extension Elasticmapreduce {
 
     }
 
-    public struct SpotProvisioningSpecification: Serializable, Initializable {
+    public struct SpotProvisioningSpecification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
-        var timeoutDurationMinutes: Int32 = 0
+        public var timeoutDurationMinutes: Int32 = 0
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND to fulfill the remaining capacity.
-        var timeoutAction: String = ""
+        public var timeoutAction: String = ""
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
-        var blockDurationMinutes: Int32? = nil
+        public var blockDurationMinutes: Int32? = nil
 
         public init() {}
 
@@ -2363,19 +2601,21 @@ extension Elasticmapreduce {
 
     }
 
-    public struct JobFlowExecutionStatusDetail: Serializable, Initializable {
+    public struct JobFlowExecutionStatusDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time when the job flow was ready to start running bootstrap actions.
-        var readyDateTime: Date? = nil
+        public var readyDateTime: Date? = nil
         /// The start date and time of the job flow.
-        var startDateTime: Date? = nil
+        public var startDateTime: Date? = nil
         /// Description of the job flow last changed state.
-        var lastStateChangeReason: String? = nil
+        public var lastStateChangeReason: String? = nil
         /// The creation date and time of the job flow.
-        var creationDateTime: Date = Date()
+        public var creationDateTime: Date = Date()
         /// The completion date and time of the job flow.
-        var endDateTime: Date? = nil
+        public var endDateTime: Date? = nil
         /// The state of the job flow.
-        var state: String = ""
+        public var state: String = ""
 
         public init() {}
 
@@ -2390,11 +2630,13 @@ extension Elasticmapreduce {
 
     }
 
-    public struct RemoveAutoScalingPolicyInput: Serializable, Initializable {
+    public struct RemoveAutoScalingPolicyInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the ID of the instance group to which the scaling policy is applied.
-        var instanceGroupId: String = ""
+        public var instanceGroupId: String = ""
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        var clusterId: String = ""
+        public var clusterId: String = ""
 
         public init() {}
 

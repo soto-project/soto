@@ -29,15 +29,17 @@ import Core
 
 extension Ecr {
 
-    public struct DescribeRepositoriesRequest: Serializable, Initializable {
+    public struct DescribeRepositoriesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
-        var repositoryNames: [String]? = nil
+        public var repositoryNames: [String]? = nil
         /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -50,11 +52,13 @@ extension Ecr {
 
     }
 
-    public struct ListImagesResponse: Serializable, Initializable {
+    public struct ListImagesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of image IDs for the requested repository.
-        var imageIds: [ImageIdentifier]? = nil
+        public var imageIds: [ImageIdentifier]? = nil
 
         public init() {}
 
@@ -65,13 +69,15 @@ extension Ecr {
 
     }
 
-    public struct AuthorizationData: Serializable, Initializable {
+    public struct AuthorizationData: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
-        var authorizationToken: String? = nil
+        public var authorizationToken: String? = nil
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
-        var expiresAt: Date? = nil
+        public var expiresAt: Date? = nil
         /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com.. 
-        var proxyEndpoint: String? = nil
+        public var proxyEndpoint: String? = nil
 
         public init() {}
 
@@ -83,11 +89,13 @@ extension Ecr {
 
     }
 
-    public struct BatchDeleteImageResponse: Serializable, Initializable {
+    public struct BatchDeleteImageResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Any failures associated with the call.
-        var failures: [ImageFailure]? = nil
+        public var failures: [ImageFailure]? = nil
         /// The image IDs of the deleted images.
-        var imageIds: [ImageIdentifier]? = nil
+        public var imageIds: [ImageIdentifier]? = nil
 
         public init() {}
 
@@ -98,11 +106,13 @@ extension Ecr {
 
     }
 
-    public struct DescribeImagesResponse: Serializable, Initializable {
+    public struct DescribeImagesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of ImageDetail objects that contain data about the image.
-        var imageDetails: [ImageDetail]? = nil
+        public var imageDetails: [ImageDetail]? = nil
 
         public init() {}
 
@@ -113,9 +123,11 @@ extension Ecr {
 
     }
 
-    public struct DeleteRepositoryResponse: Serializable, Initializable {
+    public struct DeleteRepositoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The repository that was deleted.
-        var repository: Repository? = nil
+        public var repository: Repository? = nil
 
         public init() {}
 
@@ -125,15 +137,17 @@ extension Ecr {
 
     }
 
-    public struct Layer: Serializable, Initializable {
+    public struct Layer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The size, in bytes, of the image layer.
-        var layerSize: Int64? = nil
+        public var layerSize: Int64? = nil
         /// The availability status of the image layer.
-        var layerAvailability: String? = nil
+        public var layerAvailability: String? = nil
         /// The media type of the layer, such as application/vnd.docker.image.rootfs.diff.tar.gzip or application/vnd.oci.image.layer.v1.tar+gzip.
-        var mediaType: String? = nil
+        public var mediaType: String? = nil
         /// The sha256 digest of the image layer.
-        var layerDigest: String? = nil
+        public var layerDigest: String? = nil
 
         public init() {}
 
@@ -146,19 +160,21 @@ extension Ecr {
 
     }
 
-    public struct DescribeImagesRequest: Serializable, Initializable {
+    public struct DescribeImagesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of image IDs for the requested repository.
-        var imageIds: [ImageIdentifier]? = nil
+        public var imageIds: [ImageIdentifier]? = nil
         /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The filter key and value with which to filter your DescribeImages results.
-        var filter: DescribeImagesFilter? = nil
+        public var filter: DescribeImagesFilter? = nil
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -173,11 +189,13 @@ extension Ecr {
 
     }
 
-    public struct ImageIdentifier: Serializable, Initializable {
+    public struct ImageIdentifier: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag used for the image.
-        var imageTag: String? = nil
+        public var imageTag: String? = nil
         /// The sha256 digest of the image manifest.
-        var imageDigest: String? = nil
+        public var imageDigest: String? = nil
 
         public init() {}
 
@@ -188,13 +206,15 @@ extension Ecr {
 
     }
 
-    public struct DeleteRepositoryPolicyResponse: Serializable, Initializable {
+    public struct DeleteRepositoryPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON repository policy that was deleted from the repository.
-        var policyText: String? = nil
+        public var policyText: String? = nil
         /// The registry ID associated with the request.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The repository name associated with the request.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
 
         public init() {}
 
@@ -206,13 +226,15 @@ extension Ecr {
 
     }
 
-    public struct LayerFailure: Serializable, Initializable {
+    public struct LayerFailure: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The layer digest associated with the failure.
-        var layerDigest: String? = nil
+        public var layerDigest: String? = nil
         /// The failure code associated with the failure.
-        var failureCode: String? = nil
+        public var failureCode: String? = nil
         /// The reason for the failure.
-        var failureReason: String? = nil
+        public var failureReason: String? = nil
 
         public init() {}
 
@@ -224,13 +246,15 @@ extension Ecr {
 
     }
 
-    public struct ImageFailure: Serializable, Initializable {
+    public struct ImageFailure: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The image ID associated with the failure.
-        var imageId: ImageIdentifier? = nil
+        public var imageId: ImageIdentifier? = nil
         /// The code associated with the failure.
-        var failureCode: String? = nil
+        public var failureCode: String? = nil
         /// The reason for the failure.
-        var failureReason: String? = nil
+        public var failureReason: String? = nil
 
         public init() {}
 
@@ -242,11 +266,13 @@ extension Ecr {
 
     }
 
-    public struct BatchGetImageResponse: Serializable, Initializable {
+    public struct BatchGetImageResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Any failures associated with the call.
-        var failures: [ImageFailure]? = nil
+        public var failures: [ImageFailure]? = nil
         /// A list of image objects corresponding to the image references in the request.
-        var images: [Image]? = nil
+        public var images: [Image]? = nil
 
         public init() {}
 
@@ -257,13 +283,15 @@ extension Ecr {
 
     }
 
-    public struct SetRepositoryPolicyResponse: Serializable, Initializable {
+    public struct SetRepositoryPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON repository policy text applied to the repository.
-        var policyText: String? = nil
+        public var policyText: String? = nil
         /// The registry ID associated with the request.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The repository name associated with the request.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
 
         public init() {}
 
@@ -275,9 +303,11 @@ extension Ecr {
 
     }
 
-    public struct GetAuthorizationTokenRequest: Serializable, Initializable {
+    public struct GetAuthorizationTokenRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
-        var registryIds: [String]? = nil
+        public var registryIds: [String]? = nil
 
         public init() {}
 
@@ -287,19 +317,21 @@ extension Ecr {
 
     }
 
-    public struct ImageDetail: Serializable, Initializable {
+    public struct ImageDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
-        var imageSizeInBytes: Int64? = nil
+        public var imageSizeInBytes: Int64? = nil
         /// The name of the repository to which this image belongs.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
         /// The sha256 digest of the image manifest.
-        var imageDigest: String? = nil
+        public var imageDigest: String? = nil
         /// The list of tags associated with this image.
-        var imageTags: [String]? = nil
+        public var imageTags: [String]? = nil
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
-        var imagePushedAt: Date? = nil
+        public var imagePushedAt: Date? = nil
         /// The AWS account ID associated with the registry to which this image belongs.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -314,9 +346,11 @@ extension Ecr {
 
     }
 
-    public struct GetAuthorizationTokenResponse: Serializable, Initializable {
+    public struct GetAuthorizationTokenResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
-        var authorizationData: [AuthorizationData]? = nil
+        public var authorizationData: [AuthorizationData]? = nil
 
         public init() {}
 
@@ -326,11 +360,13 @@ extension Ecr {
 
     }
 
-    public struct InitiateLayerUploadResponse: Serializable, Initializable {
+    public struct InitiateLayerUploadResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
-        var uploadId: String? = nil
+        public var uploadId: String? = nil
         /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
-        var partSize: Int64? = nil
+        public var partSize: Int64? = nil
 
         public init() {}
 
@@ -341,15 +377,17 @@ extension Ecr {
 
     }
 
-    public struct BatchGetImageRequest: Serializable, Initializable {
+    public struct BatchGetImageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
-        var acceptedMediaTypes: [String]? = nil
+        public var acceptedMediaTypes: [String]? = nil
         /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
-        var imageIds: [ImageIdentifier] = []
+        public var imageIds: [ImageIdentifier] = []
         /// The repository that contains the images to describe.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -362,11 +400,13 @@ extension Ecr {
 
     }
 
-    public struct DeleteRepositoryPolicyRequest: Serializable, Initializable {
+    public struct DeleteRepositoryPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The name of the repository that is associated with the repository policy to delete.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -377,11 +417,13 @@ extension Ecr {
 
     }
 
-    public struct GetDownloadUrlForLayerResponse: Serializable, Initializable {
+    public struct GetDownloadUrlForLayerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The digest of the image layer to download.
-        var layerDigest: String? = nil
+        public var layerDigest: String? = nil
         /// The pre-signed Amazon S3 download URL for the requested layer.
-        var downloadUrl: String? = nil
+        public var downloadUrl: String? = nil
 
         public init() {}
 
@@ -392,15 +434,17 @@ extension Ecr {
 
     }
 
-    public struct Image: Serializable, Initializable {
+    public struct Image: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The image manifest associated with the image.
-        var imageManifest: String? = nil
+        public var imageManifest: String? = nil
         /// An object containing the image tag and image digest associated with an image.
-        var imageId: ImageIdentifier? = nil
+        public var imageId: ImageIdentifier? = nil
         /// The name of the repository associated with the image.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
         /// The AWS account ID associated with the registry containing the image.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -413,9 +457,11 @@ extension Ecr {
 
     }
 
-    public struct CreateRepositoryRequest: Serializable, Initializable {
+    public struct CreateRepositoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -425,13 +471,15 @@ extension Ecr {
 
     }
 
-    public struct GetRepositoryPolicyResponse: Serializable, Initializable {
+    public struct GetRepositoryPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON repository policy text associated with the repository.
-        var policyText: String? = nil
+        public var policyText: String? = nil
         /// The registry ID associated with the request.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The repository name associated with the request.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
 
         public init() {}
 
@@ -443,13 +491,15 @@ extension Ecr {
 
     }
 
-    public struct GetDownloadUrlForLayerRequest: Serializable, Initializable {
+    public struct GetDownloadUrlForLayerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The digest of the image layer to download.
-        var layerDigest: String = ""
+        public var layerDigest: String = ""
         /// The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The name of the repository that is associated with the image layer to download.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -461,9 +511,11 @@ extension Ecr {
 
     }
 
-    public struct ListImagesFilter: Serializable, Initializable {
+    public struct ListImagesFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        var tagStatus: String? = nil
+        public var tagStatus: String? = nil
 
         public init() {}
 
@@ -473,15 +525,17 @@ extension Ecr {
 
     }
 
-    public struct SetRepositoryPolicyRequest: Serializable, Initializable {
+    public struct SetRepositoryPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
-        var force: Bool? = nil
+        public var force: Bool? = nil
         /// The JSON repository policy text to apply to the repository.
-        var policyText: String = ""
+        public var policyText: String = ""
         /// The name of the repository to receive the policy.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -494,9 +548,11 @@ extension Ecr {
 
     }
 
-    public struct CreateRepositoryResponse: Serializable, Initializable {
+    public struct CreateRepositoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The repository that was created.
-        var repository: Repository? = nil
+        public var repository: Repository? = nil
 
         public init() {}
 
@@ -506,13 +562,15 @@ extension Ecr {
 
     }
 
-    public struct BatchCheckLayerAvailabilityRequest: Serializable, Initializable {
+    public struct BatchCheckLayerAvailabilityRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The digests of the image layers to check.
-        var layerDigests: [String] = []
+        public var layerDigests: [String] = []
         /// The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The name of the repository that is associated with the image layers to check.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -524,11 +582,13 @@ extension Ecr {
 
     }
 
-    public struct GetRepositoryPolicyRequest: Serializable, Initializable {
+    public struct GetRepositoryPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The name of the repository whose policy you want to retrieve.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -539,15 +599,17 @@ extension Ecr {
 
     }
 
-    public struct UploadLayerPartResponse: Serializable, Initializable {
+    public struct UploadLayerPartResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload ID associated with the request.
-        var uploadId: String? = nil
+        public var uploadId: String? = nil
         /// The repository name associated with the request.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
         /// The registry ID associated with the request.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The integer value of the last byte received in the request.
-        var lastByteReceived: Int64? = nil
+        public var lastByteReceived: Int64? = nil
 
         public init() {}
 
@@ -560,11 +622,13 @@ extension Ecr {
 
     }
 
-    public struct BatchCheckLayerAvailabilityResponse: Serializable, Initializable {
+    public struct BatchCheckLayerAvailabilityResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Any failures associated with the call.
-        var failures: [LayerFailure]? = nil
+        public var failures: [LayerFailure]? = nil
         /// A list of image layer objects corresponding to the image layer references in the request.
-        var layers: [Layer]? = nil
+        public var layers: [Layer]? = nil
 
         public init() {}
 
@@ -575,15 +639,17 @@ extension Ecr {
 
     }
 
-    public struct PutImageRequest: Serializable, Initializable {
+    public struct PutImageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
-        var imageTag: String? = nil
+        public var imageTag: String? = nil
         /// The image manifest corresponding to the image to be uploaded.
-        var imageManifest: String = ""
+        public var imageManifest: String = ""
         /// The name of the repository in which to put the image.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 
@@ -596,11 +662,13 @@ extension Ecr {
 
     }
 
-    public struct DescribeRepositoriesResponse: Serializable, Initializable {
+    public struct DescribeRepositoriesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of repository objects corresponding to valid repositories.
-        var repositories: [Repository]? = nil
+        public var repositories: [Repository]? = nil
         /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -611,11 +679,13 @@ extension Ecr {
 
     }
 
-    public struct InitiateLayerUploadRequest: Serializable, Initializable {
+    public struct InitiateLayerUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The name of the repository that you intend to upload layers to.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -626,13 +696,15 @@ extension Ecr {
 
     }
 
-    public struct DeleteRepositoryRequest: Serializable, Initializable {
+    public struct DeleteRepositoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Force the deletion of the repository if it contains images.
-        var force: Bool? = nil
+        public var force: Bool? = nil
         /// The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The name of the repository to delete.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -644,9 +716,11 @@ extension Ecr {
 
     }
 
-    public struct PutImageResponse: Serializable, Initializable {
+    public struct PutImageResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Details of the image uploaded.
-        var image: Image? = nil
+        public var image: Image? = nil
 
         public init() {}
 
@@ -656,17 +730,19 @@ extension Ecr {
 
     }
 
-    public struct Repository: Serializable, Initializable {
+    public struct Repository: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The URI for the repository. You can use this URI for Docker push and pull operations.
-        var repositoryUri: String? = nil
+        public var repositoryUri: String? = nil
         /// The name of the repository.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
         /// The AWS account ID associated with the registry that contains the repository.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The date and time, in JavaScript date/time format, when the repository was created.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, the AWS account ID of the repository owner, the repository namespace, and then the repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
-        var repositoryArn: String? = nil
+        public var repositoryArn: String? = nil
 
         public init() {}
 
@@ -680,13 +756,15 @@ extension Ecr {
 
     }
 
-    public struct BatchDeleteImageRequest: Serializable, Initializable {
+    public struct BatchDeleteImageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
-        var imageIds: [ImageIdentifier] = []
+        public var imageIds: [ImageIdentifier] = []
         /// The repository that contains the image to delete.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -698,15 +776,17 @@ extension Ecr {
 
     }
 
-    public struct CompleteLayerUploadResponse: Serializable, Initializable {
+    public struct CompleteLayerUploadResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload ID associated with the layer.
-        var uploadId: String? = nil
+        public var uploadId: String? = nil
         /// The repository name associated with the request.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
         /// The registry ID associated with the request.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The sha256 digest of the image layer.
-        var layerDigest: String? = nil
+        public var layerDigest: String? = nil
 
         public init() {}
 
@@ -719,19 +799,21 @@ extension Ecr {
 
     }
 
-    public struct UploadLayerPartRequest: Serializable, Initializable {
+    public struct UploadLayerPartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
-        var uploadId: String = ""
+        public var uploadId: String = ""
         /// The base64-encoded layer part payload.
-        var layerPartBlob: Data = Data()
+        public var layerPartBlob: Data = Data()
         /// The name of the repository that you are uploading layer parts to.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The integer value of the last byte of the layer part.
-        var partLastByte: Int64 = 0
+        public var partLastByte: Int64 = 0
         /// The AWS account ID associated with the registry that you are uploading layer parts to. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The integer value of the first byte of the layer part.
-        var partFirstByte: Int64 = 0
+        public var partFirstByte: Int64 = 0
 
         public init() {}
 
@@ -746,15 +828,17 @@ extension Ecr {
 
     }
 
-    public struct CompleteLayerUploadRequest: Serializable, Initializable {
+    public struct CompleteLayerUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
-        var uploadId: String = ""
+        public var uploadId: String = ""
         /// The name of the repository to associate with the image layer.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
         /// The sha256 digest of the image layer.
-        var layerDigests: [String] = []
+        public var layerDigests: [String] = []
 
         public init() {}
 
@@ -767,9 +851,11 @@ extension Ecr {
 
     }
 
-    public struct DescribeImagesFilter: Serializable, Initializable {
+    public struct DescribeImagesFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        var tagStatus: String? = nil
+        public var tagStatus: String? = nil
 
         public init() {}
 
@@ -779,17 +865,19 @@ extension Ecr {
 
     }
 
-    public struct ListImagesRequest: Serializable, Initializable {
+    public struct ListImagesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The filter key and value with which to filter your ListImages results.
-        var filter: ListImagesFilter? = nil
+        public var filter: ListImagesFilter? = nil
         /// The repository whose image IDs are to be listed.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The AWS account ID associated with the registry that contains the repository to list images in. If you do not specify a registry, the default registry is assumed.
-        var registryId: String? = nil
+        public var registryId: String? = nil
 
         public init() {}
 

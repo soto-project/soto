@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Importexport
-public enum ImportexportError: Error {
+public enum ImportexportError: AWSErrorType {
     case missingParameterException(message: String?)
     case invalidParameterException(message: String?)
     case invalidAccessKeyIdException(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Sqs
-public enum SqsError: Error {
+public enum SqsError: AWSErrorType {
     case invalidMessageContents(message: String?)
     case unsupportedOperation(message: String?)
     case invalidIdFormat(message: String?)

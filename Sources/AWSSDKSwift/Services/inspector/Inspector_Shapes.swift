@@ -29,11 +29,13 @@ import Core
 
 extension Inspector {
 
-    public struct DescribeRulesPackagesRequest: Serializable, Initializable {
+    public struct DescribeRulesPackagesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the rules package that you want to describe.
-        var rulesPackageArns: [String] = []
+        public var rulesPackageArns: [String] = []
         /// The locale that you want to translate a rules package description into.
-        var locale: String? = nil
+        public var locale: String? = nil
 
         public init() {}
 
@@ -44,9 +46,11 @@ extension Inspector {
 
     }
 
-    public struct RemoveAttributesFromFindingsResponse: Serializable, Initializable {
+    public struct RemoveAttributesFromFindingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Attributes details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
 
         public init() {}
 
@@ -56,9 +60,11 @@ extension Inspector {
 
     }
 
-    public struct DescribeResourceGroupsRequest: Serializable, Initializable {
+    public struct DescribeResourceGroupsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the resource group that you want to describe.
-        var resourceGroupArns: [String] = []
+        public var resourceGroupArns: [String] = []
 
         public init() {}
 
@@ -68,15 +74,17 @@ extension Inspector {
 
     }
 
-    public struct ListFindingsRequest: Serializable, Initializable {
+    public struct ListFindingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        var filter: FindingFilter? = nil
+        public var filter: FindingFilter? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ARNs of the assessment runs that generate the findings that you want to list.
-        var assessmentRunArns: [String]? = nil
+        public var assessmentRunArns: [String]? = nil
 
         public init() {}
 
@@ -89,13 +97,15 @@ extension Inspector {
 
     }
 
-    public struct DescribeCrossAccountAccessRoleResponse: Serializable, Initializable {
+    public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
-        var valid: Bool = false
+        public var valid: Bool = false
         /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The date when the cross-account access role was registered.
-        var registeredAt: Date = Date()
+        public var registeredAt: Date = Date()
 
         public init() {}
 
@@ -107,13 +117,15 @@ extension Inspector {
 
     }
 
-    public struct PreviewAgentsRequest: Serializable, Initializable {
+    public struct PreviewAgentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment target whose agents you want to preview.
-        var previewAgentsArn: String = ""
+        public var previewAgentsArn: String = ""
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the PreviewAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -125,11 +137,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeRulesPackagesResponse: Serializable, Initializable {
+    public struct DescribeRulesPackagesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the rules package.
-        var rulesPackages: [RulesPackage] = []
+        public var rulesPackages: [RulesPackage] = []
         /// Rules package details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
 
         public init() {}
 
@@ -140,13 +154,15 @@ extension Inspector {
 
     }
 
-    public struct Subscription: Serializable, Initializable {
+    public struct Subscription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment template that is used during the event for which the SNS notification is sent.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The list of existing event subscriptions.
-        var eventSubscriptions: [EventSubscription] = []
+        public var eventSubscriptions: [EventSubscription] = []
         /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the SNS notifications are sent.
-        var topicArn: String = ""
+        public var topicArn: String = ""
 
         public init() {}
 
@@ -158,17 +174,19 @@ extension Inspector {
 
     }
 
-    public struct AssessmentTarget: Serializable, Initializable {
+    public struct AssessmentTarget: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the resource group that is associated with the assessment target.
-        var resourceGroupArn: String = ""
+        public var resourceGroupArn: String = ""
         /// The name of the Amazon Inspector assessment target.
-        var name: String = ""
+        public var name: String = ""
         /// The time at which UpdateAssessmentTarget is called.
-        var updatedAt: Date = Date()
+        public var updatedAt: Date = Date()
         /// The time at which the assessment target is created.
-        var createdAt: Date = Date()
+        public var createdAt: Date = Date()
         /// The ARN that specifies the Amazon Inspector assessment target.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -182,8 +200,10 @@ extension Inspector {
 
     }
 
-    public struct DescribeAssessmentTemplatesRequest: Serializable, Initializable {
-        var assessmentTemplateArns: [String] = []
+    public struct DescribeAssessmentTemplatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var assessmentTemplateArns: [String] = []
 
         public init() {}
 
@@ -193,11 +213,13 @@ extension Inspector {
 
     }
 
-    public struct AddAttributesToFindingsRequest: Serializable, Initializable {
+    public struct AddAttributesToFindingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The array of attributes that you want to assign to specified findings.
-        var attributes: [Attribute] = []
+        public var attributes: [Attribute] = []
         /// The ARNs that specify the findings that you want to assign attributes to.
-        var findingArns: [String] = []
+        public var findingArns: [String] = []
 
         public init() {}
 
@@ -208,11 +230,13 @@ extension Inspector {
 
     }
 
-    public struct PreviewAgentsResponse: Serializable, Initializable {
+    public struct PreviewAgentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The resulting list of agents.
-        var agentPreviews: [AgentPreview] = []
+        public var agentPreviews: [AgentPreview] = []
 
         public init() {}
 
@@ -223,11 +247,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeAssessmentRunsResponse: Serializable, Initializable {
+    public struct DescribeAssessmentRunsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Assessment run details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
         /// Information about the assessment run.
-        var assessmentRuns: [AssessmentRun] = []
+        public var assessmentRuns: [AssessmentRun] = []
 
         public init() {}
 
@@ -238,11 +264,13 @@ extension Inspector {
 
     }
 
-    public struct EventSubscription: Serializable, Initializable {
+    public struct EventSubscription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
-        var event: String = ""
+        public var event: String = ""
         /// The time at which SubscribeToEvent is called.
-        var subscribedAt: Date = Date()
+        public var subscribedAt: Date = Date()
 
         public init() {}
 
@@ -253,9 +281,11 @@ extension Inspector {
 
     }
 
-    public struct CreateResourceGroupResponse: Serializable, Initializable {
+    public struct CreateResourceGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the resource group that is created.
-        var resourceGroupArn: String = ""
+        public var resourceGroupArn: String = ""
 
         public init() {}
 
@@ -265,11 +295,13 @@ extension Inspector {
 
     }
 
-    public struct ResourceGroupTag: Serializable, Initializable {
+    public struct ResourceGroupTag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A tag key.
-        var key: String = ""
+        public var key: String = ""
         /// The value assigned to a tag key.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -280,11 +312,13 @@ extension Inspector {
 
     }
 
-    public struct RemoveAttributesFromFindingsRequest: Serializable, Initializable {
+    public struct RemoveAttributesFromFindingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The array of attribute keys that you want to remove from specified findings.
-        var attributeKeys: [String] = []
+        public var attributeKeys: [String] = []
         /// The ARNs that specify the findings that you want to remove attributes from.
-        var findingArns: [String] = []
+        public var findingArns: [String] = []
 
         public init() {}
 
@@ -295,9 +329,11 @@ extension Inspector {
 
     }
 
-    public struct DescribeAssessmentRunsRequest: Serializable, Initializable {
+    public struct DescribeAssessmentRunsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment run that you want to describe.
-        var assessmentRunArns: [String] = []
+        public var assessmentRunArns: [String] = []
 
         public init() {}
 
@@ -307,11 +343,13 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentTemplatesResponse: Serializable, Initializable {
+    public struct ListAssessmentTemplatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of ARNs that specifies the assessment templates returned by the action.
-        var assessmentTemplateArns: [String] = []
+        public var assessmentTemplateArns: [String] = []
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -322,11 +360,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeAssessmentTemplatesResponse: Serializable, Initializable {
+    public struct DescribeAssessmentTemplatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Assessment template details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
         /// Information about the assessment templates.
-        var assessmentTemplates: [AssessmentTemplate] = []
+        public var assessmentTemplates: [AssessmentTemplate] = []
 
         public init() {}
 
@@ -337,9 +377,11 @@ extension Inspector {
 
     }
 
-    public struct StartAssessmentRunResponse: Serializable, Initializable {
+    public struct StartAssessmentRunResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment run that has been started.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
 
         public init() {}
 
@@ -349,11 +391,13 @@ extension Inspector {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A tag key.
-        var key: String = ""
+        public var key: String = ""
         /// A value assigned to a tag key.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -364,11 +408,13 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentTargetsResponse: Serializable, Initializable {
+    public struct ListAssessmentTargetsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of ARNs that specifies the assessment targets that are returned by the action.
-        var assessmentTargetArns: [String] = []
+        public var assessmentTargetArns: [String] = []
 
         public init() {}
 
@@ -379,13 +425,15 @@ extension Inspector {
 
     }
 
-    public struct ResourceGroup: Serializable, Initializable {
+    public struct ResourceGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
-        var tags: [ResourceGroupTag] = []
+        public var tags: [ResourceGroupTag] = []
         /// The time at which resource group is created.
-        var createdAt: Date = Date()
+        public var createdAt: Date = Date()
         /// The ARN of the resource group.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -397,13 +445,15 @@ extension Inspector {
 
     }
 
-    public struct UnsubscribeFromEventRequest: Serializable, Initializable {
+    public struct UnsubscribeFromEventRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment template that is used during the event for which you want to stop receiving SNS notifications.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The event for which you want to stop receiving SNS notifications.
-        var event: String = ""
+        public var event: String = ""
         /// The ARN of the SNS topic to which SNS notifications are sent.
-        var topicArn: String = ""
+        public var topicArn: String = ""
 
         public init() {}
 
@@ -415,11 +465,13 @@ extension Inspector {
 
     }
 
-    public struct Attribute: Serializable, Initializable {
+    public struct Attribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attribute key.
-        var key: String = ""
+        public var key: String = ""
         /// The value assigned to the attribute key.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -430,9 +482,11 @@ extension Inspector {
 
     }
 
-    public struct DeleteAssessmentTemplateRequest: Serializable, Initializable {
+    public struct DeleteAssessmentTemplateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment template that you want to delete.
-        var assessmentTemplateArn: String = ""
+        public var assessmentTemplateArn: String = ""
 
         public init() {}
 
@@ -442,9 +496,11 @@ extension Inspector {
 
     }
 
-    public struct DescribeAssessmentTargetsRequest: Serializable, Initializable {
+    public struct DescribeAssessmentTargetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARNs that specifies the assessment targets that you want to describe.
-        var assessmentTargetArns: [String] = []
+        public var assessmentTargetArns: [String] = []
 
         public init() {}
 
@@ -454,9 +510,11 @@ extension Inspector {
 
     }
 
-    public struct DeleteAssessmentRunRequest: Serializable, Initializable {
+    public struct DeleteAssessmentRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment run that you want to delete.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
 
         public init() {}
 
@@ -466,23 +524,25 @@ extension Inspector {
 
     }
 
-    public struct FindingFilter: Serializable, Initializable {
+    public struct FindingFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the ruleName property of the Finding data type.
-        var ruleNames: [String]? = nil
+        public var ruleNames: [String]? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the severity property of the Finding data type.
-        var severities: [String]? = nil
+        public var severities: [String]? = nil
         /// For a record to match a filter, the list of values that are specified for this data type property must be contained in the list of values of the attributes property of the Finding data type.
-        var attributes: [Attribute]? = nil
+        public var attributes: [Attribute]? = nil
         /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the userAttributes property of the Finding data type.
-        var userAttributes: [Attribute]? = nil
+        public var userAttributes: [Attribute]? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the agentId property of the Finding data type.
-        var agentIds: [String]? = nil
+        public var agentIds: [String]? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the rulesPackageArn property of the Finding data type.
-        var rulesPackageArns: [String]? = nil
+        public var rulesPackageArns: [String]? = nil
         /// The time range during which the finding is generated.
-        var creationTimeRange: TimestampRange? = nil
+        public var creationTimeRange: TimestampRange? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the autoScalingGroup property of the Finding data type.
-        var autoScalingGroups: [String]? = nil
+        public var autoScalingGroups: [String]? = nil
 
         public init() {}
 
@@ -499,17 +559,19 @@ extension Inspector {
 
     }
 
-    public struct RulesPackage: Serializable, Initializable {
+    public struct RulesPackage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the rules package.
-        var description: String? = nil
+        public var description: String? = nil
         /// The name of the rules package.
-        var name: String = ""
+        public var name: String = ""
         /// The version ID of the rules package.
-        var version: String = ""
+        public var version: String = ""
         /// The provider of the rules package.
-        var provider: String = ""
+        public var provider: String = ""
         /// The ARN of the rules package.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -523,11 +585,13 @@ extension Inspector {
 
     }
 
-    public struct AssessmentRunStateChange: Serializable, Initializable {
+    public struct AssessmentRunStateChange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The assessment run state.
-        var state: String = ""
+        public var state: String = ""
         /// The last time the assessment run state changed.
-        var stateChangedAt: Date = Date()
+        public var stateChangedAt: Date = Date()
 
         public init() {}
 
@@ -538,11 +602,13 @@ extension Inspector {
 
     }
 
-    public struct ListFindingsResponse: Serializable, Initializable {
+    public struct ListFindingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of ARNs that specifies the findings returned by the action.
-        var findingArns: [String] = []
+        public var findingArns: [String] = []
 
         public init() {}
 
@@ -553,15 +619,17 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentRunsRequest: Serializable, Initializable {
+    public struct ListAssessmentRunsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        var filter: AssessmentRunFilter? = nil
+        public var filter: AssessmentRunFilter? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRuns action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ARNs that specify the assessment templates whose assessment runs you want to list.
-        var assessmentTemplateArns: [String]? = nil
+        public var assessmentTemplateArns: [String]? = nil
 
         public init() {}
 
@@ -574,11 +642,13 @@ extension Inspector {
 
     }
 
-    public struct AgentPreview: Serializable, Initializable {
+    public struct AgentPreview: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Auto Scaling group for the EC2 instance where the agent is installed.
-        var autoScalingGroup: String? = nil
+        public var autoScalingGroup: String? = nil
         /// The ID of the EC2 instance where the agent is installed.
-        var agentId: String = ""
+        public var agentId: String = ""
 
         public init() {}
 
@@ -589,11 +659,13 @@ extension Inspector {
 
     }
 
-    public struct ListRulesPackagesRequest: Serializable, Initializable {
+    public struct ListRulesPackagesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -604,21 +676,23 @@ extension Inspector {
 
     }
 
-    public struct AssessmentRunFilter: Serializable, Initializable {
+    public struct AssessmentRunFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// For a record to match a filter, an explicit value or a string containing a wildcard that is specified for this data type property must match the value of the assessmentRunName property of the AssessmentRun data type.
-        var namePattern: String? = nil
+        public var namePattern: String? = nil
         /// For a record to match a filter, one of the values specified for this data type property must be the exact match of the value of the assessmentRunState property of the AssessmentRun data type.
-        var states: [String]? = nil
+        public var states: [String]? = nil
         /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the startTime property of the AssessmentRun data type.
-        var startTimeRange: TimestampRange? = nil
+        public var startTimeRange: TimestampRange? = nil
         /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentRun data type.
-        var durationRange: DurationRange? = nil
+        public var durationRange: DurationRange? = nil
         /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the rulesPackages property of the AssessmentRun data type.
-        var rulesPackageArns: [String]? = nil
+        public var rulesPackageArns: [String]? = nil
         /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the completedAt property of the AssessmentRun data type.
-        var completionTimeRange: TimestampRange? = nil
+        public var completionTimeRange: TimestampRange? = nil
         /// For a record to match a filter, the value that is specified for this data type property must match the stateChangedAt property of the AssessmentRun data type.
-        var stateChangeTimeRange: TimestampRange? = nil
+        public var stateChangeTimeRange: TimestampRange? = nil
 
         public init() {}
 
@@ -634,9 +708,11 @@ extension Inspector {
 
     }
 
-    public struct GetTelemetryMetadataRequest: Serializable, Initializable {
+    public struct GetTelemetryMetadataRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
 
         public init() {}
 
@@ -646,9 +722,11 @@ extension Inspector {
 
     }
 
-    public struct AssessmentTargetFilter: Serializable, Initializable {
+    public struct AssessmentTargetFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
-        var assessmentTargetNamePattern: String? = nil
+        public var assessmentTargetNamePattern: String? = nil
 
         public init() {}
 
@@ -658,35 +736,37 @@ extension Inspector {
 
     }
 
-    public struct AssessmentRun: Serializable, Initializable {
+    public struct AssessmentRun: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the assessment run.
-        var state: String = ""
+        public var state: String = ""
         /// The auto-generated name for the assessment run.
-        var name: String = ""
+        public var name: String = ""
         /// The time when StartAssessmentRun was called.
-        var createdAt: Date = Date()
+        public var createdAt: Date = Date()
         /// The time when StartAssessmentRun was called.
-        var startedAt: Date? = nil
+        public var startedAt: Date? = nil
         /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
-        var notifications: [AssessmentRunNotification] = []
+        public var notifications: [AssessmentRunNotification] = []
         /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
-        var dataCollected: Bool = false
+        public var dataCollected: Bool = false
         /// The rules packages selected for the assessment run.
-        var rulesPackageArns: [String] = []
+        public var rulesPackageArns: [String] = []
         /// The last time when the assessment run's state changed.
-        var stateChangedAt: Date = Date()
+        public var stateChangedAt: Date = Date()
         /// The user-defined attributes that are assigned to every generated finding.
-        var userAttributesForFindings: [Attribute] = []
+        public var userAttributesForFindings: [Attribute] = []
         /// The ARN of the assessment run.
-        var arn: String = ""
+        public var arn: String = ""
         /// A list of the assessment run state changes.
-        var stateChanges: [AssessmentRunStateChange] = []
+        public var stateChanges: [AssessmentRunStateChange] = []
         /// The assessment run completion time that corresponds to the rules packages evaluation completion time or failure.
-        var completedAt: Date? = nil
+        public var completedAt: Date? = nil
         /// The duration of the assessment run.
-        var durationInSeconds: Int32 = 0
+        public var durationInSeconds: Int32 = 0
         /// The ARN of the assessment template that is associated with the assessment run.
-        var assessmentTemplateArn: String = ""
+        public var assessmentTemplateArn: String = ""
 
         public init() {}
 
@@ -709,11 +789,13 @@ extension Inspector {
 
     }
 
-    public struct ListEventSubscriptionsResponse: Serializable, Initializable {
+    public struct ListEventSubscriptionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Details of the returned event subscriptions.
-        var subscriptions: [Subscription] = []
+        public var subscriptions: [Subscription] = []
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -724,9 +806,11 @@ extension Inspector {
 
     }
 
-    public struct DeleteAssessmentTargetRequest: Serializable, Initializable {
+    public struct DeleteAssessmentTargetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment target that you want to delete.
-        var assessmentTargetArn: String = ""
+        public var assessmentTargetArn: String = ""
 
         public init() {}
 
@@ -736,9 +820,11 @@ extension Inspector {
 
     }
 
-    public struct CreateAssessmentTemplateResponse: Serializable, Initializable {
+    public struct CreateAssessmentTemplateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment template that is created.
-        var assessmentTemplateArn: String = ""
+        public var assessmentTemplateArn: String = ""
 
         public init() {}
 
@@ -748,42 +834,44 @@ extension Inspector {
 
     }
 
-    public struct Finding: Serializable, Initializable {
+    public struct Finding: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of the host from which the finding is generated.
-        var assetType: String? = nil
+        public var assetType: String? = nil
         /// The schema version of this data type.
-        var schemaVersion: Int32? = nil
+        public var schemaVersion: Int32? = nil
         /// The user-defined attributes that are assigned to the finding.
-        var userAttributes: [Attribute] = []
+        public var userAttributes: [Attribute] = []
         /// The recommendation for the finding.
-        var recommendation: String? = nil
+        public var recommendation: String? = nil
         /// The time when the finding was generated.
-        var createdAt: Date = Date()
+        public var createdAt: Date = Date()
         /// The description of the finding.
-        var description: String? = nil
-        var serviceAttributes: InspectorServiceAttributes? = nil
+        public var description: String? = nil
+        public var serviceAttributes: InspectorServiceAttributes? = nil
         /// This data element is currently not used.
-        var indicatorOfCompromise: Bool? = nil
+        public var indicatorOfCompromise: Bool? = nil
         /// The finding severity. Values can be set to High, Medium, Low, and Informational.
-        var severity: String? = nil
+        public var severity: String? = nil
         /// A collection of attributes of the host from which the finding is generated.
-        var assetAttributes: AssetAttributes? = nil
+        public var assetAttributes: AssetAttributes? = nil
         /// The numeric value of the finding severity.
-        var numericSeverity: Double? = nil
+        public var numericSeverity: Double? = nil
         /// The data element is set to "Inspector".
-        var service: String? = nil
+        public var service: String? = nil
         /// The ARN that specifies the finding.
-        var arn: String = ""
+        public var arn: String = ""
         /// The system-defined attributes for the finding.
-        var attributes: [Attribute] = []
+        public var attributes: [Attribute] = []
         /// The ID of the finding.
-        var id: String? = nil
+        public var id: String? = nil
         /// The time when AddAttributesToFindings is called.
-        var updatedAt: Date = Date()
+        public var updatedAt: Date = Date()
         /// The name of the finding.
-        var title: String? = nil
+        public var title: String? = nil
         /// This data element is currently not used.
-        var confidence: Int32? = nil
+        public var confidence: Int32? = nil
 
         public init() {}
 
@@ -810,15 +898,17 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentRunAgentsRequest: Serializable, Initializable {
+    public struct ListAssessmentRunAgentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        var filter: AgentFilter? = nil
+        public var filter: AgentFilter? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRunAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ARN that specifies the assessment run whose agents you want to list.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
 
         public init() {}
 
@@ -831,9 +921,11 @@ extension Inspector {
 
     }
 
-    public struct ListTagsForResourceRequest: Serializable, Initializable {
+    public struct ListTagsForResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment template whose tags you want to list.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
 
         public init() {}
 
@@ -843,13 +935,15 @@ extension Inspector {
 
     }
 
-    public struct ListEventSubscriptionsRequest: Serializable, Initializable {
+    public struct ListEventSubscriptionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment template for which you want to list the existing event subscriptions.
-        var resourceArn: String? = nil
+        public var resourceArn: String? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListEventSubscriptions action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -861,13 +955,15 @@ extension Inspector {
 
     }
 
-    public struct UpdateAssessmentTargetRequest: Serializable, Initializable {
+    public struct UpdateAssessmentTargetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target.
-        var resourceGroupArn: String = ""
+        public var resourceGroupArn: String = ""
         /// The ARN of the assessment target that you want to update.
-        var assessmentTargetArn: String = ""
+        public var assessmentTargetArn: String = ""
         /// The name of the assessment target that you want to update.
-        var assessmentTargetName: String = ""
+        public var assessmentTargetName: String = ""
 
         public init() {}
 
@@ -879,9 +975,11 @@ extension Inspector {
 
     }
 
-    public struct AddAttributesToFindingsResponse: Serializable, Initializable {
+    public struct AddAttributesToFindingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Attribute details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
 
         public init() {}
 
@@ -891,9 +989,11 @@ extension Inspector {
 
     }
 
-    public struct CreateAssessmentTargetResponse: Serializable, Initializable {
+    public struct CreateAssessmentTargetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the assessment target that is created.
-        var assessmentTargetArn: String = ""
+        public var assessmentTargetArn: String = ""
 
         public init() {}
 
@@ -903,11 +1003,13 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentRunsResponse: Serializable, Initializable {
+    public struct ListAssessmentRunsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of ARNs that specifies the assessment runs that are returned by the action.
-        var assessmentRunArns: [String] = []
+        public var assessmentRunArns: [String] = []
 
         public init() {}
 
@@ -918,21 +1020,23 @@ extension Inspector {
 
     }
 
-    public struct AssessmentRunAgent: Serializable, Initializable {
+    public struct AssessmentRunAgent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Inspector application data metrics that are collected by the agent.
-        var telemetryMetadata: [TelemetryMetadata] = []
+        public var telemetryMetadata: [TelemetryMetadata] = []
         /// The Auto Scaling group of the EC2 instance that is specified by the agent ID.
-        var autoScalingGroup: String? = nil
+        public var autoScalingGroup: String? = nil
         /// The current health state of the agent.
-        var agentHealth: String = ""
+        public var agentHealth: String = ""
         /// The description for the agent health code.
-        var agentHealthDetails: String? = nil
+        public var agentHealthDetails: String? = nil
         /// The ARN of the assessment run that is associated with the agent.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
         /// The detailed health state of the agent.
-        var agentHealthCode: String = ""
+        public var agentHealthCode: String = ""
         /// The AWS account of the EC2 instance where the agent is installed.
-        var agentId: String = ""
+        public var agentId: String = ""
 
         public init() {}
 
@@ -948,11 +1052,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeResourceGroupsResponse: Serializable, Initializable {
+    public struct DescribeResourceGroupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Resource group details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
         /// Information about a resource group.
-        var resourceGroups: [ResourceGroup] = []
+        public var resourceGroups: [ResourceGroup] = []
 
         public init() {}
 
@@ -963,13 +1069,15 @@ extension Inspector {
 
     }
 
-    public struct AssessmentTemplateFilter: Serializable, Initializable {
+    public struct AssessmentTemplateFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTemplateName property of the AssessmentTemplate data type.
-        var namePattern: String? = nil
+        public var namePattern: String? = nil
         /// For a record to match a filter, the values that are specified for this data type property must be contained in the list of values of the rulesPackageArns property of the AssessmentTemplate data type.
-        var rulesPackageArns: [String]? = nil
+        public var rulesPackageArns: [String]? = nil
         /// For a record to match a filter, the value specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentTemplate data type.
-        var durationRange: DurationRange? = nil
+        public var durationRange: DurationRange? = nil
 
         public init() {}
 
@@ -981,9 +1089,11 @@ extension Inspector {
 
     }
 
-    public struct ListTagsForResourceResponse: Serializable, Initializable {
+    public struct ListTagsForResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A collection of key and value pairs.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -993,11 +1103,13 @@ extension Inspector {
 
     }
 
-    public struct AgentAlreadyRunningAssessment: Serializable, Initializable {
+    public struct AgentAlreadyRunningAssessment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
-        var agentId: String = ""
+        public var agentId: String = ""
         /// The ARN of the assessment run that has already been started.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
 
         public init() {}
 
@@ -1008,11 +1120,13 @@ extension Inspector {
 
     }
 
-    public struct DurationRange: Serializable, Initializable {
+    public struct DurationRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
-        var maxSeconds: Int32? = nil
+        public var maxSeconds: Int32? = nil
         /// The minimum value of the duration range. Must be greater than zero.
-        var minSeconds: Int32? = nil
+        public var minSeconds: Int32? = nil
 
         public init() {}
 
@@ -1023,11 +1137,13 @@ extension Inspector {
 
     }
 
-    public struct TimestampRange: Serializable, Initializable {
+    public struct TimestampRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The minimum value of the timestamp range.
-        var beginDate: Date? = nil
+        public var beginDate: Date? = nil
         /// The maximum value of the timestamp range.
-        var endDate: Date? = nil
+        public var endDate: Date? = nil
 
         public init() {}
 
@@ -1038,13 +1154,15 @@ extension Inspector {
 
     }
 
-    public struct TelemetryMetadata: Serializable, Initializable {
+    public struct TelemetryMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The data size of messages that the agent sends to the Amazon Inspector service.
-        var dataSize: Int64? = nil
+        public var dataSize: Int64? = nil
         /// The count of messages that the agent sends to the Amazon Inspector service.
-        var count: Int64 = 0
+        public var count: Int64 = 0
         /// A specific type of behavioral data that is collected by the agent.
-        var messageType: String = ""
+        public var messageType: String = ""
 
         public init() {}
 
@@ -1056,21 +1174,23 @@ extension Inspector {
 
     }
 
-    public struct AssessmentTemplate: Serializable, Initializable {
+    public struct AssessmentTemplate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment target that corresponds to this assessment template.
-        var assessmentTargetArn: String = ""
+        public var assessmentTargetArn: String = ""
         /// The name of the assessment template.
-        var name: String = ""
+        public var name: String = ""
         /// The time at which the assessment template is created.
-        var createdAt: Date = Date()
+        public var createdAt: Date = Date()
         /// The rules packages that are specified for this assessment template.
-        var rulesPackageArns: [String] = []
+        public var rulesPackageArns: [String] = []
         /// The duration in seconds specified for this assessment tempate. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
-        var durationInSeconds: Int32 = 0
+        public var durationInSeconds: Int32 = 0
         /// The user-defined attributes that are assigned to every generated finding from the assessment run that uses this assessment template.
-        var userAttributesForFindings: [Attribute] = []
+        public var userAttributesForFindings: [Attribute] = []
         /// The ARN of the assessment template.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1086,9 +1206,11 @@ extension Inspector {
 
     }
 
-    public struct RegisterCrossAccountAccessRoleRequest: Serializable, Initializable {
+    public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that Amazon Inspector uses to list your EC2 instances during the assessment run or when you call the PreviewAgents action. 
-        var roleArn: String = ""
+        public var roleArn: String = ""
 
         public init() {}
 
@@ -1098,19 +1220,21 @@ extension Inspector {
 
     }
 
-    public struct AssetAttributes: Serializable, Initializable {
+    public struct AssetAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Auto Scaling group of the EC2 instance where the finding is generated.
-        var autoScalingGroup: String? = nil
+        public var autoScalingGroup: String? = nil
         /// The hostname of the EC2 instance where the finding is generated.
-        var hostname: String? = nil
+        public var hostname: String? = nil
         /// The ID of the Amazon Machine Image (AMI) that is installed on the EC2 instance where the finding is generated.
-        var amiId: String? = nil
+        public var amiId: String? = nil
         /// The ID of the agent that is installed on the EC2 instance where the finding is generated.
-        var agentId: String? = nil
+        public var agentId: String? = nil
         /// The schema version of this data type.
-        var schemaVersion: Int32 = 0
+        public var schemaVersion: Int32 = 0
         /// The list of IP v4 addresses of the EC2 instance where the finding is generated.
-        var ipv4Addresses: [String]? = nil
+        public var ipv4Addresses: [String]? = nil
 
         public init() {}
 
@@ -1125,11 +1249,13 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentRunAgentsResponse: Serializable, Initializable {
+    public struct ListAssessmentRunAgentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of ARNs that specifies the agents returned by the action.
-        var assessmentRunAgents: [AssessmentRunAgent] = []
+        public var assessmentRunAgents: [AssessmentRunAgent] = []
 
         public init() {}
 
@@ -1140,13 +1266,15 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentTargetsRequest: Serializable, Initializable {
+    public struct ListAssessmentTargetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        var filter: AssessmentTargetFilter? = nil
+        public var filter: AssessmentTargetFilter? = nil
 
         public init() {}
 
@@ -1158,9 +1286,11 @@ extension Inspector {
 
     }
 
-    public struct GetTelemetryMetadataResponse: Serializable, Initializable {
+    public struct GetTelemetryMetadataResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Telemetry details.
-        var telemetryMetadata: [TelemetryMetadata] = []
+        public var telemetryMetadata: [TelemetryMetadata] = []
 
         public init() {}
 
@@ -1170,17 +1300,19 @@ extension Inspector {
 
     }
 
-    public struct CreateAssessmentTemplateRequest: Serializable, Initializable {
+    public struct CreateAssessmentTemplateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique.
-        var assessmentTemplateName: String = ""
+        public var assessmentTemplateName: String = ""
         /// The ARN that specifies the assessment target for which you want to create the assessment template.
-        var assessmentTargetArn: String = ""
+        public var assessmentTargetArn: String = ""
         /// The duration of the assessment run in seconds. The default value is 3600 seconds (one hour).
-        var durationInSeconds: Int32 = 0
+        public var durationInSeconds: Int32 = 0
         /// The ARNs that specify the rules packages that you want to attach to the assessment template.
-        var rulesPackageArns: [String] = []
+        public var rulesPackageArns: [String] = []
         /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template.
-        var userAttributesForFindings: [Attribute]? = nil
+        public var userAttributesForFindings: [Attribute]? = nil
 
         public init() {}
 
@@ -1194,11 +1326,13 @@ extension Inspector {
 
     }
 
-    public struct StartAssessmentRunRequest: Serializable, Initializable {
+    public struct StartAssessmentRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run.
-        var assessmentRunName: String? = nil
+        public var assessmentRunName: String? = nil
         /// The ARN of the assessment template of the assessment run that you want to start.
-        var assessmentTemplateArn: String = ""
+        public var assessmentTemplateArn: String = ""
 
         public init() {}
 
@@ -1209,11 +1343,13 @@ extension Inspector {
 
     }
 
-    public struct AgentFilter: Serializable, Initializable {
+    public struct AgentFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
-        var agentHealthCodes: [String] = []
+        public var agentHealthCodes: [String] = []
         /// The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY.
-        var agentHealths: [String] = []
+        public var agentHealths: [String] = []
 
         public init() {}
 
@@ -1224,13 +1360,15 @@ extension Inspector {
 
     }
 
-    public struct SubscribeToEventRequest: Serializable, Initializable {
+    public struct SubscribeToEventRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The event for which you want to receive SNS notifications.
-        var event: String = ""
+        public var event: String = ""
         /// The ARN of the SNS topic to which the SNS notifications are sent.
-        var topicArn: String = ""
+        public var topicArn: String = ""
 
         public init() {}
 
@@ -1242,9 +1380,11 @@ extension Inspector {
 
     }
 
-    public struct CreateResourceGroupRequest: Serializable, Initializable {
+    public struct CreateResourceGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
-        var resourceGroupTags: [ResourceGroupTag] = []
+        public var resourceGroupTags: [ResourceGroupTag] = []
 
         public init() {}
 
@@ -1254,11 +1394,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeFindingsResponse: Serializable, Initializable {
+    public struct DescribeFindingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the finding.
-        var findings: [Finding] = []
+        public var findings: [Finding] = []
         /// Finding details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
 
         public init() {}
 
@@ -1269,11 +1411,13 @@ extension Inspector {
 
     }
 
-    public struct SetTagsForResourceRequest: Serializable, Initializable {
+    public struct SetTagsForResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment template that you want to set tags to.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// A collection of key and value pairs that you want to set to the assessment template.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -1284,11 +1428,13 @@ extension Inspector {
 
     }
 
-    public struct FailedItemDetails: Serializable, Initializable {
+    public struct FailedItemDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status code of a failed item.
-        var failureCode: String = ""
+        public var failureCode: String = ""
         /// Indicates whether you can immediately retry a request for this item for a specified resource.
-        var retryable: Bool = false
+        public var retryable: Bool = false
 
         public init() {}
 
@@ -1299,18 +1445,20 @@ extension Inspector {
 
     }
 
-    public struct AssessmentRunNotification: Serializable, Initializable {
+    public struct AssessmentRunNotification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The SNS topic to which the SNS notification is sent.
-        var snsTopicArn: String? = nil
+        public var snsTopicArn: String? = nil
         /// The status code of the SNS notification.
-        var snsPublishStatusCode: String? = nil
+        public var snsPublishStatusCode: String? = nil
         /// The event for which a notification is sent.
-        var event: String = ""
-        var message: String? = nil
+        public var event: String = ""
+        public var message: String? = nil
         /// The date of the notification.
-        var date: Date = Date()
+        public var date: Date = Date()
         /// The Boolean value that specifies whether the notification represents an error.
-        var error: Bool = false
+        public var error: Bool = false
 
         public init() {}
 
@@ -1325,15 +1473,17 @@ extension Inspector {
 
     }
 
-    public struct ListAssessmentTemplatesRequest: Serializable, Initializable {
+    public struct ListAssessmentTemplatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        var filter: AssessmentTemplateFilter? = nil
+        public var filter: AssessmentTemplateFilter? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTemplates action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of ARNs that specifies the assessment targets whose assessment templates you want to list.
-        var assessmentTargetArns: [String]? = nil
+        public var assessmentTargetArns: [String]? = nil
 
         public init() {}
 
@@ -1346,9 +1496,11 @@ extension Inspector {
 
     }
 
-    public struct StopAssessmentRunRequest: Serializable, Initializable {
+    public struct StopAssessmentRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the assessment run that you want to stop.
-        var assessmentRunArn: String = ""
+        public var assessmentRunArn: String = ""
 
         public init() {}
 
@@ -1358,11 +1510,13 @@ extension Inspector {
 
     }
 
-    public struct ListRulesPackagesResponse: Serializable, Initializable {
+    public struct ListRulesPackagesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of ARNs that specifies the rules packages returned by the action.
-        var rulesPackageArns: [String] = []
+        public var rulesPackageArns: [String] = []
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1373,11 +1527,13 @@ extension Inspector {
 
     }
 
-    public struct CreateAssessmentTargetRequest: Serializable, Initializable {
+    public struct CreateAssessmentTargetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN that specifies the resource group that is used to create the assessment target.
-        var resourceGroupArn: String = ""
+        public var resourceGroupArn: String = ""
         /// The user-defined name that identifies the assessment target that you want to create. The name must be unique within the AWS account.
-        var assessmentTargetName: String = ""
+        public var assessmentTargetName: String = ""
 
         public init() {}
 
@@ -1388,13 +1544,15 @@ extension Inspector {
 
     }
 
-    public struct InspectorServiceAttributes: Serializable, Initializable {
+    public struct InspectorServiceAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The schema version of this data type.
-        var schemaVersion: Int32 = 0
+        public var schemaVersion: Int32 = 0
         /// The ARN of the rules package that is used to generate the finding.
-        var rulesPackageArn: String? = nil
+        public var rulesPackageArn: String? = nil
         /// The ARN of the assessment run during which the finding is generated.
-        var assessmentRunArn: String? = nil
+        public var assessmentRunArn: String? = nil
 
         public init() {}
 
@@ -1406,11 +1564,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeAssessmentTargetsResponse: Serializable, Initializable {
+    public struct DescribeAssessmentTargetsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the assessment targets.
-        var assessmentTargets: [AssessmentTarget] = []
+        public var assessmentTargets: [AssessmentTarget] = []
         /// Assessment target details that cannot be described. An error code is provided for each failed item.
-        var failedItems: [String: FailedItemDetails] = [:]
+        public var failedItems: [String: FailedItemDetails] = [:]
 
         public init() {}
 
@@ -1421,11 +1581,13 @@ extension Inspector {
 
     }
 
-    public struct DescribeFindingsRequest: Serializable, Initializable {
+    public struct DescribeFindingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
-        var locale: String? = nil
+        public var locale: String? = nil
         /// The ARN that specifies the finding that you want to describe.
-        var findingArns: [String] = []
+        public var findingArns: [String] = []
 
         public init() {}
 

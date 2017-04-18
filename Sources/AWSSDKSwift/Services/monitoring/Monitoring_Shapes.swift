@@ -29,17 +29,19 @@ import Core
 
 extension Monitoring {
 
-    public struct AlarmHistoryItem: Serializable, Initializable {
+    public struct AlarmHistoryItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The descriptive name for the alarm.
-        var alarmName: String? = nil
+        public var alarmName: String? = nil
         /// The time stamp for the alarm history item.
-        var timestamp: Date? = nil
+        public var timestamp: Date? = nil
         /// Data about the alarm, in JSON format.
-        var historyData: String? = nil
+        public var historyData: String? = nil
         /// A summary of the alarm history, in text format.
-        var historySummary: String? = nil
+        public var historySummary: String? = nil
         /// The type of alarm history item.
-        var historyItemType: String? = nil
+        public var historyItemType: String? = nil
 
         public init() {}
 
@@ -53,9 +55,11 @@ extension Monitoring {
 
     }
 
-    public struct EnableAlarmActionsInput: Serializable, Initializable {
+    public struct EnableAlarmActionsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the alarms.
-        var alarmNames: [String] = []
+        public var alarmNames: [String] = []
 
         public init() {}
 
@@ -65,19 +69,21 @@ extension Monitoring {
 
     }
 
-    public struct MetricDatum: Serializable, Initializable {
+    public struct MetricDatum: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the metric.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The unit of the metric.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// The dimensions associated with the metric.
-        var dimensions: [Dimension]? = nil
+        public var dimensions: [Dimension]? = nil
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        var timestamp: Date? = nil
+        public var timestamp: Date? = nil
         /// The value for the metric. Although the parameter accepts numbers of type Double, Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        var value: Double? = nil
+        public var value: Double? = nil
         /// The statistical values for the metric.
-        var statisticValues: StatisticSet? = nil
+        public var statisticValues: StatisticSet? = nil
 
         public init() {}
 
@@ -92,11 +98,13 @@ extension Monitoring {
 
     }
 
-    public struct DescribeAlarmsOutput: Serializable, Initializable {
+    public struct DescribeAlarmsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The information for the specified alarms.
-        var metricAlarms: [MetricAlarm]? = nil
+        public var metricAlarms: [MetricAlarm]? = nil
         /// The token that marks the start of the next batch of returned results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -107,15 +115,17 @@ extension Monitoring {
 
     }
 
-    public struct StatisticSet: Serializable, Initializable {
+    public struct StatisticSet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of samples used for the statistic set.
-        var sampleCount: Double = 0
+        public var sampleCount: Double = 0
         /// The minimum value of the sample set.
-        var minimum: Double = 0
+        public var minimum: Double = 0
         /// The sum of values for the sample set.
-        var sum: Double = 0
+        public var sum: Double = 0
         /// The maximum value of the sample set.
-        var maximum: Double = 0
+        public var maximum: Double = 0
 
         public init() {}
 
@@ -128,9 +138,11 @@ extension Monitoring {
 
     }
 
-    public struct DisableAlarmActionsInput: Serializable, Initializable {
+    public struct DisableAlarmActionsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the alarms.
-        var alarmNames: [String] = []
+        public var alarmNames: [String] = []
 
         public init() {}
 
@@ -140,23 +152,25 @@ extension Monitoring {
 
     }
 
-    public struct Datapoint: Serializable, Initializable {
+    public struct Datapoint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of metric values that contributed to the aggregate value of this data point.
-        var sampleCount: Double? = nil
+        public var sampleCount: Double? = nil
         /// The time stamp used for the data point.
-        var timestamp: Date? = nil
+        public var timestamp: Date? = nil
         /// The sum of the metric values for the data point.
-        var sum: Double? = nil
+        public var sum: Double? = nil
         /// The standard unit for the data point.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// The percentile statistic for the data point.
-        var extendedStatistics: [String: Double]? = nil
+        public var extendedStatistics: [String: Double]? = nil
         /// The minimum metric value for the data point.
-        var minimum: Double? = nil
+        public var minimum: Double? = nil
         /// The maximum metric value for the data point.
-        var maximum: Double? = nil
+        public var maximum: Double? = nil
         /// The average of the metric values that correspond to the data point.
-        var average: Double? = nil
+        public var average: Double? = nil
 
         public init() {}
 
@@ -173,39 +187,41 @@ extension Monitoring {
 
     }
 
-    public struct PutMetricAlarmInput: Serializable, Initializable {
+    public struct PutMetricAlarmInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name for the metric associated with the alarm.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The value against which the specified statistic is compared.
-        var threshold: Double = 0
+        public var threshold: Double = 0
         /// The period, in seconds, over which the specified statistic is applied.
-        var period: Int32 = 0
+        public var period: Int32 = 0
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
-        var extendedStatistic: String? = nil
+        public var extendedStatistic: String? = nil
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        var alarmActions: [String]? = nil
+        public var alarmActions: [String]? = nil
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
-        var statistic: String? = nil
+        public var statistic: String? = nil
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the Amazon CloudWatch alarm can get stuck in the INSUFFICIENT DATA state. 
-        var unit: String? = nil
+        public var unit: String? = nil
         /// Indicates whether actions should be executed during any changes to the alarm state.
-        var actionsEnabled: Bool? = nil
+        public var actionsEnabled: Bool? = nil
         /// The namespace for the metric associated with the alarm.
-        var namespace: String = ""
+        public var namespace: String = ""
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        var insufficientDataActions: [String]? = nil
+        public var insufficientDataActions: [String]? = nil
         /// The name for the alarm. This name must be unique within the AWS account.
-        var alarmName: String = ""
+        public var alarmName: String = ""
         /// The number of periods over which data is compared to the specified threshold.
-        var evaluationPeriods: Int32 = 0
+        public var evaluationPeriods: Int32 = 0
         ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
-        var comparisonOperator: String = ""
+        public var comparisonOperator: String = ""
         /// The dimensions for the metric associated with the alarm.
-        var dimensions: [Dimension]? = nil
+        public var dimensions: [Dimension]? = nil
         /// The description for the alarm.
-        var alarmDescription: String? = nil
+        public var alarmDescription: String? = nil
         /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        var oKActions: [String]? = nil
+        public var oKActions: [String]? = nil
 
         public init() {}
 
@@ -230,19 +246,21 @@ extension Monitoring {
 
     }
 
-    public struct DescribeAlarmHistoryInput: Serializable, Initializable {
+    public struct DescribeAlarmHistoryInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the alarm.
-        var alarmName: String? = nil
+        public var alarmName: String? = nil
         /// The maximum number of alarm history records to retrieve.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The starting date to retrieve alarm history.
-        var startDate: Date? = nil
+        public var startDate: Date? = nil
         /// The type of alarm histories to retrieve.
-        var historyItemType: String? = nil
+        public var historyItemType: String? = nil
         /// The token returned by a previous call to indicate that there is more data available.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ending date to retrieve alarm history.
-        var endDate: Date? = nil
+        public var endDate: Date? = nil
 
         public init() {}
 
@@ -257,21 +275,23 @@ extension Monitoring {
 
     }
 
-    public struct DescribeAlarmsForMetricInput: Serializable, Initializable {
+    public struct DescribeAlarmsForMetricInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the metric.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The period, in seconds, over which the statistic is applied.
-        var period: Int32? = nil
+        public var period: Int32? = nil
         /// The percentile statistic for the metric. Specify a value between p0.0 and p100.
-        var extendedStatistic: String? = nil
+        public var extendedStatistic: String? = nil
         /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics.
-        var statistic: String? = nil
+        public var statistic: String? = nil
         /// The unit for the metric.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
-        var dimensions: [Dimension]? = nil
+        public var dimensions: [Dimension]? = nil
         /// The namespace of the metric.
-        var namespace: String = ""
+        public var namespace: String = ""
 
         public init() {}
 
@@ -287,19 +307,21 @@ extension Monitoring {
 
     }
 
-    public struct DescribeAlarmsInput: Serializable, Initializable {
+    public struct DescribeAlarmsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of alarm descriptions to retrieve.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The alarm name prefix. You cannot specify AlarmNames if this parameter is specified.
-        var alarmNamePrefix: String? = nil
+        public var alarmNamePrefix: String? = nil
         /// The action name prefix.
-        var actionPrefix: String? = nil
+        public var actionPrefix: String? = nil
         /// The names of the alarms.
-        var alarmNames: [String]? = nil
+        public var alarmNames: [String]? = nil
         /// The token returned by a previous call to indicate that there is more data available.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The state value to be used in matching alarms.
-        var stateValue: String? = nil
+        public var stateValue: String? = nil
 
         public init() {}
 
@@ -314,11 +336,13 @@ extension Monitoring {
 
     }
 
-    public struct ListMetricsOutput: Serializable, Initializable {
+    public struct ListMetricsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token that marks the start of the next batch of returned results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The metrics.
-        var metrics: [Metric]? = nil
+        public var metrics: [Metric]? = nil
 
         public init() {}
 
@@ -329,51 +353,53 @@ extension Monitoring {
 
     }
 
-    public struct MetricAlarm: Serializable, Initializable {
+    public struct MetricAlarm: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the metric associated with the alarm.
-        var metricName: String? = nil
+        public var metricName: String? = nil
         /// The value to compare with the specified statistic.
-        var threshold: Double? = nil
+        public var threshold: Double? = nil
         /// The period, in seconds, over which the statistic is applied.
-        var period: Int32? = nil
+        public var period: Int32? = nil
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
-        var extendedStatistic: String? = nil
+        public var extendedStatistic: String? = nil
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        var alarmActions: [String]? = nil
+        public var alarmActions: [String]? = nil
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
-        var statistic: String? = nil
+        public var statistic: String? = nil
         /// Indicates whether actions should be executed during any changes to the alarm state.
-        var actionsEnabled: Bool? = nil
+        public var actionsEnabled: Bool? = nil
         /// The time stamp of the last update to the alarm state.
-        var stateUpdatedTimestamp: Date? = nil
+        public var stateUpdatedTimestamp: Date? = nil
         /// The unit of the metric associated with the alarm.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// An explanation for the alarm state, in JSON format.
-        var stateReasonData: String? = nil
+        public var stateReasonData: String? = nil
         /// An explanation for the alarm state, in text format.
-        var stateReason: String? = nil
+        public var stateReason: String? = nil
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        var insufficientDataActions: [String]? = nil
+        public var insufficientDataActions: [String]? = nil
         /// The namespace of the metric associated with the alarm.
-        var namespace: String? = nil
+        public var namespace: String? = nil
         /// The state value for the alarm.
-        var stateValue: String? = nil
+        public var stateValue: String? = nil
         /// The name of the alarm.
-        var alarmName: String? = nil
+        public var alarmName: String? = nil
         /// The time stamp of the last update to the alarm configuration.
-        var alarmConfigurationUpdatedTimestamp: Date? = nil
+        public var alarmConfigurationUpdatedTimestamp: Date? = nil
         /// The Amazon Resource Name (ARN) of the alarm.
-        var alarmArn: String? = nil
+        public var alarmArn: String? = nil
         /// The number of periods over which data is compared to the specified threshold.
-        var evaluationPeriods: Int32? = nil
+        public var evaluationPeriods: Int32? = nil
         /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
-        var comparisonOperator: String? = nil
+        public var comparisonOperator: String? = nil
         /// The dimensions for the metric associated with the alarm.
-        var dimensions: [Dimension]? = nil
+        public var dimensions: [Dimension]? = nil
         /// The description of the alarm.
-        var alarmDescription: String? = nil
+        public var alarmDescription: String? = nil
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        var oKActions: [String]? = nil
+        public var oKActions: [String]? = nil
 
         public init() {}
 
@@ -404,13 +430,15 @@ extension Monitoring {
 
     }
 
-    public struct Metric: Serializable, Initializable {
+    public struct Metric: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the metric.
-        var metricName: String? = nil
+        public var metricName: String? = nil
         /// The dimensions for the metric.
-        var dimensions: [Dimension]? = nil
+        public var dimensions: [Dimension]? = nil
         /// The namespace of the metric.
-        var namespace: String? = nil
+        public var namespace: String? = nil
 
         public init() {}
 
@@ -422,15 +450,17 @@ extension Monitoring {
 
     }
 
-    public struct ListMetricsInput: Serializable, Initializable {
+    public struct ListMetricsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The namespace to filter against.
-        var namespace: String? = nil
+        public var namespace: String? = nil
         /// The name of the metric to filter against.
-        var metricName: String? = nil
+        public var metricName: String? = nil
         /// The dimensions to filter against.
-        var dimensions: [DimensionFilter]? = nil
+        public var dimensions: [DimensionFilter]? = nil
         /// The token returned by a previous call to indicate that there is more data available.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -443,9 +473,11 @@ extension Monitoring {
 
     }
 
-    public struct DeleteAlarmsInput: Serializable, Initializable {
+    public struct DeleteAlarmsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The alarms to be deleted.
-        var alarmNames: [String] = []
+        public var alarmNames: [String] = []
 
         public init() {}
 
@@ -455,11 +487,13 @@ extension Monitoring {
 
     }
 
-    public struct PutMetricDataInput: Serializable, Initializable {
+    public struct PutMetricDataInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
-        var namespace: String = ""
+        public var namespace: String = ""
         /// The data for the metric.
-        var metricData: [MetricDatum] = []
+        public var metricData: [MetricDatum] = []
 
         public init() {}
 
@@ -470,25 +504,27 @@ extension Monitoring {
 
     }
 
-    public struct GetMetricStatisticsInput: Serializable, Initializable {
+    public struct GetMetricStatisticsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.  
-        var startTime: Date = Date()
+        public var startTime: Date = Date()
         /// The name of the metric, with or without spaces.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60. If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
-        var period: Int32 = 0
+        public var period: Int32 = 0
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-        var endTime: Date = Date()
+        public var endTime: Date = Date()
         /// The percentile statistics. Specify values between p0.0 and p100.
-        var extendedStatistics: [String]? = nil
+        public var extendedStatistics: [String]? = nil
         /// The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide.
-        var dimensions: [Dimension]? = nil
+        public var dimensions: [Dimension]? = nil
         /// The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit has no effect.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistic.
-        var statistics: [String]? = nil
+        public var statistics: [String]? = nil
         /// The namespace of the metric, with or without spaces.
-        var namespace: String = ""
+        public var namespace: String = ""
 
         public init() {}
 
@@ -506,11 +542,13 @@ extension Monitoring {
 
     }
 
-    public struct Dimension: Serializable, Initializable {
+    public struct Dimension: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value representing the dimension measurement.
-        var value: String = ""
+        public var value: String = ""
         /// The name of the dimension.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -521,11 +559,13 @@ extension Monitoring {
 
     }
 
-    public struct GetMetricStatisticsOutput: Serializable, Initializable {
+    public struct GetMetricStatisticsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A label for the specified metric.
-        var label: String? = nil
+        public var label: String? = nil
         /// The data points for the specified metric.
-        var datapoints: [Datapoint]? = nil
+        public var datapoints: [Datapoint]? = nil
 
         public init() {}
 
@@ -536,11 +576,13 @@ extension Monitoring {
 
     }
 
-    public struct DescribeAlarmHistoryOutput: Serializable, Initializable {
+    public struct DescribeAlarmHistoryOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token that marks the start of the next batch of returned results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The alarm histories, in JSON format.
-        var alarmHistoryItems: [AlarmHistoryItem]? = nil
+        public var alarmHistoryItems: [AlarmHistoryItem]? = nil
 
         public init() {}
 
@@ -551,15 +593,17 @@ extension Monitoring {
 
     }
 
-    public struct SetAlarmStateInput: Serializable, Initializable {
+    public struct SetAlarmStateInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
-        var alarmName: String = ""
+        public var alarmName: String = ""
         /// The reason that this alarm is set to this specific state, in JSON format.
-        var stateReasonData: String? = nil
+        public var stateReasonData: String? = nil
         /// The reason that this alarm is set to this specific state, in text format.
-        var stateReason: String = ""
+        public var stateReason: String = ""
         /// The value of the state.
-        var stateValue: String = ""
+        public var stateValue: String = ""
 
         public init() {}
 
@@ -572,9 +616,11 @@ extension Monitoring {
 
     }
 
-    public struct DescribeAlarmsForMetricOutput: Serializable, Initializable {
+    public struct DescribeAlarmsForMetricOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The information for each alarm with the specified metric.
-        var metricAlarms: [MetricAlarm]? = nil
+        public var metricAlarms: [MetricAlarm]? = nil
 
         public init() {}
 
@@ -584,11 +630,13 @@ extension Monitoring {
 
     }
 
-    public struct DimensionFilter: Serializable, Initializable {
+    public struct DimensionFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the dimension to be matched.
-        var value: String? = nil
+        public var value: String? = nil
         /// The dimension name to be matched.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 

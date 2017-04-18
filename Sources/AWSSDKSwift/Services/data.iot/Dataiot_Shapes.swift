@@ -29,9 +29,14 @@ import Core
 
 extension Dataiot {
 
-    public struct GetThingShadowRequest: Serializable, Initializable {
+    public struct GetThingShadowRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 
@@ -41,9 +46,14 @@ extension Dataiot {
 
     }
 
-    public struct DeleteThingShadowRequest: Serializable, Initializable {
+    public struct DeleteThingShadowRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 
@@ -53,9 +63,11 @@ extension Dataiot {
 
     }
 
-    public struct DeleteThingShadowResponse: Serializable, Initializable {
+    public struct DeleteThingShadowResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "payload"
         /// The state information, in JSON format.
-        var payload: Data = Data()
+        public var payload: Data = Data()
 
         public init() {}
 
@@ -65,13 +77,21 @@ extension Dataiot {
 
     }
 
-    public struct PublishRequest: Serializable, Initializable {
+    public struct PublishRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "payload"
+        public var queryParams: [String: String] {
+            return ["qos": "qos"]
+        }
+        public var pathParams: [String: String] {
+            return ["topic": "topic"]
+        }
         /// The Quality of Service (QoS) level.
-        var qos: Int32? = nil
+        public var qos: Int32? = nil
         /// The state information, in JSON format.
-        var payload: Data? = nil
+        public var payload: Data? = nil
         /// The name of the MQTT topic.
-        var topic: String = ""
+        public var topic: String = ""
 
         public init() {}
 
@@ -83,9 +103,11 @@ extension Dataiot {
 
     }
 
-    public struct GetThingShadowResponse: Serializable, Initializable {
+    public struct GetThingShadowResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "payload"
         /// The state information, in JSON format.
-        var payload: Data? = nil
+        public var payload: Data? = nil
 
         public init() {}
 
@@ -95,9 +117,11 @@ extension Dataiot {
 
     }
 
-    public struct UpdateThingShadowResponse: Serializable, Initializable {
+    public struct UpdateThingShadowResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "payload"
         /// The state information, in JSON format.
-        var payload: Data? = nil
+        public var payload: Data? = nil
 
         public init() {}
 
@@ -107,11 +131,16 @@ extension Dataiot {
 
     }
 
-    public struct UpdateThingShadowRequest: Serializable, Initializable {
+    public struct UpdateThingShadowRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "payload"
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The state information, in JSON format.
-        var payload: Data = Data()
+        public var payload: Data = Data()
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 

@@ -32,215 +32,185 @@ AWS Database Migration Service AWS Database Migration Service (AWS DMS) can migr
 */
 public struct Dms {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AmazonDMSv20160101",
             service: "dms",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [DmsError.self]
         )
     }
 
     ///  Modifies the specified endpoint.
     public func modifyEndpoint(_ input: ModifyEndpointMessage) throws -> ModifyEndpointResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyEndpoint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about replication instances for your account in the current region.
     public func describeReplicationInstances(_ input: DescribeReplicationInstancesMessage) throws -> DescribeReplicationInstancesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReplicationInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReplicationInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about replication tasks for your account in the current region.
     public func describeReplicationTasks(_ input: DescribeReplicationTasksMessage) throws -> DescribeReplicationTasksResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReplicationTasks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReplicationTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
     public func describeConnections(_ input: DescribeConnectionsMessage) throws -> DescribeConnectionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeConnections", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeConnections", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a replication subnet group given a list of the subnet IDs in a VPC.
     public func createReplicationSubnetGroup(_ input: CreateReplicationSubnetGroupMessage) throws -> CreateReplicationSubnetGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateReplicationSubnetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateReplicationSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops the replication task. 
     public func stopReplicationTask(_ input: StopReplicationTaskMessage) throws -> StopReplicationTaskResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopReplicationTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopReplicationTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a subnet group.
     public func deleteReplicationSubnetGroup(_ input: DeleteReplicationSubnetGroupMessage) throws -> DeleteReplicationSubnetGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteReplicationSubnetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteReplicationSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all tags for an AWS DMS resource.
     public func listTagsForResource(_ input: ListTagsForResourceMessage) throws -> ListTagsForResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTagsForResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all of the AWS DMS attributes for a customer account. The attributes include AWS DMS quotas for the account, such as the number of replication instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command does not take any parameters.
     public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage) throws -> DescribeAccountAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
     public func refreshSchemas(_ input: RefreshSchemasMessage) throws -> RefreshSchemasResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RefreshSchemas", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RefreshSchemas", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the replication subnet groups.
     public func describeReplicationSubnetGroups(_ input: DescribeReplicationSubnetGroupsMessage) throws -> DescribeReplicationSubnetGroupsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the replication task.
     public func startReplicationTask(_ input: StartReplicationTaskMessage) throws -> StartReplicationTaskResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartReplicationTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartReplicationTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified replication task.
     public func deleteReplicationTask(_ input: DeleteReplicationTaskMessage) throws -> DeleteReplicationTaskResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteReplicationTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteReplicationTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the endpoints for your account in the current region.
     public func describeEndpoints(_ input: DescribeEndpointsMessage) throws -> DescribeEndpointsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEndpoints", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the settings for the specified replication subnet group.
     public func modifyReplicationSubnetGroup(_ input: ModifyReplicationSubnetGroupMessage) throws -> ModifyReplicationSubnetGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyReplicationSubnetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyReplicationSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Uploads the specified certificate.
     public func importCertificate(_ input: ImportCertificateMessage) throws -> ImportCertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportCertificate", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted.
     public func describeTableStatistics(_ input: DescribeTableStatisticsMessage) throws -> DescribeTableStatisticsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeTableStatistics", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeTableStatistics", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.  
     public func deleteReplicationInstance(_ input: DeleteReplicationInstanceMessage) throws -> DeleteReplicationInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteReplicationInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates the replication instance using the specified parameters.
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) throws -> CreateReplicationInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. 
     public func modifyReplicationInstance(_ input: ModifyReplicationInstanceMessage) throws -> ModifyReplicationInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyReplicationInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified certificate. 
     public func deleteCertificate(_ input: DeleteCertificateMessage) throws -> DeleteCertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteCertificate", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a replication task using the specified parameters.
     public func createReplicationTask(_ input: CreateReplicationTaskMessage) throws -> CreateReplicationTaskResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateReplicationTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateReplicationTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes metadata tags from a DMS resource.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage) throws -> RemoveTagsFromResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the status of the RefreshSchemas operation.
     public func describeRefreshSchemasStatus(_ input: DescribeRefreshSchemasStatusMessage) throws -> DescribeRefreshSchemasStatusResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRefreshSchemasStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRefreshSchemasStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the replication instance types that can be created in the specified region.
     public func describeOrderableReplicationInstances(_ input: DescribeOrderableReplicationInstancesMessage) throws -> DescribeOrderableReplicationInstancesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeOrderableReplicationInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeOrderableReplicationInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Tests the connection between the replication instance and the endpoint.
     public func testConnection(_ input: TestConnectionMessage) throws -> TestConnectionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TestConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TestConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the schema for the specified endpoint. 
     public func describeSchemas(_ input: DescribeSchemasMessage) throws -> DescribeSchemasResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSchemas", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSchemas", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified endpoint.  All tasks associated with the endpoint must be deleted before you can delete the endpoint.  
     public func deleteEndpoint(_ input: DeleteEndpointMessage) throws -> DeleteEndpointResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the type of endpoints available.
     public func describeEndpointTypes(_ input: DescribeEndpointTypesMessage) throws -> DescribeEndpointTypesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEndpointTypes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEndpointTypes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides a description of the certificate.
     public func describeCertificates(_ input: DescribeCertificatesMessage) throws -> DescribeCertificatesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeCertificates", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an endpoint using the provided settings.
     public func createEndpoint(_ input: CreateEndpointMessage) throws -> CreateEndpointResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateEndpoint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds metadata tags to a DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
     public func addTagsToResource(_ input: AddTagsToResourceMessage) throws -> AddTagsToResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AddTagsToResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. 
     public func modifyReplicationTask(_ input: ModifyReplicationTaskMessage) throws -> ModifyReplicationTaskResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyReplicationTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try DmsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyReplicationTask", path: "/", httpMethod: "POST", input: input)
     }
 
 

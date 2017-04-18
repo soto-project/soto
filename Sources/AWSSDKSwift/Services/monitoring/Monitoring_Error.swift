@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Monitoring
-public enum MonitoringError: Error {
+public enum MonitoringError: AWSErrorType {
     case invalidNextToken(message: String?)
     case limitExceededFault(message: String?)
     case resourceNotFound(message: String?)

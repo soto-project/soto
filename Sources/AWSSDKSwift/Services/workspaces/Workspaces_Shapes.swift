@@ -29,11 +29,13 @@ import Core
 
 extension Workspaces {
 
-    public struct CreateTagsRequest: Serializable, Initializable {
+    public struct CreateTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource ID of the request.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The tags of the request.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -44,9 +46,11 @@ extension Workspaces {
 
     }
 
-    public struct TerminateWorkspacesRequest: Serializable, Initializable {
+    public struct TerminateWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures that specify the WorkSpaces to terminate.
-        var terminateWorkspaceRequests: [TerminateRequest] = []
+        public var terminateWorkspaceRequests: [TerminateRequest] = []
 
         public init() {}
 
@@ -56,13 +60,15 @@ extension Workspaces {
 
     }
 
-    public struct FailedCreateWorkspaceRequest: Serializable, Initializable {
+    public struct FailedCreateWorkspaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The textual error message.
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
         /// A FailedCreateWorkspaceRequest$WorkspaceRequest object that contains the information about the WorkSpace that could not be created.
-        var workspaceRequest: WorkspaceRequest? = nil
+        public var workspaceRequest: WorkspaceRequest? = nil
         /// The error code.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
 
         public init() {}
 
@@ -74,13 +80,15 @@ extension Workspaces {
 
     }
 
-    public struct DescribeWorkspaceBundlesRequest: Serializable, Initializable {
+    public struct DescribeWorkspaceBundlesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The owner of the bundles to retrieve. This parameter cannot be combined with any other filter parameter. This contains one of the following values:   null- Retrieves the bundles that belong to the account making the call.    AMAZON- Retrieves the bundles that are provided by AWS.  
-        var owner: String? = nil
+        public var owner: String? = nil
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// An array of strings that contains the identifiers of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
-        var bundleIds: [String]? = nil
+        public var bundleIds: [String]? = nil
 
         public init() {}
 
@@ -92,9 +100,11 @@ extension Workspaces {
 
     }
 
-    public struct UserStorage: Serializable, Initializable {
+    public struct UserStorage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The amount of user storage for the bundle.
-        var capacity: String? = nil
+        public var capacity: String? = nil
 
         public init() {}
 
@@ -104,19 +114,21 @@ extension Workspaces {
 
     }
 
-    public struct WorkspaceBundle: Serializable, Initializable {
+    public struct WorkspaceBundle: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The bundle description.
-        var description: String? = nil
+        public var description: String? = nil
         /// A ComputeType object that specifies the compute type for the bundle.
-        var computeType: ComputeType? = nil
+        public var computeType: ComputeType? = nil
         /// A UserStorage object that specifies the amount of user storage that the bundle contains.
-        var userStorage: UserStorage? = nil
+        public var userStorage: UserStorage? = nil
         /// The owner of the bundle. This contains the owner's account identifier, or AMAZON if the bundle is provided by AWS.
-        var owner: String? = nil
+        public var owner: String? = nil
         /// The name of the bundle.
-        var name: String? = nil
+        public var name: String? = nil
         /// The bundle identifier.
-        var bundleId: String? = nil
+        public var bundleId: String? = nil
 
         public init() {}
 
@@ -131,9 +143,11 @@ extension Workspaces {
 
     }
 
-    public struct RebootWorkspacesResult: Serializable, Initializable {
+    public struct RebootWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures representing any WorkSpaces that could not be rebooted.
-        var failedRequests: [FailedWorkspaceChangeRequest]? = nil
+        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
 
         public init() {}
 
@@ -143,9 +157,11 @@ extension Workspaces {
 
     }
 
-    public struct DescribeTagsRequest: Serializable, Initializable {
+    public struct DescribeTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource ID of the request.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -155,11 +171,13 @@ extension Workspaces {
 
     }
 
-    public struct CreateWorkspacesResult: Serializable, Initializable {
+    public struct CreateWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures that represent the WorkSpaces that could not be created.
-        var failedRequests: [FailedCreateWorkspaceRequest]? = nil
+        public var failedRequests: [FailedCreateWorkspaceRequest]? = nil
         /// An array of structures that represent the WorkSpaces that were created. Because this operation is asynchronous, the identifier in WorkspaceId is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information will be returned.
-        var pendingRequests: [Workspace]? = nil
+        public var pendingRequests: [Workspace]? = nil
 
         public init() {}
 
@@ -170,15 +188,19 @@ extension Workspaces {
 
     }
 
-    public struct CreateTagsResult: Serializable, Initializable {
+    public struct CreateTagsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct RebootWorkspacesRequest: Serializable, Initializable {
+    public struct RebootWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures that specify the WorkSpaces to reboot.
-        var rebootWorkspaceRequests: [RebootRequest] = []
+        public var rebootWorkspaceRequests: [RebootRequest] = []
 
         public init() {}
 
@@ -188,11 +210,13 @@ extension Workspaces {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the tag.
-        var value: String? = nil
+        public var value: String? = nil
         /// The key of the tag.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -203,17 +227,21 @@ extension Workspaces {
 
     }
 
-    public struct ModifyWorkspacePropertiesResult: Serializable, Initializable {
+    public struct ModifyWorkspacePropertiesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeWorkspacesConnectionStatusResult: Serializable, Initializable {
+    public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The connection status of the WorkSpace.
-        var workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil
+        public var workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil
         /// The next token of the result.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -224,9 +252,11 @@ extension Workspaces {
 
     }
 
-    public struct StartWorkspacesRequest: Serializable, Initializable {
+    public struct StartWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The requests.
-        var startWorkspaceRequests: [StartRequest] = []
+        public var startWorkspaceRequests: [StartRequest] = []
 
         public init() {}
 
@@ -236,9 +266,11 @@ extension Workspaces {
 
     }
 
-    public struct ComputeType: Serializable, Initializable {
+    public struct ComputeType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the compute type for the bundle.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -248,13 +280,15 @@ extension Workspaces {
 
     }
 
-    public struct FailedWorkspaceChangeRequest: Serializable, Initializable {
+    public struct FailedWorkspaceChangeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The textual error message.
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
         /// The error code.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The identifier of the WorkSpace.
-        var workspaceId: String? = nil
+        public var workspaceId: String? = nil
 
         public init() {}
 
@@ -266,9 +300,11 @@ extension Workspaces {
 
     }
 
-    public struct StopRequest: Serializable, Initializable {
+    public struct StopRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the WorkSpace.
-        var workspaceId: String? = nil
+        public var workspaceId: String? = nil
 
         public init() {}
 
@@ -278,9 +314,11 @@ extension Workspaces {
 
     }
 
-    public struct StartRequest: Serializable, Initializable {
+    public struct StartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the WorkSpace.
-        var workspaceId: String? = nil
+        public var workspaceId: String? = nil
 
         public init() {}
 
@@ -290,17 +328,19 @@ extension Workspaces {
 
     }
 
-    public struct DefaultWorkspaceCreationProperties: Serializable, Initializable {
+    public struct DefaultWorkspaceCreationProperties: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The organizational unit (OU) in the directory that the WorkSpace machine accounts are placed in.
-        var defaultOu: String? = nil
+        public var defaultOu: String? = nil
         /// The identifier of any custom security groups that are applied to the WorkSpaces when they are created.
-        var customSecurityGroupId: String? = nil
+        public var customSecurityGroupId: String? = nil
         /// A public IP address will be attached to all WorkSpaces that are created or rebuilt.
-        var enableInternetAccess: Bool? = nil
+        public var enableInternetAccess: Bool? = nil
         /// The WorkSpace user is an administrator on the WorkSpace.
-        var userEnabledAsLocalAdministrator: Bool? = nil
+        public var userEnabledAsLocalAdministrator: Bool? = nil
         /// Specifies if the directory is enabled for Amazon WorkDocs.
-        var enableWorkDocs: Bool? = nil
+        public var enableWorkDocs: Bool? = nil
 
         public init() {}
 
@@ -314,9 +354,11 @@ extension Workspaces {
 
     }
 
-    public struct StopWorkspacesRequest: Serializable, Initializable {
+    public struct StopWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The requests.
-        var stopWorkspaceRequests: [StopRequest] = []
+        public var stopWorkspaceRequests: [StopRequest] = []
 
         public init() {}
 
@@ -326,19 +368,21 @@ extension Workspaces {
 
     }
 
-    public struct DescribeWorkspacesRequest: Serializable, Initializable {
+    public struct DescribeWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the directory identifier to which to limit the WorkSpaces. Optionally, you can specify a specific directory user with the UserName parameter. This parameter cannot be combined with any other filter parameter.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
         /// Used with the DirectoryId parameter to specify the directory user for whom to obtain the WorkSpace.
-        var userName: String? = nil
+        public var userName: String? = nil
         /// The maximum number of items to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// An array of strings that contain the identifiers of the WorkSpaces for which to retrieve information. This parameter cannot be combined with any other filter parameter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
-        var workspaceIds: [String]? = nil
+        public var workspaceIds: [String]? = nil
         /// The identifier of a bundle to obtain the WorkSpaces for. All WorkSpaces that are created from this bundle will be retrieved. This parameter cannot be combined with any other filter parameter.
-        var bundleId: String? = nil
+        public var bundleId: String? = nil
 
         public init() {}
 
@@ -353,9 +397,11 @@ extension Workspaces {
 
     }
 
-    public struct RebuildWorkspacesResult: Serializable, Initializable {
+    public struct RebuildWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures representing any WorkSpaces that could not be rebuilt.
-        var failedRequests: [FailedWorkspaceChangeRequest]? = nil
+        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
 
         public init() {}
 
@@ -365,9 +411,11 @@ extension Workspaces {
 
     }
 
-    public struct RebootRequest: Serializable, Initializable {
+    public struct RebootRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the WorkSpace to reboot.
-        var workspaceId: String = ""
+        public var workspaceId: String = ""
 
         public init() {}
 
@@ -377,11 +425,13 @@ extension Workspaces {
 
     }
 
-    public struct DescribeWorkspacesConnectionStatusRequest: Serializable, Initializable {
+    public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of strings that contain the identifiers of the WorkSpaces.
-        var workspaceIds: [String]? = nil
+        public var workspaceIds: [String]? = nil
         /// The next token of the request.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -392,15 +442,17 @@ extension Workspaces {
 
     }
 
-    public struct WorkspaceConnectionStatus: Serializable, Initializable {
+    public struct WorkspaceConnectionStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the WorkSpace.
-        var workspaceId: String? = nil
+        public var workspaceId: String? = nil
         /// The connection state of the WorkSpace. Returns UNKOWN if the WorkSpace is in a Stopped state.
-        var connectionState: String? = nil
+        public var connectionState: String? = nil
         /// The timestamp of the last known user connection.
-        var lastKnownUserConnectionTimestamp: Date? = nil
+        public var lastKnownUserConnectionTimestamp: Date? = nil
         /// The timestamp of the connection state check.
-        var connectionStateCheckTimestamp: Date? = nil
+        public var connectionStateCheckTimestamp: Date? = nil
 
         public init() {}
 
@@ -413,9 +465,11 @@ extension Workspaces {
 
     }
 
-    public struct DescribeTagsResult: Serializable, Initializable {
+    public struct DescribeTagsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of tags.
-        var tagList: [Tag]? = nil
+        public var tagList: [Tag]? = nil
 
         public init() {}
 
@@ -425,11 +479,13 @@ extension Workspaces {
 
     }
 
-    public struct DescribeWorkspacesResult: Serializable, Initializable {
+    public struct DescribeWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// An array of structures that contain the information about the WorkSpaces. Because the CreateWorkspaces operation is asynchronous, some of this information may be incomplete for a newly-created WorkSpace.
-        var workspaces: [Workspace]? = nil
+        public var workspaces: [Workspace]? = nil
 
         public init() {}
 
@@ -440,11 +496,13 @@ extension Workspaces {
 
     }
 
-    public struct WorkspaceProperties: Serializable, Initializable {
+    public struct WorkspaceProperties: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
-        var runningMode: String? = nil
+        public var runningMode: String? = nil
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
-        var runningModeAutoStopTimeoutInMinutes: Int32? = nil
+        public var runningModeAutoStopTimeoutInMinutes: Int32? = nil
 
         public init() {}
 
@@ -455,11 +513,13 @@ extension Workspaces {
 
     }
 
-    public struct ModifyWorkspacePropertiesRequest: Serializable, Initializable {
+    public struct ModifyWorkspacePropertiesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the WorkSpace.
-        var workspaceId: String = ""
+        public var workspaceId: String = ""
         /// The WorkSpace properties of the request.
-        var workspaceProperties: WorkspaceProperties = WorkspaceProperties()
+        public var workspaceProperties: WorkspaceProperties = WorkspaceProperties()
 
         public init() {}
 
@@ -470,11 +530,13 @@ extension Workspaces {
 
     }
 
-    public struct DescribeWorkspaceBundlesResult: Serializable, Initializable {
+    public struct DescribeWorkspaceBundlesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// An array of structures that contain information about the bundles.
-        var bundles: [WorkspaceBundle]? = nil
+        public var bundles: [WorkspaceBundle]? = nil
 
         public init() {}
 
@@ -485,11 +547,13 @@ extension Workspaces {
 
     }
 
-    public struct DeleteTagsRequest: Serializable, Initializable {
+    public struct DeleteTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource ID of the request.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The tag keys of the request.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -500,34 +564,36 @@ extension Workspaces {
 
     }
 
-    public struct Workspace: Serializable, Initializable {
+    public struct Workspace: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the subnet that the WorkSpace is in.
-        var subnetId: String? = nil
+        public var subnetId: String? = nil
         /// The user that the WorkSpace is assigned to.
-        var userName: String? = nil
+        public var userName: String? = nil
         /// The operational state of the WorkSpace.
-        var state: String? = nil
+        public var state: String? = nil
         /// Specifies whether the data stored on the root volume, or C: drive, is encrypted.
-        var rootVolumeEncryptionEnabled: Bool? = nil
-        var workspaceProperties: WorkspaceProperties? = nil
+        public var rootVolumeEncryptionEnabled: Bool? = nil
+        public var workspaceProperties: WorkspaceProperties? = nil
         /// The identifier of the AWS Directory Service directory that the WorkSpace belongs to.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
         /// The name of the WorkSpace as seen by the operating system.
-        var computerName: String? = nil
+        public var computerName: String? = nil
         /// If the WorkSpace could not be created, this contains a textual error message that describes the failure.
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
         /// If the WorkSpace could not be created, this contains the error code.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The identifier of the bundle that the WorkSpace was created from.
-        var bundleId: String? = nil
+        public var bundleId: String? = nil
         /// Specifies whether the data stored on the user volume, or D: drive, is encrypted.
-        var userVolumeEncryptionEnabled: Bool? = nil
+        public var userVolumeEncryptionEnabled: Bool? = nil
         /// The identifier of the WorkSpace.
-        var workspaceId: String? = nil
+        public var workspaceId: String? = nil
         /// The KMS key used to encrypt data stored on your WorkSpace.
-        var volumeEncryptionKey: String? = nil
+        public var volumeEncryptionKey: String? = nil
         /// The IP address of the WorkSpace.
-        var ipAddress: String? = nil
+        public var ipAddress: String? = nil
 
         public init() {}
 
@@ -550,9 +616,11 @@ extension Workspaces {
 
     }
 
-    public struct RebuildWorkspacesRequest: Serializable, Initializable {
+    public struct RebuildWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures that specify the WorkSpaces to rebuild.
-        var rebuildWorkspaceRequests: [RebuildRequest] = []
+        public var rebuildWorkspaceRequests: [RebuildRequest] = []
 
         public init() {}
 
@@ -562,11 +630,13 @@ extension Workspaces {
 
     }
 
-    public struct DescribeWorkspaceDirectoriesResult: Serializable, Initializable {
+    public struct DescribeWorkspaceDirectoriesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures that contain information about the directories.
-        var directories: [WorkspaceDirectory]? = nil
+        public var directories: [WorkspaceDirectory]? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -577,9 +647,11 @@ extension Workspaces {
 
     }
 
-    public struct TerminateWorkspacesResult: Serializable, Initializable {
+    public struct TerminateWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures representing any WorkSpaces that could not be terminated.
-        var failedRequests: [FailedWorkspaceChangeRequest]? = nil
+        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
 
         public init() {}
 
@@ -589,9 +661,11 @@ extension Workspaces {
 
     }
 
-    public struct StopWorkspacesResult: Serializable, Initializable {
+    public struct StopWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The failed requests.
-        var failedRequests: [FailedWorkspaceChangeRequest]? = nil
+        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
 
         public init() {}
 
@@ -601,9 +675,11 @@ extension Workspaces {
 
     }
 
-    public struct RebuildRequest: Serializable, Initializable {
+    public struct RebuildRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the WorkSpace to rebuild.
-        var workspaceId: String = ""
+        public var workspaceId: String = ""
 
         public init() {}
 
@@ -613,9 +689,11 @@ extension Workspaces {
 
     }
 
-    public struct CreateWorkspacesRequest: Serializable, Initializable {
+    public struct CreateWorkspacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of structures that specify the WorkSpaces to create.
-        var workspaces: [WorkspaceRequest] = []
+        public var workspaces: [WorkspaceRequest] = []
 
         public init() {}
 
@@ -625,31 +703,33 @@ extension Workspaces {
 
     }
 
-    public struct WorkspaceDirectory: Serializable, Initializable {
+    public struct WorkspaceDirectory: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of strings that contains the identifiers of the subnets used with the directory.
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         /// A structure that specifies the default creation properties for all WorkSpaces in the directory.
-        var workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil
+        public var workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil
         /// An array of strings that contains the IP addresses of the DNS servers for the directory.
-        var dnsIpAddresses: [String]? = nil
+        public var dnsIpAddresses: [String]? = nil
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
-        var registrationCode: String? = nil
+        public var registrationCode: String? = nil
         /// The state of the directory's registration with Amazon WorkSpaces
-        var state: String? = nil
+        public var state: String? = nil
         /// The user name for the service account.
-        var customerUserName: String? = nil
+        public var customerUserName: String? = nil
         /// The directory alias.
-        var alias: String? = nil
+        public var alias: String? = nil
         /// The directory identifier.
-        var directoryId: String? = nil
+        public var directoryId: String? = nil
         /// The identifier of the security group that is assigned to new WorkSpaces.
-        var workspaceSecurityGroupId: String? = nil
+        public var workspaceSecurityGroupId: String? = nil
         /// The directory type.
-        var directoryType: String? = nil
+        public var directoryType: String? = nil
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
-        var iamRoleId: String? = nil
+        public var iamRoleId: String? = nil
         /// The name of the directory.
-        var directoryName: String? = nil
+        public var directoryName: String? = nil
 
         public init() {}
 
@@ -670,22 +750,24 @@ extension Workspaces {
 
     }
 
-    public struct WorkspaceRequest: Serializable, Initializable {
+    public struct WorkspaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The username that the WorkSpace is assigned to. This username must exist in the AWS Directory Service directory specified by the DirectoryId member.
-        var userName: String = ""
+        public var userName: String = ""
         /// The KMS key used to encrypt data stored on your WorkSpace.
-        var volumeEncryptionKey: String? = nil
+        public var volumeEncryptionKey: String? = nil
         /// The tags of the WorkSpace request.
-        var tags: [Tag]? = nil
-        var workspaceProperties: WorkspaceProperties? = nil
+        public var tags: [Tag]? = nil
+        public var workspaceProperties: WorkspaceProperties? = nil
         /// The identifier of the AWS Directory Service directory to create the WorkSpace in. You can use the DescribeWorkspaceDirectories operation to obtain a list of the directories that are available.
-        var directoryId: String = ""
+        public var directoryId: String = ""
         /// Specifies whether the data stored on the root volume, or C: drive, is encrypted.
-        var rootVolumeEncryptionEnabled: Bool? = nil
+        public var rootVolumeEncryptionEnabled: Bool? = nil
         /// Specifies whether the data stored on the user volume, or D: drive, is encrypted.
-        var userVolumeEncryptionEnabled: Bool? = nil
+        public var userVolumeEncryptionEnabled: Bool? = nil
         /// The identifier of the bundle to create the WorkSpace from. You can use the DescribeWorkspaceBundles operation to obtain a list of the bundles that are available.
-        var bundleId: String = ""
+        public var bundleId: String = ""
 
         public init() {}
 
@@ -702,9 +784,11 @@ extension Workspaces {
 
     }
 
-    public struct StartWorkspacesResult: Serializable, Initializable {
+    public struct StartWorkspacesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The failed requests.
-        var failedRequests: [FailedWorkspaceChangeRequest]? = nil
+        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
 
         public init() {}
 
@@ -714,17 +798,21 @@ extension Workspaces {
 
     }
 
-    public struct DeleteTagsResult: Serializable, Initializable {
+    public struct DeleteTagsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeWorkspaceDirectoriesRequest: Serializable, Initializable {
+    public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// An array of strings that contains the directory identifiers to retrieve information for. If this member is null, all directories are retrieved.
-        var directoryIds: [String]? = nil
+        public var directoryIds: [String]? = nil
 
         public init() {}
 
@@ -735,9 +823,11 @@ extension Workspaces {
 
     }
 
-    public struct TerminateRequest: Serializable, Initializable {
+    public struct TerminateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the WorkSpace to terminate.
-        var workspaceId: String = ""
+        public var workspaceId: String = ""
 
         public init() {}
 

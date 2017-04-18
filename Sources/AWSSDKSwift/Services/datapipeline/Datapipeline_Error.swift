@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Datapipeline
-public enum DatapipelineError: Error {
+public enum DatapipelineError: AWSErrorType {
     case internalServiceError(message: String?)
     case taskNotFoundException(message: String?)
     case invalidRequestException(message: String?)

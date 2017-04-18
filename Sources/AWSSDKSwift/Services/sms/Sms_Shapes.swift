@@ -29,23 +29,27 @@ import Core
 
 extension Sms {
 
-    public struct DisassociateConnectorResponse: Serializable, Initializable {
+    public struct DisassociateConnectorResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Connector: Serializable, Initializable {
-        var capabilityList: [String]? = nil
-        var status: String? = nil
-        var ipAddress: String? = nil
-        var vmManagerId: String? = nil
-        var version: String? = nil
-        var vmManagerType: String? = nil
-        var connectorId: String? = nil
-        var vmManagerName: String? = nil
-        var macAddress: String? = nil
-        var associatedOn: Date? = nil
+    public struct Connector: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var capabilityList: [String]? = nil
+        public var status: String? = nil
+        public var ipAddress: String? = nil
+        public var vmManagerId: String? = nil
+        public var version: String? = nil
+        public var vmManagerType: String? = nil
+        public var connectorId: String? = nil
+        public var vmManagerName: String? = nil
+        public var macAddress: String? = nil
+        public var associatedOn: Date? = nil
 
         public init() {}
 
@@ -64,10 +68,12 @@ extension Sms {
 
     }
 
-    public struct GetReplicationRunsRequest: Serializable, Initializable {
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
-        var replicationJobId: String = ""
+    public struct GetReplicationRunsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
+        public var replicationJobId: String = ""
 
         public init() {}
 
@@ -79,9 +85,11 @@ extension Sms {
 
     }
 
-    public struct GetConnectorsRequest: Serializable, Initializable {
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+    public struct GetConnectorsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -92,17 +100,21 @@ extension Sms {
 
     }
 
-    public struct ImportServerCatalogRequest: Serializable, Initializable {
+    public struct ImportServerCatalogRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetServersResponse: Serializable, Initializable {
-        var serverList: [Server]? = nil
-        var serverCatalogStatus: String? = nil
-        var nextToken: String? = nil
-        var lastModifiedOn: Date? = nil
+    public struct GetServersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var serverList: [Server]? = nil
+        public var serverCatalogStatus: String? = nil
+        public var nextToken: String? = nil
+        public var lastModifiedOn: Date? = nil
 
         public init() {}
 
@@ -115,10 +127,12 @@ extension Sms {
 
     }
 
-    public struct GetReplicationJobsRequest: Serializable, Initializable {
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
-        var replicationJobId: String? = nil
+    public struct GetReplicationJobsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
+        public var replicationJobId: String? = nil
 
         public init() {}
 
@@ -130,14 +144,18 @@ extension Sms {
 
     }
 
-    public struct UpdateReplicationJobResponse: Serializable, Initializable {
+    public struct UpdateReplicationJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct StartOnDemandReplicationRunResponse: Serializable, Initializable {
-        var replicationRunId: String? = nil
+    public struct StartOnDemandReplicationRunResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var replicationRunId: String? = nil
 
         public init() {}
 
@@ -147,13 +165,15 @@ extension Sms {
 
     }
 
-    public struct UpdateReplicationJobRequest: Serializable, Initializable {
-        var roleName: String? = nil
-        var nextReplicationRunStartTime: Date? = nil
-        var description: String? = nil
-        var frequency: Int32? = nil
-        var replicationJobId: String = ""
-        var licenseType: String? = nil
+    public struct UpdateReplicationJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var roleName: String? = nil
+        public var nextReplicationRunStartTime: Date? = nil
+        public var description: String? = nil
+        public var frequency: Int32? = nil
+        public var replicationJobId: String = ""
+        public var licenseType: String? = nil
 
         public init() {}
 
@@ -168,15 +188,17 @@ extension Sms {
 
     }
 
-    public struct ReplicationRun: Serializable, Initializable {
-        var state: String? = nil
-        var replicationRunId: String? = nil
-        var completedTime: Date? = nil
-        var scheduledStartTime: Date? = nil
-        var description: String? = nil
-        var amiId: String? = nil
-        var type: String? = nil
-        var statusMessage: String? = nil
+    public struct ReplicationRun: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var state: String? = nil
+        public var replicationRunId: String? = nil
+        public var completedTime: Date? = nil
+        public var scheduledStartTime: Date? = nil
+        public var description: String? = nil
+        public var amiId: String? = nil
+        public var type: String? = nil
+        public var statusMessage: String? = nil
 
         public init() {}
 
@@ -193,27 +215,31 @@ extension Sms {
 
     }
 
-    public struct DeleteServerCatalogResponse: Serializable, Initializable {
+    public struct DeleteServerCatalogResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ReplicationJob: Serializable, Initializable {
-        var state: String? = nil
-        var replicationRunList: [ReplicationRun]? = nil
-        var nextReplicationRunStartTime: Date? = nil
-        var vmServer: VmServer? = nil
-        var licenseType: String? = nil
-        var description: String? = nil
-        var serverId: String? = nil
-        var latestAmiId: String? = nil
-        var frequency: Int32? = nil
-        var statusMessage: String? = nil
-        var replicationJobId: String? = nil
-        var roleName: String? = nil
-        var seedReplicationTime: Date? = nil
-        var serverType: String? = nil
+    public struct ReplicationJob: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var state: String? = nil
+        public var replicationRunList: [ReplicationRun]? = nil
+        public var nextReplicationRunStartTime: Date? = nil
+        public var vmServer: VmServer? = nil
+        public var licenseType: String? = nil
+        public var description: String? = nil
+        public var serverId: String? = nil
+        public var latestAmiId: String? = nil
+        public var frequency: Int32? = nil
+        public var statusMessage: String? = nil
+        public var replicationJobId: String? = nil
+        public var roleName: String? = nil
+        public var seedReplicationTime: Date? = nil
+        public var serverType: String? = nil
 
         public init() {}
 
@@ -236,21 +262,27 @@ extension Sms {
 
     }
 
-    public struct ImportServerCatalogResponse: Serializable, Initializable {
+    public struct ImportServerCatalogResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteReplicationJobResponse: Serializable, Initializable {
+    public struct DeleteReplicationJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetConnectorsResponse: Serializable, Initializable {
-        var nextToken: String? = nil
-        var connectorList: [Connector]? = nil
+    public struct GetConnectorsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var connectorList: [Connector]? = nil
 
         public init() {}
 
@@ -261,13 +293,15 @@ extension Sms {
 
     }
 
-    public struct CreateReplicationJobRequest: Serializable, Initializable {
-        var seedReplicationTime: Date = Date()
-        var roleName: String? = nil
-        var serverId: String = ""
-        var description: String? = nil
-        var frequency: Int32 = 0
-        var licenseType: String? = nil
+    public struct CreateReplicationJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var seedReplicationTime: Date = Date()
+        public var roleName: String? = nil
+        public var serverId: String = ""
+        public var description: String? = nil
+        public var frequency: Int32 = 0
+        public var licenseType: String? = nil
 
         public init() {}
 
@@ -282,9 +316,11 @@ extension Sms {
 
     }
 
-    public struct VmServerAddress: Serializable, Initializable {
-        var vmId: String? = nil
-        var vmManagerId: String? = nil
+    public struct VmServerAddress: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var vmId: String? = nil
+        public var vmManagerId: String? = nil
 
         public init() {}
 
@@ -295,9 +331,11 @@ extension Sms {
 
     }
 
-    public struct GetServersRequest: Serializable, Initializable {
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+    public struct GetServersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -308,12 +346,14 @@ extension Sms {
 
     }
 
-    public struct VmServer: Serializable, Initializable {
-        var vmManagerName: String? = nil
-        var vmManagerType: String? = nil
-        var vmName: String? = nil
-        var vmServerAddress: VmServerAddress? = nil
-        var vmPath: String? = nil
+    public struct VmServer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var vmManagerName: String? = nil
+        public var vmManagerType: String? = nil
+        public var vmName: String? = nil
+        public var vmServerAddress: VmServerAddress? = nil
+        public var vmPath: String? = nil
 
         public init() {}
 
@@ -327,12 +367,14 @@ extension Sms {
 
     }
 
-    public struct Server: Serializable, Initializable {
-        var serverId: String? = nil
-        var replicationJobTerminated: Bool? = nil
-        var serverType: String? = nil
-        var vmServer: VmServer? = nil
-        var replicationJobId: String? = nil
+    public struct Server: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var serverId: String? = nil
+        public var replicationJobTerminated: Bool? = nil
+        public var serverType: String? = nil
+        public var vmServer: VmServer? = nil
+        public var replicationJobId: String? = nil
 
         public init() {}
 
@@ -346,14 +388,18 @@ extension Sms {
 
     }
 
-    public struct DeleteServerCatalogRequest: Serializable, Initializable {
+    public struct DeleteServerCatalogRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateReplicationJobResponse: Serializable, Initializable {
-        var replicationJobId: String? = nil
+    public struct CreateReplicationJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var replicationJobId: String? = nil
 
         public init() {}
 
@@ -363,9 +409,11 @@ extension Sms {
 
     }
 
-    public struct StartOnDemandReplicationRunRequest: Serializable, Initializable {
-        var description: String? = nil
-        var replicationJobId: String = ""
+    public struct StartOnDemandReplicationRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var description: String? = nil
+        public var replicationJobId: String = ""
 
         public init() {}
 
@@ -376,9 +424,11 @@ extension Sms {
 
     }
 
-    public struct GetReplicationJobsResponse: Serializable, Initializable {
-        var nextToken: String? = nil
-        var replicationJobList: [ReplicationJob]? = nil
+    public struct GetReplicationJobsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var replicationJobList: [ReplicationJob]? = nil
 
         public init() {}
 
@@ -389,8 +439,10 @@ extension Sms {
 
     }
 
-    public struct DisassociateConnectorRequest: Serializable, Initializable {
-        var connectorId: String = ""
+    public struct DisassociateConnectorRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectorId: String = ""
 
         public init() {}
 
@@ -400,10 +452,12 @@ extension Sms {
 
     }
 
-    public struct GetReplicationRunsResponse: Serializable, Initializable {
-        var replicationJob: ReplicationJob? = nil
-        var replicationRunList: [ReplicationRun]? = nil
-        var nextToken: String? = nil
+    public struct GetReplicationRunsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var replicationJob: ReplicationJob? = nil
+        public var replicationRunList: [ReplicationRun]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -415,8 +469,10 @@ extension Sms {
 
     }
 
-    public struct DeleteReplicationJobRequest: Serializable, Initializable {
-        var replicationJobId: String = ""
+    public struct DeleteReplicationJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var replicationJobId: String = ""
 
         public init() {}
 

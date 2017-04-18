@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Devicefarm
-public enum DevicefarmError: Error {
+public enum DevicefarmError: AWSErrorType {
     case argumentException(message: String?)
     case notFoundException(message: String?)
     case limitExceededException(message: String?)

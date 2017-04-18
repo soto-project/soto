@@ -32,529 +32,454 @@ Amazon Relational Database Service   Amazon Relational Database Service (Amazon 
 */
 public struct Rds {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "rds",
-            endpoint: endpoint
+            serviceProtocol: .query,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [RdsError.self]
         )
     }
 
     ///  Creates a new DB instance.
     public func createDBInstance(_ input: CreateDBInstanceMessage) throws -> CreateDBInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with the most of original configuration with the default security group and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored AZ deployment and not a single-AZ deployment. If your intent is to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot action. RDS does not allow two DB instances with the same name. Once you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot action. The result is that you will replace the original DB instance with the DB instance created from the snapshot. If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
     public func restoreDBInstanceFromDBSnapshot(_ input: RestoreDBInstanceFromDBSnapshotMessage) throws -> RestoreDBInstanceFromDBSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreDBInstanceFromDBSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreDBInstanceFromDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates an Identity and Access Management (IAM) role from an Aurora DB cluster. For more information, see Authorizing Amazon Aurora to Access Other AWS Services On Your Behalf.
     public func removeRoleFromDBCluster(_ input: RemoveRoleFromDBClusterMessage) throws {
-        _ = try request.invoke(operation: "RemoveRoleFromDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RemoveRoleFromDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Promotes a Read Replica DB cluster to a standalone DB cluster.
     public func promoteReadReplicaDBCluster(_ input: PromoteReadReplicaDBClusterMessage) throws -> PromoteReadReplicaDBClusterResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PromoteReadReplicaDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PromoteReadReplicaDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing option group.
     public func deleteOptionGroup(_ input: DeleteOptionGroupMessage) throws {
-        _ = try request.invoke(operation: "DeleteOptionGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing option group.
     public func modifyOptionGroup(_ input: ModifyOptionGroupMessage) throws -> ModifyOptionGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyOptionGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a source identifier from an existing RDS event notification subscription.
     public func removeSourceIdentifierFromSubscription(_ input: RemoveSourceIdentifierFromSubscriptionMessage) throws -> RemoveSourceIdentifierFromSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RemoveSourceIdentifierFromSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RemoveSourceIdentifierFromSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster.  A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using ModifyDBCluster. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters command to verify that your DB cluster parameter group has been created or modified.  For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func createDBClusterParameterGroup(_ input: CreateDBClusterParameterGroupMessage) throws -> CreateDBClusterParameterGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBClusterParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all tags on an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources.
     public func listTagsForResource(_ input: ListTagsForResourceMessage) throws -> TagListMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTagsForResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates an Identity and Access Management (IAM) role from an Aurora DB cluster. For more information, see Authorizing Amazon Aurora to Access Other AWS Services On Your Behalf.
     public func addRoleToDBCluster(_ input: AddRoleToDBClusterMessage) throws {
-        _ = try request.invoke(operation: "AddRoleToDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AddRoleToDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the default engine and system parameter information for the cluster database engine. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func describeEngineDefaultClusterParameters(_ input: DescribeEngineDefaultClusterParametersMessage) throws -> DescribeEngineDefaultClusterParametersResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEngineDefaultClusterParameters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEngineDefaultClusterParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func describeDBClusters(_ input: DescribeDBClustersMessage) throws -> DBClusterMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBClusters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBClusters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the available DB engines.
     public func describeDBEngineVersions(_ input: DescribeDBEngineVersionsMessage) throws -> DBEngineVersionMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBEngineVersions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBEngineVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the detailed parameter list for a particular DB parameter group.
     public func describeDBParameters(_ input: DescribeDBParametersMessage) throws -> DBParameterGroupDetails {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBParameters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Promotes a Read Replica DB instance to a standalone DB instance.  We recommend that you enable automated backups on your Read Replica before promoting the Read Replica. This ensures that no backup is taken during the promotion process. Once the instance is promoted to a primary instance, backups are taken based on your backup settings. 
     public func promoteReadReplica(_ input: PromoteReadReplicaMessage) throws -> PromoteReadReplicaResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PromoteReadReplica", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PromoteReadReplica", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     public func describeReservedDBInstances(_ input: DescribeReservedDBInstancesMessage) throws -> ReservedDBInstanceMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReservedDBInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReservedDBInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other AWS accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all AWS accounts. To add or remove access for an AWS account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.
     public func describeDBClusterSnapshotAttributes(_ input: DescribeDBClusterSnapshotAttributesMessage) throws -> DescribeDBClusterSnapshotAttributesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBClusterSnapshotAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBClusterSnapshotAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the available option groups.
     public func describeOptionGroups(_ input: DescribeOptionGroupsMessage) throws -> OptionGroups {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeOptionGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeOptionGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing RDS event notification subscription. Note that you cannot modify the source identifiers using this call; to change source identifiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action.
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage) throws -> ModifyEventSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.   Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB instance associated with the parameter group before the change can take effect.   After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the modify action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBParameters command to verify that your DB parameter group has been created or modified. 
     public func modifyDBParameterGroup(_ input: ModifyDBParameterGroupMessage) throws -> DBParameterGroupNameMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new option group. You can create up to 20 option groups.
     public func createOptionGroup(_ input: CreateOptionGroupMessage) throws -> CreateOptionGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateOptionGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Downloads all or a portion of the specified log file, up to 1 MB in size.
     public func downloadDBLogFilePortion(_ input: DownloadDBLogFilePortionMessage) throws -> DownloadDBLogFilePortionDetails {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DownloadDBLogFilePortion", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DownloadDBLogFilePortion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in Migrating Data from MySQL by Using an Amazon S3 Bucket.
     public func restoreDBClusterFromS3(_ input: RestoreDBClusterFromS3Message) throws -> RestoreDBClusterFromS3Result {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the region.
     public func createDBSubnetGroup(_ input: CreateDBSubnetGroupMessage) throws -> CreateDBSubnetGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBSubnetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies the specified option group.
     public func copyOptionGroup(_ input: CopyOptionGroupMessage) throws -> CopyOptionGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyOptionGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies the specified DB parameter group.
     public func copyDBParameterGroup(_ input: CopyDBParameterGroupMessage) throws -> CopyDBParameterGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyDBParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated.  The DB cluster snapshot must be in the available state to be deleted.  For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func deleteDBClusterSnapshot(_ input: DeleteDBClusterSnapshotMessage) throws -> DeleteDBClusterSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteDBClusterSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a DBSnapshot. The source DBInstance must be in "available" state.
     public func createDBSnapshot(_ input: CreateDBSnapshotMessage) throws -> CreateDBSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a DBSnapshot. If the snapshot is being copied, the copy operation is terminated.  The DBSnapshot must be in the available state to be deleted. 
     public func deleteDBSnapshot(_ input: DeleteDBSnapshotMessage) throws -> DeleteDBSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteDBSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. 
     public func describeDBParameterGroups(_ input: DescribeDBParameterGroupsMessage) throws -> DBParameterGroupsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBParameterGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBParameterGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes metadata tags from an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage) throws {
-        _ = try request.invoke(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DB parameter group.  A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup. Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance. When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance without failover for the new DB parameter group and associated settings to take effect.   After you create a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBParameters command to verify that your DB parameter group has been created or modified. 
     public func createDBParameterGroup(_ input: CreateDBParameterGroupMessage) throws -> CreateDBParameterGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modify a setting for an Amazon Aurora DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func modifyDBCluster(_ input: ModifyDBClusterMessage) throws -> ModifyDBClusterResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. 
     public func resetDBParameterGroup(_ input: ResetDBParameterGroupMessage) throws -> DBParameterGroupNameMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ResetDBParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ResetDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Displays a list of categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in the  Events topic in the Amazon RDS User Guide. 
     public func describeEventCategories(_ input: DescribeEventCategoriesMessage) throws -> EventCategoriesMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEventCategories", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEventCategories", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Rebooting a DB instance restarts the database engine service. A reboot also applies to the DB instance any modifications to the associated DB parameter group that were pending. Rebooting a DB instance results in a momentary outage of the instance, during which the DB instance status is set to rebooting. If the RDS instance is configured for MultiAZ, it is possible that the reboot will be conducted through a failover. An Amazon RDS event is created when the reboot is completed. If your DB instance is deployed in multiple Availability Zones, you can force a failover from one AZ to the other during the reboot. You might force a failover to test the availability of your DB instance deployment or to restore operations to the original AZ after a failover occurs. The time required to reboot is a function of the specific database engine's crash recovery process. To improve the reboot time, we recommend that you reduce database activities as much as possible during the reboot process to reduce rollback activity for in-transit transactions.
     public func rebootDBInstance(_ input: RebootDBInstanceMessage) throws -> RebootDBInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RebootDBInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RebootDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a DB instance for a DB instance running MySQL, MariaDB, or PostgreSQL that acts as a Read Replica of a source DB instance. All Read Replica DB instances are created as Single-AZ deployments with backups disabled. All other DB instance attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance, except as specified below.  The source DB instance must have backup retention enabled.  You can create an encrypted Read Replica in a different AWS Region than the source DB instance. In that case, the region where you call the CreateDBInstanceReadReplica action is the destination region of the encrypted Read Replica. The source DB instance must be encrypted. To create an encrypted Read Replica in another AWS Region, you must provide the following values:    KmsKeyId - The AWS Key Management System (KMS) key identifier for the key to use to encrypt the Read Replica in the destination region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the  CreateDBInstanceReadReplica API action in the AWS region that contains the source DB instance. The PreSignedUrl parameter must be used when encrypting a Read Replica from another AWS region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source region that contains the encrypted DB instance. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the Read Replica is created in. This region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL.   For example, if you create an encrypted Read Replica in the us-east-1 region, and the source DB instance is in the west-2 region, then you call the CreateDBInstanceReadReplica action in the us-east-1 region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the Read Replica in the destination region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination region, and the action contained in the presigned URL.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica to be created. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you create an encrypted Read Replica from a DB instance in the us-west-2 region, then your SourceDBInstanceIdentifier would look like this example:  arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-instance-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.    DBInstanceIdentifier - The identifier for the encrypted Read Replica in the destination region.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica. This identifier must be in the ARN format for the source region and is the same value as the SourceDBInstanceIdentifier in the presigned URL.   
     public func createDBInstanceReadReplica(_ input: CreateDBInstanceReadReplicaMessage) throws -> CreateDBInstanceReadReplicaResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBInstanceReadReplica", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBInstanceReadReplica", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of DB log files for the DB instance.
     public func describeDBLogFiles(_ input: DescribeDBLogFilesMessage) throws -> DescribeDBLogFilesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBLogFiles", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBLogFiles", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     public func modifyDBInstance(_ input: ModifyDBInstanceMessage) throws -> ModifyDBInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     public func describePendingMaintenanceActions(_ input: DescribePendingMaintenanceActionsMessage) throws -> PendingMaintenanceActionsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribePendingMaintenanceActions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribePendingMaintenanceActions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC Security Groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId).
     public func revokeDBSecurityGroupIngress(_ input: RevokeDBSecurityGroupIngressMessage) throws -> RevokeDBSecurityGroupIngressResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RevokeDBSecurityGroupIngress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RevokeDBSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies the specified DB snapshot. The source DB snapshot must be in the "available" state. To copy a DB snapshot from a shared manual DB snapshot, SourceDBSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB snapshot. You can copy an encrypted DB snapshot from another AWS Region. In that case, the region where you call the CopyDBSnapshot action is the destination region for the encrypted DB snapshot to be copied to. To copy an encrypted DB snapshot from another region, you must provide the following values:    KmsKeyId - The AWS Key Management System (KMS) key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the CopyDBSnapshot action to be called in the source region where the DB snapshot will be copied from. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the encrypted DB snapshot will be copied to. This region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 region to the us-east-1 region, then you will call the CopyDBSnapshot action in the us-east-1 region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This identifier is the same for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the presigned URL.    SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you copy an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier looks like this example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.    TargetDBSnapshotIdentifier - The identifier for the new copy of the DB snapshot in the destination region.    SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the ARN format for the source region and is the same value as the SourceDBSnapshotIdentifier in the presigned URL.    For more information on copying encrypted snapshots from one region to another, see  Copying an Encrypted DB Snapshot to Another Region in the Amazon RDS User Guide.
     public func copyDBSnapshot(_ input: CopyDBSnapshotMessage) throws -> CopyDBSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyDBSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func describeDBClusterParameterGroups(_ input: DescribeDBClusterParameterGroupsMessage) throws -> DBClusterParameterGroupsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBClusterParameterGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBClusterParameterGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected availability zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.
     public func restoreDBInstanceToPointInTime(_ input: RestoreDBInstanceToPointInTimeMessage) throws -> RestoreDBInstanceToPointInTimeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreDBInstanceToPointInTime", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreDBInstanceToPointInTime", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about DB snapshots. This API action supports pagination.
     public func describeDBSnapshots(_ input: DescribeDBSnapshotsMessage) throws -> DBSnapshotMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBSnapshots", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about provisioned RDS instances. This API supports pagination.
     public func describeDBInstances(_ input: DescribeDBInstancesMessage) throws -> DBInstanceMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a DB security group.  The specified DB security group must not be associated with any DB instances. 
     public func deleteDBSecurityGroup(_ input: DeleteDBSecurityGroupMessage) throws {
-        _ = try request.invoke(operation: "DeleteDBSecurityGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDBSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.  For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func restoreDBClusterToPointInTime(_ input: RestoreDBClusterToPointInTimeMessage) throws -> RestoreDBClusterToPointInTimeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DB cluster from a DB cluster snapshot. The target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func restoreDBClusterFromSnapshot(_ input: RestoreDBClusterFromSnapshotMessage) throws -> RestoreDBClusterFromSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreDBClusterFromSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreDBClusterFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Purchases a reserved DB instance offering.
     public func purchaseReservedDBInstancesOffering(_ input: PurchaseReservedDBInstancesOfferingMessage) throws -> PurchaseReservedDBInstancesOfferingResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PurchaseReservedDBInstancesOffering", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PurchaseReservedDBInstancesOffering", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of orderable DB instance options for the specified engine.
     public func describeOrderableDBInstanceOptions(_ input: DescribeOrderableDBInstanceOptionsMessage) throws -> OrderableDBInstanceOptionsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeOrderableDBInstanceOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeOrderableDBInstanceOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. 
     public func describeDBSecurityGroups(_ input: DescribeDBSecurityGroupsMessage) throws -> DBSecurityGroupMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBSecurityGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBSecurityGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the Internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-VPC).  You cannot authorize ingress from an EC2 security group in one region to an Amazon RDS DB instance in another. You cannot authorize ingress from a VPC security group in one VPC to an Amazon RDS DB instance in another.  For an overview of CIDR ranges, go to the Wikipedia Tutorial. 
     public func authorizeDBSecurityGroupIngress(_ input: AuthorizeDBSecurityGroupIngressMessage) throws -> AuthorizeDBSecurityGroupIngressResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AuthorizeDBSecurityGroupIngress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AuthorizeDBSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial. 
     public func describeDBSubnetGroups(_ input: DescribeDBSubnetGroupsMessage) throws -> DBSubnetGroupMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBSubnetGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBSubnetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func createDBClusterSnapshot(_ input: CreateDBClusterSnapshotMessage) throws -> CreateDBClusterSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBClusterSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists available reserved DB instance offerings.
     public func describeReservedDBInstancesOfferings(_ input: DescribeReservedDBInstancesOfferingsMessage) throws -> ReservedDBInstancesOfferingMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReservedDBInstancesOfferings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReservedDBInstancesOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.   Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters command to verify that your DB cluster parameter group has been created or modified. 
     public func modifyDBClusterParameterGroup(_ input: ModifyDBClusterParameterGroupMessage) throws -> DBClusterParameterGroupNameMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBClusterParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a source identifier to an existing RDS event notification subscription.
     public func addSourceIdentifierToSubscription(_ input: AddSourceIdentifierToSubscriptionMessage) throws -> AddSourceIdentifierToSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AddSourceIdentifierToSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AddSourceIdentifierToSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and cannot be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.  For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func deleteDBCluster(_ input: DeleteDBClusterMessage) throws -> DeleteDBClusterResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies the specified DB cluster parameter group.
     public func copyDBClusterParameterGroup(_ input: CopyDBClusterParameterGroupMessage) throws -> CopyDBClusterParameterGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyDBClusterParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command does not take any parameters.
     public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage) throws -> AccountAttributesMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of DB snapshot attribute names and values for a manual DB snapshot. When sharing snapshots with other AWS accounts, DescribeDBSnapshotAttributes returns the restore attribute and a list of IDs for the AWS accounts that are authorized to copy or restore the manual DB snapshot. If all is included in the list of values for the restore attribute, then the manual DB snapshot is public and can be copied or restored by all AWS accounts. To add or remove access for an AWS account to copy or restore a manual DB snapshot, or to make the manual DB snapshot public or private, use the ModifyDBSnapshotAttribute API action.
     public func describeDBSnapshotAttributes(_ input: DescribeDBSnapshotAttributesMessage) throws -> DescribeDBSnapshotAttributesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBSnapshotAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBSnapshotAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an RDS event notification subscription. This action requires a topic ARN (Amazon Resource Name) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of RDS sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you will be notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you will receive notice of the events for that source type for all your RDS sources. If you do not specify either the SourceType nor the SourceIdentifier, you will be notified of events generated from all RDS sources belonging to your customer account.
     public func createEventSubscription(_ input: CreateEventSubscriptionMessage) throws -> CreateEventSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon Aurora DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func createDBCluster(_ input: CreateDBClusterMessage) throws -> CreateDBClusterResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     public func describeEvents(_ input: DescribeEventsMessage) throws -> EventsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEvents", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes all available options.
     public func describeOptionGroupOptions(_ input: DescribeOptionGroupOptionsMessage) throws -> OptionGroupOptionsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeOptionGroupOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeOptionGroupOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     public func describeEventSubscriptions(_ input: DescribeEventSubscriptionsMessage) throws -> EventSubscriptionsMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEventSubscriptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEventSubscriptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the region.
     public func modifyDBSubnetGroup(_ input: ModifyDBSubnetGroupMessage) throws -> ModifyDBSubnetGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBSubnetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the source AWS regions where the current AWS region can create a Read Replica or copy a DB snapshot from. This API action supports pagination.
     public func describeSourceRegions(_ input: DescribeSourceRegionsMessage) throws -> SourceRegionMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSourceRegions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSourceRegions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a manual DB snapshot, which can be encrypted or not encrypted, with a new engine version. You can update the engine version to either a new major or minor engine version.  Amazon RDS supports upgrading a MySQL DB snapshot from MySQL 5.1 to MySQL 5.5.
     public func modifyDBSnapshot(_ input: ModifyDBSnapshotMessage) throws -> ModifyDBSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters.   When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func resetDBClusterParameterGroup(_ input: ResetDBClusterParameterGroupMessage) throws -> DBClusterParameterGroupNameMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ResetDBClusterParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ResetDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the default engine and system parameter information for the specified database engine.
     public func describeEngineDefaultParameters(_ input: DescribeEngineDefaultParametersMessage) throws -> DescribeEngineDefaultParametersResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEngineDefaultParameters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEngineDefaultParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func describeDBClusterParameters(_ input: DescribeDBClusterParametersMessage) throws -> DBClusterParameterGroupDetails {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBClusterParameters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBClusterParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts. To view which AWS accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API action. If the manual DB snapshot is encrypted, it cannot be shared.
     public func modifyDBSnapshotAttribute(_ input: ModifyDBSnapshotAttributeMessage) throws -> ModifyDBSnapshotAttributeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBSnapshotAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and cannot be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action cannot be canceled or reverted once submitted.  Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when the SkipFinalSnapshot parameter is set to true. If the specified DB instance is part of an Amazon Aurora DB cluster, you cannot delete the DB instance if the following are true:   The DB cluster is a Read Replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a Read Replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
     public func deleteDBInstance(_ input: DeleteDBInstanceMessage) throws -> DeleteDBInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteDBInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an RDS event notification subscription.
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage) throws -> DeleteEventSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func describeDBClusterSnapshots(_ input: DescribeDBClusterSnapshotsMessage) throws -> DBClusterSnapshotMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDBClusterSnapshots", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDBClusterSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted cannot be associated with any DB instances.
     public func deleteDBParameterGroup(_ input: DeleteDBParameterGroupMessage) throws {
-        _ = try request.invoke(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies a pending maintenance action to a resource (for example, to a DB instance).
     public func applyPendingMaintenanceAction(_ input: ApplyPendingMaintenanceActionMessage) throws -> ApplyPendingMaintenanceActionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ApplyPendingMaintenanceAction", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ApplyPendingMaintenanceAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DB security group. DB security groups control access to a DB instance.
     public func createDBSecurityGroup(_ input: CreateDBSecurityGroupMessage) throws -> CreateDBSecurityGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDBSecurityGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDBSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted cannot be associated with any DB clusters. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func deleteDBClusterParameterGroup(_ input: DeleteDBClusterParameterGroupMessage) throws {
-        _ = try request.invoke(operation: "DeleteDBClusterParameterGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action. If a manual DB cluster snapshot is encrypted, it cannot be shared.
     public func modifyDBClusterSnapshotAttribute(_ input: ModifyDBClusterSnapshotAttributeMessage) throws -> ModifyDBClusterSnapshotAttributeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyDBClusterSnapshotAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyDBClusterSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from another AWS region. In that case, the region where you call the CopyDBClusterSnapshot action is the destination region for the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot from another region, you must provide the following values:    KmsKeyId - The AWS Key Management System (KMS) key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot action to be called in the source region where the DB cluster snapshot will be copied from. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.    TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster snapshot in the destination region.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the ARN format for the source region and is the same value as the SourceDBClusterSnapshotIdentifier in the pre-signed URL.    To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted DB cluster snapshots from one region to another, see  Copying a DB Cluster Snapshot in the Same Account, Either in the Same Region or Across Regions in the Amazon RDS User Guide. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func copyDBClusterSnapshot(_ input: CopyDBClusterSnapshotMessage) throws -> CopyDBClusterSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyDBClusterSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the set of CA certificates provided by Amazon RDS for this AWS account.
     public func describeCertificates(_ input: DescribeCertificatesMessage) throws -> CertificateMessage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeCertificates", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging Amazon RDS resources, see Tagging Amazon RDS Resources.
     public func addTagsToResource(_ input: AddTagsToResourceMessage) throws {
-        _ = try request.invoke(operation: "AddTagsToResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a DB subnet group.  The specified database subnet group must not be associated with any DB instances. 
     public func deleteDBSubnetGroup(_ input: DeleteDBSubnetGroupMessage) throws {
-        _ = try request.invoke(operation: "DeleteDBSubnetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Aurora will automatically fail over to an Aurora Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide. 
     public func failoverDBCluster(_ input: FailoverDBClusterMessage) throws -> FailoverDBClusterResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "FailoverDBCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RdsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "FailoverDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Workspaces
-public enum WorkspacesError: Error {
+public enum WorkspacesError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidParameterValuesException(message: String?)
     case resourceLimitExceededException(message: String?)

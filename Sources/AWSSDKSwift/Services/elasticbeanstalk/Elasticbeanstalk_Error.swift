@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Elasticbeanstalk
-public enum ElasticbeanstalkError: Error {
+public enum ElasticbeanstalkError: AWSErrorType {
     case tooManyEnvironmentsException(message: String?)
     case insufficientPrivilegesException(message: String?)
     case tooManyBucketsException(message: String?)

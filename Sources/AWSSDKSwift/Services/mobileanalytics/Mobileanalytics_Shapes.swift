@@ -29,19 +29,21 @@ import Core
 
 extension Mobileanalytics {
 
-    public struct Event: Serializable, Initializable {
+    public struct Event: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        var metrics: [String: Double]? = nil
+        public var metrics: [String: Double]? = nil
         /// The session the event occured within. 
-        var session: Session? = nil
+        public var session: Session? = nil
         /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        var attributes: [String: String]? = nil
+        public var attributes: [String: String]? = nil
         /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        var timestamp: String = ""
+        public var timestamp: String = ""
         /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
-        var eventType: String = ""
+        public var eventType: String = ""
         /// The version of the event.
-        var version: String? = nil
+        public var version: String? = nil
 
         public init() {}
 
@@ -56,15 +58,17 @@ extension Mobileanalytics {
 
     }
 
-    public struct Session: Serializable, Initializable {
+    public struct Session: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        var startTimestamp: String? = nil
+        public var startTimestamp: String? = nil
         /// A unique identifier for the session
-        var id: String? = nil
+        public var id: String? = nil
         /// The time the event terminated in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        var stopTimestamp: String? = nil
+        public var stopTimestamp: String? = nil
         /// The duration of the session.
-        var duration: Int64? = nil
+        public var duration: Int64? = nil
 
         public init() {}
 
@@ -77,13 +81,18 @@ extension Mobileanalytics {
 
     }
 
-    public struct PutEventsInput: Serializable, Initializable {
+    public struct PutEventsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-Client-Context-Encoding": "clientContextEncoding", "x-amz-Client-Context": "clientContext"]
+        }
         /// The client context including the client ID, app title, app version and package name.
-        var clientContext: String = ""
+        public var clientContext: String = ""
         /// The encoding used for the client context.
-        var clientContextEncoding: String? = nil
+        public var clientContextEncoding: String? = nil
         /// An array of Event JSON objects
-        var events: [Event] = []
+        public var events: [Event] = []
 
         public init() {}
 

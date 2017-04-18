@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Elasticmapreduce
-public enum ElasticmapreduceError: Error {
+public enum ElasticmapreduceError: AWSErrorType {
     case internalServerError(message: String?)
     case internalServerException(message: String?)
     case invalidRequestException(message: String?)

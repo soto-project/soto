@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Machinelearning
-public enum MachinelearningError: Error {
+public enum MachinelearningError: AWSErrorType {
     case invalidInputException(message: String?)
     case internalServerException(message: String?)
     case idempotentParameterMismatchException(message: String?)

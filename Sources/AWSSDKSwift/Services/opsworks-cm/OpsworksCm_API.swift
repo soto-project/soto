@@ -32,107 +32,95 @@ AWS OpsWorks for Chef Automate  AWS OpsWorks for Chef Automate is a service that
 */
 public struct OpsworksCm {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "OpsWorksCM_V2016_11_01",
             service: "opsworks-cm",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [OpsworksCmError.self]
         )
     }
 
     ///   Describes backups. The results are ordered by time, with newest backups first. If you do not specify a BackupId or ServerName, the command returns all backups.   This operation is synchronous.   A ResourceNotFoundException is thrown when the backup does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func describeBackups(_ input: DescribeBackupsRequest) throws -> DescribeBackupsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeBackups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeBackups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Creates an application-level backup of a server. While the server is in the BACKING_UP state, the server cannot be changed, and no additional backup can be created.   Backups can be created for servers in RUNNING, HEALTHY, and UNHEALTHY states. By default, you can create a maximum of 50 manual backups.   This operation is asynchronous.   A LimitExceededException is thrown when the maximum number of manual backups is reached. An InvalidStateException is thrown when the server is not in any of the following states: RUNNING, HEALTHY, or UNHEALTHY. A ResourceNotFoundException is thrown when the server is not found. A ValidationException is thrown when parameters of the request are not valid. 
     public func createBackup(_ input: CreateBackupRequest) throws -> CreateBackupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateBackup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateBackup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes a backup. You can delete both manual and automated backups. This operation is asynchronous.   An InvalidStateException is thrown when a backup deletion is already in progress. A ResourceNotFoundException is thrown when the backup does not exist. A ValidationException is thrown when parameters of the request are not valid. 
     public func deleteBackup(_ input: DeleteBackupRequest) throws -> DeleteBackupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteBackup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteBackup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Restores a backup to a server that is in a CONNECTION_LOST, HEALTHY, RUNNING, UNHEALTHY, or TERMINATED state. When you run RestoreServer, the server's EC2 instance is deleted, and a new EC2 instance is configured. RestoreServer maintains the existing server endpoint, so configuration management of the server's client devices (nodes) should continue to work.   This operation is asynchronous.   An InvalidStateException is thrown when the server is not in a valid state. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func restoreServer(_ input: RestoreServerRequest) throws -> RestoreServerResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreServer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Creates and immedately starts a new server. The server is ready to use when it is in the HEALTHY state. By default, you can create a maximum of 10 servers.   This operation is asynchronous.   A LimitExceededException is thrown when you have created the maximum number of servers (10). A ResourceAlreadyExistsException is thrown when a server with the same name already exists in the account. A ResourceNotFoundException is thrown when you specify a backup ID that is not valid or is for a backup that does not exist. A ValidationException is thrown when parameters of the request are not valid.   If you do not specify a security group by adding the SecurityGroupIds parameter, AWS OpsWorks creates a new security group. The default security group opens the Chef server to the world on TCP port 443. If a KeyName is present, AWS OpsWorks enables SSH access. SSH is also open to the world on TCP port 22.  By default, the Chef Server is accessible from any IP address. We recommend that you update your security group rules to allow access from known IP addresses and address ranges only. To edit security group rules, open Security Groups in the navigation pane of the EC2 management console. 
     public func createServer(_ input: CreateServerRequest) throws -> CreateServerResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateServer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Manually starts server maintenance. This command can be useful if an earlier maintenance attempt failed, and the underlying cause of maintenance failure has been resolved. The server is in an UNDER_MAINTENANCE state while maintenance is in progress.   Maintenance can only be started on servers in HEALTHY and UNHEALTHY states. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func startMaintenance(_ input: StartMaintenanceRequest) throws -> StartMaintenanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartMaintenance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartMaintenance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Disassociates a node from a Chef server, and removes the node from the Chef server's managed nodes. After a node is disassociated, the node key pair is no longer valid for accessing the Chef API. For more information about how to associate a node, see AssociateNode.  A node can can only be disassociated from a server that is in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func disassociateNode(_ input: DisassociateNodeRequest) throws -> DisassociateNodeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateNode", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateNode", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns the current status of an existing association or disassociation request.   A ResourceNotFoundException is thrown when no recent association or disassociation request with the specified token is found, or when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func describeNodeAssociationStatus(_ input: DescribeNodeAssociationStatusRequest) throws -> DescribeNodeAssociationStatusResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeNodeAssociationStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeNodeAssociationStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Describes your account attributes, and creates requests to increase limits before they are reached or exceeded.   This operation is synchronous. 
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest) throws -> DescribeAccountAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Updates engine-specific attributes on a specified server. The server enters the MODIFYING state when this operation is in progress. Only one update can occur at a time. You can use this command to reset the Chef server's private key (CHEF_PIVOTAL_KEY).   This operation is asynchronous.   This operation can only be called for servers in HEALTHY or UNHEALTHY states. Otherwise, an InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func updateServerEngineAttributes(_ input: UpdateServerEngineAttributesRequest) throws -> UpdateServerEngineAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateServerEngineAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateServerEngineAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Lists all configuration management servers that are identified with your account. Only the stored results from Amazon DynamoDB are returned. AWS OpsWorks for Chef Automate does not query other services.   This operation is synchronous.   A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func describeServers(_ input: DescribeServersRequest) throws -> DescribeServersResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeServers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeServers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Updates settings for a server.   This operation is synchronous. 
     public func updateServer(_ input: UpdateServerRequest) throws -> UpdateServerResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateServer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Describes events for a specified server. Results are ordered by time, with newest events first.   This operation is synchronous.   A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func describeEvents(_ input: DescribeEventsRequest) throws -> DescribeEventsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEvents", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Associates a new node with the Chef server. This command is an alternative to knife bootstrap. For more information about how to disassociate a node, see DisassociateNode.  A node can can only be associated with servers that are in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. The AssociateNode API call can be integrated into Auto Scaling configurations, AWS Cloudformation templates, or the user data of a server's instance.   Example: aws opsworks-cm associate-node --server-name MyServer --node-name MyManagedNode --engine-attributes "Name=MyOrganization,Value=default" "Name=Chef_node_public_key,Value=Public_key_contents" 
     public func associateNode(_ input: AssociateNodeRequest) throws -> AssociateNodeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateNode", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateNode", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes the server and the underlying AWS CloudFormation stack (including the server's EC2 instance). When you run this command, the server state is updated to DELETING. After the server is deleted, it is no longer returned by DescribeServer requests. If the AWS CloudFormation stack cannot be deleted, the server cannot be deleted.   This operation is asynchronous.   An InvalidStateException is thrown when a server deletion is already in progress. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.   
     public func deleteServer(_ input: DeleteServerRequest) throws -> DeleteServerResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteServer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksCmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteServer", path: "/", httpMethod: "POST", input: input)
     }
 
 

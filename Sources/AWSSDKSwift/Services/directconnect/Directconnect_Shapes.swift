@@ -29,17 +29,19 @@ import Core
 
 extension Directconnect {
 
-    public struct CreateLagRequest: Serializable, Initializable {
+    public struct CreateLagRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Direct Connect location in which the LAG should be allocated. Example: EqSV5 Default: None
-        var location: String = ""
+        public var location: String = ""
         /// The bandwidth of the individual physical connections bundled by the LAG. Default: None Available values: 1Gbps, 10Gbps
-        var connectionsBandwidth: String = ""
+        public var connectionsBandwidth: String = ""
         /// The ID of an existing connection to migrate to the LAG. Default: None
-        var connectionId: String? = nil
+        public var connectionId: String? = nil
         /// The number of physical connections initially provisioned and bundled by the LAG. Default: None
-        var numberOfConnections: Int32 = 0
+        public var numberOfConnections: Int32 = 0
         /// The name of the LAG. Example: "3x10G LAG to AWS" Default: None
-        var lagName: String = ""
+        public var lagName: String = ""
 
         public init() {}
 
@@ -53,9 +55,11 @@ extension Directconnect {
 
     }
 
-    public struct DescribeTagsResponse: Serializable, Initializable {
+    public struct DescribeTagsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the tags.
-        var resourceTags: [ResourceTag]? = nil
+        public var resourceTags: [ResourceTag]? = nil
 
         public init() {}
 
@@ -65,9 +69,11 @@ extension Directconnect {
 
     }
 
-    public struct VirtualGateways: Serializable, Initializable {
+    public struct VirtualGateways: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of virtual private gateways.
-        var virtualGateways: [VirtualGateway]? = nil
+        public var virtualGateways: [VirtualGateway]? = nil
 
         public init() {}
 
@@ -77,11 +83,13 @@ extension Directconnect {
 
     }
 
-    public struct TagResourceRequest: Serializable, Initializable {
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Direct Connect resource. Example: arn:aws:directconnect:us-east-1:123456789012:dxcon/dxcon-fg5678gh
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The list of tags to add.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -92,17 +100,19 @@ extension Directconnect {
 
     }
 
-    public struct AllocateHostedConnectionRequest: Serializable, Initializable {
+    public struct AllocateHostedConnectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The numeric account ID of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
-        var ownerAccount: String = ""
+        public var ownerAccount: String = ""
         /// The name of the provisioned connection. Example: "500M Connection to AWS" Default: None
-        var connectionName: String = ""
+        public var connectionName: String = ""
         /// The ID of the interconnect or LAG on which the connection will be provisioned. Example: dxcon-456abc78 or dxlag-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// The dedicated VLAN provisioned to the hosted connection. Example: 101 Default: None
-        var vlan: Int32 = 0
+        public var vlan: Int32 = 0
         /// The bandwidth of the connection. Example: 500Mbps  Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
-        var bandwidth: String = ""
+        public var bandwidth: String = ""
 
         public init() {}
 
@@ -116,27 +126,29 @@ extension Directconnect {
 
     }
 
-    public struct Lag: Serializable, Initializable {
+    public struct Lag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of connections bundled by this LAG.
-        var connections: [Connection]? = nil
-        var location: String? = nil
-        var lagId: String? = nil
-        var lagState: String? = nil
+        public var connections: [Connection]? = nil
+        public var location: String? = nil
+        public var lagId: String? = nil
+        public var lagState: String? = nil
         /// The AWS Direct Connection endpoint that hosts the LAG.
-        var awsDevice: String? = nil
+        public var awsDevice: String? = nil
         /// The number of physical connections bundled by the LAG, up to a maximum of 10.
-        var numberOfConnections: Int32? = nil
+        public var numberOfConnections: Int32? = nil
         /// The owner of the LAG.
-        var ownerAccount: String? = nil
-        var region: String? = nil
+        public var ownerAccount: String? = nil
+        public var region: String? = nil
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational. If the number of operational connections drops below this setting, the LAG state changes to down. This value can help to ensure that a LAG is not overutilized if a significant number of its bundled connections go down.
-        var minimumLinks: Int32? = nil
+        public var minimumLinks: Int32? = nil
         /// Indicates whether the LAG can host other connections.  This is intended for use by AWS Direct Connect partners only. 
-        var allowsHostedConnections: Bool? = nil
+        public var allowsHostedConnections: Bool? = nil
         /// The individual bandwidth of the physical connections bundled by the LAG. Available values: 1Gbps, 10Gbps
-        var connectionsBandwidth: String? = nil
+        public var connectionsBandwidth: String? = nil
         /// The name of the LAG.
-        var lagName: String? = nil
+        public var lagName: String? = nil
 
         public init() {}
 
@@ -157,8 +169,10 @@ extension Directconnect {
 
     }
 
-    public struct DeleteVirtualInterfaceResponse: Serializable, Initializable {
-        var virtualInterfaceState: String? = nil
+    public struct DeleteVirtualInterfaceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceState: String? = nil
 
         public init() {}
 
@@ -168,11 +182,13 @@ extension Directconnect {
 
     }
 
-    public struct AssociateVirtualInterfaceRequest: Serializable, Initializable {
+    public struct AssociateVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the virtual interface. Example: dxvif-123dfg56 Default: None
-        var virtualInterfaceId: String = ""
+        public var virtualInterfaceId: String = ""
         /// The ID of the LAG or connection with which to associate the virtual interface. Example: dxlag-abc123 or dxcon-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
 
         public init() {}
 
@@ -183,8 +199,10 @@ extension Directconnect {
 
     }
 
-    public struct CreateBGPPeerResponse: Serializable, Initializable {
-        var virtualInterface: VirtualInterface? = nil
+    public struct CreateBGPPeerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterface: VirtualInterface? = nil
 
         public init() {}
 
@@ -194,9 +212,11 @@ extension Directconnect {
 
     }
 
-    public struct DescribeLagsRequest: Serializable, Initializable {
+    public struct DescribeLagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the LAG. Example: dxlag-abc123 Default: None
-        var lagId: String? = nil
+        public var lagId: String? = nil
 
         public init() {}
 
@@ -206,9 +226,11 @@ extension Directconnect {
 
     }
 
-    public struct DescribeTagsRequest: Serializable, Initializable {
+    public struct DescribeTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Names (ARNs) of the Direct Connect resources.
-        var resourceArns: [String] = []
+        public var resourceArns: [String] = []
 
         public init() {}
 
@@ -218,8 +240,10 @@ extension Directconnect {
 
     }
 
-    public struct DescribeConnectionLoaResponse: Serializable, Initializable {
-        var loa: Loa? = nil
+    public struct DescribeConnectionLoaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var loa: Loa? = nil
 
         public init() {}
 
@@ -229,15 +253,17 @@ extension Directconnect {
 
     }
 
-    public struct NewPublicVirtualInterfaceAllocation: Serializable, Initializable {
-        var customerAddress: String? = nil
-        var virtualInterfaceName: String = ""
-        var authKey: String? = nil
-        var amazonAddress: String? = nil
-        var asn: Int32 = 0
-        var addressFamily: String? = nil
-        var routeFilterPrefixes: [RouteFilterPrefix]? = nil
-        var vlan: Int32 = 0
+    public struct NewPublicVirtualInterfaceAllocation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var customerAddress: String? = nil
+        public var virtualInterfaceName: String = ""
+        public var authKey: String? = nil
+        public var amazonAddress: String? = nil
+        public var asn: Int32 = 0
+        public var addressFamily: String? = nil
+        public var routeFilterPrefixes: [RouteFilterPrefix]? = nil
+        public var vlan: Int32 = 0
 
         public init() {}
 
@@ -254,11 +280,13 @@ extension Directconnect {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key of the tag.
-        var key: String = ""
+        public var key: String = ""
         /// The value of the tag.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -269,10 +297,12 @@ extension Directconnect {
 
     }
 
-    public struct CreatePrivateVirtualInterfaceRequest: Serializable, Initializable {
-        var connectionId: String = ""
+    public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionId: String = ""
         /// Detailed information for the private virtual interface to be created. Default: None
-        var newPrivateVirtualInterface: NewPrivateVirtualInterface = NewPrivateVirtualInterface()
+        public var newPrivateVirtualInterface: NewPrivateVirtualInterface = NewPrivateVirtualInterface()
 
         public init() {}
 
@@ -283,11 +313,13 @@ extension Directconnect {
 
     }
 
-    public struct AssociateHostedConnectionRequest: Serializable, Initializable {
+    public struct AssociateHostedConnectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the hosted connection. Example: dxcon-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// The ID of the interconnect or the LAG. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        var parentConnectionId: String = ""
+        public var parentConnectionId: String = ""
 
         public init() {}
 
@@ -298,8 +330,10 @@ extension Directconnect {
 
     }
 
-    public struct DeleteInterconnectRequest: Serializable, Initializable {
-        var interconnectId: String = ""
+    public struct DeleteInterconnectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var interconnectId: String = ""
 
         public init() {}
 
@@ -309,11 +343,13 @@ extension Directconnect {
 
     }
 
-    public struct DescribeInterconnectLoaRequest: Serializable, Initializable {
+    public struct DescribeInterconnectLoaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        var providerName: String? = nil
-        var loaContentType: String? = nil
-        var interconnectId: String = ""
+        public var providerName: String? = nil
+        public var loaContentType: String? = nil
+        public var interconnectId: String = ""
 
         public init() {}
 
@@ -325,15 +361,17 @@ extension Directconnect {
 
     }
 
-    public struct NewPublicVirtualInterface: Serializable, Initializable {
-        var customerAddress: String? = nil
-        var virtualInterfaceName: String = ""
-        var authKey: String? = nil
-        var amazonAddress: String? = nil
-        var asn: Int32 = 0
-        var addressFamily: String? = nil
-        var routeFilterPrefixes: [RouteFilterPrefix]? = nil
-        var vlan: Int32 = 0
+    public struct NewPublicVirtualInterface: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var customerAddress: String? = nil
+        public var virtualInterfaceName: String = ""
+        public var authKey: String? = nil
+        public var amazonAddress: String? = nil
+        public var asn: Int32 = 0
+        public var addressFamily: String? = nil
+        public var routeFilterPrefixes: [RouteFilterPrefix]? = nil
+        public var vlan: Int32 = 0
 
         public init() {}
 
@@ -350,9 +388,11 @@ extension Directconnect {
 
     }
 
-    public struct Interconnects: Serializable, Initializable {
+    public struct Interconnects: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of interconnects.
-        var interconnects: [Interconnect]? = nil
+        public var interconnects: [Interconnect]? = nil
 
         public init() {}
 
@@ -362,13 +402,15 @@ extension Directconnect {
 
     }
 
-    public struct AllocatePrivateVirtualInterfaceRequest: Serializable, Initializable {
+    public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The connection ID on which the private virtual interface is provisioned. Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// Detailed information for the private virtual interface to be provisioned. Default: None
-        var newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation = NewPrivateVirtualInterfaceAllocation()
+        public var newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation = NewPrivateVirtualInterfaceAllocation()
         /// The AWS account that will own the new private virtual interface. Default: None
-        var ownerAccount: String = ""
+        public var ownerAccount: String = ""
 
         public init() {}
 
@@ -380,9 +422,11 @@ extension Directconnect {
 
     }
 
-    public struct DeleteLagRequest: Serializable, Initializable {
+    public struct DeleteLagRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the LAG to delete. Example: dxlag-abc123 Default: None
-        var lagId: String = ""
+        public var lagId: String = ""
 
         public init() {}
 
@@ -392,13 +436,15 @@ extension Directconnect {
 
     }
 
-    public struct UpdateLagRequest: Serializable, Initializable {
+    public struct UpdateLagRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational. Default: None
-        var minimumLinks: Int32? = nil
+        public var minimumLinks: Int32? = nil
         /// The ID of the LAG to update. Example: dxlag-abc123 Default: None
-        var lagId: String = ""
+        public var lagId: String = ""
         /// The name for the LAG. Example: "3x10G LAG to AWS" Default: None
-        var lagName: String? = nil
+        public var lagName: String? = nil
 
         public init() {}
 
@@ -410,15 +456,17 @@ extension Directconnect {
 
     }
 
-    public struct NewPrivateVirtualInterface: Serializable, Initializable {
-        var customerAddress: String? = nil
-        var virtualInterfaceName: String = ""
-        var authKey: String? = nil
-        var amazonAddress: String? = nil
-        var asn: Int32 = 0
-        var addressFamily: String? = nil
-        var virtualGatewayId: String = ""
-        var vlan: Int32 = 0
+    public struct NewPrivateVirtualInterface: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var customerAddress: String? = nil
+        public var virtualInterfaceName: String = ""
+        public var authKey: String? = nil
+        public var amazonAddress: String? = nil
+        public var asn: Int32 = 0
+        public var addressFamily: String? = nil
+        public var virtualGatewayId: String = ""
+        public var vlan: Int32 = 0
 
         public init() {}
 
@@ -435,9 +483,11 @@ extension Directconnect {
 
     }
 
-    public struct DescribeHostedConnectionsRequest: Serializable, Initializable {
+    public struct DescribeHostedConnectionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the interconnect or LAG on which the hosted connections are provisioned. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
 
         public init() {}
 
@@ -447,8 +497,10 @@ extension Directconnect {
 
     }
 
-    public struct DeleteConnectionRequest: Serializable, Initializable {
-        var connectionId: String = ""
+    public struct DeleteConnectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionId: String = ""
 
         public init() {}
 
@@ -458,14 +510,16 @@ extension Directconnect {
 
     }
 
-    public struct NewPrivateVirtualInterfaceAllocation: Serializable, Initializable {
-        var customerAddress: String? = nil
-        var virtualInterfaceName: String = ""
-        var authKey: String? = nil
-        var amazonAddress: String? = nil
-        var asn: Int32 = 0
-        var addressFamily: String? = nil
-        var vlan: Int32 = 0
+    public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var customerAddress: String? = nil
+        public var virtualInterfaceName: String = ""
+        public var authKey: String? = nil
+        public var amazonAddress: String? = nil
+        public var asn: Int32 = 0
+        public var addressFamily: String? = nil
+        public var vlan: Int32 = 0
 
         public init() {}
 
@@ -481,10 +535,12 @@ extension Directconnect {
 
     }
 
-    public struct CreatePublicVirtualInterfaceRequest: Serializable, Initializable {
-        var connectionId: String = ""
+    public struct CreatePublicVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionId: String = ""
         /// Detailed information for the public virtual interface to be created. Default: None
-        var newPublicVirtualInterface: NewPublicVirtualInterface = NewPublicVirtualInterface()
+        public var newPublicVirtualInterface: NewPublicVirtualInterface = NewPublicVirtualInterface()
 
         public init() {}
 
@@ -495,8 +551,10 @@ extension Directconnect {
 
     }
 
-    public struct DescribeInterconnectsRequest: Serializable, Initializable {
-        var interconnectId: String? = nil
+    public struct DescribeInterconnectsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var interconnectId: String? = nil
 
         public init() {}
 
@@ -506,11 +564,13 @@ extension Directconnect {
 
     }
 
-    public struct ResourceTag: Serializable, Initializable {
+    public struct ResourceTag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Direct Connect resource.
-        var resourceArn: String? = nil
+        public var resourceArn: String? = nil
         /// The tags.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -521,8 +581,10 @@ extension Directconnect {
 
     }
 
-    public struct ConfirmConnectionRequest: Serializable, Initializable {
-        var connectionId: String = ""
+    public struct ConfirmConnectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionId: String = ""
 
         public init() {}
 
@@ -532,11 +594,13 @@ extension Directconnect {
 
     }
 
-    public struct AssociateConnectionWithLagRequest: Serializable, Initializable {
+    public struct AssociateConnectionWithLagRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the connection. Example: dxcon-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// The ID of the LAG with which to associate the connection. Example: dxlag-abc123 Default: None
-        var lagId: String = ""
+        public var lagId: String = ""
 
         public init() {}
 
@@ -547,13 +611,15 @@ extension Directconnect {
 
     }
 
-    public struct AllocatePublicVirtualInterfaceRequest: Serializable, Initializable {
+    public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Detailed information for the public virtual interface to be provisioned. Default: None
-        var newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation = NewPublicVirtualInterfaceAllocation()
+        public var newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation = NewPublicVirtualInterfaceAllocation()
         /// The connection ID on which the public virtual interface is provisioned. Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// The AWS account that will own the new public virtual interface. Default: None
-        var ownerAccount: String = ""
+        public var ownerAccount: String = ""
 
         public init() {}
 
@@ -565,8 +631,10 @@ extension Directconnect {
 
     }
 
-    public struct ConfirmPublicVirtualInterfaceRequest: Serializable, Initializable {
-        var virtualInterfaceId: String = ""
+    public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceId: String = ""
 
         public init() {}
 
@@ -576,14 +644,16 @@ extension Directconnect {
 
     }
 
-    public struct CreateInterconnectRequest: Serializable, Initializable {
+    public struct CreateInterconnectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Where the interconnect is located Example: EqSV5 Default: None
-        var location: String = ""
-        var lagId: String? = nil
+        public var location: String = ""
+        public var lagId: String? = nil
         /// The name of the interconnect. Example: "1G Interconnect to AWS" Default: None
-        var interconnectName: String = ""
+        public var interconnectName: String = ""
         /// The port bandwidth Example: 1Gbps Default: None Available values: 1Gbps,10Gbps
-        var bandwidth: String = ""
+        public var bandwidth: String = ""
 
         public init() {}
 
@@ -596,9 +666,11 @@ extension Directconnect {
 
     }
 
-    public struct Connections: Serializable, Initializable {
+    public struct Connections: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of connections.
-        var connections: [Connection]? = nil
+        public var connections: [Connection]? = nil
 
         public init() {}
 
@@ -608,8 +680,10 @@ extension Directconnect {
 
     }
 
-    public struct DescribeInterconnectLoaResponse: Serializable, Initializable {
-        var loa: Loa? = nil
+    public struct DescribeInterconnectLoaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var loa: Loa? = nil
 
         public init() {}
 
@@ -619,24 +693,26 @@ extension Directconnect {
 
     }
 
-    public struct Connection: Serializable, Initializable {
+    public struct Connection: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time of the most recent call to DescribeLoa for this connection.
-        var loaIssueTime: Date? = nil
+        public var loaIssueTime: Date? = nil
         /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
-        var bandwidth: String? = nil
-        var location: String? = nil
-        var lagId: String? = nil
+        public var bandwidth: String? = nil
+        public var location: String? = nil
+        public var lagId: String? = nil
         /// The Direct Connection endpoint which the physical connection terminates on.
-        var awsDevice: String? = nil
-        var connectionId: String? = nil
-        var region: String? = nil
+        public var awsDevice: String? = nil
+        public var connectionId: String? = nil
+        public var region: String? = nil
         /// The AWS account that will own the new connection.
-        var ownerAccount: String? = nil
-        var connectionState: String? = nil
-        var connectionName: String? = nil
-        var vlan: Int32? = nil
+        public var ownerAccount: String? = nil
+        public var connectionState: String? = nil
+        public var connectionName: String? = nil
+        public var vlan: Int32? = nil
         /// The name of the AWS Direct Connect service provider associated with the connection.
-        var partnerName: String? = nil
+        public var partnerName: String? = nil
 
         public init() {}
 
@@ -657,8 +733,10 @@ extension Directconnect {
 
     }
 
-    public struct DescribeConnectionsRequest: Serializable, Initializable {
-        var connectionId: String? = nil
+    public struct DescribeConnectionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionId: String? = nil
 
         public init() {}
 
@@ -668,9 +746,11 @@ extension Directconnect {
 
     }
 
-    public struct Lags: Serializable, Initializable {
+    public struct Lags: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of LAGs.
-        var lags: [Lag]? = nil
+        public var lags: [Lag]? = nil
 
         public init() {}
 
@@ -680,8 +760,10 @@ extension Directconnect {
 
     }
 
-    public struct DeleteInterconnectResponse: Serializable, Initializable {
-        var interconnectState: String? = nil
+    public struct DeleteInterconnectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var interconnectState: String? = nil
 
         public init() {}
 
@@ -691,20 +773,24 @@ extension Directconnect {
 
     }
 
-    public struct TagResourceResponse: Serializable, Initializable {
+    public struct TagResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct BGPPeer: Serializable, Initializable {
-        var customerAddress: String? = nil
-        var bgpStatus: String? = nil
-        var bgpPeerState: String? = nil
-        var authKey: String? = nil
-        var amazonAddress: String? = nil
-        var asn: Int32? = nil
-        var addressFamily: String? = nil
+    public struct BGPPeer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var customerAddress: String? = nil
+        public var bgpStatus: String? = nil
+        public var bgpPeerState: String? = nil
+        public var authKey: String? = nil
+        public var amazonAddress: String? = nil
+        public var asn: Int32? = nil
+        public var addressFamily: String? = nil
 
         public init() {}
 
@@ -720,11 +806,13 @@ extension Directconnect {
 
     }
 
-    public struct DisassociateConnectionFromLagRequest: Serializable, Initializable {
+    public struct DisassociateConnectionFromLagRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the connection to disassociate from the LAG. Example: dxcon-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// The ID of the LAG. Example: dxlag-abc123 Default: None
-        var lagId: String = ""
+        public var lagId: String = ""
 
         public init() {}
 
@@ -735,11 +823,13 @@ extension Directconnect {
 
     }
 
-    public struct CreateBGPPeerRequest: Serializable, Initializable {
+    public struct CreateBGPPeerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the virtual interface on which the BGP peer will be provisioned. Example: dxvif-456abc78 Default: None
-        var virtualInterfaceId: String? = nil
+        public var virtualInterfaceId: String? = nil
         /// Detailed information for the BGP peer to be created. Default: None
-        var newBGPPeer: NewBGPPeer? = nil
+        public var newBGPPeer: NewBGPPeer? = nil
 
         public init() {}
 
@@ -750,8 +840,10 @@ extension Directconnect {
 
     }
 
-    public struct ConfirmPrivateVirtualInterfaceResponse: Serializable, Initializable {
-        var virtualInterfaceState: String? = nil
+    public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceState: String? = nil
 
         public init() {}
 
@@ -761,8 +853,10 @@ extension Directconnect {
 
     }
 
-    public struct DeleteBGPPeerResponse: Serializable, Initializable {
-        var virtualInterface: VirtualInterface? = nil
+    public struct DeleteBGPPeerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterface: VirtualInterface? = nil
 
         public init() {}
 
@@ -772,9 +866,11 @@ extension Directconnect {
 
     }
 
-    public struct DescribeVirtualInterfacesRequest: Serializable, Initializable {
-        var virtualInterfaceId: String? = nil
-        var connectionId: String? = nil
+    public struct DescribeVirtualInterfacesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceId: String? = nil
+        public var connectionId: String? = nil
 
         public init() {}
 
@@ -785,13 +881,15 @@ extension Directconnect {
 
     }
 
-    public struct DescribeLoaRequest: Serializable, Initializable {
+    public struct DescribeLoaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        var providerName: String? = nil
+        public var providerName: String? = nil
         /// The ID of a connection, LAG, or interconnect for which to get the LOA-CFA information. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        var connectionId: String = ""
+        public var connectionId: String = ""
         /// A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is "application/pdf". Default: application/pdf
-        var loaContentType: String? = nil
+        public var loaContentType: String? = nil
 
         public init() {}
 
@@ -803,11 +901,13 @@ extension Directconnect {
 
     }
 
-    public struct DeleteBGPPeerRequest: Serializable, Initializable {
+    public struct DeleteBGPPeerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the virtual interface from which the BGP peer will be deleted. Example: dxvif-456abc78 Default: None
-        var virtualInterfaceId: String? = nil
-        var asn: Int32? = nil
-        var customerAddress: String? = nil
+        public var virtualInterfaceId: String? = nil
+        public var asn: Int32? = nil
+        public var customerAddress: String? = nil
 
         public init() {}
 
@@ -819,18 +919,20 @@ extension Directconnect {
 
     }
 
-    public struct Interconnect: Serializable, Initializable {
+    public struct Interconnect: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
-        var loaIssueTime: Date? = nil
-        var interconnectState: String? = nil
-        var location: String? = nil
+        public var loaIssueTime: Date? = nil
+        public var interconnectState: String? = nil
+        public var location: String? = nil
         /// The Direct Connection endpoint which the physical connection terminates on.
-        var awsDevice: String? = nil
-        var lagId: String? = nil
-        var region: String? = nil
-        var interconnectName: String? = nil
-        var interconnectId: String? = nil
-        var bandwidth: String? = nil
+        public var awsDevice: String? = nil
+        public var lagId: String? = nil
+        public var region: String? = nil
+        public var interconnectName: String? = nil
+        public var interconnectId: String? = nil
+        public var bandwidth: String? = nil
 
         public init() {}
 
@@ -848,17 +950,19 @@ extension Directconnect {
 
     }
 
-    public struct AllocateConnectionOnInterconnectRequest: Serializable, Initializable {
+    public struct AllocateConnectionOnInterconnectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Bandwidth of the connection. Example: "500Mbps" Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
-        var bandwidth: String = ""
+        public var bandwidth: String = ""
         /// Name of the provisioned connection. Example: "500M Connection to AWS" Default: None
-        var connectionName: String = ""
+        public var connectionName: String = ""
         /// ID of the interconnect on which the connection will be provisioned. Example: dxcon-456abc78 Default: None
-        var interconnectId: String = ""
+        public var interconnectId: String = ""
         /// The dedicated VLAN provisioned to the connection. Example: 101 Default: None
-        var vlan: Int32 = 0
+        public var vlan: Int32 = 0
         /// Numeric account Id of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
-        var ownerAccount: String = ""
+        public var ownerAccount: String = ""
 
         public init() {}
 
@@ -872,9 +976,11 @@ extension Directconnect {
 
     }
 
-    public struct DescribeConnectionsOnInterconnectRequest: Serializable, Initializable {
+    public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ID of the interconnect on which a list of connection is provisioned. Example: dxcon-abc123 Default: None
-        var interconnectId: String = ""
+        public var interconnectId: String = ""
 
         public init() {}
 
@@ -884,9 +990,11 @@ extension Directconnect {
 
     }
 
-    public struct VirtualInterfaces: Serializable, Initializable {
+    public struct VirtualInterfaces: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of virtual interfaces.
-        var virtualInterfaces: [VirtualInterface]? = nil
+        public var virtualInterfaces: [VirtualInterface]? = nil
 
         public init() {}
 
@@ -896,17 +1004,21 @@ extension Directconnect {
 
     }
 
-    public struct UntagResourceResponse: Serializable, Initializable {
+    public struct UntagResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Location: Serializable, Initializable {
+    public struct Location: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code used to indicate the AWS Direct Connect location.
-        var locationCode: String? = nil
+        public var locationCode: String? = nil
         /// The name of the AWS Direct Connect location. The name includes the colocation partner name and the physical site of the lit building.
-        var locationName: String? = nil
+        public var locationName: String? = nil
 
         public init() {}
 
@@ -917,9 +1029,11 @@ extension Directconnect {
 
     }
 
-    public struct Loa: Serializable, Initializable {
-        var loaContentType: String? = nil
-        var loaContent: Data? = nil
+    public struct Loa: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var loaContentType: String? = nil
+        public var loaContent: Data? = nil
 
         public init() {}
 
@@ -930,26 +1044,28 @@ extension Directconnect {
 
     }
 
-    public struct VirtualInterface: Serializable, Initializable {
-        var customerAddress: String? = nil
-        var virtualInterfaceType: String? = nil
-        var connectionId: String? = nil
+    public struct VirtualInterface: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var customerAddress: String? = nil
+        public var virtualInterfaceType: String? = nil
+        public var connectionId: String? = nil
         /// The AWS account that will own the new virtual interface.
-        var ownerAccount: String? = nil
-        var asn: Int32? = nil
-        var addressFamily: String? = nil
-        var routeFilterPrefixes: [RouteFilterPrefix]? = nil
-        var location: String? = nil
-        var virtualInterfaceName: String? = nil
-        var authKey: String? = nil
-        var amazonAddress: String? = nil
+        public var ownerAccount: String? = nil
+        public var asn: Int32? = nil
+        public var addressFamily: String? = nil
+        public var routeFilterPrefixes: [RouteFilterPrefix]? = nil
+        public var location: String? = nil
+        public var virtualInterfaceName: String? = nil
+        public var authKey: String? = nil
+        public var amazonAddress: String? = nil
         /// Information for generating the customer router configuration.
-        var customerRouterConfig: String? = nil
-        var bgpPeers: [BGPPeer]? = nil
-        var virtualGatewayId: String? = nil
-        var virtualInterfaceId: String? = nil
-        var virtualInterfaceState: String? = nil
-        var vlan: Int32? = nil
+        public var customerRouterConfig: String? = nil
+        public var bgpPeers: [BGPPeer]? = nil
+        public var virtualGatewayId: String? = nil
+        public var virtualInterfaceId: String? = nil
+        public var virtualInterfaceState: String? = nil
+        public var vlan: Int32? = nil
 
         public init() {}
 
@@ -975,8 +1091,10 @@ extension Directconnect {
 
     }
 
-    public struct ConfirmPublicVirtualInterfaceResponse: Serializable, Initializable {
-        var virtualInterfaceState: String? = nil
+    public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceState: String? = nil
 
         public init() {}
 
@@ -986,9 +1104,11 @@ extension Directconnect {
 
     }
 
-    public struct Locations: Serializable, Initializable {
+    public struct Locations: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of colocation hubs where network providers have equipment. Most regions have multiple locations available.
-        var locations: [Location]? = nil
+        public var locations: [Location]? = nil
 
         public init() {}
 
@@ -998,11 +1118,13 @@ extension Directconnect {
 
     }
 
-    public struct CreateConnectionRequest: Serializable, Initializable {
-        var connectionName: String = ""
-        var location: String = ""
-        var lagId: String? = nil
-        var bandwidth: String = ""
+    public struct CreateConnectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionName: String = ""
+        public var location: String = ""
+        public var lagId: String? = nil
+        public var bandwidth: String = ""
 
         public init() {}
 
@@ -1015,11 +1137,13 @@ extension Directconnect {
 
     }
 
-    public struct DescribeConnectionLoaRequest: Serializable, Initializable {
+    public struct DescribeConnectionLoaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        var providerName: String? = nil
-        var connectionId: String = ""
-        var loaContentType: String? = nil
+        public var providerName: String? = nil
+        public var connectionId: String = ""
+        public var loaContentType: String? = nil
 
         public init() {}
 
@@ -1031,10 +1155,12 @@ extension Directconnect {
 
     }
 
-    public struct ConfirmPrivateVirtualInterfaceRequest: Serializable, Initializable {
-        var virtualInterfaceId: String = ""
+    public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceId: String = ""
         /// ID of the virtual private gateway that will be attached to the virtual interface.  A virtual private gateway can be managed via the Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action. Default: None
-        var virtualGatewayId: String = ""
+        public var virtualGatewayId: String = ""
 
         public init() {}
 
@@ -1045,12 +1171,14 @@ extension Directconnect {
 
     }
 
-    public struct NewBGPPeer: Serializable, Initializable {
-        var amazonAddress: String? = nil
-        var customerAddress: String? = nil
-        var addressFamily: String? = nil
-        var asn: Int32? = nil
-        var authKey: String? = nil
+    public struct NewBGPPeer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var amazonAddress: String? = nil
+        public var customerAddress: String? = nil
+        public var addressFamily: String? = nil
+        public var asn: Int32? = nil
+        public var authKey: String? = nil
 
         public init() {}
 
@@ -1064,8 +1192,10 @@ extension Directconnect {
 
     }
 
-    public struct ConfirmConnectionResponse: Serializable, Initializable {
-        var connectionState: String? = nil
+    public struct ConfirmConnectionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionState: String? = nil
 
         public init() {}
 
@@ -1075,9 +1205,11 @@ extension Directconnect {
 
     }
 
-    public struct RouteFilterPrefix: Serializable, Initializable {
+    public struct RouteFilterPrefix: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// CIDR notation for the advertised route. Multiple routes are separated by commas. IPv6 CIDRs must be at least a /64 or shorter Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
-        var cidr: String? = nil
+        public var cidr: String? = nil
 
         public init() {}
 
@@ -1087,8 +1219,10 @@ extension Directconnect {
 
     }
 
-    public struct DeleteVirtualInterfaceRequest: Serializable, Initializable {
-        var virtualInterfaceId: String = ""
+    public struct DeleteVirtualInterfaceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualInterfaceId: String = ""
 
         public init() {}
 
@@ -1098,11 +1232,13 @@ extension Directconnect {
 
     }
 
-    public struct UntagResourceRequest: Serializable, Initializable {
+    public struct UntagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Direct Connect resource.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The list of tag keys to remove.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -1113,9 +1249,11 @@ extension Directconnect {
 
     }
 
-    public struct VirtualGateway: Serializable, Initializable {
-        var virtualGatewayState: String? = nil
-        var virtualGatewayId: String? = nil
+    public struct VirtualGateway: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var virtualGatewayState: String? = nil
+        public var virtualGatewayId: String? = nil
 
         public init() {}
 

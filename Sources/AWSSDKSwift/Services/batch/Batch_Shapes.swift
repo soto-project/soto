@@ -29,13 +29,15 @@ import Core
 
 extension Batch {
 
-    public struct RegisterJobDefinitionResponse: Serializable, Initializable {
+    public struct RegisterJobDefinitionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The revision of the job definition.
-        var revision: Int32 = 0
+        public var revision: Int32 = 0
         /// The Amazon Resource Name (ARN) of the job definition. 
-        var jobDefinitionArn: String = ""
+        public var jobDefinitionArn: String = ""
         /// The name of the job definition. 
-        var jobDefinitionName: String = ""
+        public var jobDefinitionName: String = ""
 
         public init() {}
 
@@ -47,11 +49,13 @@ extension Batch {
 
     }
 
-    public struct TerminateJobRequest: Serializable, Initializable {
+    public struct TerminateJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Job IDs to be terminated. Up to 100 jobs can be specified.
-        var jobId: String = ""
+        public var jobId: String = ""
         /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs. 
-        var reason: String = ""
+        public var reason: String = ""
 
         public init() {}
 
@@ -62,11 +66,13 @@ extension Batch {
 
     }
 
-    public struct JobSummary: Serializable, Initializable {
+    public struct JobSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the job.
-        var jobId: String = ""
+        public var jobId: String = ""
         /// The name of the job.
-        var jobName: String = ""
+        public var jobName: String = ""
 
         public init() {}
 
@@ -77,27 +83,31 @@ extension Batch {
 
     }
 
-    public struct DeregisterJobDefinitionResponse: Serializable, Initializable {
+    public struct DeregisterJobDefinitionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct JobQueueDetail: Serializable, Initializable {
+    public struct JobQueueDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes the ability of the queue to accept new jobs.
-        var state: String = ""
+        public var state: String = ""
         /// The status of the job queue (for example, CREATING or VALID).
-        var status: String? = nil
+        public var status: String? = nil
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
-        var computeEnvironmentOrder: [ComputeEnvironmentOrder] = []
+        public var computeEnvironmentOrder: [ComputeEnvironmentOrder] = []
         /// The Amazon Resource Name (ARN) of the job queue.
-        var jobQueueArn: String = ""
+        public var jobQueueArn: String = ""
         /// A short, human-readable string to provide additional details about the current status of the job queue.
-        var statusReason: String? = nil
+        public var statusReason: String? = nil
         /// The name of the job queue.
-        var jobQueueName: String = ""
+        public var jobQueueName: String = ""
         /// The priority of the job queue. 
-        var priority: Int32 = 0
+        public var priority: Int32 = 0
 
         public init() {}
 
@@ -113,11 +123,13 @@ extension Batch {
 
     }
 
-    public struct SubmitJobResponse: Serializable, Initializable {
+    public struct SubmitJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the job. 
-        var jobName: String = ""
+        public var jobName: String = ""
         /// The unique identifier for the job.
-        var jobId: String = ""
+        public var jobId: String = ""
 
         public init() {}
 
@@ -128,31 +140,33 @@ extension Batch {
 
     }
 
-    public struct ContainerProperties: Serializable, Initializable {
+    public struct ContainerProperties: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
-        var user: String? = nil
+        public var user: String? = nil
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
-        var mountPoints: [MountPoint]? = nil
+        public var mountPoints: [MountPoint]? = nil
         /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the Create a container section of the Docker Remote API and the --read-only option to docker run.
-        var readonlyRootFilesystem: Bool? = nil
+        public var readonlyRootFilesystem: Bool? = nil
         /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
-        var image: String = ""
+        public var image: String = ""
         /// A list of data volumes used in a job.
-        var volumes: [Volume]? = nil
+        public var volumes: [Volume]? = nil
         /// The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares.
-        var vcpus: Int32 = 0
+        public var vcpus: Int32 = 0
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the Create a container section of the Docker Remote API and the --privileged option to docker run.
-        var privileged: Bool? = nil
+        public var privileged: Bool? = nil
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plain text environment variables for sensitive information, such as credential data. 
-        var environment: [KeyValuePair]? = nil
+        public var environment: [KeyValuePair]? = nil
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
-        var command: [String]? = nil
+        public var command: [String]? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS permissions.
-        var jobRoleArn: String? = nil
+        public var jobRoleArn: String? = nil
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run.
-        var ulimits: [Ulimit]? = nil
+        public var ulimits: [Ulimit]? = nil
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run.
-        var memory: Int32 = 0
+        public var memory: Int32 = 0
 
         public init() {}
 
@@ -173,31 +187,33 @@ extension Batch {
 
     }
 
-    public struct ComputeResource: Serializable, Initializable {
+    public struct ComputeResource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The EC2 key pair that is used for instances launched in the compute environment.
-        var ec2KeyPair: String? = nil
+        public var ec2KeyPair: String? = nil
         /// The minimum percentage that a Spot Instance price must be when compared with the On-Demand price for that instance type before instances are launched. For example, if your bid percentage is 20%, then the Spot price must be below 20% of the current On-Demand price for that EC2 instance.
-        var bidPercentage: Int32? = nil
+        public var bidPercentage: Int32? = nil
         /// The VPC subnets into which the compute resources are launched. 
-        var subnets: [String] = []
+        public var subnets: [String] = []
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment.
-        var spotIamFleetRole: String? = nil
+        public var spotIamFleetRole: String? = nil
         /// The instances types that may launched.
-        var instanceTypes: [String] = []
+        public var instanceTypes: [String] = []
         /// The maximum number of EC2 vCPUs that an environment can reach. 
-        var maxvCpus: Int32 = 0
+        public var maxvCpus: Int32 = 0
         /// The EC2 security group that is associated with instances launched in the compute environment. 
-        var securityGroupIds: [String] = []
+        public var securityGroupIds: [String] = []
         /// The Amazon ECS instance role applied to Amazon EC2 instances in a compute environment.
-        var instanceRole: String = ""
+        public var instanceRole: String = ""
         /// Key-value pair tags to be applied to resources that are launched in the compute environment. 
-        var tags: [String: String]? = nil
+        public var tags: [String: String]? = nil
         /// The minimum number of EC2 vCPUs that an environment should maintain. 
-        var minvCpus: Int32 = 0
+        public var minvCpus: Int32 = 0
         /// The type of compute environment.
-        var type: String = ""
+        public var type: String = ""
         /// The desired number of EC2 vCPUS in the compute environment. 
-        var desiredvCpus: Int32? = nil
+        public var desiredvCpus: Int32? = nil
 
         public init() {}
 
@@ -218,25 +234,27 @@ extension Batch {
 
     }
 
-    public struct ComputeEnvironmentDetail: Serializable, Initializable {
+    public struct ComputeEnvironmentDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the compute environment. The valid values are ENABLED or DISABLED. An ENABLED state indicates that you can register instances with the compute environment and that the associated instances can accept jobs. 
-        var state: String? = nil
+        public var state: String? = nil
         /// The current status of the compute environment (for example, CREATING or VALID).
-        var status: String? = nil
+        public var status: String? = nil
         /// The Amazon Resource Name (ARN) of the compute environment. 
-        var computeEnvironmentArn: String = ""
+        public var computeEnvironmentArn: String = ""
         /// The name of the compute environment. 
-        var computeEnvironmentName: String = ""
+        public var computeEnvironmentName: String = ""
         /// A short, human-readable string to provide additional details about the current status of the compute environment.
-        var statusReason: String? = nil
+        public var statusReason: String? = nil
         /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster used by the compute environment. 
-        var ecsClusterArn: String = ""
+        public var ecsClusterArn: String = ""
         /// The compute resources defined for the compute environment. 
-        var computeResources: ComputeResource? = nil
+        public var computeResources: ComputeResource? = nil
         /// The type of the compute environment.
-        var type: String? = nil
+        public var type: String? = nil
         /// The service role associated with the compute environment that allows AWS Batch to make calls to AWS API operations on your behalf.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
 
         public init() {}
 
@@ -254,17 +272,21 @@ extension Batch {
 
     }
 
-    public struct DeleteJobQueueResponse: Serializable, Initializable {
+    public struct DeleteJobQueueResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateComputeEnvironmentResponse: Serializable, Initializable {
+    public struct UpdateComputeEnvironmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of compute environment.
-        var computeEnvironmentName: String? = nil
+        public var computeEnvironmentName: String? = nil
         /// The Amazon Resource Name (ARN) of the compute environment. 
-        var computeEnvironmentArn: String? = nil
+        public var computeEnvironmentArn: String? = nil
 
         public init() {}
 
@@ -275,15 +297,17 @@ extension Batch {
 
     }
 
-    public struct UpdateJobQueueRequest: Serializable, Initializable {
+    public struct UpdateJobQueueRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes the queue's ability to accept new jobs.
-        var state: String? = nil
+        public var state: String? = nil
         /// The name or the Amazon Resource Name (ARN) of the job queue.
-        var jobQueue: String = ""
+        public var jobQueue: String = ""
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job. 
-        var computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil
+        public var computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil
         /// The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10.
-        var priority: Int32? = nil
+        public var priority: Int32? = nil
 
         public init() {}
 
@@ -296,17 +320,19 @@ extension Batch {
 
     }
 
-    public struct CreateComputeEnvironmentRequest: Serializable, Initializable {
+    public struct CreateComputeEnvironmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
-        var state: String? = nil
+        public var state: String? = nil
         /// The type of the compute environment. 
-        var type: String = ""
+        public var type: String = ""
         /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf. 
-        var serviceRole: String = ""
+        public var serviceRole: String = ""
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, and underscores are allowed.
-        var computeEnvironmentName: String = ""
+        public var computeEnvironmentName: String = ""
         /// Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments.
-        var computeResources: ComputeResource? = nil
+        public var computeResources: ComputeResource? = nil
 
         public init() {}
 
@@ -320,19 +346,23 @@ extension Batch {
 
     }
 
-    public struct TerminateJobResponse: Serializable, Initializable {
+    public struct TerminateJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeComputeEnvironmentsRequest: Serializable, Initializable {
+    public struct DescribeComputeEnvironmentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries. 
-        var computeEnvironments: [String]? = nil
+        public var computeEnvironments: [String]? = nil
         /// The maximum number of cluster results returned by DescribeComputeEnvironments in paginated output. When this parameter is used, DescribeComputeEnvironments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeComputeEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeComputeEnvironments returns up to 100 results and a nextToken value if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -344,9 +374,11 @@ extension Batch {
 
     }
 
-    public struct DeleteComputeEnvironmentRequest: Serializable, Initializable {
+    public struct DeleteComputeEnvironmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete. 
-        var computeEnvironment: String = ""
+        public var computeEnvironment: String = ""
 
         public init() {}
 
@@ -356,11 +388,13 @@ extension Batch {
 
     }
 
-    public struct DescribeComputeEnvironmentsResponse: Serializable, Initializable {
+    public struct DescribeComputeEnvironmentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of compute environments.
-        var computeEnvironments: [ComputeEnvironmentDetail]? = nil
+        public var computeEnvironments: [ComputeEnvironmentDetail]? = nil
         /// The nextToken value to include in a future DescribeComputeEnvironments request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -371,9 +405,11 @@ extension Batch {
 
     }
 
-    public struct DeregisterJobDefinitionRequest: Serializable, Initializable {
+    public struct DeregisterJobDefinitionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister. 
-        var jobDefinition: String = ""
+        public var jobDefinition: String = ""
 
         public init() {}
 
@@ -383,43 +419,47 @@ extension Batch {
 
     }
 
-    public struct CancelJobResponse: Serializable, Initializable {
+    public struct CancelJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ContainerDetail: Serializable, Initializable {
+    public struct ContainerDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The mount points for data volumes in your container.
-        var mountPoints: [MountPoint]? = nil
+        public var mountPoints: [MountPoint]? = nil
         /// When this parameter is true, the container is given read-only access to its root file system.
-        var readonlyRootFilesystem: Bool? = nil
+        public var readonlyRootFilesystem: Bool? = nil
         /// The user name to use inside the container.
-        var user: String? = nil
+        public var user: String? = nil
         /// The number of VCPUs allocated for the job. 
-        var vcpus: Int32? = nil
+        public var vcpus: Int32? = nil
         /// A list of ulimit values to set in the container.
-        var ulimits: [Ulimit]? = nil
+        public var ulimits: [Ulimit]? = nil
         /// The number of MiB of memory reserved for the job.
-        var memory: Int32? = nil
+        public var memory: Int32? = nil
         /// The environment variables to pass to a container.
-        var environment: [KeyValuePair]? = nil
+        public var environment: [KeyValuePair]? = nil
         /// The Amazon Resource Name (ARN) of the container instance on which the container is running.
-        var containerInstanceArn: String? = nil
+        public var containerInstanceArn: String? = nil
         /// The image used to start the container.
-        var image: String? = nil
+        public var image: String? = nil
         /// A list of volumes associated with the job.
-        var volumes: [Volume]? = nil
+        public var volumes: [Volume]? = nil
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
-        var privileged: Bool? = nil
+        public var privileged: Bool? = nil
         /// The exit code to return upon completion.
-        var exitCode: Int32? = nil
+        public var exitCode: Int32? = nil
         /// The command that is passed to the container. 
-        var command: [String]? = nil
+        public var command: [String]? = nil
         /// The Amazon Resource Name (ARN) associated with the job upon execution. 
-        var jobRoleArn: String? = nil
+        public var jobRoleArn: String? = nil
 
         public init() {}
 
@@ -443,13 +483,15 @@ extension Batch {
 
     }
 
-    public struct MountPoint: Serializable, Initializable {
+    public struct MountPoint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the volume to mount.
-        var sourceVolume: String? = nil
+        public var sourceVolume: String? = nil
         /// If this value is true, the container has read-only access to the volume; otherwise, the container can write to the volume. The default value is false.
-        var readOnly: Bool? = nil
+        public var readOnly: Bool? = nil
         /// The path on the container at which to mount the host volume.
-        var containerPath: String? = nil
+        public var containerPath: String? = nil
 
         public init() {}
 
@@ -461,15 +503,17 @@ extension Batch {
 
     }
 
-    public struct UpdateComputeEnvironmentRequest: Serializable, Initializable {
+    public struct UpdateComputeEnvironmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues.
-        var state: String? = nil
+        public var state: String? = nil
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
-        var computeEnvironment: String = ""
+        public var computeEnvironment: String = ""
         /// Details of the compute resources managed by the compute environment. Required for a managed compute environment.
-        var computeResources: ComputeResourceUpdate? = nil
+        public var computeResources: ComputeResourceUpdate? = nil
         /// The name or full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to ECS, Auto Scaling, and EC2 on your behalf.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
 
         public init() {}
 
@@ -482,11 +526,13 @@ extension Batch {
 
     }
 
-    public struct CreateJobQueueResponse: Serializable, Initializable {
+    public struct CreateJobQueueResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the job queue.
-        var jobQueueName: String = ""
+        public var jobQueueName: String = ""
         /// The Amazon Resource Name (ARN) of the job queue.
-        var jobQueueArn: String = ""
+        public var jobQueueArn: String = ""
 
         public init() {}
 
@@ -497,9 +543,11 @@ extension Batch {
 
     }
 
-    public struct Host: Serializable, Initializable {
+    public struct Host: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
-        var sourcePath: String? = nil
+        public var sourcePath: String? = nil
 
         public init() {}
 
@@ -509,9 +557,11 @@ extension Batch {
 
     }
 
-    public struct DescribeJobsRequest: Serializable, Initializable {
+    public struct DescribeJobsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A space-separated list of up to 100 job IDs.
-        var jobs: [String] = []
+        public var jobs: [String] = []
 
         public init() {}
 
@@ -521,15 +571,17 @@ extension Batch {
 
     }
 
-    public struct ContainerOverrides: Serializable, Initializable {
+    public struct ContainerOverrides: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
-        var vcpus: Int32? = nil
+        public var vcpus: Int32? = nil
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the job definition.
-        var environment: [KeyValuePair]? = nil
+        public var environment: [KeyValuePair]? = nil
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
-        var command: [String]? = nil
+        public var command: [String]? = nil
         /// The number of MiB of memory reserved for the job. This value overrides the value set in the job definition.
-        var memory: Int32? = nil
+        public var memory: Int32? = nil
 
         public init() {}
 
@@ -542,31 +594,33 @@ extension Batch {
 
     }
 
-    public struct JobDetail: Serializable, Initializable {
+    public struct JobDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
-        var jobQueue: String = ""
+        public var jobQueue: String = ""
         /// The current status for the job.
-        var status: String = ""
+        public var status: String = ""
         /// The name of the job.
-        var jobName: String = ""
+        public var jobName: String = ""
         /// The Unix timestamp for when the job was created (when the task entered the PENDING state). 
-        var createdAt: Int64? = nil
+        public var createdAt: Int64? = nil
         /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
         /// The Unix timestamp for when the job was stopped (when the task transitioned from the RUNNING state to the STOPPED state).
-        var stoppedAt: Int64? = nil
+        public var stoppedAt: Int64? = nil
         /// The Unix timestamp for when the job was started (when the task transitioned from the PENDING state to the RUNNING state). 
-        var startedAt: Int64 = 0
+        public var startedAt: Int64 = 0
         /// An object representing the details of the container that is associated with the job.
-        var container: ContainerDetail? = nil
+        public var container: ContainerDetail? = nil
         /// A short, human-readable string to provide additional details about the current status of the job. 
-        var statusReason: String? = nil
+        public var statusReason: String? = nil
         /// The job definition that is used by this job.
-        var jobDefinition: String = ""
+        public var jobDefinition: String = ""
         /// A list of job names or IDs on which this job depends.
-        var dependsOn: [JobDependency]? = nil
+        public var dependsOn: [JobDependency]? = nil
         /// The ID for the job.
-        var jobId: String = ""
+        public var jobId: String = ""
 
         public init() {}
 
@@ -587,19 +641,21 @@ extension Batch {
 
     }
 
-    public struct SubmitJobRequest: Serializable, Initializable {
+    public struct SubmitJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job queue into which the job will be submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue. 
-        var jobQueue: String = ""
+        public var jobQueue: String = ""
         /// The name of the job.
-        var jobName: String = ""
+        public var jobName: String = ""
         /// The job definition used by this job. This value can be either a name:revision or the Amazon Resource Name (ARN) for the job definition.
-        var jobDefinition: String = ""
+        public var jobDefinition: String = ""
         /// A list of job names or IDs on which this job depends. A job can depend upon a maximum of 100 jobs. 
-        var dependsOn: [JobDependency]? = nil
+        public var dependsOn: [JobDependency]? = nil
         /// A list of container overrides in JSON format that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container (that is specified in the job definition or the Docker image) with a command override. You can also override existing environment variables (that are specified in the job definition or Docker image) on a container or add new environment variables to it with an environment override.
-        var containerOverrides: ContainerOverrides? = nil
+        public var containerOverrides: ContainerOverrides? = nil
         /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -614,9 +670,11 @@ extension Batch {
 
     }
 
-    public struct DescribeJobsResponse: Serializable, Initializable {
+    public struct DescribeJobsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of jobs. 
-        var jobs: [JobDetail]? = nil
+        public var jobs: [JobDetail]? = nil
 
         public init() {}
 
@@ -626,17 +684,21 @@ extension Batch {
 
     }
 
-    public struct DeleteComputeEnvironmentResponse: Serializable, Initializable {
+    public struct DeleteComputeEnvironmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListJobsResponse: Serializable, Initializable {
+    public struct ListJobsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of job summaries that match the request.
-        var jobSummaryList: [JobSummary] = []
+        public var jobSummaryList: [JobSummary] = []
 
         public init() {}
 
@@ -647,17 +709,19 @@ extension Batch {
 
     }
 
-    public struct DescribeJobDefinitionsRequest: Serializable, Initializable {
+    public struct DescribeJobDefinitionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the job definition to describe.
-        var jobDefinitionName: String? = nil
+        public var jobDefinitionName: String? = nil
         /// The status with which to filter job definitions.
-        var status: String? = nil
+        public var status: String? = nil
         /// The maximum number of results returned by DescribeJobDefinitions in paginated output. When this parameter is used, DescribeJobDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobDefinitions returns up to 100 results and a nextToken value if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The nextToken value returned from a previous paginated DescribeJobDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A space-separated list of up to 100 job definition names or full Amazon Resource Name (ARN) entries.
-        var jobDefinitions: [String]? = nil
+        public var jobDefinitions: [String]? = nil
 
         public init() {}
 
@@ -671,15 +735,17 @@ extension Batch {
 
     }
 
-    public struct RegisterJobDefinitionRequest: Serializable, Initializable {
+    public struct RegisterJobDefinitionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the job definition to register. 
-        var jobDefinitionName: String = ""
+        public var jobDefinitionName: String = ""
         /// The type of job definition.
-        var type: String = ""
+        public var type: String = ""
         /// An object with various properties specific for container-based jobs. This parameter is required if the type parameter is container.
-        var containerProperties: ContainerProperties? = nil
+        public var containerProperties: ContainerProperties? = nil
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -692,15 +758,17 @@ extension Batch {
 
     }
 
-    public struct ListJobsRequest: Serializable, Initializable {
+    public struct ListJobsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
-        var jobQueue: String = ""
+        public var jobQueue: String = ""
         /// The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListJobs returns up to 100 results and a nextToken value if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The job status with which to filter jobs in the specified queue.
-        var jobStatus: String? = nil
+        public var jobStatus: String? = nil
 
         public init() {}
 
@@ -713,13 +781,15 @@ extension Batch {
 
     }
 
-    public struct DescribeJobQueuesRequest: Serializable, Initializable {
+    public struct DescribeJobQueuesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
-        var jobQueues: [String]? = nil
+        public var jobQueues: [String]? = nil
         /// The maximum number of results returned by DescribeJobQueues in paginated output. When this parameter is used, DescribeJobQueues only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobQueues request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobQueues returns up to 100 results and a nextToken value if applicable.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -731,11 +801,13 @@ extension Batch {
 
     }
 
-    public struct DescribeJobQueuesResponse: Serializable, Initializable {
+    public struct DescribeJobQueuesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of job queues. 
-        var jobQueues: [JobQueueDetail]? = nil
+        public var jobQueues: [JobQueueDetail]? = nil
         /// The nextToken value to include in a future DescribeJobQueues request. When the results of a DescribeJobQueues request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -746,11 +818,13 @@ extension Batch {
 
     }
 
-    public struct DescribeJobDefinitionsResponse: Serializable, Initializable {
+    public struct DescribeJobDefinitionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of job definitions. 
-        var jobDefinitions: [JobDefinition]? = nil
+        public var jobDefinitions: [JobDefinition]? = nil
 
         public init() {}
 
@@ -761,9 +835,11 @@ extension Batch {
 
     }
 
-    public struct DeleteJobQueueRequest: Serializable, Initializable {
+    public struct DeleteJobQueueRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete. 
-        var jobQueue: String = ""
+        public var jobQueue: String = ""
 
         public init() {}
 
@@ -773,21 +849,23 @@ extension Batch {
 
     }
 
-    public struct JobDefinition: Serializable, Initializable {
+    public struct JobDefinition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The revision of the job definition.
-        var revision: Int32 = 0
+        public var revision: Int32 = 0
         /// The status of the job definition.
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the job definition. 
-        var jobDefinitionName: String = ""
+        public var jobDefinitionName: String = ""
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
         /// The Amazon Resource Name (ARN) for the job definition. 
-        var jobDefinitionArn: String = ""
+        public var jobDefinitionArn: String = ""
         /// The type of job definition.
-        var type: String = ""
+        public var type: String = ""
         /// An object with various properties specific to container-based jobs. 
-        var containerProperties: ContainerProperties? = nil
+        public var containerProperties: ContainerProperties? = nil
 
         public init() {}
 
@@ -803,11 +881,13 @@ extension Batch {
 
     }
 
-    public struct KeyValuePair: Serializable, Initializable {
+    public struct KeyValuePair: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
-        var name: String? = nil
+        public var name: String? = nil
         /// The value of the key value pair. For environment variables, this is the value of the environment variable.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -818,15 +898,17 @@ extension Batch {
 
     }
 
-    public struct CreateJobQueueRequest: Serializable, Initializable {
+    public struct CreateJobQueueRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
-        var state: String? = nil
+        public var state: String? = nil
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to 3 compute environments with a job queue.
-        var computeEnvironmentOrder: [ComputeEnvironmentOrder] = []
+        public var computeEnvironmentOrder: [ComputeEnvironmentOrder] = []
         /// The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10.
-        var priority: Int32 = 0
+        public var priority: Int32 = 0
         /// The name of the job queue.
-        var jobQueueName: String = ""
+        public var jobQueueName: String = ""
 
         public init() {}
 
@@ -839,11 +921,13 @@ extension Batch {
 
     }
 
-    public struct CancelJobRequest: Serializable, Initializable {
+    public struct CancelJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of up to 100 job IDs to cancel.
-        var jobId: String = ""
+        public var jobId: String = ""
         /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs. 
-        var reason: String = ""
+        public var reason: String = ""
 
         public init() {}
 
@@ -854,11 +938,13 @@ extension Batch {
 
     }
 
-    public struct CreateComputeEnvironmentResponse: Serializable, Initializable {
+    public struct CreateComputeEnvironmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the compute environment.
-        var computeEnvironmentName: String? = nil
+        public var computeEnvironmentName: String? = nil
         /// The Amazon Resource Name (ARN) of the compute environment. 
-        var computeEnvironmentArn: String? = nil
+        public var computeEnvironmentArn: String? = nil
 
         public init() {}
 
@@ -869,11 +955,13 @@ extension Batch {
 
     }
 
-    public struct UpdateJobQueueResponse: Serializable, Initializable {
+    public struct UpdateJobQueueResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the job queue.
-        var jobQueueName: String? = nil
+        public var jobQueueName: String? = nil
         /// The Amazon Resource Name (ARN) of the job queue.
-        var jobQueueArn: String? = nil
+        public var jobQueueArn: String? = nil
 
         public init() {}
 
@@ -884,11 +972,13 @@ extension Batch {
 
     }
 
-    public struct Volume: Serializable, Initializable {
+    public struct Volume: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
-        var name: String? = nil
+        public var name: String? = nil
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume, but the data is not guaranteed to persist after the containers associated with it stop running.
-        var host: Host? = nil
+        public var host: Host? = nil
 
         public init() {}
 
@@ -899,13 +989,15 @@ extension Batch {
 
     }
 
-    public struct ComputeResourceUpdate: Serializable, Initializable {
+    public struct ComputeResourceUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of EC2 vCPUs that an environment can reach.
-        var maxvCpus: Int32? = nil
+        public var maxvCpus: Int32? = nil
         /// The minimum number of EC2 vCPUs that an environment should maintain.
-        var minvCpus: Int32? = nil
+        public var minvCpus: Int32? = nil
         /// The desired number of EC2 vCPUS in the compute environment.
-        var desiredvCpus: Int32? = nil
+        public var desiredvCpus: Int32? = nil
 
         public init() {}
 
@@ -917,9 +1009,11 @@ extension Batch {
 
     }
 
-    public struct JobDependency: Serializable, Initializable {
+    public struct JobDependency: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job ID of the AWS Batch job associated with this dependency.
-        var jobId: String? = nil
+        public var jobId: String? = nil
 
         public init() {}
 
@@ -929,13 +1023,15 @@ extension Batch {
 
     }
 
-    public struct Ulimit: Serializable, Initializable {
+    public struct Ulimit: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The soft limit for the ulimit type.
-        var softLimit: Int32 = 0
+        public var softLimit: Int32 = 0
         /// The type of the ulimit.
-        var name: String = ""
+        public var name: String = ""
         /// The hard limit for the ulimit type.
-        var hardLimit: Int32 = 0
+        public var hardLimit: Int32 = 0
 
         public init() {}
 
@@ -947,11 +1043,13 @@ extension Batch {
 
     }
 
-    public struct ComputeEnvironmentOrder: Serializable, Initializable {
+    public struct ComputeEnvironmentOrder: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the compute environment.
-        var computeEnvironment: String = ""
+        public var computeEnvironment: String = ""
         /// The order of the compute environment.
-        var order: Int32 = 0
+        public var order: Int32 = 0
 
         public init() {}
 

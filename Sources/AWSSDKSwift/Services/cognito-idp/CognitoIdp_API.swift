@@ -32,398 +32,345 @@ Using the Amazon Cognito Your User Pools API, you can create a user pool to mana
 */
 public struct CognitoIdp {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSCognitoIdentityProviderService",
             service: "cognito-idp",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CognitoIdpError.self]
         )
     }
 
     ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. Requires developer credentials.
     public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest) throws -> AdminUpdateUserAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the users in the specified group. Requires developer credentials.
     public func listUsersInGroup(_ input: ListUsersInGroupRequest) throws -> ListUsersInGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListUsersInGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListUsersInGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Responds to the authentication challenge.
     public func respondToAuthChallenge(_ input: RespondToAuthChallengeRequest) throws -> RespondToAuthChallengeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RespondToAuthChallenge", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Amazon Cognito user pool.
     public func deleteUserPool(_ input: DeleteUserPoolRequest) throws {
-        _ = try request.invoke(operation: "DeleteUserPool", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a user as an administrator. Works on any user. Requires developer credentials.
     public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws {
-        _ = try request.invoke(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new user in the specified user pool and sends a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to CreateUserPool or UpdateUserPool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Requires developer credentials.
     public func adminCreateUser(_ input: AdminCreateUserRequest) throws -> AdminCreateUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminCreateUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminCreateUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the specified user by user name in a user pool as an administrator. Works on any user. Requires developer credentials.
     public func adminGetUser(_ input: AdminGetUserRequest) throws -> AdminGetUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminGetUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminGetUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Forgets the specified device.
     public func forgetDevice(_ input: ForgetDeviceRequest) throws {
-        _ = try request.invoke(operation: "ForgetDevice", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device.
     public func getDevice(_ input: GetDeviceRequest) throws -> GetDeviceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDevice", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the user import job.
     public func describeUserImportJob(_ input: DescribeUserImportJobRequest) throws -> DescribeUserImportJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeUserImportJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the clients that have been created for the specified user pool.
     public func listUserPoolClients(_ input: ListUserPoolClientsRequest) throws -> ListUserPoolClientsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListUserPoolClients", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListUserPoolClients", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the user pools associated with an AWS account.
     public func listUserPools(_ input: ListUserPoolsRequest) throws -> ListUserPoolsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListUserPools", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListUserPools", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the groups that the user belongs to. Requires developer credentials.
     public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest) throws -> AdminListGroupsForUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminListGroupsForUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminListGroupsForUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the device status as an administrator. Requires developer credentials.
     public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest) throws -> AdminUpdateDeviceStatusResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates the user pool client.
     public func createUserPoolClient(_ input: CreateUserPoolClientRequest) throws -> CreateUserPoolClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUserPoolClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the user import jobs.
     public func listUserImportJobs(_ input: ListUserImportJobsRequest) throws -> ListUserImportJobsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the password for a specified user in a user pool.
     public func changePassword(_ input: ChangePasswordRequest) throws -> ChangePasswordResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ChangePassword", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the password for the specified client ID or username.
     public func forgotPassword(_ input: ForgotPasswordRequest) throws -> ForgotPasswordResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ForgotPassword", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Responds to an authentication challenge, as an administrator. Requires developer credentials.
     public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest) throws -> AdminRespondToAuthChallengeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the user attribute verification code for the specified attribute name.
     public func getUserAttributeVerificationCode(_ input: GetUserAttributeVerificationCodeRequest) throws -> GetUserAttributeVerificationCodeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUserAttributeVerificationCode", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUserAttributeVerificationCode", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified group with the specified attributes. Requires developer credentials.
     public func updateGroup(_ input: UpdateGroupRequest) throws -> UpdateGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Verifies the specified user attributes in the user pool.
     public func verifyUserAttribute(_ input: VerifyUserAttributeRequest) throws -> VerifyUserAttributeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "VerifyUserAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "VerifyUserAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new group in the specified user pool. Requires developer credentials.
     public func createGroup(_ input: CreateGroupRequest) throws -> CreateGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops the user import job.
     public func stopUserImportJob(_ input: StopUserImportJobRequest) throws -> StopUserImportJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopUserImportJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a group. Requires developer credentials.
     public func getGroup(_ input: GetGroupRequest) throws -> GetGroupResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds additional user attributes to the user pool schema.
     public func addCustomAttributes(_ input: AddCustomAttributesRequest) throws -> AddCustomAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AddCustomAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AddCustomAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the device status.
     public func updateDeviceStatus(_ input: UpdateDeviceStatusRequest) throws -> UpdateDeviceStatusResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device, as an administrator. Requires developer credentials.
     public func adminGetDevice(_ input: AdminGetDeviceRequest) throws -> AdminGetDeviceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminGetDevice", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminGetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon Cognito user pool and sets the password policy for the pool.
     public func createUserPool(_ input: CreateUserPoolRequest) throws -> CreateUserPoolResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUserPool", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to delete one's self.
     public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try request.invoke(operation: "DeleteUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the specified user as an administrator. Works on any user. Requires developer credentials.
     public func adminDisableUser(_ input: AdminDisableUserRequest) throws -> AdminDisableUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminDisableUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminDisableUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Signs out users from all devices, as an administrator. Requires developer credentials.
     public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest) throws -> AdminUserGlobalSignOutResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers the user in the specified user pool and creates a user name, password, and user attributes.
     public func signUp(_ input: SignUpRequest) throws -> SignUpResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SignUp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SignUp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the attributes for a user.
     public func deleteUserAttributes(_ input: DeleteUserAttributesRequest) throws -> DeleteUserAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteUserAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the configuration information and metadata of the specified user pool.
     public func describeUserPool(_ input: DescribeUserPoolRequest) throws -> DescribeUserPoolResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeUserPool", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows the developer to delete the user pool client.
     public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) throws {
-        _ = try request.invoke(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resends the confirmation (for confirmation of registration) to a specific user in the user pool.
     public func resendConfirmationCode(_ input: ResendConfirmationCodeRequest) throws -> ResendConfirmationCodeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ResendConfirmationCode", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ResendConfirmationCode", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Client method for returning the configuration information and metadata of the specified user pool client.
     public func describeUserPoolClient(_ input: DescribeUserPoolClientRequest) throws -> DescribeUserPoolClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeUserPoolClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms tracking of the device. This API call is the call that beings device tracking.
     public func confirmDevice(_ input: ConfirmDeviceRequest) throws -> ConfirmDeviceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ConfirmDevice", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ConfirmDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Requires developer credentials.
     public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest) throws -> AdminConfirmSignUpResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to enter a code provided when they reset their password to update their password.
     public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest) throws -> ConfirmForgotPasswordResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ConfirmForgotPassword", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ConfirmForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a group. Currently only groups with no members can be deleted. Requires developer credentials.
     public func deleteGroup(_ input: DeleteGroupRequest) throws {
-        _ = try request.invoke(operation: "DeleteGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the users in the Amazon Cognito user pool.
     public func listUsers(_ input: ListUsersRequest) throws -> ListUsersResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListUsers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the user import.
     public func startUserImportJob(_ input: StartUserImportJobRequest) throws -> StartUserImportJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartUserImportJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates the user import job.
     public func createUserImportJob(_ input: CreateUserImportJobRequest) throws -> CreateUserImportJobResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUserImportJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds the specified user to the specified group. Requires developer credentials.
     public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws {
-        _ = try request.invoke(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to update a specific attribute (one at a time).
     public func updateUserAttributes(_ input: UpdateUserAttributesRequest) throws -> UpdateUserAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateUserAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists devices, as an administrator. Requires developer credentials.
     public func adminListDevices(_ input: AdminListDevicesRequest) throws -> AdminListDevicesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminListDevices", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminListDevices", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the user attributes and metadata for a user.
     public func getUser(_ input: GetUserRequest) throws -> GetUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified user from the specified group. Requires developer credentials.
     public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) throws {
-        _ = try request.invoke(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows the developer to update the specified user pool client and password policy.
     public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) throws -> UpdateUserPoolClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Signs out users from all devices.
     public func globalSignOut(_ input: GlobalSignOutRequest) throws -> GlobalSignOutResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GlobalSignOut", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates the authentication flow.
     public func initiateAuth(_ input: InitiateAuthRequest) throws -> InitiateAuthResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "InitiateAuth", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "InitiateAuth", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Requires developer credentials.
     public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest) throws -> AdminDeleteUserAttributesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Forgets the device, as an administrator. Requires developer credentials.
     public func adminForgetDevice(_ input: AdminForgetDeviceRequest) throws {
-        _ = try request.invoke(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified user pool with the specified attributes.
     public func updateUserPool(_ input: UpdateUserPoolRequest) throws -> UpdateUserPoolResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateUserPool", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets all the user settings for a specified user name. Works on any user. Requires developer credentials.
     public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) throws -> AdminSetUserSettingsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Requires developer credentials.
     public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest) throws -> AdminResetUserPasswordResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminResetUserPassword", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminResetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates the authentication flow, as an administrator. Requires developer credentials.
     public func adminInitiateAuth(_ input: AdminInitiateAuthRequest) throws -> AdminInitiateAuthResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminInitiateAuth", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminInitiateAuth", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the user settings like multi-factor authentication (MFA). If MFA is to be removed for a particular attribute pass the attribute with code delivery as null. If null list is passed, all MFA options are removed.
     public func setUserSettings(_ input: SetUserSettingsRequest) throws -> SetUserSettingsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SetUserSettings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the groups associated with a user pool. Requires developer credentials.
     public func listGroups(_ input: ListGroupsRequest) throws -> ListGroupsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the header information for the .csv file to be used as input for the user import job.
     public func getCSVHeader(_ input: GetCSVHeaderRequest) throws -> GetCSVHeaderResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetCSVHeader", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetCSVHeader", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms registration of a user and handles the existing alias from a previous user.
     public func confirmSignUp(_ input: ConfirmSignUpRequest) throws -> ConfirmSignUpResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ConfirmSignUp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the specified user as an administrator. Works on any user. Requires developer credentials.
     public func adminEnableUser(_ input: AdminEnableUserRequest) throws -> AdminEnableUserResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AdminEnableUser", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AdminEnableUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the devices.
     public func listDevices(_ input: ListDevicesRequest) throws -> ListDevicesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDevices", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CognitoIdpResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Kinesisanalytics
-public enum KinesisanalyticsError: Error {
+public enum KinesisanalyticsError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case resourceInUseException(message: String?)
     case invalidArgumentException(message: String?)

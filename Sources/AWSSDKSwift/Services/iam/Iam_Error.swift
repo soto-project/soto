@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Iam
-public enum IamError: Error {
+public enum IamError: AWSErrorType {
     case noSuchEntityException(message: String?)
     case invalidInputException(message: String?)
     case serviceFailureException(message: String?)

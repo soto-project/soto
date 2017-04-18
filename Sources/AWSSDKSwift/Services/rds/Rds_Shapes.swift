@@ -29,17 +29,19 @@ import Core
 
 extension Rds {
 
-    public struct DescribeDBParametersMessage: Serializable, Initializable {
+    public struct DescribeDBParametersMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
-        var source: String? = nil
+        public var source: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The name of a specific DB parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBParameterGroupName: String = ""
+        public var dBParameterGroupName: String = ""
 
         public init() {}
 
@@ -53,11 +55,13 @@ extension Rds {
 
     }
 
-    public struct EventsMessage: Serializable, Initializable {
+    public struct EventsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of Event instances. 
-        var events: [Event]? = nil
+        public var events: [Event]? = nil
 
         public init() {}
 
@@ -68,8 +72,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBSubnetGroupResult: Serializable, Initializable {
-        var dBSubnetGroup: DBSubnetGroup? = nil
+    public struct CreateDBSubnetGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSubnetGroup: DBSubnetGroup? = nil
 
         public init() {}
 
@@ -79,13 +85,15 @@ extension Rds {
 
     }
 
-    public struct ResetDBClusterParameterGroupMessage: Serializable, Initializable {
+    public struct ResetDBClusterParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You cannot use this parameter if the ResetAllParameters parameter is set to true.
-        var parameters: [Parameter]? = nil
+        public var parameters: [Parameter]? = nil
         /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You cannot use this parameter if there is a list of parameter names specified for the Parameters parameter.
-        var resetAllParameters: Bool? = nil
+        public var resetAllParameters: Bool? = nil
         /// The name of the DB cluster parameter group to reset.
-        var dBClusterParameterGroupName: String = ""
+        public var dBClusterParameterGroupName: String = ""
 
         public init() {}
 
@@ -97,8 +105,10 @@ extension Rds {
 
     }
 
-    public struct DescribeEngineDefaultParametersResult: Serializable, Initializable {
-        var engineDefaults: EngineDefaults? = nil
+    public struct DescribeEngineDefaultParametersResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var engineDefaults: EngineDefaults? = nil
 
         public init() {}
 
@@ -108,8 +118,10 @@ extension Rds {
 
     }
 
-    public struct RestoreDBClusterFromSnapshotResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct RestoreDBClusterFromSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -119,9 +131,11 @@ extension Rds {
 
     }
 
-    public struct PromoteReadReplicaDBClusterMessage: Serializable, Initializable {
+    public struct PromoteReadReplicaDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the DB cluster Read Replica to promote. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-replica1 
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
 
         public init() {}
 
@@ -131,14 +145,16 @@ extension Rds {
 
     }
 
-    public struct CopyOptionGroupMessage: Serializable, Initializable {
+    public struct CopyOptionGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description for the copied option group.
-        var targetOptionGroupDescription: String = ""
+        public var targetOptionGroupDescription: String = ""
         /// The identifier for the copied option group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-option-group 
-        var targetOptionGroupIdentifier: String = ""
-        var tags: [Tag]? = nil
+        public var targetOptionGroupIdentifier: String = ""
+        public var tags: [Tag]? = nil
         /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid option group.   If the source option group is in the same region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
-        var sourceOptionGroupIdentifier: String = ""
+        public var sourceOptionGroupIdentifier: String = ""
 
         public init() {}
 
@@ -151,15 +167,17 @@ extension Rds {
 
     }
 
-    public struct DBClusterMember: Serializable, Initializable {
+    public struct DBClusterMember: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the instance identifier for this member of the DB cluster.
-        var dBInstanceIdentifier: String? = nil
+        public var dBInstanceIdentifier: String? = nil
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
-        var promotionTier: Int32? = nil
+        public var promotionTier: Int32? = nil
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
-        var isClusterWriter: Bool? = nil
+        public var isClusterWriter: Bool? = nil
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
-        var dBClusterParameterGroupStatus: String? = nil
+        public var dBClusterParameterGroupStatus: String? = nil
 
         public init() {}
 
@@ -172,33 +190,35 @@ extension Rds {
 
     }
 
-    public struct OptionGroupOption: Serializable, Initializable {
+    public struct OptionGroupOption: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether the option requires a port.
-        var portRequired: Bool? = nil
+        public var portRequired: Bool? = nil
         /// Indicates the major engine version that the option is available for.
-        var majorEngineVersion: String? = nil
+        public var majorEngineVersion: String? = nil
         /// Persistent options can't be removed from an option group while DB instances are associated with the option group. If you disassociate all DB instances from the option group, your can remove the persistent option from the option group.
-        var persistent: Bool? = nil
+        public var persistent: Bool? = nil
         /// The minimum required engine version for the option to be applied.
-        var minimumRequiredMinorEngineVersion: String? = nil
+        public var minimumRequiredMinorEngineVersion: String? = nil
         /// The options that conflict with this option.
-        var optionsConflictsWith: [String]? = nil
+        public var optionsConflictsWith: [String]? = nil
         /// The option settings that are available (and the default value) for each option in an option group.
-        var optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil
+        public var optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil
         /// Permanent options can never be removed from an option group. An option group containing a permanent option can't be removed from a DB instance.
-        var permanent: Bool? = nil
+        public var permanent: Bool? = nil
         /// The options that are prerequisites for this option.
-        var optionsDependedOn: [String]? = nil
+        public var optionsDependedOn: [String]? = nil
         /// The description of the option.
-        var description: String? = nil
+        public var description: String? = nil
         /// The versions that are available for the option.
-        var optionGroupOptionVersions: [OptionVersion]? = nil
+        public var optionGroupOptionVersions: [OptionVersion]? = nil
         /// The name of the option.
-        var name: String? = nil
+        public var name: String? = nil
         /// If the option requires a port, specifies the default port for the option.
-        var defaultPort: Int32? = nil
+        public var defaultPort: Int32? = nil
         /// The name of the engine that this option can be applied to.
-        var engineName: String? = nil
+        public var engineName: String? = nil
 
         public init() {}
 
@@ -220,14 +240,16 @@ extension Rds {
 
     }
 
-    public struct CreateDBClusterParameterGroupMessage: Serializable, Initializable {
+    public struct CreateDBClusterParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
-        var dBParameterGroupFamily: String = ""
+        public var dBParameterGroupFamily: String = ""
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        var dBClusterParameterGroupName: String = ""
-        var tags: [Tag]? = nil
+        public var dBClusterParameterGroupName: String = ""
+        public var tags: [Tag]? = nil
         /// The description for the DB cluster parameter group.
-        var description: String = ""
+        public var description: String = ""
 
         public init() {}
 
@@ -240,11 +262,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterMessage: Serializable, Initializable {
+    public struct DBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Contains a list of DB clusters for the user.
-        var dBClusters: [DBCluster]? = nil
+        public var dBClusters: [DBCluster]? = nil
 
         public init() {}
 
@@ -255,13 +279,15 @@ extension Rds {
 
     }
 
-    public struct Endpoint: Serializable, Initializable {
+    public struct Endpoint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the DNS address of the DB instance.
-        var address: String? = nil
+        public var address: String? = nil
         /// Specifies the port that the database engine is listening on.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
-        var hostedZoneId: String? = nil
+        public var hostedZoneId: String? = nil
 
         public init() {}
 
@@ -273,9 +299,11 @@ extension Rds {
 
     }
 
-    public struct DeleteDBSubnetGroupMessage: Serializable, Initializable {
+    public struct DeleteDBSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the database subnet group to delete.  You cannot delete the default subnet group.  Constraints: Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String = ""
+        public var dBSubnetGroupName: String = ""
 
         public init() {}
 
@@ -285,11 +313,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterSnapshotMessage: Serializable, Initializable {
+    public struct DBClusterSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Provides a list of DB cluster snapshots for the user.
-        var dBClusterSnapshots: [DBClusterSnapshot]? = nil
+        public var dBClusterSnapshots: [DBClusterSnapshot]? = nil
 
         public init() {}
 
@@ -300,8 +330,10 @@ extension Rds {
 
     }
 
-    public struct ModifyDBClusterResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct ModifyDBClusterResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -311,8 +343,10 @@ extension Rds {
 
     }
 
-    public struct DescribeEngineDefaultClusterParametersResult: Serializable, Initializable {
-        var engineDefaults: EngineDefaults? = nil
+    public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var engineDefaults: EngineDefaults? = nil
 
         public init() {}
 
@@ -322,8 +356,10 @@ extension Rds {
 
     }
 
-    public struct PurchaseReservedDBInstancesOfferingResult: Serializable, Initializable {
-        var reservedDBInstance: ReservedDBInstance? = nil
+    public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var reservedDBInstance: ReservedDBInstance? = nil
 
         public init() {}
 
@@ -333,8 +369,10 @@ extension Rds {
 
     }
 
-    public struct FailoverDBClusterResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct FailoverDBClusterResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -344,13 +382,15 @@ extension Rds {
 
     }
 
-    public struct CreateDBClusterSnapshotMessage: Serializable, Initializable {
+    public struct CreateDBClusterSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tags to be assigned to the DB cluster snapshot.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
-        var dBClusterSnapshotIdentifier: String = ""
+        public var dBClusterSnapshotIdentifier: String = ""
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
 
         public init() {}
 
@@ -362,11 +402,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterSnapshotAttribute: Serializable, Initializable {
+    public struct DBClusterSnapshotAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
-        var attributeName: String? = nil
+        public var attributeName: String? = nil
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
-        var attributeValues: [String]? = nil
+        public var attributeValues: [String]? = nil
 
         public init() {}
 
@@ -377,15 +419,17 @@ extension Rds {
 
     }
 
-    public struct DomainMembership: Serializable, Initializable {
+    public struct DomainMembership: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the DB instance's Active Directory Domain membership, such as joined, pending-join, failed etc).
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the IAM role to be used when making API calls to the Directory Service.
-        var iAMRoleName: String? = nil
+        public var iAMRoleName: String? = nil
         /// The fully qualified domain name of the Active Directory Domain.
-        var fQDN: String? = nil
+        public var fQDN: String? = nil
         /// The identifier of the Active Directory Domain.
-        var domain: String? = nil
+        public var domain: String? = nil
 
         public init() {}
 
@@ -398,8 +442,10 @@ extension Rds {
 
     }
 
-    public struct RebootDBInstanceResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct RebootDBInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -409,8 +455,10 @@ extension Rds {
 
     }
 
-    public struct ModifyOptionGroupResult: Serializable, Initializable {
-        var optionGroup: OptionGroup? = nil
+    public struct ModifyOptionGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var optionGroup: OptionGroup? = nil
 
         public init() {}
 
@@ -420,11 +468,13 @@ extension Rds {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        var value: String? = nil
+        public var value: String? = nil
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -435,11 +485,13 @@ extension Rds {
 
     }
 
-    public struct ListTagsForResourceMessage: Serializable, Initializable {
+    public struct ListTagsForResourceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The Amazon RDS resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        var resourceName: String = ""
+        public var resourceName: String = ""
 
         public init() {}
 
@@ -450,11 +502,13 @@ extension Rds {
 
     }
 
-    public struct FailoverDBClusterMessage: Serializable, Initializable {
+    public struct FailoverDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Aurora Replica in the DB cluster. For example, mydbcluster-replica1.
-        var targetDBInstanceIdentifier: String? = nil
+        public var targetDBInstanceIdentifier: String? = nil
         /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
 
         public init() {}
 
@@ -465,20 +519,22 @@ extension Rds {
 
     }
 
-    public struct CreateEventSubscriptionMessage: Serializable, Initializable {
+    public struct CreateEventSubscriptionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-        var snsTopicArn: String = ""
+        public var snsTopicArn: String = ""
         /// The name of the subscription. Constraints: The name must be less than 255 characters.
-        var subscriptionName: String = ""
+        public var subscriptionName: String = ""
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
-        var sourceType: String? = nil
-        var tags: [Tag]? = nil
+        public var sourceType: String? = nil
+        public var tags: [Tag]? = nil
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
-        var eventCategories: [String]? = nil
+        public var eventCategories: [String]? = nil
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it. 
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        var sourceIds: [String]? = nil
+        public var sourceIds: [String]? = nil
 
         public init() {}
 
@@ -494,8 +550,10 @@ extension Rds {
 
     }
 
-    public struct DescribeDBSnapshotAttributesResult: Serializable, Initializable {
-        var dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil
+    public struct DescribeDBSnapshotAttributesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil
 
         public init() {}
 
@@ -505,18 +563,20 @@ extension Rds {
 
     }
 
-    public struct CopyDBSnapshotMessage: Serializable, Initializable {
+    public struct CopyDBSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// True to copy all tags from the source DB snapshot to the target DB snapshot; otherwise false. The default is false.
-        var copyTags: Bool? = nil
+        public var copyTags: Bool? = nil
         /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB snapshot using the specified KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted snapshot to a different AWS region, then you must specify a KMS key for the destination AWS region. If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB snapshot to another region, you must set KmsKeyId to the KMS key ID used to encrypt the copy of the DB snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// The identifier for the copied snapshot. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot 
-        var targetDBSnapshotIdentifier: String = ""
-        var tags: [Tag]? = nil
+        public var targetDBSnapshotIdentifier: String = ""
+        public var tags: [Tag]? = nil
         /// The identifier for the source DB snapshot. If you are copying from a shared manual DB snapshot, this must be the ARN of the shared DB snapshot. You cannot copy an encrypted, shared DB snapshot from one AWS region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different region than the copy, specify a valid DB snapshot ARN. For more information, go to  Copying a DB Snapshot.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805 
-        var sourceDBSnapshotIdentifier: String = ""
+        public var sourceDBSnapshotIdentifier: String = ""
         /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the AWS region that contains the source DB snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB snapshot from another AWS region. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the encrypted DB snapshot will be copied to. This region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 region to the us-east-1 region, then you will call the CopyDBSnapshot action in the us-east-1 region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the presigned URL.    SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        var preSignedUrl: String? = nil
+        public var preSignedUrl: String? = nil
 
         public init() {}
 
@@ -531,9 +591,11 @@ extension Rds {
 
     }
 
-    public struct EventCategoriesMessage: Serializable, Initializable {
+    public struct EventCategoriesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of EventCategoriesMap data types.
-        var eventCategoriesMapList: [EventCategoriesMap]? = nil
+        public var eventCategoriesMapList: [EventCategoriesMap]? = nil
 
         public init() {}
 
@@ -543,11 +605,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterParameterGroupDetails: Serializable, Initializable {
+    public struct DBClusterParameterGroupDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Provides a list of parameters for the DB cluster parameter group.
-        var parameters: [Parameter]? = nil
+        public var parameters: [Parameter]? = nil
 
         public init() {}
 
@@ -558,11 +622,13 @@ extension Rds {
 
     }
 
-    public struct RecurringCharge: Serializable, Initializable {
+    public struct RecurringCharge: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The amount of the recurring charge.
-        var recurringChargeAmount: Double? = nil
+        public var recurringChargeAmount: Double? = nil
         /// The frequency of the recurring charge.
-        var recurringChargeFrequency: String? = nil
+        public var recurringChargeFrequency: String? = nil
 
         public init() {}
 
@@ -573,8 +639,10 @@ extension Rds {
 
     }
 
-    public struct ModifyDBInstanceResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct ModifyDBInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -584,11 +652,13 @@ extension Rds {
 
     }
 
-    public struct OptionGroupMembership: Serializable, Initializable {
+    public struct OptionGroupMembership: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed. 
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the option group that the instance belongs to.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
 
         public init() {}
 
@@ -599,9 +669,11 @@ extension Rds {
 
     }
 
-    public struct DeleteDBClusterSnapshotMessage: Serializable, Initializable {
+    public struct DeleteDBClusterSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
-        var dBClusterSnapshotIdentifier: String = ""
+        public var dBClusterSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -611,8 +683,10 @@ extension Rds {
 
     }
 
-    public struct RestoreDBClusterToPointInTimeResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct RestoreDBClusterToPointInTimeResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -622,25 +696,27 @@ extension Rds {
 
     }
 
-    public struct DescribeEventsMessage: Serializable, Initializable {
+    public struct DescribeEventsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The event source to retrieve events for. If no value is specified, all events are returned.
-        var sourceType: String? = nil
+        public var sourceType: String? = nil
         /// A list of event categories that trigger notifications for a event notification subscription.
-        var eventCategories: [String]? = nil
+        public var eventCategories: [String]? = nil
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        var sourceIdentifier: String? = nil
+        public var sourceIdentifier: String? = nil
         /// The number of minutes to retrieve events for. Default: 60
-        var duration: Int32? = nil
+        public var duration: Int32? = nil
 
         public init() {}
 
@@ -658,8 +734,10 @@ extension Rds {
 
     }
 
-    public struct CopyOptionGroupResult: Serializable, Initializable {
-        var optionGroup: OptionGroup? = nil
+    public struct CopyOptionGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var optionGroup: OptionGroup? = nil
 
         public init() {}
 
@@ -669,8 +747,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBInstanceReadReplicaResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct CreateDBInstanceReadReplicaResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -680,25 +760,27 @@ extension Rds {
 
     }
 
-    public struct Option: Serializable, Initializable {
+    public struct Option: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The option settings for this option.
-        var optionSettings: [OptionSetting]? = nil
+        public var optionSettings: [OptionSetting]? = nil
         /// The description of the option.
-        var optionDescription: String? = nil
+        public var optionDescription: String? = nil
         /// The version of the option.
-        var optionVersion: String? = nil
+        public var optionVersion: String? = nil
         /// If the option requires access to a port, then this VPC security group allows access to the port.
-        var vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]? = nil
+        public var vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]? = nil
         /// If the option requires access to a port, then this DB security group allows access to the port.
-        var dBSecurityGroupMemberships: [DBSecurityGroupMembership]? = nil
+        public var dBSecurityGroupMemberships: [DBSecurityGroupMembership]? = nil
         /// Indicate if this option is persistent.
-        var persistent: Bool? = nil
+        public var persistent: Bool? = nil
         /// Indicate if this option is permanent.
-        var permanent: Bool? = nil
+        public var permanent: Bool? = nil
         /// The name of the option.
-        var optionName: String? = nil
+        public var optionName: String? = nil
         /// If required, the port configured for this option to use.
-        var port: Int32? = nil
+        public var port: Int32? = nil
 
         public init() {}
 
@@ -716,11 +798,13 @@ extension Rds {
 
     }
 
-    public struct RemoveTagsFromResourceMessage: Serializable, Initializable {
+    public struct RemoveTagsFromResourceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon RDS resource the tags will be removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        var resourceName: String = ""
+        public var resourceName: String = ""
         /// The tag key (name) of the tag to be removed.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -731,23 +815,25 @@ extension Rds {
 
     }
 
-    public struct OptionGroup: Serializable, Initializable {
+    public struct OptionGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates what options are available in the option group.
-        var options: [Option]? = nil
+        public var options: [Option]? = nil
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances. 
-        var allowsVpcAndNonVpcInstanceMemberships: Bool? = nil
+        public var allowsVpcAndNonVpcInstanceMemberships: Bool? = nil
         /// Specifies the name of the option group.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The Amazon Resource Name (ARN) for the option group.
-        var optionGroupArn: String? = nil
+        public var optionGroupArn: String? = nil
         /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field. 
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         /// Indicates the major engine version associated with this option group.
-        var majorEngineVersion: String? = nil
+        public var majorEngineVersion: String? = nil
         /// Indicates the name of the engine that this option group can be applied to.
-        var engineName: String? = nil
+        public var engineName: String? = nil
         /// Provides a description of the option group.
-        var optionGroupDescription: String? = nil
+        public var optionGroupDescription: String? = nil
 
         public init() {}
 
@@ -764,48 +850,50 @@ extension Rds {
 
     }
 
-    public struct RestoreDBInstanceFromDBSnapshotMessage: Serializable, Initializable {
+    public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// Specify the Active Directory Domain to restore the instance in.
-        var domain: String? = nil
+        public var domain: String? = nil
         /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. 
-        var dBName: String? = nil
+        public var dBName: String? = nil
         /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The password for the given ARN from the Key Store in order to access the device.
-        var tdeCredentialPassword: String? = nil
-        var tags: [Tag]? = nil
+        public var tdeCredentialPassword: String? = nil
+        public var tags: [Tag]? = nil
         /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        var tdeCredentialArn: String? = nil
+        public var tdeCredentialArn: String? = nil
         /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server)   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter is not specified, the IOPS value will be taken from the backup. If this parameter is set to 0, the new instance will be converted to a non-PIOPS instance, which will take additional time, though your DB instance will be available for connections before the conversion starts. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         /// Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window.
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The DB subnet group name to use for the new instance. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// True to copy all tags from the restored DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        var copyTagsToSnapshot: Bool? = nil
+        public var copyTagsToSnapshot: Bool? = nil
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. You can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot.  Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora 
-        var engine: String? = nil
+        public var engine: String? = nil
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        var domainIAMRoleName: String? = nil
+        public var domainIAMRoleName: String? = nil
         /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535 
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The identifier for the DB snapshot to restore from. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
-        var dBSnapshotIdentifier: String = ""
+        public var dBSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -835,11 +923,13 @@ extension Rds {
 
     }
 
-    public struct OrderableDBInstanceOptionsMessage: Serializable, Initializable {
+    public struct OrderableDBInstanceOptionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
-        var orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil
+        public var orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil
 
         public init() {}
 
@@ -850,23 +940,25 @@ extension Rds {
 
     }
 
-    public struct DescribeDBClusterSnapshotsMessage: Serializable, Initializable {
+    public struct DescribeDBClusterSnapshotsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter cannot be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
         /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Set this value to true to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, otherwise set this value to false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
-        var includePublic: Bool? = nil
+        public var includePublic: Bool? = nil
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
-        var snapshotType: String? = nil
+        public var snapshotType: String? = nil
         /// Set this value to true to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, otherwise set this value to false. The default is false. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
-        var includeShared: Bool? = nil
+        public var includeShared: Bool? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// A specific DB cluster snapshot identifier to describe. This parameter cannot be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
-        var dBClusterSnapshotIdentifier: String? = nil
+        public var dBClusterSnapshotIdentifier: String? = nil
 
         public init() {}
 
@@ -883,43 +975,45 @@ extension Rds {
 
     }
 
-    public struct DBClusterSnapshot: Serializable, Initializable {
+    public struct DBClusterSnapshot: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// Specifies the allocated storage size in gigabytes (GB).
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Provides the license model information for this DB cluster snapshot.
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Provides the type of the DB cluster snapshot.
-        var snapshotType: String? = nil
+        public var snapshotType: String? = nil
         /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
-        var dBClusterSnapshotArn: String? = nil
+        public var dBClusterSnapshotArn: String? = nil
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        var clusterCreateTime: Date? = nil
+        public var clusterCreateTime: Date? = nil
         /// Specifies the status of this DB cluster snapshot.
-        var status: String? = nil
+        public var status: String? = nil
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
         /// Provides the version of the database engine for this DB cluster snapshot.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// Provides the master username for the DB cluster snapshot.
-        var masterUsername: String? = nil
+        public var masterUsername: String? = nil
         /// Provides the VPC ID associated with the DB cluster snapshot.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         /// Specifies the name of the database engine.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// Specifies the percentage of the estimated data that has been transferred.
-        var percentProgress: Int32? = nil
+        public var percentProgress: Int32? = nil
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        var snapshotCreateTime: Date? = nil
+        public var snapshotCreateTime: Date? = nil
         /// Specifies whether the DB cluster snapshot is encrypted.
-        var storageEncrypted: Bool? = nil
+        public var storageEncrypted: Bool? = nil
         /// Specifies the identifier for the DB cluster snapshot.
-        var dBClusterSnapshotIdentifier: String? = nil
+        public var dBClusterSnapshotIdentifier: String? = nil
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster snapshot.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
 
         public init() {}
 
@@ -946,8 +1040,10 @@ extension Rds {
 
     }
 
-    public struct PromoteReadReplicaDBClusterResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct PromoteReadReplicaDBClusterResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -957,8 +1053,10 @@ extension Rds {
 
     }
 
-    public struct ModifyDBSubnetGroupResult: Serializable, Initializable {
-        var dBSubnetGroup: DBSubnetGroup? = nil
+    public struct ModifyDBSubnetGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSubnetGroup: DBSubnetGroup? = nil
 
         public init() {}
 
@@ -968,9 +1066,11 @@ extension Rds {
 
     }
 
-    public struct DeleteEventSubscriptionMessage: Serializable, Initializable {
+    public struct DeleteEventSubscriptionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the RDS event notification subscription you want to delete.
-        var subscriptionName: String = ""
+        public var subscriptionName: String = ""
 
         public init() {}
 
@@ -980,9 +1080,11 @@ extension Rds {
 
     }
 
-    public struct DeleteDBSnapshotMessage: Serializable, Initializable {
+    public struct DeleteDBSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The DBSnapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
-        var dBSnapshotIdentifier: String = ""
+        public var dBSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -992,15 +1094,17 @@ extension Rds {
 
     }
 
-    public struct DBInstanceStatusInfo: Serializable, Initializable {
+    public struct DBInstanceStatusInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
-        var status: String? = nil
+        public var status: String? = nil
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
-        var message: String? = nil
+        public var message: String? = nil
         /// This value is currently "read replication."
-        var statusType: String? = nil
+        public var statusType: String? = nil
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        var normal: Bool? = nil
+        public var normal: Bool? = nil
 
         public init() {}
 
@@ -1013,11 +1117,13 @@ extension Rds {
 
     }
 
-    public struct ReservedDBInstancesOfferingMessage: Serializable, Initializable {
+    public struct ReservedDBInstancesOfferingMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A list of reserved DB instance offerings.
-        var reservedDBInstancesOfferings: [ReservedDBInstancesOffering]? = nil
+        public var reservedDBInstancesOfferings: [ReservedDBInstancesOffering]? = nil
 
         public init() {}
 
@@ -1028,12 +1134,14 @@ extension Rds {
 
     }
 
-    public struct Subnet: Serializable, Initializable {
+    public struct Subnet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the identifier of the subnet.
-        var subnetIdentifier: String? = nil
-        var subnetAvailabilityZone: AvailabilityZone? = nil
+        public var subnetIdentifier: String? = nil
+        public var subnetAvailabilityZone: AvailabilityZone? = nil
         /// Specifies the status of the subnet.
-        var subnetStatus: String? = nil
+        public var subnetStatus: String? = nil
 
         public init() {}
 
@@ -1045,15 +1153,17 @@ extension Rds {
 
     }
 
-    public struct EC2SecurityGroup: Serializable, Initializable {
+    public struct EC2SecurityGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the status of the EC2 security group. Status can be "authorizing", "authorized", "revoking", and "revoked".
-        var status: String? = nil
+        public var status: String? = nil
         /// Specifies the id of the EC2 security group.
-        var eC2SecurityGroupId: String? = nil
+        public var eC2SecurityGroupId: String? = nil
         ///  Specifies the AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
-        var eC2SecurityGroupOwnerId: String? = nil
+        public var eC2SecurityGroupOwnerId: String? = nil
         /// Specifies the name of the EC2 security group.
-        var eC2SecurityGroupName: String? = nil
+        public var eC2SecurityGroupName: String? = nil
 
         public init() {}
 
@@ -1066,27 +1176,29 @@ extension Rds {
 
     }
 
-    public struct Parameter: Serializable, Initializable {
+    public struct Parameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the value of the parameter.
-        var parameterValue: String? = nil
+        public var parameterValue: String? = nil
         /// Specifies the valid range of values for the parameter.
-        var allowedValues: String? = nil
+        public var allowedValues: String? = nil
         /// Specifies the valid data type for the parameter.
-        var dataType: String? = nil
+        public var dataType: String? = nil
         /// Specifies the engine specific parameters type.
-        var applyType: String? = nil
+        public var applyType: String? = nil
         /// Specifies the name of the parameter.
-        var parameterName: String? = nil
+        public var parameterName: String? = nil
         /// Indicates the source of the parameter value.
-        var source: String? = nil
+        public var source: String? = nil
         ///  Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. 
-        var isModifiable: Bool? = nil
+        public var isModifiable: Bool? = nil
         /// The earliest engine version to which the parameter can apply.
-        var minimumEngineVersion: String? = nil
+        public var minimumEngineVersion: String? = nil
         /// Indicates when to apply parameter updates.
-        var applyMethod: String? = nil
+        public var applyMethod: String? = nil
         /// Provides a description of the parameter.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1105,13 +1217,15 @@ extension Rds {
 
     }
 
-    public struct ResetDBParameterGroupMessage: Serializable, Initializable {
+    public struct ResetDBParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request.  MySQL  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  MariaDB  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  Oracle  Valid Values (for Apply method): pending-reboot 
-        var parameters: [Parameter]? = nil
+        public var parameters: [Parameter]? = nil
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBParameterGroupName: String = ""
+        public var dBParameterGroupName: String = ""
         ///  Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values.  Default: true 
-        var resetAllParameters: Bool? = nil
+        public var resetAllParameters: Bool? = nil
 
         public init() {}
 
@@ -1123,15 +1237,17 @@ extension Rds {
 
     }
 
-    public struct DescribeEngineDefaultClusterParametersMessage: Serializable, Initializable {
+    public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB cluster parameter group family to return engine parameter information for.
-        var dBParameterGroupFamily: String = ""
+        public var dBParameterGroupFamily: String = ""
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1144,25 +1260,27 @@ extension Rds {
 
     }
 
-    public struct DBEngineVersion: Serializable, Initializable {
+    public struct DBEngineVersion: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The version number of the database engine.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         ///  A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance action. 
-        var supportedCharacterSets: [CharacterSet]? = nil
+        public var supportedCharacterSets: [CharacterSet]? = nil
         ///  The default character set for new instances of this engine version, if the CharacterSetName parameter of the CreateDBInstance API is not specified. 
-        var defaultCharacterSet: CharacterSet? = nil
+        public var defaultCharacterSet: CharacterSet? = nil
         /// The name of the database engine.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action. 
-        var supportedTimezones: [Timezone]? = nil
+        public var supportedTimezones: [Timezone]? = nil
         /// The name of the DB parameter group family for the database engine.
-        var dBParameterGroupFamily: String? = nil
+        public var dBParameterGroupFamily: String? = nil
         /// A list of engine versions that this database engine version can be upgraded to.
-        var validUpgradeTarget: [UpgradeTarget]? = nil
+        public var validUpgradeTarget: [UpgradeTarget]? = nil
         /// The description of the database engine.
-        var dBEngineDescription: String? = nil
+        public var dBEngineDescription: String? = nil
         /// The description of the database engine version.
-        var dBEngineVersionDescription: String? = nil
+        public var dBEngineVersionDescription: String? = nil
 
         public init() {}
 
@@ -1180,21 +1298,23 @@ extension Rds {
 
     }
 
-    public struct DescribeDBLogFilesMessage: Serializable, Initializable {
+    public struct DescribeDBLogFilesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
         /// Filters the available log files for files larger than the specified size.
-        var fileSize: Int64? = nil
+        public var fileSize: Int64? = nil
         /// The pagination token provided in the previous request. If this parameter is specified the response includes only records beyond the marker, up to MaxRecords.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters the available log files for files written since the specified date, in POSIX timestamp format with milliseconds.
-        var fileLastWritten: Int64? = nil
+        public var fileLastWritten: Int64? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// Filters the available log files for log file names that contain the specified string.
-        var filenameContains: String? = nil
+        public var filenameContains: String? = nil
 
         public init() {}
 
@@ -1210,13 +1330,15 @@ extension Rds {
 
     }
 
-    public struct AccountQuota: Serializable, Initializable {
+    public struct AccountQuota: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum allowed value for the quota.
-        var max: Int64? = nil
+        public var max: Int64? = nil
         /// The amount currently used toward the quota maximum.
-        var used: Int64? = nil
+        public var used: Int64? = nil
         /// The name of the Amazon RDS quota for this AWS account.
-        var accountQuotaName: String? = nil
+        public var accountQuotaName: String? = nil
 
         public init() {}
 
@@ -1228,25 +1350,27 @@ extension Rds {
 
     }
 
-    public struct DescribeDBEngineVersionsMessage: Serializable, Initializable {
+    public struct DescribeDBEngineVersionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The database engine version to return. Example: 5.1.49 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
-        var defaultOnly: Bool? = nil
+        public var defaultOnly: Bool? = nil
         /// If this parameter is specified and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version. 
-        var listSupportedTimezones: Bool? = nil
+        public var listSupportedTimezones: Bool? = nil
         /// The database engine to return.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// The name of a specific DB parameter group family to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBParameterGroupFamily: String? = nil
+        public var dBParameterGroupFamily: String? = nil
         /// Not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// If this parameter is specified and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version. 
-        var listSupportedCharacterSets: Bool? = nil
+        public var listSupportedCharacterSets: Bool? = nil
 
         public init() {}
 
@@ -1264,11 +1388,13 @@ extension Rds {
 
     }
 
-    public struct DescribeDBLogFilesResponse: Serializable, Initializable {
+    public struct DescribeDBLogFilesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A pagination token that can be used in a subsequent DescribeDBLogFiles request.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The DB log files returned.
-        var describeDBLogFiles: [DescribeDBLogFilesDetails]? = nil
+        public var describeDBLogFiles: [DescribeDBLogFilesDetails]? = nil
 
         public init() {}
 
@@ -1279,15 +1405,17 @@ extension Rds {
 
     }
 
-    public struct DescribePendingMaintenanceActionsMessage: Serializable, Initializable {
+    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of a resource to return pending maintenance actions for.
-        var resourceIdentifier: String? = nil
+        public var resourceIdentifier: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1300,19 +1428,21 @@ extension Rds {
 
     }
 
-    public struct Event: Serializable, Initializable {
+    public struct Event: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the source type for this event.
-        var sourceType: String? = nil
+        public var sourceType: String? = nil
         /// Provides the identifier for the source of the event.
-        var sourceIdentifier: String? = nil
+        public var sourceIdentifier: String? = nil
         /// Provides the text of this event.
-        var message: String? = nil
+        public var message: String? = nil
         /// Specifies the date and time of the event.
-        var date: Date? = nil
+        public var date: Date? = nil
         /// Specifies the category for the event.
-        var eventCategories: [String]? = nil
+        public var eventCategories: [String]? = nil
         /// The Amazon Resource Name (ARN) for the event.
-        var sourceArn: String? = nil
+        public var sourceArn: String? = nil
 
         public init() {}
 
@@ -1327,9 +1457,11 @@ extension Rds {
 
     }
 
-    public struct DescribeDBClusterSnapshotAttributesMessage: Serializable, Initializable {
+    public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier for the DB cluster snapshot to describe the attributes for.
-        var dBClusterSnapshotIdentifier: String = ""
+        public var dBClusterSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -1339,21 +1471,23 @@ extension Rds {
 
     }
 
-    public struct DBSecurityGroup: Serializable, Initializable {
+    public struct DBSecurityGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the description of the DB security group.
-        var dBSecurityGroupDescription: String? = nil
+        public var dBSecurityGroupDescription: String? = nil
         ///  Contains a list of EC2SecurityGroup elements. 
-        var eC2SecurityGroups: [EC2SecurityGroup]? = nil
+        public var eC2SecurityGroups: [EC2SecurityGroup]? = nil
         /// The Amazon Resource Name (ARN) for the DB security group.
-        var dBSecurityGroupArn: String? = nil
+        public var dBSecurityGroupArn: String? = nil
         /// Provides the VpcId of the DB security group.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         ///  Contains a list of IPRange elements. 
-        var iPRanges: [IPRange]? = nil
+        public var iPRanges: [IPRange]? = nil
         /// Provides the AWS ID of the owner of a specific DB security group.
-        var ownerId: String? = nil
+        public var ownerId: String? = nil
         /// Specifies the name of the DB security group.
-        var dBSecurityGroupName: String? = nil
+        public var dBSecurityGroupName: String? = nil
 
         public init() {}
 
@@ -1369,15 +1503,17 @@ extension Rds {
 
     }
 
-    public struct DescribeEventSubscriptionsMessage: Serializable, Initializable {
+    public struct DescribeEventSubscriptionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The name of the RDS event notification subscription you want to describe.
-        var subscriptionName: String? = nil
+        public var subscriptionName: String? = nil
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1390,13 +1526,15 @@ extension Rds {
 
     }
 
-    public struct PromoteReadReplicaMessage: Serializable, Initializable {
+    public struct PromoteReadReplicaMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 8  
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must be the identifier for an existing Read Replica DB instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: mydbinstance 
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
 
         public init() {}
 
@@ -1408,11 +1546,13 @@ extension Rds {
 
     }
 
-    public struct EventCategoriesMap: Serializable, Initializable {
+    public struct EventCategoriesMap: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The source type that the returned categories belong to
-        var sourceType: String? = nil
+        public var sourceType: String? = nil
         /// The event categories for the specified source type
-        var eventCategories: [String]? = nil
+        public var eventCategories: [String]? = nil
 
         public init() {}
 
@@ -1423,15 +1563,17 @@ extension Rds {
 
     }
 
-    public struct DescribeDBParameterGroupsMessage: Serializable, Initializable {
+    public struct DescribeDBParameterGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The name of a specific DB parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBParameterGroupName: String? = nil
+        public var dBParameterGroupName: String? = nil
 
         public init() {}
 
@@ -1444,8 +1586,10 @@ extension Rds {
 
     }
 
-    public struct CopyDBSnapshotResult: Serializable, Initializable {
-        var dBSnapshot: DBSnapshot? = nil
+    public struct CopyDBSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSnapshot: DBSnapshot? = nil
 
         public init() {}
 
@@ -1455,8 +1599,10 @@ extension Rds {
 
     }
 
-    public struct ModifyEventSubscriptionResult: Serializable, Initializable {
-        var eventSubscription: EventSubscription? = nil
+    public struct ModifyEventSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eventSubscription: EventSubscription? = nil
 
         public init() {}
 
@@ -1466,15 +1612,17 @@ extension Rds {
 
     }
 
-    public struct ModifyOptionGroupMessage: Serializable, Initializable {
+    public struct ModifyOptionGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        var optionGroupName: String = ""
+        public var optionGroupName: String = ""
         /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration.
-        var optionsToInclude: [OptionConfiguration]? = nil
+        public var optionsToInclude: [OptionConfiguration]? = nil
         /// Options in this list are removed from the option group.
-        var optionsToRemove: [String]? = nil
+        public var optionsToRemove: [String]? = nil
         /// Indicates whether the changes should be applied immediately, or during the next maintenance window for each instance associated with the option group.
-        var applyImmediately: Bool? = nil
+        public var applyImmediately: Bool? = nil
 
         public init() {}
 
@@ -1487,11 +1635,13 @@ extension Rds {
 
     }
 
-    public struct DBParameterGroupStatus: Serializable, Initializable {
+    public struct DBParameterGroupStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DP parameter group.
-        var dBParameterGroupName: String? = nil
+        public var dBParameterGroupName: String? = nil
         /// The status of parameter updates.
-        var parameterApplyStatus: String? = nil
+        public var parameterApplyStatus: String? = nil
 
         public init() {}
 
@@ -1502,11 +1652,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterParameterGroupsMessage: Serializable, Initializable {
+    public struct DBClusterParameterGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A list of DB cluster parameter groups.
-        var dBClusterParameterGroups: [DBClusterParameterGroup]? = nil
+        public var dBClusterParameterGroups: [DBClusterParameterGroup]? = nil
 
         public init() {}
 
@@ -1517,11 +1669,13 @@ extension Rds {
 
     }
 
-    public struct OptionGroups: Serializable, Initializable {
+    public struct OptionGroups: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// List of option groups.
-        var optionGroupsList: [OptionGroup]? = nil
+        public var optionGroupsList: [OptionGroup]? = nil
 
         public init() {}
 
@@ -1532,14 +1686,16 @@ extension Rds {
 
     }
 
-    public struct CreateDBSubnetGroupMessage: Serializable, Initializable {
+    public struct CreateDBSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The EC2 Subnet IDs for the DB subnet group.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
         /// The description for the DB subnet group.
-        var dBSubnetGroupDescription: String = ""
+        public var dBSubnetGroupDescription: String = ""
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String = ""
-        var tags: [Tag]? = nil
+        public var dBSubnetGroupName: String = ""
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -1552,8 +1708,10 @@ extension Rds {
 
     }
 
-    public struct CreateOptionGroupResult: Serializable, Initializable {
-        var optionGroup: OptionGroup? = nil
+    public struct CreateOptionGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var optionGroup: OptionGroup? = nil
 
         public init() {}
 
@@ -1563,14 +1721,16 @@ extension Rds {
 
     }
 
-    public struct CopyDBClusterParameterGroupMessage: Serializable, Initializable {
+    public struct CopyDBClusterParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
-        var sourceDBClusterParameterGroupIdentifier: String = ""
+        public var sourceDBClusterParameterGroupIdentifier: String = ""
         /// A description for the copied DB cluster parameter group.
-        var targetDBClusterParameterGroupDescription: String = ""
+        public var targetDBClusterParameterGroupDescription: String = ""
         /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
-        var targetDBClusterParameterGroupIdentifier: String = ""
-        var tags: [Tag]? = nil
+        public var targetDBClusterParameterGroupIdentifier: String = ""
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -1583,8 +1743,10 @@ extension Rds {
 
     }
 
-    public struct RestoreDBInstanceFromDBSnapshotResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -1594,8 +1756,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBParameterGroupResult: Serializable, Initializable {
-        var dBParameterGroup: DBParameterGroup? = nil
+    public struct CreateDBParameterGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBParameterGroup: DBParameterGroup? = nil
 
         public init() {}
 
@@ -1605,25 +1769,27 @@ extension Rds {
 
     }
 
-    public struct OptionSetting: Serializable, Initializable {
+    public struct OptionSetting: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the option setting.
-        var description: String? = nil
+        public var description: String? = nil
         /// The allowed values of the option setting.
-        var allowedValues: String? = nil
+        public var allowedValues: String? = nil
         /// The data type of the option setting.
-        var dataType: String? = nil
+        public var dataType: String? = nil
         /// The name of the option that has settings that you can set.
-        var name: String? = nil
+        public var name: String? = nil
         /// The DB engine specific parameter type.
-        var applyType: String? = nil
+        public var applyType: String? = nil
         /// A Boolean value that, when true, indicates the option setting can be modified from the default.
-        var isModifiable: Bool? = nil
+        public var isModifiable: Bool? = nil
         /// The current value of the option setting.
-        var value: String? = nil
+        public var value: String? = nil
         /// The default value of the option setting.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
         /// Indicates if the option setting is part of a collection.
-        var isCollection: Bool? = nil
+        public var isCollection: Bool? = nil
 
         public init() {}
 
@@ -1641,13 +1807,15 @@ extension Rds {
 
     }
 
-    public struct ModifyDBSubnetGroupMessage: Serializable, Initializable {
+    public struct ModifyDBSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The EC2 subnet IDs for the DB subnet group.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
         /// The description for the DB subnet group.
-        var dBSubnetGroupDescription: String? = nil
+        public var dBSubnetGroupDescription: String? = nil
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String = ""
+        public var dBSubnetGroupName: String = ""
 
         public init() {}
 
@@ -1659,13 +1827,15 @@ extension Rds {
 
     }
 
-    public struct DownloadDBLogFilePortionDetails: Serializable, Initializable {
+    public struct DownloadDBLogFilePortionDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Boolean value that if true, indicates there is more data to be downloaded.
-        var additionalDataPending: Bool? = nil
+        public var additionalDataPending: Bool? = nil
         /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Entries from the specified log file.
-        var logFileData: String? = nil
+        public var logFileData: String? = nil
 
         public init() {}
 
@@ -1677,11 +1847,13 @@ extension Rds {
 
     }
 
-    public struct DBSnapshotAttribute: Serializable, Initializable {
+    public struct DBSnapshotAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
-        var attributeName: String? = nil
+        public var attributeName: String? = nil
         /// The value or values for the manual DB snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB snapshot. If a value of all is in the list, then the manual DB snapshot is public and available for any AWS account to copy or restore.
-        var attributeValues: [String]? = nil
+        public var attributeValues: [String]? = nil
 
         public init() {}
 
@@ -1692,8 +1864,10 @@ extension Rds {
 
     }
 
-    public struct RemoveSourceIdentifierFromSubscriptionResult: Serializable, Initializable {
-        var eventSubscription: EventSubscription? = nil
+    public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eventSubscription: EventSubscription? = nil
 
         public init() {}
 
@@ -1703,9 +1877,11 @@ extension Rds {
 
     }
 
-    public struct DeleteOptionGroupMessage: Serializable, Initializable {
+    public struct DeleteOptionGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the option group to be deleted.  You cannot delete default option groups. 
-        var optionGroupName: String = ""
+        public var optionGroupName: String = ""
 
         public init() {}
 
@@ -1715,8 +1891,10 @@ extension Rds {
 
     }
 
-    public struct DeleteDBClusterResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct DeleteDBClusterResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -1726,11 +1904,13 @@ extension Rds {
 
     }
 
-    public struct AddTagsToResourceMessage: Serializable, Initializable {
+    public struct AddTagsToResourceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tags to be assigned to the Amazon RDS resource.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
         /// The Amazon RDS resource the tags will be added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        var resourceName: String = ""
+        public var resourceName: String = ""
 
         public init() {}
 
@@ -1741,19 +1921,21 @@ extension Rds {
 
     }
 
-    public struct PendingMaintenanceAction: Serializable, Initializable {
+    public struct PendingMaintenanceAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date of the maintenance window when the action will be applied. The maintenance action will be applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
-        var autoAppliedAfterDate: Date? = nil
+        public var autoAppliedAfterDate: Date? = nil
         /// Indicates the type of opt-in request that has been received for the resource.
-        var optInStatus: String? = nil
+        public var optInStatus: String? = nil
         /// The type of pending maintenance action that is available for the resource.
-        var action: String? = nil
+        public var action: String? = nil
         /// The date when the maintenance action will be automatically applied. The maintenance action will be applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
-        var forcedApplyDate: Date? = nil
+        public var forcedApplyDate: Date? = nil
         /// The effective date when the pending maintenance action will be applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
-        var currentApplyDate: Date? = nil
+        public var currentApplyDate: Date? = nil
         /// A description providing more detail about the maintenance action.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1768,8 +1950,10 @@ extension Rds {
 
     }
 
-    public struct DeleteDBSnapshotResult: Serializable, Initializable {
-        var dBSnapshot: DBSnapshot? = nil
+    public struct DeleteDBSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSnapshot: DBSnapshot? = nil
 
         public init() {}
 
@@ -1779,15 +1963,17 @@ extension Rds {
 
     }
 
-    public struct ModifyDBClusterSnapshotAttributeMessage: Serializable, Initializable {
+    public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
-        var attributeName: String = ""
+        public var attributeName: String = ""
         /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
-        var valuesToAdd: [String]? = nil
+        public var valuesToAdd: [String]? = nil
         /// The identifier for the DB cluster snapshot to modify the attributes for.
-        var dBClusterSnapshotIdentifier: String = ""
+        public var dBClusterSnapshotIdentifier: String = ""
         /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
-        var valuesToRemove: [String]? = nil
+        public var valuesToRemove: [String]? = nil
 
         public init() {}
 
@@ -1800,11 +1986,13 @@ extension Rds {
 
     }
 
-    public struct EventSubscriptionsMessage: Serializable, Initializable {
+    public struct EventSubscriptionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of EventSubscriptions data types.
-        var eventSubscriptionsList: [EventSubscription]? = nil
+        public var eventSubscriptionsList: [EventSubscription]? = nil
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1815,9 +2003,11 @@ extension Rds {
 
     }
 
-    public struct DBClusterParameterGroupNameMessage: Serializable, Initializable {
+    public struct DBClusterParameterGroupNameMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        var dBClusterParameterGroupName: String? = nil
+        public var dBClusterParameterGroupName: String? = nil
 
         public init() {}
 
@@ -1827,11 +2017,13 @@ extension Rds {
 
     }
 
-    public struct ModifyDBSnapshotMessage: Serializable, Initializable {
+    public struct ModifyDBSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the DB snapshot to modify.
-        var dBSnapshotIdentifier: String = ""
+        public var dBSnapshotIdentifier: String = ""
         /// The engine version to update the DB snapshot to. 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
 
         public init() {}
 
@@ -1842,11 +2034,13 @@ extension Rds {
 
     }
 
-    public struct ModifyDBClusterParameterGroupMessage: Serializable, Initializable {
+    public struct ModifyDBClusterParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of parameters in the DB cluster parameter group to modify.
-        var parameters: [Parameter] = []
+        public var parameters: [Parameter] = []
         /// The name of the DB cluster parameter group to modify.
-        var dBClusterParameterGroupName: String = ""
+        public var dBClusterParameterGroupName: String = ""
 
         public init() {}
 
@@ -1857,11 +2051,13 @@ extension Rds {
 
     }
 
-    public struct AddSourceIdentifierToSubscriptionMessage: Serializable, Initializable {
+    public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the event source to be added. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        var sourceIdentifier: String = ""
+        public var sourceIdentifier: String = ""
         /// The name of the RDS event notification subscription you want to add a source identifier to.
-        var subscriptionName: String = ""
+        public var subscriptionName: String = ""
 
         public init() {}
 
@@ -1872,19 +2068,21 @@ extension Rds {
 
     }
 
-    public struct DescribeOptionGroupsMessage: Serializable, Initializable {
+    public struct DescribeOptionGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The name of the option group to describe. Cannot be supplied together with EngineName or MajorEngineVersion.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         ///  An optional pagination token provided by a previous DescribeOptionGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters the list of option groups to only include groups associated with a specific database engine.
-        var engineName: String? = nil
+        public var engineName: String? = nil
         /// Filters the list of option groups to only include groups associated with a specific database engine version. If specified, then EngineName must also be specified.
-        var majorEngineVersion: String? = nil
+        public var majorEngineVersion: String? = nil
 
         public init() {}
 
@@ -1899,8 +2097,10 @@ extension Rds {
 
     }
 
-    public struct CreateEventSubscriptionResult: Serializable, Initializable {
-        var eventSubscription: EventSubscription? = nil
+    public struct CreateEventSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eventSubscription: EventSubscription? = nil
 
         public init() {}
 
@@ -1910,11 +2110,13 @@ extension Rds {
 
     }
 
-    public struct DBParameterGroupDetails: Serializable, Initializable {
+    public struct DBParameterGroupDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of Parameter values. 
-        var parameters: [Parameter]? = nil
+        public var parameters: [Parameter]? = nil
 
         public init() {}
 
@@ -1925,11 +2127,13 @@ extension Rds {
 
     }
 
-    public struct VpcSecurityGroupMembership: Serializable, Initializable {
+    public struct VpcSecurityGroupMembership: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the VPC security group.
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the VPC security group.
-        var vpcSecurityGroupId: String? = nil
+        public var vpcSecurityGroupId: String? = nil
 
         public init() {}
 
@@ -1940,11 +2144,13 @@ extension Rds {
 
     }
 
-    public struct PendingMaintenanceActionsMessage: Serializable, Initializable {
+    public struct PendingMaintenanceActionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A list of the pending maintenance actions for the resource.
-        var pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil
+        public var pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil
 
         public init() {}
 
@@ -1955,8 +2161,10 @@ extension Rds {
 
     }
 
-    public struct CopyDBClusterSnapshotResult: Serializable, Initializable {
-        var dBClusterSnapshot: DBClusterSnapshot? = nil
+    public struct CopyDBClusterSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterSnapshot: DBClusterSnapshot? = nil
 
         public init() {}
 
@@ -1966,11 +2174,13 @@ extension Rds {
 
     }
 
-    public struct DBInstanceMessage: Serializable, Initializable {
+    public struct DBInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of DBInstance instances. 
-        var dBInstances: [DBInstance]? = nil
+        public var dBInstances: [DBInstance]? = nil
 
         public init() {}
 
@@ -1981,8 +2191,10 @@ extension Rds {
 
     }
 
-    public struct PromoteReadReplicaResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct PromoteReadReplicaResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -1992,15 +2204,17 @@ extension Rds {
 
     }
 
-    public struct DescribeEngineDefaultParametersMessage: Serializable, Initializable {
+    public struct DescribeEngineDefaultParametersMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB parameter group family.
-        var dBParameterGroupFamily: String = ""
+        public var dBParameterGroupFamily: String = ""
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// Not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -2013,27 +2227,29 @@ extension Rds {
 
     }
 
-    public struct DescribeReservedDBInstancesMessage: Serializable, Initializable {
+    public struct DescribeReservedDBInstancesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The Multi-AZ filter value. Specify this parameter to show only those reservations matching the specified Multi-AZ parameter.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The reserved DB instance identifier filter value. Specify this parameter to show only the reservation that matches the specified reservation ID.
-        var reservedDBInstanceId: String? = nil
+        public var reservedDBInstanceId: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The offering identifier filter value. Specify this parameter to show only purchased reservations matching the specified offering identifier.
-        var reservedDBInstancesOfferingId: String? = nil
+        public var reservedDBInstancesOfferingId: String? = nil
         /// The duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
-        var duration: String? = nil
+        public var duration: String? = nil
         /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"  
-        var offeringType: String? = nil
+        public var offeringType: String? = nil
         /// The DB instance class filter value. Specify this parameter to show only those reservations matching the specified DB instances class.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// The product description filter value. Specify this parameter to show only those reservations matching the specified product description.
-        var productDescription: String? = nil
+        public var productDescription: String? = nil
 
         public init() {}
 
@@ -2052,8 +2268,10 @@ extension Rds {
 
     }
 
-    public struct DeleteDBInstanceResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct DeleteDBInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -2063,31 +2281,33 @@ extension Rds {
 
     }
 
-    public struct OrderableDBInstanceOption: Serializable, Initializable {
+    public struct OrderableDBInstanceOption: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether this orderable DB instance supports provisioned IOPS.
-        var supportsIops: Bool? = nil
+        public var supportsIops: Bool? = nil
         /// A list of Availability Zones for the orderable DB instance.
-        var availabilityZones: [AvailabilityZone]? = nil
+        public var availabilityZones: [AvailabilityZone]? = nil
         /// Indicates whether this orderable DB instance is multi-AZ capable.
-        var multiAZCapable: Bool? = nil
+        public var multiAZCapable: Bool? = nil
         /// Indicates whether this orderable DB instance can have a Read Replica.
-        var readReplicaCapable: Bool? = nil
+        public var readReplicaCapable: Bool? = nil
         /// The engine version of the orderable DB instance.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// Indicates whether the DB instance supports enhanced monitoring at intervals from 1 to 60 seconds.
-        var supportsEnhancedMonitoring: Bool? = nil
+        public var supportsEnhancedMonitoring: Bool? = nil
         /// Indicates the storage type for this orderable DB instance.
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The engine type of the orderable DB instance.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// The license model for the orderable DB instance.
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Indicates whether this is a VPC orderable DB instance.
-        var vpc: Bool? = nil
+        public var vpc: Bool? = nil
         /// The DB instance class for the orderable DB instance.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// Indicates whether this orderable DB instance supports encrypted storage.
-        var supportsStorageEncryption: Bool? = nil
+        public var supportsStorageEncryption: Bool? = nil
 
         public init() {}
 
@@ -2108,13 +2328,15 @@ extension Rds {
 
     }
 
-    public struct EngineDefaults: Serializable, Initializable {
+    public struct EngineDefaults: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
-        var dBParameterGroupFamily: String? = nil
+        public var dBParameterGroupFamily: String? = nil
         ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Contains a list of engine default parameters.
-        var parameters: [Parameter]? = nil
+        public var parameters: [Parameter]? = nil
 
         public init() {}
 
@@ -2126,14 +2348,16 @@ extension Rds {
 
     }
 
-    public struct CopyDBParameterGroupMessage: Serializable, Initializable {
+    public struct CopyDBParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group 
-        var targetDBParameterGroupIdentifier: String = ""
+        public var targetDBParameterGroupIdentifier: String = ""
         ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB parameter group.    Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
-        var sourceDBParameterGroupIdentifier: String = ""
-        var tags: [Tag]? = nil
+        public var sourceDBParameterGroupIdentifier: String = ""
+        public var tags: [Tag]? = nil
         /// A description for the copied DB parameter group.
-        var targetDBParameterGroupDescription: String = ""
+        public var targetDBParameterGroupDescription: String = ""
 
         public init() {}
 
@@ -2146,13 +2370,15 @@ extension Rds {
 
     }
 
-    public struct DeleteDBClusterMessage: Serializable, Initializable {
+    public struct DeleteDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var finalDBSnapshotIdentifier: String? = nil
+        public var finalDBSnapshotIdentifier: String? = nil
         ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.   You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false 
-        var skipFinalSnapshot: Bool? = nil
+        public var skipFinalSnapshot: Bool? = nil
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
 
         public init() {}
 
@@ -2164,40 +2390,42 @@ extension Rds {
 
     }
 
-    public struct CreateDBInstanceReadReplicaMessage: Serializable, Initializable {
+    public struct CreateDBInstanceReadReplicaMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the DB instance that will act as the source for the Read Replica. Each DB instance can have up to five Read Replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.   Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.   Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later.   The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.   If the source DB instance is in the same region as the Read Replica, specify a valid DB instance identifier.   If the source DB instance is in a different region than the Read Replica, specify a valid DB instance ARN. For more information, go to  Constructing a Amazon RDS Amazon Resource Name (ARN).  
-        var sourceDBInstanceIdentifier: String = ""
+        public var sourceDBInstanceIdentifier: String = ""
         /// The compute and memory capacity of the Read Replica. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: Inherits from the source DB instance.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// The DB instance identifier of the Read Replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
-        var dBInstanceIdentifier: String = ""
-        var tags: [Tag]? = nil
+        public var dBInstanceIdentifier: String = ""
+        public var tags: [Tag]? = nil
         /// Specifies the storage type to be associated with the Read Replica.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// The Amazon EC2 Availability Zone that the Read Replica will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// Indicates that minor engine upgrades will be applied automatically to the Read Replica during the maintenance window. Default: Inherits from the source DB instance
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         /// Specifies a DB subnet group for the DB instance. The new DB instance will be created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance is not created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another region.   The specified DB subnet group must be in the same region in which the operation is running.   All Read Replicas in one region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these Read Replicas will be created in the same VPC.   Not specify a DB subnet group. All these Read Replicas will be created outside of any VPC.     Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        var monitoringRoleArn: String? = nil
+        public var monitoringRoleArn: String? = nil
         /// The option group the DB instance will be associated with. If omitted, the default option group for the engine specified will be used.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// True to copy all tags from the Read Replica to snapshots of the Read Replica; otherwise false. The default is false.
-        var copyTagsToSnapshot: Bool? = nil
+        public var copyTagsToSnapshot: Bool? = nil
         /// The URL that contains a Signature Version 4 signed request for the  CreateDBInstanceReadReplica API action in the AWS region that contains the source DB instance. The PreSignedUrl parameter must be used when encrypting a Read Replica from another AWS region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source region that contains the encrypted DB instance. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the Read Replica is created in. This region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL.   For example, if you create an encrypted Read Replica in the us-east-1 region, and the source DB instance is in the west-2 region, then you call the CreateDBInstanceReadReplica action in the us-east-1 region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the Read Replica in the destination region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination region, and the action contained in the presigned URL.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica to be created. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you create an encrypted Read Replica from a DB instance in the us-west-2 region, then your SourceDBInstanceIdentifier would look like this example:  arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-instance-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        var preSignedUrl: String? = nil
+        public var preSignedUrl: String? = nil
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the Read Replica. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        var monitoringInterval: Int32? = nil
+        public var monitoringInterval: Int32? = nil
         /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you create an unencrypted Read Replica and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target Read Replica using the specified KMS encryption key.  If you create an encrypted Read Replica from your AWS account, you can specify a value for KmsKeyId to encrypt the Read Replica with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the Read Replica is encrypted with the same KMS key as the source DB instance.   If you create an encrypted Read Replica in a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
 
         public init() {}
 
@@ -2223,15 +2451,17 @@ extension Rds {
 
     }
 
-    public struct DescribeDBClustersMessage: Serializable, Initializable {
+    public struct DescribeDBClustersMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -2244,10 +2474,12 @@ extension Rds {
 
     }
 
-    public struct OptionGroupOptionsMessage: Serializable, Initializable {
+    public struct OptionGroupOptionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        var marker: String? = nil
-        var optionGroupOptions: [OptionGroupOption]? = nil
+        public var marker: String? = nil
+        public var optionGroupOptions: [OptionGroupOption]? = nil
 
         public init() {}
 
@@ -2258,8 +2490,10 @@ extension Rds {
 
     }
 
-    public struct DeleteEventSubscriptionResult: Serializable, Initializable {
-        var eventSubscription: EventSubscription? = nil
+    public struct DeleteEventSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eventSubscription: EventSubscription? = nil
 
         public init() {}
 
@@ -2269,14 +2503,16 @@ extension Rds {
 
     }
 
-    public struct CreateDBParameterGroupMessage: Serializable, Initializable {
+    public struct CreateDBParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
-        var dBParameterGroupFamily: String = ""
-        var tags: [Tag]? = nil
+        public var dBParameterGroupFamily: String = ""
+        public var tags: [Tag]? = nil
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        var dBParameterGroupName: String = ""
+        public var dBParameterGroupName: String = ""
         /// The description for the DB parameter group.
-        var description: String = ""
+        public var description: String = ""
 
         public init() {}
 
@@ -2289,8 +2525,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBSecurityGroupResult: Serializable, Initializable {
-        var dBSecurityGroup: DBSecurityGroup? = nil
+    public struct CreateDBSecurityGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSecurityGroup: DBSecurityGroup? = nil
 
         public init() {}
 
@@ -2300,8 +2538,10 @@ extension Rds {
 
     }
 
-    public struct CopyDBParameterGroupResult: Serializable, Initializable {
-        var dBParameterGroup: DBParameterGroup? = nil
+    public struct CopyDBParameterGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBParameterGroup: DBParameterGroup? = nil
 
         public init() {}
 
@@ -2311,27 +2551,29 @@ extension Rds {
 
     }
 
-    public struct EventSubscription: Serializable, Initializable {
+    public struct EventSubscription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the RDS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that RDS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
-        var status: String? = nil
+        public var status: String? = nil
         /// The topic ARN of the RDS event notification subscription.
-        var snsTopicArn: String? = nil
+        public var snsTopicArn: String? = nil
         /// A list of source IDs for the RDS event notification subscription.
-        var sourceIdsList: [String]? = nil
+        public var sourceIdsList: [String]? = nil
         /// The source type for the RDS event notification subscription.
-        var sourceType: String? = nil
+        public var sourceType: String? = nil
         /// The RDS event notification subscription Id.
-        var custSubscriptionId: String? = nil
+        public var custSubscriptionId: String? = nil
         /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The Amazon Resource Name (ARN) for the event subscription.
-        var eventSubscriptionArn: String? = nil
+        public var eventSubscriptionArn: String? = nil
         /// The AWS customer account associated with the RDS event notification subscription.
-        var customerAwsId: String? = nil
+        public var customerAwsId: String? = nil
         /// A list of event categories for the RDS event notification subscription.
-        var eventCategoriesList: [String]? = nil
+        public var eventCategoriesList: [String]? = nil
         /// The time the RDS event notification subscription was created.
-        var subscriptionCreationTime: String? = nil
+        public var subscriptionCreationTime: String? = nil
 
         public init() {}
 
@@ -2350,9 +2592,11 @@ extension Rds {
 
     }
 
-    public struct AccountAttributesMessage: Serializable, Initializable {
+    public struct AccountAttributesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
-        var accountQuotas: [AccountQuota]? = nil
+        public var accountQuotas: [AccountQuota]? = nil
 
         public init() {}
 
@@ -2362,11 +2606,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterRole: Serializable, Initializable {
+    public struct DBClusterRole: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
-        var status: String? = nil
+        public var status: String? = nil
 
         public init() {}
 
@@ -2377,82 +2623,84 @@ extension Rds {
 
     }
 
-    public struct CreateDBInstanceMessage: Serializable, Initializable {
+    public struct CreateDBInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The meaning of this parameter differs according to the database engine you use. Type: String  MySQL  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter is not specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 alphanumeric characters   Must begin with a letter or an underscore. Subsequent characters can be letters, underscores, or digits (0-9).   Cannot be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. Default: ORCL  Constraints:   Cannot be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine  
-        var dBName: String? = nil
+        public var dBName: String? = nil
         /// The password for the given ARN from the Key Store in order to access the device.
-        var tdeCredentialPassword: String? = nil
+        public var tdeCredentialPassword: String? = nil
         /// The password for the master database user. Can be any printable ASCII character except "/", """, or "@". Type: String  MySQL  Constraints: Must contain from 8 to 41 characters.  MariaDB  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  SQL Server  Constraints: Must contain from 8 to 128 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon Aurora  Constraints: Must contain from 8 to 41 characters.
-        var masterUserPassword: String? = nil
+        public var masterUserPassword: String? = nil
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
-        var dBSecurityGroups: [String]? = nil
+        public var dBSecurityGroups: [String]? = nil
         ///  The EC2 Availability Zone that the database instance will be created in. For information on regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter cannot be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same region as the current endpoint. 
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window. Default: true 
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas  
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be a multiple between 3 and 10 of the storage amount for the DB instance. Must also be an integer multiple of 1000. For example, if the size of your DB instance is 500 GB, then your Iops value can be 2000, 3000, 4000, or 5000. 
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.
-        var characterSetName: String? = nil
+        public var characterSetName: String? = nil
         /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
         /// The version number of the database engine to use. The following are the database engines and major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS region.  Amazon Aurora     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-2, eu-west-1, us-east-1, us-east-2, us-west-2):  5.6.10a     MariaDB     Version 10.1 (available in these AWS regions: us-east-2):  10.1.16     Version 10.1 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  10.1.14     Version 10.0 (available in all AWS regions):  10.0.24     Version 10.0 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  10.0.17     Microsoft SQL Server 2016     13.00.2164.0.v1 (supported for all editions, and all AWS regions except sa-east-1)    Microsoft SQL Server 2014     12.00.5000.0.v1 (supported for all editions, and all AWS regions)    12.00.4422.0.v1 (supported for all editions except Enterprise Edition, and all AWS regions except us-east-2)    Microsoft SQL Server 2012     11.00.6020.0.v1 (supported for all editions, and all AWS regions)    11.00.5058.0.v1 (supported for all editions, and all AWS regions except us-east-2)    11.00.2100.60.v1 (supported for all editions, and all AWS regions except us-east-2)    Microsoft SQL Server 2008 R2     10.50.6529.0.v1 (supported for all editions, and all AWS regions except us-east-2)    10.50.6000.34.v1 (supported for all editions, and all AWS regions except us-east-2)    10.50.2789.0.v1 (supported for all editions, and all AWS regions except us-east-2)    MySQL     Version 5.7 (available in all AWS regions):  5.7.11     Version 5.7 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.7.10     Version 5.6 (available in all AWS regions):  5.6.29     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.27     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.23     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.19a | 5.6.19b | 5.6.21 | 5.6.21b | 5.6.22     Version 5.5 (available in all AWS regions):  5.5.46     Version 5.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.1.73a | 5.1.73b     Oracle Database Enterprise Edition (oracle-ee)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 12.1 (available in all AWS regions):  12.1.0.2.v1     Version 12.1 (available in all AWS regions except us-gov-west-1):  12.1.0.2.v2 | 12.1.0.2.v3 | 12.1.0.2.v4     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition (oracle-se)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition One (oracle-se1)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition Two (oracle-se2)     Version 12.1 (available in all AWS regions except us-gov-west-1):  12.1.0.2.v2 | 12.1.0.2.v3 | 12.1.0.2.v4     PostgreSQL     Version 9.6:  9.6.1     Version 9.5: 9.5.4 | 9.5.2     Version 9.4:  9.4.9 | 9.4.7 | 9.4.5 | 9.4.4 | 9.4.1     Version 9.3:  9.3.14 | 9.3.12 | 9.3.10 | 9.3.9 | 9.3.6 | 9.3.5 | 9.3.3 | 9.3.2 | 9.3.1      Oracle 12c     12.1.0.2.v6 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v5 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v4 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v3 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v2 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v1 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)       12.1.0.1.v6 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v5 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v4 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v3 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v2 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v1 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    Oracle 11g     11.2.0.4.v10 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v9 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v8 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v7 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v6 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v5 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v4 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v3 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v1 (supported for EE, SE1, and SE, in all AWS regions)    PostgreSQL     Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.5.4     Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2):  9.5.2     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.4.9     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2):  9.4.7     Version 9.4 (available in all AWS regions):  9.4.5     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.4.4     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-gov-west-1, us-west-1, us-west-2):  9.4.1     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.3.10 | 9.3.3 | 9.3.5 | 9.3.6 | 9.3.9     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.3.1 | 9.3.2     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.3.12 | 9.3.14   
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
-        var promotionTier: Int32? = nil
+        public var promotionTier: Int32? = nil
         ///  The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see DB Instance Maintenance.   Format: ddd:hh24:mi-ddd:hh24:mi   Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        var domainIAMRoleName: String? = nil
+        public var domainIAMRoleName: String? = nil
         /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        var copyTagsToSnapshot: Bool? = nil
+        public var copyTagsToSnapshot: Bool? = nil
         /// Specify the Active Directory Domain to create the instance in.
-        var domain: String? = nil
+        public var domain: String? = nil
         /// The KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// The compute and memory capacity of the DB instance. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        var dBInstanceClass: String = ""
+        public var dBInstanceClass: String = ""
         /// Specifies if the DB instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        var multiAZ: Bool? = nil
-        var tags: [Tag]? = nil
+        public var multiAZ: Bool? = nil
+        public var tags: [Tag]? = nil
         /// The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server. 
-        var timezone: String? = nil
+        public var timezone: String? = nil
         /// A list of EC2 VPC security groups to associate with this DB instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The amount of storage (in gigabytes) to be initially allocated for the database instance. Type: Integer  MySQL  Constraints: Must be an integer from 5 to 6144.  MariaDB  Constraints: Must be an integer from 5 to 6144.  PostgreSQL  Constraints: Must be an integer from 5 to 6144.  Oracle  Constraints: Must be an integer from 10 to 6144.  SQL Server  Constraints: Must be an integer from 200 to 4096 (Standard Edition and Enterprise Edition) or from 20 to 4096 (Express Edition and Web Edition)
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license 
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        var tdeCredentialArn: String? = nil
+        public var tdeCredentialArn: String? = nil
         /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine will be used. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBParameterGroupName: String? = nil
+        public var dBParameterGroupName: String? = nil
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see DB Instance Backups.   Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The name of master user for the client DB instance.  MySQL  Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    MariaDB  Constraints:   Must be 1 to 16 alphanumeric characters.   Cannot be a reserved word for the chosen database engine.   Type: String  Oracle  Constraints:   Must be 1 to 30 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    SQL Server  Constraints:   Must be 1 to 128 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Must be 1 to 63 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        var masterUsername: String? = nil
+        public var masterUsername: String? = nil
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        var monitoringRoleArn: String? = nil
+        public var monitoringRoleArn: String? = nil
         /// The name of the database engine to be used for this instance.  Valid Values: mysql | mariadb | oracle-se1 | oracle-se2 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora  Not every database engine is available for every AWS region.
-        var engine: String = ""
+        public var engine: String = ""
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        var monitoringInterval: Int32? = nil
+        public var monitoringInterval: Int32? = nil
         /// Specifies whether the DB instance is encrypted. Default: false
-        var storageEncrypted: Bool? = nil
+        public var storageEncrypted: Bool? = nil
         /// The port number on which the database accepts connections.  MySQL   Default: 3306   Valid Values: 1150-65535  Type: Integer  MariaDB   Default: 3306   Valid Values: 1150-65535  Type: Integer  PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535  Type: Integer
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server).   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
 
         public init() {}
 
@@ -2499,13 +2747,15 @@ extension Rds {
 
     }
 
-    public struct ApplyPendingMaintenanceActionMessage: Serializable, Initializable {
+    public struct ApplyPendingMaintenanceActionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        var resourceIdentifier: String = ""
+        public var resourceIdentifier: String = ""
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate cannot be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
-        var optInType: String = ""
+        public var optInType: String = ""
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
-        var applyAction: String = ""
+        public var applyAction: String = ""
 
         public init() {}
 
@@ -2517,8 +2767,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBClusterParameterGroupResult: Serializable, Initializable {
-        var dBClusterParameterGroup: DBClusterParameterGroup? = nil
+    public struct CreateDBClusterParameterGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterParameterGroup: DBClusterParameterGroup? = nil
 
         public init() {}
 
@@ -2528,15 +2780,17 @@ extension Rds {
 
     }
 
-    public struct ModifyDBSnapshotAttributeMessage: Serializable, Initializable {
+    public struct ModifyDBSnapshotAttributeMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.
-        var attributeName: String = ""
+        public var attributeName: String = ""
         /// A list of DB snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB snapshot restorable by any AWS account. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts.
-        var valuesToAdd: [String]? = nil
+        public var valuesToAdd: [String]? = nil
         /// A list of DB snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore the manual DB snapshot.
-        var valuesToRemove: [String]? = nil
+        public var valuesToRemove: [String]? = nil
         /// The identifier for the DB snapshot to modify the attributes for.
-        var dBSnapshotIdentifier: String = ""
+        public var dBSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -2549,26 +2803,28 @@ extension Rds {
 
     }
 
-    public struct RestoreDBClusterToPointInTimeMessage: Serializable, Initializable {
+    public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster will be encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is note encrypted, then the restore request is rejected.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
         /// The name of the option group for the new DB cluster.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The DB subnet group name to use for the new DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
-        var tags: [Tag]? = nil
+        public var dBSubnetGroupName: String? = nil
+        public var tags: [Tag]? = nil
         /// A lst of VPC security groups that the new DB cluster belongs to.
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2015-03-07T23:45:00Z 
-        var restoreToTime: Date? = nil
+        public var restoreToTime: Date? = nil
         /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
-        var useLatestRestorableTime: Bool? = nil
+        public var useLatestRestorableTime: Bool? = nil
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var sourceDBClusterIdentifier: String = ""
+        public var sourceDBClusterIdentifier: String = ""
 
         public init() {}
 
@@ -2587,73 +2843,75 @@ extension Rds {
 
     }
 
-    public struct DBCluster: Serializable, Initializable {
+    public struct DBCluster: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the DB cluster.
-        var dBClusterArn: String? = nil
+        public var dBClusterArn: String? = nil
         /// Provides a list of VPC security groups that the DB cluster belongs to.
-        var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// Contains one or more identifiers of the Read Replicas associated with this DB cluster.
-        var readReplicaIdentifiers: [String]? = nil
+        public var readReplicaIdentifiers: [String]? = nil
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
-        var hostedZoneId: String? = nil
+        public var hostedZoneId: String? = nil
         /// If present, specifies the name of the character set that this cluster is associated with.
-        var characterSetName: String? = nil
+        public var characterSetName: String? = nil
         /// Specifies the current state of this DB cluster.
-        var status: String? = nil
+        public var status: String? = nil
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        var latestRestorableTime: Date? = nil
+        public var latestRestorableTime: Date? = nil
         /// Indicates the database engine version.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// Specifies the name of the DB cluster parameter group for the DB cluster.
-        var dBClusterParameterGroup: String? = nil
+        public var dBClusterParameterGroup: String? = nil
         /// Contains the identifier of the source DB cluster if this DB cluster is a Read Replica.
-        var replicationSourceIdentifier: String? = nil
+        public var replicationSourceIdentifier: String? = nil
         /// Specifies the progress of the operation as a percentage.
-        var percentProgress: String? = nil
+        public var percentProgress: String? = nil
         /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Aurora Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Aurora distributes the connection requests among the Aurora Replicas in the DB cluster. This functionality can help balance your read workload across multiple Aurora Replicas in your DB cluster.  If a failover occurs, and the Aurora Replica that you are connected to is promoted to be the primary instance, your connection will be dropped. To continue sending your read workload to other Aurora Replicas in the cluster, you can then recoonect to the reader endpoint.
-        var readerEndpoint: String? = nil
+        public var readerEndpoint: String? = nil
         /// The region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
-        var dbClusterResourceId: String? = nil
+        public var dbClusterResourceId: String? = nil
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
-        var endpoint: String? = nil
+        public var endpoint: String? = nil
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be created in.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// Provides the list of option group memberships for this DB cluster.
-        var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil
+        public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// Provides the list of instances that make up the DB cluster.
-        var dBClusterMembers: [DBClusterMember]? = nil
+        public var dBClusterMembers: [DBClusterMember]? = nil
         /// Specifies the allocated storage size in gigabytes (GB).
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
-        var earliestRestorableTime: Date? = nil
+        public var earliestRestorableTime: Date? = nil
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        var clusterCreateTime: Date? = nil
+        public var clusterCreateTime: Date? = nil
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// Contains the master username for the DB cluster.
-        var masterUsername: String? = nil
+        public var masterUsername: String? = nil
         /// Contains the name of the initial database of this DB cluster that was provided at create time, if one was specified when the DB cluster was created. This same name is returned for the life of the DB cluster.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         /// Provides the name of the database engine to be used for this DB cluster.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
-        var dBSubnetGroup: String? = nil
+        public var dBSubnetGroup: String? = nil
         /// Specifies whether the DB cluster is encrypted.
-        var storageEncrypted: Bool? = nil
+        public var storageEncrypted: Bool? = nil
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
-        var associatedRoles: [DBClusterRole]? = nil
+        public var associatedRoles: [DBClusterRole]? = nil
         /// Specifies the port that the database engine is listening on.
-        var port: Int32? = nil
+        public var port: Int32? = nil
 
         public init() {}
 
@@ -2695,11 +2953,13 @@ extension Rds {
 
     }
 
-    public struct DescribeEventCategoriesMessage: Serializable, Initializable {
+    public struct DescribeEventCategoriesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of source that will be generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
-        var sourceType: String? = nil
+        public var sourceType: String? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -2710,8 +2970,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBClusterSnapshotResult: Serializable, Initializable {
-        var dBClusterSnapshot: DBClusterSnapshot? = nil
+    public struct CreateDBClusterSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterSnapshot: DBClusterSnapshot? = nil
 
         public init() {}
 
@@ -2721,8 +2983,10 @@ extension Rds {
 
     }
 
-    public struct ModifyDBClusterSnapshotAttributeResult: Serializable, Initializable {
-        var dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil
+    public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil
 
         public init() {}
 
@@ -2732,8 +2996,10 @@ extension Rds {
 
     }
 
-    public struct AuthorizeDBSecurityGroupIngressResult: Serializable, Initializable {
-        var dBSecurityGroup: DBSecurityGroup? = nil
+    public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSecurityGroup: DBSecurityGroup? = nil
 
         public init() {}
 
@@ -2743,11 +3009,13 @@ extension Rds {
 
     }
 
-    public struct ReservedDBInstanceMessage: Serializable, Initializable {
+    public struct ReservedDBInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A list of reserved DB instances.
-        var reservedDBInstances: [ReservedDBInstance]? = nil
+        public var reservedDBInstances: [ReservedDBInstance]? = nil
 
         public init() {}
 
@@ -2758,17 +3026,19 @@ extension Rds {
 
     }
 
-    public struct DescribeDBClusterParametersMessage: Serializable, Initializable {
+    public struct DescribeDBClusterParametersMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
-        var source: String? = nil
+        public var source: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterParameterGroupName: String = ""
+        public var dBClusterParameterGroupName: String = ""
 
         public init() {}
 
@@ -2782,9 +3052,11 @@ extension Rds {
 
     }
 
-    public struct DeleteDBParameterGroupMessage: Serializable, Initializable {
+    public struct DeleteDBParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You cannot delete a default DB parameter group   Cannot be associated with any DB instances  
-        var dBParameterGroupName: String = ""
+        public var dBParameterGroupName: String = ""
 
         public init() {}
 
@@ -2794,11 +3066,13 @@ extension Rds {
 
     }
 
-    public struct DBSecurityGroupMembership: Serializable, Initializable {
+    public struct DBSecurityGroupMembership: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the DB security group.
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the DB security group.
-        var dBSecurityGroupName: String? = nil
+        public var dBSecurityGroupName: String? = nil
 
         public init() {}
 
@@ -2809,11 +3083,13 @@ extension Rds {
 
     }
 
-    public struct OptionVersion: Serializable, Initializable {
+    public struct OptionVersion: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// True if the version is the default version of the option; otherwise, false.
-        var isDefault: Bool? = nil
+        public var isDefault: Bool? = nil
         /// The version of the option.
-        var version: String? = nil
+        public var version: String? = nil
 
         public init() {}
 
@@ -2824,15 +3100,17 @@ extension Rds {
 
     }
 
-    public struct DBClusterParameterGroup: Serializable, Initializable {
+    public struct DBClusterParameterGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
-        var dBParameterGroupFamily: String? = nil
+        public var dBParameterGroupFamily: String? = nil
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
-        var dBClusterParameterGroupArn: String? = nil
+        public var dBClusterParameterGroupArn: String? = nil
         /// Provides the name of the DB cluster parameter group.
-        var dBClusterParameterGroupName: String? = nil
+        public var dBClusterParameterGroupName: String? = nil
         /// Provides the customer-specified description for this DB cluster parameter group.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -2845,12 +3123,14 @@ extension Rds {
 
     }
 
-    public struct CreateDBSecurityGroupMessage: Serializable, Initializable {
-        var tags: [Tag]? = nil
+    public struct CreateDBSecurityGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var tags: [Tag]? = nil
         /// The description for the DB security group.
-        var dBSecurityGroupDescription: String = ""
+        public var dBSecurityGroupDescription: String = ""
         /// The name for the DB security group. This value is stored as a lowercase string. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"   Example: mysecuritygroup 
-        var dBSecurityGroupName: String = ""
+        public var dBSecurityGroupName: String = ""
 
         public init() {}
 
@@ -2862,19 +3142,21 @@ extension Rds {
 
     }
 
-    public struct OptionGroupOptionSetting: Serializable, Initializable {
+    public struct OptionGroupOptionSetting: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the option group option.
-        var settingName: String? = nil
+        public var settingName: String? = nil
         /// Indicates the acceptable values for the option group option.
-        var allowedValues: String? = nil
+        public var allowedValues: String? = nil
         /// Boolean value where true indicates that this option group option can be changed from the default value.
-        var isModifiable: Bool? = nil
+        public var isModifiable: Bool? = nil
         /// The default value for the option group option.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
         /// The DB engine specific parameter type for the option group option.
-        var applyType: String? = nil
+        public var applyType: String? = nil
         /// The description of the option group option.
-        var settingDescription: String? = nil
+        public var settingDescription: String? = nil
 
         public init() {}
 
@@ -2889,8 +3171,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBClusterResult: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct CreateDBClusterResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -2900,13 +3184,15 @@ extension Rds {
 
     }
 
-    public struct DeleteDBInstanceMessage: Serializable, Initializable {
+    public struct DeleteDBInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.  
-        var finalDBSnapshotIdentifier: String? = nil
+        public var finalDBSnapshotIdentifier: String? = nil
         ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted.  Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false 
-        var skipFinalSnapshot: Bool? = nil
+        public var skipFinalSnapshot: Bool? = nil
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
 
         public init() {}
 
@@ -2918,9 +3204,11 @@ extension Rds {
 
     }
 
-    public struct Timezone: Serializable, Initializable {
+    public struct Timezone: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the time zone.
-        var timezoneName: String? = nil
+        public var timezoneName: String? = nil
 
         public init() {}
 
@@ -2930,11 +3218,13 @@ extension Rds {
 
     }
 
-    public struct RebootDBInstanceMessage: Serializable, Initializable {
+    public struct RebootDBInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
         ///  When true, the reboot will be conducted through a MultiAZ failover.  Constraint: You cannot specify true if the instance is not configured for MultiAZ.
-        var forceFailover: Bool? = nil
+        public var forceFailover: Bool? = nil
 
         public init() {}
 
@@ -2945,23 +3235,25 @@ extension Rds {
 
     }
 
-    public struct DescribeDBSnapshotsMessage: Serializable, Initializable {
+    public struct DescribeDBSnapshotsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous DescribeDBSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Set this value to true to include manual DB snapshots that are public and can be copied or restored by any AWS account, otherwise set this value to false. The default is false. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API.
-        var includePublic: Bool? = nil
+        public var includePublic: Bool? = nil
         /// The type of snapshots to be returned. You can specify one of the following values:    automated - Return all DB snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB snapshots that have been taken by my AWS account.    shared - Return all manual DB snapshots that have been shared to my AWS account.    public - Return all DB snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual snapshots are returned. Shared and public DB snapshots are not included in the returned results by default. You can include shared snapshots with these results by setting the IncludeShared parameter to true. You can include public snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
-        var snapshotType: String? = nil
+        public var snapshotType: String? = nil
         /// Set this value to true to include shared manual DB snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, otherwise set this value to false. The default is false. You can give an AWS account permission to restore a manual DB snapshot from another AWS account by using the ModifyDBSnapshotAttribute API action.
-        var includeShared: Bool? = nil
+        public var includeShared: Bool? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  A specific DB snapshot identifier to describe. This parameter cannot be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   Must be 1 to 255 alphanumeric characters.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
-        var dBSnapshotIdentifier: String? = nil
+        public var dBSnapshotIdentifier: String? = nil
         /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter cannot be used in conjunction with DBSnapshotIdentifier. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String? = nil
+        public var dBInstanceIdentifier: String? = nil
 
         public init() {}
 
@@ -2978,8 +3270,10 @@ extension Rds {
 
     }
 
-    public struct DeleteDBClusterSnapshotResult: Serializable, Initializable {
-        var dBClusterSnapshot: DBClusterSnapshot? = nil
+    public struct DeleteDBClusterSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterSnapshot: DBClusterSnapshot? = nil
 
         public init() {}
 
@@ -2989,8 +3283,10 @@ extension Rds {
 
     }
 
-    public struct RestoreDBInstanceToPointInTimeResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -3000,11 +3296,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterSnapshotAttributesResult: Serializable, Initializable {
+    public struct DBClusterSnapshotAttributesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
-        var dBClusterSnapshotIdentifier: String? = nil
+        public var dBClusterSnapshotIdentifier: String? = nil
         /// The list of attributes and values for the manual DB cluster snapshot.
-        var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil
+        public var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil
 
         public init() {}
 
@@ -3015,13 +3313,15 @@ extension Rds {
 
     }
 
-    public struct DescribeDBLogFilesDetails: Serializable, Initializable {
+    public struct DescribeDBLogFilesDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A POSIX timestamp when the last log entry was written.
-        var lastWritten: Int64? = nil
+        public var lastWritten: Int64? = nil
         /// The size, in bytes, of the log file for the specified DB instance.
-        var size: Int64? = nil
+        public var size: Int64? = nil
         /// The name of the log file for the specified DB instance.
-        var logFileName: String? = nil
+        public var logFileName: String? = nil
 
         public init() {}
 
@@ -3033,11 +3333,13 @@ extension Rds {
 
     }
 
-    public struct DBClusterOptionGroupStatus: Serializable, Initializable {
+    public struct DBClusterOptionGroupStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the status of the DB cluster option group.
-        var status: String? = nil
+        public var status: String? = nil
         /// Specifies the name of the DB cluster option group.
-        var dBClusterOptionGroupName: String? = nil
+        public var dBClusterOptionGroupName: String? = nil
 
         public init() {}
 
@@ -3048,103 +3350,105 @@ extension Rds {
 
     }
 
-    public struct DBInstance: Serializable, Initializable {
+    public struct DBInstance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The meaning of this parameter differs according to the database engine you use. For example, this value returns MySQL, MariaDB, or PostgreSQL information when returning values from CreateDBInstanceReadReplica since Read Replicas are only supported for these engines.  MySQL, MariaDB, SQL Server, PostgreSQL, Amazon Aurora  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Type: String  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
-        var dBName: String? = nil
+        public var dBName: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
-        var enhancedMonitoringResourceArn: String? = nil
+        public var enhancedMonitoringResourceArn: String? = nil
         /// Provides a list of VPC security group elements that the DB instance belongs to.
-        var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// The Active Directory Domain membership records associated with the DB instance.
-        var domainMemberships: [DomainMembership]? = nil
+        public var domainMemberships: [DomainMembership]? = nil
         /// Specifies the current state of this database.
-        var dBInstanceStatus: String? = nil
+        public var dBInstanceStatus: String? = nil
         /// Provides the list of DB parameter groups applied to this DB instance.
-        var dBParameterGroups: [DBParameterGroupStatus]? = nil
+        public var dBParameterGroups: [DBParameterGroupStatus]? = nil
         ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements. 
-        var dBSecurityGroups: [DBSecurityGroupMembership]? = nil
+        public var dBSecurityGroups: [DBSecurityGroupMembership]? = nil
         /// Specifies the name of the Availability Zone the DB instance is located in.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// Provides the list of option group memberships for this DB instance.
-        var optionGroupMemberships: [OptionGroupMembership]? = nil
+        public var optionGroupMemberships: [OptionGroupMembership]? = nil
         /// Indicates that minor version patches are applied automatically.
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// The identifier of the CA certificate for this DB instance.
-        var cACertificateIdentifier: String? = nil
+        public var cACertificateIdentifier: String? = nil
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
-        var dBClusterIdentifier: String? = nil
+        public var dBClusterIdentifier: String? = nil
         /// Indicates the database engine version.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        var latestRestorableTime: Date? = nil
+        public var latestRestorableTime: Date? = nil
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
-        var promotionTier: Int32? = nil
+        public var promotionTier: Int32? = nil
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
-        var copyTagsToSnapshot: Bool? = nil
+        public var copyTagsToSnapshot: Bool? = nil
         /// If present, specifies the name of the character set that this instance is associated with.
-        var characterSetName: String? = nil
+        public var characterSetName: String? = nil
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// The Amazon Resource Name (ARN) for the DB instance.
-        var dBInstanceArn: String? = nil
+        public var dBInstanceArn: String? = nil
         /// The region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the KMS key for the DB instance is accessed.
-        var dbiResourceId: String? = nil
+        public var dbiResourceId: String? = nil
         /// Specifies the connection endpoint.
-        var endpoint: Endpoint? = nil
+        public var endpoint: Endpoint? = nil
         /// Contains the name of the compute and memory capacity class of the DB instance.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         ///  If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance. 
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
-        var pendingModifiedValues: PendingModifiedValues? = nil
+        public var pendingModifiedValues: PendingModifiedValues? = nil
         /// Provides the date and time the DB instance was created.
-        var instanceCreateTime: Date? = nil
+        public var instanceCreateTime: Date? = nil
         /// Specifies if the DB instance is a Multi-AZ deployment.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
-        var readReplicaSourceDBInstanceIdentifier: String? = nil
+        public var readReplicaSourceDBInstanceIdentifier: String? = nil
         /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified. 
-        var timezone: String? = nil
+        public var timezone: String? = nil
         /// Specifies the allocated storage size specified in gigabytes.
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Specifies the storage type associated with DB instance.
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// License model information for this DB instance.
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        var dbInstancePort: Int32? = nil
+        public var dbInstancePort: Int32? = nil
         /// The ARN from the key store with which the instance is associated for TDE encryption.
-        var tdeCredentialArn: String? = nil
+        public var tdeCredentialArn: String? = nil
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to CloudWatch Logs.
-        var monitoringRoleArn: String? = nil
+        public var monitoringRoleArn: String? = nil
         /// The status of a Read Replica. If the instance is not a Read Replica, this will be blank.
-        var statusInfos: [DBInstanceStatusInfo]? = nil
+        public var statusInfos: [DBInstanceStatusInfo]? = nil
         /// Contains the master username for the DB instance.
-        var masterUsername: String? = nil
+        public var masterUsername: String? = nil
         /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
-        var secondaryAvailabilityZone: String? = nil
+        public var secondaryAvailabilityZone: String? = nil
         /// Contains one or more identifiers of Aurora DB clusters that are Read Replicas of this DB instance.
-        var readReplicaDBClusterIdentifiers: [String]? = nil
+        public var readReplicaDBClusterIdentifiers: [String]? = nil
         /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
-        var readReplicaDBInstanceIdentifiers: [String]? = nil
+        public var readReplicaDBInstanceIdentifiers: [String]? = nil
         /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
-        var dBSubnetGroup: DBSubnetGroup? = nil
+        public var dBSubnetGroup: DBSubnetGroup? = nil
         /// Specifies whether the DB instance is encrypted.
-        var storageEncrypted: Bool? = nil
+        public var storageEncrypted: Bool? = nil
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
-        var monitoringInterval: Int32? = nil
+        public var monitoringInterval: Int32? = nil
         /// Provides the name of the database engine to be used for this DB instance.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
-        var dBInstanceIdentifier: String? = nil
+        public var dBInstanceIdentifier: String? = nil
 
         public init() {}
 
@@ -3201,8 +3505,10 @@ extension Rds {
 
     }
 
-    public struct ModifyDBSnapshotAttributeResult: Serializable, Initializable {
-        var dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil
+    public struct ModifyDBSnapshotAttributeResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil
 
         public init() {}
 
@@ -3212,8 +3518,10 @@ extension Rds {
 
     }
 
-    public struct RevokeDBSecurityGroupIngressResult: Serializable, Initializable {
-        var dBSecurityGroup: DBSecurityGroup? = nil
+    public struct RevokeDBSecurityGroupIngressResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSecurityGroup: DBSecurityGroup? = nil
 
         public init() {}
 
@@ -3223,17 +3531,19 @@ extension Rds {
 
     }
 
-    public struct UpgradeTarget: Serializable, Initializable {
+    public struct UpgradeTarget: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the upgrade target database engine.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// The version of the database engine that a DB instance can be upgraded to.
-        var description: String? = nil
+        public var description: String? = nil
         /// The version number of the upgrade target database engine.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// A value that indicates whether the target version will be applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        var autoUpgrade: Bool? = nil
+        public var autoUpgrade: Bool? = nil
         /// A value that indicates whether a database engine will be upgraded to a major version.
-        var isMajorVersionUpgrade: Bool? = nil
+        public var isMajorVersionUpgrade: Bool? = nil
 
         public init() {}
 
@@ -3247,11 +3557,13 @@ extension Rds {
 
     }
 
-    public struct DBSecurityGroupMessage: Serializable, Initializable {
+    public struct DBSecurityGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of DBSecurityGroup instances. 
-        var dBSecurityGroups: [DBSecurityGroup]? = nil
+        public var dBSecurityGroups: [DBSecurityGroup]? = nil
 
         public init() {}
 
@@ -3262,8 +3574,10 @@ extension Rds {
 
     }
 
-    public struct ApplyPendingMaintenanceActionResult: Serializable, Initializable {
-        var resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil
+    public struct ApplyPendingMaintenanceActionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil
 
         public init() {}
 
@@ -3273,23 +3587,27 @@ extension Rds {
 
     }
 
-    public struct DescribeAccountAttributesMessage: Serializable, Initializable {
+    public struct DescribeAccountAttributesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeOptionGroupOptionsMessage: Serializable, Initializable {
+    public struct DescribeOptionGroupOptionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// A required parameter. Options available for the given engine name will be described.
-        var engineName: String = ""
+        public var engineName: String = ""
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// If specified, filters the results to include only options for the specified major engine version.
-        var majorEngineVersion: String? = nil
+        public var majorEngineVersion: String? = nil
 
         public init() {}
 
@@ -3303,12 +3621,14 @@ extension Rds {
 
     }
 
-    public struct CreateDBSnapshotMessage: Serializable, Initializable {
-        var tags: [Tag]? = nil
+    public struct CreateDBSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var tags: [Tag]? = nil
         /// The identifier for the DB snapshot. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        var dBSnapshotIdentifier: String = ""
+        public var dBSnapshotIdentifier: String = ""
         /// The DB instance identifier. This is the unique key that identifies a DB instance. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
 
         public init() {}
 
@@ -3320,16 +3640,18 @@ extension Rds {
 
     }
 
-    public struct CreateOptionGroupMessage: Serializable, Initializable {
+    public struct CreateOptionGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the name of the option group to be created. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: myoptiongroup 
-        var optionGroupName: String = ""
+        public var optionGroupName: String = ""
         /// Specifies the name of the engine that this option group should be associated with.
-        var engineName: String = ""
-        var tags: [Tag]? = nil
+        public var engineName: String = ""
+        public var tags: [Tag]? = nil
         /// The description of the option group.
-        var optionGroupDescription: String = ""
+        public var optionGroupDescription: String = ""
         /// Specifies the major version of the engine that this option group should be associated with.
-        var majorEngineVersion: String = ""
+        public var majorEngineVersion: String = ""
 
         public init() {}
 
@@ -3343,15 +3665,17 @@ extension Rds {
 
     }
 
-    public struct DescribeDBClusterParameterGroupsMessage: Serializable, Initializable {
+    public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterParameterGroupName: String? = nil
+        public var dBClusterParameterGroupName: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -3364,15 +3688,17 @@ extension Rds {
 
     }
 
-    public struct DescribeSourceRegionsMessage: Serializable, Initializable {
+    public struct DescribeSourceRegionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeSourceRegions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The source region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.  
-        var regionName: String? = nil
+        public var regionName: String? = nil
 
         public init() {}
 
@@ -3385,19 +3711,21 @@ extension Rds {
 
     }
 
-    public struct Certificate: Serializable, Initializable {
+    public struct Certificate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The thumbprint of the certificate.
-        var thumbprint: String? = nil
+        public var thumbprint: String? = nil
         /// The starting date from which the certificate is valid.
-        var validFrom: Date? = nil
+        public var validFrom: Date? = nil
         /// The final date that the certificate continues to be valid.
-        var validTill: Date? = nil
+        public var validTill: Date? = nil
         /// The unique key that identifies a certificate.
-        var certificateIdentifier: String? = nil
+        public var certificateIdentifier: String? = nil
         /// The type of the certificate.
-        var certificateType: String? = nil
+        public var certificateType: String? = nil
 
         public init() {}
 
@@ -3412,27 +3740,29 @@ extension Rds {
 
     }
 
-    public struct ReservedDBInstancesOffering: Serializable, Initializable {
+    public struct ReservedDBInstancesOffering: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The database engine used by the offering.
-        var productDescription: String? = nil
+        public var productDescription: String? = nil
         /// Indicates if the offering applies to Multi-AZ deployments.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The recurring price charged to run this reserved DB instance.
-        var recurringCharges: [RecurringCharge]? = nil
+        public var recurringCharges: [RecurringCharge]? = nil
         /// The hourly price charged for this offering.
-        var usagePrice: Double? = nil
+        public var usagePrice: Double? = nil
         /// The currency code for the reserved DB instance offering.
-        var currencyCode: String? = nil
+        public var currencyCode: String? = nil
         /// The offering identifier.
-        var reservedDBInstancesOfferingId: String? = nil
+        public var reservedDBInstancesOfferingId: String? = nil
         /// The duration of the offering in seconds.
-        var duration: Int32? = nil
+        public var duration: Int32? = nil
         /// The offering type.
-        var offeringType: String? = nil
+        public var offeringType: String? = nil
         /// The fixed price charged for this offering.
-        var fixedPrice: Double? = nil
+        public var fixedPrice: Double? = nil
         /// The DB instance class for the reserved DB instance.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
 
         public init() {}
 
@@ -3451,9 +3781,11 @@ extension Rds {
 
     }
 
-    public struct AvailabilityZone: Serializable, Initializable {
+    public struct AvailabilityZone: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the availability zone.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -3463,11 +3795,13 @@ extension Rds {
 
     }
 
-    public struct CharacterSet: Serializable, Initializable {
+    public struct CharacterSet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the character set.
-        var characterSetDescription: String? = nil
+        public var characterSetDescription: String? = nil
         /// The name of the character set.
-        var characterSetName: String? = nil
+        public var characterSetName: String? = nil
 
         public init() {}
 
@@ -3478,17 +3812,19 @@ extension Rds {
 
     }
 
-    public struct ModifyEventSubscriptionMessage: Serializable, Initializable {
+    public struct ModifyEventSubscriptionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-        var snsTopicArn: String? = nil
+        public var snsTopicArn: String? = nil
         /// The name of the RDS event notification subscription.
-        var subscriptionName: String = ""
+        public var subscriptionName: String = ""
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
-        var sourceType: String? = nil
+        public var sourceType: String? = nil
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
-        var eventCategories: [String]? = nil
+        public var eventCategories: [String]? = nil
         ///  A Boolean value; set to true to activate the subscription. 
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
 
         public init() {}
 
@@ -3502,52 +3838,54 @@ extension Rds {
 
     }
 
-    public struct RestoreDBInstanceToPointInTimeMessage: Serializable, Initializable {
+    public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specify the Active Directory Domain to restore the instance in.
-        var domain: String? = nil
+        public var domain: String? = nil
         /// The port number on which the database accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB instance.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The database name for the restored DB instance.  This parameter is not used for the MySQL or MariaDB engines. 
-        var dBName: String? = nil
+        public var dBName: String? = nil
         /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The password for the given ARN from the Key Store in order to access the device.
-        var tdeCredentialPassword: String? = nil
-        var tags: [Tag]? = nil
+        public var tdeCredentialPassword: String? = nil
+        public var tags: [Tag]? = nil
         /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        var tdeCredentialArn: String? = nil
+        public var tdeCredentialArn: String? = nil
         /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2009-09-07T23:45:00Z 
-        var restoreTime: Date? = nil
+        public var restoreTime: Date? = nil
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         /// Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window.
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// The name of the new database instance to be created. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var targetDBInstanceIdentifier: String = ""
+        public var targetDBInstanceIdentifier: String = ""
         /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The DB subnet group name to use for the new instance. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// True to copy all tags from the restored DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        var copyTagsToSnapshot: Bool? = nil
+        public var copyTagsToSnapshot: Bool? = nil
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source  Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora 
-        var engine: String? = nil
+        public var engine: String? = nil
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        var domainIAMRoleName: String? = nil
+        public var domainIAMRoleName: String? = nil
         ///  Specifies whether (true) or not (false) the DB instance is restored from the latest backup time.  Default: false  Constraints: Cannot be specified if RestoreTime parameter is provided.
-        var useLatestRestorableTime: Bool? = nil
+        public var useLatestRestorableTime: Bool? = nil
         /// The identifier of the source DB instance from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var sourceDBInstanceIdentifier: String = ""
+        public var sourceDBInstanceIdentifier: String = ""
         /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: The same DBInstanceClass as the original DB instance.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
 
         public init() {}
 
@@ -3579,8 +3917,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBInstanceResult: Serializable, Initializable {
-        var dBInstance: DBInstance? = nil
+    public struct CreateDBInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBInstance: DBInstance? = nil
 
         public init() {}
 
@@ -3590,37 +3930,39 @@ extension Rds {
 
     }
 
-    public struct ReservedDBInstance: Serializable, Initializable {
+    public struct ReservedDBInstance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The recurring price charged to run this reserved DB instance.
-        var recurringCharges: [RecurringCharge]? = nil
+        public var recurringCharges: [RecurringCharge]? = nil
         /// Indicates if the reservation applies to Multi-AZ deployments.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The hourly price charged for this reserved DB instance.
-        var usagePrice: Double? = nil
+        public var usagePrice: Double? = nil
         /// The state of the reserved DB instance.
-        var state: String? = nil
+        public var state: String? = nil
         /// The Amazon Resource Name (ARN) for the reserved DB instance.
-        var reservedDBInstanceArn: String? = nil
+        public var reservedDBInstanceArn: String? = nil
         /// The offering type of this reserved DB instance.
-        var offeringType: String? = nil
+        public var offeringType: String? = nil
         /// The description of the reserved DB instance.
-        var productDescription: String? = nil
+        public var productDescription: String? = nil
         /// The time the reservation started.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// The unique identifier for the reservation.
-        var reservedDBInstanceId: String? = nil
+        public var reservedDBInstanceId: String? = nil
         /// The number of reserved DB instances.
-        var dBInstanceCount: Int32? = nil
+        public var dBInstanceCount: Int32? = nil
         /// The currency code for the reserved DB instance.
-        var currencyCode: String? = nil
+        public var currencyCode: String? = nil
         /// The offering identifier.
-        var reservedDBInstancesOfferingId: String? = nil
+        public var reservedDBInstancesOfferingId: String? = nil
         /// The duration of the reservation in seconds.
-        var duration: Int32? = nil
+        public var duration: Int32? = nil
         /// The DB instance class for the reserved DB instance.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// The fixed price charged for this reserved DB instance.
-        var fixedPrice: Double? = nil
+        public var fixedPrice: Double? = nil
 
         public init() {}
 
@@ -3644,11 +3986,13 @@ extension Rds {
 
     }
 
-    public struct ModifyDBParameterGroupMessage: Serializable, Initializable {
+    public struct ModifyDBParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
-        var parameters: [Parameter] = []
+        public var parameters: [Parameter] = []
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBParameterGroupName: String = ""
+        public var dBParameterGroupName: String = ""
 
         public init() {}
 
@@ -3659,15 +4003,17 @@ extension Rds {
 
     }
 
-    public struct DescribeCertificatesMessage: Serializable, Initializable {
+    public struct DescribeCertificatesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var certificateIdentifier: String? = nil
+        public var certificateIdentifier: String? = nil
 
         public init() {}
 
@@ -3680,9 +4026,11 @@ extension Rds {
 
     }
 
-    public struct DeleteDBClusterParameterGroupMessage: Serializable, Initializable {
+    public struct DeleteDBClusterParameterGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You cannot delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
-        var dBClusterParameterGroupName: String = ""
+        public var dBClusterParameterGroupName: String = ""
 
         public init() {}
 
@@ -3692,11 +4040,13 @@ extension Rds {
 
     }
 
-    public struct RemoveRoleFromDBClusterMessage: Serializable, Initializable {
+    public struct RemoveRoleFromDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The name of the DB cluster to disassociate the IAM role rom.
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
 
         public init() {}
 
@@ -3707,15 +4057,17 @@ extension Rds {
 
     }
 
-    public struct DescribeDBSubnetGroupsMessage: Serializable, Initializable {
+    public struct DescribeDBSubnetGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The name of the DB subnet group to return details for.
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -3728,8 +4080,10 @@ extension Rds {
 
     }
 
-    public struct DescribeDBClusterSnapshotAttributesResult: Serializable, Initializable {
-        var dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil
+    public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil
 
         public init() {}
 
@@ -3739,13 +4093,15 @@ extension Rds {
 
     }
 
-    public struct SourceRegion: Serializable, Initializable {
+    public struct SourceRegion: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the source region.
-        var status: String? = nil
+        public var status: String? = nil
         /// The source region endpoint.
-        var endpoint: String? = nil
+        public var endpoint: String? = nil
         /// The source region name.
-        var regionName: String? = nil
+        public var regionName: String? = nil
 
         public init() {}
 
@@ -3757,11 +4113,13 @@ extension Rds {
 
     }
 
-    public struct ResourcePendingMaintenanceActions: Serializable, Initializable {
+    public struct ResourcePendingMaintenanceActions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the resource that has pending maintenance actions.
-        var resourceIdentifier: String? = nil
+        public var resourceIdentifier: String? = nil
         /// A list that provides details about the pending maintenance actions for the resource.
-        var pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil
+        public var pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil
 
         public init() {}
 
@@ -3772,9 +4130,11 @@ extension Rds {
 
     }
 
-    public struct DeleteDBSecurityGroupMessage: Serializable, Initializable {
+    public struct DeleteDBSecurityGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the DB security group to delete.  You cannot delete the default DB security group.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
-        var dBSecurityGroupName: String = ""
+        public var dBSecurityGroupName: String = ""
 
         public init() {}
 
@@ -3784,8 +4144,10 @@ extension Rds {
 
     }
 
-    public struct CreateDBSnapshotResult: Serializable, Initializable {
-        var dBSnapshot: DBSnapshot? = nil
+    public struct CreateDBSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSnapshot: DBSnapshot? = nil
 
         public init() {}
 
@@ -3795,11 +4157,13 @@ extension Rds {
 
     }
 
-    public struct DBSubnetGroupMessage: Serializable, Initializable {
+    public struct DBSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of DBSubnetGroup instances. 
-        var dBSubnetGroups: [DBSubnetGroup]? = nil
+        public var dBSubnetGroups: [DBSubnetGroup]? = nil
 
         public init() {}
 
@@ -3810,8 +4174,10 @@ extension Rds {
 
     }
 
-    public struct RestoreDBClusterFromS3Result: Serializable, Initializable {
-        var dBCluster: DBCluster? = nil
+    public struct RestoreDBClusterFromS3Result: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBCluster: DBCluster? = nil
 
         public init() {}
 
@@ -3821,11 +4187,13 @@ extension Rds {
 
     }
 
-    public struct DBSnapshotMessage: Serializable, Initializable {
+    public struct DBSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of DBSnapshot instances. 
-        var dBSnapshots: [DBSnapshot]? = nil
+        public var dBSnapshots: [DBSnapshot]? = nil
 
         public init() {}
 
@@ -3836,8 +4204,10 @@ extension Rds {
 
     }
 
-    public struct CopyDBClusterParameterGroupResult: Serializable, Initializable {
-        var dBClusterParameterGroup: DBClusterParameterGroup? = nil
+    public struct CopyDBClusterParameterGroupResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBClusterParameterGroup: DBClusterParameterGroup? = nil
 
         public init() {}
 
@@ -3847,8 +4217,10 @@ extension Rds {
 
     }
 
-    public struct AddSourceIdentifierToSubscriptionResult: Serializable, Initializable {
-        var eventSubscription: EventSubscription? = nil
+    public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eventSubscription: EventSubscription? = nil
 
         public init() {}
 
@@ -3858,11 +4230,13 @@ extension Rds {
 
     }
 
-    public struct DBSnapshotAttributesResult: Serializable, Initializable {
+    public struct DBSnapshotAttributesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of attributes and values for the manual DB snapshot.
-        var dBSnapshotAttributes: [DBSnapshotAttribute]? = nil
+        public var dBSnapshotAttributes: [DBSnapshotAttribute]? = nil
         /// The identifier of the manual DB snapshot that the attributes apply to.
-        var dBSnapshotIdentifier: String? = nil
+        public var dBSnapshotIdentifier: String? = nil
 
         public init() {}
 
@@ -3873,11 +4247,13 @@ extension Rds {
 
     }
 
-    public struct AddRoleToDBClusterMessage: Serializable, Initializable {
+    public struct AddRoleToDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The name of the DB cluster to associate the IAM role with.
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
 
         public init() {}
 
@@ -3888,19 +4264,21 @@ extension Rds {
 
     }
 
-    public struct DBSubnetGroup: Serializable, Initializable {
+    public struct DBSubnetGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the DB subnet group.
-        var dBSubnetGroupArn: String? = nil
+        public var dBSubnetGroupArn: String? = nil
         /// Provides the status of the DB subnet group.
-        var subnetGroupStatus: String? = nil
+        public var subnetGroupStatus: String? = nil
         /// Provides the description of the DB subnet group.
-        var dBSubnetGroupDescription: String? = nil
+        public var dBSubnetGroupDescription: String? = nil
         /// The name of the DB subnet group.
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// Provides the VpcId of the DB subnet group.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         ///  Contains a list of Subnet elements. 
-        var subnets: [Subnet]? = nil
+        public var subnets: [Subnet]? = nil
 
         public init() {}
 
@@ -3915,11 +4293,13 @@ extension Rds {
 
     }
 
-    public struct RemoveSourceIdentifierFromSubscriptionMessage: Serializable, Initializable {
+    public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group. 
-        var sourceIdentifier: String = ""
+        public var sourceIdentifier: String = ""
         /// The name of the RDS event notification subscription you want to remove a source identifier from.
-        var subscriptionName: String = ""
+        public var subscriptionName: String = ""
 
         public init() {}
 
@@ -3930,17 +4310,19 @@ extension Rds {
 
     }
 
-    public struct AuthorizeDBSecurityGroupIngressMessage: Serializable, Initializable {
+    public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IP range to authorize.
-        var cIDRIP: String? = nil
+        public var cIDRIP: String? = nil
         /// The name of the DB security group to add authorization to.
-        var dBSecurityGroupName: String = ""
+        public var dBSecurityGroupName: String = ""
         ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        var eC2SecurityGroupId: String? = nil
+        public var eC2SecurityGroupId: String? = nil
         ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        var eC2SecurityGroupOwnerId: String? = nil
+        public var eC2SecurityGroupOwnerId: String? = nil
         ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        var eC2SecurityGroupName: String? = nil
+        public var eC2SecurityGroupName: String? = nil
 
         public init() {}
 
@@ -3954,54 +4336,56 @@ extension Rds {
 
     }
 
-    public struct RestoreDBClusterFromS3Message: Serializable, Initializable {
+    public struct RestoreDBClusterFromS3Message: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// The KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        var kmsKeyId: String? = nil
-        var tags: [Tag]? = nil
+        public var kmsKeyId: String? = nil
+        public var tags: [Tag]? = nil
         /// The version of the database that the backup files were created from. MySQL version 5.5 and 5.6 are supported.  Example: 5.6.22 
-        var sourceEngineVersion: String = ""
+        public var sourceEngineVersion: String = ""
         /// A list of EC2 VPC security groups to associate with the restored DB cluster.
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket.  Valid values: mysql 
-        var sourceEngine: String = ""
+        public var sourceEngine: String = ""
         /// The prefix for all of the file names that contain the data used to create the Amazon Aurora DB cluster. If you do not specify a SourceS3Prefix value, then the Amazon Aurora DB cluster is created by using all of the files in the Amazon S3 bucket.
-        var s3Prefix: String? = nil
+        public var s3Prefix: String? = nil
         /// The number of days for which automated backups of the restored DB cluster are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        var masterUserPassword: String = ""
+        public var masterUserPassword: String = ""
         /// A value that indicates that the restored DB cluster should be associated with the specified CharacterSet.
-        var characterSetName: String? = nil
+        public var characterSetName: String? = nil
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The name of the DB cluster to create from the source data in the S3 bucket. This parameter is isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
         /// A value that indicates that the restored DB cluster should be associated with the specified option group. Permanent options cannot be removed from an option group. An option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The version number of the database engine to use.  Aurora  Example: 5.6.10a 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        var masterUsername: String = ""
+        public var masterUsername: String = ""
         /// A DB subnet group to associate with the restored DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// The name of the Amazon S3 bucket that contains the data used to create the Amazon Aurora DB cluster.
-        var s3BucketName: String = ""
+        public var s3BucketName: String = ""
         /// The name of the database engine to be used for the restored DB cluster. Valid Values: aurora 
-        var engine: String = ""
+        public var engine: String = ""
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// The database name for the restored DB cluster.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         /// Specifies whether the restored DB cluster is encrypted.
-        var storageEncrypted: Bool? = nil
+        public var storageEncrypted: Bool? = nil
         /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, default.aurora5.6 will be used.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterParameterGroupName: String? = nil
+        public var dBClusterParameterGroupName: String? = nil
         /// The port number on which the instances in the restored DB cluster accept connections.  Default: 3306 
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon RDS to access the Amazon S3 bucket on your behalf.
-        var s3IngestionRoleArn: String = ""
+        public var s3IngestionRoleArn: String = ""
 
         public init() {}
 
@@ -4034,29 +4418,31 @@ extension Rds {
 
     }
 
-    public struct ModifyDBClusterMessage: Serializable, Initializable {
+    public struct ModifyDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must be the identifier for an existing DB cluster.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
         /// A value that indicates that the DB cluster should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case, and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options cannot be removed from an option group. The option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// A lst of VPC security groups that the DB cluster will belong to.
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        var masterUserPassword: String? = nil
+        public var masterUserPassword: String? = nil
         /// The name of the DB cluster parameter group to use for the DB cluster.
-        var dBClusterParameterGroupName: String? = nil
+        public var dBClusterParameterGroupName: String? = nil
         /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
-        var applyImmediately: Bool? = nil
+        public var applyImmediately: Bool? = nil
         /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
-        var newDBClusterIdentifier: String? = nil
+        public var newDBClusterIdentifier: String? = nil
 
         public init() {}
 
@@ -4076,11 +4462,13 @@ extension Rds {
 
     }
 
-    public struct CertificateMessage: Serializable, Initializable {
+    public struct CertificateMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The list of Certificate objects for the AWS account.
-        var certificates: [Certificate]? = nil
+        public var certificates: [Certificate]? = nil
 
         public init() {}
 
@@ -4091,9 +4479,11 @@ extension Rds {
 
     }
 
-    public struct TagListMessage: Serializable, Initializable {
+    public struct TagListMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of tags returned by the ListTagsForResource operation.
-        var tagList: [Tag]? = nil
+        public var tagList: [Tag]? = nil
 
         public init() {}
 
@@ -4103,17 +4493,19 @@ extension Rds {
 
     }
 
-    public struct CopyDBClusterSnapshotMessage: Serializable, Initializable {
+    public struct CopyDBClusterSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        var preSignedUrl: String? = nil
-        var copyTags: Bool? = nil
+        public var preSignedUrl: String? = nil
+        public var copyTags: Bool? = nil
         /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        var kmsKeyId: String? = nil
-        var tags: [Tag]? = nil
+        public var kmsKeyId: String? = nil
+        public var tags: [Tag]? = nil
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
-        var targetDBClusterSnapshotIdentifier: String = ""
+        public var targetDBClusterSnapshotIdentifier: String = ""
         /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
-        var sourceDBClusterSnapshotIdentifier: String = ""
+        public var sourceDBClusterSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -4128,25 +4520,27 @@ extension Rds {
 
     }
 
-    public struct DescribeReservedDBInstancesOfferingsMessage: Serializable, Initializable {
+    public struct DescribeReservedDBInstancesOfferingsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The Multi-AZ filter value. Specify this parameter to show only the available offerings matching the specified Multi-AZ parameter.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The offering identifier filter value. Specify this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
-        var reservedDBInstancesOfferingId: String? = nil
+        public var reservedDBInstancesOfferingId: String? = nil
         /// Duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
-        var duration: String? = nil
+        public var duration: String? = nil
         /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"  
-        var offeringType: String? = nil
+        public var offeringType: String? = nil
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// Product description filter value. Specify this parameter to show only the available offerings matching the specified product description.
-        var productDescription: String? = nil
+        public var productDescription: String? = nil
 
         public init() {}
 
@@ -4164,11 +4558,13 @@ extension Rds {
 
     }
 
-    public struct DBEngineVersionMessage: Serializable, Initializable {
+    public struct DBEngineVersionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of DBEngineVersion elements. 
-        var dBEngineVersions: [DBEngineVersion]? = nil
+        public var dBEngineVersions: [DBEngineVersion]? = nil
 
         public init() {}
 
@@ -4179,11 +4575,13 @@ extension Rds {
 
     }
 
-    public struct DBParameterGroupsMessage: Serializable, Initializable {
+    public struct DBParameterGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  A list of DBParameterGroup instances. 
-        var dBParameterGroups: [DBParameterGroup]? = nil
+        public var dBParameterGroups: [DBParameterGroup]? = nil
 
         public init() {}
 
@@ -4194,17 +4592,19 @@ extension Rds {
 
     }
 
-    public struct RevokeDBSecurityGroupIngressMessage: Serializable, Initializable {
+    public struct RevokeDBSecurityGroupIngressMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId cannot be provided. 
-        var cIDRIP: String? = nil
+        public var cIDRIP: String? = nil
         /// The name of the DB security group to revoke ingress from.
-        var dBSecurityGroupName: String = ""
+        public var dBSecurityGroupName: String = ""
         ///  The id of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        var eC2SecurityGroupId: String? = nil
+        public var eC2SecurityGroupId: String? = nil
         ///  The AWS Account Number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        var eC2SecurityGroupOwnerId: String? = nil
+        public var eC2SecurityGroupOwnerId: String? = nil
         ///  The name of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        var eC2SecurityGroupName: String? = nil
+        public var eC2SecurityGroupName: String? = nil
 
         public init() {}
 
@@ -4218,19 +4618,21 @@ extension Rds {
 
     }
 
-    public struct OptionConfiguration: Serializable, Initializable {
+    public struct OptionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The option settings to include in an option group.
-        var optionSettings: [OptionSetting]? = nil
+        public var optionSettings: [OptionSetting]? = nil
         /// The configuration of options to include in a group.
-        var optionName: String = ""
+        public var optionName: String = ""
         /// A list of DBSecurityGroupMemebrship name strings used for this option.
-        var dBSecurityGroupMemberships: [String]? = nil
+        public var dBSecurityGroupMemberships: [String]? = nil
         /// A list of VpcSecurityGroupMemebrship name strings used for this option.
-        var vpcSecurityGroupMemberships: [String]? = nil
+        public var vpcSecurityGroupMemberships: [String]? = nil
         /// The version for the option.
-        var optionVersion: String? = nil
+        public var optionVersion: String? = nil
         /// The optional port for the option.
-        var port: Int32? = nil
+        public var port: Int32? = nil
 
         public init() {}
 
@@ -4245,31 +4647,33 @@ extension Rds {
 
     }
 
-    public struct RestoreDBClusterFromSnapshotMessage: Serializable, Initializable {
+    public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// The name of the DB cluster to create from the DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
         /// The name of the DB subnet group to use for the new DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// The name of the option group to use for the restored DB cluster.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The tags to be assigned to the restored DB cluster.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The version of the database engine to use for the new DB cluster.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// A list of VPC security groups that the new DB cluster will belong to.
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
-        var engine: String = ""
+        public var engine: String = ""
         /// The identifier for the DB cluster snapshot to restore from. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var snapshotIdentifier: String = ""
+        public var snapshotIdentifier: String = ""
         /// The database name for the restored DB cluster.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The KMS key identifier to use when restoring an encrypted DB cluster from a DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster snapshot is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB cluster snapshot.   If the DB cluster snapshot is not encrypted, then the restored DB cluster is encrypted using the specified encryption key.  
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
 
         public init() {}
 
@@ -4290,48 +4694,50 @@ extension Rds {
 
     }
 
-    public struct CreateDBClusterMessage: Serializable, Initializable {
+    public struct CreateDBClusterMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in. For information on regions and Availability Zones, see Regions and Availability Zones. 
-        var availabilityZones: [String]? = nil
-        var tags: [Tag]? = nil
+        public var availabilityZones: [String]? = nil
+        public var tags: [Tag]? = nil
         /// A list of EC2 VPC security groups to associate with this DB cluster.
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        var masterUserPassword: String? = nil
+        public var masterUserPassword: String? = nil
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// A value that indicates that the DB cluster should be associated with the specified CharacterSet.
-        var characterSetName: String? = nil
+        public var characterSetName: String? = nil
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        var dBClusterIdentifier: String = ""
+        public var dBClusterIdentifier: String = ""
         /// A value that indicates that the DB cluster should be associated with the specified option group. Permanent options cannot be removed from an option group. The option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The version number of the database engine to use.  Aurora  Example: 5.6.10a 
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        var masterUsername: String? = nil
+        public var masterUsername: String? = nil
         /// A DB subnet group to associate with this DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source region where the DB cluster will be replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that Aurora Read Replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster from the us-west-2 region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        var preSignedUrl: String? = nil
+        public var preSignedUrl: String? = nil
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
-        var replicationSourceIdentifier: String? = nil
+        public var replicationSourceIdentifier: String? = nil
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora 
-        var engine: String = ""
+        public var engine: String = ""
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// Specifies whether the DB cluster is encrypted.
-        var storageEncrypted: Bool? = nil
+        public var storageEncrypted: Bool? = nil
         /// The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         ///  The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, default.aurora5.6 will be used.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBClusterParameterGroupName: String? = nil
+        public var dBClusterParameterGroupName: String? = nil
         /// The port number on which the instances in the DB cluster accept connections.  Default: 3306 
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// The KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region. If you create a Read Replica of an encrypted DB cluster in another region, you must set KmsKeyId to a KMS key ID that is valid in the destination region. This key is used to encrypt the Read Replica in that region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
 
         public init() {}
 
@@ -4361,15 +4767,17 @@ extension Rds {
 
     }
 
-    public struct DescribeDBInstancesMessage: Serializable, Initializable {
+    public struct DescribeDBInstancesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB Clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String? = nil
+        public var dBInstanceIdentifier: String? = nil
 
         public init() {}
 
@@ -4382,23 +4790,25 @@ extension Rds {
 
     }
 
-    public struct DescribeOrderableDBInstanceOptionsMessage: Serializable, Initializable {
+    public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The engine version filter value. Specify this parameter to show only the available offerings matching the specified engine version.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The license model filter value. Specify this parameter to show only the available offerings matching the specified license model.
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// The name of the engine to retrieve DB instance options for.
-        var engine: String = ""
+        public var engine: String = ""
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         /// The VPC filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
-        var vpc: Bool? = nil
+        public var vpc: Bool? = nil
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
 
         public init() {}
 
@@ -4415,33 +4825,35 @@ extension Rds {
 
     }
 
-    public struct PendingModifiedValues: Serializable, Initializable {
+    public struct PendingModifiedValues: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Contains the new DBInstanceClass for the DB instance that will be applied or is in progress. 
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is in progress. 
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Specifies the storage type to be associated with the DB instance.
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Contains the pending or in-progress change of the master credentials for the DB instance.
-        var masterUserPassword: String? = nil
+        public var masterUserPassword: String? = nil
         /// Specifies the pending number of days for which automated backups are retained.
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is being applied.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// Specifies the identifier of the CA certificate for the DB instance.
-        var cACertificateIdentifier: String? = nil
+        public var cACertificateIdentifier: String? = nil
         /// The new DB subnet group for the DB instance. 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// Indicates the database engine version.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// Specifies the pending port for the DB instance.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is in progress. 
-        var dBInstanceIdentifier: String? = nil
+        public var dBInstanceIdentifier: String? = nil
 
         public init() {}
 
@@ -4463,8 +4875,10 @@ extension Rds {
 
     }
 
-    public struct ModifyDBSnapshotResult: Serializable, Initializable {
-        var dBSnapshot: DBSnapshot? = nil
+    public struct ModifyDBSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var dBSnapshot: DBSnapshot? = nil
 
         public init() {}
 
@@ -4474,11 +4888,13 @@ extension Rds {
 
     }
 
-    public struct SourceRegionMessage: Serializable, Initializable {
+    public struct SourceRegionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A list of SourceRegion instances that contains each source AWS Region that the current region can get a Read Replica or a DB snapshot from.
-        var sourceRegions: [SourceRegion]? = nil
+        public var sourceRegions: [SourceRegion]? = nil
 
         public init() {}
 
@@ -4489,71 +4905,73 @@ extension Rds {
 
     }
 
-    public struct ModifyDBInstanceMessage: Serializable, Initializable {
+    public struct ModifyDBInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the DB instance's current version.
-        var allowMajorVersionUpgrade: Bool? = nil
+        public var allowMajorVersionUpgrade: Bool? = nil
         /// The password for the given ARN from the Key Store in order to access the device.
-        var tdeCredentialPassword: String? = nil
+        public var tdeCredentialPassword: String? = nil
         /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid Values: 1150-65535   MariaDB   Default: 3306   Valid Values: 1150-65535   PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535 
-        var dBPortNumber: Int32? = nil
+        public var dBPortNumber: Int32? = nil
         /// A list of DB security groups to authorize on this DB instance. Changing this setting does not result in an outage and the change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBSecurityGroups: [String]? = nil
+        public var dBSecurityGroups: [String]? = nil
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL Read Replica only if the source is running MySQL 5.6   Can be specified for a PostgreSQL Read Replica only if the source is running PostgreSQL 9.3.5   Cannot be set to 0 if the DB instance is a source to Read Replicas  
-        var backupRetentionPeriod: Int32? = nil
+        public var backupRetentionPeriod: Int32? = nil
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and will be applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance and Using the Apply Immediately Parameter to see the impact that setting ApplyImmediately to true or false has for each modified parameter and to determine when the changes will be applied.  Default: false 
-        var applyImmediately: Bool? = nil
+        public var applyImmediately: Bool? = nil
         ///  Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and RDS has enabled auto patching for that engine version. 
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// The new password for the DB instance master user. Can be any printable ASCII character except "/", """, or "@".  Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Default: Uses existing setting Constraints: Must be 8 to 41 alphanumeric characters (MySQL, MariaDB, and Amazon Aurora), 8 to 30 alphanumeric characters (Oracle), or 8 to 128 alphanumeric characters (SQL Server).  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. 
-        var masterUserPassword: String? = nil
+        public var masterUserPassword: String? = nil
         ///  The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Default: Uses existing setting Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported. Type: Integer If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// Indicates the certificate that needs to be associated with the instance.
-        var cACertificateIdentifier: String? = nil
+        public var cACertificateIdentifier: String? = nil
         ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  For major version upgrades, if a non-default DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. For a list of valid engine versions, see CreateDBInstance.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
-        var promotionTier: Int32? = nil
+        public var promotionTier: Int32? = nil
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        var copyTagsToSnapshot: Bool? = nil
+        public var copyTagsToSnapshot: Bool? = nil
         /// The name of the IAM role to use when making API calls to the Directory Service.
-        var domainIAMRoleName: String? = nil
+        public var domainIAMRoleName: String? = nil
         ///  The new compute and memory capacity of the DB instance. To determine the instance classes that are available for a particular DB engine, use the DescribeOrderableDBInstanceOptions action. Note that not all instance classes are available in all regions for all DB engines.   Passing a value for this setting causes an outage during the change and is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        var dBInstanceClass: String? = nil
+        public var dBInstanceClass: String? = nil
         /// The Active Directory Domain to move the instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently only a Microsoft SQL Server instance can be created in a Active Directory Domain. 
-        var domain: String? = nil
+        public var domain: String? = nil
         ///  Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Constraints: Cannot be specified if the DB instance is a Read Replica.
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         ///  The new storage capacity of the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless ApplyImmediately is set to true for this request.   MySQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  MariaDB  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  PostgreSQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  Oracle  Default: Uses existing setting Valid Values: 10-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  SQL Server  Cannot be modified. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        var tdeCredentialArn: String? = nil
+        public var tdeCredentialArn: String? = nil
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The name of the DB parameter group to apply to the DB instance. Changing this setting does not result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The db instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
-        var dBParameterGroupName: String? = nil
+        public var dBParameterGroupName: String? = nil
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Boolean value that indicates if the DB instance has a publicly resolvable DNS name. Set to True to make the DB instance Internet-facing with a publicly resolvable DNS name, which resolves to a public IP address. Set to False to make the DB instance internal with a DNS name that resolves to a private IP address.   PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be true in order for it to be publicly accessible.  Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter. Default: false
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         ///  The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible.  Constraints:   Must be in the format hh24:mi-hh24:mi   Times should be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes  
-        var preferredBackupWindow: String? = nil
+        public var preferredBackupWindow: String? = nil
         ///  Indicates that the DB instance should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        var monitoringRoleArn: String? = nil
+        public var monitoringRoleArn: String? = nil
         /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance is not in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter.  Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Example: mySubnetGroup 
-        var dBSubnetGroupName: String? = nil
+        public var dBSubnetGroupName: String? = nil
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        var monitoringInterval: Int32? = nil
+        public var monitoringInterval: Int32? = nil
         ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot will occur immediately if you set Apply Immediately to true, or will occur during the next maintenance window if Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var newDBInstanceIdentifier: String? = nil
+        public var newDBInstanceIdentifier: String? = nil
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must be the identifier for an existing DB instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
 
         public init() {}
 
@@ -4594,11 +5012,13 @@ extension Rds {
 
     }
 
-    public struct IPRange: Serializable, Initializable {
+    public struct IPRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the status of the IP range. Status can be "authorizing", "authorized", "revoking", and "revoked".
-        var status: String? = nil
+        public var status: String? = nil
         /// Specifies the IP range.
-        var cIDRIP: String? = nil
+        public var cIDRIP: String? = nil
 
         public init() {}
 
@@ -4609,57 +5029,59 @@ extension Rds {
 
     }
 
-    public struct DBSnapshot: Serializable, Initializable {
+    public struct DBSnapshot: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the port that the database engine was listening on at the time of the snapshot.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// Specifies whether the DB snapshot is encrypted.
-        var encrypted: Bool? = nil
+        public var encrypted: Bool? = nil
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// The DB snapshot Arn that the DB snapshot was copied from. It only has value in case of cross customer or cross region copy.
-        var sourceDBSnapshotIdentifier: String? = nil
+        public var sourceDBSnapshotIdentifier: String? = nil
         /// Specifies the status of this DB snapshot.
-        var status: String? = nil
+        public var status: String? = nil
         /// Specifies the version of the database engine.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// Provides the VPC ID associated with the DB snapshot.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         /// The percentage of the estimated data that has been transferred.
-        var percentProgress: Int32? = nil
+        public var percentProgress: Int32? = nil
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        var snapshotCreateTime: Date? = nil
+        public var snapshotCreateTime: Date? = nil
         /// The Amazon Resource Name (ARN) for the DB snapshot.
-        var dBSnapshotArn: String? = nil
+        public var dBSnapshotArn: String? = nil
         ///  If Encrypted is true, the KMS key identifier for the encrypted DB snapshot. 
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// Specifies the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        var instanceCreateTime: Date? = nil
+        public var instanceCreateTime: Date? = nil
         /// The region that the DB snapshot was created in or copied from.
-        var sourceRegion: String? = nil
+        public var sourceRegion: String? = nil
         /// Specifies the allocated storage size in gigabytes (GB).
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// Specifies the storage type associated with DB snapshot.
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The ARN from the key store with which to associate the instance for TDE encryption.
-        var tdeCredentialArn: String? = nil
+        public var tdeCredentialArn: String? = nil
         /// The time zone of the DB snapshot. In most cases, the Timezone element is empty. Timezone content appears only for snapshots taken from Microsoft SQL Server DB instances that were created with a time zone specified. 
-        var timezone: String? = nil
+        public var timezone: String? = nil
         /// Provides the type of the DB snapshot.
-        var snapshotType: String? = nil
+        public var snapshotType: String? = nil
         /// License model information for the restored DB instance.
-        var licenseModel: String? = nil
+        public var licenseModel: String? = nil
         /// Provides the option group name for the DB snapshot.
-        var optionGroupName: String? = nil
+        public var optionGroupName: String? = nil
         /// Provides the master username for the DB snapshot.
-        var masterUsername: String? = nil
+        public var masterUsername: String? = nil
         /// Specifies the name of the database engine.
-        var engine: String? = nil
+        public var engine: String? = nil
         /// Specifies the identifier for the DB snapshot.
-        var dBSnapshotIdentifier: String? = nil
+        public var dBSnapshotIdentifier: String? = nil
         /// Specifies the DB instance identifier of the DB instance this DB snapshot was created from.
-        var dBInstanceIdentifier: String? = nil
+        public var dBInstanceIdentifier: String? = nil
 
         public init() {}
 
@@ -4693,15 +5115,17 @@ extension Rds {
 
     }
 
-    public struct DBParameterGroup: Serializable, Initializable {
+    public struct DBParameterGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
-        var dBParameterGroupFamily: String? = nil
+        public var dBParameterGroupFamily: String? = nil
         /// The Amazon Resource Name (ARN) for the DB parameter group.
-        var dBParameterGroupArn: String? = nil
+        public var dBParameterGroupArn: String? = nil
         /// Provides the name of the DB parameter group.
-        var dBParameterGroupName: String? = nil
+        public var dBParameterGroupName: String? = nil
         /// Provides the customer-specified description for this DB parameter group.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -4714,14 +5138,16 @@ extension Rds {
 
     }
 
-    public struct PurchaseReservedDBInstancesOfferingMessage: Serializable, Initializable {
+    public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Customer-specified identifier to track this reservation. Example: myreservationID
-        var reservedDBInstanceId: String? = nil
+        public var reservedDBInstanceId: String? = nil
         /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
-        var reservedDBInstancesOfferingId: String = ""
+        public var reservedDBInstancesOfferingId: String = ""
         /// The number of instances to reserve. Default: 1 
-        var dBInstanceCount: Int32? = nil
-        var tags: [Tag]? = nil
+        public var dBInstanceCount: Int32? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -4734,9 +5160,11 @@ extension Rds {
 
     }
 
-    public struct DBParameterGroupNameMessage: Serializable, Initializable {
+    public struct DBParameterGroupNameMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides the name of the DB parameter group.
-        var dBParameterGroupName: String? = nil
+        public var dBParameterGroupName: String? = nil
 
         public init() {}
 
@@ -4746,9 +5174,11 @@ extension Rds {
 
     }
 
-    public struct DescribeDBSnapshotAttributesMessage: Serializable, Initializable {
+    public struct DescribeDBSnapshotAttributesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier for the DB snapshot to describe the attributes for.
-        var dBSnapshotIdentifier: String = ""
+        public var dBSnapshotIdentifier: String = ""
 
         public init() {}
 
@@ -4758,15 +5188,17 @@ extension Rds {
 
     }
 
-    public struct DescribeDBSecurityGroupsMessage: Serializable, Initializable {
+    public struct DescribeDBSecurityGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// This parameter is not currently supported.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
         ///  An optional pagination token provided by a previous DescribeDBSecurityGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The name of the DB security group to return details for.
-        var dBSecurityGroupName: String? = nil
+        public var dBSecurityGroupName: String? = nil
 
         public init() {}
 
@@ -4779,11 +5211,13 @@ extension Rds {
 
     }
 
-    public struct Filter: Serializable, Initializable {
+    public struct Filter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// This parameter is not currently supported.
-        var name: String = ""
+        public var name: String = ""
         /// This parameter is not currently supported.
-        var values: [String] = []
+        public var values: [String] = []
 
         public init() {}
 
@@ -4794,15 +5228,17 @@ extension Rds {
 
     }
 
-    public struct DownloadDBLogFilePortionMessage: Serializable, Initializable {
+    public struct DownloadDBLogFilePortionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file will be truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker is not specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.  
-        var numberOfLines: Int32? = nil
+        public var numberOfLines: Int32? = nil
         /// The pagination token provided in the previous request or "0". If the Marker parameter is specified the response includes only records beyond the marker until the end of the file or up to NumberOfLines.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The name of the log file to be downloaded.
-        var logFileName: String = ""
+        public var logFileName: String = ""
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        var dBInstanceIdentifier: String = ""
+        public var dBInstanceIdentifier: String = ""
 
         public init() {}
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Kms
-public enum KmsError: Error {
+public enum KmsError: AWSErrorType {
     case malformedPolicyDocumentException(message: String?)
     case dependencyTimeoutException(message: String?)
     case invalidArnException(message: String?)

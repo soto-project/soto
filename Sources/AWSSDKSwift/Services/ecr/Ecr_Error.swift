@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Ecr
-public enum EcrError: Error {
+public enum EcrError: AWSErrorType {
     case serverException(message: String?)
     case invalidParameterException(message: String?)
     case layersNotFoundException(message: String?)

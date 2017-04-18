@@ -32,92 +32,84 @@ Amazon Elasticsearch Configuration Service Use the Amazon Elasticsearch configur
 */
 public struct Es {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "es",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [EsError.self]
         )
     }
 
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest) throws -> ListElasticsearchInstanceTypesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/\(input.elasticsearchVersion)?domainName=\(input.domainName?.description ?? "")&maxResults=\(input.maxResults?.description ?? "")&nextToken=\(input.nextToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the name of all Elasticsearch domains owned by the current user's account. 
     public func listDomainNames() throws -> ListDomainNamesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: "GET", httpHeaders: [:], input: nil)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: "GET")
     }
 
     ///  Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon Elasticsearch Service Domains for more information.
     public func addTags(_ input: AddTagsRequest) throws {
-        _ = try request.invoke(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest) throws -> DescribeElasticsearchDomainResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/\(input.domainName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns all tags for the given Elasticsearch domain.
     public func listTags(_ input: ListTagsRequest) throws -> ListTagsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTags", path: "/2015-01-01/tags/?arn=\(input.aRN)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTags", path: "/2015-01-01/tags/", httpMethod: "GET", input: input)
     }
 
     ///  Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances. 
     public func updateElasticsearchDomainConfig(_ input: UpdateElasticsearchDomainConfigRequest) throws -> UpdateElasticsearchDomainConfigResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/\(input.domainName)/config", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: "POST", input: input)
     }
 
     ///  Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
     public func describeElasticsearchDomainConfig(_ input: DescribeElasticsearchDomainConfigRequest) throws -> DescribeElasticsearchDomainConfigResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/\(input.domainName)/config", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: "GET", input: input)
     }
 
     ///   Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the  DomainName  to know what Limits are supported for modifying. 
     public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest) throws -> DescribeElasticsearchInstanceTypeLimitsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/\(input.elasticsearchVersion)/\(input.instanceType)?domainName=\(input.domainName?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: "GET", input: input)
     }
 
     ///  List all supported Elasticsearch versions
     public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest) throws -> ListElasticsearchVersionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions?nextToken=\(input.nextToken?.description ?? "")&maxResults=\(input.maxResults?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: "GET", input: input)
     }
 
     ///  Removes the specified set of tags from the specified Elasticsearch domain.
     public func removeTags(_ input: RemoveTagsRequest) throws {
-        _ = try request.invoke(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
     public func createElasticsearchDomain(_ input: CreateElasticsearchDomainRequest) throws -> CreateElasticsearchDomainResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: "POST", input: input)
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
     public func describeElasticsearchDomains(_ input: DescribeElasticsearchDomainsRequest) throws -> DescribeElasticsearchDomainsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: "POST", input: input)
     }
 
     ///  Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest) throws -> DeleteElasticsearchDomainResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/\(input.domainName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try EsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "DELETE", input: input)
     }
 
 

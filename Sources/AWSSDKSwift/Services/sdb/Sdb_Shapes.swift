@@ -29,13 +29,15 @@ import Core
 
 extension Sdb {
 
-    public struct ReplaceableAttribute: Serializable, Initializable {
+    public struct ReplaceableAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the replaceable attribute.
-        var value: String = ""
+        public var value: String = ""
         /// The name of the replaceable attribute.
-        var name: String = ""
+        public var name: String = ""
         /// A flag specifying whether or not to replace the attribute/value pair or to add a new attribute/value pair. The default setting is false.
-        var replace: Bool? = nil
+        public var replace: Bool? = nil
 
         public init() {}
 
@@ -47,15 +49,17 @@ extension Sdb {
 
     }
 
-    public struct GetAttributesRequest: Serializable, Initializable {
+    public struct GetAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
-        var consistentRead: Bool? = nil
+        public var consistentRead: Bool? = nil
         /// The name of the item.
-        var itemName: String = ""
+        public var itemName: String = ""
         /// The name of the domain in which to perform the operation.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// The names of the attributes.
-        var attributeNames: [String]? = nil
+        public var attributeNames: [String]? = nil
 
         public init() {}
 
@@ -68,11 +72,13 @@ extension Sdb {
 
     }
 
-    public struct ListDomainsRequest: Serializable, Initializable {
+    public struct ListDomainsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
-        var maxNumberOfDomains: Int32? = nil
+        public var maxNumberOfDomains: Int32? = nil
         /// A string informing Amazon SimpleDB where to start the next list of domain names.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -83,9 +89,11 @@ extension Sdb {
 
     }
 
-    public struct GetAttributesResult: Serializable, Initializable {
+    public struct GetAttributesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of attributes returned by the operation.
-        var attributes: [Attribute]? = nil
+        public var attributes: [Attribute]? = nil
 
         public init() {}
 
@@ -95,13 +103,15 @@ extension Sdb {
 
     }
 
-    public struct SelectRequest: Serializable, Initializable {
+    public struct SelectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
-        var consistentRead: Bool? = nil
+        public var consistentRead: Bool? = nil
         /// A string informing Amazon SimpleDB where to start the next list of ItemNames.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The expression used to query the domain.
-        var selectExpression: String = ""
+        public var selectExpression: String = ""
 
         public init() {}
 
@@ -113,11 +123,13 @@ extension Sdb {
 
     }
 
-    public struct BatchDeleteAttributesRequest: Serializable, Initializable {
+    public struct BatchDeleteAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of items on which to perform the operation.
-        var items: [DeletableItem] = []
+        public var items: [DeletableItem] = []
         /// The name of the domain in which the attributes are being deleted.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -128,21 +140,23 @@ extension Sdb {
 
     }
 
-    public struct DomainMetadataResult: Serializable, Initializable {
+    public struct DomainMetadataResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
-        var timestamp: Int32? = nil
+        public var timestamp: Int32? = nil
         /// The total size of all unique attribute names in the domain, in bytes.
-        var attributeNamesSizeBytes: Int64? = nil
+        public var attributeNamesSizeBytes: Int64? = nil
         /// The total size of all attribute values in the domain, in bytes.
-        var attributeValuesSizeBytes: Int64? = nil
+        public var attributeValuesSizeBytes: Int64? = nil
         /// The number of all items in the domain.
-        var itemCount: Int32? = nil
+        public var itemCount: Int32? = nil
         /// The number of all attribute name/value pairs in the domain.
-        var attributeValueCount: Int32? = nil
+        public var attributeValueCount: Int32? = nil
         /// The number of unique attribute names in the domain.
-        var attributeNameCount: Int32? = nil
+        public var attributeNameCount: Int32? = nil
         /// The total size of all item names in the domain, in bytes.
-        var itemNamesSizeBytes: Int64? = nil
+        public var itemNamesSizeBytes: Int64? = nil
 
         public init() {}
 
@@ -158,12 +172,14 @@ extension Sdb {
 
     }
 
-    public struct Item: Serializable, Initializable {
-        var alternateNameEncoding: String? = nil
+    public struct Item: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var alternateNameEncoding: String? = nil
         /// The name of the item.
-        var name: String = ""
+        public var name: String = ""
         /// A list of attributes.
-        var attributes: [Attribute] = []
+        public var attributes: [Attribute] = []
 
         public init() {}
 
@@ -175,13 +191,15 @@ extension Sdb {
 
     }
 
-    public struct Attribute: Serializable, Initializable {
-        var alternateNameEncoding: String? = nil
-        var alternateValueEncoding: String? = nil
+    public struct Attribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var alternateNameEncoding: String? = nil
+        public var alternateValueEncoding: String? = nil
         /// The name of the attribute.
-        var name: String = ""
+        public var name: String = ""
         /// The value of the attribute.
-        var value: String = ""
+        public var value: String = ""
 
         public init() {}
 
@@ -194,9 +212,11 @@ extension Sdb {
 
     }
 
-    public struct DomainMetadataRequest: Serializable, Initializable {
+    public struct DomainMetadataRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the domain for which to display the metadata of.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -206,9 +226,11 @@ extension Sdb {
 
     }
 
-    public struct DeleteDomainRequest: Serializable, Initializable {
+    public struct DeleteDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the domain to delete.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -218,11 +240,13 @@ extension Sdb {
 
     }
 
-    public struct BatchPutAttributesRequest: Serializable, Initializable {
+    public struct BatchPutAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of items on which to perform the operation.
-        var items: [ReplaceableItem] = []
+        public var items: [ReplaceableItem] = []
         /// The name of the domain in which the attributes are being stored.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -233,11 +257,13 @@ extension Sdb {
 
     }
 
-    public struct ReplaceableItem: Serializable, Initializable {
+    public struct ReplaceableItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the replaceable item.
-        var name: String = ""
+        public var name: String = ""
         /// The list of attributes for a replaceable item.
-        var attributes: [ReplaceableAttribute] = []
+        public var attributes: [ReplaceableAttribute] = []
 
         public init() {}
 
@@ -248,9 +274,11 @@ extension Sdb {
 
     }
 
-    public struct DeletableItem: Serializable, Initializable {
-        var name: String = ""
-        var attributes: [DeletableAttribute]? = nil
+    public struct DeletableItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var name: String = ""
+        public var attributes: [DeletableAttribute]? = nil
 
         public init() {}
 
@@ -261,13 +289,15 @@ extension Sdb {
 
     }
 
-    public struct UpdateCondition: Serializable, Initializable {
+    public struct UpdateCondition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of an attribute. This value can only be specified when the Exists parameter is equal to true.
-        var value: String? = nil
+        public var value: String? = nil
         /// The name of the attribute involved in the condition.
-        var name: String? = nil
+        public var name: String? = nil
         /// A value specifying whether or not the specified attribute must exist with the specified value in order for the update condition to be satisfied. Specify true if the attribute must exist for the update condition to be satisfied. Specify false if the attribute should not exist in order for the update condition to be satisfied.
-        var exists: Bool? = nil
+        public var exists: Bool? = nil
 
         public init() {}
 
@@ -279,15 +309,17 @@ extension Sdb {
 
     }
 
-    public struct PutAttributesRequest: Serializable, Initializable {
+    public struct PutAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the item.
-        var itemName: String = ""
+        public var itemName: String = ""
         /// The list of attributes.
-        var attributes: [ReplaceableAttribute] = []
+        public var attributes: [ReplaceableAttribute] = []
         /// The name of the domain in which to perform the operation.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
-        var expected: UpdateCondition? = nil
+        public var expected: UpdateCondition? = nil
 
         public init() {}
 
@@ -300,11 +332,13 @@ extension Sdb {
 
     }
 
-    public struct DeletableAttribute: Serializable, Initializable {
+    public struct DeletableAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the attribute.
-        var value: String? = nil
+        public var value: String? = nil
         /// The name of the attribute.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -315,15 +349,17 @@ extension Sdb {
 
     }
 
-    public struct DeleteAttributesRequest: Serializable, Initializable {
+    public struct DeleteAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
-        var itemName: String = ""
+        public var itemName: String = ""
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
-        var attributes: [DeletableAttribute]? = nil
+        public var attributes: [DeletableAttribute]? = nil
         /// The name of the domain in which to perform the operation.
-        var domainName: String = ""
+        public var domainName: String = ""
         /// The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
-        var expected: UpdateCondition? = nil
+        public var expected: UpdateCondition? = nil
 
         public init() {}
 
@@ -336,11 +372,13 @@ extension Sdb {
 
     }
 
-    public struct ListDomainsResult: Serializable, Initializable {
+    public struct ListDomainsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of domain names that match the expression.
-        var domainNames: [String]? = nil
+        public var domainNames: [String]? = nil
 
         public init() {}
 
@@ -351,11 +389,13 @@ extension Sdb {
 
     }
 
-    public struct SelectResult: Serializable, Initializable {
+    public struct SelectResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of items that match the select expression.
-        var items: [Item]? = nil
+        public var items: [Item]? = nil
         /// An opaque token indicating that more items than MaxNumberOfItems were matched, the response size exceeded 1 megabyte, or the execution time exceeded 5 seconds.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -366,9 +406,11 @@ extension Sdb {
 
     }
 
-    public struct CreateDomainRequest: Serializable, Initializable {
+    public struct CreateDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Discovery
-public enum DiscoveryError: Error {
+public enum DiscoveryError: AWSErrorType {
     case authorizationErrorException(message: String?)
     case invalidParameterException(message: String?)
     case invalidParameterValueException(message: String?)

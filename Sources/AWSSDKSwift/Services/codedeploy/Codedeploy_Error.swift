@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Codedeploy
-public enum CodedeployError: Error {
+public enum CodedeployError: AWSErrorType {
     case deploymentIdRequiredException(message: String?)
     case deploymentDoesNotExistException(message: String?)
     case deploymentNotStartedException(message: String?)

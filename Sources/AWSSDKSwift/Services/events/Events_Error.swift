@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Events
-public enum EventsError: Error {
+public enum EventsError: AWSErrorType {
     case internalException(message: String?)
     case resourceNotFoundException(message: String?)
     case concurrentModificationException(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Opsworks
-public enum OpsworksError: Error {
+public enum OpsworksError: AWSErrorType {
     case validationException(message: String?)
     case resourceNotFoundException(message: String?)
 }

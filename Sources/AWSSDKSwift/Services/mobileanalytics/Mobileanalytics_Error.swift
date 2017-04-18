@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Mobileanalytics
-public enum MobileanalyticsError: Error {
+public enum MobileanalyticsError: AWSErrorType {
     case badRequestException(message: String?)
 }
 

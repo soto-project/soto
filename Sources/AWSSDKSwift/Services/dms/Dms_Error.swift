@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Dms
-public enum DmsError: Error {
+public enum DmsError: AWSErrorType {
     case invalidResourceStateFault(message: String?)
     case resourceNotFoundFault(message: String?)
     case resourceAlreadyExistsFault(message: String?)

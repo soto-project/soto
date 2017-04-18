@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Email
-public enum EmailError: Error {
+public enum EmailError: AWSErrorType {
     case messageRejected(message: String?)
     case ruleSetDoesNotExistException(message: String?)
     case ruleDoesNotExistException(message: String?)

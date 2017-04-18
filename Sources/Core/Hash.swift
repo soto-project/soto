@@ -27,3 +27,11 @@ public func sha256(_ data: Data) -> [UInt8] {
         return hash
     }
 }
+
+public func md5(_ data: Data) -> [UInt8] {
+    return data.withUnsafeBytes {(bytes: UnsafePointer<UInt8>) in
+        var hash = [UInt8](repeating: 0, count: Int(MD5_DIGEST_LENGTH))
+        MD5(bytes, data.count, &hash)
+        return hash
+    }
+}

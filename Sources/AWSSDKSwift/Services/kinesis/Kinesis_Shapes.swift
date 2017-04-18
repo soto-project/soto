@@ -29,11 +29,13 @@ import Core
 
 extension Kinesis {
 
-    public struct CreateStreamInput: Serializable, Initializable {
+    public struct CreateStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name to identify the stream. The stream name is scoped to the AWS account used by the application that creates the stream. It is also scoped by region. That is, two streams in two different AWS accounts can have the same name, and two streams in the same AWS account but in two different regions can have the same name.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput. DefaultShardLimit;
-        var shardCount: Int32 = 0
+        public var shardCount: Int32 = 0
 
         public init() {}
 
@@ -44,11 +46,13 @@ extension Kinesis {
 
     }
 
-    public struct AddTagsToStreamInput: Serializable, Initializable {
+    public struct AddTagsToStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The set of key-value pairs to use to create the tags.
-        var tags: [String: String] = [:]
+        public var tags: [String: String] = [:]
         /// The name of the stream.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -59,19 +63,23 @@ extension Kinesis {
 
     }
 
-    public struct DescribeLimitsInput: Serializable, Initializable {
+    public struct DescribeLimitsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeStreamInput: Serializable, Initializable {
+    public struct DescribeStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stream to describe.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The shard ID of the shard to start with.
-        var exclusiveStartShardId: String? = nil
+        public var exclusiveStartShardId: String? = nil
         /// The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 shards are returned.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -83,13 +91,15 @@ extension Kinesis {
 
     }
 
-    public struct UpdateShardCountOutput: Serializable, Initializable {
+    public struct UpdateShardCountOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The updated number of shards.
-        var targetShardCount: Int32? = nil
+        public var targetShardCount: Int32? = nil
         /// The current number of shards.
-        var currentShardCount: Int32? = nil
+        public var currentShardCount: Int32? = nil
         /// The name of the stream.
-        var streamName: String? = nil
+        public var streamName: String? = nil
 
         public init() {}
 
@@ -101,11 +111,13 @@ extension Kinesis {
 
     }
 
-    public struct DecreaseStreamRetentionPeriodInput: Serializable, Initializable {
+    public struct DecreaseStreamRetentionPeriodInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The new retention period of the stream, in hours. Must be less than the current retention period.
-        var retentionPeriodHours: Int32 = 0
+        public var retentionPeriodHours: Int32 = 0
         /// The name of the stream to modify.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -116,11 +128,13 @@ extension Kinesis {
 
     }
 
-    public struct IncreaseStreamRetentionPeriodInput: Serializable, Initializable {
+    public struct IncreaseStreamRetentionPeriodInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The new retention period of the stream, in hours. Must be more than the current retention period.
-        var retentionPeriodHours: Int32 = 0
+        public var retentionPeriodHours: Int32 = 0
         /// The name of the stream to modify.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -131,17 +145,19 @@ extension Kinesis {
 
     }
 
-    public struct Shard: Serializable, Initializable {
+    public struct Shard: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier of the shard within the stream.
-        var shardId: String = ""
+        public var shardId: String = ""
         /// The range of possible sequence numbers for the shard.
-        var sequenceNumberRange: SequenceNumberRange = SequenceNumberRange()
+        public var sequenceNumberRange: SequenceNumberRange = SequenceNumberRange()
         /// The shard ID of the shard adjacent to the shard's parent.
-        var adjacentParentShardId: String? = nil
+        public var adjacentParentShardId: String? = nil
         /// The range of possible hash key values for the shard, which is a set of ordered contiguous positive integers.
-        var hashKeyRange: HashKeyRange = HashKeyRange()
+        public var hashKeyRange: HashKeyRange = HashKeyRange()
         /// The shard ID of the shard's parent.
-        var parentShardId: String? = nil
+        public var parentShardId: String? = nil
 
         public init() {}
 
@@ -155,11 +171,13 @@ extension Kinesis {
 
     }
 
-    public struct PutRecordsOutput: Serializable, Initializable {
+    public struct PutRecordsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of unsuccessfully processed records in a PutRecords request.
-        var failedRecordCount: Int32? = nil
+        public var failedRecordCount: Int32? = nil
         /// An array of successfully and unsuccessfully processed record results, correlated with the request by natural ordering. A record that is successfully added to a stream includes SequenceNumber and ShardId in the result. A record that fails to be added to a stream includes ErrorCode and ErrorMessage in the result.
-        var records: [PutRecordsResultEntry] = []
+        public var records: [PutRecordsResultEntry] = []
 
         public init() {}
 
@@ -170,9 +188,11 @@ extension Kinesis {
 
     }
 
-    public struct DescribeStreamOutput: Serializable, Initializable {
+    public struct DescribeStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current status of the stream, the stream ARN, an array of shard objects that comprise the stream, and whether there are more shards available.
-        var streamDescription: StreamDescription = StreamDescription()
+        public var streamDescription: StreamDescription = StreamDescription()
 
         public init() {}
 
@@ -182,13 +202,15 @@ extension Kinesis {
 
     }
 
-    public struct EnhancedMonitoringOutput: Serializable, Initializable {
+    public struct EnhancedMonitoringOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the list of all the metrics that would be in the enhanced state after the operation.
-        var desiredShardLevelMetrics: [String]? = nil
+        public var desiredShardLevelMetrics: [String]? = nil
         /// The name of the Amazon Kinesis stream.
-        var streamName: String? = nil
+        public var streamName: String? = nil
         /// Represents the current state of the metrics that are in the enhanced state before the operation.
-        var currentShardLevelMetrics: [String]? = nil
+        public var currentShardLevelMetrics: [String]? = nil
 
         public init() {}
 
@@ -200,11 +222,13 @@ extension Kinesis {
 
     }
 
-    public struct PutRecordOutput: Serializable, Initializable {
+    public struct PutRecordOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sequence number identifier that was assigned to the put data record. The sequence number for the record is unique across all records in the stream. A sequence number is the identifier associated with every record put into the stream.
-        var sequenceNumber: String = ""
+        public var sequenceNumber: String = ""
         /// The shard ID of the shard where the data record was placed.
-        var shardId: String = ""
+        public var shardId: String = ""
 
         public init() {}
 
@@ -215,15 +239,17 @@ extension Kinesis {
 
     }
 
-    public struct Record: Serializable, Initializable {
+    public struct Record: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The approximate time that the record was inserted into the stream.
-        var approximateArrivalTimestamp: Date? = nil
+        public var approximateArrivalTimestamp: Date? = nil
         /// The unique identifier of the record in the stream.
-        var sequenceNumber: String = ""
+        public var sequenceNumber: String = ""
         /// Identifies which shard in the stream the data record is assigned to.
-        var partitionKey: String = ""
+        public var partitionKey: String = ""
         /// The data blob. The data in the blob is both opaque and immutable to the Amazon Kinesis service, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
-        var data: Data = Data()
+        public var data: Data = Data()
 
         public init() {}
 
@@ -236,11 +262,13 @@ extension Kinesis {
 
     }
 
-    public struct DisableEnhancedMonitoringInput: Serializable, Initializable {
+    public struct DisableEnhancedMonitoringInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        var shardLevelMetrics: [String] = []
+        public var shardLevelMetrics: [String] = []
         /// The name of the Amazon Kinesis stream for which to disable enhanced monitoring.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -251,11 +279,13 @@ extension Kinesis {
 
     }
 
-    public struct HashKeyRange: Serializable, Initializable {
+    public struct HashKeyRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The starting hash key of the hash key range.
-        var startingHashKey: String = ""
+        public var startingHashKey: String = ""
         /// The ending hash key of the hash key range.
-        var endingHashKey: String = ""
+        public var endingHashKey: String = ""
 
         public init() {}
 
@@ -266,11 +296,13 @@ extension Kinesis {
 
     }
 
-    public struct DescribeLimitsOutput: Serializable, Initializable {
+    public struct DescribeLimitsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of shards.
-        var shardLimit: Int32 = 0
+        public var shardLimit: Int32 = 0
         /// The number of open shards.
-        var openShardCount: Int32 = 0
+        public var openShardCount: Int32 = 0
 
         public init() {}
 
@@ -281,11 +313,13 @@ extension Kinesis {
 
     }
 
-    public struct PutRecordsInput: Serializable, Initializable {
+    public struct PutRecordsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The records associated with the request.
-        var records: [PutRecordsRequestEntry] = []
+        public var records: [PutRecordsRequestEntry] = []
         /// The stream name associated with the request.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -296,17 +330,19 @@ extension Kinesis {
 
     }
 
-    public struct GetShardIteratorInput: Serializable, Initializable {
+    public struct GetShardIteratorInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
-        var startingSequenceNumber: String? = nil
+        public var startingSequenceNumber: String? = nil
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
-        var timestamp: Date? = nil
+        public var timestamp: Date? = nil
         /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:  AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.  AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.  AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the value Timestamp.  TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.  LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.  
-        var shardIteratorType: String = ""
+        public var shardIteratorType: String = ""
         /// The name of the Amazon Kinesis stream.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The shard ID of the Amazon Kinesis shard to get the iterator for.
-        var shardId: String = ""
+        public var shardId: String = ""
 
         public init() {}
 
@@ -320,11 +356,13 @@ extension Kinesis {
 
     }
 
-    public struct ListTagsForStreamOutput: Serializable, Initializable {
+    public struct ListTagsForStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If set to true, more tags are available. To request additional tags, set ExclusiveStartTagKey to the key of the last tag returned.
-        var hasMoreTags: Bool = false
+        public var hasMoreTags: Bool = false
         /// A list of tags associated with StreamName, starting with the first tag after ExclusiveStartTagKey and up to the specified Limit. 
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -335,13 +373,15 @@ extension Kinesis {
 
     }
 
-    public struct UpdateShardCountInput: Serializable, Initializable {
+    public struct UpdateShardCountInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The new number of shards.
-        var targetShardCount: Int32 = 0
+        public var targetShardCount: Int32 = 0
         /// The name of the stream.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The scaling type. Uniform scaling creates shards of equal size.
-        var scalingType: String = ""
+        public var scalingType: String = ""
 
         public init() {}
 
@@ -353,11 +393,13 @@ extension Kinesis {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
-        var value: String? = nil
+        public var value: String? = nil
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -368,11 +410,13 @@ extension Kinesis {
 
     }
 
-    public struct SequenceNumberRange: Serializable, Initializable {
+    public struct SequenceNumberRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
-        var endingSequenceNumber: String? = nil
+        public var endingSequenceNumber: String? = nil
         /// The starting sequence number for the range.
-        var startingSequenceNumber: String = ""
+        public var startingSequenceNumber: String = ""
 
         public init() {}
 
@@ -383,13 +427,15 @@ extension Kinesis {
 
     }
 
-    public struct PutRecordsRequestEntry: Serializable, Initializable {
+    public struct PutRecordsRequestEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
-        var data: Data = Data()
+        public var data: Data = Data()
         /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
-        var explicitHashKey: String? = nil
+        public var explicitHashKey: String? = nil
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
-        var partitionKey: String = ""
+        public var partitionKey: String = ""
 
         public init() {}
 
@@ -401,11 +447,13 @@ extension Kinesis {
 
     }
 
-    public struct GetRecordsInput: Serializable, Initializable {
+    public struct GetRecordsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
-        var shardIterator: String = ""
+        public var shardIterator: String = ""
 
         public init() {}
 
@@ -416,9 +464,11 @@ extension Kinesis {
 
     }
 
-    public struct DeleteStreamInput: Serializable, Initializable {
+    public struct DeleteStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stream to delete.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -428,9 +478,11 @@ extension Kinesis {
 
     }
 
-    public struct GetShardIteratorOutput: Serializable, Initializable {
+    public struct GetShardIteratorOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
-        var shardIterator: String? = nil
+        public var shardIterator: String? = nil
 
         public init() {}
 
@@ -440,17 +492,19 @@ extension Kinesis {
 
     }
 
-    public struct PutRecordInput: Serializable, Initializable {
+    public struct PutRecordInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stream to put the data record into.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
-        var partitionKey: String = ""
+        public var partitionKey: String = ""
         /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
-        var explicitHashKey: String? = nil
+        public var explicitHashKey: String? = nil
         /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records will be coarsely ordered based on arrival time.
-        var sequenceNumberForOrdering: String? = nil
+        public var sequenceNumberForOrdering: String? = nil
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
-        var data: Data = Data()
+        public var data: Data = Data()
 
         public init() {}
 
@@ -464,15 +518,17 @@ extension Kinesis {
 
     }
 
-    public struct PutRecordsResultEntry: Serializable, Initializable {
+    public struct PutRecordsResultEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sequence number for an individual record result.
-        var sequenceNumber: String? = nil
+        public var sequenceNumber: String? = nil
         /// The error message for an individual record result. An ErrorCode value of ProvisionedThroughputExceededException has an error message that includes the account ID, stream name, and shard ID. An ErrorCode value of InternalFailure has the error message "Internal Service Failure".
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
         /// The error code for an individual record result. ErrorCodes can be either ProvisionedThroughputExceededException or InternalFailure.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The shard ID for an individual record result.
-        var shardId: String? = nil
+        public var shardId: String? = nil
 
         public init() {}
 
@@ -485,13 +541,15 @@ extension Kinesis {
 
     }
 
-    public struct ListTagsForStreamInput: Serializable, Initializable {
+    public struct ListTagsForStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey. 
-        var exclusiveStartTagKey: String? = nil
+        public var exclusiveStartTagKey: String? = nil
         /// The name of the stream.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -503,11 +561,13 @@ extension Kinesis {
 
     }
 
-    public struct ListStreamsOutput: Serializable, Initializable {
+    public struct ListStreamsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the streams that are associated with the AWS account making the ListStreams request.
-        var streamNames: [String] = []
+        public var streamNames: [String] = []
         /// If set to true, there are more streams available to list.
-        var hasMoreStreams: Bool = false
+        public var hasMoreStreams: Bool = false
 
         public init() {}
 
@@ -518,11 +578,13 @@ extension Kinesis {
 
     }
 
-    public struct EnableEnhancedMonitoringInput: Serializable, Initializable {
+    public struct EnableEnhancedMonitoringInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        var shardLevelMetrics: [String] = []
+        public var shardLevelMetrics: [String] = []
         /// The name of the stream for which to enable enhanced monitoring.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -533,13 +595,15 @@ extension Kinesis {
 
     }
 
-    public struct MergeShardsInput: Serializable, Initializable {
+    public struct MergeShardsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The shard ID of the adjacent shard for the merge.
-        var adjacentShardToMerge: String = ""
+        public var adjacentShardToMerge: String = ""
         /// The shard ID of the shard to combine with the adjacent shard for the merge.
-        var shardToMerge: String = ""
+        public var shardToMerge: String = ""
         /// The name of the stream for the merge.
-        var streamName: String = ""
+        public var streamName: String = ""
 
         public init() {}
 
@@ -551,11 +615,13 @@ extension Kinesis {
 
     }
 
-    public struct RemoveTagsFromStreamInput: Serializable, Initializable {
+    public struct RemoveTagsFromStreamInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stream.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// A list of tag keys. Each corresponding tag is removed from the stream.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -566,11 +632,13 @@ extension Kinesis {
 
     }
 
-    public struct ListStreamsInput: Serializable, Initializable {
+    public struct ListStreamsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stream to start the list with.
-        var exclusiveStartStreamName: String? = nil
+        public var exclusiveStartStreamName: String? = nil
         /// The maximum number of streams to list.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -581,13 +649,15 @@ extension Kinesis {
 
     }
 
-    public struct GetRecordsOutput: Serializable, Initializable {
+    public struct GetRecordsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The next position in the shard from which to start sequentially reading data records. If set to null, the shard has been closed and the requested iterator will not return any more data. 
-        var nextShardIterator: String? = nil
+        public var nextShardIterator: String? = nil
         /// The number of milliseconds the GetRecords response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates record processing is caught up, and there are no new records to process at this moment.
-        var millisBehindLatest: Int64? = nil
+        public var millisBehindLatest: Int64? = nil
         /// The data records retrieved from the shard.
-        var records: [Record] = []
+        public var records: [Record] = []
 
         public init() {}
 
@@ -599,13 +669,15 @@ extension Kinesis {
 
     }
 
-    public struct SplitShardInput: Serializable, Initializable {
+    public struct SplitShardInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stream for the shard split.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The shard ID of the shard to split.
-        var shardToSplit: String = ""
+        public var shardToSplit: String = ""
         /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard.
-        var newStartingHashKey: String = ""
+        public var newStartingHashKey: String = ""
 
         public init() {}
 
@@ -617,9 +689,11 @@ extension Kinesis {
 
     }
 
-    public struct EnhancedMetrics: Serializable, Initializable {
+    public struct EnhancedMetrics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        var shardLevelMetrics: [String]? = nil
+        public var shardLevelMetrics: [String]? = nil
 
         public init() {}
 
@@ -629,23 +703,25 @@ extension Kinesis {
 
     }
 
-    public struct StreamDescription: Serializable, Initializable {
+    public struct StreamDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the stream being described.
-        var streamARN: String = ""
+        public var streamARN: String = ""
         /// The current retention period, in hours.
-        var retentionPeriodHours: Int32 = 0
+        public var retentionPeriodHours: Int32 = 0
         /// Represents the current enhanced monitoring settings of the stream.
-        var enhancedMonitoring: [EnhancedMetrics] = []
+        public var enhancedMonitoring: [EnhancedMetrics] = []
         /// If set to true, more shards in the stream are available to describe.
-        var hasMoreShards: Bool = false
+        public var hasMoreShards: Bool = false
         /// The shards that comprise the stream.
-        var shards: [Shard] = []
+        public var shards: [Shard] = []
         /// The approximate time that the stream was created.
-        var streamCreationTimestamp: Date = Date()
+        public var streamCreationTimestamp: Date = Date()
         /// The name of the stream being described.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Amazon Kinesis immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Amazon Kinesis completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
-        var streamStatus: String = ""
+        public var streamStatus: String = ""
 
         public init() {}
 

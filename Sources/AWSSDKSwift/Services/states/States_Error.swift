@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for States
-public enum StatesError: Error {
+public enum StatesError: AWSErrorType {
     case activityDoesNotExist(message: String?)
     case activityWorkerLimitExceeded(message: String?)
     case invalidArn(message: String?)

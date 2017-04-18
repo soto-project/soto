@@ -32,173 +32,154 @@ Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for
 */
 public struct Cloudfront {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "cloudfront",
-            endpoint: endpoint
+            serviceProtocol: .restxml,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CloudfrontError.self]
         )
     }
 
     ///  
     public func updateCloudFrontOriginAccessIdentity20161125(_ input: UpdateCloudFrontOriginAccessIdentityRequest) throws -> UpdateCloudFrontOriginAccessIdentityResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/\(input.id)/config", httpMethod: "PUT", httpHeaders: ["If-Match": input.ifMatch], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
     }
 
     ///  
     public func createDistribution20161125(_ input: CreateDistributionRequest) throws -> CreateDistributionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDistribution2016_11_25", path: "/2016-11-25/distribution", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDistribution2016_11_25", path: "/2016-11-25/distribution", httpMethod: "POST", input: input)
     }
 
     ///  
     public func updateDistribution20161125(_ input: UpdateDistributionRequest) throws -> UpdateDistributionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDistribution2016_11_25", path: "/2016-11-25/distribution/\(input.id)/config", httpMethod: "PUT", httpHeaders: ["If-Match": input.ifMatch], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDistribution2016_11_25", path: "/2016-11-25/distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
     ///  
     public func listDistributionsByWebACLId20161125(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDistributionsByWebACLId2016_11_25", path: "/2016-11-25/distributionsByWebACLId/\(input.webACLId)?Marker=\(input.marker?.description ?? "")&MaxItems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDistributionsByWebACLId2016_11_25", path: "/2016-11-25/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getCloudFrontOriginAccessIdentity20161125(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> GetCloudFrontOriginAccessIdentityResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func createCloudFrontOriginAccessIdentity20161125(_ input: CreateCloudFrontOriginAccessIdentityRequest) throws -> CreateCloudFrontOriginAccessIdentityResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
     }
 
     ///  
     public func listDistributions20161125(_ input: ListDistributionsRequest) throws -> ListDistributionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDistributions2016_11_25", path: "/2016-11-25/distribution?Marker=\(input.marker?.description ?? "")&MaxItems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDistributions2016_11_25", path: "/2016-11-25/distribution", httpMethod: "GET", input: input)
     }
 
     ///  
     public func listTagsForResource20161125(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTagsForResource2016_11_25", path: "/2016-11-25/tagging?Resource=\(input.resource)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTagsForResource2016_11_25", path: "/2016-11-25/tagging", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getDistributionConfig20161125(_ input: GetDistributionConfigRequest) throws -> GetDistributionConfigResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDistributionConfig2016_11_25", path: "/2016-11-25/distribution/\(input.id)/config", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDistributionConfig2016_11_25", path: "/2016-11-25/distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  
     public func createInvalidation20161125(_ input: CreateInvalidationRequest) throws -> CreateInvalidationResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateInvalidation2016_11_25", path: "/2016-11-25/distribution/\(input.distributionId)/invalidation", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateInvalidation2016_11_25", path: "/2016-11-25/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
     }
 
     ///  
     public func getCloudFrontOriginAccessIdentityConfig20161125(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) throws -> GetCloudFrontOriginAccessIdentityConfigResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetCloudFrontOriginAccessIdentityConfig2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/\(input.id)/config", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getInvalidation20161125(_ input: GetInvalidationRequest) throws -> GetInvalidationResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetInvalidation2016_11_25", path: "/2016-11-25/distribution/\(input.distributionId)/invalidation/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetInvalidation2016_11_25", path: "/2016-11-25/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func listCloudFrontOriginAccessIdentities20161125(_ input: ListCloudFrontOriginAccessIdentitiesRequest) throws -> ListCloudFrontOriginAccessIdentitiesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListCloudFrontOriginAccessIdentities2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront?Marker=\(input.marker?.description ?? "")&MaxItems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListCloudFrontOriginAccessIdentities2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getStreamingDistributionConfig20161125(_ input: GetStreamingDistributionConfigRequest) throws -> GetStreamingDistributionConfigResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetStreamingDistributionConfig2016_11_25", path: "/2016-11-25/streaming-distribution/\(input.id)/config", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetStreamingDistributionConfig2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getDistribution20161125(_ input: GetDistributionRequest) throws -> GetDistributionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDistribution2016_11_25", path: "/2016-11-25/distribution/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDistribution2016_11_25", path: "/2016-11-25/distribution/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func deleteCloudFrontOriginAccessIdentity20161125(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws {
-        _ = try request.invoke(operation: "DeleteCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/\(input.id)", httpMethod: "DELETE", httpHeaders: ["If-Match": input.ifMatch], input: input)
+        _ = try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  
     public func listStreamingDistributions20161125(_ input: ListStreamingDistributionsRequest) throws -> ListStreamingDistributionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListStreamingDistributions2016_11_25", path: "/2016-11-25/streaming-distribution?Marker=\(input.marker?.description ?? "")&MaxItems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListStreamingDistributions2016_11_25", path: "/2016-11-25/streaming-distribution", httpMethod: "GET", input: input)
     }
 
     ///  
     public func listInvalidations20161125(_ input: ListInvalidationsRequest) throws -> ListInvalidationsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListInvalidations2016_11_25", path: "/2016-11-25/distribution/\(input.distributionId)/invalidation?Marker=\(input.marker?.description ?? "")&MaxItems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListInvalidations2016_11_25", path: "/2016-11-25/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getStreamingDistribution20161125(_ input: GetStreamingDistributionRequest) throws -> GetStreamingDistributionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func deleteStreamingDistribution20161125(_ input: DeleteStreamingDistributionRequest) throws {
-        _ = try request.invoke(operation: "DeleteStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/\(input.id)", httpMethod: "DELETE", httpHeaders: ["If-Match": input.ifMatch], input: input)
+        _ = try client.send(operation: "DeleteStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  
     public func untagResource20161125(_ input: UntagResourceRequest) throws {
-        _ = try request.invoke(operation: "UntagResource2016_11_25", path: "/2016-11-25/tagging?Operation=Untag&Resource=\(input.resource)", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UntagResource2016_11_25", path: "/2016-11-25/tagging?Operation=Untag", httpMethod: "POST", input: input)
     }
 
     ///  
     public func createDistributionWithTags20161125(_ input: CreateDistributionWithTagsRequest) throws -> CreateDistributionWithTagsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDistributionWithTags2016_11_25", path: "/2016-11-25/distribution?WithTags", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDistributionWithTags2016_11_25", path: "/2016-11-25/distribution?WithTags", httpMethod: "POST", input: input)
     }
 
     ///  
     public func createStreamingDistributionWithTags20161125(_ input: CreateStreamingDistributionWithTagsRequest) throws -> CreateStreamingDistributionWithTagsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStreamingDistributionWithTags2016_11_25", path: "/2016-11-25/streaming-distribution?WithTags", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStreamingDistributionWithTags2016_11_25", path: "/2016-11-25/streaming-distribution?WithTags", httpMethod: "POST", input: input)
     }
 
     ///  
     public func deleteDistribution20161125(_ input: DeleteDistributionRequest) throws {
-        _ = try request.invoke(operation: "DeleteDistribution2016_11_25", path: "/2016-11-25/distribution/\(input.id)", httpMethod: "DELETE", httpHeaders: ["If-Match": input.ifMatch], input: input)
+        _ = try client.send(operation: "DeleteDistribution2016_11_25", path: "/2016-11-25/distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  
     public func tagResource20161125(_ input: TagResourceRequest) throws {
-        _ = try request.invoke(operation: "TagResource2016_11_25", path: "/2016-11-25/tagging?Operation=Tag&Resource=\(input.resource)", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "TagResource2016_11_25", path: "/2016-11-25/tagging?Operation=Tag", httpMethod: "POST", input: input)
     }
 
     ///  
     public func createStreamingDistribution20161125(_ input: CreateStreamingDistributionRequest) throws -> CreateStreamingDistributionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution", httpMethod: "POST", input: input)
     }
 
     ///  
     public func updateStreamingDistribution20161125(_ input: UpdateStreamingDistributionRequest) throws -> UpdateStreamingDistributionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/\(input.id)/config", httpMethod: "PUT", httpHeaders: ["If-Match": input.ifMatch], input: input)
-        return try CloudfrontResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
 

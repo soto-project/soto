@@ -29,11 +29,13 @@ import Core
 
 extension Support {
 
-    public struct DescribeCommunicationsResponse: Serializable, Initializable {
+    public struct DescribeCommunicationsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A resumption point for pagination.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The communications for the case.
-        var communications: [Communication]? = nil
+        public var communications: [Communication]? = nil
 
         public init() {}
 
@@ -44,11 +46,13 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorCostOptimizingSummary: Serializable, Initializable {
+    public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The estimated monthly savings that might be realized if the recommended actions are taken.
-        var estimatedMonthlySavings: Double = 0
+        public var estimatedMonthlySavings: Double = 0
         /// The estimated percentage of savings that might be realized if the recommended actions are taken.
-        var estimatedPercentMonthlySavings: Double = 0
+        public var estimatedPercentMonthlySavings: Double = 0
 
         public init() {}
 
@@ -59,9 +63,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorCheckSummariesResponse: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The summary information for the requested Trusted Advisor checks.
-        var summaries: [TrustedAdvisorCheckSummary] = []
+        public var summaries: [TrustedAdvisorCheckSummary] = []
 
         public init() {}
 
@@ -71,11 +77,13 @@ extension Support {
 
     }
 
-    public struct ResolveCaseResponse: Serializable, Initializable {
+    public struct ResolveCaseResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the case when the ResolveCase request was sent.
-        var initialCaseStatus: String? = nil
+        public var initialCaseStatus: String? = nil
         /// The status of the case after the ResolveCase request was processed.
-        var finalCaseStatus: String? = nil
+        public var finalCaseStatus: String? = nil
 
         public init() {}
 
@@ -86,11 +94,13 @@ extension Support {
 
     }
 
-    public struct DescribeCasesResponse: Serializable, Initializable {
+    public struct DescribeCasesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The details for the cases that match the request.
-        var cases: [CaseDetails]? = nil
+        public var cases: [CaseDetails]? = nil
         /// A resumption point for pagination.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -101,9 +111,11 @@ extension Support {
 
     }
 
-    public struct CreateCaseResponse: Serializable, Initializable {
+    public struct CreateCaseResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        var caseId: String? = nil
+        public var caseId: String? = nil
 
         public init() {}
 
@@ -113,25 +125,27 @@ extension Support {
 
     }
 
-    public struct DescribeCasesRequest: Serializable, Initializable {
+    public struct DescribeCasesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        var afterTime: String? = nil
+        public var afterTime: String? = nil
         /// A resumption point for pagination.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Specifies whether communications should be included in the DescribeCases results. The default is true.
-        var includeCommunications: Bool? = nil
+        public var includeCommunications: Bool? = nil
         /// The ID displayed for a case in the AWS Support Center user interface.
-        var displayId: String? = nil
+        public var displayId: String? = nil
         /// Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.
-        var includeResolvedCases: Bool? = nil
+        public var includeResolvedCases: Bool? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String? = nil
+        public var language: String? = nil
         /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
-        var caseIdList: [String]? = nil
+        public var caseIdList: [String]? = nil
         /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        var beforeTime: String? = nil
+        public var beforeTime: String? = nil
         /// The maximum number of results to return before paginating.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -149,17 +163,19 @@ extension Support {
 
     }
 
-    public struct DescribeCommunicationsRequest: Serializable, Initializable {
+    public struct DescribeCommunicationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        var caseId: String = ""
+        public var caseId: String = ""
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        var afterTime: String? = nil
+        public var afterTime: String? = nil
         /// A resumption point for pagination.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to return before paginating.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        var beforeTime: String? = nil
+        public var beforeTime: String? = nil
 
         public init() {}
 
@@ -173,15 +189,17 @@ extension Support {
 
     }
 
-    public struct AddCommunicationToCaseRequest: Serializable, Initializable {
+    public struct AddCommunicationToCaseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        var caseId: String? = nil
+        public var caseId: String? = nil
         /// The email addresses in the CC line of an email to be added to the support case.
-        var ccEmailAddresses: [String]? = nil
+        public var ccEmailAddresses: [String]? = nil
         /// The body of an email communication to add to the support case.
-        var communicationBody: String = ""
+        public var communicationBody: String = ""
         /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet 
-        var attachmentSetId: String? = nil
+        public var attachmentSetId: String? = nil
 
         public init() {}
 
@@ -194,9 +212,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The refresh status of the specified Trusted Advisor checks.
-        var statuses: [TrustedAdvisorCheckRefreshStatus] = []
+        public var statuses: [TrustedAdvisorCheckRefreshStatus] = []
 
         public init() {}
 
@@ -206,18 +226,20 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorCheckSummary: Serializable, Initializable {
+    public struct TrustedAdvisorCheckSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
-        var status: String = ""
+        public var status: String = ""
         /// The unique identifier for the Trusted Advisor check.
-        var checkId: String = ""
+        public var checkId: String = ""
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
-        var categorySpecificSummary: TrustedAdvisorCategorySpecificSummary = TrustedAdvisorCategorySpecificSummary()
+        public var categorySpecificSummary: TrustedAdvisorCategorySpecificSummary = TrustedAdvisorCategorySpecificSummary()
         /// The time of the last refresh of the check.
-        var timestamp: String = ""
+        public var timestamp: String = ""
         /// Specifies whether the Trusted Advisor check has flagged resources.
-        var hasFlaggedResources: Bool? = nil
-        var resourcesSummary: TrustedAdvisorResourcesSummary = TrustedAdvisorResourcesSummary()
+        public var hasFlaggedResources: Bool? = nil
+        public var resourcesSummary: TrustedAdvisorResourcesSummary = TrustedAdvisorResourcesSummary()
 
         public init() {}
 
@@ -232,11 +254,13 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorCheckResultRequest: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String? = nil
+        public var language: String? = nil
         /// The unique identifier for the Trusted Advisor check.
-        var checkId: String = ""
+        public var checkId: String = ""
 
         public init() {}
 
@@ -247,9 +271,11 @@ extension Support {
 
     }
 
-    public struct DescribeAttachmentRequest: Serializable, Initializable {
+    public struct DescribeAttachmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
-        var attachmentId: String = ""
+        public var attachmentId: String = ""
 
         public init() {}
 
@@ -259,9 +285,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorCheckSummariesRequest: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IDs of the Trusted Advisor checks.
-        var checkIds: [String] = []
+        public var checkIds: [String] = []
 
         public init() {}
 
@@ -271,18 +299,20 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorCheckResult: Serializable, Initializable {
+    public struct TrustedAdvisorCheckResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
-        var status: String = ""
+        public var status: String = ""
         /// The unique identifier for the Trusted Advisor check.
-        var checkId: String = ""
+        public var checkId: String = ""
         /// The details about each resource listed in the check result.
-        var flaggedResources: [TrustedAdvisorResourceDetail] = []
+        public var flaggedResources: [TrustedAdvisorResourceDetail] = []
         /// The time of the last refresh of the check.
-        var timestamp: String = ""
-        var resourcesSummary: TrustedAdvisorResourcesSummary = TrustedAdvisorResourcesSummary()
+        public var timestamp: String = ""
+        public var resourcesSummary: TrustedAdvisorResourcesSummary = TrustedAdvisorResourcesSummary()
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
-        var categorySpecificSummary: TrustedAdvisorCategorySpecificSummary = TrustedAdvisorCategorySpecificSummary()
+        public var categorySpecificSummary: TrustedAdvisorCategorySpecificSummary = TrustedAdvisorCategorySpecificSummary()
 
         public init() {}
 
@@ -297,9 +327,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorChecksResponse: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about all available Trusted Advisor checks.
-        var checks: [TrustedAdvisorCheckDescription] = []
+        public var checks: [TrustedAdvisorCheckDescription] = []
 
         public init() {}
 
@@ -309,9 +341,11 @@ extension Support {
 
     }
 
-    public struct DescribeAttachmentResponse: Serializable, Initializable {
+    public struct DescribeAttachmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attachment content and file name.
-        var attachment: Attachment? = nil
+        public var attachment: Attachment? = nil
 
         public init() {}
 
@@ -321,13 +355,15 @@ extension Support {
 
     }
 
-    public struct Service: Serializable, Initializable {
+    public struct Service: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
-        var categories: [Category]? = nil
+        public var categories: [Category]? = nil
         /// The friendly name for an AWS service. The code element contains the corresponding code.
-        var name: String? = nil
+        public var name: String? = nil
         /// The code for an AWS service returned by the DescribeServices response. The name element contains the corresponding friendly name.
-        var code: String? = nil
+        public var code: String? = nil
 
         public init() {}
 
@@ -339,15 +375,17 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorResourcesSummary: Serializable, Initializable {
+    public struct TrustedAdvisorResourcesSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
-        var resourcesFlagged: Int64 = 0
+        public var resourcesFlagged: Int64 = 0
         /// The number of AWS resources ignored by Trusted Advisor because information was unavailable.
-        var resourcesIgnored: Int64 = 0
+        public var resourcesIgnored: Int64 = 0
         /// The number of AWS resources ignored by Trusted Advisor because they were marked as suppressed by the user.
-        var resourcesSuppressed: Int64 = 0
+        public var resourcesSuppressed: Int64 = 0
         /// The number of AWS resources that were analyzed by the Trusted Advisor check.
-        var resourcesProcessed: Int64 = 0
+        public var resourcesProcessed: Int64 = 0
 
         public init() {}
 
@@ -360,31 +398,33 @@ extension Support {
 
     }
 
-    public struct CaseDetails: Serializable, Initializable {
+    public struct CaseDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The email address of the account that submitted the case.
-        var submittedBy: String? = nil
+        public var submittedBy: String? = nil
         /// The status of the case.
-        var status: String? = nil
+        public var status: String? = nil
         /// The code for the AWS service returned by the call to DescribeServices.
-        var serviceCode: String? = nil
+        public var serviceCode: String? = nil
         /// The code for the severity level returned by the call to DescribeSeverityLevels.
-        var severityCode: String? = nil
+        public var severityCode: String? = nil
         /// The email addresses that receive copies of communication about the case.
-        var ccEmailAddresses: [String]? = nil
+        public var ccEmailAddresses: [String]? = nil
         /// The ID displayed for the case in the AWS Support Center. This is a numeric string.
-        var displayId: String? = nil
+        public var displayId: String? = nil
         /// The time that the case was case created in the AWS Support Center.
-        var timeCreated: String? = nil
+        public var timeCreated: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String? = nil
+        public var language: String? = nil
         /// The category of problem for the AWS Support case.
-        var categoryCode: String? = nil
+        public var categoryCode: String? = nil
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        var caseId: String? = nil
+        public var caseId: String? = nil
         /// The five most recent communications between you and AWS Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
-        var recentCommunications: RecentCaseCommunications? = nil
+        public var recentCommunications: RecentCaseCommunications? = nil
         /// The subject line for the case in the AWS Support Center.
-        var subject: String? = nil
+        public var subject: String? = nil
 
         public init() {}
 
@@ -405,9 +445,11 @@ extension Support {
 
     }
 
-    public struct DescribeServicesResponse: Serializable, Initializable {
+    public struct DescribeServicesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A JSON-formatted list of AWS services.
-        var services: [Service]? = nil
+        public var services: [Service]? = nil
 
         public init() {}
 
@@ -417,11 +459,13 @@ extension Support {
 
     }
 
-    public struct AddAttachmentsToSetRequest: Serializable, Initializable {
+    public struct AddAttachmentsToSetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
-        var attachments: [Attachment] = []
+        public var attachments: [Attachment] = []
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
-        var attachmentSetId: String? = nil
+        public var attachmentSetId: String? = nil
 
         public init() {}
 
@@ -432,9 +476,11 @@ extension Support {
 
     }
 
-    public struct ResolveCaseRequest: Serializable, Initializable {
+    public struct ResolveCaseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        var caseId: String? = nil
+        public var caseId: String? = nil
 
         public init() {}
 
@@ -444,11 +490,13 @@ extension Support {
 
     }
 
-    public struct AddAttachmentsToSetResponse: Serializable, Initializable {
+    public struct AddAttachmentsToSetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the attachment set. If an attachmentSetId was not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId was specified, the attachments are added to the specified set, if it exists.
-        var attachmentSetId: String? = nil
+        public var attachmentSetId: String? = nil
         /// The time and date when the attachment set expires.
-        var expiryTime: String? = nil
+        public var expiryTime: String? = nil
 
         public init() {}
 
@@ -459,11 +507,13 @@ extension Support {
 
     }
 
-    public struct Category: Serializable, Initializable {
+    public struct Category: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The category name for the support case.
-        var name: String? = nil
+        public var name: String? = nil
         /// The category code for the support case.
-        var code: String? = nil
+        public var code: String? = nil
 
         public init() {}
 
@@ -474,9 +524,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
-        var checkIds: [String] = []
+        public var checkIds: [String] = []
 
         public init() {}
 
@@ -486,9 +538,11 @@ extension Support {
 
     }
 
-    public struct DescribeSeverityLevelsRequest: Serializable, Initializable {
+    public struct DescribeSeverityLevelsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String? = nil
+        public var language: String? = nil
 
         public init() {}
 
@@ -498,9 +552,11 @@ extension Support {
 
     }
 
-    public struct RefreshTrustedAdvisorCheckRequest: Serializable, Initializable {
+    public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
-        var checkId: String = ""
+        public var checkId: String = ""
 
         public init() {}
 
@@ -510,9 +566,11 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorCategorySpecificSummary: Serializable, Initializable {
+    public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
-        var costOptimizing: TrustedAdvisorCostOptimizingSummary? = nil
+        public var costOptimizing: TrustedAdvisorCostOptimizingSummary? = nil
 
         public init() {}
 
@@ -522,9 +580,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorCheckResultResponse: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The detailed results of the Trusted Advisor check.
-        var result: TrustedAdvisorCheckResult? = nil
+        public var result: TrustedAdvisorCheckResult? = nil
 
         public init() {}
 
@@ -534,9 +594,11 @@ extension Support {
 
     }
 
-    public struct DescribeSeverityLevelsResponse: Serializable, Initializable {
+    public struct DescribeSeverityLevelsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
-        var severityLevels: [SeverityLevel]? = nil
+        public var severityLevels: [SeverityLevel]? = nil
 
         public init() {}
 
@@ -546,11 +608,13 @@ extension Support {
 
     }
 
-    public struct DescribeServicesRequest: Serializable, Initializable {
+    public struct DescribeServicesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String? = nil
+        public var language: String? = nil
         /// A JSON-formatted list of service codes available for AWS services.
-        var serviceCodeList: [String]? = nil
+        public var serviceCodeList: [String]? = nil
 
         public init() {}
 
@@ -561,9 +625,11 @@ extension Support {
 
     }
 
-    public struct AddCommunicationToCaseResponse: Serializable, Initializable {
+    public struct AddCommunicationToCaseResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
-        var result: Bool? = nil
+        public var result: Bool? = nil
 
         public init() {}
 
@@ -573,17 +639,19 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorCheckDescription: Serializable, Initializable {
+    public struct TrustedAdvisorCheckDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the TrustedAdvisorResourceDetail for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
-        var metadata: [String] = []
+        public var metadata: [String] = []
         /// The display name for the Trusted Advisor check.
-        var name: String = ""
+        public var name: String = ""
         /// The description of the Trusted Advisor check, which includes the alert criteria and recommended actions (contains HTML markup).
-        var description: String = ""
+        public var description: String = ""
         /// The unique identifier for the Trusted Advisor check.
-        var id: String = ""
+        public var id: String = ""
         /// The category of the Trusted Advisor check.
-        var category: String = ""
+        public var category: String = ""
 
         public init() {}
 
@@ -597,11 +665,13 @@ extension Support {
 
     }
 
-    public struct Attachment: Serializable, Initializable {
+    public struct Attachment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the attachment file.
-        var fileName: String? = nil
+        public var fileName: String? = nil
         /// The content of the attachment file.
-        var data: Data? = nil
+        public var data: Data? = nil
 
         public init() {}
 
@@ -612,9 +682,11 @@ extension Support {
 
     }
 
-    public struct RefreshTrustedAdvisorCheckResponse: Serializable, Initializable {
+    public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
-        var status: TrustedAdvisorCheckRefreshStatus = TrustedAdvisorCheckRefreshStatus()
+        public var status: TrustedAdvisorCheckRefreshStatus = TrustedAdvisorCheckRefreshStatus()
 
         public init() {}
 
@@ -624,17 +696,19 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorResourceDetail: Serializable, Initializable {
+    public struct TrustedAdvisorResourceDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
-        var metadata: [String] = []
+        public var metadata: [String] = []
         /// The status code for the resource identified in the Trusted Advisor check.
-        var status: String = ""
+        public var status: String = ""
         /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
-        var isSuppressed: Bool? = nil
+        public var isSuppressed: Bool? = nil
         /// The unique identifier for the identified resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The AWS region in which the identified resource is located.
-        var region: String? = nil
+        public var region: String? = nil
 
         public init() {}
 
@@ -648,9 +722,11 @@ extension Support {
 
     }
 
-    public struct DescribeTrustedAdvisorChecksRequest: Serializable, Initializable {
+    public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String = ""
+        public var language: String = ""
 
         public init() {}
 
@@ -660,13 +736,15 @@ extension Support {
 
     }
 
-    public struct TrustedAdvisorCheckRefreshStatus: Serializable, Initializable {
+    public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
-        var status: String = ""
+        public var status: String = ""
         /// The unique identifier for the Trusted Advisor check.
-        var checkId: String = ""
+        public var checkId: String = ""
         /// The amount of time, in milliseconds, until the Trusted Advisor check is eligible for refresh.
-        var millisUntilNextRefreshable: Int64 = 0
+        public var millisUntilNextRefreshable: Int64 = 0
 
         public init() {}
 
@@ -678,17 +756,19 @@ extension Support {
 
     }
 
-    public struct Communication: Serializable, Initializable {
+    public struct Communication: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        var caseId: String? = nil
+        public var caseId: String? = nil
         /// The email address of the account that submitted the AWS Support case.
-        var submittedBy: String? = nil
+        public var submittedBy: String? = nil
         /// The text of the communication between the customer and AWS Support.
-        var body: String? = nil
+        public var body: String? = nil
         /// Information about the attachments to the case communication.
-        var attachmentSet: [AttachmentDetails]? = nil
+        public var attachmentSet: [AttachmentDetails]? = nil
         /// The time the communication was created.
-        var timeCreated: String? = nil
+        public var timeCreated: String? = nil
 
         public init() {}
 
@@ -702,11 +782,13 @@ extension Support {
 
     }
 
-    public struct SeverityLevel: Serializable, Initializable {
+    public struct SeverityLevel: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the severity level that corresponds to the severity level code.
-        var name: String? = nil
+        public var name: String? = nil
         /// One of four values: "low," "medium," "high," and "urgent". These values correspond to response times returned to the caller in severityLevel.name. 
-        var code: String? = nil
+        public var code: String? = nil
 
         public init() {}
 
@@ -717,11 +799,13 @@ extension Support {
 
     }
 
-    public struct AttachmentDetails: Serializable, Initializable {
+    public struct AttachmentDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The file name of the attachment.
-        var fileName: String? = nil
+        public var fileName: String? = nil
         /// The ID of the attachment.
-        var attachmentId: String? = nil
+        public var attachmentId: String? = nil
 
         public init() {}
 
@@ -732,11 +816,13 @@ extension Support {
 
     }
 
-    public struct RecentCaseCommunications: Serializable, Initializable {
+    public struct RecentCaseCommunications: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A resumption point for pagination.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The five most recent communications associated with the case.
-        var communications: [Communication]? = nil
+        public var communications: [Communication]? = nil
 
         public init() {}
 
@@ -747,25 +833,27 @@ extension Support {
 
     }
 
-    public struct CreateCaseRequest: Serializable, Initializable {
+    public struct CreateCaseRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."
-        var issueType: String? = nil
+        public var issueType: String? = nil
         /// The code for the AWS service returned by the call to DescribeServices.
-        var serviceCode: String? = nil
+        public var serviceCode: String? = nil
         /// The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.
-        var attachmentSetId: String? = nil
+        public var attachmentSetId: String? = nil
         /// The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on each customer's support subscription. In other words, your subscription may not necessarily require the urgent level of response time. 
-        var severityCode: String? = nil
+        public var severityCode: String? = nil
         /// A list of email addresses that AWS Support copies on case correspondence.
-        var ccEmailAddresses: [String]? = nil
+        public var ccEmailAddresses: [String]? = nil
         /// The category of problem for the AWS Support case.
-        var categoryCode: String? = nil
+        public var categoryCode: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        var language: String? = nil
+        public var language: String? = nil
         /// The communication body text when you create an AWS Support case by calling CreateCase.
-        var communicationBody: String = ""
+        public var communicationBody: String = ""
         /// The title of the AWS Support case.
-        var subject: String = ""
+        public var subject: String = ""
 
         public init() {}
 

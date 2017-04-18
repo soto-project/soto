@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Inspector
-public enum InspectorError: Error {
+public enum InspectorError: AWSErrorType {
     case internalException(message: String?)
     case invalidInputException(message: String?)
     case accessDeniedException(message: String?)

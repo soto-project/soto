@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Support
-public enum SupportError: Error {
+public enum SupportError: AWSErrorType {
     case internalServerError(message: String?)
     case caseIdNotFound(message: String?)
     case attachmentSetIdNotFound(message: String?)

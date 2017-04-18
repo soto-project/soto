@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Pinpoint
-public enum PinpointError: Error {
+public enum PinpointError: AWSErrorType {
     case badRequestException(message: String?)
     case internalServerErrorException(message: String?)
     case forbiddenException(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Acm
-public enum AcmError: Error {
+public enum AcmError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidArnException(message: String?)
     case invalidTagException(message: String?)

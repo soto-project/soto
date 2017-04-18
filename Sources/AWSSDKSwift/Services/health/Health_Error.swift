@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Health
-public enum HealthError: Error {
+public enum HealthError: AWSErrorType {
     case unsupportedLocale(message: String?)
     case invalidPaginationToken(message: String?)
 }

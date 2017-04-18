@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Ecs
-public enum EcsError: Error {
+public enum EcsError: AWSErrorType {
     case serverException(message: String?)
     case clientException(message: String?)
     case invalidParameterException(message: String?)

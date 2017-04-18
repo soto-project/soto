@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Organizations
-public enum OrganizationsError: Error {
+public enum OrganizationsError: AWSErrorType {
     case accessDeniedException(message: String?)
     case aWSOrganizationsNotInUseException(message: String?)
     case invalidInputException(message: String?)

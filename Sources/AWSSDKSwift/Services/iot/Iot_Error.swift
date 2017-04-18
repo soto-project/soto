@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Iot
-public enum IotError: Error {
+public enum IotError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case certificateStateException(message: String?)
     case invalidRequestException(message: String?)

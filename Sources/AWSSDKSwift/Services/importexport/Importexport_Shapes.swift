@@ -29,10 +29,12 @@ import Core
 
 extension Importexport {
 
-    public struct ListJobsInput: Serializable, Initializable {
-        var marker: String? = nil
-        var maxJobs: Int32? = nil
-        var aPIVersion: String? = nil
+    public struct ListJobsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var marker: String? = nil
+        public var maxJobs: Int32? = nil
+        public var aPIVersion: String? = nil
 
         public init() {}
 
@@ -44,12 +46,14 @@ extension Importexport {
 
     }
 
-    public struct CreateJobInput: Serializable, Initializable {
-        var jobType: String = ""
-        var validateOnly: Bool = false
-        var manifest: String = ""
-        var aPIVersion: String? = nil
-        var manifestAddendum: String? = nil
+    public struct CreateJobInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobType: String = ""
+        public var validateOnly: Bool = false
+        public var manifest: String = ""
+        public var aPIVersion: String? = nil
+        public var manifestAddendum: String? = nil
 
         public init() {}
 
@@ -63,19 +67,21 @@ extension Importexport {
 
     }
 
-    public struct GetShippingLabelInput: Serializable, Initializable {
-        var stateOrProvince: String? = nil
-        var city: String? = nil
-        var postalCode: String? = nil
-        var name: String? = nil
-        var phoneNumber: String? = nil
-        var street3: String? = nil
-        var jobIds: [String] = []
-        var aPIVersion: String? = nil
-        var street2: String? = nil
-        var street1: String? = nil
-        var company: String? = nil
-        var country: String? = nil
+    public struct GetShippingLabelInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var stateOrProvince: String? = nil
+        public var city: String? = nil
+        public var postalCode: String? = nil
+        public var name: String? = nil
+        public var phoneNumber: String? = nil
+        public var street3: String? = nil
+        public var jobIds: [String] = []
+        public var aPIVersion: String? = nil
+        public var street2: String? = nil
+        public var street1: String? = nil
+        public var company: String? = nil
+        public var country: String? = nil
 
         public init() {}
 
@@ -96,9 +102,11 @@ extension Importexport {
 
     }
 
-    public struct GetStatusInput: Serializable, Initializable {
-        var jobId: String = ""
-        var aPIVersion: String? = nil
+    public struct GetStatusInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobId: String = ""
+        public var aPIVersion: String? = nil
 
         public init() {}
 
@@ -109,13 +117,15 @@ extension Importexport {
 
     }
 
-    public struct CreateJobOutput: Serializable, Initializable {
-        var jobType: String? = nil
-        var artifactList: [Artifact]? = nil
-        var signatureFileContents: String? = nil
-        var warningMessage: String? = nil
-        var signature: String? = nil
-        var jobId: String? = nil
+    public struct CreateJobOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobType: String? = nil
+        public var artifactList: [Artifact]? = nil
+        public var signatureFileContents: String? = nil
+        public var warningMessage: String? = nil
+        public var signature: String? = nil
+        public var jobId: String? = nil
 
         public init() {}
 
@@ -130,9 +140,11 @@ extension Importexport {
 
     }
 
-    public struct GetShippingLabelOutput: Serializable, Initializable {
-        var warning: String? = nil
-        var shippingLabelURL: String? = nil
+    public struct GetShippingLabelOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var warning: String? = nil
+        public var shippingLabelURL: String? = nil
 
         public init() {}
 
@@ -143,10 +155,12 @@ extension Importexport {
 
     }
 
-    public struct UpdateJobOutput: Serializable, Initializable {
-        var success: Bool? = nil
-        var warningMessage: String? = nil
-        var artifactList: [Artifact]? = nil
+    public struct UpdateJobOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var success: Bool? = nil
+        public var warningMessage: String? = nil
+        public var artifactList: [Artifact]? = nil
 
         public init() {}
 
@@ -158,12 +172,14 @@ extension Importexport {
 
     }
 
-    public struct UpdateJobInput: Serializable, Initializable {
-        var jobType: String = ""
-        var aPIVersion: String? = nil
-        var manifest: String = ""
-        var jobId: String = ""
-        var validateOnly: Bool = false
+    public struct UpdateJobInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobType: String = ""
+        public var aPIVersion: String? = nil
+        public var manifest: String = ""
+        public var jobId: String = ""
+        public var validateOnly: Bool = false
 
         public init() {}
 
@@ -177,11 +193,13 @@ extension Importexport {
 
     }
 
-    public struct Job: Serializable, Initializable {
-        var jobType: String? = nil
-        var creationDate: Date? = nil
-        var jobId: String? = nil
-        var isCanceled: Bool? = nil
+    public struct Job: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobType: String? = nil
+        public var creationDate: Date? = nil
+        public var jobId: String? = nil
+        public var isCanceled: Bool? = nil
 
         public init() {}
 
@@ -194,23 +212,25 @@ extension Importexport {
 
     }
 
-    public struct GetStatusOutput: Serializable, Initializable {
-        var carrier: String? = nil
-        var artifactList: [Artifact]? = nil
-        var signature: String? = nil
-        var progressMessage: String? = nil
-        var creationDate: Date? = nil
-        var currentManifest: String? = nil
-        var trackingNumber: String? = nil
-        var progressCode: String? = nil
-        var jobId: String? = nil
-        var logKey: String? = nil
-        var signatureFileContents: String? = nil
-        var locationMessage: String? = nil
-        var jobType: String? = nil
-        var errorCount: Int32? = nil
-        var logBucket: String? = nil
-        var locationCode: String? = nil
+    public struct GetStatusOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var carrier: String? = nil
+        public var artifactList: [Artifact]? = nil
+        public var signature: String? = nil
+        public var progressMessage: String? = nil
+        public var creationDate: Date? = nil
+        public var currentManifest: String? = nil
+        public var trackingNumber: String? = nil
+        public var progressCode: String? = nil
+        public var jobId: String? = nil
+        public var logKey: String? = nil
+        public var signatureFileContents: String? = nil
+        public var locationMessage: String? = nil
+        public var jobType: String? = nil
+        public var errorCount: Int32? = nil
+        public var logBucket: String? = nil
+        public var locationCode: String? = nil
 
         public init() {}
 
@@ -235,9 +255,11 @@ extension Importexport {
 
     }
 
-    public struct ListJobsOutput: Serializable, Initializable {
-        var jobs: [Job]? = nil
-        var isTruncated: Bool? = nil
+    public struct ListJobsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobs: [Job]? = nil
+        public var isTruncated: Bool? = nil
 
         public init() {}
 
@@ -248,9 +270,11 @@ extension Importexport {
 
     }
 
-    public struct Artifact: Serializable, Initializable {
-        var uRL: String? = nil
-        var description: String? = nil
+    public struct Artifact: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var uRL: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -261,9 +285,11 @@ extension Importexport {
 
     }
 
-    public struct CancelJobInput: Serializable, Initializable {
-        var jobId: String = ""
-        var aPIVersion: String? = nil
+    public struct CancelJobInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var jobId: String = ""
+        public var aPIVersion: String? = nil
 
         public init() {}
 
@@ -274,8 +300,10 @@ extension Importexport {
 
     }
 
-    public struct CancelJobOutput: Serializable, Initializable {
-        var success: Bool? = nil
+    public struct CancelJobOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var success: Bool? = nil
 
         public init() {}
 

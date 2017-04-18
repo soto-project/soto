@@ -32,1317 +32,1152 @@ Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides 
 */
 public struct Ec2 {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "ec2",
-            endpoint: endpoint
-        )
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: []        )
     }
 
     ///  Describes Dedicated Host Reservations which are associated with Dedicated Hosts in your account.
     public func describeHostReservations(_ input: DescribeHostReservationsRequest) throws -> DescribeHostReservationsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeHostReservations", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeHostReservations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumeAttribute(_ input: DescribeVolumeAttributeRequest) throws -> DescribeVolumeAttributeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVolumeAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVolumeAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, AWS will place instances that you launch with a tenancy of host, but without targeting a specific host ID, onto any available Dedicated Host in your account which has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID if you want the instance to launch onto a specific host. If no host ID is provided, the instance will be launched onto a suitable host which has auto-placement enabled.
     public func modifyHosts(_ input: ModifyHostsRequest) throws -> ModifyHostsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyHosts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyHosts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func replaceNetworkAclAssociation(_ input: ReplaceNetworkAclAssociationRequest) throws -> ReplaceNetworkAclAssociationResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ReplaceNetworkAclAssociation", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ReplaceNetworkAclAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. A prefix list ID is required for creating an outbound security group rule that allows traffic from a VPC to access an AWS service through a VPC endpoint.
     public func describePrefixLists(_ input: DescribePrefixListsRequest) throws -> DescribePrefixListsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribePrefixLists", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribePrefixLists", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created.  The following resource types support longer IDs: instance | reservation | snapshot | volume. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  This setting applies to the principal specified in the request; it does not apply to the principal that makes the request.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     public func modifyIdentityIdFormat(_ input: ModifyIdentityIdFormatRequest) throws {
-        _ = try request.invoke(operation: "ModifyIdentityIdFormat", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyIdentityIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches an Internet gateway from a VPC, disabling connectivity between the Internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses.
     public func detachInternetGateway(_ input: DetachInternetGatewayRequest) throws {
-        _ = try request.invoke(operation: "DetachInternetGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DetachInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a route in a route table within a VPC. You must specify one of the following targets: Internet gateway or virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or egress-only Internet gateway. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:    192.0.2.0/24 (goes to some target A)    192.0.2.0/28 (goes to some target B)   Both routes apply to the traffic destined for 192.0.2.3. However, the second route in the list covers a smaller number of IP addresses and is therefore more specific, so we use that route to determine where to target the traffic. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func createRoute(_ input: CreateRouteRequest) throws -> CreateRouteResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateRoute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your VPC endpoints.
     public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest) throws -> DescribeVpcEndpointsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcEndpoints", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the peer VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. 
     public func deleteVpcPeeringConnection(_ input: DeleteVpcPeeringConnectionRequest) throws -> DeleteVpcPeeringConnectionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteVpcPeeringConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks may still be taking place on your volume at the time. We recommend that you retry the request. For more information on volume status, see Monitoring the Status of Your Volumes.  Events: Reflect the cause of a volume status and may require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and may have inconsistent data.  Actions: Reflect the actions you may have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency.  Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.) 
     public func describeVolumeStatus(_ input: DescribeVolumeStatusRequest) throws -> DescribeVolumeStatusResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVolumeStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVolumeStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your virtual private gateways. For more information about virtual private gateways, see Adding an IPsec Hardware VPN to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func describeVpnGateways(_ input: DescribeVpnGatewaysRequest) throws -> DescribeVpnGatewaysResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpnGateways", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpnGateways", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified network interface. You must detach the network interface before you can delete it.
     public func deleteNetworkInterface(_ input: DeleteNetworkInterfaceRequest) throws {
-        _ = try request.invoke(operation: "DeleteNetworkInterface", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified attribute of the specified VPC.
     public func modifyVpcAttribute(_ input: ModifyVpcAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifyVpcAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyVpcAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error.
     public func cancelExportTask(_ input: CancelExportTaskRequest) throws {
-        _ = try request.invoke(operation: "CancelExportTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CancelExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels one or more Spot instance requests. Spot instances are instances that Amazon EC2 starts on your behalf when the bid price that you specify exceeds the current Spot price. Amazon EC2 periodically sets the Spot price based on available Spot instance capacity and current Spot instance requests. For more information, see Spot Instance Requests in the Amazon Elastic Compute Cloud User Guide.  Canceling a Spot instance request does not terminate running Spot instances associated with the request. 
     public func cancelSpotInstanceRequests(_ input: CancelSpotInstanceRequestsRequest) throws -> CancelSpotInstanceRequestsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CancelSpotInstanceRequests", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CancelSpotInstanceRequests", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your security groups. A security group is for use with instances either in the EC2-Classic platform or in a specific VPC. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide and Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func describeSecurityGroups(_ input: DescribeSecurityGroupsRequest) throws -> DescribeSecurityGroupsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSecurityGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSecurityGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform, unless you move it back using the RestoreAddressToClassic request. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform. 
     public func moveAddressToVpc(_ input: MoveAddressToVpcRequest) throws -> MoveAddressToVpcResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "MoveAddressToVpc", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "MoveAddressToVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a 2048-bit RSA key pair with the specified name. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#8 private key. If a key with the specified name already exists, Amazon EC2 returns an error. You can have up to five thousand key pairs per region. The key pair returned to you is available only in the region in which you create it. To create a key pair that is available in all regions, use ImportKeyPair. For more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
     public func createKeyPair(_ input: CreateKeyPairRequest) throws -> KeyPair {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateKeyPair", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Imports the public key from an RSA key pair that you created with a third-party tool. Compare this with CreateKeyPair, in which AWS creates the key pair and gives the keys to you (AWS keeps a copy of the public key). With ImportKeyPair, you create the key pair and give AWS just the public key. The private key is never transferred between you and AWS. For more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
     public func importKeyPair(_ input: ImportKeyPairRequest) throws -> ImportKeyPairResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportKeyPair", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Releases the specified Elastic IP address. After releasing an Elastic IP address, it is released to the IP address pool and might be unavailable to you. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another AWS account. [EC2-Classic, default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. To disassociate an Elastic IP address without releasing it, use DisassociateAddress. [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP address before you try to release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse).
     public func releaseAddress(_ input: ReleaseAddressRequest) throws {
-        _ = try request.invoke(operation: "ReleaseAddress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ReleaseAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the running instances for the specified Spot fleet.
     public func describeSpotFleetInstances(_ input: DescribeSpotFleetInstancesRequest) throws -> DescribeSpotFleetInstancesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSpotFleetInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSpotFleetInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on.
     public func deleteVpc(_ input: DeleteVpcRequest) throws {
-        _ = try request.invoke(operation: "DeleteVpc", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System. For information about extending a Windows file system, see Extending a Windows File System.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using the DescribeVolumesModifications API. For information about tracking status changes using either method, see Monitoring Volume Modifications.   With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume. 
     public func modifyVolume(_ input: ModifyVolumeRequest) throws -> ModifyVolumeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the encrypted administrator password for an instance running Windows. The Windows password is generated at boot if the EC2Config service plugin, Ec2SetPassword, is enabled. This usually only happens the first time an AMI is launched, and then Ec2SetPassword is automatically disabled. The password is not generated for rebundled AMIs unless Ec2SetPassword is enabled before bundling. The password is encrypted using the key pair that you specified when you launched the instance. You must provide the corresponding key pair file. Password generation and encryption takes a few moments. We recommend that you wait up to 15 minutes after launching an instance before trying to retrieve the generated password.
     public func getPasswordData(_ input: GetPasswordDataRequest) throws -> GetPasswordDataResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetPasswordData", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetPasswordData", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of the EBS snapshots available to you. Available snapshots include public snapshots available for any AWS account to launch, private snapshots that you own, and private snapshots owned by another AWS account but for which you've been given explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All AWS accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific AWS account.    implicit: An AWS account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be modified by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the AWS account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func describeSnapshots(_ input: DescribeSnapshotsRequest) throws -> DescribeSnapshotsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSnapshots", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC. For more information about your VPC and Internet gateway, see the Amazon Virtual Private Cloud User Guide.
     public func attachInternetGateway(_ input: AttachInternetGatewayRequest) throws {
-        _ = try request.invoke(operation: "AttachInternetGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AttachInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables a virtual private gateway (VGW) to propagate routes to the specified route table of a VPC.
     public func enableVgwRoutePropagation(_ input: EnableVgwRoutePropagationRequest) throws {
-        _ = try request.invoke(operation: "EnableVgwRoutePropagation", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "EnableVgwRoutePropagation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a reboot of one or more instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within four minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Getting Console Output and Rebooting Instances in the Amazon Elastic Compute Cloud User Guide.
     public func rebootInstances(_ input: RebootInstancesRequest) throws {
-        _ = try request.invoke(operation: "RebootInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RebootInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies attributes of a specified VPC endpoint. You can modify the policy associated with the endpoint, and you can add and remove route tables associated with the endpoint.
     public func modifyVpcEndpoint(_ input: ModifyVpcEndpointRequest) throws -> ModifyVpcEndpointResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyVpcEndpoint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyVpcEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
     public func describeMovingAddresses(_ input: DescribeMovingAddressesRequest) throws -> DescribeMovingAddressesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeMovingAddresses", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeMovingAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by describing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway.
     public func detachVpnGateway(_ input: DetachVpnGatewayRequest) throws {
-        _ = try request.invoke(operation: "DetachVpnGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DetachVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified route from the specified route table.
     public func deleteRoute(_ input: DeleteRouteRequest) throws {
-        _ = try request.invoke(operation: "DeleteRoute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
     public func deleteDhcpOptions(_ input: DeleteDhcpOptionsRequest) throws {
-        _ = try request.invoke(operation: "DeleteDhcpOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDhcpOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your subnets. For more information about subnets, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide.
     public func describeSubnets(_ input: DescribeSubnetsRequest) throws -> DescribeSubnetsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSubnets", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSubnets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a placement group that you launch cluster instances into. You must give the group a name that's unique within the scope of your account. For more information about placement groups and cluster instances, see Cluster Instances in the Amazon Elastic Compute Cloud User Guide.
     public func createPlacementGroup(_ input: CreatePlacementGroupRequest) throws {
-        _ = try request.invoke(operation: "CreatePlacementGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CreatePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces an entry (rule) in a network ACL. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func replaceNetworkAclEntry(_ input: ReplaceNetworkAclEntryRequest) throws {
-        _ = try request.invoke(operation: "ReplaceNetworkAclEntry", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ReplaceNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time.  AWS Marketplace product codes cannot be modified. Images with an AWS Marketplace product code cannot be made public.   The SriovNetSupport enhanced networking attribute cannot be changed using this command. Instead, enable SriovNetSupport on an instance and create an AMI from the instance. This will result in an image with SriovNetSupport enabled. 
     public func modifyImageAttribute(_ input: ModifyImageAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifyImageAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyImageAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. For more information, see Creating Amazon EBS-Backed Linux AMIs in the Amazon Elastic Compute Cloud User Guide.
     public func createImage(_ input: CreateImageRequest) throws -> CreateImageResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateImage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  [EC2-VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in a peer VPC, or a security group in a peer VPC for which the VPC peering connection has been deleted.
     public func describeStaleSecurityGroups(_ input: DescribeStaleSecurityGroupsRequest) throws -> DescribeStaleSecurityGroupsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeStaleSecurityGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeStaleSecurityGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased.
     public func getHostReservationPurchasePreview(_ input: GetHostReservationPurchasePreviewRequest) throws -> GetHostReservationPurchasePreviewResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHostReservationPurchasePreview", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHostReservationPurchasePreview", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces an existing route within a route table in a VPC. You must provide only one of the following: Internet gateway or virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or egress-only Internet gateway. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func replaceRoute(_ input: ReplaceRouteRequest) throws {
-        _ = try request.invoke(operation: "ReplaceRoute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ReplaceRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unassigns one or more secondary private IP addresses from a network interface.
     public func unassignPrivateIpAddresses(_ input: UnassignPrivateIpAddressesRequest) throws {
-        _ = try request.invoke(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance).  The volume may remain in the deleting state for several minutes.  For more information, see Deleting an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
     public func deleteVolume(_ input: DeleteVolumeRequest) throws {
-        _ = try request.invoke(operation: "DeleteVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Set the instance affinity value for a specific stopped instance and modify the instance tenancy setting. Instance affinity is disabled by default. When instance affinity is host and it is not associated with a specific Dedicated Host, the next time it is launched it will automatically be associated with the host it lands on. This relationship will persist if the instance is stopped/started, or rebooted. You can modify the host ID associated with a stopped instance. If a stopped instance has a new host ID association, the instance will target that host when restarted. You can modify the tenancy of a stopped instance with a tenancy of host or dedicated. Affinity, hostID, and tenancy are not required parameters, but at least one of them must be specified in the request. Affinity and tenancy can be modified in the same request, but tenancy can only be modified on instances that are stopped.
     public func modifyInstancePlacement(_ input: ModifyInstancePlacementRequest) throws -> ModifyInstancePlacementResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyInstancePlacement", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyInstancePlacement", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more ingress rules from a security group. The values that you specify in the revoke request (for example, ports) must match the existing rule's values for the rule to be removed. Each rule consists of the protocol and the CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest) throws {
-        _ = try request.invoke(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables detailed monitoring for a running instance. For more information, see Monitoring Your Instances and Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func unmonitorInstances(_ input: UnmonitorInstancesRequest) throws -> UnmonitorInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UnmonitorInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UnmonitorInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified attribute of the specified VPC. You can specify only one attribute at a time.
     public func describeVpcAttribute(_ input: DescribeVpcAttributeRequest) throws -> DescribeVpcAttributeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a CIDR block from a VPC. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. 
     public func disassociateVpcCidrBlock(_ input: DisassociateVpcCidrBlockRequest) throws -> DisassociateVpcCidrBlockResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateVpcCidrBlock", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateVpcCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your DHCP options sets. For more information about DHCP options sets, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
     public func describeDhcpOptions(_ input: DescribeDhcpOptionsRequest) throws -> DescribeDhcpOptionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDhcpOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDhcpOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information about VPN connections, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func createVpnConnectionRoute(_ input: CreateVpnConnectionRouteRequest) throws {
-        _ = try request.invoke(operation: "CreateVpnConnectionRoute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CreateVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more ingress rules to a security group. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur. [EC2-Classic] This action gives one or more IPv4 CIDR address ranges permission to access a security group in your account, or gives one or more security groups (called the source groups) permission to access a security group for your account. A source group can be for your own AWS account, or another. You can have up to 100 rules per group. [EC2-VPC] This action gives one or more IPv4 or IPv6 CIDR address ranges permission to access a security group in your VPC, or gives one or more other security groups (called the source groups) permission to access a security group for your VPC. The security groups must all be for the same VPC or a peer VPC in a VPC peering connection. For more information about VPC security group limits, see Amazon VPC Limits.
     public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest) throws {
-        _ = try request.invoke(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your conversion tasks. For more information, see the VM Import/Export User Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
     public func describeConversionTasks(_ input: DescribeConversionTasksRequest) throws -> DescribeConversionTasksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeConversionTasks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeConversionTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func createNetworkAclEntry(_ input: CreateNetworkAclEntryRequest) throws {
-        _ = try request.invoke(operation: "CreateNetworkAclEntry", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CreateNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified ingress or egress entry (rule) from the specified network ACL.
     public func deleteNetworkAclEntry(_ input: DeleteNetworkAclEntryRequest) throws {
-        _ = try request.invoke(operation: "DeleteNetworkAclEntry", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your network interfaces.
     public func describeNetworkInterfaces(_ input: DescribeNetworkInterfacesRequest) throws -> DescribeNetworkInterfacesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeNetworkInterfaces", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeNetworkInterfaces", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Displays details about an import virtual machine or import snapshot tasks that are already created.
     public func describeImportImageTasks(_ input: DescribeImportImageTasksRequest) throws -> DescribeImportImageTasksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeImportImageTasks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeImportImageTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your key pairs. For more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
     public func describeKeyPairs(_ input: DescribeKeyPairsRequest) throws -> DescribeKeyPairsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeKeyPairs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeKeyPairs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. 
     public func disassociateSubnetCidrBlock(_ input: DisassociateSubnetCidrBlockRequest) throws -> DisassociateSubnetCidrBlockResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateSubnetCidrBlock", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateSubnetCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Launches the specified number of instances using an AMI for which you have permissions.  You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance Types Available Only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance Types.   If you don't specify a security group ID, we use the default security group. For more information, see Security Groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   To ensure faster instance launches, break up large requests into smaller batches. For example, create 5 separate launch requests for 100 instances each instead of 1 launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. After launch, you can apply tags to your running instance (requires a resource ID). For more information, see CreateTags and Tagging Your Amazon EC2 Resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key Pairs in the Amazon Elastic Compute Cloud User Guide. For troubleshooting, see What To Do If An Instance Immediately Terminates, and Troubleshooting Connecting to Your Instance in the Amazon Elastic Compute Cloud User Guide.
     public func runInstances(_ input: RunInstancesRequest) throws -> Reservation {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RunInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RunInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeReservedInstancesModifications(_ input: DescribeReservedInstancesModificationsRequest) throws -> DescribeReservedInstancesModificationsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReservedInstancesModifications", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReservedInstancesModifications", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an import volume task using metadata from the specified disk image.For more information, see Importing Disks to Amazon EBS. For information about the import manifest referenced by this API action, see VM Import Manifest.
     public func importVolume(_ input: ImportVolumeRequest) throws -> ImportVolumeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances with a capacity reservation can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances and Standard Reserved Instances with a regional benefit cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func createReservedInstancesListing(_ input: CreateReservedInstancesListingRequest) throws -> CreateReservedInstancesListingResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateReservedInstancesListing", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateReservedInstancesListing", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a set of DHCP options for your VPC. After creating the set, you must associate it with the VPC, causing all existing and new instances that you launch in the VPC to use this set of DHCP options. The following are the individual DHCP options you can specify. For more information about the options, see RFC 2132.    domain-name-servers - The IP addresses of up to four domain name servers, or AmazonProvidedDNS. The default DHCP option set specifies AmazonProvidedDNS. If specifying more than one domain name server, specify the IP addresses in a single parameter, separated by commas. If you want your instance to receive a custom DNS hostname as specified in domain-name, you must set domain-name-servers to a custom DNS server.    domain-name - If you're using AmazonProvidedDNS in "us-east-1", specify "ec2.internal". If you're using AmazonProvidedDNS in another region, specify "region.compute.internal" (for example, "ap-northeast-1.compute.internal"). Otherwise, specify a domain name (for example, "MyCompany.com"). This value is used to complete unqualified DNS hostnames. Important: Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP options set is associated with a VPC that has instances with multiple operating systems, specify only one domain name.    ntp-servers - The IP addresses of up to four Network Time Protocol (NTP) servers.    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2 (broadcast and multicast are not currently supported). For more information about these node types, see RFC 2132.   Your VPC automatically starts out with a set of DHCP options that includes only a DNS server that we provide (AmazonProvidedDNS). If you create a set of options, and if your VPC has an Internet gateway, make sure to set the domain-name-servers option either to AmazonProvidedDNS or to a domain name server of your choice. For more information about DHCP options, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
     public func createDhcpOptions(_ input: CreateDhcpOptionsRequest) throws -> CreateDhcpOptionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDhcpOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDhcpOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a subnet in an existing VPC. When you create each subnet, you provide the VPC ID and the CIDR block you want for the subnet. After you create a subnet, you can't change its CIDR block. The subnet's IPv4 CIDR block can be the same as the VPC's IPv4 CIDR block (assuming you want only a single subnet in the VPC), or a subset of the VPC's IPv4 CIDR block. If you create more than one subnet in a VPC, the subnets' CIDR blocks must not overlap. The smallest IPv4 subnet (and VPC) you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). If you've associated an IPv6 CIDR block with your VPC, you can create a subnet with an IPv6 CIDR block that uses a /64 prefix length.   AWS reserves both the first four and the last IP address in each subnet's CIDR block. They're not available for use.  If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. If you launch an instance in a VPC using an Amazon EBS-backed AMI, the IP address doesn't change if you stop and restart the instance (unlike a similar instance launched outside a VPC, which gets a new IP address when restarted). It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information about subnets, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide.
     public func createSubnet(_ input: CreateSubnetRequest) throws -> CreateSubnetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateSubnet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateSubnet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Acquires an Elastic IP address. An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
     public func allocateAddress(_ input: AllocateAddressRequest) throws -> AllocateAddressResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AllocateAddress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AllocateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or overwrites one or more tags for the specified Amazon EC2 resource or resources. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control users' access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API Actions in the Amazon Elastic Compute Cloud User Guide.
     public func createTags(_ input: CreateTagsRequest) throws {
-        _ = try request.invoke(operation: "CreateTags", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  [EC2-VPC only] Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
     public func describeSecurityGroupReferences(_ input: DescribeSecurityGroupReferencesRequest) throws -> DescribeSecurityGroupReferencesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSecurityGroupReferences", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSecurityGroupReferences", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     public func describeVpcClassicLinkDnsSupport(_ input: DescribeVpcClassicLinkDnsSupportRequest) throws -> DescribeVpcClassicLinkDnsSupportResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the ID format settings for your resources on a per-region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: instance | reservation | snapshot | volume.  These settings apply to the IAM user who makes the request; they do not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user, unless they explicitly override the settings by running the ModifyIdFormat command. Resources created with longer IDs are visible to all IAM users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     public func describeIdFormat(_ input: DescribeIdFormatRequest) throws -> DescribeIdFormatResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeIdFormat", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the data feed for Spot instances. For more information, see Spot Instance Data Feed in the Amazon Elastic Compute Cloud User Guide.
     public func describeSpotDatafeedSubscription(_ input: DescribeSpotDatafeedSubscriptionRequest) throws -> DescribeSpotDatafeedSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSpotDatafeedSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recommend that you change this only for boot volumes or for volumes that are stateless or disposable.
     public func modifyVolumeAttribute(_ input: ModifyVolumeAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifyVolumeAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyVolumeAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a security group. If you attempt to delete a security group that is associated with an instance, or is referenced by another security group, the operation fails with InvalidGroup.InUse in EC2-Classic or DependencyViolation in EC2-VPC.
     public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest) throws {
-        _ = try request.invoke(operation: "DeleteSecurityGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the data feed for Spot instances.
     public func deleteSpotDatafeedSubscription(_ input: DeleteSpotDatafeedSubscriptionRequest) throws {
-        _ = try request.invoke(operation: "DeleteSpotDatafeedSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a NAT gateway in the specified subnet. A NAT gateway can be used to enable instances in a private subnet to connect to the Internet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. For more information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
     public func createNatGateway(_ input: CreateNatGatewayRequest) throws -> CreateNatGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateNatGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateNatGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts an Amazon EBS-backed AMI that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for hourly instance usage. However, your root partition Amazon EBS volume remains, continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Each time you transition an instance from stopped to started, Amazon EC2 charges a full instance hour, even if transitions happen multiple times within a single hour. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. For more information, see Stopping Instances in the Amazon Elastic Compute Cloud User Guide.
     public func startInstances(_ input: StartInstancesRequest) throws -> StartInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your VPN connections. For more information about VPN connections, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func describeVpnConnections(_ input: DescribeVpnConnectionsRequest) throws -> DescribeVpnConnectionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpnConnections", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpnConnections", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a CIDR block with your VPC. You can only associate a single Amazon-provided IPv6 CIDR block with your VPC. The IPv6 CIDR block size is fixed at /56.
     public func associateVpcCidrBlock(_ input: AssociateVpcCidrBlockRequest) throws -> AssociateVpcCidrBlockResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same region or from one region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). The snapshot is copied to the regional endpoint that you send the HTTP request to. Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless the Encrypted flag is specified during the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a non-default CMK with the KmsKeyId parameter.   To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot.   Snapshots created by the CopySnapshot action have an arbitrary volume ID that should not be used for any purpose.  For more information, see Copying an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
     public func copySnapshot(_ input: CopySnapshotRequest) throws -> CopySnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopySnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Spot instance request. Spot instances are instances that Amazon EC2 launches when the bid price that you specify exceeds the current Spot price. Amazon EC2 periodically sets the Spot price based on available Spot Instance capacity and current Spot instance requests. For more information, see Spot Instance Requests in the Amazon Elastic Compute Cloud User Guide.
     public func requestSpotInstances(_ input: RequestSpotInstancesRequest) throws -> RequestSpotInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RequestSpotInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RequestSpotInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a subnet with a route table. The subnet and route table must be in the same VPC. This association causes traffic originating from the subnet to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table from the subnet later. A route table can be associated with multiple subnets. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func associateRouteTable(_ input: AssociateRouteTableRequest) throws -> AssociateRouteTableResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateRouteTable", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance.
     public func associateIamInstanceProfile(_ input: AssociateIamInstanceProfileRequest) throws -> AssociateIamInstanceProfileResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateIamInstanceProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateIamInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the ID format for the specified resource on a per-region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. The following resource types support longer IDs: instance | reservation | snapshot | volume. This setting applies to the IAM user who makes the request; it does not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user. If you're using this action as the root user, then these settings apply to the entire account, unless an IAM user explicitly overrides these settings for themselves. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     public func modifyIdFormat(_ input: ModifyIdFormatRequest) throws {
-        _ = try request.invoke(operation: "ModifyIdFormat", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus, use ReportInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeInstanceStatus.
     public func reportInstanceStatus(_ input: ReportInstanceStatusRequest) throws {
-        _ = try request.invoke(operation: "ReportInstanceStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ReportInstanceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified NAT gateway. Deleting a NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables.
     public func deleteNatGateway(_ input: DeleteNatGatewayRequest) throws -> DeleteNatGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteNatGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteNatGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     public func disableVpcClassicLinkDnsSupport(_ input: DisableVpcClassicLinkDnsSupportRequest) throws -> DisableVpcClassicLinkDnsSupportResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisableVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisableVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets a network interface attribute. You can specify only one attribute at a time.
     public func resetNetworkInterfaceAttribute(_ input: ResetNetworkInterfaceAttributeRequest) throws {
-        _ = try request.invoke(operation: "ResetNetworkInterfaceAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ResetNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use the DescribeVpcPeeringConnections request to view your outstanding VPC peering connection requests.
     public func acceptVpcPeeringConnection(_ input: AcceptVpcPeeringConnectionRequest) throws -> AcceptVpcPeeringConnectionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AcceptVpcPeeringConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AcceptVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more flow logs.
     public func deleteFlowLogs(_ input: DeleteFlowLogsRequest) throws -> DeleteFlowLogsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteFlowLogs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteFlowLogs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your egress-only Internet gateways.
     public func describeEgressOnlyInternetGateways(_ input: DescribeEgressOnlyInternetGatewaysRequest) throws -> DescribeEgressOnlyInternetGatewaysResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEgressOnlyInternetGateways", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEgressOnlyInternetGateways", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  The following resource types support longer IDs: instance | reservation | snapshot | volume.  These settings apply to the principal specified in the request. They do not apply to the principal that makes the request.
     public func describeIdentityIdFormat(_ input: DescribeIdentityIdFormatRequest) throws -> DescribeIdentityIdFormatResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeIdentityIdFormat", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeIdentityIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns details about the values and term of your specified Convertible Reserved Instances. When a target configuration is specified, it returns information about whether the exchange is valid and can be performed.
     public func getReservedInstancesExchangeQuote(_ input: GetReservedInstancesExchangeQuoteRequest) throws -> GetReservedInstancesExchangeQuoteResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetReservedInstancesExchangeQuote", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetReservedInstancesExchangeQuote", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an egress-only Internet gateway.
     public func deleteEgressOnlyInternetGateway(_ input: DeleteEgressOnlyInternetGatewayRequest) throws -> DeleteEgressOnlyInternetGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteEgressOnlyInternetGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteEgressOnlyInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes your IAM instance profile associations.
     public func describeIamInstanceProfileAssociations(_ input: DescribeIamInstanceProfileAssociationsRequest) throws -> DescribeIamInstanceProfileAssociationsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeIamInstanceProfileAssociations", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeIamInstanceProfileAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates an Elastic IP address with an instance or a network interface. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing. 
     public func associateAddress(_ input: AssociateAddressRequest) throws -> AssociateAddressResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateAddress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the console output for the specified instance. Instances do not have a physical monitor through which you can view their console output. They also lack physical controls that allow you to power up, reboot, or shut them down. To allow these actions, we provide them through the Amazon EC2 API and command line interface. Instance console output is buffered and posted shortly after instance boot, reboot, and termination. Amazon EC2 preserves the most recent 64 KB output which is available for at least one hour after the most recent post. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. This output is buffered because the instance produces it and then posts it to a store where the instance's owner can retrieve it. For Windows instances, the instance console output includes output from the EC2Config service.
     public func getConsoleOutput(_ input: GetConsoleOutputRequest) throws -> GetConsoleOutputResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetConsoleOutput", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetConsoleOutput", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops an Amazon EBS-backed instance. We don't charge hourly usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains, continues to persist your data, and you are charged for Amazon EBS volume usage. Each time you transition an instance from stopped to started, Amazon EC2 charges a full instance hour, even if transitions happen multiple times within a single hour. You can't start or stop Spot instances, and you can't stop instance store-backed instances. When you stop an instance, we shut it down. You can restart your instance at any time. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Stopping an instance is different to rebooting or terminating it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, and terminating instances, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshooting Stopping Your Instance in the Amazon Elastic Compute Cloud User Guide.
     public func stopInstances(_ input: StopInstancesRequest) throws -> StopInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances. For more information, see Reserved Instances and Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest) throws -> PurchaseReservedInstancesOfferingResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PurchaseReservedInstancesOffering", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PurchaseReservedInstancesOffering", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a bundling operation for an instance store-backed Windows instance.
     public func cancelBundleTask(_ input: CancelBundleTaskRequest) throws -> CancelBundleTaskResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CancelBundleTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CancelBundleTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies a subnet attribute. You can only modify one attribute at a time.
     public func modifySubnetAttribute(_ input: ModifySubnetAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifySubnetAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifySubnetAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assigns one or more IPv6 addresses to the specified network interface. You can specify one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies per instance type. For information, see IP Addresses Per Network Interface Per Instance Type in the Amazon Elastic Compute Cloud User Guide.
     public func assignIpv6Addresses(_ input: AssignIpv6AddressesRequest) throws -> AssignIpv6AddressesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssignIpv6Addresses", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssignIpv6Addresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables a virtual private gateway (VGW) from propagating routes to a specified route table of a VPC.
     public func disableVgwRoutePropagation(_ input: DisableVgwRoutePropagationRequest) throws {
-        _ = try request.invoke(operation: "DisableVgwRoutePropagation", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DisableVgwRoutePropagation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a network interface in the specified subnet. For more information about network interfaces, see Elastic Network Interfaces in the Amazon Virtual Private Cloud User Guide.
     public func createNetworkInterface(_ input: CreateNetworkInterfaceRequest) throws -> CreateNetworkInterfaceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateNetworkInterface", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels the specified Spot fleet requests. After you cancel a Spot fleet request, the Spot fleet launches no new Spot instances. You must specify whether the Spot fleet should also terminate its Spot instances. If you terminate the instances, the Spot fleet request enters the cancelled_terminating state. Otherwise, the Spot fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually.
     public func cancelSpotFleetRequests(_ input: CancelSpotFleetRequestsRequest) throws -> CancelSpotFleetRequestsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CancelSpotFleetRequests", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CancelSpotFleetRequests", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a VPC endpoint for a specified AWS service. An endpoint enables you to create a private connection between your VPC and another AWS service in your account. You can specify an endpoint policy to attach to the endpoint that will control access to the service from your VPC. You can also specify the VPC route tables that use the endpoint. Use DescribeVpcEndpointServices to get a list of supported AWS services.
     public func createVpcEndpoint(_ input: CreateVpcEndpointRequest) throws -> CreateVpcEndpointResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVpcEndpoint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVpcEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your bundling tasks.  Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task. 
     public func describeBundleTasks(_ input: DescribeBundleTasksRequest) throws -> DescribeBundleTasksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeBundleTasks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeBundleTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified attribute of the specified AMI. You can specify only one attribute at a time.
     public func describeImageAttribute(_ input: DescribeImageAttributeRequest) throws -> ImageAttribute {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeImageAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeImageAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func describeRouteTables(_ input: DescribeRouteTablesRequest) throws -> DescribeRouteTablesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRouteTables", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRouteTables", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway.
     public func deleteVpnConnectionRoute(_ input: DeleteVpnConnectionRouteRequest) throws {
-        _ = try request.invoke(operation: "DeleteVpnConnectionRoute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a data feed for Spot instances, enabling you to view Spot instance usage logs. You can create one data feed per AWS account. For more information, see Spot Instance Data Feed in the Amazon Elastic Compute Cloud User Guide.
     public func createSpotDatafeedSubscription(_ input: CreateSpotDatafeedSubscriptionRequest) throws -> CreateSpotDatafeedSubscriptionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateSpotDatafeedSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the route table associated with a given subnet in a VPC. After the operation completes, the subnet uses the routes in the new route table it's associated with. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide. You can also use ReplaceRouteTableAssociation to change which table is the main route table in the VPC. You just specify the main route table's association ID and the route table to be the new main route table.
     public func replaceRouteTableAssociation(_ input: ReplaceRouteTableAssociationRequest) throws -> ReplaceRouteTableAssociationResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ReplaceRouteTableAssociation", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ReplaceRouteTableAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your VPN customer gateways. For more information about VPN customer gateways, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func describeCustomerGateways(_ input: DescribeCustomerGatewaysRequest) throws -> DescribeCustomerGatewaysResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeCustomerGateways", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeCustomerGateways", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your Internet gateways.
     public func describeInternetGateways(_ input: DescribeInternetGatewaysRequest) throws -> DescribeInternetGatewaysResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeInternetGateways", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeInternetGateways", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). To help you decide how big to make your VPC, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide. You can optionally request an Amazon-provided IPv6 CIDR block for the VPC. The IPv6 CIDR block uses a /56 prefix length, and is allocated from Amazon's pool of IPv6 addresses. You cannot choose the IPv6 range for your VPC. By default, each instance you launch in the VPC has the default DHCP options, which includes only a default DNS server that we provide (AmazonProvidedDNS). For more information about DHCP options, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
     public func createVpc(_ input: CreateVpcRequest) throws -> CreateVpcResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVpc", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the DescribeVpcPeeringConnections request to view your outstanding VPC peering connection requests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeeringConnection.
     public func rejectVpcPeeringConnection(_ input: RejectVpcPeeringConnectionRequest) throws -> RejectVpcPeeringConnectionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RejectVpcPeeringConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RejectVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified virtual private gateway. We recommend that before you delete a virtual private gateway, you detach it from the VPC and delete the VPN connection. Note that you don't need to delete the virtual private gateway if you plan to delete and recreate the VPN connection between your VPC and your network.
     public func deleteVpnGateway(_ input: DeleteVpnGatewayRequest) throws {
-        _ = try request.invoke(operation: "DeleteVpnGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Imports a disk into an EBS snapshot.
     public func importSnapshot(_ input: ImportSnapshotRequest) throws -> ImportSnapshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through ClassicLink; you cannot use this request to return information about other instances.
     public func describeClassicLinkInstances(_ input: DescribeClassicLinkInstancesRequest) throws -> DescribeClassicLinkInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeClassicLinkInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeClassicLinkInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Purchases one or more Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call DescribeScheduledInstanceAvailability to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call RunScheduledInstances during each scheduled time period. After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
     public func purchaseScheduledInstances(_ input: PurchaseScheduledInstancesRequest) throws -> PurchaseScheduledInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PurchaseScheduledInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PurchaseScheduledInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
     public func deleteRouteTable(_ input: DeleteRouteTableRequest) throws {
-        _ = try request.invoke(operation: "DeleteRouteTable", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more regions that are currently available to you. For a list of the regions supported by Amazon EC2, see Regions and Endpoints.
     public func describeRegions(_ input: DescribeRegionsRequest) throws -> DescribeRegionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRegions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRegions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an import instance task using metadata from the specified disk image. ImportInstance only supports single-volume VMs. To import multi-volume VMs, use ImportImage. For more information, see Importing a Virtual Machine Using the Amazon EC2 CLI. For information about the import manifest referenced by this API action, see VM Import Manifest.
     public func importInstance(_ input: ImportInstanceRequest) throws -> ImportInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unassigns one or more IPv6 addresses from a network interface.
     public func unassignIpv6Addresses(_ input: UnassignIpv6AddressesRequest) throws -> UnassignIpv6AddressesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UnassignIpv6Addresses", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UnassignIpv6Addresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
     public func acceptReservedInstancesExchangeQuote(_ input: AcceptReservedInstancesExchangeQuoteRequest) throws -> AcceptReservedInstancesExchangeQuoteResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AcceptReservedInstancesExchangeQuote", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AcceptReservedInstancesExchangeQuote", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an AWS Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see Detaching an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
     public func detachVolume(_ input: DetachVolumeRequest) throws -> VolumeAttachment {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DetachVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DetachVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of the images (AMIs, AKIs, and ARIs) available to you. Images available to you include public images, private images that you own, and private images owned by other AWS accounts but for which you have explicit launch permissions.  Deregistered images are included in the returned results for an unspecified interval after deregistration. 
     public func describeImages(_ input: DescribeImagesRequest) throws -> DescribeImagesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeImages", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Determines whether a product code is associated with an instance. This action can only be used by the owner of the product code. It is useful when a product code owner needs to verify whether another user's instance is eligible for support.
     public func confirmProductInstance(_ input: ConfirmProductInstanceRequest) throws -> ConfirmProductInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ConfirmProductInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ConfirmProductInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the ClassicLink status of one or more VPCs.
     public func describeVpcClassicLink(_ input: DescribeVpcClassicLinkRequest) throws -> DescribeVpcClassicLinkResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcClassicLink", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcClassicLink", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func describeReservedInstancesListings(_ input: DescribeReservedInstancesListingsRequest) throws -> DescribeReservedInstancesListingsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReservedInstancesListings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReservedInstancesListings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets permission settings for the specified snapshot. For more information on modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func resetSnapshotAttribute(_ input: ResetSnapshotAttributeRequest) throws {
-        _ = try request.invoke(operation: "ResetSnapshotAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ResetSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func describeSnapshotAttribute(_ input: DescribeSnapshotAttributeRequest) throws -> DescribeSnapshotAttributeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSnapshotAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your VPC peering connections.
     public func describeVpcPeeringConnections(_ input: DescribeVpcPeeringConnectionsRequest) throws -> DescribeVpcPeeringConnectionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcPeeringConnections", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcPeeringConnections", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeReservedInstances(_ input: DescribeReservedInstancesRequest) throws -> DescribeReservedInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReservedInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReservedInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more flow logs. To view the information in your flow logs (the log streams for the network interfaces), you must use the CloudWatch Logs console or the CloudWatch Logs API.
     public func describeFlowLogs(_ input: DescribeFlowLogsRequest) throws -> DescribeFlowLogsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFlowLogs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFlowLogs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances. You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few minutes. For more information, see Scheduled Instances in the Amazon Elastic Compute Cloud User Guide.
     public func runScheduledInstances(_ input: RunScheduledInstancesRequest) throws -> RunScheduledInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RunScheduledInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RunScheduledInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the status of one or more instances. By default, only running instances are described, unless specified otherwise. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status Checks for Your Instances and Troubleshooting Instances with Failed Status Checks in the Amazon Elastic Compute Cloud User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled Events for Your Instances in the Amazon Elastic Compute Cloud User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide.  
     public func describeInstanceStatus(_ input: DescribeInstanceStatusRequest) throws -> DescribeInstanceStatusResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeInstanceStatus", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeInstanceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC's route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     public func enableVpcClassicLink(_ input: EnableVpcClassicLinkRequest) throws -> EnableVpcClassicLinkResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "EnableVpcClassicLink", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "EnableVpcClassicLink", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified set of tags from the specified set of resources. This call is designed to follow a DescribeTags request. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
     public func deleteTags(_ input: DeleteTagsRequest) throws {
-        _ = try request.invoke(operation: "DeleteTags", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides information to AWS about your VPN customer gateway device. The customer gateway is the appliance at your end of the VPN connection. (The device on the AWS side of the VPN connection is the virtual private gateway.) You must provide the Internet-routable IP address of the customer gateway's external interface. The IP address must be static and may be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN (in the 64512 - 65534 range).  Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with the exception of 7224, which is reserved in the us-east-1 region, and 9059, which is reserved in the eu-west-1 region.  For more information about VPN customer gateways, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.  You cannot create more than one customer gateway with the same VPN type, IP address, and BGP ASN parameter values. If you run an identical request more than one time, the first request creates the customer gateway, and subsequent requests return information about the existing customer gateway. The subsequent requests do not create new customer gateway resources. 
     public func createCustomerGateway(_ input: CreateCustomerGatewayRequest) throws -> CreateCustomerGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateCustomerGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateCustomerGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
     public func associateDhcpOptions(_ input: AssociateDhcpOptionsRequest) throws {
-        _ = try request.invoke(operation: "AssociateDhcpOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AssociateDhcpOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your VPCs.
     public func describeVpcs(_ input: DescribeVpcsRequest) throws -> DescribeVpcsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified EBS volumes. If you are describing a long list of volumes, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumes(_ input: DescribeVolumesRequest) throws -> DescribeVolumesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVolumes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVolumes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Internet gateway for use with a VPC. After creating the Internet gateway, you attach it to a VPC using AttachInternetGateway. For more information about your VPC and Internet gateway, see the Amazon Virtual Private Cloud User Guide.
     public func createInternetGateway(_ input: CreateInternetGatewayRequest) throws -> CreateInternetGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateInternetGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. When a snapshot is created, any AWS Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your EBS volume at the time the snapshot command is issued; this may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information, see Amazon Elastic Block Store and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func createSnapshot(_ input: CreateSnapshotRequest) throws -> Snapshot {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of the your NAT gateways.
     public func describeNatGateways(_ input: DescribeNatGatewaysRequest) throws -> DescribeNatGatewaysResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeNatGateways", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeNatGateways", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: The maximum number of On-Demand instances that you can run.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.  
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest) throws -> DescribeAccountAttributesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Deleting an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
     public func deleteSnapshot(_ input: DeleteSnapshotRequest) throws {
-        _ = try request.invoke(operation: "DeleteSnapshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). For more information, see Importing a VM as an Image Using VM Import/Export in the VM Import/Export User Guide.
     public func importImage(_ input: ImportImageRequest) throws -> ImportImageResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportImage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.  For more information, see Creating an Instance Store-Backed Windows AMI.
     public func bundleInstance(_ input: BundleInstanceRequest) throws -> BundleInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BundleInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BundleInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allocates a Dedicated Host to your account. At minimum you need to specify the instance size type, Availability Zone, and quantity of hosts you want to allocate.
     public func allocateHosts(_ input: AllocateHostsRequest) throws -> AllocateHostsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AllocateHosts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AllocateHosts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     public func enableVpcClassicLinkDnsSupport(_ input: EnableVpcClassicLinkDnsSupportRequest) throws -> EnableVpcClassicLinkDnsSupportResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "EnableVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "EnableVpcClassicLinkDnsSupport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a subnet from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func disassociateRouteTable(_ input: DisassociateRouteTableRequest) throws {
-        _ = try request.invoke(operation: "DisassociateRouteTable", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DisassociateRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfigure the customer gateway using the new configuration information returned with the new VPN connection ID.
     public func deleteVpnConnection(_ input: DeleteVpnConnectionRequest) throws {
-        _ = try request.invoke(operation: "DeleteVpnConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteVpnConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func createNetworkAcl(_ input: CreateNetworkAclRequest) throws -> CreateNetworkAclResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateNetworkAcl", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateNetworkAcl", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  [IPv6 only] Creates an egress-only Internet gateway for your VPC. An egress-only Internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the Internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance.
     public func createEgressOnlyInternetGateway(_ input: CreateEgressOnlyInternetGatewayRequest) throws -> CreateEgressOnlyInternetGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateEgressOnlyInternetGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateEgressOnlyInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     public func describeInstances(_ input: DescribeInstancesRequest) throws -> DescribeInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified customer gateway. You must delete the VPN connection before you can delete the customer gateway.
     public func deleteCustomerGateway(_ input: DeleteCustomerGatewayRequest) throws {
-        _ = try request.invoke(operation: "DeleteCustomerGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteCustomerGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels an in-process import virtual machine or import snapshot task.
     public func cancelImportTask(_ input: CancelImportTaskRequest) throws -> CancelImportTaskResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CancelImportTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CancelImportTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Reports the current modification status of EBS volumes. Current-generation EBS volumes support modification of attributes including type, size, and (for io1 volumes) IOPS provisioning while either attached to or detached from an instance. Following an action from the API or the console to modify a volume, the status of the modification may be modifying, optimizing, completed, or failed. If a volume has never been modified, then certain elements of the returned VolumeModification objects are null.   You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications". 
     public func describeVolumesModifications(_ input: DescribeVolumesModificationsRequest) throws -> DescribeVolumesModificationsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVolumesModifications", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVolumesModifications", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your network ACLs. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func describeNetworkAcls(_ input: DescribeNetworkAclsRequest) throws -> DescribeNetworkAclsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeNetworkAcls", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeNetworkAcls", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the Spot instance requests that belong to your account. Spot instances are instances that Amazon EC2 launches when the bid price that you specify exceeds the current Spot price. Amazon EC2 periodically sets the Spot price based on available Spot instance capacity and current Spot instance requests. For more information, see Spot Instance Requests in the Amazon Elastic Compute Cloud User Guide. You can use DescribeSpotInstanceRequests to find a running Spot instance by examining the response. If the status of the Spot instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. Spot instance requests are deleted 4 hours after they are canceled and their instances are terminated.
     public func describeSpotInstanceRequests(_ input: DescribeSpotInstanceRequestsRequest) throws -> DescribeSpotInstanceRequestsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSpotInstanceRequests", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSpotInstanceRequests", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information about placement groups and cluster instances, see Cluster Instances in the Amazon Elastic Compute Cloud User Guide.
     public func deletePlacementGroup(_ input: DeletePlacementGroupRequest) throws {
-        _ = try request.invoke(operation: "DeletePlacementGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeletePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Creating Your Own AMIs in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself.  You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using the block device mapping. For more information, see Launching an Instance from a Snapshot in the Amazon Elastic Compute Cloud User Guide. You can't register an image where a secondary (non-root) snapshot has AWS Marketplace product codes. Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with an AMI to verify the subscription status for package updates. Creating an AMI from an EBS snapshot does not maintain this billing code, and subsequent instances launched from such an AMI will not be able to connect to package update infrastructure. To create an AMI that must retain billing codes, see CreateImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.
     public func registerImage(_ input: RegisterImageRequest) throws -> RegisterImageResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterImage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the Spot price history. For more information, see Spot Instance Pricing History in the Amazon Elastic Compute Cloud User Guide. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
     public func describeSpotPriceHistory(_ input: DescribeSpotPriceHistoryRequest) throws -> DescribeSpotPriceHistoryResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSpotPriceHistory", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSpotPriceHistory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates the copy of an AMI from the specified source region to the current region. You specify the destination region by using its endpoint when making the request. For more information, see Copying AMIs in the Amazon Elastic Compute Cloud User Guide.
     public func copyImage(_ input: CopyImageRequest) throws -> CopyImageResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CopyImage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CopyImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more specified VPC endpoints. Deleting the endpoint also deletes the endpoint routes in the route tables that were associated with the endpoint.
     public func deleteVpcEndpoints(_ input: DeleteVpcEndpointsRequest) throws -> DeleteVpcEndpointsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteVpcEndpoints", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteVpcEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. For more information, see Importing a Virtual Machine Using the Amazon EC2 CLI.
     public func cancelConversionTask(_ input: CancelConversionRequest) throws {
-        _ = try request.invoke(operation: "CancelConversionTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CancelConversionTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of the tags for your EC2 resources. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
     public func describeTags(_ input: DescribeTagsRequest) throws -> DescribeTagsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeTags", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
     public func detachClassicLinkVpc(_ input: DetachClassicLinkVpcRequest) throws -> DetachClassicLinkVpcResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DetachClassicLinkVpc", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DetachClassicLinkVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the Availability Zone, instance count, instance type, or network platform (EC2-Classic or EC2-VPC) of your Standard Reserved Instances. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modifying Reserved Instances in the Amazon Elastic Compute Cloud User Guide.
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest) throws -> ModifyReservedInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyReservedInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyReservedInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables I/O operations for a volume that had I/O operations disabled because the data on the volume was potentially inconsistent.
     public func enableVolumeIO(_ input: EnableVolumeIORequest) throws {
-        _ = try request.invoke(operation: "EnableVolumeIO", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "EnableVolumeIO", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Exports a running or stopped instance to an S3 bucket. For information about the supported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an Instance as a VM Using VM Import/Export in the VM Import/Export User Guide.
     public func createInstanceExportTask(_ input: CreateInstanceExportTaskRequest) throws -> CreateInstanceExportTaskResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateInstanceExportTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateInstanceExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes with the Encrypted parameter. Encrypted volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. For more information, see Creating or Restoring an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
     public func createVolume(_ input: CreateVolumeRequest) throws -> Volume {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes all supported AWS services that can be specified when creating a VPC endpoint.
     public func describeVpcEndpointServices(_ input: DescribeVpcEndpointServicesRequest) throws -> DescribeVpcEndpointServicesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVpcEndpointServices", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVpcEndpointServices", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets an attribute of an instance to its default value. To reset the kernel or ramdisk, the instance must be in a stopped state. To reset the sourceDestCheck, the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true, which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
     public func resetInstanceAttribute(_ input: ResetInstanceAttributeRequest) throws {
-        _ = try request.invoke(operation: "ResetInstanceAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ResetInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. To modify some attributes, the instance must be stopped. For more information, see Modifying Attributes of a Stopped Instance in the Amazon Elastic Compute Cloud User Guide.
     public func modifyInstanceAttribute(_ input: ModifyInstanceAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifyInstanceAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates one or more flow logs to capture IP traffic for a specific network interface, subnet, or VPC. Flow logs are delivered to a specified log group in Amazon CloudWatch Logs. If you specify a VPC or subnet in the request, a log stream is created in CloudWatch Logs for each network interface in the subnet or VPC. Log streams can include information about accepted and rejected traffic to a network interface. You can view the data in your log streams using Amazon CloudWatch Logs. In your request, you must also specify an IAM role that has permission to publish logs to CloudWatch Logs.
     public func createFlowLogs(_ input: CreateFlowLogsRequest) throws -> CreateFlowLogsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateFlowLogs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateFlowLogs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates an Elastic IP address from the instance or network interface it's associated with. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
     public func disassociateAddress(_ input: DisassociateAddressRequest) throws {
-        _ = try request.invoke(operation: "DisassociateAddress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DisassociateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a security group. A security group is for use with instances either in the EC2-Classic platform or in a specific VPC. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide and Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.  EC2-Classic: You can have up to 500 security groups. EC2-VPC: You can create up to 500 security groups per VPC.  When you create a security group, you specify a friendly name of your choice. You can have a security group for use in EC2-Classic with the same name as a security group for use in a VPC. However, you can't have two security groups for use in EC2-Classic with the same name or two security groups for use in a VPC with the same name. You have a default security group for use in EC2-Classic and a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using AuthorizeSecurityGroupIngress, AuthorizeSecurityGroupEgress, RevokeSecurityGroupIngress, and RevokeSecurityGroupEgress.
     public func createSecurityGroup(_ input: CreateSecurityGroupRequest) throws -> CreateSecurityGroupResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateSecurityGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned within the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For information about instance types, see Instance Types in the Amazon Elastic Compute Cloud User Guide. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. AssignPrivateIpAddresses is available only in EC2-VPC.
     public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest) throws {
-        _ = try request.invoke(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a network interface attribute. You can specify only one attribute at a time.
     public func describeNetworkInterfaceAttribute(_ input: DescribeNetworkInterfaceAttributeRequest) throws -> DescribeNetworkInterfaceAttributeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeNetworkInterfaceAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances. This command does not delete the AMI.
     public func deregisterImage(_ input: DeregisterImageRequest) throws {
-        _ = try request.invoke(operation: "DeregisterImage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of the Availability Zones that are available to you. The results include zones only for the region you're currently using. If there is an event impacting an Availability Zone, you can use this request to view the state and any provided message for that Availability Zone. For more information, see Regions and Availability Zones in the Amazon Elastic Compute Cloud User Guide.
     public func describeAvailabilityZones(_ input: DescribeAvailabilityZonesRequest) throws -> DescribeAvailabilityZonesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAvailabilityZones", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAvailabilityZones", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func createRouteTable(_ input: CreateRouteTableRequest) throws -> CreateRouteTableResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateRouteTable", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
     public func restoreAddressToClassic(_ input: RestoreAddressToClassicRequest) throws -> RestoreAddressToClassicResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RestoreAddressToClassic", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RestoreAddressToClassic", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func cancelReservedInstancesListing(_ input: CancelReservedInstancesListingRequest) throws -> CancelReservedInstancesListingResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CancelReservedInstancesListing", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CancelReservedInstancesListing", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified network interface attribute. You can specify only one attribute at a time.
     public func modifyNetworkInterfaceAttribute(_ input: ModifyNetworkInterfaceAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifyNetworkInterfaceAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifyNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  [EC2-VPC only] Removes one or more egress rules from a security group for EC2-VPC. This action doesn't apply to security groups for use in EC2-Classic. The values that you specify in the revoke request (for example, ports) must match the existing rule's values for the rule to be revoked. Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest) throws {
-        _ = try request.invoke(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Internet gateway. You must detach the Internet gateway from the VPC before you can delete it.
     public func deleteInternetGateway(_ input: DeleteInternetGatewayRequest) throws {
-        _ = try request.invoke(operation: "DeleteInternetGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a VPC peering connection between two VPCs: a requester VPC that you own and a peer VPC with which to create the connection. The peer VPC can belong to another AWS account. The requester VPC and peer VPC cannot have overlapping CIDR blocks. The owner of the peer VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. A CreateVpcPeeringConnection request between VPCs with overlapping CIDR blocks results in the VPC peering connection having a status of failed.
     public func createVpcPeeringConnection(_ input: CreateVpcPeeringConnectionRequest) throws -> CreateVpcPeeringConnectionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVpcPeeringConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a network interface to an instance.
     public func attachNetworkInterface(_ input: AttachNetworkInterfaceRequest) throws -> AttachNetworkInterfaceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AttachNetworkInterface", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AttachNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a network interface from an instance.
     public func detachNetworkInterface(_ input: DetachNetworkInterfaceRequest) throws {
-        _ = try request.invoke(operation: "DetachNetworkInterface", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DetachNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes may only be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. For a list of supported device names, see Attaching an EBS Volume to an Instance. Any device names that aren't reserved for instance store volumes can be used for EBS volumes. For more information, see Amazon EC2 Instance Store in the Amazon Elastic Compute Cloud User Guide. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For an overview of the AWS Marketplace, see Introducing AWS Marketplace. For more information about EBS volumes, see Attaching Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func attachVolume(_ input: AttachVolumeRequest) throws -> VolumeAttachment {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AttachVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AttachVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:   Enable/disable communication over the peering connection between an EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances in the peer VPC.   Enable/disable communication over the peering connection between instances in your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.   If the peered VPCs are in different accounts, each owner must initiate a separate request to modify the peering connection options, depending on whether their VPC was the requester or accepter for the VPC peering connection. If the peered VPCs are in the same account, you can modify the requester and accepter options in the same request. To confirm which VPC is the accepter and requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
     public func modifyVpcPeeringConnectionOptions(_ input: ModifyVpcPeeringConnectionOptionsRequest) throws -> ModifyVpcPeeringConnectionOptionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyVpcPeeringConnectionOptions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyVpcPeeringConnectionOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Spot fleet request. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot fleet requests Spot instances in the Spot pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot instances in your Spot fleet are in different Spot pools, you can improve the availability of your fleet. For more information, see Spot Fleet Requests in the Amazon Elastic Compute Cloud User Guide.
     public func requestSpotFleet(_ input: RequestSpotFleetRequest) throws -> RequestSpotFleetResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RequestSpotFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RequestSpotFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see Monitoring Your Instances and Volumes in the Amazon Elastic Compute Cloud User Guide. To disable detailed monitoring, see .
     public func monitorInstances(_ input: MonitorInstancesRequest) throws -> MonitorInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "MonitorInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "MonitorInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  [EC2-VPC only] Adds one or more egress rules to a security group for use with a VPC. Specifically, this action permits instances to send traffic to one or more destination IPv4 or IPv6 CIDR address ranges, or to one or more destination security groups for the same VPC. This action doesn't apply to security groups for use in EC2-Classic. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide. For more information about security group limits, see Amazon VPC Limits. Each rule consists of the protocol (for example, TCP), plus either a CIDR range or a source group. For the TCP and UDP protocols, you must also specify the destination port or port range. For the ICMP protocol, you must also specify the ICMP type and code. You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur.
     public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest) throws {
-        _ = try request.invoke(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC's security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You can only link an instance that's in the running state. An instance is automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. To change the security groups, you must first unlink the instance, and then link it again. Linking your instance to a VPC is sometimes referred to as attaching your instance.
     public func attachClassicLinkVpc(_ input: AttachClassicLinkVpcRequest) throws -> AttachClassicLinkVpcResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AttachClassicLinkVpc", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AttachClassicLinkVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.
     public func disableVpcClassicLink(_ input: DisableVpcClassicLinkRequest) throws -> DisableVpcClassicLinkResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisableVpcClassicLink", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisableVpcClassicLink", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified attribute of the specified instance. You can specify only one attribute at a time. Valid attribute values are: instanceType | kernel | ramdisk | userData | disableApiTermination | instanceInitiatedShutdownBehavior | rootDeviceName | blockDeviceMapping | productCodes | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport 
     public func describeInstanceAttribute(_ input: DescribeInstanceAttributeRequest) throws -> InstanceAttribute {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeInstanceAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Shuts down one or more instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide. For more information about troubleshooting, see Troubleshooting Terminating Your Instance in the Amazon Elastic Compute Cloud User Guide.
     public func terminateInstances(_ input: TerminateInstancesRequest) throws -> TerminateInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TerminateInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TerminateInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single API call. If you need to both add and remove account IDs for a snapshot, you must use multiple API calls.  Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts.  For more information on modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func modifySnapshotAttribute(_ input: ModifySnapshotAttributeRequest) throws {
-        _ = try request.invoke(operation: "ModifySnapshotAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ModifySnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account.
     public func purchaseHostReservation(_ input: PurchaseHostReservationRequest) throws -> PurchaseHostReservationResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PurchaseHostReservation", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PurchaseHostReservation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a virtual private gateway to a VPC. For more information, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func attachVpnGateway(_ input: AttachVpnGatewayRequest) throws -> AttachVpnGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AttachVpnGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AttachVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets an attribute of an AMI to its default value.  The productCodes attribute can't be reset. 
     public func resetImageAttribute(_ input: ResetImageAttributeRequest) throws {
-        _ = try request.invoke(operation: "ResetImageAttribute", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ResetImageAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates an IAM instance profile from a running or stopped instance. Use DescribeIamInstanceProfileAssociations to get the association ID.
     public func disassociateIamInstanceProfile(_ input: DisassociateIamInstanceProfileRequest) throws -> DisassociateIamInstanceProfileResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateIamInstanceProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateIamInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified Spot fleet request. While the Spot fleet request is being modified, it is in the modifying state. To scale up your Spot fleet, increase its target capacity. The Spot fleet launches the additional Spot instances according to the allocation strategy for the Spot fleet request. If the allocation strategy is lowestPrice, the Spot fleet launches instances using the Spot pool with the lowest price. If the allocation strategy is diversified, the Spot fleet distributes the instances across the Spot pools. To scale down your Spot fleet, decrease its target capacity. First, the Spot fleet cancels any open bids that exceed the new target capacity. You can request that the Spot fleet terminate Spot instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowestPrice, the Spot fleet terminates the instances with the highest price per unit. If the allocation strategy is diversified, the Spot fleet terminates instances across the Spot pools. Alternatively, you can request that the Spot fleet keep the fleet at its current size, but not replace any Spot instances that are interrupted or that you terminate manually.
     public func modifySpotFleetRequest(_ input: ModifySpotFleetRequestRequest) throws -> ModifySpotFleetRequestResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifySpotFleetRequest", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifySpotFleetRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the Dedicated Host Reservations that are available to purchase. The results describe all the Dedicated Host Reservation offerings, including offerings that may not match the instance family and region of your Dedicated Hosts. When purchasing an offering, ensure that the the instance family and region of the offering matches that of the Dedicated Host/s it will be associated with. For an overview of supported instance types, see Dedicated Hosts Overview in the Amazon Elastic Compute Cloud User Guide. 
     public func describeHostReservationOfferings(_ input: DescribeHostReservationOfferingsRequest) throws -> DescribeHostReservationOfferingsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeHostReservationOfferings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeHostReservationOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID.
     public func replaceIamInstanceProfileAssociation(_ input: ReplaceIamInstanceProfileAssociationRequest) throws -> ReplaceIamInstanceProfileAssociationResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ReplaceIamInstanceProfileAssociation", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ReplaceIamInstanceProfileAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your export tasks.
     public func describeExportTasks(_ input: DescribeExportTasksRequest) throws -> DescribeExportTasksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func describeReservedInstancesOfferings(_ input: DescribeReservedInstancesOfferingsRequest) throws -> DescribeReservedInstancesOfferingsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeReservedInstancesOfferings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeReservedInstancesOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your placement groups. For more information about placement groups and cluster instances, see Cluster Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describePlacementGroups(_ input: DescribePlacementGroupsRequest) throws -> DescribePlacementGroupsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribePlacementGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribePlacementGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your Elastic IP addresses. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
     public func describeAddresses(_ input: DescribeAddressesRequest) throws -> DescribeAddressesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAddresses", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, e.g., ModifyHosts. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it make take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated hosts. Try waiting a few minutes, and then try again. Released hosts will still appear in a DescribeHosts response.
     public func releaseHosts(_ input: ReleaseHostsRequest) throws -> ReleaseHostsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ReleaseHosts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ReleaseHosts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the events for the specified Spot fleet request during the specified time. Spot fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event.
     public func describeSpotFleetRequestHistory(_ input: DescribeSpotFleetRequestHistoryRequest) throws -> DescribeSpotFleetRequestHistoryResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSpotFleetRequestHistory", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSpotFleetRequestHistory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes your Spot fleet requests. Spot fleet requests are deleted 48 hours after they are canceled and their instances are terminated.
     public func describeSpotFleetRequests(_ input: DescribeSpotFleetRequestsRequest) throws -> DescribeSpotFleetRequestsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSpotFleetRequests", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSpotFleetRequests", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
     public func describeScheduledInstanceAvailability(_ input: DescribeScheduledInstanceAvailabilityRequest) throws -> DescribeScheduledInstanceAvailabilityResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeScheduledInstanceAvailability", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeScheduledInstanceAvailability", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your Dedicated Hosts. The results describe only the Dedicated Hosts in the region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released will be listed with the state released.
     public func describeHosts(_ input: DescribeHostsRequest) throws -> DescribeHostsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeHosts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeHosts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet. An IPv6 CIDR block must have a prefix length of /64.
     public func associateSubnetCidrBlock(_ input: AssociateSubnetCidrBlockRequest) throws -> AssociateSubnetCidrBlockResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateSubnetCidrBlock", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateSubnetCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a VPN connection between an existing virtual private gateway and a VPN customer gateway. The only supported connection type is ipsec.1. The response includes information that you need to give to your network administrator to configure your customer gateway.  We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway.  If you decide to shut down your VPN connection for any reason and later create a new VPN connection, you must reconfigure your customer gateway with the new information returned from this call. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. For more information about VPN connections, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func createVpnConnection(_ input: CreateVpnConnectionRequest) throws -> CreateVpnConnectionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVpnConnection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVpnConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
     public func deleteNetworkAcl(_ input: DeleteNetworkAclRequest) throws {
-        _ = try request.invoke(operation: "DeleteNetworkAcl", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteNetworkAcl", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your Scheduled Instances.
     public func describeScheduledInstances(_ input: DescribeScheduledInstancesRequest) throws -> DescribeScheduledInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeScheduledInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeScheduledInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
     public func deleteSubnet(_ input: DeleteSubnetRequest) throws {
-        _ = try request.invoke(operation: "DeleteSubnet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteSubnet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded.
     public func getConsoleScreenshot(_ input: GetConsoleScreenshotRequest) throws -> GetConsoleScreenshotResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetConsoleScreenshot", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetConsoleScreenshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified key pair, by removing the public key from Amazon EC2.
     public func deleteKeyPair(_ input: DeleteKeyPairRequest) throws {
-        _ = try request.invoke(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes your import snapshot tasks.
     public func describeImportSnapshotTasks(_ input: DescribeImportSnapshotTasksRequest) throws -> DescribeImportSnapshotTasksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeImportSnapshotTasks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeImportSnapshotTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a virtual private gateway before creating the VPC itself. For more information about virtual private gateways, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func createVpnGateway(_ input: CreateVpnGatewayRequest) throws -> CreateVpnGatewayResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVpnGateway", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Ec2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
 

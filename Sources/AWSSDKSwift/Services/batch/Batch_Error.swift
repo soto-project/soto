@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Batch
-public enum BatchError: Error {
+public enum BatchError: AWSErrorType {
     case clientException(message: String?)
     case serverException(message: String?)
 }

@@ -29,13 +29,15 @@ import Core
 
 extension Xray {
 
-    public struct BatchGetTracesResult: Serializable, Initializable {
+    public struct BatchGetTracesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Pagination token. Not used.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Full traces for the specified requests.
-        var traces: [Trace]? = nil
+        public var traces: [Trace]? = nil
         /// Trace IDs of requests that haven't been processed.
-        var unprocessedTraceIds: [String]? = nil
+        public var unprocessedTraceIds: [String]? = nil
 
         public init() {}
 
@@ -47,17 +49,19 @@ extension Xray {
 
     }
 
-    public struct EdgeStatistics: Serializable, Initializable {
+    public struct EdgeStatistics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The aggregate response time of completed requests.
-        var totalResponseTime: Double? = nil
+        public var totalResponseTime: Double? = nil
         /// Information about requests that failed with a 5xx Server Error status code.
-        var faultStatistics: FaultStatistics? = nil
+        public var faultStatistics: FaultStatistics? = nil
         /// The number of requests that completed with a 2xx Success status code.
-        var okCount: Int64? = nil
+        public var okCount: Int64? = nil
         /// Information about requests that failed with a 4xx Client Error status code.
-        var errorStatistics: ErrorStatistics? = nil
+        public var errorStatistics: ErrorStatistics? = nil
         /// The total number of completed requests.
-        var totalCount: Int64? = nil
+        public var totalCount: Int64? = nil
 
         public init() {}
 
@@ -71,11 +75,13 @@ extension Xray {
 
     }
 
-    public struct Segment: Serializable, Initializable {
+    public struct Segment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The segment document.
-        var document: String? = nil
+        public var document: String? = nil
         /// The segment's ID.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -86,13 +92,15 @@ extension Xray {
 
     }
 
-    public struct Alias: Serializable, Initializable {
+    public struct Alias: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of the alias.
-        var type: String? = nil
+        public var type: String? = nil
         /// The canonical name of the alias.
-        var name: String? = nil
+        public var name: String? = nil
         /// A list of names for the alias, including the canonical name.
-        var names: [String]? = nil
+        public var names: [String]? = nil
 
         public init() {}
 
@@ -104,11 +112,13 @@ extension Xray {
 
     }
 
-    public struct ValueWithServiceIds: Serializable, Initializable {
+    public struct ValueWithServiceIds: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Services to which the annotation applies.
-        var serviceIds: [ServiceId]? = nil
+        public var serviceIds: [ServiceId]? = nil
         /// Values of the annotation.
-        var annotationValue: AnnotationValue? = nil
+        public var annotationValue: AnnotationValue? = nil
 
         public init() {}
 
@@ -119,11 +129,13 @@ extension Xray {
 
     }
 
-    public struct HistogramEntry: Serializable, Initializable {
+    public struct HistogramEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the entry.
-        var value: Double? = nil
+        public var value: Double? = nil
         /// The prevalence of the entry.
-        var count: Int32? = nil
+        public var count: Int32? = nil
 
         public init() {}
 
@@ -134,13 +146,15 @@ extension Xray {
 
     }
 
-    public struct UnprocessedTraceSegment: Serializable, Initializable {
+    public struct UnprocessedTraceSegment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The segment's ID.
-        var id: String? = nil
+        public var id: String? = nil
         /// The error that caused processing to fail.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The error message.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -152,15 +166,17 @@ extension Xray {
 
     }
 
-    public struct GetTraceSummariesResult: Serializable, Initializable {
+    public struct GetTraceSummariesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of traces that were processed to get this set of summaries.
-        var tracesProcessedCount: Int64? = nil
+        public var tracesProcessedCount: Int64? = nil
         /// Trace IDs and metadata for traces that were found in the specified time frame.
-        var traceSummaries: [TraceSummary]? = nil
+        public var traceSummaries: [TraceSummary]? = nil
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The start time of this page of results.
-        var approximateTime: Date? = nil
+        public var approximateTime: Date? = nil
 
         public init() {}
 
@@ -173,19 +189,21 @@ extension Xray {
 
     }
 
-    public struct Edge: Serializable, Initializable {
+    public struct Edge: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start time of the first segment on the edge.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// Response statistics for segments on the edge.
-        var summaryStatistics: EdgeStatistics? = nil
+        public var summaryStatistics: EdgeStatistics? = nil
         /// The end time of the last segment on the edge.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// Identifier of the edge. Unique within a service map.
-        var referenceId: Int32? = nil
+        public var referenceId: Int32? = nil
         /// Aliases for the edge.
-        var aliases: [Alias]? = nil
+        public var aliases: [Alias]? = nil
         /// Histogram describing the prominence of response times on the edge.
-        var responseTimeHistogram: [HistogramEntry]? = nil
+        public var responseTimeHistogram: [HistogramEntry]? = nil
 
         public init() {}
 
@@ -200,13 +218,15 @@ extension Xray {
 
     }
 
-    public struct ErrorStatistics: Serializable, Initializable {
+    public struct ErrorStatistics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The total number of requests that failed with a 4xx Client Error status code.
-        var totalCount: Int64? = nil
+        public var totalCount: Int64? = nil
         /// The number of requests that failed with untracked 4xx Client Error status codes.
-        var otherCount: Int64? = nil
+        public var otherCount: Int64? = nil
         /// The number of requests that failed with a 419 throttling status code.
-        var throttleCount: Int64? = nil
+        public var throttleCount: Int64? = nil
 
         public init() {}
 
@@ -218,13 +238,15 @@ extension Xray {
 
     }
 
-    public struct GetServiceGraphRequest: Serializable, Initializable {
+    public struct GetServiceGraphRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The end of the time frame for which to generate a graph.
-        var endTime: Date = Date()
+        public var endTime: Date = Date()
         /// Pagination token. Not used.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The start of the time frame for which to generate a graph.
-        var startTime: Date = Date()
+        public var startTime: Date = Date()
 
         public init() {}
 
@@ -236,9 +258,11 @@ extension Xray {
 
     }
 
-    public struct PutTraceSegmentsResult: Serializable, Initializable {
+    public struct PutTraceSegmentsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Segments that failed processing.
-        var unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil
+        public var unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil
 
         public init() {}
 
@@ -248,13 +272,15 @@ extension Xray {
 
     }
 
-    public struct AnnotationValue: Serializable, Initializable {
+    public struct AnnotationValue: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Value for a Boolean annotation.
-        var booleanValue: Bool? = nil
+        public var booleanValue: Bool? = nil
         /// Value for a String annotation.
-        var stringValue: String? = nil
+        public var stringValue: String? = nil
         /// Value for a Number annotation.
-        var numberValue: Double? = nil
+        public var numberValue: Double? = nil
 
         public init() {}
 
@@ -266,17 +292,19 @@ extension Xray {
 
     }
 
-    public struct ServiceStatistics: Serializable, Initializable {
+    public struct ServiceStatistics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The aggregate response time of completed requests.
-        var totalResponseTime: Double? = nil
+        public var totalResponseTime: Double? = nil
         /// Information about requests that failed with a 5xx Server Error status code.
-        var faultStatistics: FaultStatistics? = nil
+        public var faultStatistics: FaultStatistics? = nil
         /// The number of requests that completed with a 2xx Success status code.
-        var okCount: Int64? = nil
+        public var okCount: Int64? = nil
         /// Information about requests that failed with a 4xx Client Error status code.
-        var errorStatistics: ErrorStatistics? = nil
+        public var errorStatistics: ErrorStatistics? = nil
         /// The total number of completed requests.
-        var totalCount: Int64? = nil
+        public var totalCount: Int64? = nil
 
         public init() {}
 
@@ -290,15 +318,17 @@ extension Xray {
 
     }
 
-    public struct GetServiceGraphResult: Serializable, Initializable {
+    public struct GetServiceGraphResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start of the time frame for which the graph was generated.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// The end of the time frame for which the graph was generated.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// The services that have processed a traced request during the specified time frame.
-        var services: [Service]? = nil
+        public var services: [Service]? = nil
         /// Pagination token. Not used.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -311,11 +341,13 @@ extension Xray {
 
     }
 
-    public struct FaultStatistics: Serializable, Initializable {
+    public struct FaultStatistics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The total number of requests that failed with a 5xx Server Error status code.
-        var totalCount: Int64? = nil
+        public var totalCount: Int64? = nil
         /// The number of requests that failed with untracked 5xx Server Error status codes.
-        var otherCount: Int64? = nil
+        public var otherCount: Int64? = nil
 
         public init() {}
 
@@ -326,17 +358,19 @@ extension Xray {
 
     }
 
-    public struct Http: Serializable, Initializable {
+    public struct Http: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IP address of the requestor.
-        var clientIp: String? = nil
+        public var clientIp: String? = nil
         /// The request URL.
-        var httpURL: String? = nil
+        public var httpURL: String? = nil
         /// The request method.
-        var httpMethod: String? = nil
+        public var httpMethod: String? = nil
         /// The response status.
-        var httpStatus: Int32? = nil
+        public var httpStatus: Int32? = nil
         /// The request's user agent string.
-        var userAgent: String? = nil
+        public var userAgent: String? = nil
 
         public init() {}
 
@@ -350,11 +384,13 @@ extension Xray {
 
     }
 
-    public struct TraceUser: Serializable, Initializable {
+    public struct TraceUser: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Services that the user's request hit.
-        var serviceIds: [ServiceId]? = nil
+        public var serviceIds: [ServiceId]? = nil
         /// The user's name.
-        var userName: String? = nil
+        public var userName: String? = nil
 
         public init() {}
 
@@ -365,11 +401,13 @@ extension Xray {
 
     }
 
-    public struct GetTraceGraphRequest: Serializable, Initializable {
+    public struct GetTraceGraphRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Trace IDs of requests for which to generate a service graph.
-        var traceIds: [String] = []
+        public var traceIds: [String] = []
         /// Pagination token. Not used.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -380,11 +418,13 @@ extension Xray {
 
     }
 
-    public struct GetTraceGraphResult: Serializable, Initializable {
+    public struct GetTraceGraphResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The services that have processed one of the specified requests.
-        var services: [Service]? = nil
+        public var services: [Service]? = nil
         /// Pagination token. Not used.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -395,13 +435,15 @@ extension Xray {
 
     }
 
-    public struct Trace: Serializable, Initializable {
+    public struct Trace: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Segment documents for the segments and subsegments that comprise the trace.
-        var segments: [Segment]? = nil
+        public var segments: [Segment]? = nil
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
-        var duration: Double? = nil
+        public var duration: Double? = nil
         /// The unique identifier for the request that generated the trace's segments and subsegments.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -413,9 +455,11 @@ extension Xray {
 
     }
 
-    public struct PutTraceSegmentsRequest: Serializable, Initializable {
+    public struct PutTraceSegmentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A JSON document defining one or more segments or subsegments. Segments must include the following fields.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
-        var traceSegmentDocuments: [String] = []
+        public var traceSegmentDocuments: [String] = []
 
         public init() {}
 
@@ -425,17 +469,19 @@ extension Xray {
 
     }
 
-    public struct GetTraceSummariesRequest: Serializable, Initializable {
+    public struct GetTraceSummariesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start of the time frame for which to retrieve traces.
-        var startTime: Date = Date()
+        public var startTime: Date = Date()
         /// The end of the time frame for which to retrieve traces.
-        var endTime: Date = Date()
+        public var endTime: Date = Date()
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
-        var filterExpression: String? = nil
+        public var filterExpression: String? = nil
         /// Set to true to get summaries for only a subset of available traces.
-        var sampling: Bool? = nil
+        public var sampling: Bool? = nil
         /// Specify the pagination token returned by a previous request to retrieve the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -449,17 +495,21 @@ extension Xray {
 
     }
 
-    public struct PutTelemetryRecordsResult: Serializable, Initializable {
+    public struct PutTelemetryRecordsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct PutTelemetryRecordsRequest: Serializable, Initializable {
-        var eC2InstanceId: String? = nil
-        var hostname: String? = nil
-        var telemetryRecords: [TelemetryRecord] = []
-        var resourceARN: String? = nil
+    public struct PutTelemetryRecordsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eC2InstanceId: String? = nil
+        public var hostname: String? = nil
+        public var telemetryRecords: [TelemetryRecord] = []
+        public var resourceARN: String? = nil
 
         public init() {}
 
@@ -472,31 +522,33 @@ extension Xray {
 
     }
 
-    public struct Service: Serializable, Initializable {
+    public struct Service: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start time of the first segment that the service generated.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// Aggregated statistics for the service.
-        var summaryStatistics: ServiceStatistics? = nil
+        public var summaryStatistics: ServiceStatistics? = nil
         /// Histogram mapping the spread of trace durations
-        var durationHistogram: [HistogramEntry]? = nil
+        public var durationHistogram: [HistogramEntry]? = nil
         /// Identifier of the AWS account in which the service runs.
-        var accountId: String? = nil
+        public var accountId: String? = nil
         /// Indicates that the service was the first service to process a request.
-        var root: Bool? = nil
+        public var root: Bool? = nil
         /// The canonical name of the service.
-        var name: String? = nil
+        public var name: String? = nil
         /// The service's state.
-        var state: String? = nil
+        public var state: String? = nil
         /// The end time of the last segment that the service generated.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// Identifier for the service. Unique within the service map.
-        var referenceId: Int32? = nil
+        public var referenceId: Int32? = nil
         /// A list of names for the service, including the canonical name.
-        var names: [String]? = nil
+        public var names: [String]? = nil
         /// Connections to downstream services.
-        var edges: [Edge]? = nil
+        public var edges: [Edge]? = nil
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -517,11 +569,13 @@ extension Xray {
 
     }
 
-    public struct ServiceId: Serializable, Initializable {
-        var accountId: String? = nil
-        var names: [String]? = nil
-        var type: String? = nil
-        var name: String? = nil
+    public struct ServiceId: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String? = nil
+        public var names: [String]? = nil
+        public var type: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -534,13 +588,15 @@ extension Xray {
 
     }
 
-    public struct BackendConnectionErrors: Serializable, Initializable {
-        var connectionRefusedCount: Int32? = nil
-        var timeoutCount: Int32? = nil
-        var unknownHostCount: Int32? = nil
-        var hTTPCode5XXCount: Int32? = nil
-        var otherCount: Int32? = nil
-        var hTTPCode4XXCount: Int32? = nil
+    public struct BackendConnectionErrors: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var connectionRefusedCount: Int32? = nil
+        public var timeoutCount: Int32? = nil
+        public var unknownHostCount: Int32? = nil
+        public var hTTPCode5XXCount: Int32? = nil
+        public var otherCount: Int32? = nil
+        public var hTTPCode4XXCount: Int32? = nil
 
         public init() {}
 
@@ -555,13 +611,15 @@ extension Xray {
 
     }
 
-    public struct TelemetryRecord: Serializable, Initializable {
-        var segmentsRejectedCount: Int32? = nil
-        var timestamp: Date? = nil
-        var segmentsReceivedCount: Int32? = nil
-        var segmentsSentCount: Int32? = nil
-        var segmentsSpilloverCount: Int32? = nil
-        var backendConnectionErrors: BackendConnectionErrors? = nil
+    public struct TelemetryRecord: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var segmentsRejectedCount: Int32? = nil
+        public var timestamp: Date? = nil
+        public var segmentsReceivedCount: Int32? = nil
+        public var segmentsSentCount: Int32? = nil
+        public var segmentsSpilloverCount: Int32? = nil
+        public var backendConnectionErrors: BackendConnectionErrors? = nil
 
         public init() {}
 
@@ -576,11 +634,13 @@ extension Xray {
 
     }
 
-    public struct BatchGetTracesRequest: Serializable, Initializable {
+    public struct BatchGetTracesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specify the trace IDs of requests for which to retrieve segments.
-        var traceIds: [String] = []
+        public var traceIds: [String] = []
         /// Pagination token. Not used.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -591,29 +651,31 @@ extension Xray {
 
     }
 
-    public struct TraceSummary: Serializable, Initializable {
+    public struct TraceSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// One or more of the segment documents is in progress.
-        var isPartial: Bool? = nil
+        public var isPartial: Bool? = nil
         /// Service IDs from the trace's segment documents.
-        var serviceIds: [ServiceId]? = nil
+        public var serviceIds: [ServiceId]? = nil
         /// Information about the HTTP request served by the trace.
-        var http: Http? = nil
+        public var http: Http? = nil
         /// One or more of the segment documents has a 400 series error.
-        var hasError: Bool? = nil
+        public var hasError: Bool? = nil
         /// The unique identifier for the request that generated the trace's segments and subsegments.
-        var id: String? = nil
+        public var id: String? = nil
         /// One or more of the segment documents has a 429 throttling error.
-        var hasThrottle: Bool? = nil
+        public var hasThrottle: Bool? = nil
         /// Users from the trace's segment documents.
-        var users: [TraceUser]? = nil
+        public var users: [TraceUser]? = nil
         /// Annotations from the trace's segment documents.
-        var annotations: [String: [ValueWithServiceIds]]? = nil
+        public var annotations: [String: [ValueWithServiceIds]]? = nil
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
-        var duration: Double? = nil
+        public var duration: Double? = nil
         /// One or more of the segment documents has a 500 series error.
-        var hasFault: Bool? = nil
+        public var hasFault: Bool? = nil
         /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
-        var responseTime: Double? = nil
+        public var responseTime: Double? = nil
 
         public init() {}
 

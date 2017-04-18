@@ -29,17 +29,21 @@ import Core
 
 extension Devicefarm {
 
-    public struct DeleteUploadResult: Serializable, Initializable {
+    public struct DeleteUploadResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListDevicesRequest: Serializable, Initializable {
+    public struct ListDevicesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the project.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -50,31 +54,33 @@ extension Devicefarm {
 
     }
 
-    public struct NetworkProfile: Serializable, Initializable {
+    public struct NetworkProfile: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        var uplinkJitterMs: Int64? = nil
+        public var uplinkJitterMs: Int64? = nil
         /// The name of the network profile.
-        var name: String? = nil
+        public var name: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        var downlinkJitterMs: Int64? = nil
+        public var downlinkJitterMs: Int64? = nil
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        var downlinkDelayMs: Int64? = nil
+        public var downlinkDelayMs: Int64? = nil
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        var uplinkLossPercent: Int32? = nil
+        public var uplinkLossPercent: Int32? = nil
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        var downlinkLossPercent: Int32? = nil
+        public var downlinkLossPercent: Int32? = nil
         /// The description of the network profile.
-        var description: String? = nil
+        public var description: String? = nil
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        var uplinkDelayMs: Int64? = nil
+        public var uplinkDelayMs: Int64? = nil
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        var uplinkBandwidthBits: Int64? = nil
+        public var uplinkBandwidthBits: Int64? = nil
         /// The type of network profile. Valid values are listed below.
-        var type: String? = nil
+        public var type: String? = nil
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        var downlinkBandwidthBits: Int64? = nil
+        public var downlinkBandwidthBits: Int64? = nil
         /// The Amazon Resource Name (ARN) of the network profile.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -95,9 +101,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetTestResult: Serializable, Initializable {
+    public struct GetTestResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A test condition that is evaluated.
-        var test: Test? = nil
+        public var test: Test? = nil
 
         public init() {}
 
@@ -107,13 +115,15 @@ extension Devicefarm {
 
     }
 
-    public struct Rule: Serializable, Initializable {
+    public struct Rule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
-        var attribute: String? = nil
+        public var attribute: String? = nil
         /// The rule's operator.   EQUALS: The equals operator.   GREATER_THAN: The greater-than operator.   IN: The in operator.   LESS_THAN: The less-than operator.   NOT_IN: The not-in operator.  
-        var `operator`: String? = nil
+        public var `operator`: String? = nil
         /// The rule's value.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -125,11 +135,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListTestsRequest: Serializable, Initializable {
+    public struct ListTestsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The tests' ARNs.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -140,9 +152,11 @@ extension Devicefarm {
 
     }
 
-    public struct CreateRemoteAccessSessionConfiguration: Serializable, Initializable {
+    public struct CreateRemoteAccessSessionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns the billing method for purposes of configuring a remote access session.
-        var billingMethod: String? = nil
+        public var billingMethod: String? = nil
 
         public init() {}
 
@@ -152,9 +166,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetUploadResult: Serializable, Initializable {
+    public struct GetUploadResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An app or a set of one or more tests to upload or that have been uploaded.
-        var upload: Upload? = nil
+        public var upload: Upload? = nil
 
         public init() {}
 
@@ -164,11 +180,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListSuitesResult: Serializable, Initializable {
+    public struct ListSuitesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the suites.
-        var suites: [Suite]? = nil
+        public var suites: [Suite]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -179,11 +197,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListRemoteAccessSessionsResult: Serializable, Initializable {
+    public struct ListRemoteAccessSessionsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A container representing the metadata from the service about each remote access session you are requesting.
-        var remoteAccessSessions: [RemoteAccessSession]? = nil
+        public var remoteAccessSessions: [RemoteAccessSession]? = nil
 
         public init() {}
 
@@ -194,31 +214,33 @@ extension Devicefarm {
 
     }
 
-    public struct UpdateNetworkProfileRequest: Serializable, Initializable {
+    public struct UpdateNetworkProfileRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        var uplinkJitterMs: Int64? = nil
+        public var uplinkJitterMs: Int64? = nil
         /// The name of the network profile about which you are returning information.
-        var name: String? = nil
+        public var name: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        var downlinkJitterMs: Int64? = nil
+        public var downlinkJitterMs: Int64? = nil
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        var downlinkDelayMs: Int64? = nil
+        public var downlinkDelayMs: Int64? = nil
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        var uplinkLossPercent: Int32? = nil
+        public var uplinkLossPercent: Int32? = nil
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        var downlinkLossPercent: Int32? = nil
+        public var downlinkLossPercent: Int32? = nil
         /// The descriptoin of the network profile about which you are returning information.
-        var description: String? = nil
+        public var description: String? = nil
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        var uplinkDelayMs: Int64? = nil
+        public var uplinkDelayMs: Int64? = nil
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        var uplinkBandwidthBits: Int64? = nil
+        public var uplinkBandwidthBits: Int64? = nil
         /// The type of network profile you wish to return information about. Valid values are listed below.
-        var type: String? = nil
+        public var type: String? = nil
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        var downlinkBandwidthBits: Int64? = nil
+        public var downlinkBandwidthBits: Int64? = nil
         /// The Amazon Resource Name (ARN) of the project that you wish to update network profile settings.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -239,9 +261,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetDevicePoolResult: Serializable, Initializable {
+    public struct GetDevicePoolResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An object containing information about the requested device pool.
-        var devicePool: DevicePool? = nil
+        public var devicePool: DevicePool? = nil
 
         public init() {}
 
@@ -251,17 +275,19 @@ extension Devicefarm {
 
     }
 
-    public struct DevicePool: Serializable, Initializable {
+    public struct DevicePool: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device pool's description.
-        var description: String? = nil
+        public var description: String? = nil
         /// The device pool's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The device pool's type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
-        var type: String? = nil
+        public var type: String? = nil
         /// Information about the device pool's rules.
-        var rules: [Rule]? = nil
+        public var rules: [Rule]? = nil
         /// The device pool's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -275,9 +301,11 @@ extension Devicefarm {
 
     }
 
-    public struct CreateProjectResult: Serializable, Initializable {
+    public struct CreateProjectResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The newly created project.
-        var project: Project? = nil
+        public var project: Project? = nil
 
         public init() {}
 
@@ -287,9 +315,11 @@ extension Devicefarm {
 
     }
 
-    public struct PurchaseOfferingResult: Serializable, Initializable {
+    public struct PurchaseOfferingResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the offering transaction for the purchase result.
-        var offeringTransaction: OfferingTransaction? = nil
+        public var offeringTransaction: OfferingTransaction? = nil
 
         public init() {}
 
@@ -299,9 +329,11 @@ extension Devicefarm {
 
     }
 
-    public struct ExecutionConfiguration: Serializable, Initializable {
+    public struct ExecutionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of minutes a test run will execute before it times out.
-        var jobTimeoutMinutes: Int32? = nil
+        public var jobTimeoutMinutes: Int32? = nil
 
         public init() {}
 
@@ -311,11 +343,13 @@ extension Devicefarm {
 
     }
 
-    public struct MonetaryAmount: Serializable, Initializable {
+    public struct MonetaryAmount: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The currency code of a monetary amount. For example, USD means "U.S. dollars."
-        var currencyCode: String? = nil
+        public var currencyCode: String? = nil
         /// The numerical amount of an offering or transaction.
-        var amount: Double? = nil
+        public var amount: Double? = nil
 
         public init() {}
 
@@ -326,31 +360,33 @@ extension Devicefarm {
 
     }
 
-    public struct CreateNetworkProfileRequest: Serializable, Initializable {
+    public struct CreateNetworkProfileRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        var uplinkJitterMs: Int64? = nil
+        public var uplinkJitterMs: Int64? = nil
         /// The name you wish to specify for the new network profile.
-        var name: String = ""
+        public var name: String = ""
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        var downlinkJitterMs: Int64? = nil
+        public var downlinkJitterMs: Int64? = nil
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        var downlinkDelayMs: Int64? = nil
+        public var downlinkDelayMs: Int64? = nil
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        var uplinkLossPercent: Int32? = nil
+        public var uplinkLossPercent: Int32? = nil
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        var downlinkLossPercent: Int32? = nil
+        public var downlinkLossPercent: Int32? = nil
         /// The description of the network profile.
-        var description: String? = nil
+        public var description: String? = nil
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        var uplinkDelayMs: Int64? = nil
+        public var uplinkDelayMs: Int64? = nil
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        var uplinkBandwidthBits: Int64? = nil
+        public var uplinkBandwidthBits: Int64? = nil
         /// The type of network profile you wish to create. Valid values are listed below.
-        var type: String? = nil
+        public var type: String? = nil
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        var downlinkBandwidthBits: Int64? = nil
+        public var downlinkBandwidthBits: Int64? = nil
         /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile.
-        var projectArn: String = ""
+        public var projectArn: String = ""
 
         public init() {}
 
@@ -371,9 +407,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetDevicePoolRequest: Serializable, Initializable {
+    public struct GetDevicePoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device pool's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -383,31 +421,33 @@ extension Devicefarm {
 
     }
 
-    public struct RemoteAccessSession: Serializable, Initializable {
+    public struct RemoteAccessSession: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
-        var billingMethod: String? = nil
+        public var billingMethod: String? = nil
         /// The status of the remote access session. Can be any of the following:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the remote access session.
-        var name: String? = nil
+        public var name: String? = nil
         /// The endpoint for the remote access sesssion.
-        var endpoint: String? = nil
+        public var endpoint: String? = nil
         /// The date and time the remote access session was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The date and time the remote access session was started.
-        var started: Date? = nil
+        public var started: Date? = nil
         /// The date and time the remote access session was stopped.
-        var stopped: Date? = nil
+        public var stopped: Date? = nil
         /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
-        var deviceMinutes: DeviceMinutes? = nil
+        public var deviceMinutes: DeviceMinutes? = nil
         /// A message about the remote access session.
-        var message: String? = nil
+        public var message: String? = nil
         /// The device (phone or tablet) used in the remote access session.
-        var device: Device? = nil
+        public var device: Device? = nil
         /// The result of the remote access session. Can be any of the following:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var result: String? = nil
+        public var result: String? = nil
         /// The Amazon Resource Name (ARN) of the remote access session.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -428,11 +468,13 @@ extension Devicefarm {
 
     }
 
-    public struct RecurringCharge: Serializable, Initializable {
+    public struct RecurringCharge: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The frequency in which charges will recur.
-        var frequency: String? = nil
+        public var frequency: String? = nil
         /// The cost of the recurring charge.
-        var cost: MonetaryAmount? = nil
+        public var cost: MonetaryAmount? = nil
 
         public init() {}
 
@@ -443,29 +485,31 @@ extension Devicefarm {
 
     }
 
-    public struct Suite: Serializable, Initializable {
+    public struct Suite: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The suite's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The suite's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// When the suite was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The suite's start time.
-        var started: Date? = nil
+        public var started: Date? = nil
         /// Represents the total (metered or unmetered) minutes used by the test suite.
-        var deviceMinutes: DeviceMinutes? = nil
+        public var deviceMinutes: DeviceMinutes? = nil
         /// The suite's stop time.
-        var stopped: Date? = nil
+        public var stopped: Date? = nil
         /// A message about the suite's result.
-        var message: String? = nil
+        public var message: String? = nil
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The suite's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var result: String? = nil
+        public var result: String? = nil
         /// The suite's result counters.
-        var counters: Counters? = nil
+        public var counters: Counters? = nil
         /// The suite's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -485,9 +529,11 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteUploadRequest: Serializable, Initializable {
+    public struct DeleteUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -497,11 +543,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListUniqueProblemsRequest: Serializable, Initializable {
+    public struct ListUniqueProblemsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The unique problems' ARNs.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -512,17 +560,21 @@ extension Devicefarm {
 
     }
 
-    public struct GetAccountSettingsRequest: Serializable, Initializable {
+    public struct GetAccountSettingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ProblemDetail: Serializable, Initializable {
+    public struct ProblemDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The problem detail's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The problem detail's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -533,21 +585,23 @@ extension Devicefarm {
 
     }
 
-    public struct ScheduleRunConfiguration: Serializable, Initializable {
+    public struct ScheduleRunConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
-        var extraDataPackageArn: String? = nil
+        public var extraDataPackageArn: String? = nil
         /// Information about the location that is used for the run.
-        var location: Location? = nil
+        public var location: Location? = nil
         /// Reserved for internal use.
-        var networkProfileArn: String? = nil
+        public var networkProfileArn: String? = nil
         /// A list of auxiliary apps for the run.
-        var auxiliaryApps: [String]? = nil
+        public var auxiliaryApps: [String]? = nil
         /// Information about the radio states for the run.
-        var radios: Radios? = nil
+        public var radios: Radios? = nil
         /// Information about the locale that is used for the run.
-        var locale: String? = nil
+        public var locale: String? = nil
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
-        var billingMethod: String? = nil
+        public var billingMethod: String? = nil
 
         public init() {}
 
@@ -563,9 +617,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetJobResult: Serializable, Initializable {
+    public struct GetJobResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An object containing information about the requested job.
-        var job: Job? = nil
+        public var job: Job? = nil
 
         public init() {}
 
@@ -575,11 +631,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListOfferingsResult: Serializable, Initializable {
+    public struct ListOfferingsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A value representing the list offering results.
-        var offerings: [Offering]? = nil
+        public var offerings: [Offering]? = nil
 
         public init() {}
 
@@ -590,9 +648,11 @@ extension Devicefarm {
 
     }
 
-    public struct StopRunResult: Serializable, Initializable {
+    public struct StopRunResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The run that was stopped.
-        var run: Run? = nil
+        public var run: Run? = nil
 
         public init() {}
 
@@ -602,21 +662,23 @@ extension Devicefarm {
 
     }
 
-    public struct ScheduleRunRequest: Serializable, Initializable {
+    public struct ScheduleRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the project for the run to be scheduled.
-        var projectArn: String = ""
+        public var projectArn: String = ""
         /// The name for the run to be scheduled.
-        var name: String? = nil
+        public var name: String? = nil
         /// Specifies configuration information about a test run, such as the execution timeout (in minutes).
-        var executionConfiguration: ExecutionConfiguration? = nil
+        public var executionConfiguration: ExecutionConfiguration? = nil
         /// Information about the test for the run to be scheduled.
-        var test: ScheduleRunTest = ScheduleRunTest()
+        public var test: ScheduleRunTest = ScheduleRunTest()
         /// The ARN of the app to schedule a run.
-        var appArn: String? = nil
+        public var appArn: String? = nil
         /// The ARN of the device pool for the run to be scheduled.
-        var devicePoolArn: String = ""
+        public var devicePoolArn: String = ""
         /// Information about the settings for the run to be scheduled.
-        var configuration: ScheduleRunConfiguration? = nil
+        public var configuration: ScheduleRunConfiguration? = nil
 
         public init() {}
 
@@ -632,17 +694,19 @@ extension Devicefarm {
 
     }
 
-    public struct Artifact: Serializable, Initializable {
+    public struct Artifact: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The artifact's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The artifact's type. Allowed values include the following:   UNKNOWN: An unknown type.   SCREENSHOT: The screenshot type.   DEVICE_LOG: The device log type.   MESSAGE_LOG: The message log type.   RESULT_LOG: The result log type.   SERVICE_LOG: The service log type.   WEBKIT_LOG: The web kit log type.   INSTRUMENTATION_OUTPUT: The instrumentation type.   EXERCISER_MONKEY_OUTPUT: For Android, the artifact (log) generated by an Android fuzz test.   CALABASH_JSON_OUTPUT: The Calabash JSON output type.   CALABASH_PRETTY_OUTPUT: The Calabash pretty output type.   CALABASH_STANDARD_OUTPUT: The Calabash standard output type.   CALABASH_JAVA_XML_OUTPUT: The Calabash Java XML output type.   AUTOMATION_OUTPUT: The automation output type.   APPIUM_SERVER_OUTPUT: The Appium server output type.   APPIUM_JAVA_OUTPUT: The Appium Java output type.   APPIUM_JAVA_XML_OUTPUT: The Appium Java XML output type.   APPIUM_PYTHON_OUTPUT: The Appium Python output type.   APPIUM_PYTHON_XML_OUTPUT: The Appium Python XML output type.   EXPLORER_EVENT_LOG: The Explorer event log output type.   EXPLORER_SUMMARY_LOG: The Explorer summary log output type.   APPLICATION_CRASH_REPORT: The application crash report output type.   XCTEST_LOG: The XCode test output type.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The artifact's file extension.
-        var `extension`: String? = nil
+        public var `extension`: String? = nil
         /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to download the artifact's file.
-        var url: String? = nil
+        public var url: String? = nil
         /// The artifact's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -656,9 +720,11 @@ extension Devicefarm {
 
     }
 
-    public struct CreateNetworkProfileResult: Serializable, Initializable {
+    public struct CreateNetworkProfileResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The network profile that is returned by the create network profile request.
-        var networkProfile: NetworkProfile? = nil
+        public var networkProfile: NetworkProfile? = nil
 
         public init() {}
 
@@ -668,9 +734,11 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteNetworkProfileRequest: Serializable, Initializable {
+    public struct DeleteNetworkProfileRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -680,15 +748,17 @@ extension Devicefarm {
 
     }
 
-    public struct Project: Serializable, Initializable {
+    public struct Project: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The project's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// When the project was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The default number of minutes (at the project level) a test run will execute before it times out. Default value is 60 minutes.
-        var defaultJobTimeoutMinutes: Int32? = nil
+        public var defaultJobTimeoutMinutes: Int32? = nil
         /// The project's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -701,9 +771,11 @@ extension Devicefarm {
 
     }
 
-    public struct ScheduleRunResult: Serializable, Initializable {
+    public struct ScheduleRunResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the scheduled run.
-        var run: Run? = nil
+        public var run: Run? = nil
 
         public init() {}
 
@@ -713,9 +785,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetRunRequest: Serializable, Initializable {
+    public struct GetRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The run's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -725,11 +799,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListNetworkProfilesResult: Serializable, Initializable {
+    public struct ListNetworkProfilesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of the available network profiles.
-        var networkProfiles: [NetworkProfile]? = nil
+        public var networkProfiles: [NetworkProfile]? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -740,11 +816,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListSamplesRequest: Serializable, Initializable {
+    public struct ListSamplesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the project for which you want to list samples.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -755,11 +833,13 @@ extension Devicefarm {
 
     }
 
-    public struct CreateProjectRequest: Serializable, Initializable {
+    public struct CreateProjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The project's name.
-        var name: String = ""
+        public var name: String = ""
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project will use the specified execution timeout value unless overridden when scheduling a run.
-        var defaultJobTimeoutMinutes: Int32? = nil
+        public var defaultJobTimeoutMinutes: Int32? = nil
 
         public init() {}
 
@@ -770,9 +850,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetRemoteAccessSessionResult: Serializable, Initializable {
+    public struct GetRemoteAccessSessionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A container that lists detailed information about the remote access session.
-        var remoteAccessSession: RemoteAccessSession? = nil
+        public var remoteAccessSession: RemoteAccessSession? = nil
 
         public init() {}
 
@@ -782,9 +864,11 @@ extension Devicefarm {
 
     }
 
-    public struct UpdateDevicePoolResult: Serializable, Initializable {
+    public struct UpdateDevicePoolResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device pool you just updated.
-        var devicePool: DevicePool? = nil
+        public var devicePool: DevicePool? = nil
 
         public init() {}
 
@@ -794,11 +878,13 @@ extension Devicefarm {
 
     }
 
-    public struct PurchaseOfferingRequest: Serializable, Initializable {
+    public struct PurchaseOfferingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the offering.
-        var offeringId: String? = nil
+        public var offeringId: String? = nil
         /// The number of device slots you wish to purchase in an offering request.
-        var quantity: Int32? = nil
+        public var quantity: Int32? = nil
 
         public init() {}
 
@@ -809,9 +895,11 @@ extension Devicefarm {
 
     }
 
-    public struct StopRemoteAccessSessionRequest: Serializable, Initializable {
+    public struct StopRemoteAccessSessionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -821,9 +909,11 @@ extension Devicefarm {
 
     }
 
-    public struct CreateUploadResult: Serializable, Initializable {
+    public struct CreateUploadResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The newly created upload.
-        var upload: Upload? = nil
+        public var upload: Upload? = nil
 
         public init() {}
 
@@ -833,11 +923,13 @@ extension Devicefarm {
 
     }
 
-    public struct UniqueProblem: Serializable, Initializable {
+    public struct UniqueProblem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the problems.
-        var problems: [Problem]? = nil
+        public var problems: [Problem]? = nil
         /// A message about the unique problems' result.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -848,9 +940,11 @@ extension Devicefarm {
 
     }
 
-    public struct UpdateNetworkProfileResult: Serializable, Initializable {
+    public struct UpdateNetworkProfileResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of the available network profiles.
-        var networkProfile: NetworkProfile? = nil
+        public var networkProfile: NetworkProfile? = nil
 
         public init() {}
 
@@ -860,13 +954,15 @@ extension Devicefarm {
 
     }
 
-    public struct ListNetworkProfilesRequest: Serializable, Initializable {
+    public struct ListNetworkProfilesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of network profile you wish to return information about. Valid values are listed below.
-        var type: String? = nil
+        public var type: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -878,9 +974,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetJobRequest: Serializable, Initializable {
+    public struct GetJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -890,11 +988,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListRunsResult: Serializable, Initializable {
+    public struct ListRunsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Information about the runs.
-        var runs: [Run]? = nil
+        public var runs: [Run]? = nil
 
         public init() {}
 
@@ -905,11 +1005,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListTestsResult: Serializable, Initializable {
+    public struct ListTestsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the tests.
-        var tests: [Test]? = nil
+        public var tests: [Test]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -920,21 +1022,25 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteNetworkProfileResult: Serializable, Initializable {
+    public struct DeleteNetworkProfileResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct OfferingTransaction: Serializable, Initializable {
+    public struct OfferingTransaction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The transaction ID of the offering transaction.
-        var transactionId: String? = nil
+        public var transactionId: String? = nil
         /// The cost of an offering transaction.
-        var cost: MonetaryAmount? = nil
+        public var cost: MonetaryAmount? = nil
         /// The date on which an offering transaction was created.
-        var createdOn: Date? = nil
+        public var createdOn: Date? = nil
         /// The status of an offering transaction.
-        var offeringStatus: OfferingStatus? = nil
+        public var offeringStatus: OfferingStatus? = nil
 
         public init() {}
 
@@ -947,11 +1053,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListDevicesResult: Serializable, Initializable {
+    public struct ListDevicesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the devices.
-        var devices: [Device]? = nil
+        public var devices: [Device]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -962,11 +1070,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListUploadsResult: Serializable, Initializable {
+    public struct ListUploadsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the uploads.
-        var uploads: [Upload]? = nil
+        public var uploads: [Upload]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -977,17 +1087,19 @@ extension Devicefarm {
 
     }
 
-    public struct Offering: Serializable, Initializable {
+    public struct Offering: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string describing the offering.
-        var description: String? = nil
+        public var description: String? = nil
         /// Specifies whether there are recurring charges for the offering.
-        var recurringCharges: [RecurringCharge]? = nil
+        public var recurringCharges: [RecurringCharge]? = nil
         /// The ID that corresponds to a device offering.
-        var id: String? = nil
+        public var id: String? = nil
         /// The type of offering (e.g., "RECURRING") for a device.
-        var type: String? = nil
+        public var type: String? = nil
         /// The platform of the device (e.g., ANDROID or IOS).
-        var platform: String? = nil
+        public var platform: String? = nil
 
         public init() {}
 
@@ -1001,9 +1113,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetSuiteResult: Serializable, Initializable {
+    public struct GetSuiteResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A collection of one or more tests.
-        var suite: Suite? = nil
+        public var suite: Suite? = nil
 
         public init() {}
 
@@ -1013,9 +1127,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetSuiteRequest: Serializable, Initializable {
+    public struct GetSuiteRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The suite's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1025,9 +1141,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetUploadRequest: Serializable, Initializable {
+    public struct GetUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1037,29 +1155,31 @@ extension Devicefarm {
 
     }
 
-    public struct Test: Serializable, Initializable {
+    public struct Test: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The test's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The test's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// When the test was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The test's start time.
-        var started: Date? = nil
+        public var started: Date? = nil
         /// Represents the total (metered or unmetered) minutes used by the test.
-        var deviceMinutes: DeviceMinutes? = nil
+        public var deviceMinutes: DeviceMinutes? = nil
         /// The test's stop time.
-        var stopped: Date? = nil
+        public var stopped: Date? = nil
         /// A message about the test's result.
-        var message: String? = nil
+        public var message: String? = nil
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The test's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var result: String? = nil
+        public var result: String? = nil
         /// The test's result counters.
-        var counters: Counters? = nil
+        public var counters: Counters? = nil
         /// The test's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -1079,9 +1199,11 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteRemoteAccessSessionRequest: Serializable, Initializable {
+    public struct DeleteRemoteAccessSessionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1091,13 +1213,15 @@ extension Devicefarm {
 
     }
 
-    public struct GetOfferingStatusResult: Serializable, Initializable {
+    public struct GetOfferingStatusResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// When specified, gets the offering status for the next period.
-        var nextPeriod: [String: OfferingStatus]? = nil
+        public var nextPeriod: [String: OfferingStatus]? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// When specified, gets the offering status for the current period.
-        var current: [String: OfferingStatus]? = nil
+        public var current: [String: OfferingStatus]? = nil
 
         public init() {}
 
@@ -1109,9 +1233,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetOfferingStatusRequest: Serializable, Initializable {
+    public struct GetOfferingStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1121,11 +1247,13 @@ extension Devicefarm {
 
     }
 
-    public struct IncompatibilityMessage: Serializable, Initializable {
+    public struct IncompatibilityMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
-        var type: String? = nil
+        public var type: String? = nil
         /// A message about the incompatibility.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -1136,15 +1264,17 @@ extension Devicefarm {
 
     }
 
-    public struct CreateUploadRequest: Serializable, Initializable {
+    public struct CreateUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload's file name. The name should not contain the '/' character. If uploading an iOS app, the file name needs to end with the .ipa extension. If uploading an Android app, the file name needs to end with the .apk extension. For all others, the file name must end with the .zip file extension.
-        var name: String = ""
+        public var name: String = ""
         /// The upload's content type (for example, "application/octet-stream").
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The upload's upload type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.    Note If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error.
-        var type: String = ""
+        public var type: String = ""
         /// The ARN of the project for the upload.
-        var projectArn: String = ""
+        public var projectArn: String = ""
 
         public init() {}
 
@@ -1157,9 +1287,11 @@ extension Devicefarm {
 
     }
 
-    public struct UpdateProjectResult: Serializable, Initializable {
+    public struct UpdateProjectResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The project you wish to update.
-        var project: Project? = nil
+        public var project: Project? = nil
 
         public init() {}
 
@@ -1169,15 +1301,17 @@ extension Devicefarm {
 
     }
 
-    public struct ScheduleRunTest: Serializable, Initializable {
+    public struct ScheduleRunTest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The test's filter.
-        var filter: String? = nil
+        public var filter: String? = nil
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        var type: String = ""
+        public var type: String = ""
         /// The ARN of the uploaded test that will be run.
-        var testPackageArn: String? = nil
+        public var testPackageArn: String? = nil
         /// The test's parameters, such as test framework parameters and fixture settings.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -1190,17 +1324,21 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteDevicePoolResult: Serializable, Initializable {
+    public struct DeleteDevicePoolResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListUploadsRequest: Serializable, Initializable {
+    public struct ListUploadsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1211,9 +1349,11 @@ extension Devicefarm {
 
     }
 
-    public struct CreateRemoteAccessSessionResult: Serializable, Initializable {
+    public struct CreateRemoteAccessSessionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A container that describes the remote access session when the request to create a remote access session is sent.
-        var remoteAccessSession: RemoteAccessSession? = nil
+        public var remoteAccessSession: RemoteAccessSession? = nil
 
         public init() {}
 
@@ -1223,9 +1363,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetDeviceRequest: Serializable, Initializable {
+    public struct GetDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device type's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1235,15 +1377,17 @@ extension Devicefarm {
 
     }
 
-    public struct Radios: Serializable, Initializable {
+    public struct Radios: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// True if Wi-Fi is enabled at the beginning of the test; otherwise, false.
-        var wifi: Bool? = nil
+        public var wifi: Bool? = nil
         /// True if Bluetooth is enabled at the beginning of the test; otherwise, false.
-        var bluetooth: Bool? = nil
+        public var bluetooth: Bool? = nil
         /// True if NFC is enabled at the beginning of the test; otherwise, false.
-        var nfc: Bool? = nil
+        public var nfc: Bool? = nil
         /// True if GPS is enabled at the beginning of the test; otherwise, false.
-        var gps: Bool? = nil
+        public var gps: Bool? = nil
 
         public init() {}
 
@@ -1256,9 +1400,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetRunResult: Serializable, Initializable {
+    public struct GetRunResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The run you wish to get results from.
-        var run: Run? = nil
+        public var run: Run? = nil
 
         public init() {}
 
@@ -1268,9 +1414,11 @@ extension Devicefarm {
 
     }
 
-    public struct RenewOfferingResult: Serializable, Initializable {
+    public struct RenewOfferingResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the status of the offering transaction for the renewal.
-        var offeringTransaction: OfferingTransaction? = nil
+        public var offeringTransaction: OfferingTransaction? = nil
 
         public init() {}
 
@@ -1280,9 +1428,11 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteDevicePoolRequest: Serializable, Initializable {
+    public struct DeleteDevicePoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1292,15 +1442,17 @@ extension Devicefarm {
 
     }
 
-    public struct CreateRemoteAccessSessionRequest: Serializable, Initializable {
+    public struct CreateRemoteAccessSessionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the remote access session that you wish to create.
-        var name: String? = nil
+        public var name: String? = nil
         /// The Amazon Resource Name (ARN) of the device for which you want to create a remote access session.
-        var deviceArn: String = ""
+        public var deviceArn: String = ""
         /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
-        var projectArn: String = ""
+        public var projectArn: String = ""
         /// The configuration information for the remote access session request.
-        var configuration: CreateRemoteAccessSessionConfiguration? = nil
+        public var configuration: CreateRemoteAccessSessionConfiguration? = nil
 
         public init() {}
 
@@ -1313,11 +1465,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListJobsResult: Serializable, Initializable {
+    public struct ListJobsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Information about the jobs.
-        var jobs: [Job]? = nil
+        public var jobs: [Job]? = nil
 
         public init() {}
 
@@ -1328,11 +1482,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListSamplesResult: Serializable, Initializable {
+    public struct ListSamplesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the samples.
-        var samples: [Sample]? = nil
+        public var samples: [Sample]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1343,15 +1499,17 @@ extension Devicefarm {
 
     }
 
-    public struct CreateDevicePoolRequest: Serializable, Initializable {
+    public struct CreateDevicePoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device pool's description.
-        var description: String? = nil
+        public var description: String? = nil
         /// The device pool's name.
-        var name: String = ""
+        public var name: String = ""
         /// The device pool's rules.
-        var rules: [Rule] = []
+        public var rules: [Rule] = []
         /// The ARN of the project for the device pool.
-        var projectArn: String = ""
+        public var projectArn: String = ""
 
         public init() {}
 
@@ -1364,11 +1522,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListProjectsResult: Serializable, Initializable {
+    public struct ListProjectsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Information about the projects.
-        var projects: [Project]? = nil
+        public var projects: [Project]? = nil
 
         public init() {}
 
@@ -1379,15 +1539,17 @@ extension Devicefarm {
 
     }
 
-    public struct OfferingStatus: Serializable, Initializable {
+    public struct OfferingStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of available devices in the offering.
-        var quantity: Int32? = nil
+        public var quantity: Int32? = nil
         /// The type specified for the offering status.
-        var type: String? = nil
+        public var type: String? = nil
         /// The date on which the offering is effective.
-        var effectiveOn: Date? = nil
+        public var effectiveOn: Date? = nil
         /// Represents the metadata of an offering status.
-        var offering: Offering? = nil
+        public var offering: Offering? = nil
 
         public init() {}
 
@@ -1400,13 +1562,15 @@ extension Devicefarm {
 
     }
 
-    public struct ListDevicePoolsRequest: Serializable, Initializable {
+    public struct ListDevicePoolsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
-        var type: String? = nil
+        public var type: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The project ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1418,11 +1582,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListJobsRequest: Serializable, Initializable {
+    public struct ListJobsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The jobs' ARNs.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1433,39 +1599,41 @@ extension Devicefarm {
 
     }
 
-    public struct Run: Serializable, Initializable {
+    public struct Run: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The run's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The run's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
-        var platform: String? = nil
+        public var platform: String? = nil
         /// The run's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The run's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var result: String? = nil
+        public var result: String? = nil
         /// The run's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The run's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The total number of completed jobs.
-        var completedJobs: Int32? = nil
+        public var completedJobs: Int32? = nil
         /// When the run was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The run's start time.
-        var started: Date? = nil
+        public var started: Date? = nil
         /// The total number of jobs for the run.
-        var totalJobs: Int32? = nil
+        public var totalJobs: Int32? = nil
         /// The run's stop time.
-        var stopped: Date? = nil
+        public var stopped: Date? = nil
         /// Represents the total (metered or unmetered) minutes used by the test run.
-        var deviceMinutes: DeviceMinutes? = nil
+        public var deviceMinutes: DeviceMinutes? = nil
         /// A message about the run's result.
-        var message: String? = nil
+        public var message: String? = nil
         /// The network profile being used for a test run.
-        var networkProfile: NetworkProfile? = nil
+        public var networkProfile: NetworkProfile? = nil
         /// The run's result counters.
-        var counters: Counters? = nil
+        public var counters: Counters? = nil
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
-        var billingMethod: String? = nil
+        public var billingMethod: String? = nil
 
         public init() {}
 
@@ -1490,13 +1658,15 @@ extension Devicefarm {
 
     }
 
-    public struct DevicePoolCompatibilityResult: Serializable, Initializable {
+    public struct DevicePoolCompatibilityResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device (phone or tablet) that you wish to return information about.
-        var device: Device? = nil
+        public var device: Device? = nil
         /// Whether the result was compatible with the device pool.
-        var compatible: Bool? = nil
+        public var compatible: Bool? = nil
         /// Information about the compatibility.
-        var incompatibilityMessages: [IncompatibilityMessage]? = nil
+        public var incompatibilityMessages: [IncompatibilityMessage]? = nil
 
         public init() {}
 
@@ -1508,25 +1678,27 @@ extension Devicefarm {
 
     }
 
-    public struct Upload: Serializable, Initializable {
+    public struct Upload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The upload's metadata. For example, for Android, this contains information that is parsed from the manifest and is displayed in the AWS Device Farm console after the associated app is uploaded.
-        var metadata: String? = nil
+        public var metadata: String? = nil
         /// The upload's status. Must be one of the following values:   FAILED: A failed status.   INITIALIZED: An initialized status.   PROCESSING: A processing status.   SUCCEEDED: A succeeded status.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The upload's content type (for example, "application/octet-stream").
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The upload's file name.
-        var name: String? = nil
+        public var name: String? = nil
         /// When the upload was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// A message about the upload's result.
-        var message: String? = nil
+        public var message: String? = nil
         /// The upload's type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The pre-signed Amazon S3 URL that was used to store a file through a corresponding PUT request.
-        var url: String? = nil
+        public var url: String? = nil
         /// The upload's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -1544,9 +1716,11 @@ extension Devicefarm {
 
     }
 
-    public struct ListOfferingsRequest: Serializable, Initializable {
+    public struct ListOfferingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1556,23 +1730,29 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteRunResult: Serializable, Initializable {
+    public struct DeleteRunResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteProjectResult: Serializable, Initializable {
+    public struct DeleteProjectResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListDevicePoolsResult: Serializable, Initializable {
+    public struct ListDevicePoolsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the device pools.
-        var devicePools: [DevicePool]? = nil
+        public var devicePools: [DevicePool]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1583,11 +1763,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListOfferingTransactionsResult: Serializable, Initializable {
+    public struct ListOfferingTransactionsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
-        var offeringTransactions: [OfferingTransaction]? = nil
+        public var offeringTransactions: [OfferingTransaction]? = nil
 
         public init() {}
 
@@ -1598,11 +1780,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListSuitesRequest: Serializable, Initializable {
+    public struct ListSuitesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The suites' ARNs.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1613,13 +1797,15 @@ extension Devicefarm {
 
     }
 
-    public struct CPU: Serializable, Initializable {
+    public struct CPU: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CPU's frequency.
-        var frequency: String? = nil
+        public var frequency: String? = nil
         /// The CPU's architecture, for example x86 or ARM.
-        var architecture: String? = nil
+        public var architecture: String? = nil
         /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a 1.2 GHz CPU is expressed as 1200000000.
-        var clock: Double? = nil
+        public var clock: Double? = nil
 
         public init() {}
 
@@ -1631,9 +1817,11 @@ extension Devicefarm {
 
     }
 
-    public struct InstallToRemoteAccessSessionResult: Serializable, Initializable {
+    public struct InstallToRemoteAccessSessionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An app to upload or that has been uploaded.
-        var appUpload: Upload? = nil
+        public var appUpload: Upload? = nil
 
         public init() {}
 
@@ -1643,9 +1831,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetNetworkProfileRequest: Serializable, Initializable {
+    public struct GetNetworkProfileRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1655,21 +1845,23 @@ extension Devicefarm {
 
     }
 
-    public struct Counters: Serializable, Initializable {
+    public struct Counters: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of warned entities.
-        var warned: Int32? = nil
+        public var warned: Int32? = nil
         /// The number of failed entities.
-        var failed: Int32? = nil
+        public var failed: Int32? = nil
         /// The number of errored entities.
-        var errored: Int32? = nil
+        public var errored: Int32? = nil
         /// The number of skipped entities.
-        var skipped: Int32? = nil
+        public var skipped: Int32? = nil
         /// The number of passed entities.
-        var passed: Int32? = nil
+        public var passed: Int32? = nil
         /// The number of stopped entities.
-        var stopped: Int32? = nil
+        public var stopped: Int32? = nil
         /// The total number of entities.
-        var total: Int32? = nil
+        public var total: Int32? = nil
 
         public init() {}
 
@@ -1685,19 +1877,23 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteRemoteAccessSessionResult: Serializable, Initializable {
+    public struct DeleteRemoteAccessSessionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeviceMinutes: Serializable, Initializable {
+    public struct DeviceMinutes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// When specified, represents the total minutes used by the resource to run tests.
-        var total: Double? = nil
+        public var total: Double? = nil
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
-        var metered: Double? = nil
+        public var metered: Double? = nil
         /// When specified, represents only the sum of unmetered minutes used by the resource to run tests.
-        var unmetered: Double? = nil
+        public var unmetered: Double? = nil
 
         public init() {}
 
@@ -1709,11 +1905,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListRemoteAccessSessionsRequest: Serializable, Initializable {
+    public struct ListRemoteAccessSessionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1724,13 +1922,15 @@ extension Devicefarm {
 
     }
 
-    public struct ListArtifactsRequest: Serializable, Initializable {
+    public struct ListArtifactsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
-        var type: String = ""
+        public var type: String = ""
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Run, Job, Suite, or Test ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1742,9 +1942,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetTestRequest: Serializable, Initializable {
+    public struct GetTestRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The test's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1754,9 +1956,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetDeviceResult: Serializable, Initializable {
+    public struct GetDeviceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An object containing information about the requested device.
-        var device: Device? = nil
+        public var device: Device? = nil
 
         public init() {}
 
@@ -1766,9 +1970,11 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteProjectRequest: Serializable, Initializable {
+    public struct DeleteProjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1778,9 +1984,11 @@ extension Devicefarm {
 
     }
 
-    public struct StopRunRequest: Serializable, Initializable {
+    public struct StopRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1790,11 +1998,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListUniqueProblemsResult: Serializable, Initializable {
+    public struct ListUniqueProblemsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the unique problems. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var uniqueProblems: [String: [UniqueProblem]]? = nil
+        public var uniqueProblems: [String: [UniqueProblem]]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1805,21 +2015,23 @@ extension Devicefarm {
 
     }
 
-    public struct Problem: Serializable, Initializable {
+    public struct Problem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the associated test.
-        var test: ProblemDetail? = nil
+        public var test: ProblemDetail? = nil
         /// Information about the associated suite.
-        var suite: ProblemDetail? = nil
+        public var suite: ProblemDetail? = nil
         /// Information about the associated job.
-        var job: ProblemDetail? = nil
+        public var job: ProblemDetail? = nil
         /// A message about the problem's result.
-        var message: String? = nil
+        public var message: String? = nil
         /// Information about the associated device.
-        var device: Device? = nil
+        public var device: Device? = nil
         /// Information about the associated run.
-        var run: ProblemDetail? = nil
+        public var run: ProblemDetail? = nil
         /// The problem's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var result: String? = nil
+        public var result: String? = nil
 
         public init() {}
 
@@ -1835,13 +2047,15 @@ extension Devicefarm {
 
     }
 
-    public struct Sample: Serializable, Initializable {
+    public struct Sample: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sample's type. Must be one of the following values:   CPU: A CPU sample type. This is expressed as the app processing CPU time (including child processes) as reported by process, as a percentage.   MEMORY: A memory usage sample type. This is expressed as the total proportional set size of an app process, in kilobytes.   NATIVE_AVG_DRAWTIME   NATIVE_FPS   NATIVE_FRAMES   NATIVE_MAX_DRAWTIME   NATIVE_MIN_DRAWTIME   OPENGL_AVG_DRAWTIME   OPENGL_FPS   OPENGL_FRAMES   OPENGL_MAX_DRAWTIME   OPENGL_MIN_DRAWTIME   RX   RX_RATE: The total number of bytes per second (TCP and UDP) that are sent, by app process.   THREADS: A threads sample type. This is expressed as the total number of threads per app process.   TX   TX_RATE: The total number of bytes per second (TCP and UDP) that are received, by app process.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to download the sample's file.
-        var url: String? = nil
+        public var url: String? = nil
         /// The sample's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -1853,9 +2067,11 @@ extension Devicefarm {
 
     }
 
-    public struct DeleteRunRequest: Serializable, Initializable {
+    public struct DeleteRunRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1865,9 +2081,11 @@ extension Devicefarm {
 
     }
 
-    public struct CreateDevicePoolResult: Serializable, Initializable {
+    public struct CreateDevicePoolResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The newly created device pool.
-        var devicePool: DevicePool? = nil
+        public var devicePool: DevicePool? = nil
 
         public init() {}
 
@@ -1877,15 +2095,17 @@ extension Devicefarm {
 
     }
 
-    public struct UpdateDevicePoolRequest: Serializable, Initializable {
+    public struct UpdateDevicePoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A description of the device pool you wish to update.
-        var description: String? = nil
+        public var description: String? = nil
         /// A string representing the name of the device pool you wish to update.
-        var name: String? = nil
+        public var name: String? = nil
         /// Represents the rules you wish to modify for the device pool. Updating rules is optional; however, if you choose to update rules for your request, the update will replace the existing rules.
-        var rules: [Rule]? = nil
+        public var rules: [Rule]? = nil
         /// The Amazon Resourc Name (ARN) of the Device Farm device pool you wish to update.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -1898,9 +2118,11 @@ extension Devicefarm {
 
     }
 
-    public struct ListOfferingTransactionsRequest: Serializable, Initializable {
+    public struct ListOfferingTransactionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1910,17 +2132,19 @@ extension Devicefarm {
 
     }
 
-    public struct AccountSettings: Serializable, Initializable {
+    public struct AccountSettings: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS account number specified in the AccountSettings container.
-        var awsAccountNumber: String? = nil
+        public var awsAccountNumber: String? = nil
         /// Returns the unmetered devices you have purchased or want to purchase.
-        var unmeteredDevices: [String: Int32]? = nil
+        public var unmeteredDevices: [String: Int32]? = nil
         /// The default number of minutes (at the account level) a test run will execute before it times out. Default value is 60 minutes.
-        var defaultJobTimeoutMinutes: Int32? = nil
+        public var defaultJobTimeoutMinutes: Int32? = nil
         /// The maximum number of minutes a test run will execute before it times out.
-        var maxJobTimeoutMinutes: Int32? = nil
+        public var maxJobTimeoutMinutes: Int32? = nil
         /// Returns the unmetered remote access devices you have purchased or want to purchase.
-        var unmeteredRemoteAccessDevices: [String: Int32]? = nil
+        public var unmeteredRemoteAccessDevices: [String: Int32]? = nil
 
         public init() {}
 
@@ -1934,9 +2158,11 @@ extension Devicefarm {
 
     }
 
-    public struct StopRemoteAccessSessionResult: Serializable, Initializable {
+    public struct StopRemoteAccessSessionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A container representing the metadata from the service about the remote access session you are stopping.
-        var remoteAccessSession: RemoteAccessSession? = nil
+        public var remoteAccessSession: RemoteAccessSession? = nil
 
         public init() {}
 
@@ -1946,11 +2172,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListArtifactsResult: Serializable, Initializable {
+    public struct ListArtifactsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the artifacts.
-        var artifacts: [Artifact]? = nil
+        public var artifacts: [Artifact]? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1961,9 +2189,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetNetworkProfileResult: Serializable, Initializable {
+    public struct GetNetworkProfileResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The network profile.
-        var networkProfile: NetworkProfile? = nil
+        public var networkProfile: NetworkProfile? = nil
 
         public init() {}
 
@@ -1973,11 +2203,13 @@ extension Devicefarm {
 
     }
 
-    public struct Location: Serializable, Initializable {
+    public struct Location: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The longitude.
-        var longitude: Double = 0
+        public var longitude: Double = 0
         /// The latitude.
-        var latitude: Double = 0
+        public var latitude: Double = 0
 
         public init() {}
 
@@ -1988,9 +2220,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetAccountSettingsResult: Serializable, Initializable {
+    public struct GetAccountSettingsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The account settings.
-        var accountSettings: AccountSettings? = nil
+        public var accountSettings: AccountSettings? = nil
 
         public init() {}
 
@@ -2000,13 +2234,15 @@ extension Devicefarm {
 
     }
 
-    public struct GetDevicePoolCompatibilityRequest: Serializable, Initializable {
+    public struct GetDevicePoolCompatibilityRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the app that is associated with the specified device pool.
-        var appArn: String? = nil
+        public var appArn: String? = nil
         /// The device pool's ARN.
-        var devicePoolArn: String = ""
+        public var devicePoolArn: String = ""
         /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        var testType: String? = nil
+        public var testType: String? = nil
 
         public init() {}
 
@@ -2018,11 +2254,13 @@ extension Devicefarm {
 
     }
 
-    public struct Resolution: Serializable, Initializable {
+    public struct Resolution: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The screen resolution's height, expressed in pixels.
-        var height: Int32? = nil
+        public var height: Int32? = nil
         /// The screen resolution's width, expressed in pixels.
-        var width: Int32? = nil
+        public var width: Int32? = nil
 
         public init() {}
 
@@ -2033,11 +2271,13 @@ extension Devicefarm {
 
     }
 
-    public struct RenewOfferingRequest: Serializable, Initializable {
+    public struct RenewOfferingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of a request to renew an offering.
-        var offeringId: String? = nil
+        public var offeringId: String? = nil
         /// The quantity requested in an offering renewal.
-        var quantity: Int32? = nil
+        public var quantity: Int32? = nil
 
         public init() {}
 
@@ -2048,41 +2288,43 @@ extension Devicefarm {
 
     }
 
-    public struct Device: Serializable, Initializable {
+    public struct Device: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device's display name.
-        var name: String? = nil
+        public var name: String? = nil
         /// Information about the device's CPU.
-        var cpu: CPU? = nil
+        public var cpu: CPU? = nil
         /// The device's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
-        var platform: String? = nil
+        public var platform: String? = nil
         /// The device's heap size, expressed in bytes.
-        var heapSize: Int64? = nil
+        public var heapSize: Int64? = nil
         /// The device's model name.
-        var model: String? = nil
+        public var model: String? = nil
         /// The device's radio.
-        var radio: String? = nil
+        public var radio: String? = nil
         /// The device's total memory size, expressed in bytes.
-        var memory: Int64? = nil
+        public var memory: Int64? = nil
         /// The device's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The resolution of the device.
-        var resolution: Resolution? = nil
+        public var resolution: Resolution? = nil
         /// The device's operating system type.
-        var os: String? = nil
+        public var os: String? = nil
         /// The device's image name.
-        var image: String? = nil
+        public var image: String? = nil
         /// Specifies whether remote access has been enabled for the specified device.
-        var remoteAccessEnabled: Bool? = nil
+        public var remoteAccessEnabled: Bool? = nil
         /// The device's form factor. Allowed values include:   PHONE: The phone form factor.   TABLET: The tablet form factor.  
-        var formFactor: String? = nil
+        public var formFactor: String? = nil
         /// The type of fleet to which this device belongs. Possible values for fleet type are PRIVATE and PUBLIC.
-        var fleetType: String? = nil
+        public var fleetType: String? = nil
         /// The name of the fleet to which this device belongs.
-        var fleetName: String? = nil
+        public var fleetName: String? = nil
         /// The device's manufacturer name.
-        var manufacturer: String? = nil
+        public var manufacturer: String? = nil
         /// The device's carrier.
-        var carrier: String? = nil
+        public var carrier: String? = nil
 
         public init() {}
 
@@ -2108,11 +2350,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListRunsRequest: Serializable, Initializable {
+    public struct ListRunsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -2123,31 +2367,33 @@ extension Devicefarm {
 
     }
 
-    public struct Job: Serializable, Initializable {
+    public struct Job: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device (phone or tablet).
-        var device: Device? = nil
+        public var device: Device? = nil
         /// The job's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The job's name.
-        var name: String? = nil
+        public var name: String? = nil
         /// When the job was created.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The job's start time.
-        var started: Date? = nil
+        public var started: Date? = nil
         /// The job's stop time.
-        var stopped: Date? = nil
+        public var stopped: Date? = nil
         /// Represents the total (metered or unmetered) minutes used by the job.
-        var deviceMinutes: DeviceMinutes? = nil
+        public var deviceMinutes: DeviceMinutes? = nil
         /// A message about the job's result.
-        var message: String? = nil
+        public var message: String? = nil
         /// The job's type. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        var type: String? = nil
+        public var type: String? = nil
         /// The job's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        var result: String? = nil
+        public var result: String? = nil
         /// The job's result counters.
-        var counters: Counters? = nil
+        public var counters: Counters? = nil
         /// The job's ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -2168,9 +2414,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetProjectRequest: Serializable, Initializable {
+    public struct GetProjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The project's ARN.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -2180,11 +2428,13 @@ extension Devicefarm {
 
     }
 
-    public struct ListProjectsRequest: Serializable, Initializable {
+    public struct ListProjectsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -2195,13 +2445,15 @@ extension Devicefarm {
 
     }
 
-    public struct UpdateProjectRequest: Serializable, Initializable {
+    public struct UpdateProjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string representing the new name of the project that you are updating.
-        var name: String? = nil
+        public var name: String? = nil
         /// The number of minutes a test run in the project will execute before it times out.
-        var defaultJobTimeoutMinutes: Int32? = nil
+        public var defaultJobTimeoutMinutes: Int32? = nil
         /// The Amazon Resource Name (ARN) of the project whose name you wish to update.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -2213,11 +2465,13 @@ extension Devicefarm {
 
     }
 
-    public struct InstallToRemoteAccessSessionRequest: Serializable, Initializable {
+    public struct InstallToRemoteAccessSessionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the app about which you are requesting information.
-        var appArn: String = ""
+        public var appArn: String = ""
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
-        var remoteAccessSessionArn: String = ""
+        public var remoteAccessSessionArn: String = ""
 
         public init() {}
 
@@ -2228,11 +2482,13 @@ extension Devicefarm {
 
     }
 
-    public struct GetDevicePoolCompatibilityResult: Serializable, Initializable {
+    public struct GetDevicePoolCompatibilityResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about incompatible devices.
-        var incompatibleDevices: [DevicePoolCompatibilityResult]? = nil
+        public var incompatibleDevices: [DevicePoolCompatibilityResult]? = nil
         /// Information about compatible devices.
-        var compatibleDevices: [DevicePoolCompatibilityResult]? = nil
+        public var compatibleDevices: [DevicePoolCompatibilityResult]? = nil
 
         public init() {}
 
@@ -2243,9 +2499,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetRemoteAccessSessionRequest: Serializable, Initializable {
+    public struct GetRemoteAccessSessionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
-        var arn: String = ""
+        public var arn: String = ""
 
         public init() {}
 
@@ -2255,9 +2513,11 @@ extension Devicefarm {
 
     }
 
-    public struct GetProjectResult: Serializable, Initializable {
+    public struct GetProjectResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The project you wish to get information about.
-        var project: Project? = nil
+        public var project: Project? = nil
 
         public init() {}
 

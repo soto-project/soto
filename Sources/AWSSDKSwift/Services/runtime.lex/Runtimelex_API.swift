@@ -32,22 +32,24 @@ Amazon Lex provides both build and runtime endpoints. Each endpoint provides a s
 */
 public struct Runtimelex {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "runtime.lex",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [RuntimelexError.self]
         )
     }
 
     ///  Sends user input text to Amazon Lex at runtime. Amazon Lex uses the machine learning model that the service built for the application to interpret user input.   In response, Amazon Lex returns the next message to convey to the user (based on the context of the user interaction) and whether to expect a user response to the message (dialogState). For example, consider the following response messages:    "What pizza toppings would you like?" – In this case, the dialogState would be ElicitSlot (that is, a user response is expected).    "Your order has been placed." – In this case, Amazon Lex returns one of the following dialogState values depending on how the intent fulfillment is configured (see fulfillmentActivity in CreateIntent):     FulFilled – The intent fulfillment is configured through a Lambda function.     ReadyForFulfilment – The intent's fulfillmentActivity is to simply return the intent data back to the client application.     
     public func postText(_ input: PostTextRequest) throws -> PostTextResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PostText", path: "/bot/\(input.botName)/alias/\(input.botAlias)/user/\(input.userId)/text", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try RuntimelexResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PostText", path: "/bot/{botName}/alias/{botAlias}/user/{userId}/text", httpMethod: "POST", input: input)
     }
 
 

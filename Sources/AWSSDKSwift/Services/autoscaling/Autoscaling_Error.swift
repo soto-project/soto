@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Autoscaling
-public enum AutoscalingError: Error {
+public enum AutoscalingError: AWSErrorType {
     case invalidNextToken(message: String?)
     case resourceContentionFault(message: String?)
     case limitExceededFault(message: String?)

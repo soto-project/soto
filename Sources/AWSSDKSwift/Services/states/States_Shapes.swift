@@ -29,11 +29,13 @@ import Core
 
 extension States {
 
-    public struct StateEnteredEventDetails: Serializable, Initializable {
+    public struct StateEnteredEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the state.
-        var name: String = ""
+        public var name: String = ""
         /// The JSON input data to the state.
-        var input: String? = nil
+        public var input: String? = nil
 
         public init() {}
 
@@ -44,15 +46,19 @@ extension States {
 
     }
 
-    public struct SendTaskHeartbeatOutput: Serializable, Initializable {
+    public struct SendTaskHeartbeatOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct StopExecutionOutput: Serializable, Initializable {
+    public struct StopExecutionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date the execution was stopped.
-        var stopDate: Date = Date()
+        public var stopDate: Date = Date()
 
         public init() {}
 
@@ -62,11 +68,13 @@ extension States {
 
     }
 
-    public struct CreateActivityOutput: Serializable, Initializable {
+    public struct CreateActivityOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the created activity.
-        var activityArn: String = ""
+        public var activityArn: String = ""
         /// The date the activity was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
 
         public init() {}
 
@@ -77,11 +85,13 @@ extension States {
 
     }
 
-    public struct ListActivitiesInput: Serializable, Initializable {
+    public struct ListActivitiesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -92,11 +102,13 @@ extension States {
 
     }
 
-    public struct GetExecutionHistoryOutput: Serializable, Initializable {
+    public struct GetExecutionHistoryOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of events that occurred in the execution.
-        var events: [HistoryEvent] = []
+        public var events: [HistoryEvent] = []
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -107,11 +119,13 @@ extension States {
 
     }
 
-    public struct ActivityFailedEventDetails: Serializable, Initializable {
+    public struct ActivityFailedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -122,13 +136,15 @@ extension States {
 
     }
 
-    public struct ActivityListItem: Serializable, Initializable {
+    public struct ActivityListItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the activity.
-        var activityArn: String = ""
+        public var activityArn: String = ""
         /// The name of the activity.
-        var name: String = ""
+        public var name: String = ""
         /// The date the activity was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
 
         public init() {}
 
@@ -140,13 +156,15 @@ extension States {
 
     }
 
-    public struct DescribeActivityOutput: Serializable, Initializable {
+    public struct DescribeActivityOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the activity.
-        var activityArn: String = ""
+        public var activityArn: String = ""
         /// The name of the activity.
-        var name: String = ""
+        public var name: String = ""
         /// The date the activity was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
 
         public init() {}
 
@@ -158,19 +176,21 @@ extension States {
 
     }
 
-    public struct ExecutionListItem: Serializable, Initializable {
+    public struct ExecutionListItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current status of the execution.
-        var status: String = ""
+        public var status: String = ""
         /// The name of the execution.
-        var name: String = ""
+        public var name: String = ""
         /// The Amazon Resource Name (ARN) of the executed state machine.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
         /// The date the execution started.
-        var startDate: Date = Date()
+        public var startDate: Date = Date()
         /// If the execution already ended, the date the execution stopped.
-        var stopDate: Date? = nil
+        public var stopDate: Date? = nil
         /// The Amazon Resource Name (ARN) that identifies the execution.
-        var executionArn: String = ""
+        public var executionArn: String = ""
 
         public init() {}
 
@@ -185,13 +205,15 @@ extension States {
 
     }
 
-    public struct StartExecutionInput: Serializable, Initializable {
+    public struct StartExecutionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the execution. This name must be unique for your AWS account and region.
-        var name: String? = nil
+        public var name: String? = nil
         /// The JSON input data for the execution.
-        var input: String? = nil
+        public var input: String? = nil
         /// The Amazon Resource Name (ARN) of the state machine to execute.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
 
         public init() {}
 
@@ -203,25 +225,29 @@ extension States {
 
     }
 
-    public struct DeleteActivityOutput: Serializable, Initializable {
+    public struct DeleteActivityOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeStateMachineOutput: Serializable, Initializable {
+    public struct DescribeStateMachineOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current status of the state machine.
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the state machine.
-        var name: String = ""
+        public var name: String = ""
         /// The Amazon Resource Name (ARN) that identifies the state machine.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
         /// The date the state machine was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
         /// The Amazon States Language definition of the state machine.
-        var definition: String = ""
+        public var definition: String = ""
         /// The Amazon Resource Name (ARN) of the IAM role used for executing this state machine.
-        var roleArn: String = ""
+        public var roleArn: String = ""
 
         public init() {}
 
@@ -236,11 +262,13 @@ extension States {
 
     }
 
-    public struct LambdaFunctionStartFailedEventDetails: Serializable, Initializable {
+    public struct LambdaFunctionStartFailedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -251,11 +279,13 @@ extension States {
 
     }
 
-    public struct ActivityTimedOutEventDetails: Serializable, Initializable {
+    public struct ActivityTimedOutEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the timeout.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -266,11 +296,13 @@ extension States {
 
     }
 
-    public struct StartExecutionOutput: Serializable, Initializable {
+    public struct StartExecutionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date the execution was started.
-        var startDate: Date = Date()
+        public var startDate: Date = Date()
         /// The Amazon Resource Name (ARN) that identifies the execution.
-        var executionArn: String = ""
+        public var executionArn: String = ""
 
         public init() {}
 
@@ -281,34 +313,36 @@ extension States {
 
     }
 
-    public struct HistoryEvent: Serializable, Initializable {
-        var lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil
-        var lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil
-        var executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil
-        var activityFailedEventDetails: ActivityFailedEventDetails? = nil
-        var executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil
-        var lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil
-        var executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil
-        var executionFailedEventDetails: ExecutionFailedEventDetails? = nil
-        var activityScheduledEventDetails: ActivityScheduledEventDetails? = nil
-        var activityStartedEventDetails: ActivityStartedEventDetails? = nil
+    public struct HistoryEvent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil
+        public var lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil
+        public var executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil
+        public var activityFailedEventDetails: ActivityFailedEventDetails? = nil
+        public var executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil
+        public var lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil
+        public var executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil
+        public var executionFailedEventDetails: ExecutionFailedEventDetails? = nil
+        public var activityScheduledEventDetails: ActivityScheduledEventDetails? = nil
+        public var activityStartedEventDetails: ActivityStartedEventDetails? = nil
         /// The type of the event.
-        var type: String = ""
-        var stateEnteredEventDetails: StateEnteredEventDetails? = nil
-        var executionStartedEventDetails: ExecutionStartedEventDetails? = nil
-        var activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil
+        public var type: String = ""
+        public var stateEnteredEventDetails: StateEnteredEventDetails? = nil
+        public var executionStartedEventDetails: ExecutionStartedEventDetails? = nil
+        public var activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil
         /// The date the event occured.
-        var timestamp: Date = Date()
+        public var timestamp: Date = Date()
         /// The id of the previous event.
-        var previousEventId: Int64? = nil
+        public var previousEventId: Int64? = nil
         /// The id of the event. Events are numbered sequentially, starting at one.
-        var id: Int64 = 0
-        var activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil
-        var lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil
-        var activitySucceededEventDetails: ActivitySucceededEventDetails? = nil
-        var stateExitedEventDetails: StateExitedEventDetails? = nil
-        var lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil
-        var lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil
+        public var id: Int64 = 0
+        public var activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil
+        public var lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil
+        public var activitySucceededEventDetails: ActivitySucceededEventDetails? = nil
+        public var stateExitedEventDetails: StateExitedEventDetails? = nil
+        public var lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil
+        public var lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil
 
         public init() {}
 
@@ -340,11 +374,13 @@ extension States {
 
     }
 
-    public struct ListActivitiesOutput: Serializable, Initializable {
+    public struct ListActivitiesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of activities.
-        var activities: [ActivityListItem] = []
+        public var activities: [ActivityListItem] = []
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -355,17 +391,21 @@ extension States {
 
     }
 
-    public struct SendTaskFailureOutput: Serializable, Initializable {
+    public struct SendTaskFailureOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListStateMachinesInput: Serializable, Initializable {
+    public struct ListStateMachinesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -376,11 +416,13 @@ extension States {
 
     }
 
-    public struct ListExecutionsOutput: Serializable, Initializable {
+    public struct ListExecutionsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of matching executions.
-        var executions: [ExecutionListItem] = []
+        public var executions: [ExecutionListItem] = []
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -391,13 +433,15 @@ extension States {
 
     }
 
-    public struct CreateStateMachineInput: Serializable, Initializable {
+    public struct CreateStateMachineInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the state machine. This name must be unique for your AWS account and region.
-        var name: String = ""
+        public var name: String = ""
         /// The Amazon States Language definition of the state machine.
-        var definition: String = ""
+        public var definition: String = ""
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
-        var roleArn: String = ""
+        public var roleArn: String = ""
 
         public init() {}
 
@@ -409,9 +453,11 @@ extension States {
 
     }
 
-    public struct SendTaskHeartbeatInput: Serializable, Initializable {
+    public struct SendTaskHeartbeatInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        var taskToken: String = ""
+        public var taskToken: String = ""
 
         public init() {}
 
@@ -421,11 +467,13 @@ extension States {
 
     }
 
-    public struct ActivityScheduleFailedEventDetails: Serializable, Initializable {
+    public struct ActivityScheduleFailedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -436,9 +484,11 @@ extension States {
 
     }
 
-    public struct ActivitySucceededEventDetails: Serializable, Initializable {
+    public struct ActivitySucceededEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON data output by the activity task.
-        var output: String? = nil
+        public var output: String? = nil
 
         public init() {}
 
@@ -448,13 +498,15 @@ extension States {
 
     }
 
-    public struct SendTaskFailureInput: Serializable, Initializable {
+    public struct SendTaskFailureInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        var taskToken: String = ""
+        public var taskToken: String = ""
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// An arbitrary error code that identifies the cause of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -466,11 +518,13 @@ extension States {
 
     }
 
-    public struct GetActivityTaskInput: Serializable, Initializable {
+    public struct GetActivityTaskInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An arbitrary name may be provided in order to identify the worker that the task is assigned to. This name will be used when it is logged in the execution history.
-        var workerName: String? = nil
+        public var workerName: String? = nil
         /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from.
-        var activityArn: String = ""
+        public var activityArn: String = ""
 
         public init() {}
 
@@ -481,9 +535,11 @@ extension States {
 
     }
 
-    public struct DescribeActivityInput: Serializable, Initializable {
+    public struct DescribeActivityInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the activity to describe.
-        var activityArn: String = ""
+        public var activityArn: String = ""
 
         public init() {}
 
@@ -493,13 +549,15 @@ extension States {
 
     }
 
-    public struct LambdaFunctionScheduledEventDetails: Serializable, Initializable {
+    public struct LambdaFunctionScheduledEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum allowed duration of the lambda function.
-        var timeoutInSeconds: Int64? = nil
+        public var timeoutInSeconds: Int64? = nil
         /// The JSON data input to the lambda function.
-        var input: String? = nil
+        public var input: String? = nil
         /// The Amazon Resource Name (ARN) of the scheduled lambda function.
-        var resource: String = ""
+        public var resource: String = ""
 
         public init() {}
 
@@ -511,17 +569,21 @@ extension States {
 
     }
 
-    public struct DeleteStateMachineOutput: Serializable, Initializable {
+    public struct DeleteStateMachineOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetActivityTaskOutput: Serializable, Initializable {
+    public struct GetActivityTaskOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
-        var taskToken: String? = nil
+        public var taskToken: String? = nil
         /// The JSON input data for the task.
-        var input: String? = nil
+        public var input: String? = nil
 
         public init() {}
 
@@ -532,11 +594,13 @@ extension States {
 
     }
 
-    public struct StateExitedEventDetails: Serializable, Initializable {
+    public struct StateExitedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON output data of the state.
-        var output: String? = nil
+        public var output: String? = nil
         /// The name of the state.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -547,9 +611,11 @@ extension States {
 
     }
 
-    public struct LambdaFunctionSucceededEventDetails: Serializable, Initializable {
+    public struct LambdaFunctionSucceededEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON data output by the lambda function.
-        var output: String? = nil
+        public var output: String? = nil
 
         public init() {}
 
@@ -559,15 +625,17 @@ extension States {
 
     }
 
-    public struct ActivityScheduledEventDetails: Serializable, Initializable {
+    public struct ActivityScheduledEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum allowed duration of the activity task.
-        var timeoutInSeconds: Int64? = nil
+        public var timeoutInSeconds: Int64? = nil
         /// The JSON data input to the activity task.
-        var input: String? = nil
+        public var input: String? = nil
         /// The maximum allowed duration between two heartbeats for the activity task.
-        var heartbeatInSeconds: Int64? = nil
+        public var heartbeatInSeconds: Int64? = nil
         /// The Amazon Resource Name (ARN) of the scheduled activity.
-        var resource: String = ""
+        public var resource: String = ""
 
         public init() {}
 
@@ -580,11 +648,13 @@ extension States {
 
     }
 
-    public struct CreateStateMachineOutput: Serializable, Initializable {
+    public struct CreateStateMachineOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
         /// The date the state machine was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
 
         public init() {}
 
@@ -595,9 +665,11 @@ extension States {
 
     }
 
-    public struct DescribeExecutionInput: Serializable, Initializable {
+    public struct DescribeExecutionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the execution to describe.
-        var executionArn: String = ""
+        public var executionArn: String = ""
 
         public init() {}
 
@@ -607,9 +679,11 @@ extension States {
 
     }
 
-    public struct DeleteActivityInput: Serializable, Initializable {
+    public struct DeleteActivityInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the activity to delete.
-        var activityArn: String = ""
+        public var activityArn: String = ""
 
         public init() {}
 
@@ -619,9 +693,11 @@ extension States {
 
     }
 
-    public struct DeleteStateMachineInput: Serializable, Initializable {
+    public struct DeleteStateMachineInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the state machine to delete.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
 
         public init() {}
 
@@ -631,9 +707,11 @@ extension States {
 
     }
 
-    public struct DescribeStateMachineInput: Serializable, Initializable {
+    public struct DescribeStateMachineInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the state machine to describe.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
 
         public init() {}
 
@@ -643,11 +721,13 @@ extension States {
 
     }
 
-    public struct SendTaskSuccessInput: Serializable, Initializable {
+    public struct SendTaskSuccessInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON output of the task.
-        var output: String = ""
+        public var output: String = ""
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        var taskToken: String = ""
+        public var taskToken: String = ""
 
         public init() {}
 
@@ -658,11 +738,13 @@ extension States {
 
     }
 
-    public struct LambdaFunctionScheduleFailedEventDetails: Serializable, Initializable {
+    public struct LambdaFunctionScheduleFailedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -673,11 +755,13 @@ extension States {
 
     }
 
-    public struct ExecutionFailedEventDetails: Serializable, Initializable {
+    public struct ExecutionFailedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -688,10 +772,12 @@ extension States {
 
     }
 
-    public struct ListStateMachinesOutput: Serializable, Initializable {
+    public struct ListStateMachinesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
-        var stateMachines: [StateMachineListItem] = []
+        public var nextToken: String? = nil
+        public var stateMachines: [StateMachineListItem] = []
 
         public init() {}
 
@@ -702,9 +788,11 @@ extension States {
 
     }
 
-    public struct CreateActivityInput: Serializable, Initializable {
+    public struct CreateActivityInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the activity to create. This name must be unique for your AWS account and region.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -714,15 +802,17 @@ extension States {
 
     }
 
-    public struct ListExecutionsInput: Serializable, Initializable {
+    public struct ListExecutionsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If specified, only list the executions whose current execution status matches the given filter.
-        var statusFilter: String? = nil
+        public var statusFilter: String? = nil
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The Amazon Resource Name (ARN) of the state machine whose executions will be listed.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -735,11 +825,13 @@ extension States {
 
     }
 
-    public struct LambdaFunctionTimedOutEventDetails: Serializable, Initializable {
+    public struct LambdaFunctionTimedOutEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the timeout.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -750,15 +842,17 @@ extension States {
 
     }
 
-    public struct GetExecutionHistoryInput: Serializable, Initializable {
+    public struct GetExecutionHistoryInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// Lists events in descending order of their timeStamp.
-        var reverseOrder: Bool? = nil
+        public var reverseOrder: Bool? = nil
         /// The Amazon Resource Name (ARN) of the execution.
-        var executionArn: String = ""
+        public var executionArn: String = ""
 
         public init() {}
 
@@ -771,11 +865,13 @@ extension States {
 
     }
 
-    public struct ExecutionStartedEventDetails: Serializable, Initializable {
+    public struct ExecutionStartedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// The JSON data input to the execution.
-        var input: String? = nil
+        public var input: String? = nil
 
         public init() {}
 
@@ -786,11 +882,13 @@ extension States {
 
     }
 
-    public struct LambdaFunctionFailedEventDetails: Serializable, Initializable {
+    public struct LambdaFunctionFailedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -801,9 +899,11 @@ extension States {
 
     }
 
-    public struct ActivityStartedEventDetails: Serializable, Initializable {
+    public struct ActivityStartedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the worker that the task was assigned to. These names are provided by the workers when calling GetActivityTask.
-        var workerName: String? = nil
+        public var workerName: String? = nil
 
         public init() {}
 
@@ -813,13 +913,15 @@ extension States {
 
     }
 
-    public struct StateMachineListItem: Serializable, Initializable {
+    public struct StateMachineListItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the state machine.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
         /// The name of the state machine.
-        var name: String = ""
+        public var name: String = ""
         /// The date the state machine was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
 
         public init() {}
 
@@ -831,17 +933,21 @@ extension States {
 
     }
 
-    public struct SendTaskSuccessOutput: Serializable, Initializable {
+    public struct SendTaskSuccessOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ExecutionTimedOutEventDetails: Serializable, Initializable {
+    public struct ExecutionTimedOutEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the timeout.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -852,11 +958,13 @@ extension States {
 
     }
 
-    public struct ExecutionAbortedEventDetails: Serializable, Initializable {
+    public struct ExecutionAbortedEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        var cause: String? = nil
+        public var cause: String? = nil
         /// The error code of the failure.
-        var error: String? = nil
+        public var error: String? = nil
 
         public init() {}
 
@@ -867,9 +975,11 @@ extension States {
 
     }
 
-    public struct ExecutionSucceededEventDetails: Serializable, Initializable {
+    public struct ExecutionSucceededEventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON data output by the execution.
-        var output: String? = nil
+        public var output: String? = nil
 
         public init() {}
 
@@ -879,23 +989,25 @@ extension States {
 
     }
 
-    public struct DescribeExecutionOutput: Serializable, Initializable {
+    public struct DescribeExecutionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current status of the execution.
-        var status: String = ""
+        public var status: String = ""
         /// The name of the execution.
-        var name: String? = nil
+        public var name: String? = nil
         /// If the execution has already ended, the date the execution stopped.
-        var stopDate: Date? = nil
+        public var stopDate: Date? = nil
         /// The date the execution was started.
-        var startDate: Date = Date()
+        public var startDate: Date = Date()
         /// The JSON output data of the execution.
-        var output: String? = nil
+        public var output: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the execution.
-        var executionArn: String = ""
+        public var executionArn: String = ""
         /// The JSON input data of the execution.
-        var input: String = ""
+        public var input: String = ""
         /// The Amazon Resource Name (ARN) of the executed stated machine.
-        var stateMachineArn: String = ""
+        public var stateMachineArn: String = ""
 
         public init() {}
 
@@ -912,13 +1024,15 @@ extension States {
 
     }
 
-    public struct StopExecutionInput: Serializable, Initializable {
+    public struct StopExecutionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An arbitrary error code that identifies the cause of the termination.
-        var error: String? = nil
+        public var error: String? = nil
         /// The Amazon Resource Name (ARN) of the execution to stop.
-        var executionArn: String = ""
+        public var executionArn: String = ""
         /// A more detailed explanation of the cause of the termination.
-        var cause: String? = nil
+        public var cause: String? = nil
 
         public init() {}
 

@@ -29,8 +29,13 @@ import Core
 
 extension S3 {
 
-    public struct DeleteBucketWebsiteRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketWebsiteRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -40,11 +45,13 @@ extension S3 {
 
     }
 
-    public struct MetricsAndOperator: Serializable, Initializable {
+    public struct MetricsAndOperator: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of tags used when evaluating an AND predicate.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The prefix used when evaluating an AND predicate.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -55,13 +62,15 @@ extension S3 {
 
     }
 
-    public struct LifecycleExpiration: Serializable, Initializable {
+    public struct LifecycleExpiration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
-        var expiredObjectDeleteMarker: Bool? = nil
+        public var expiredObjectDeleteMarker: Bool? = nil
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        var date: Date? = nil
+        public var date: Date? = nil
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        var days: Int32? = nil
+        public var days: Int32? = nil
 
         public init() {}
 
@@ -73,10 +82,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketCorsRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var cORSConfiguration: CORSConfiguration = CORSConfiguration()
-        var contentMD5: String? = nil
+    public struct PutBucketCorsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "CORSConfiguration"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
+        public var cORSConfiguration: CORSConfiguration = CORSConfiguration()
+        public var contentMD5: String? = nil
 
         public init() {}
 
@@ -88,8 +105,13 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketCorsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketCorsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -99,18 +121,20 @@ extension S3 {
 
     }
 
-    public struct Rule: Serializable, Initializable {
+    public struct Rule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        var iD: String? = nil
+        public var iD: String? = nil
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        var status: String = ""
-        var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
-        var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
-        var transition: Transition? = nil
-        var noncurrentVersionTransition: NoncurrentVersionTransition? = nil
-        var expiration: LifecycleExpiration? = nil
+        public var status: String = ""
+        public var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
+        public var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
+        public var transition: Transition? = nil
+        public var noncurrentVersionTransition: NoncurrentVersionTransition? = nil
+        public var expiration: LifecycleExpiration? = nil
         /// Prefix identifying one or more objects to which the rule applies.
-        var prefix: String = ""
+        public var prefix: String = ""
 
         public init() {}
 
@@ -127,8 +151,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketReplicationRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketReplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -138,8 +167,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketLifecycleConfigurationRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketLifecycleConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -149,10 +183,12 @@ extension S3 {
 
     }
 
-    public struct LifecycleRuleAndOperator: Serializable, Initializable {
+    public struct LifecycleRuleAndOperator: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        var tags: [Tag]? = nil
-        var prefix: String? = nil
+        public var tags: [Tag]? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -163,8 +199,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketPolicyRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -174,9 +215,11 @@ extension S3 {
 
     }
 
-    public struct CopyObjectResult: Serializable, Initializable {
-        var eTag: String? = nil
-        var lastModified: Date? = nil
+    public struct CopyObjectResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var eTag: String? = nil
+        public var lastModified: Date? = nil
 
         public init() {}
 
@@ -187,11 +230,16 @@ extension S3 {
 
     }
 
-    public struct PutBucketAccelerateConfigurationRequest: Serializable, Initializable {
+    public struct PutBucketAccelerateConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "AccelerateConfiguration"
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// Name of the bucket for which the accelerate configuration is set.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// Specifies the Accelerate Configuration you want to set for the bucket.
-        var accelerateConfiguration: AccelerateConfiguration = AccelerateConfiguration()
+        public var accelerateConfiguration: AccelerateConfiguration = AccelerateConfiguration()
 
         public init() {}
 
@@ -202,8 +250,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketLocationOutput: Serializable, Initializable {
-        var locationConstraint: String? = nil
+    public struct GetBucketLocationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var locationConstraint: String? = nil
 
         public init() {}
 
@@ -213,11 +263,13 @@ extension S3 {
 
     }
 
-    public struct RedirectAllRequestsTo: Serializable, Initializable {
+    public struct RedirectAllRequestsTo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name of the host where requests will be redirected.
-        var hostName: String = ""
+        public var hostName: String = ""
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
 
         public init() {}
 
@@ -228,19 +280,24 @@ extension S3 {
 
     }
 
-    public struct UploadPartCopyOutput: Serializable, Initializable {
-        var copyPartResult: CopyPartResult? = nil
+    public struct UploadPartCopyOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "CopyPartResult"
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
+        }
+        public var copyPartResult: CopyPartResult? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
-        var copySourceVersionId: String? = nil
+        public var copySourceVersionId: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
-        var requestCharged: String? = nil
+        public var serverSideEncryption: String? = nil
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -256,8 +313,10 @@ extension S3 {
 
     }
 
-    public struct Tagging: Serializable, Initializable {
-        var tagSet: [Tag] = []
+    public struct Tagging: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var tagSet: [Tag] = []
 
         public init() {}
 
@@ -267,9 +326,11 @@ extension S3 {
 
     }
 
-    public struct GetBucketAnalyticsConfigurationOutput: Serializable, Initializable {
+    public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "AnalyticsConfiguration"
         /// The configuration and any analyses for the analytics filter.
-        var analyticsConfiguration: AnalyticsConfiguration? = nil
+        public var analyticsConfiguration: AnalyticsConfiguration? = nil
 
         public init() {}
 
@@ -279,9 +340,11 @@ extension S3 {
 
     }
 
-    public struct Owner: Serializable, Initializable {
-        var iD: String? = nil
-        var displayName: String? = nil
+    public struct Owner: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var iD: String? = nil
+        public var displayName: String? = nil
 
         public init() {}
 
@@ -292,26 +355,31 @@ extension S3 {
 
     }
 
-    public struct CreateMultipartUploadOutput: Serializable, Initializable {
+    public struct CreateMultipartUploadOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-abort-date": "AbortDate", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-abort-rule-id": "AbortRuleId"]
+        }
         /// Name of the bucket to which the multipart upload was initiated.
-        var bucket: String? = nil
+        public var bucket: String? = nil
         /// Date when multipart upload will become eligible for abort operation by lifecycle.
-        var abortDate: Date? = nil
+        public var abortDate: Date? = nil
         /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
-        var abortRuleId: String? = nil
+        public var abortRuleId: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Object key for which the multipart upload was initiated.
-        var key: String? = nil
+        public var key: String? = nil
         /// ID for the initiated multipart upload.
-        var uploadId: String? = nil
+        public var uploadId: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
-        var requestCharged: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
+        public var requestCharged: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
+        public var serverSideEncryption: String? = nil
 
         public init() {}
 
@@ -330,14 +398,16 @@ extension S3 {
 
     }
 
-    public struct Object: Serializable, Initializable {
-        var lastModified: Date? = nil
+    public struct Object: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var lastModified: Date? = nil
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
-        var key: String? = nil
-        var eTag: String? = nil
-        var owner: Owner? = nil
-        var size: Int32? = nil
+        public var storageClass: String? = nil
+        public var key: String? = nil
+        public var eTag: String? = nil
+        public var owner: Owner? = nil
+        public var size: Int32? = nil
 
         public init() {}
 
@@ -352,70 +422,78 @@ extension S3 {
 
     }
 
-    public struct CopyObjectRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct CopyObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-payer": "RequestPayer", "x-amz-copy-source-server-side-encryption-customer-key-MD5": "CopySourceSSECustomerKeyMD5", "x-amz-copy-source-if-modified-since": "CopySourceIfModifiedSince", "x-amz-grant-full-control": "GrantFullControl", "x-amz-acl": "ACL", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "Content-Disposition": "ContentDisposition", "x-amz-copy-source-if-none-match": "CopySourceIfNoneMatch", "Content-Encoding": "ContentEncoding", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-grant-read-acp": "GrantReadACP", "x-amz-grant-write-acp": "GrantWriteACP", "x-amz-grant-read": "GrantRead", "x-amz-copy-source": "CopySource", "x-amz-copy-source-server-side-encryption-customer-algorithm": "CopySourceSSECustomerAlgorithm", "x-amz-copy-source-if-match": "CopySourceIfMatch", "x-amz-copy-source-server-side-encryption-customer-key": "CopySourceSSECustomerKey", "x-amz-tagging-directive": "TaggingDirective", "x-amz-metadata-directive": "MetadataDirective", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-tagging": "Tagging", "Expires": "Expires", "x-amz-storage-class": "StorageClass", "x-amz-copy-source-if-unmodified-since": "CopySourceIfUnmodifiedSince", "Cache-Control": "CacheControl"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
-        var tagging: String? = nil
+        public var tagging: String? = nil
         /// Specifies presentational information for the object.
-        var contentDisposition: String? = nil
+        public var contentDisposition: String? = nil
         /// Copies the object if it has been modified since the specified time.
-        var copySourceIfModifiedSince: Date? = nil
+        public var copySourceIfModifiedSince: Date? = nil
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-        var copySourceIfNoneMatch: String? = nil
+        public var copySourceIfNoneMatch: String? = nil
         /// Copies the object if its entity tag (ETag) matches the specified tag.
-        var copySourceIfMatch: String? = nil
+        public var copySourceIfMatch: String? = nil
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        var copySourceSSECustomerKey: String? = nil
+        public var copySourceSSECustomerKey: String? = nil
         /// The language the content is in.
-        var contentLanguage: String? = nil
+        public var contentLanguage: String? = nil
         /// Allows grantee to read the object ACL.
-        var grantReadACP: String? = nil
+        public var grantReadACP: String? = nil
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        var contentEncoding: String? = nil
+        public var contentEncoding: String? = nil
         /// Allows grantee to write the ACL for the applicable object.
-        var grantWriteACP: String? = nil
-        var key: String = ""
+        public var grantWriteACP: String? = nil
+        public var key: String = ""
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        var websiteRedirectLocation: String? = nil
+        public var websiteRedirectLocation: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var copySourceSSECustomerKeyMD5: String? = nil
+        public var copySourceSSECustomerKeyMD5: String? = nil
         /// Copies the object if it hasn't been modified since the specified time.
-        var copySourceIfUnmodifiedSince: Date? = nil
+        public var copySourceIfUnmodifiedSince: Date? = nil
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// Specifies caching behavior along the request/reply chain.
-        var cacheControl: String? = nil
+        public var cacheControl: String? = nil
         /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
-        var taggingDirective: String? = nil
-        var requestPayer: String? = nil
+        public var taggingDirective: String? = nil
+        public var requestPayer: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        var grantFullControl: String? = nil
+        public var grantFullControl: String? = nil
         /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
-        var metadataDirective: String? = nil
+        public var metadataDirective: String? = nil
         /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
-        var copySource: String = ""
+        public var copySource: String = ""
         /// The canned ACL to apply to the object.
-        var aCL: String? = nil
+        public var aCL: String? = nil
         /// A map of metadata to store with the object in S3.
-        var metadata: [String: String]? = nil
+        public var metadata: [String: String]? = nil
         /// The date and time at which the object is no longer cacheable.
-        var expires: Date? = nil
+        public var expires: Date? = nil
         /// A standard MIME type describing the format of the object data.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
         /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        var copySourceSSECustomerAlgorithm: String? = nil
+        public var copySourceSSECustomerAlgorithm: String? = nil
         /// Allows grantee to read the object data and its metadata.
-        var grantRead: String? = nil
+        public var grantRead: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
+        public var serverSideEncryption: String? = nil
 
         public init() {}
 
@@ -457,8 +535,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketLocationRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketLocationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -468,10 +551,12 @@ extension S3 {
 
     }
 
-    public struct Grant: Serializable, Initializable {
+    public struct Grant: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the permission given to the grantee.
-        var permission: String? = nil
-        var grantee: Grantee? = nil
+        public var permission: String? = nil
+        public var grantee: Grantee? = nil
 
         public init() {}
 
@@ -482,9 +567,11 @@ extension S3 {
 
     }
 
-    public struct InventoryDestination: Serializable, Initializable {
+    public struct InventoryDestination: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
-        var s3BucketDestination: InventoryS3BucketDestination = InventoryS3BucketDestination()
+        public var s3BucketDestination: InventoryS3BucketDestination = InventoryS3BucketDestination()
 
         public init() {}
 
@@ -494,19 +581,30 @@ extension S3 {
 
     }
 
-    public struct ListObjectsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct ListObjectsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["marker": "Marker", "prefix": "Prefix", "max-keys": "MaxKeys", "delimiter": "Delimiter", "encoding-type": "EncodingType"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        var maxKeys: Int32? = nil
+        public var maxKeys: Int32? = nil
         /// Specifies the key to start with when listing objects in a bucket.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
-        var requestPayer: String? = nil
+        public var requestPayer: String? = nil
         /// Limits the response to keys that begin with the specified prefix.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// A delimiter is a character you use to group keys.
-        var delimiter: String? = nil
-        var encodingType: String? = nil
+        public var delimiter: String? = nil
+        public var encodingType: String? = nil
 
         public init() {}
 
@@ -522,13 +620,21 @@ extension S3 {
 
     }
 
-    public struct PutBucketAnalyticsConfigurationRequest: Serializable, Initializable {
+    public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "AnalyticsConfiguration"
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket to which an analytics configuration is stored.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The configuration and any analyses for the analytics filter.
-        var analyticsConfiguration: AnalyticsConfiguration = AnalyticsConfiguration()
+        public var analyticsConfiguration: AnalyticsConfiguration = AnalyticsConfiguration()
         /// The identifier used to represent an analytics configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -540,12 +646,14 @@ extension S3 {
 
     }
 
-    public struct CloudFunctionConfiguration: Serializable, Initializable {
-        var cloudFunction: String? = nil
-        var events: [String]? = nil
-        var invocationRole: String? = nil
-        var event: String? = nil
-        var id: String? = nil
+    public struct CloudFunctionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var cloudFunction: String? = nil
+        public var events: [String]? = nil
+        public var invocationRole: String? = nil
+        public var event: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -559,30 +667,41 @@ extension S3 {
 
     }
 
-    public struct HeadObjectRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct HeadObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["If-Modified-Since": "IfModifiedSince", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "Range": "Range", "x-amz-request-payer": "RequestPayer", "If-Match": "IfMatch", "If-Unmodified-Since": "IfUnmodifiedSince", "If-None-Match": "IfNoneMatch", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
+        }
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId", "partNumber": "PartNumber"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        var ifUnmodifiedSince: Date? = nil
+        public var ifUnmodifiedSince: Date? = nil
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
-        var partNumber: Int32? = nil
+        public var partNumber: Int32? = nil
         /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        var range: String? = nil
-        var requestPayer: String? = nil
+        public var range: String? = nil
+        public var requestPayer: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// VersionId used to reference a specific version of the object.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        var ifNoneMatch: String? = nil
-        var key: String = ""
+        public var ifNoneMatch: String? = nil
+        public var key: String = ""
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        var ifModifiedSince: Date? = nil
+        public var ifModifiedSince: Date? = nil
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        var ifMatch: String? = nil
+        public var ifMatch: String? = nil
 
         public init() {}
 
@@ -604,9 +723,11 @@ extension S3 {
 
     }
 
-    public struct GetBucketRequestPaymentOutput: Serializable, Initializable {
+    public struct GetBucketRequestPaymentOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies who pays for the download and request fees.
-        var payer: String? = nil
+        public var payer: String? = nil
 
         public init() {}
 
@@ -616,8 +737,13 @@ extension S3 {
 
     }
 
-    public struct AbortMultipartUploadOutput: Serializable, Initializable {
-        var requestCharged: String? = nil
+    public struct AbortMultipartUploadOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-charged": "RequestCharged"]
+        }
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -627,12 +753,23 @@ extension S3 {
 
     }
 
-    public struct PutObjectTaggingRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var contentMD5: String? = nil
-        var tagging: Tagging = Tagging()
-        var key: String = ""
-        var versionId: String? = nil
+    public struct PutObjectTaggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Tagging"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var contentMD5: String? = nil
+        public var tagging: Tagging = Tagging()
+        public var key: String = ""
+        public var versionId: String? = nil
 
         public init() {}
 
@@ -646,8 +783,10 @@ extension S3 {
 
     }
 
-    public struct CompletedMultipartUpload: Serializable, Initializable {
-        var parts: [CompletedPart]? = nil
+    public struct CompletedMultipartUpload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var parts: [CompletedPart]? = nil
 
         public init() {}
 
@@ -657,59 +796,64 @@ extension S3 {
 
     }
 
-    public struct GetObjectOutput: Serializable, Initializable {
+    public struct GetObjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Body"
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-tagging-count": "TagCount", "accept-ranges": "AcceptRanges", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-server-side-encryption": "ServerSideEncryption", "Content-Disposition": "ContentDisposition", "x-amz-request-charged": "RequestCharged", "ETag": "ETag", "Content-Encoding": "ContentEncoding", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-mp-parts-count": "PartsCount", "Content-Length": "ContentLength", "x-amz-version-id": "VersionId", "x-amz-delete-marker": "DeleteMarker", "Last-Modified": "LastModified", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-storage-class": "StorageClass", "Expires": "Expires", "Content-Range": "ContentRange", "x-amz-replication-status": "ReplicationStatus", "x-amz-restore": "Restore", "x-amz-missing-meta": "MissingMeta", "x-amz-expiration": "Expiration", "Cache-Control": "CacheControl"]
+        }
         /// The count of parts this object has.
-        var partsCount: Int32? = nil
+        public var partsCount: Int32? = nil
         /// Specifies presentational information for the object.
-        var contentDisposition: String? = nil
+        public var contentDisposition: String? = nil
         /// Version of the object.
-        var versionId: String? = nil
-        var replicationStatus: String? = nil
+        public var versionId: String? = nil
+        public var replicationStatus: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// The language the content is in.
-        var contentLanguage: String? = nil
+        public var contentLanguage: String? = nil
         /// The number of tags, if any, on the object.
-        var tagCount: Int32? = nil
+        public var tagCount: Int32? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// Provides information about object restoration operation and expiration time of the restored object copy.
-        var restore: String? = nil
+        public var restore: String? = nil
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        var contentEncoding: String? = nil
+        public var contentEncoding: String? = nil
         /// Size of the body in bytes.
-        var contentLength: Int64? = nil
+        public var contentLength: Int64? = nil
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
-        var expiration: String? = nil
+        public var expiration: String? = nil
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        var websiteRedirectLocation: String? = nil
+        public var websiteRedirectLocation: String? = nil
         /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// Object data.
-        var body: Data? = nil
+        public var body: Data? = nil
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        var missingMeta: Int32? = nil
+        public var missingMeta: Int32? = nil
         /// Specifies caching behavior along the request/reply chain.
-        var cacheControl: String? = nil
+        public var cacheControl: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
-        var acceptRanges: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
+        public var acceptRanges: String? = nil
         /// Last modified date of the object
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// A map of metadata to store with the object in S3.
-        var metadata: [String: String]? = nil
+        public var metadata: [String: String]? = nil
         /// The date and time at which the object is no longer cacheable.
-        var expires: Date? = nil
+        public var expires: Date? = nil
         /// The portion of the object returned in the response.
-        var contentRange: String? = nil
+        public var contentRange: String? = nil
         /// A standard MIME type describing the format of the object data.
-        var contentType: String? = nil
-        var storageClass: String? = nil
+        public var contentType: String? = nil
+        public var storageClass: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
-        var requestCharged: String? = nil
+        public var serverSideEncryption: String? = nil
+        public var requestCharged: String? = nil
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
-        var deleteMarker: Bool? = nil
+        public var deleteMarker: Bool? = nil
 
         public init() {}
 
@@ -746,10 +890,12 @@ extension S3 {
 
     }
 
-    public struct NotificationConfigurationDeprecated: Serializable, Initializable {
-        var queueConfiguration: QueueConfigurationDeprecated? = nil
-        var topicConfiguration: TopicConfigurationDeprecated? = nil
-        var cloudFunctionConfiguration: CloudFunctionConfiguration? = nil
+    public struct NotificationConfigurationDeprecated: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queueConfiguration: QueueConfigurationDeprecated? = nil
+        public var topicConfiguration: TopicConfigurationDeprecated? = nil
+        public var cloudFunctionConfiguration: CloudFunctionConfiguration? = nil
 
         public init() {}
 
@@ -761,13 +907,15 @@ extension S3 {
 
     }
 
-    public struct Transition: Serializable, Initializable {
+    public struct Transition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        var date: Date? = nil
+        public var date: Date? = nil
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        var days: Int32? = nil
+        public var days: Int32? = nil
 
         public init() {}
 
@@ -779,11 +927,13 @@ extension S3 {
 
     }
 
-    public struct MetricsConfiguration: Serializable, Initializable {
+    public struct MetricsConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID used to identify the metrics configuration.
-        var id: String = ""
+        public var id: String = ""
         /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
-        var filter: MetricsFilter? = nil
+        public var filter: MetricsFilter? = nil
 
         public init() {}
 
@@ -794,11 +944,13 @@ extension S3 {
 
     }
 
-    public struct Condition: Serializable, Initializable {
+    public struct Condition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
-        var httpErrorCodeReturnedEquals: String? = nil
+        public var httpErrorCodeReturnedEquals: String? = nil
         /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
-        var keyPrefixEquals: String? = nil
+        public var keyPrefixEquals: String? = nil
 
         public init() {}
 
@@ -809,11 +961,13 @@ extension S3 {
 
     }
 
-    public struct VersioningConfiguration: Serializable, Initializable {
+    public struct VersioningConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        var mFADelete: String? = nil
+        public var mFADelete: String? = nil
         /// The versioning state of the bucket.
-        var status: String? = nil
+        public var status: String? = nil
 
         public init() {}
 
@@ -824,9 +978,11 @@ extension S3 {
 
     }
 
-    public struct AccelerateConfiguration: Serializable, Initializable {
+    public struct AccelerateConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The accelerate configuration of the bucket.
-        var status: String? = nil
+        public var status: String? = nil
 
         public init() {}
 
@@ -836,10 +992,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketLoggingRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var bucketLoggingStatus: BucketLoggingStatus = BucketLoggingStatus()
+    public struct PutBucketLoggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "BucketLoggingStatus"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var bucketLoggingStatus: BucketLoggingStatus = BucketLoggingStatus()
 
         public init() {}
 
@@ -851,9 +1015,11 @@ extension S3 {
 
     }
 
-    public struct GetBucketPolicyOutput: Serializable, Initializable {
+    public struct GetBucketPolicyOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Policy"
         /// The bucket policy as a JSON document.
-        var policy: String? = nil
+        public var policy: String? = nil
 
         public init() {}
 
@@ -863,11 +1029,13 @@ extension S3 {
 
     }
 
-    public struct ReplicationConfiguration: Serializable, Initializable {
+    public struct ReplicationConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of an IAM role for Amazon S3 to assume when replicating the objects.
-        var role: String = ""
+        public var role: String = ""
         /// Container for information about a particular replication rule. Replication configuration must have at least one rule and can contain up to 1,000 rules.
-        var rules: [ReplicationRule] = []
+        public var rules: [ReplicationRule] = []
 
         public init() {}
 
@@ -878,21 +1046,23 @@ extension S3 {
 
     }
 
-    public struct ObjectVersion: Serializable, Initializable {
+    public struct ObjectVersion: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Date and time the object was last modified.
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// Size in bytes of the object.
-        var size: Int32? = nil
+        public var size: Int32? = nil
         /// Version ID of an object.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
         /// The object key.
-        var key: String? = nil
+        public var key: String? = nil
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        var isLatest: Bool? = nil
-        var eTag: String? = nil
-        var owner: Owner? = nil
+        public var isLatest: Bool? = nil
+        public var eTag: String? = nil
+        public var owner: Owner? = nil
 
         public init() {}
 
@@ -909,8 +1079,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketReplicationOutput: Serializable, Initializable {
-        var replicationConfiguration: ReplicationConfiguration? = nil
+    public struct GetBucketReplicationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "ReplicationConfiguration"
+        public var replicationConfiguration: ReplicationConfiguration? = nil
 
         public init() {}
 
@@ -920,13 +1092,21 @@ extension S3 {
 
     }
 
-    public struct PutBucketInventoryConfigurationRequest: Serializable, Initializable {
+    public struct PutBucketInventoryConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "InventoryConfiguration"
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket where the inventory configuration will be stored.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// Specifies the inventory configuration.
-        var inventoryConfiguration: InventoryConfiguration = InventoryConfiguration()
+        public var inventoryConfiguration: InventoryConfiguration = InventoryConfiguration()
         /// The ID used to identify the inventory configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -938,20 +1118,22 @@ extension S3 {
 
     }
 
-    public struct ListObjectsOutput: Serializable, Initializable {
-        var maxKeys: Int32? = nil
+    public struct ListObjectsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var maxKeys: Int32? = nil
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
-        var isTruncated: Bool? = nil
-        var marker: String? = nil
-        var name: String? = nil
-        var prefix: String? = nil
-        var commonPrefixes: [CommonPrefix]? = nil
-        var contents: [Object]? = nil
-        var delimiter: String? = nil
+        public var isTruncated: Bool? = nil
+        public var marker: String? = nil
+        public var name: String? = nil
+        public var prefix: String? = nil
+        public var commonPrefixes: [CommonPrefix]? = nil
+        public var contents: [Object]? = nil
+        public var delimiter: String? = nil
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        var encodingType: String? = nil
+        public var encodingType: String? = nil
         /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -970,21 +1152,26 @@ extension S3 {
 
     }
 
-    public struct CompleteMultipartUploadOutput: Serializable, Initializable {
-        var bucket: String? = nil
-        var location: String? = nil
+    public struct CompleteMultipartUploadOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-version-id": "VersionId", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-expiration": "Expiration", "x-amz-server-side-encryption": "ServerSideEncryption"]
+        }
+        public var bucket: String? = nil
+        public var location: String? = nil
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
-        var expiration: String? = nil
+        public var expiration: String? = nil
         /// Version of the object.
-        var versionId: String? = nil
-        var key: String? = nil
+        public var versionId: String? = nil
+        public var key: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// Entity tag of the object.
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
-        var requestCharged: String? = nil
+        public var serverSideEncryption: String? = nil
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -1002,8 +1189,10 @@ extension S3 {
 
     }
 
-    public struct NotificationConfigurationFilter: Serializable, Initializable {
-        var key: S3KeyFilter? = nil
+    public struct NotificationConfigurationFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var key: S3KeyFilter? = nil
 
         public init() {}
 
@@ -1013,26 +1202,37 @@ extension S3 {
 
     }
 
-    public struct PutObjectAclRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var contentMD5: String? = nil
-        var accessControlPolicy: AccessControlPolicy? = nil
+    public struct PutObjectAclRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "AccessControlPolicy"
+        public var headerParams: [String: String] {
+            return ["x-amz-grant-write-acp": "GrantWriteACP", "Content-MD5": "ContentMD5", "x-amz-request-payer": "RequestPayer", "x-amz-grant-write": "GrantWrite", "x-amz-grant-read": "GrantRead", "x-amz-grant-full-control": "GrantFullControl", "x-amz-acl": "ACL", "x-amz-grant-read-acp": "GrantReadACP"]
+        }
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var contentMD5: String? = nil
+        public var accessControlPolicy: AccessControlPolicy? = nil
         /// Allows grantee to write the ACL for the applicable bucket.
-        var grantWriteACP: String? = nil
-        var requestPayer: String? = nil
+        public var grantWriteACP: String? = nil
+        public var requestPayer: String? = nil
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        var grantFullControl: String? = nil
+        public var grantFullControl: String? = nil
         /// VersionId used to reference a specific version of the object.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        var grantWrite: String? = nil
-        var key: String = ""
+        public var grantWrite: String? = nil
+        public var key: String = ""
         /// Allows grantee to read the bucket ACL.
-        var grantReadACP: String? = nil
+        public var grantReadACP: String? = nil
         /// Allows grantee to list the objects in the bucket.
-        var grantRead: String? = nil
+        public var grantRead: String? = nil
         /// The canned ACL to apply to the object.
-        var aCL: String? = nil
+        public var aCL: String? = nil
 
         public init() {}
 
@@ -1053,12 +1253,14 @@ extension S3 {
 
     }
 
-    public struct TopicConfiguration: Serializable, Initializable {
+    public struct TopicConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon SNS topic ARN to which Amazon S3 will publish a message when it detects events of specified type.
-        var topicArn: String = ""
-        var filter: NotificationConfigurationFilter? = nil
-        var events: [String] = []
-        var id: String? = nil
+        public var topicArn: String = ""
+        public var filter: NotificationConfigurationFilter? = nil
+        public var events: [String] = []
+        public var id: String? = nil
 
         public init() {}
 
@@ -1071,11 +1273,13 @@ extension S3 {
 
     }
 
-    public struct RoutingRule: Serializable, Initializable {
+    public struct RoutingRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Container for redirect information. You can redirect requests to another host, to another page, or with another protocol. In the event of an error, you can can specify a different error code to return.
-        var redirect: Redirect = Redirect()
+        public var redirect: Redirect = Redirect()
         /// A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error.
-        var condition: Condition? = nil
+        public var condition: Condition? = nil
 
         public init() {}
 
@@ -1086,12 +1290,14 @@ extension S3 {
 
     }
 
-    public struct LifecycleRuleFilter: Serializable, Initializable {
+    public struct LifecycleRuleFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// This tag must exist in the object's tag set in order for the rule to apply.
-        var tag: Tag? = nil
-        var and: LifecycleRuleAndOperator? = nil
+        public var tag: Tag? = nil
+        public var and: LifecycleRuleAndOperator? = nil
         /// Prefix identifying one or more objects to which the rule applies.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -1103,9 +1309,11 @@ extension S3 {
 
     }
 
-    public struct IndexDocument: Serializable, Initializable {
+    public struct IndexDocument: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
-        var suffix: String = ""
+        public var suffix: String = ""
 
         public init() {}
 
@@ -1115,53 +1323,58 @@ extension S3 {
 
     }
 
-    public struct HeadObjectOutput: Serializable, Initializable {
+    public struct HeadObjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-expiration": "Expiration", "Content-Length": "ContentLength", "Cache-Control": "CacheControl", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "accept-ranges": "AcceptRanges", "x-amz-version-id": "VersionId", "x-amz-delete-marker": "DeleteMarker", "Last-Modified": "LastModified", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-storage-class": "StorageClass", "Expires": "Expires", "Content-Disposition": "ContentDisposition", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-request-charged": "RequestCharged", "x-amz-replication-status": "ReplicationStatus", "x-amz-restore": "Restore", "x-amz-missing-meta": "MissingMeta", "ETag": "ETag", "Content-Encoding": "ContentEncoding", "x-amz-mp-parts-count": "PartsCount"]
+        }
         /// The count of parts this object has.
-        var partsCount: Int32? = nil
+        public var partsCount: Int32? = nil
         /// Specifies presentational information for the object.
-        var contentDisposition: String? = nil
+        public var contentDisposition: String? = nil
         /// Version of the object.
-        var versionId: String? = nil
-        var replicationStatus: String? = nil
+        public var versionId: String? = nil
+        public var replicationStatus: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// The language the content is in.
-        var contentLanguage: String? = nil
+        public var contentLanguage: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// Provides information about object restoration operation and expiration time of the restored object copy.
-        var restore: String? = nil
+        public var restore: String? = nil
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        var contentEncoding: String? = nil
+        public var contentEncoding: String? = nil
         /// Size of the body in bytes.
-        var contentLength: Int64? = nil
+        public var contentLength: Int64? = nil
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
-        var expiration: String? = nil
+        public var expiration: String? = nil
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        var websiteRedirectLocation: String? = nil
+        public var websiteRedirectLocation: String? = nil
         /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        var missingMeta: Int32? = nil
+        public var missingMeta: Int32? = nil
         /// Specifies caching behavior along the request/reply chain.
-        var cacheControl: String? = nil
+        public var cacheControl: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
-        var acceptRanges: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
+        public var acceptRanges: String? = nil
         /// Last modified date of the object
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// A map of metadata to store with the object in S3.
-        var metadata: [String: String]? = nil
+        public var metadata: [String: String]? = nil
         /// The date and time at which the object is no longer cacheable.
-        var expires: Date? = nil
+        public var expires: Date? = nil
         /// A standard MIME type describing the format of the object data.
-        var contentType: String? = nil
-        var storageClass: String? = nil
+        public var contentType: String? = nil
+        public var storageClass: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
-        var requestCharged: String? = nil
+        public var serverSideEncryption: String? = nil
+        public var requestCharged: String? = nil
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
-        var deleteMarker: Bool? = nil
+        public var deleteMarker: Bool? = nil
 
         public init() {}
 
@@ -1195,11 +1408,13 @@ extension S3 {
 
     }
 
-    public struct CompletedPart: Serializable, Initializable {
+    public struct CompletedPart: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Entity tag returned when the part was uploaded.
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
-        var partNumber: Int32? = nil
+        public var partNumber: Int32? = nil
 
         public init() {}
 
@@ -1210,8 +1425,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketTaggingRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketTaggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -1221,31 +1441,33 @@ extension S3 {
 
     }
 
-    public struct ListObjectsV2Output: Serializable, Initializable {
+    public struct ListObjectsV2Output: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        var maxKeys: Int32? = nil
+        public var maxKeys: Int32? = nil
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        var startAfter: String? = nil
+        public var startAfter: String? = nil
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
-        var isTruncated: Bool? = nil
+        public var isTruncated: Bool? = nil
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
         /// Name of the bucket to list.
-        var name: String? = nil
+        public var name: String? = nil
         /// Limits the response to keys that begin with the specified prefix.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// NextContinuationToken is sent when isTruncated is true which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
-        var nextContinuationToken: String? = nil
+        public var nextContinuationToken: String? = nil
         /// CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by delimiter
-        var commonPrefixes: [CommonPrefix]? = nil
+        public var commonPrefixes: [CommonPrefix]? = nil
         /// Metadata about each object returned.
-        var contents: [Object]? = nil
+        public var contents: [Object]? = nil
         /// A delimiter is a character you use to group keys.
-        var delimiter: String? = nil
+        public var delimiter: String? = nil
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        var encodingType: String? = nil
+        public var encodingType: String? = nil
         /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
-        var keyCount: Int32? = nil
+        public var keyCount: Int32? = nil
 
         public init() {}
 
@@ -1266,10 +1488,12 @@ extension S3 {
 
     }
 
-    public struct TargetGrant: Serializable, Initializable {
+    public struct TargetGrant: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Logging permissions assigned to the Grantee for the bucket.
-        var permission: String? = nil
-        var grantee: Grantee? = nil
+        public var permission: String? = nil
+        public var grantee: Grantee? = nil
 
         public init() {}
 
@@ -1280,8 +1504,10 @@ extension S3 {
 
     }
 
-    public struct BucketLoggingStatus: Serializable, Initializable {
-        var loggingEnabled: LoggingEnabled? = nil
+    public struct BucketLoggingStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var loggingEnabled: LoggingEnabled? = nil
 
         public init() {}
 
@@ -1291,15 +1517,17 @@ extension S3 {
 
     }
 
-    public struct AnalyticsS3BucketDestination: Serializable, Initializable {
+    public struct AnalyticsS3BucketDestination: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon resource name (ARN) of the bucket to which data is exported.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The file format used when exporting data to Amazon S3.
-        var format: String = ""
+        public var format: String = ""
         /// The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
-        var bucketAccountId: String? = nil
+        public var bucketAccountId: String? = nil
         /// The prefix to use when exporting data. The exported data begins with this prefix.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -1312,10 +1540,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketLifecycleRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var lifecycleConfiguration: LifecycleConfiguration? = nil
+    public struct PutBucketLifecycleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "LifecycleConfiguration"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var lifecycleConfiguration: LifecycleConfiguration? = nil
 
         public init() {}
 
@@ -1327,11 +1563,13 @@ extension S3 {
 
     }
 
-    public struct WebsiteConfiguration: Serializable, Initializable {
-        var routingRules: [RoutingRule]? = nil
-        var indexDocument: IndexDocument? = nil
-        var errorDocument: ErrorDocument? = nil
-        var redirectAllRequestsTo: RedirectAllRequestsTo? = nil
+    public struct WebsiteConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var routingRules: [RoutingRule]? = nil
+        public var indexDocument: IndexDocument? = nil
+        public var errorDocument: ErrorDocument? = nil
+        public var redirectAllRequestsTo: RedirectAllRequestsTo? = nil
 
         public init() {}
 
@@ -1344,10 +1582,12 @@ extension S3 {
 
     }
 
-    public struct NotificationConfiguration: Serializable, Initializable {
-        var topicConfigurations: [TopicConfiguration]? = nil
-        var queueConfigurations: [QueueConfiguration]? = nil
-        var lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil
+    public struct NotificationConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var topicConfigurations: [TopicConfiguration]? = nil
+        public var queueConfigurations: [QueueConfiguration]? = nil
+        public var lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil
 
         public init() {}
 
@@ -1359,13 +1599,15 @@ extension S3 {
 
     }
 
-    public struct AnalyticsFilter: Serializable, Initializable {
+    public struct AnalyticsFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag to use when evaluating an analytics filter.
-        var tag: Tag? = nil
+        public var tag: Tag? = nil
         /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
-        var and: AnalyticsAndOperator? = nil
+        public var and: AnalyticsAndOperator? = nil
         /// The prefix to use when evaluating an analytics filter.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -1377,8 +1619,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketAclRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketAclRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -1388,10 +1635,18 @@ extension S3 {
 
     }
 
-    public struct GetObjectTaggingRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var versionId: String? = nil
-        var key: String = ""
+    public struct GetObjectTaggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var versionId: String? = nil
+        public var key: String = ""
 
         public init() {}
 
@@ -1403,9 +1658,14 @@ extension S3 {
 
     }
 
-    public struct PutBucketLifecycleConfigurationRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var lifecycleConfiguration: BucketLifecycleConfiguration? = nil
+    public struct PutBucketLifecycleConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "LifecycleConfiguration"
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
+        public var lifecycleConfiguration: BucketLifecycleConfiguration? = nil
 
         public init() {}
 
@@ -1416,25 +1676,27 @@ extension S3 {
 
     }
 
-    public struct ListObjectVersionsOutput: Serializable, Initializable {
-        var maxKeys: Int32? = nil
+    public struct ListObjectVersionsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var maxKeys: Int32? = nil
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
-        var isTruncated: Bool? = nil
-        var versionIdMarker: String? = nil
+        public var isTruncated: Bool? = nil
+        public var versionIdMarker: String? = nil
         /// Use this value for the next version id marker parameter in a subsequent request.
-        var nextVersionIdMarker: String? = nil
-        var commonPrefixes: [CommonPrefix]? = nil
-        var delimiter: String? = nil
+        public var nextVersionIdMarker: String? = nil
+        public var commonPrefixes: [CommonPrefix]? = nil
+        public var delimiter: String? = nil
         /// Marks the last Key returned in a truncated response.
-        var keyMarker: String? = nil
+        public var keyMarker: String? = nil
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        var encodingType: String? = nil
-        var name: String? = nil
-        var prefix: String? = nil
-        var deleteMarkers: [DeleteMarkerEntry]? = nil
+        public var encodingType: String? = nil
+        public var name: String? = nil
+        public var prefix: String? = nil
+        public var deleteMarkers: [DeleteMarkerEntry]? = nil
         /// Use this value for the key marker request parameter in a subsequent request.
-        var nextKeyMarker: String? = nil
-        var versions: [ObjectVersion]? = nil
+        public var nextKeyMarker: String? = nil
+        public var versions: [ObjectVersion]? = nil
 
         public init() {}
 
@@ -1456,13 +1718,15 @@ extension S3 {
 
     }
 
-    public struct AnalyticsConfiguration: Serializable, Initializable {
+    public struct AnalyticsConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier used to represent an analytics configuration.
-        var id: String = ""
+        public var id: String = ""
         /// If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
-        var storageClassAnalysis: StorageClassAnalysis = StorageClassAnalysis()
+        public var storageClassAnalysis: StorageClassAnalysis = StorageClassAnalysis()
         /// The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
-        var filter: AnalyticsFilter? = nil
+        public var filter: AnalyticsFilter? = nil
 
         public init() {}
 
@@ -1474,11 +1738,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketVersioningOutput: Serializable, Initializable {
+    public struct GetBucketVersioningOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        var mFADelete: String? = nil
+        public var mFADelete: String? = nil
         /// The versioning state of the bucket.
-        var status: String? = nil
+        public var status: String? = nil
 
         public init() {}
 
@@ -1489,9 +1755,11 @@ extension S3 {
 
     }
 
-    public struct InventoryFilter: Serializable, Initializable {
+    public struct InventoryFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The prefix that an object must have to be included in the inventory results.
-        var prefix: String = ""
+        public var prefix: String = ""
 
         public init() {}
 
@@ -1501,12 +1769,20 @@ extension S3 {
 
     }
 
-    public struct DeleteObjectsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteObjectsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Delete"
+        public var headerParams: [String: String] {
+            return ["x-amz-mfa": "MFA", "x-amz-request-payer": "RequestPayer"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        var mFA: String? = nil
-        var requestPayer: String? = nil
-        var delete: Delete = Delete()
+        public var mFA: String? = nil
+        public var requestPayer: String? = nil
+        public var delete: Delete = Delete()
 
         public init() {}
 
@@ -1519,12 +1795,20 @@ extension S3 {
 
     }
 
-    public struct PutBucketVersioningRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var contentMD5: String? = nil
+    public struct PutBucketVersioningRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "VersioningConfiguration"
+        public var headerParams: [String: String] {
+            return ["x-amz-mfa": "MFA", "Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
+        public var contentMD5: String? = nil
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        var mFA: String? = nil
-        var versioningConfiguration: VersioningConfiguration = VersioningConfiguration()
+        public var mFA: String? = nil
+        public var versioningConfiguration: VersioningConfiguration = VersioningConfiguration()
 
         public init() {}
 
@@ -1537,11 +1821,16 @@ extension S3 {
 
     }
 
-    public struct GetObjectAclOutput: Serializable, Initializable {
-        var owner: Owner? = nil
+    public struct GetObjectAclOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-charged": "RequestCharged"]
+        }
+        public var owner: Owner? = nil
         /// A list of grants.
-        var grants: [Grant]? = nil
-        var requestCharged: String? = nil
+        public var grants: [Grant]? = nil
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -1553,10 +1842,12 @@ extension S3 {
 
     }
 
-    public struct Delete: Serializable, Initializable {
-        var objects: [ObjectIdentifier] = []
+    public struct Delete: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var objects: [ObjectIdentifier] = []
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
-        var quiet: Bool? = nil
+        public var quiet: Bool? = nil
 
         public init() {}
 
@@ -1567,19 +1858,27 @@ extension S3 {
 
     }
 
-    public struct ListMultipartUploadsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct ListMultipartUploadsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["prefix": "Prefix", "upload-id-marker": "UploadIdMarker", "max-uploads": "MaxUploads", "delimiter": "Delimiter", "encoding-type": "EncodingType", "key-marker": "KeyMarker"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
         /// Lists in-progress uploads only for those keys that begin with the specified prefix.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
-        var uploadIdMarker: String? = nil
+        public var uploadIdMarker: String? = nil
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
-        var maxUploads: Int32? = nil
+        public var maxUploads: Int32? = nil
         /// Character you use to group keys.
-        var delimiter: String? = nil
-        var encodingType: String? = nil
+        public var delimiter: String? = nil
+        public var encodingType: String? = nil
         /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
-        var keyMarker: String? = nil
+        public var keyMarker: String? = nil
 
         public init() {}
 
@@ -1595,10 +1894,15 @@ extension S3 {
 
     }
 
-    public struct DeleteObjectsOutput: Serializable, Initializable {
-        var requestCharged: String? = nil
-        var errors: [Error]? = nil
-        var deleted: [DeletedObject]? = nil
+    public struct DeleteObjectsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-charged": "RequestCharged"]
+        }
+        public var requestCharged: String? = nil
+        public var errors: [Error]? = nil
+        public var deleted: [DeletedObject]? = nil
 
         public init() {}
 
@@ -1610,11 +1914,19 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketAnalyticsConfigurationRequest: Serializable, Initializable {
+    public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket from which an analytics configuration is deleted.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The identifier used to represent an analytics configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -1625,8 +1937,13 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketReplicationRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketReplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -1636,15 +1953,17 @@ extension S3 {
 
     }
 
-    public struct ListBucketAnalyticsConfigurationsOutput: Serializable, Initializable {
+    public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ContinuationToken that represents where this request began.
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
         /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-        var isTruncated: Bool? = nil
+        public var isTruncated: Bool? = nil
         /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
-        var nextContinuationToken: String? = nil
+        public var nextContinuationToken: String? = nil
         /// The list of analytics configurations for a bucket.
-        var analyticsConfigurationList: [AnalyticsConfiguration]? = nil
+        public var analyticsConfigurationList: [AnalyticsConfiguration]? = nil
 
         public init() {}
 
@@ -1657,9 +1976,11 @@ extension S3 {
 
     }
 
-    public struct InventorySchedule: Serializable, Initializable {
+    public struct InventorySchedule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies how frequently inventory results are produced.
-        var frequency: String = ""
+        public var frequency: String = ""
 
         public init() {}
 
@@ -1669,28 +1990,30 @@ extension S3 {
 
     }
 
-    public struct ListMultipartUploadsOutput: Serializable, Initializable {
+    public struct ListMultipartUploadsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name of the bucket to which the multipart upload was initiated.
-        var bucket: String? = nil
+        public var bucket: String? = nil
         /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
-        var isTruncated: Bool? = nil
+        public var isTruncated: Bool? = nil
         /// The key at or after which the listing began.
-        var keyMarker: String? = nil
+        public var keyMarker: String? = nil
         /// Upload ID after which listing began.
-        var uploadIdMarker: String? = nil
+        public var uploadIdMarker: String? = nil
         /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
-        var prefix: String? = nil
-        var commonPrefixes: [CommonPrefix]? = nil
+        public var prefix: String? = nil
+        public var commonPrefixes: [CommonPrefix]? = nil
         /// Maximum number of multipart uploads that could have been included in the response.
-        var maxUploads: Int32? = nil
-        var uploads: [MultipartUpload]? = nil
-        var delimiter: String? = nil
+        public var maxUploads: Int32? = nil
+        public var uploads: [MultipartUpload]? = nil
+        public var delimiter: String? = nil
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        var encodingType: String? = nil
+        public var encodingType: String? = nil
         /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
-        var nextKeyMarker: String? = nil
+        public var nextKeyMarker: String? = nil
         /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
-        var nextUploadIdMarker: String? = nil
+        public var nextUploadIdMarker: String? = nil
 
         public init() {}
 
@@ -1711,9 +2034,11 @@ extension S3 {
 
     }
 
-    public struct GetBucketMetricsConfigurationOutput: Serializable, Initializable {
+    public struct GetBucketMetricsConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "MetricsConfiguration"
         /// Specifies the metrics configuration.
-        var metricsConfiguration: MetricsConfiguration? = nil
+        public var metricsConfiguration: MetricsConfiguration? = nil
 
         public init() {}
 
@@ -1723,15 +2048,17 @@ extension S3 {
 
     }
 
-    public struct ListBucketMetricsConfigurationsOutput: Serializable, Initializable {
+    public struct ListBucketMetricsConfigurationsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
         /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-        var isTruncated: Bool? = nil
+        public var isTruncated: Bool? = nil
         /// The list of metrics configurations for a bucket.
-        var metricsConfigurationList: [MetricsConfiguration]? = nil
+        public var metricsConfigurationList: [MetricsConfiguration]? = nil
         /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        var nextContinuationToken: String? = nil
+        public var nextContinuationToken: String? = nil
 
         public init() {}
 
@@ -1744,10 +2071,12 @@ extension S3 {
 
     }
 
-    public struct GetBucketAclOutput: Serializable, Initializable {
-        var owner: Owner? = nil
+    public struct GetBucketAclOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var owner: Owner? = nil
         /// A list of grants.
-        var grants: [Grant]? = nil
+        public var grants: [Grant]? = nil
 
         public init() {}
 
@@ -1758,25 +2087,36 @@ extension S3 {
 
     }
 
-    public struct ListObjectsV2Request: Serializable, Initializable {
+    public struct ListObjectsV2Request: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["continuation-token": "ContinuationToken", "start-after": "StartAfter", "delimiter": "Delimiter", "encoding-type": "EncodingType", "prefix": "Prefix", "fetch-owner": "FetchOwner", "max-keys": "MaxKeys"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// Name of the bucket to list.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        var maxKeys: Int32? = nil
+        public var maxKeys: Int32? = nil
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        var startAfter: String? = nil
+        public var startAfter: String? = nil
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
         /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
-        var requestPayer: String? = nil
+        public var requestPayer: String? = nil
         /// Limits the response to keys that begin with the specified prefix.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
-        var fetchOwner: Bool? = nil
+        public var fetchOwner: Bool? = nil
         /// A delimiter is a character you use to group keys.
-        var delimiter: String? = nil
+        public var delimiter: String? = nil
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        var encodingType: String? = nil
+        public var encodingType: String? = nil
 
         public init() {}
 
@@ -1794,8 +2134,13 @@ extension S3 {
 
     }
 
-    public struct HeadBucketRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct HeadBucketRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -1805,21 +2150,29 @@ extension S3 {
 
     }
 
-    public struct CreateBucketRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var createBucketConfiguration: CreateBucketConfiguration? = nil
+    public struct CreateBucketRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "CreateBucketConfiguration"
+        public var headerParams: [String: String] {
+            return ["x-amz-grant-write-acp": "GrantWriteACP", "x-amz-grant-write": "GrantWrite", "x-amz-grant-read": "GrantRead", "x-amz-grant-full-control": "GrantFullControl", "x-amz-acl": "ACL", "x-amz-grant-read-acp": "GrantReadACP"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
+        public var createBucketConfiguration: CreateBucketConfiguration? = nil
         /// Allows grantee to write the ACL for the applicable bucket.
-        var grantWriteACP: String? = nil
+        public var grantWriteACP: String? = nil
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        var grantFullControl: String? = nil
+        public var grantFullControl: String? = nil
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        var grantWrite: String? = nil
+        public var grantWrite: String? = nil
         /// Allows grantee to list the objects in the bucket.
-        var grantRead: String? = nil
+        public var grantRead: String? = nil
         /// The canned ACL to apply to the bucket.
-        var aCL: String? = nil
+        public var aCL: String? = nil
         /// Allows grantee to read the bucket ACL.
-        var grantReadACP: String? = nil
+        public var grantReadACP: String? = nil
 
         public init() {}
 
@@ -1836,11 +2189,13 @@ extension S3 {
 
     }
 
-    public struct Initiator: Serializable, Initializable {
+    public struct Initiator: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
-        var iD: String? = nil
+        public var iD: String? = nil
         /// Name of the Principal.
-        var displayName: String? = nil
+        public var displayName: String? = nil
 
         public init() {}
 
@@ -1851,9 +2206,14 @@ extension S3 {
 
     }
 
-    public struct DeleteObjectTaggingOutput: Serializable, Initializable {
+    public struct DeleteObjectTaggingOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-version-id": "VersionId"]
+        }
         /// The versionId of the object the tag-set was removed from.
-        var versionId: String? = nil
+        public var versionId: String? = nil
 
         public init() {}
 
@@ -1863,10 +2223,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketReplicationRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var replicationConfiguration: ReplicationConfiguration = ReplicationConfiguration()
+    public struct PutBucketReplicationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "ReplicationConfiguration"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var replicationConfiguration: ReplicationConfiguration = ReplicationConfiguration()
 
         public init() {}
 
@@ -1878,17 +2246,19 @@ extension S3 {
 
     }
 
-    public struct CORSRule: Serializable, Initializable {
+    public struct CORSRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
-        var exposeHeaders: [String]? = nil
+        public var exposeHeaders: [String]? = nil
         /// One or more origins you want customers to be able to access the bucket from.
-        var allowedOrigins: [String] = []
+        public var allowedOrigins: [String] = []
         /// The time in seconds that your browser is to cache the preflight response for the specified resource.
-        var maxAgeSeconds: Int32? = nil
+        public var maxAgeSeconds: Int32? = nil
         /// Specifies which headers are allowed in a pre-flight OPTIONS request.
-        var allowedHeaders: [String]? = nil
+        public var allowedHeaders: [String]? = nil
         /// Identifies HTTP methods that the domain/origin specified in the rule is allowed to execute.
-        var allowedMethods: [String] = []
+        public var allowedMethods: [String] = []
 
         public init() {}
 
@@ -1902,48 +2272,56 @@ extension S3 {
 
     }
 
-    public struct CreateMultipartUploadRequest: Serializable, Initializable {
+    public struct CreateMultipartUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["Cache-Control": "CacheControl", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-grant-write-acp": "GrantWriteACP", "x-amz-request-payer": "RequestPayer", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-grant-read": "GrantRead", "x-amz-grant-full-control": "GrantFullControl", "x-amz-acl": "ACL", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-storage-class": "StorageClass", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "Content-Disposition": "ContentDisposition", "Expires": "Expires", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-server-side-encryption": "ServerSideEncryption", "Content-Encoding": "ContentEncoding", "x-amz-grant-read-acp": "GrantReadACP"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// Specifies caching behavior along the request/reply chain.
-        var cacheControl: String? = nil
-        var bucket: String = ""
+        public var cacheControl: String? = nil
+        public var bucket: String = ""
         /// Specifies presentational information for the object.
-        var contentDisposition: String? = nil
-        var requestPayer: String? = nil
+        public var contentDisposition: String? = nil
+        public var requestPayer: String? = nil
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        var grantFullControl: String? = nil
+        public var grantFullControl: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// Allows grantee to read the object ACL.
-        var grantReadACP: String? = nil
+        public var grantReadACP: String? = nil
         /// The canned ACL to apply to the object.
-        var aCL: String? = nil
+        public var aCL: String? = nil
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// The language the content is in.
-        var contentLanguage: String? = nil
+        public var contentLanguage: String? = nil
         /// A map of metadata to store with the object in S3.
-        var metadata: [String: String]? = nil
+        public var metadata: [String: String]? = nil
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        var contentEncoding: String? = nil
+        public var contentEncoding: String? = nil
         /// The date and time at which the object is no longer cacheable.
-        var expires: Date? = nil
+        public var expires: Date? = nil
         /// Allows grantee to write the ACL for the applicable object.
-        var grantWriteACP: String? = nil
+        public var grantWriteACP: String? = nil
         /// A standard MIME type describing the format of the object data.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        var storageClass: String? = nil
-        var key: String = ""
+        public var storageClass: String? = nil
+        public var key: String = ""
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        var websiteRedirectLocation: String? = nil
+        public var websiteRedirectLocation: String? = nil
         /// Allows grantee to read the object data and its metadata.
-        var grantRead: String? = nil
+        public var grantRead: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
+        public var serverSideEncryption: String? = nil
 
         public init() {}
 
@@ -1974,14 +2352,25 @@ extension S3 {
 
     }
 
-    public struct DeleteObjectRequest: Serializable, Initializable {
+    public struct DeleteObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-mfa": "MFA", "x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
         /// VersionId used to reference a specific version of the object.
-        var versionId: String? = nil
-        var bucket: String = ""
-        var key: String = ""
+        public var versionId: String? = nil
+        public var bucket: String = ""
+        public var key: String = ""
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        var mFA: String? = nil
-        var requestPayer: String? = nil
+        public var mFA: String? = nil
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -1995,8 +2384,13 @@ extension S3 {
 
     }
 
-    public struct PutObjectAclOutput: Serializable, Initializable {
-        var requestCharged: String? = nil
+    public struct PutObjectAclOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-charged": "RequestCharged"]
+        }
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -2006,32 +2400,37 @@ extension S3 {
 
     }
 
-    public struct ListPartsOutput: Serializable, Initializable {
+    public struct ListPartsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-abort-date": "AbortDate", "x-amz-request-charged": "RequestCharged", "x-amz-abort-rule-id": "AbortRuleId"]
+        }
         /// Part number after which listing begins.
-        var partNumberMarker: Int32? = nil
+        public var partNumberMarker: Int32? = nil
         /// Name of the bucket to which the multipart upload was initiated.
-        var bucket: String? = nil
+        public var bucket: String? = nil
         /// Indicates whether the returned list of parts is truncated.
-        var isTruncated: Bool? = nil
+        public var isTruncated: Bool? = nil
         /// Date when multipart upload will become eligible for abort operation by lifecycle.
-        var abortDate: Date? = nil
+        public var abortDate: Date? = nil
         /// Upload ID identifying the multipart upload whose parts are being listed.
-        var uploadId: String? = nil
-        var owner: Owner? = nil
-        var parts: [Part]? = nil
+        public var uploadId: String? = nil
+        public var owner: Owner? = nil
+        public var parts: [Part]? = nil
         /// Identifies who initiated the multipart upload.
-        var initiator: Initiator? = nil
+        public var initiator: Initiator? = nil
         /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
-        var abortRuleId: String? = nil
+        public var abortRuleId: String? = nil
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
         /// Object key for which the multipart upload was initiated.
-        var key: String? = nil
+        public var key: String? = nil
         /// Maximum number of parts that were allowed in the response.
-        var maxParts: Int32? = nil
+        public var maxParts: Int32? = nil
         /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
-        var nextPartNumberMarker: Int32? = nil
-        var requestCharged: String? = nil
+        public var nextPartNumberMarker: Int32? = nil
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -2054,15 +2453,17 @@ extension S3 {
 
     }
 
-    public struct ListBucketInventoryConfigurationsOutput: Serializable, Initializable {
+    public struct ListBucketInventoryConfigurationsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
         /// Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
-        var isTruncated: Bool? = nil
+        public var isTruncated: Bool? = nil
         /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
-        var nextContinuationToken: String? = nil
+        public var nextContinuationToken: String? = nil
         /// The list of inventory configurations for a bucket.
-        var inventoryConfigurationList: [InventoryConfiguration]? = nil
+        public var inventoryConfigurationList: [InventoryConfiguration]? = nil
 
         public init() {}
 
@@ -2075,11 +2476,19 @@ extension S3 {
 
     }
 
-    public struct ListBucketMetricsConfigurationsRequest: Serializable, Initializable {
+    public struct ListBucketMetricsConfigurationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["continuation-token": "ContinuationToken"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket containing the metrics configurations to retrieve.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
 
         public init() {}
 
@@ -2090,13 +2499,15 @@ extension S3 {
 
     }
 
-    public struct TopicConfigurationDeprecated: Serializable, Initializable {
+    public struct TopicConfigurationDeprecated: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
-        var topic: String? = nil
-        var events: [String]? = nil
+        public var topic: String? = nil
+        public var events: [String]? = nil
         /// Bucket event for which to send notifications.
-        var event: String? = nil
-        var id: String? = nil
+        public var event: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -2109,8 +2520,13 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -2120,9 +2536,11 @@ extension S3 {
 
     }
 
-    public struct StorageClassAnalysis: Serializable, Initializable {
+    public struct StorageClassAnalysis: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A container used to describe how data related to the storage class analysis should be exported.
-        var dataExport: StorageClassAnalysisDataExport? = nil
+        public var dataExport: StorageClassAnalysisDataExport? = nil
 
         public init() {}
 
@@ -2132,9 +2550,14 @@ extension S3 {
 
     }
 
-    public struct GetBucketNotificationConfigurationRequest: Serializable, Initializable {
+    public struct GetBucketNotificationConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// Name of the bucket to get the notification configuration for.
-        var bucket: String = ""
+        public var bucket: String = ""
 
         public init() {}
 
@@ -2144,8 +2567,10 @@ extension S3 {
 
     }
 
-    public struct CommonPrefix: Serializable, Initializable {
-        var prefix: String? = nil
+    public struct CommonPrefix: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -2155,10 +2580,18 @@ extension S3 {
 
     }
 
-    public struct GetObjectTorrentRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var key: String = ""
-        var requestPayer: String? = nil
+    public struct GetObjectTorrentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var key: String = ""
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -2170,15 +2603,17 @@ extension S3 {
 
     }
 
-    public struct InventoryS3BucketDestination: Serializable, Initializable {
+    public struct InventoryS3BucketDestination: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// Specifies the output format of the inventory results.
-        var format: String = ""
+        public var format: String = ""
         /// The ID of the account that owns the destination bucket.
-        var accountId: String? = nil
+        public var accountId: String? = nil
         /// The prefix that is prepended to all inventory results.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -2191,12 +2626,23 @@ extension S3 {
 
     }
 
-    public struct GetObjectAclRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetObjectAclRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// VersionId used to reference a specific version of the object.
-        var versionId: String? = nil
-        var key: String = ""
-        var requestPayer: String? = nil
+        public var versionId: String? = nil
+        public var key: String = ""
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -2209,10 +2655,12 @@ extension S3 {
 
     }
 
-    public struct AccessControlPolicy: Serializable, Initializable {
-        var owner: Owner? = nil
+    public struct AccessControlPolicy: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var owner: Owner? = nil
         /// A list of grants.
-        var grants: [Grant]? = nil
+        public var grants: [Grant]? = nil
 
         public init() {}
 
@@ -2223,8 +2671,13 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketLifecycleRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketLifecycleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -2234,8 +2687,13 @@ extension S3 {
 
     }
 
-    public struct CreateBucketOutput: Serializable, Initializable {
-        var location: String? = nil
+    public struct CreateBucketOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["Location": "Location"]
+        }
+        public var location: String? = nil
 
         public init() {}
 
@@ -2245,11 +2703,19 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketInventoryConfigurationRequest: Serializable, Initializable {
+    public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket containing the inventory configuration to delete.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The ID used to identify the inventory configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -2260,11 +2726,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketWebsiteOutput: Serializable, Initializable {
-        var routingRules: [RoutingRule]? = nil
-        var indexDocument: IndexDocument? = nil
-        var errorDocument: ErrorDocument? = nil
-        var redirectAllRequestsTo: RedirectAllRequestsTo? = nil
+    public struct GetBucketWebsiteOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var routingRules: [RoutingRule]? = nil
+        public var indexDocument: IndexDocument? = nil
+        public var errorDocument: ErrorDocument? = nil
+        public var redirectAllRequestsTo: RedirectAllRequestsTo? = nil
 
         public init() {}
 
@@ -2277,12 +2745,14 @@ extension S3 {
 
     }
 
-    public struct LoggingEnabled: Serializable, Initializable {
-        var targetGrants: [TargetGrant]? = nil
+    public struct LoggingEnabled: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var targetGrants: [TargetGrant]? = nil
         /// This element lets you specify a prefix for the keys that the log files will be stored under.
-        var targetPrefix: String? = nil
+        public var targetPrefix: String? = nil
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
-        var targetBucket: String? = nil
+        public var targetBucket: String? = nil
 
         public init() {}
 
@@ -2294,8 +2764,10 @@ extension S3 {
 
     }
 
-    public struct CORSConfiguration: Serializable, Initializable {
-        var cORSRules: [CORSRule] = []
+    public struct CORSConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var cORSRules: [CORSRule] = []
 
         public init() {}
 
@@ -2305,11 +2777,13 @@ extension S3 {
 
     }
 
-    public struct ObjectIdentifier: Serializable, Initializable {
+    public struct ObjectIdentifier: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// VersionId for the specific version of the object to delete.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// Key name of the object to delete.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -2320,11 +2794,13 @@ extension S3 {
 
     }
 
-    public struct StorageClassAnalysisDataExport: Serializable, Initializable {
+    public struct StorageClassAnalysisDataExport: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The place to store the data for an analysis.
-        var destination: AnalyticsExportDestination = AnalyticsExportDestination()
+        public var destination: AnalyticsExportDestination = AnalyticsExportDestination()
         /// The version of the output schema to use when exporting data. Must be V_1.
-        var outputSchemaVersion: String = ""
+        public var outputSchemaVersion: String = ""
 
         public init() {}
 
@@ -2335,11 +2811,13 @@ extension S3 {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Value of the tag.
-        var value: String = ""
+        public var value: String = ""
         /// Name of the tag.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -2350,8 +2828,13 @@ extension S3 {
 
     }
 
-    public struct RestoreObjectOutput: Serializable, Initializable {
-        var requestCharged: String? = nil
+    public struct RestoreObjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-charged": "RequestCharged"]
+        }
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -2361,8 +2844,10 @@ extension S3 {
 
     }
 
-    public struct BucketLifecycleConfiguration: Serializable, Initializable {
-        var rules: [LifecycleRule] = []
+    public struct BucketLifecycleConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var rules: [LifecycleRule] = []
 
         public init() {}
 
@@ -2372,11 +2857,19 @@ extension S3 {
 
     }
 
-    public struct GetBucketMetricsConfigurationRequest: Serializable, Initializable {
+    public struct GetBucketMetricsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket containing the metrics configuration to retrieve.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The ID used to identify the metrics configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -2387,19 +2880,21 @@ extension S3 {
 
     }
 
-    public struct LifecycleRule: Serializable, Initializable {
+    public struct LifecycleRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        var iD: String? = nil
+        public var iD: String? = nil
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        var status: String = ""
-        var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
-        var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
+        public var status: String = ""
+        public var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
+        public var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
         /// Prefix identifying one or more objects to which the rule applies. This is deprecated; use Filter instead.
-        var prefix: String? = nil
-        var expiration: LifecycleExpiration? = nil
-        var transitions: [Transition]? = nil
-        var filter: LifecycleRuleFilter? = nil
-        var noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil
+        public var prefix: String? = nil
+        public var expiration: LifecycleExpiration? = nil
+        public var transitions: [Transition]? = nil
+        public var filter: LifecycleRuleFilter? = nil
+        public var noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil
 
         public init() {}
 
@@ -2417,8 +2912,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketCorsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketCorsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -2428,11 +2928,13 @@ extension S3 {
 
     }
 
-    public struct Bucket: Serializable, Initializable {
+    public struct Bucket: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the bucket.
-        var name: String? = nil
+        public var name: String? = nil
         /// Date the bucket was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
 
         public init() {}
 
@@ -2443,11 +2945,13 @@ extension S3 {
 
     }
 
-    public struct Destination: Serializable, Initializable {
+    public struct Destination: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
 
         public init() {}
 
@@ -2458,9 +2962,11 @@ extension S3 {
 
     }
 
-    public struct GlacierJobParameters: Serializable, Initializable {
+    public struct GlacierJobParameters: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Glacier retrieval tier at which the restore will be processed.
-        var tier: String = ""
+        public var tier: String = ""
 
         public init() {}
 
@@ -2470,10 +2976,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketNotificationRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var notificationConfiguration: NotificationConfigurationDeprecated = NotificationConfigurationDeprecated()
+    public struct PutBucketNotificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "NotificationConfiguration"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var notificationConfiguration: NotificationConfigurationDeprecated = NotificationConfigurationDeprecated()
 
         public init() {}
 
@@ -2485,12 +2999,23 @@ extension S3 {
 
     }
 
-    public struct CompleteMultipartUploadRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var multipartUpload: CompletedMultipartUpload? = nil
-        var key: String = ""
-        var uploadId: String = ""
-        var requestPayer: String? = nil
+    public struct CompleteMultipartUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "MultipartUpload"
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["uploadId": "UploadId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var multipartUpload: CompletedMultipartUpload? = nil
+        public var key: String = ""
+        public var uploadId: String = ""
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -2504,13 +3029,21 @@ extension S3 {
 
     }
 
-    public struct PutBucketMetricsConfigurationRequest: Serializable, Initializable {
+    public struct PutBucketMetricsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "MetricsConfiguration"
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket for which the metrics configuration is set.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// Specifies the metrics configuration.
-        var metricsConfiguration: MetricsConfiguration = MetricsConfiguration()
+        public var metricsConfiguration: MetricsConfiguration = MetricsConfiguration()
         /// The ID used to identify the metrics configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -2522,15 +3055,17 @@ extension S3 {
 
     }
 
-    public struct Part: Serializable, Initializable {
+    public struct Part: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Date and time at which the part was uploaded.
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
-        var partNumber: Int32? = nil
+        public var partNumber: Int32? = nil
         /// Entity tag returned when the part was uploaded.
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// Size of the uploaded part data.
-        var size: Int32? = nil
+        public var size: Int32? = nil
 
         public init() {}
 
@@ -2543,9 +3078,11 @@ extension S3 {
 
     }
 
-    public struct ListBucketsOutput: Serializable, Initializable {
-        var buckets: [Bucket]? = nil
-        var owner: Owner? = nil
+    public struct ListBucketsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var buckets: [Bucket]? = nil
+        public var owner: Owner? = nil
 
         public init() {}
 
@@ -2556,9 +3093,11 @@ extension S3 {
 
     }
 
-    public struct GetBucketAccelerateConfigurationOutput: Serializable, Initializable {
+    public struct GetBucketAccelerateConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The accelerate configuration of the bucket.
-        var status: String? = nil
+        public var status: String? = nil
 
         public init() {}
 
@@ -2568,11 +3107,13 @@ extension S3 {
 
     }
 
-    public struct CopyPartResult: Serializable, Initializable {
+    public struct CopyPartResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Entity tag of the object.
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// Date and time at which the object was uploaded.
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
 
         public init() {}
 
@@ -2583,9 +3124,11 @@ extension S3 {
 
     }
 
-    public struct NoncurrentVersionExpiration: Serializable, Initializable {
+    public struct NoncurrentVersionExpiration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
-        var noncurrentDays: Int32? = nil
+        public var noncurrentDays: Int32? = nil
 
         public init() {}
 
@@ -2595,9 +3138,11 @@ extension S3 {
 
     }
 
-    public struct AnalyticsExportDestination: Serializable, Initializable {
+    public struct AnalyticsExportDestination: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A destination signifying output to an S3 bucket.
-        var s3BucketDestination: AnalyticsS3BucketDestination = AnalyticsS3BucketDestination()
+        public var s3BucketDestination: AnalyticsS3BucketDestination = AnalyticsS3BucketDestination()
 
         public init() {}
 
@@ -2607,10 +3152,12 @@ extension S3 {
 
     }
 
-    public struct FilterRule: Serializable, Initializable {
-        var value: String? = nil
+    public struct FilterRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var value: String? = nil
         /// Object key name prefix or suffix identifying one or more objects to which the filtering rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, go to Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -2621,11 +3168,19 @@ extension S3 {
 
     }
 
-    public struct ListBucketInventoryConfigurationsRequest: Serializable, Initializable {
+    public struct ListBucketInventoryConfigurationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["continuation-token": "ContinuationToken"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket containing the inventory configurations to retrieve.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
 
         public init() {}
 
@@ -2636,11 +3191,19 @@ extension S3 {
 
     }
 
-    public struct PutBucketPolicyRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
+    public struct PutBucketPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Policy"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
         /// The bucket policy as a JSON document.
-        var policy: String = ""
+        public var policy: String = ""
 
         public init() {}
 
@@ -2652,42 +3215,53 @@ extension S3 {
 
     }
 
-    public struct GetObjectRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["If-Modified-Since": "IfModifiedSince", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "Range": "Range", "x-amz-request-payer": "RequestPayer", "If-Match": "IfMatch", "If-Unmodified-Since": "IfUnmodifiedSince", "If-None-Match": "IfNoneMatch", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
+        }
+        public var queryParams: [String: String] {
+            return ["response-content-encoding": "ResponseContentEncoding", "partNumber": "PartNumber", "response-content-language": "ResponseContentLanguage", "versionId": "VersionId", "response-cache-control": "ResponseCacheControl", "response-content-type": "ResponseContentType", "response-content-disposition": "ResponseContentDisposition", "response-expires": "ResponseExpires"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        var ifUnmodifiedSince: Date? = nil
+        public var ifUnmodifiedSince: Date? = nil
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
-        var partNumber: Int32? = nil
+        public var partNumber: Int32? = nil
         /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        var range: String? = nil
+        public var range: String? = nil
         /// Sets the Content-Encoding header of the response.
-        var responseContentEncoding: String? = nil
-        var requestPayer: String? = nil
+        public var responseContentEncoding: String? = nil
+        public var requestPayer: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Sets the Content-Language header of the response.
-        var responseContentLanguage: String? = nil
+        public var responseContentLanguage: String? = nil
         /// Sets the Expires header of the response.
-        var responseExpires: Date? = nil
+        public var responseExpires: Date? = nil
         /// VersionId used to reference a specific version of the object.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        var ifNoneMatch: String? = nil
+        public var ifNoneMatch: String? = nil
         /// Sets the Content-Disposition header of the response
-        var responseContentDisposition: String? = nil
-        var key: String = ""
+        public var responseContentDisposition: String? = nil
+        public var key: String = ""
         /// Sets the Cache-Control header of the response.
-        var responseCacheControl: String? = nil
+        public var responseCacheControl: String? = nil
         /// Sets the Content-Type header of the response.
-        var responseContentType: String? = nil
+        public var responseContentType: String? = nil
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        var ifModifiedSince: Date? = nil
+        public var ifModifiedSince: Date? = nil
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        var ifMatch: String? = nil
+        public var ifMatch: String? = nil
 
         public init() {}
 
@@ -2715,11 +3289,22 @@ extension S3 {
 
     }
 
-    public struct AbortMultipartUploadRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var key: String = ""
-        var uploadId: String = ""
-        var requestPayer: String? = nil
+    public struct AbortMultipartUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["uploadId": "UploadId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var key: String = ""
+        public var uploadId: String = ""
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -2732,9 +3317,14 @@ extension S3 {
 
     }
 
-    public struct GetObjectTorrentOutput: Serializable, Initializable {
-        var body: Data? = nil
-        var requestCharged: String? = nil
+    public struct GetObjectTorrentOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Body"
+        public var headerParams: [String: String] {
+            return ["x-amz-request-charged": "RequestCharged"]
+        }
+        public var body: Data? = nil
+        public var requestCharged: String? = nil
 
         public init() {}
 
@@ -2745,11 +3335,13 @@ extension S3 {
 
     }
 
-    public struct NoncurrentVersionTransition: Serializable, Initializable {
+    public struct NoncurrentVersionTransition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
-        var noncurrentDays: Int32? = nil
+        public var noncurrentDays: Int32? = nil
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
 
         public init() {}
 
@@ -2760,38 +3352,49 @@ extension S3 {
 
     }
 
-    public struct UploadPartCopyRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct UploadPartCopyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer", "x-amz-copy-source": "CopySource", "x-amz-copy-source-server-side-encryption-customer-key-MD5": "CopySourceSSECustomerKeyMD5", "x-amz-copy-source-if-modified-since": "CopySourceIfModifiedSince", "x-amz-copy-source-server-side-encryption-customer-algorithm": "CopySourceSSECustomerAlgorithm", "x-amz-copy-source-if-match": "CopySourceIfMatch", "x-amz-copy-source-server-side-encryption-customer-key": "CopySourceSSECustomerKey", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-copy-source-range": "CopySourceRange", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "x-amz-copy-source-if-none-match": "CopySourceIfNoneMatch", "x-amz-copy-source-if-unmodified-since": "CopySourceIfUnmodifiedSince", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
+        }
+        public var queryParams: [String: String] {
+            return ["uploadId": "UploadId", "partNumber": "PartNumber"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// Part number of part being copied. This is a positive integer between 1 and 10,000.
-        var partNumber: Int32 = 0
+        public var partNumber: Int32 = 0
         /// Copies the object if it has been modified since the specified time.
-        var copySourceIfModifiedSince: Date? = nil
-        var requestPayer: String? = nil
+        public var copySourceIfModifiedSince: Date? = nil
+        public var requestPayer: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        var copySourceSSECustomerKey: String? = nil
+        public var copySourceSSECustomerKey: String? = nil
         /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
-        var copySource: String = ""
+        public var copySource: String = ""
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-        var copySourceIfNoneMatch: String? = nil
+        public var copySourceIfNoneMatch: String? = nil
         /// Upload ID identifying the multipart upload whose part is being copied.
-        var uploadId: String = ""
+        public var uploadId: String = ""
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// Copies the object if its entity tag (ETag) matches the specified tag.
-        var copySourceIfMatch: String? = nil
+        public var copySourceIfMatch: String? = nil
         /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 GB.
-        var copySourceRange: String? = nil
-        var key: String = ""
+        public var copySourceRange: String? = nil
+        public var key: String = ""
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var copySourceSSECustomerKeyMD5: String? = nil
+        public var copySourceSSECustomerKeyMD5: String? = nil
         /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        var copySourceSSECustomerAlgorithm: String? = nil
+        public var copySourceSSECustomerAlgorithm: String? = nil
         /// Copies the object if it hasn't been modified since the specified time.
-        var copySourceIfUnmodifiedSince: Date? = nil
+        public var copySourceIfUnmodifiedSince: Date? = nil
 
         public init() {}
 
@@ -2817,22 +3420,30 @@ extension S3 {
 
     }
 
-    public struct PutBucketAclRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var contentMD5: String? = nil
-        var accessControlPolicy: AccessControlPolicy? = nil
+    public struct PutBucketAclRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "AccessControlPolicy"
+        public var headerParams: [String: String] {
+            return ["x-amz-grant-write-acp": "GrantWriteACP", "Content-MD5": "ContentMD5", "x-amz-grant-write": "GrantWrite", "x-amz-grant-read": "GrantRead", "x-amz-grant-full-control": "GrantFullControl", "x-amz-acl": "ACL", "x-amz-grant-read-acp": "GrantReadACP"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
+        public var contentMD5: String? = nil
+        public var accessControlPolicy: AccessControlPolicy? = nil
         /// Allows grantee to write the ACL for the applicable bucket.
-        var grantWriteACP: String? = nil
+        public var grantWriteACP: String? = nil
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        var grantFullControl: String? = nil
+        public var grantFullControl: String? = nil
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        var grantWrite: String? = nil
+        public var grantWrite: String? = nil
         /// Allows grantee to list the objects in the bucket.
-        var grantRead: String? = nil
+        public var grantRead: String? = nil
         /// The canned ACL to apply to the bucket.
-        var aCL: String? = nil
+        public var aCL: String? = nil
         /// Allows grantee to read the bucket ACL.
-        var grantReadACP: String? = nil
+        public var grantReadACP: String? = nil
 
         public init() {}
 
@@ -2850,17 +3461,19 @@ extension S3 {
 
     }
 
-    public struct Redirect: Serializable, Initializable {
+    public struct Redirect: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.
-        var replaceKeyPrefixWith: String? = nil
+        public var replaceKeyPrefixWith: String? = nil
         /// The HTTP redirect code to use on the response. Not required if one of the siblings is present.
-        var httpRedirectCode: String? = nil
+        public var httpRedirectCode: String? = nil
         /// The host name to use in the redirect request.
-        var hostName: String? = nil
+        public var hostName: String? = nil
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
         /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the sibling is present. Can be present only if ReplaceKeyPrefixWith is not provided.
-        var replaceKeyWith: String? = nil
+        public var replaceKeyWith: String? = nil
 
         public init() {}
 
@@ -2874,18 +3487,20 @@ extension S3 {
 
     }
 
-    public struct MultipartUpload: Serializable, Initializable {
+    public struct MultipartUpload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The class of storage used to store the object.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
         /// Key of the object for which the multipart upload was initiated.
-        var key: String? = nil
+        public var key: String? = nil
         /// Upload ID that identifies the multipart upload.
-        var uploadId: String? = nil
-        var owner: Owner? = nil
+        public var uploadId: String? = nil
+        public var owner: Owner? = nil
         /// Date and time at which the multipart upload was initiated.
-        var initiated: Date? = nil
+        public var initiated: Date? = nil
         /// Identifies who initiated the multipart upload.
-        var initiator: Initiator? = nil
+        public var initiator: Initiator? = nil
 
         public init() {}
 
@@ -2900,11 +3515,19 @@ extension S3 {
 
     }
 
-    public struct ListBucketAnalyticsConfigurationsRequest: Serializable, Initializable {
+    public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["continuation-token": "ContinuationToken"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket from which analytics configurations are retrieved.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The ContinuationToken that represents a placeholder from where this request should begin.
-        var continuationToken: String? = nil
+        public var continuationToken: String? = nil
 
         public init() {}
 
@@ -2915,8 +3538,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketLifecycleConfigurationOutput: Serializable, Initializable {
-        var rules: [LifecycleRule]? = nil
+    public struct GetBucketLifecycleConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var rules: [LifecycleRule]? = nil
 
         public init() {}
 
@@ -2926,8 +3551,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketLifecycleRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketLifecycleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -2937,9 +3567,11 @@ extension S3 {
 
     }
 
-    public struct RequestPaymentConfiguration: Serializable, Initializable {
+    public struct RequestPaymentConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies who pays for the download and request fees.
-        var payer: String = ""
+        public var payer: String = ""
 
         public init() {}
 
@@ -2949,12 +3581,17 @@ extension S3 {
 
     }
 
-    public struct DeleteObjectOutput: Serializable, Initializable {
+    public struct DeleteObjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-version-id": "VersionId", "x-amz-request-charged": "RequestCharged", "x-amz-delete-marker": "DeleteMarker"]
+        }
         /// Returns the version ID of the delete marker created as a result of the DELETE operation.
-        var versionId: String? = nil
-        var requestCharged: String? = nil
+        public var versionId: String? = nil
+        public var requestCharged: String? = nil
         /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
-        var deleteMarker: Bool? = nil
+        public var deleteMarker: Bool? = nil
 
         public init() {}
 
@@ -2966,12 +3603,14 @@ extension S3 {
 
     }
 
-    public struct QueueConfiguration: Serializable, Initializable {
-        var filter: NotificationConfigurationFilter? = nil
+    public struct QueueConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var filter: NotificationConfigurationFilter? = nil
         /// Amazon SQS queue ARN to which Amazon S3 will publish a message when it detects events of specified type.
-        var queueArn: String = ""
-        var events: [String] = []
-        var id: String? = nil
+        public var queueArn: String = ""
+        public var events: [String] = []
+        public var id: String? = nil
 
         public init() {}
 
@@ -2984,8 +3623,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketTaggingOutput: Serializable, Initializable {
-        var tagSet: [Tag] = []
+    public struct GetBucketTaggingOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var tagSet: [Tag] = []
 
         public init() {}
 
@@ -2995,9 +3636,11 @@ extension S3 {
 
     }
 
-    public struct ErrorDocument: Serializable, Initializable {
+    public struct ErrorDocument: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The object key name to use when a 4XX class error occurs.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -3007,21 +3650,23 @@ extension S3 {
 
     }
 
-    public struct InventoryConfiguration: Serializable, Initializable {
+    public struct InventoryConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains the optional fields that are included in the inventory results.
-        var optionalFields: [String]? = nil
+        public var optionalFields: [String]? = nil
         /// Contains information about where to publish the inventory results.
-        var destination: InventoryDestination = InventoryDestination()
+        public var destination: InventoryDestination = InventoryDestination()
         /// Specifies whether the inventory is enabled or disabled.
-        var isEnabled: Bool = false
+        public var isEnabled: Bool = false
         /// Specifies the schedule for generating inventory results.
-        var schedule: InventorySchedule = InventorySchedule()
+        public var schedule: InventorySchedule = InventorySchedule()
         /// Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
-        var filter: InventoryFilter? = nil
+        public var filter: InventoryFilter? = nil
         /// Specifies which object version(s) to included in the inventory results.
-        var includedObjectVersions: String = ""
+        public var includedObjectVersions: String = ""
         /// The ID used to identify the inventory configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -3037,13 +3682,15 @@ extension S3 {
 
     }
 
-    public struct MetricsFilter: Serializable, Initializable {
+    public struct MetricsFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag used when evaluating a metrics filter.
-        var tag: Tag? = nil
+        public var tag: Tag? = nil
         /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
-        var and: MetricsAndOperator? = nil
+        public var and: MetricsAndOperator? = nil
         /// The prefix used when evaluating a metrics filter.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -3055,10 +3702,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketTaggingRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var tagging: Tagging = Tagging()
+    public struct PutBucketTaggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Tagging"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var tagging: Tagging = Tagging()
 
         public init() {}
 
@@ -3070,11 +3725,13 @@ extension S3 {
 
     }
 
-    public struct AnalyticsAndOperator: Serializable, Initializable {
+    public struct AnalyticsAndOperator: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of tags to use when evaluating an AND predicate.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The prefix to use when evaluating an AND predicate.
-        var prefix: String? = nil
+        public var prefix: String? = nil
 
         public init() {}
 
@@ -3085,19 +3742,27 @@ extension S3 {
 
     }
 
-    public struct ListObjectVersionsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct ListObjectVersionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["prefix": "Prefix", "version-id-marker": "VersionIdMarker", "max-keys": "MaxKeys", "delimiter": "Delimiter", "encoding-type": "EncodingType", "key-marker": "KeyMarker"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        var maxKeys: Int32? = nil
+        public var maxKeys: Int32? = nil
         /// Limits the response to keys that begin with the specified prefix.
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// A delimiter is a character you use to group keys.
-        var delimiter: String? = nil
-        var encodingType: String? = nil
+        public var delimiter: String? = nil
+        public var encodingType: String? = nil
         /// Specifies the key to start with when listing objects in a bucket.
-        var keyMarker: String? = nil
+        public var keyMarker: String? = nil
         /// Specifies the object version you want to start listing from.
-        var versionIdMarker: String? = nil
+        public var versionIdMarker: String? = nil
 
         public init() {}
 
@@ -3113,8 +3778,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketLifecycleOutput: Serializable, Initializable {
-        var rules: [Rule]? = nil
+    public struct GetBucketLifecycleOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var rules: [Rule]? = nil
 
         public init() {}
 
@@ -3124,16 +3791,18 @@ extension S3 {
 
     }
 
-    public struct DeleteMarkerEntry: Serializable, Initializable {
+    public struct DeleteMarkerEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        var isLatest: Bool? = nil
+        public var isLatest: Bool? = nil
         /// Date and time the object was last modified.
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// The object key.
-        var key: String? = nil
+        public var key: String? = nil
         /// Version ID of an object.
-        var versionId: String? = nil
-        var owner: Owner? = nil
+        public var versionId: String? = nil
+        public var owner: Owner? = nil
 
         public init() {}
 
@@ -3147,8 +3816,13 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketTaggingRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketTaggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3158,14 +3832,16 @@ extension S3 {
 
     }
 
-    public struct ReplicationRule: Serializable, Initializable {
+    public struct ReplicationRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        var iD: String? = nil
+        public var iD: String? = nil
         /// The rule is ignored if status is not Enabled.
-        var status: String = ""
-        var destination: Destination = Destination()
+        public var status: String = ""
+        public var destination: Destination = Destination()
         /// Object keyname prefix identifying one or more objects to which the rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes are not supported.
-        var prefix: String = ""
+        public var prefix: String = ""
 
         public init() {}
 
@@ -3178,11 +3854,19 @@ extension S3 {
 
     }
 
-    public struct DeleteObjectTaggingRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteObjectTaggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// The versionId of the object that the tag-set will be removed from.
-        var versionId: String? = nil
-        var key: String = ""
+        public var versionId: String? = nil
+        public var key: String = ""
 
         public init() {}
 
@@ -3194,12 +3878,14 @@ extension S3 {
 
     }
 
-    public struct LambdaFunctionConfiguration: Serializable, Initializable {
+    public struct LambdaFunctionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
-        var lambdaFunctionArn: String = ""
-        var events: [String] = []
-        var filter: NotificationConfigurationFilter? = nil
-        var id: String? = nil
+        public var lambdaFunctionArn: String = ""
+        public var events: [String] = []
+        public var filter: NotificationConfigurationFilter? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -3212,8 +3898,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketLoggingOutput: Serializable, Initializable {
-        var loggingEnabled: LoggingEnabled? = nil
+    public struct GetBucketLoggingOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var loggingEnabled: LoggingEnabled? = nil
 
         public init() {}
 
@@ -3223,18 +3911,23 @@ extension S3 {
 
     }
 
-    public struct UploadPartOutput: Serializable, Initializable {
+    public struct UploadPartOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "ETag": "ETag", "x-amz-request-charged": "RequestCharged", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
+        }
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// Entity tag for the uploaded object.
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
-        var requestCharged: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
+        public var requestCharged: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
+        public var serverSideEncryption: String? = nil
 
         public init() {}
 
@@ -3249,9 +3942,14 @@ extension S3 {
 
     }
 
-    public struct GetObjectTaggingOutput: Serializable, Initializable {
-        var versionId: String? = nil
-        var tagSet: [Tag] = []
+    public struct GetObjectTaggingOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-version-id": "VersionId"]
+        }
+        public var versionId: String? = nil
+        public var tagSet: [Tag] = []
 
         public init() {}
 
@@ -3262,8 +3960,10 @@ extension S3 {
 
     }
 
-    public struct GetBucketCorsOutput: Serializable, Initializable {
-        var cORSRules: [CORSRule]? = nil
+    public struct GetBucketCorsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var cORSRules: [CORSRule]? = nil
 
         public init() {}
 
@@ -3273,11 +3973,13 @@ extension S3 {
 
     }
 
-    public struct Error: Serializable, Initializable {
-        var versionId: String? = nil
-        var key: String? = nil
-        var code: String? = nil
-        var message: String? = nil
+    public struct Error: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var versionId: String? = nil
+        public var key: String? = nil
+        public var code: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -3290,58 +3992,66 @@ extension S3 {
 
     }
 
-    public struct PutObjectRequest: Serializable, Initializable {
+    public struct PutObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Body"
+        public var headerParams: [String: String] {
+            return ["Cache-Control": "CacheControl", "Content-Length": "ContentLength", "x-amz-grant-write-acp": "GrantWriteACP", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-payer": "RequestPayer", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-grant-read": "GrantRead", "x-amz-grant-full-control": "GrantFullControl", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "Content-Language": "ContentLanguage", "x-amz-acl": "ACL", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-tagging": "Tagging", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "Content-Disposition": "ContentDisposition", "Content-MD5": "ContentMD5", "Expires": "Expires", "Content-Type": "ContentType", "x-amz-storage-class": "StorageClass", "x-amz-server-side-encryption": "ServerSideEncryption", "Content-Encoding": "ContentEncoding", "x-amz-grant-read-acp": "GrantReadACP"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
         /// Name of the bucket to which the PUT operation was initiated.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters
-        var tagging: String? = nil
+        public var tagging: String? = nil
         /// Specifies presentational information for the object.
-        var contentDisposition: String? = nil
+        public var contentDisposition: String? = nil
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// Allows grantee to read the object ACL.
-        var grantReadACP: String? = nil
+        public var grantReadACP: String? = nil
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// The language the content is in.
-        var contentLanguage: String? = nil
+        public var contentLanguage: String? = nil
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        var contentEncoding: String? = nil
+        public var contentEncoding: String? = nil
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        var contentLength: Int64? = nil
+        public var contentLength: Int64? = nil
         /// Allows grantee to write the ACL for the applicable object.
-        var grantWriteACP: String? = nil
+        public var grantWriteACP: String? = nil
         /// Object key for which the PUT operation was initiated.
-        var key: String = ""
+        public var key: String = ""
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        var websiteRedirectLocation: String? = nil
+        public var websiteRedirectLocation: String? = nil
         /// Object data.
-        var body: Data? = nil
+        public var body: Data? = nil
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// The base64-encoded 128-bit MD5 digest of the part data.
-        var contentMD5: String? = nil
+        public var contentMD5: String? = nil
         /// Specifies caching behavior along the request/reply chain.
-        var cacheControl: String? = nil
-        var requestPayer: String? = nil
+        public var cacheControl: String? = nil
+        public var requestPayer: String? = nil
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        var grantFullControl: String? = nil
+        public var grantFullControl: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// The canned ACL to apply to the object.
-        var aCL: String? = nil
+        public var aCL: String? = nil
         /// A map of metadata to store with the object in S3.
-        var metadata: [String: String]? = nil
+        public var metadata: [String: String]? = nil
         /// The date and time at which the object is no longer cacheable.
-        var expires: Date? = nil
+        public var expires: Date? = nil
         /// A standard MIME type describing the format of the object data.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        var storageClass: String? = nil
+        public var storageClass: String? = nil
         /// Allows grantee to read the object data and its metadata.
-        var grantRead: String? = nil
+        public var grantRead: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
+        public var serverSideEncryption: String? = nil
 
         public init() {}
 
@@ -3376,9 +4086,11 @@ extension S3 {
 
     }
 
-    public struct CreateBucketConfiguration: Serializable, Initializable {
+    public struct CreateBucketConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
-        var locationConstraint: String? = nil
+        public var locationConstraint: String? = nil
 
         public init() {}
 
@@ -3388,8 +4100,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketWebsiteRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketWebsiteRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3399,28 +4116,39 @@ extension S3 {
 
     }
 
-    public struct UploadPartRequest: Serializable, Initializable {
+    public struct UploadPartRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Body"
+        public var headerParams: [String: String] {
+            return ["Content-Length": "ContentLength", "Content-MD5": "ContentMD5", "x-amz-server-side-encryption-customer-key": "SSECustomerKey", "x-amz-request-payer": "RequestPayer", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
+        }
+        public var queryParams: [String: String] {
+            return ["uploadId": "UploadId", "partNumber": "PartNumber"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
         /// Name of the bucket to which the multipart upload was initiated.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        var sSECustomerKey: String? = nil
+        public var sSECustomerKey: String? = nil
         /// The base64-encoded 128-bit MD5 digest of the part data.
-        var contentMD5: String? = nil
+        public var contentMD5: String? = nil
         /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
-        var partNumber: Int32 = 0
+        public var partNumber: Int32 = 0
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        var contentLength: Int64? = nil
-        var requestPayer: String? = nil
+        public var contentLength: Int64? = nil
+        public var requestPayer: String? = nil
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Object key for which the multipart upload was initiated.
-        var key: String = ""
+        public var key: String = ""
         /// Upload ID identifying the multipart upload whose part is being uploaded.
-        var uploadId: String = ""
+        public var uploadId: String = ""
         /// Object data.
-        var body: Data? = nil
+        public var body: Data? = nil
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
 
         public init() {}
 
@@ -3440,11 +4168,13 @@ extension S3 {
 
     }
 
-    public struct DeletedObject: Serializable, Initializable {
-        var deleteMarkerVersionId: String? = nil
-        var versionId: String? = nil
-        var key: String? = nil
-        var deleteMarker: Bool? = nil
+    public struct DeletedObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var deleteMarkerVersionId: String? = nil
+        public var versionId: String? = nil
+        public var key: String? = nil
+        public var deleteMarker: Bool? = nil
 
         public init() {}
 
@@ -3457,8 +4187,13 @@ extension S3 {
 
     }
 
-    public struct PutObjectTaggingOutput: Serializable, Initializable {
-        var versionId: String? = nil
+    public struct PutObjectTaggingOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-version-id": "VersionId"]
+        }
+        public var versionId: String? = nil
 
         public init() {}
 
@@ -3468,8 +4203,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketRequestPaymentRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketRequestPaymentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3479,8 +4219,13 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketPolicyRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct DeleteBucketPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3490,8 +4235,10 @@ extension S3 {
 
     }
 
-    public struct S3KeyFilter: Serializable, Initializable {
-        var filterRules: [FilterRule]? = nil
+    public struct S3KeyFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var filterRules: [FilterRule]? = nil
 
         public init() {}
 
@@ -3501,10 +4248,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketWebsiteRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var websiteConfiguration: WebsiteConfiguration = WebsiteConfiguration()
+    public struct PutBucketWebsiteRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "WebsiteConfiguration"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var websiteConfiguration: WebsiteConfiguration = WebsiteConfiguration()
 
         public init() {}
 
@@ -3516,9 +4271,14 @@ extension S3 {
 
     }
 
-    public struct PutBucketNotificationConfigurationRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var notificationConfiguration: NotificationConfiguration = NotificationConfiguration()
+    public struct PutBucketNotificationConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "NotificationConfiguration"
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
+        public var notificationConfiguration: NotificationConfiguration = NotificationConfiguration()
 
         public init() {}
 
@@ -3529,11 +4289,19 @@ extension S3 {
 
     }
 
-    public struct DeleteBucketMetricsConfigurationRequest: Serializable, Initializable {
+    public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket containing the metrics configuration to delete.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The ID used to identify the metrics configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -3544,9 +4312,11 @@ extension S3 {
 
     }
 
-    public struct AbortIncompleteMultipartUpload: Serializable, Initializable {
+    public struct AbortIncompleteMultipartUpload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates the number of days that must pass since initiation for Lifecycle to abort an Incomplete Multipart Upload.
-        var daysAfterInitiation: Int32? = nil
+        public var daysAfterInitiation: Int32? = nil
 
         public init() {}
 
@@ -3556,11 +4326,13 @@ extension S3 {
 
     }
 
-    public struct RestoreRequest: Serializable, Initializable {
+    public struct RestoreRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Glacier related prameters pertaining to this job.
-        var glacierJobParameters: GlacierJobParameters? = nil
+        public var glacierJobParameters: GlacierJobParameters? = nil
         /// Lifetime of the active copy in days
-        var days: Int32 = 0
+        public var days: Int32 = 0
 
         public init() {}
 
@@ -3571,11 +4343,19 @@ extension S3 {
 
     }
 
-    public struct GetBucketInventoryConfigurationRequest: Serializable, Initializable {
+    public struct GetBucketInventoryConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket containing the inventory configuration to retrieve.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The ID used to identify the inventory configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -3586,8 +4366,10 @@ extension S3 {
 
     }
 
-    public struct LifecycleConfiguration: Serializable, Initializable {
-        var rules: [Rule] = []
+    public struct LifecycleConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var rules: [Rule] = []
 
         public init() {}
 
@@ -3597,11 +4379,19 @@ extension S3 {
 
     }
 
-    public struct GetBucketAnalyticsConfigurationRequest: Serializable, Initializable {
+    public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["id": "Id"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// The name of the bucket from which an analytics configuration is retrieved.
-        var bucket: String = ""
+        public var bucket: String = ""
         /// The identifier used to represent an analytics configuration.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -3612,9 +4402,14 @@ extension S3 {
 
     }
 
-    public struct GetBucketAccelerateConfigurationRequest: Serializable, Initializable {
+    public struct GetBucketAccelerateConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
         /// Name of the bucket for which the accelerate configuration is retrieved.
-        var bucket: String = ""
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3624,9 +4419,11 @@ extension S3 {
 
     }
 
-    public struct GetBucketInventoryConfigurationOutput: Serializable, Initializable {
+    public struct GetBucketInventoryConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "InventoryConfiguration"
         /// Specifies the inventory configuration.
-        var inventoryConfiguration: InventoryConfiguration? = nil
+        public var inventoryConfiguration: InventoryConfiguration? = nil
 
         public init() {}
 
@@ -3636,16 +4433,27 @@ extension S3 {
 
     }
 
-    public struct ListPartsRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct ListPartsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["max-parts": "MaxParts", "uploadId": "UploadId", "part-number-marker": "PartNumberMarker"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
         /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
-        var partNumberMarker: Int32? = nil
-        var key: String = ""
+        public var partNumberMarker: Int32? = nil
+        public var key: String = ""
         /// Upload ID identifying the multipart upload whose parts are being listed.
-        var uploadId: String = ""
+        public var uploadId: String = ""
         /// Sets the maximum number of parts to return.
-        var maxParts: Int32? = nil
-        var requestPayer: String? = nil
+        public var maxParts: Int32? = nil
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -3660,12 +4468,23 @@ extension S3 {
 
     }
 
-    public struct RestoreObjectRequest: Serializable, Initializable {
-        var bucket: String = ""
-        var restoreRequest: RestoreRequest? = nil
-        var key: String = ""
-        var versionId: String? = nil
-        var requestPayer: String? = nil
+    public struct RestoreObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "RestoreRequest"
+        public var headerParams: [String: String] {
+            return ["x-amz-request-payer": "RequestPayer"]
+        }
+        public var queryParams: [String: String] {
+            return ["versionId": "VersionId"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket", "Key": "Key"]
+        }
+        public var bucket: String = ""
+        public var restoreRequest: RestoreRequest? = nil
+        public var key: String = ""
+        public var versionId: String? = nil
+        public var requestPayer: String? = nil
 
         public init() {}
 
@@ -3679,17 +4498,19 @@ extension S3 {
 
     }
 
-    public struct Grantee: Serializable, Initializable {
+    public struct Grantee: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The canonical user ID of the grantee.
-        var iD: String? = nil
+        public var iD: String? = nil
         /// Email address of the grantee.
-        var emailAddress: String? = nil
+        public var emailAddress: String? = nil
         /// Type of grantee
-        var type: String = ""
+        public var type: String = ""
         /// Screen name of the grantee.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// URI of the grantee group.
-        var uRI: String? = nil
+        public var uRI: String? = nil
 
         public init() {}
 
@@ -3703,11 +4524,13 @@ extension S3 {
 
     }
 
-    public struct QueueConfigurationDeprecated: Serializable, Initializable {
-        var queue: String? = nil
-        var events: [String]? = nil
-        var event: String? = nil
-        var id: String? = nil
+    public struct QueueConfigurationDeprecated: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queue: String? = nil
+        public var events: [String]? = nil
+        public var event: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -3720,8 +4543,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketVersioningRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketVersioningRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3731,8 +4559,13 @@ extension S3 {
 
     }
 
-    public struct GetBucketLoggingRequest: Serializable, Initializable {
-        var bucket: String = ""
+    public struct GetBucketLoggingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var bucket: String = ""
 
         public init() {}
 
@@ -3742,10 +4575,18 @@ extension S3 {
 
     }
 
-    public struct PutBucketRequestPaymentRequest: Serializable, Initializable {
-        var contentMD5: String? = nil
-        var bucket: String = ""
-        var requestPaymentConfiguration: RequestPaymentConfiguration = RequestPaymentConfiguration()
+    public struct PutBucketRequestPaymentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "RequestPaymentConfiguration"
+        public var headerParams: [String: String] {
+            return ["Content-MD5": "ContentMD5"]
+        }
+        public var pathParams: [String: String] {
+            return ["Bucket": "Bucket"]
+        }
+        public var contentMD5: String? = nil
+        public var bucket: String = ""
+        public var requestPaymentConfiguration: RequestPaymentConfiguration = RequestPaymentConfiguration()
 
         public init() {}
 
@@ -3757,22 +4598,27 @@ extension S3 {
 
     }
 
-    public struct PutObjectOutput: Serializable, Initializable {
+    public struct PutObjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "ETag": "ETag", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
+        }
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// Version of the object.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
-        var expiration: String? = nil
+        public var expiration: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// Entity tag for the uploaded object.
-        var eTag: String? = nil
+        public var eTag: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
-        var requestCharged: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
+        public var requestCharged: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
+        public var serverSideEncryption: String? = nil
 
         public init() {}
 
@@ -3789,22 +4635,27 @@ extension S3 {
 
     }
 
-    public struct CopyObjectOutput: Serializable, Initializable {
-        var copyObjectResult: CopyObjectResult? = nil
+    public struct CopyObjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "CopyObjectResult"
+        public var headerParams: [String: String] {
+            return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
+        }
+        public var copyObjectResult: CopyObjectResult? = nil
         /// If the object expiration is configured, the response includes this header.
-        var expiration: String? = nil
+        public var expiration: String? = nil
         /// Version ID of the newly created copy.
-        var versionId: String? = nil
-        var copySourceVersionId: String? = nil
+        public var versionId: String? = nil
+        public var copySourceVersionId: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        var sSEKMSKeyId: String? = nil
+        public var sSEKMSKeyId: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        var sSECustomerKeyMD5: String? = nil
+        public var sSECustomerKeyMD5: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        var sSECustomerAlgorithm: String? = nil
+        public var sSECustomerAlgorithm: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        var serverSideEncryption: String? = nil
-        var requestCharged: String? = nil
+        public var serverSideEncryption: String? = nil
+        public var requestCharged: String? = nil
 
         public init() {}
 

@@ -29,9 +29,11 @@ import Core
 
 extension Lightsail {
 
-    public struct GetOperationsRequest: Serializable, Initializable {
+    public struct GetOperationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get operations request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -41,9 +43,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceStateResult: Serializable, Initializable {
+    public struct GetInstanceStateResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the instance.
-        var state: InstanceState? = nil
+        public var state: InstanceState? = nil
 
         public init() {}
 
@@ -53,11 +57,13 @@ extension Lightsail {
 
     }
 
-    public struct GetDomainsResult: Serializable, Initializable {
+    public struct GetDomainsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
-        var domains: [Domain]? = nil
+        public var domains: [Domain]? = nil
         /// A token used for advancing to the next page of results from your get active names request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
 
         public init() {}
 
@@ -68,11 +74,13 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceMetricDataResult: Serializable, Initializable {
+    public struct GetInstanceMetricDataResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
-        var metricData: [MetricDatapoint]? = nil
+        public var metricData: [MetricDatapoint]? = nil
         /// The metric name to return data for. 
-        var metricName: String? = nil
+        public var metricName: String? = nil
 
         public init() {}
 
@@ -83,9 +91,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateDomainResult: Serializable, Initializable {
+    public struct CreateDomainResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the domain resource you created.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -95,15 +105,19 @@ extension Lightsail {
 
     }
 
-    public struct UnpeerVpcRequest: Serializable, Initializable {
+    public struct UnpeerVpcRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteDomainResult: Serializable, Initializable {
+    public struct DeleteDomainResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete domain request.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -113,15 +127,17 @@ extension Lightsail {
 
     }
 
-    public struct CreateKeyPairResult: Serializable, Initializable {
+    public struct CreateKeyPairResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the new key pair you just created.
-        var keyPair: KeyPair? = nil
+        public var keyPair: KeyPair? = nil
         /// A base64-encoded public key of the ssh-rsa type.
-        var publicKeyBase64: String? = nil
+        public var publicKeyBase64: String? = nil
         /// A base64-encoded RSA private key.
-        var privateKeyBase64: String? = nil
+        public var privateKeyBase64: String? = nil
         /// An array of key-value pairs containing information about the results of your create key pair request.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -134,11 +150,13 @@ extension Lightsail {
 
     }
 
-    public struct GetOperationsForResourceRequest: Serializable, Initializable {
+    public struct GetOperationsForResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get operations for resource request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
         /// The name of the resource for which you are requesting information.
-        var resourceName: String = ""
+        public var resourceName: String = ""
 
         public init() {}
 
@@ -149,11 +167,13 @@ extension Lightsail {
 
     }
 
-    public struct AttachStaticIpRequest: Serializable, Initializable {
+    public struct AttachStaticIpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the static IP.
-        var staticIpName: String = ""
+        public var staticIpName: String = ""
         /// The instance name to which you want to attach the static IP address.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -164,33 +184,35 @@ extension Lightsail {
 
     }
 
-    public struct InstanceSnapshot: Serializable, Initializable {
+    public struct InstanceSnapshot: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state the snapshot is in.
-        var state: String? = nil
+        public var state: String? = nil
         /// The name of the snapshot.
-        var name: String? = nil
+        public var name: String? = nil
         /// The type of resource (usually InstanceSnapshot).
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
-        var fromBundleId: String? = nil
+        public var fromBundleId: String? = nil
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        var supportCode: String? = nil
+        public var supportCode: String? = nil
         /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (e.g., arn:aws:lightsail:us-east-1:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
-        var fromInstanceArn: String? = nil
+        public var fromInstanceArn: String? = nil
         /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-1:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
-        var fromBlueprintId: String? = nil
+        public var fromBlueprintId: String? = nil
         /// The size in GB of the SSD.
-        var sizeInGb: Int32? = nil
+        public var sizeInGb: Int32? = nil
         /// The region name and availability zone where you created the snapshot.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The instance from which the snapshot was created.
-        var fromInstanceName: String? = nil
+        public var fromInstanceName: String? = nil
         /// The progress of the snapshot.
-        var progress: String? = nil
+        public var progress: String? = nil
 
         public init() {}
 
@@ -212,23 +234,25 @@ extension Lightsail {
 
     }
 
-    public struct InstanceAccessDetails: Serializable, Initializable {
+    public struct InstanceAccessDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
-        var privateKey: String? = nil
+        public var privateKey: String? = nil
         /// The public IP address of the Amazon Lightsail instance.
-        var ipAddress: String? = nil
+        public var ipAddress: String? = nil
         /// The name of this Amazon Lightsail instance.
-        var instanceName: String? = nil
+        public var instanceName: String? = nil
         /// The protocol for these Amazon Lightsail instance access details.
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
         /// For RDP access, the temporary password of the Amazon EC2 instance.
-        var password: String? = nil
+        public var password: String? = nil
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
-        var certKey: String? = nil
+        public var certKey: String? = nil
         /// For SSH access, the date on which the temporary keys expire.
-        var expiresAt: Date? = nil
+        public var expiresAt: Date? = nil
         /// The user name to use when logging in to the Amazon Lightsail instance.
-        var username: String? = nil
+        public var username: String? = nil
 
         public init() {}
 
@@ -245,11 +269,13 @@ extension Lightsail {
 
     }
 
-    public struct GetBundlesRequest: Serializable, Initializable {
+    public struct GetBundlesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get bundles request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
         /// A Boolean value that indicates whether to include inactive bundle results in your request.
-        var includeInactive: Bool? = nil
+        public var includeInactive: Bool? = nil
 
         public init() {}
 
@@ -260,9 +286,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteDomainEntryResult: Serializable, Initializable {
+    public struct DeleteDomainEntryResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete domain entry request.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -272,9 +300,11 @@ extension Lightsail {
 
     }
 
-    public struct GetRegionsResult: Serializable, Initializable {
+    public struct GetRegionsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about your get regions request.
-        var regions: [Region]? = nil
+        public var regions: [Region]? = nil
 
         public init() {}
 
@@ -284,9 +314,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceResult: Serializable, Initializable {
+    public struct GetInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the specified instance.
-        var instance: Instance? = nil
+        public var instance: Instance? = nil
 
         public init() {}
 
@@ -296,9 +328,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteInstanceResult: Serializable, Initializable {
+    public struct DeleteInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete instance request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -308,11 +342,13 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceAccessDetailsRequest: Serializable, Initializable {
+    public struct GetInstanceAccessDetailsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The protocol to use to connect to your instance. Defaults to ssh.
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
         /// The name of the instance to access.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -323,11 +359,13 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceSnapshotsResult: Serializable, Initializable {
+    public struct GetInstanceSnapshotsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get instance snapshots request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
-        var instanceSnapshots: [InstanceSnapshot]? = nil
+        public var instanceSnapshots: [InstanceSnapshot]? = nil
 
         public init() {}
 
@@ -338,25 +376,27 @@ extension Lightsail {
 
     }
 
-    public struct StaticIp: Serializable, Initializable {
+    public struct StaticIp: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Virginia-1).
-        var attachedTo: String? = nil
+        public var attachedTo: String? = nil
         /// A Boolean value indicating whether the static IP is attached.
-        var isAttached: Bool? = nil
+        public var isAttached: Bool? = nil
         /// The region and Availability Zone where the static IP was created.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The resource type (usually StaticIp).
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The static IP address.
-        var ipAddress: String? = nil
+        public var ipAddress: String? = nil
         /// The name of the static IP (e.g., StaticIP-Virginia-EXAMPLE).
-        var name: String? = nil
+        public var name: String? = nil
         /// The timestamp when the static IP was created (e.g., 1479735304.222).
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        var supportCode: String? = nil
+        public var supportCode: String? = nil
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-1:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -374,9 +414,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstancePortStatesResult: Serializable, Initializable {
+    public struct GetInstancePortStatesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the port states resulting from your request.
-        var portStates: [String]? = nil
+        public var portStates: [String]? = nil
 
         public init() {}
 
@@ -386,21 +428,23 @@ extension Lightsail {
 
     }
 
-    public struct KeyPair: Serializable, Initializable {
+    public struct KeyPair: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The friendly name of the SSH key pair.
-        var name: String? = nil
+        public var name: String? = nil
         /// The region name and Availability Zone where the key pair was created.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The resource type (usually KeyPair).
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The RSA fingerprint of the key pair.
-        var fingerprint: String? = nil
+        public var fingerprint: String? = nil
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        var supportCode: String? = nil
+        public var supportCode: String? = nil
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-1:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -416,9 +460,11 @@ extension Lightsail {
 
     }
 
-    public struct GetStaticIpRequest: Serializable, Initializable {
+    public struct GetStaticIpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the static IP in Lightsail.
-        var staticIpName: String = ""
+        public var staticIpName: String = ""
 
         public init() {}
 
@@ -428,11 +474,13 @@ extension Lightsail {
 
     }
 
-    public struct GetKeyPairsResult: Serializable, Initializable {
+    public struct GetKeyPairsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get key pairs request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs containing information about the key pairs.
-        var keyPairs: [KeyPair]? = nil
+        public var keyPairs: [KeyPair]? = nil
 
         public init() {}
 
@@ -443,27 +491,29 @@ extension Lightsail {
 
     }
 
-    public struct Bundle: Serializable, Initializable {
+    public struct Bundle: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A friendly name for the bundle (e.g., Micro).
-        var name: String? = nil
+        public var name: String? = nil
         /// The Amazon EC2 instance type (e.g., t2.micro).
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// A Boolean value indicating whether the bundle is active.
-        var isActive: Bool? = nil
+        public var isActive: Bool? = nil
         /// The amount of RAM in GB (e.g., 2.0).
-        var ramSizeInGb: Float? = nil
+        public var ramSizeInGb: Float? = nil
         /// The number of vCPUs included in the bundle (e.g., 2).
-        var cpuCount: Int32? = nil
+        public var cpuCount: Int32? = nil
         /// The power of the bundle (e.g., 500).
-        var power: Int32? = nil
+        public var power: Int32? = nil
         /// The bundle ID (e.g., micro_1_0).
-        var bundleId: String? = nil
+        public var bundleId: String? = nil
         /// The data transfer rate per month in GB (e.g., 2000).
-        var transferPerMonthInGb: Int32? = nil
+        public var transferPerMonthInGb: Int32? = nil
         /// The size of the SSD (e.g., 30).
-        var diskSizeInGb: Int32? = nil
+        public var diskSizeInGb: Int32? = nil
         /// The price in US dollars (e.g., 5.0).
-        var price: Float? = nil
+        public var price: Float? = nil
 
         public init() {}
 
@@ -482,15 +532,19 @@ extension Lightsail {
 
     }
 
-    public struct PeerVpcRequest: Serializable, Initializable {
+    public struct PeerVpcRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct RebootInstanceResult: Serializable, Initializable {
+    public struct RebootInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -500,19 +554,21 @@ extension Lightsail {
 
     }
 
-    public struct CreateInstancesFromSnapshotRequest: Serializable, Initializable {
+    public struct CreateInstancesFromSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive).
-        var availabilityZone: String = ""
+        public var availabilityZone: String = ""
         /// The names for your new instances.
-        var instanceNames: [String] = []
+        public var instanceNames: [String] = []
         /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
-        var bundleId: String = ""
+        public var bundleId: String = ""
         /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots.
-        var instanceSnapshotName: String = ""
+        public var instanceSnapshotName: String = ""
         /// You can create a launch script that configures a server with additional user data. For example, apt-get –y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
-        var userData: String? = nil
+        public var userData: String? = nil
         /// The name for your key pair.
-        var keyPairName: String? = nil
+        public var keyPairName: String? = nil
 
         public init() {}
 
@@ -527,9 +583,11 @@ extension Lightsail {
 
     }
 
-    public struct GetOperationRequest: Serializable, Initializable {
+    public struct GetOperationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A GUID used to identify the operation.
-        var operationId: String = ""
+        public var operationId: String = ""
 
         public init() {}
 
@@ -539,9 +597,11 @@ extension Lightsail {
 
     }
 
-    public struct ImportKeyPairResult: Serializable, Initializable {
+    public struct ImportKeyPairResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -551,9 +611,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteDomainRequest: Serializable, Initializable {
+    public struct DeleteDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The specific domain name to delete.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -563,9 +625,11 @@ extension Lightsail {
 
     }
 
-    public struct GetKeyPairRequest: Serializable, Initializable {
+    public struct GetKeyPairRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the key pair for which you are requesting information.
-        var keyPairName: String = ""
+        public var keyPairName: String = ""
 
         public init() {}
 
@@ -575,9 +639,11 @@ extension Lightsail {
 
     }
 
-    public struct ReleaseStaticIpRequest: Serializable, Initializable {
+    public struct ReleaseStaticIpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the static IP to delete.
-        var staticIpName: String = ""
+        public var staticIpName: String = ""
 
         public init() {}
 
@@ -587,9 +653,11 @@ extension Lightsail {
 
     }
 
-    public struct IsVpcPeeredResult: Serializable, Initializable {
+    public struct IsVpcPeeredResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
-        var isPeered: Bool? = nil
+        public var isPeered: Bool? = nil
 
         public init() {}
 
@@ -599,11 +667,13 @@ extension Lightsail {
 
     }
 
-    public struct OpenInstancePublicPortsRequest: Serializable, Initializable {
+    public struct OpenInstancePublicPortsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance for which you want to open the public ports.
-        var instanceName: String = ""
+        public var instanceName: String = ""
         /// An array of key-value pairs containing information about the port mappings.
-        var portInfo: PortInfo = PortInfo()
+        public var portInfo: PortInfo = PortInfo()
 
         public init() {}
 
@@ -614,9 +684,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateInstancesResult: Serializable, Initializable {
+    public struct CreateInstancesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your create instances request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -626,9 +698,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceRequest: Serializable, Initializable {
+    public struct GetInstanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -638,11 +712,13 @@ extension Lightsail {
 
     }
 
-    public struct CloseInstancePublicPortsRequest: Serializable, Initializable {
+    public struct CloseInstancePublicPortsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance on which you're attempting to close the public ports.
-        var instanceName: String = ""
+        public var instanceName: String = ""
         /// Information about the public port you are trying to close.
-        var portInfo: PortInfo = PortInfo()
+        public var portInfo: PortInfo = PortInfo()
 
         public init() {}
 
@@ -653,43 +729,45 @@ extension Lightsail {
 
     }
 
-    public struct Instance: Serializable, Initializable {
+    public struct Instance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status code and the state (e.g., running) for the instance.
-        var state: InstanceState? = nil
+        public var state: InstanceState? = nil
         /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Virginia-1).
-        var name: String? = nil
+        public var name: String? = nil
         /// The type of resource (usually Instance).
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The public IP address of the instance.
-        var publicIpAddress: String? = nil
+        public var publicIpAddress: String? = nil
         /// The private IP address of the instance.
-        var privateIpAddress: String? = nil
+        public var privateIpAddress: String? = nil
         /// The timestamp when the instance was created (e.g., 1479734909.17).
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
-        var sshKeyName: String? = nil
+        public var sshKeyName: String? = nil
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        var supportCode: String? = nil
+        public var supportCode: String? = nil
         /// The bundle for the instance (e.g., micro_1_0).
-        var bundleId: String? = nil
+        public var bundleId: String? = nil
         /// A Boolean value indicating whether this instance has a static IP assigned to it.
-        var isStaticIp: Bool? = nil
+        public var isStaticIp: Bool? = nil
         /// The friendly name of the blueprint (e.g., Amazon Linux).
-        var blueprintName: String? = nil
+        public var blueprintName: String? = nil
         /// The user name for connecting to the instance (e.g., ec2-user).
-        var username: String? = nil
+        public var username: String? = nil
         /// The IPv6 address of the instance.
-        var ipv6Address: String? = nil
+        public var ipv6Address: String? = nil
         /// The size of the vCPU and the amount of RAM for the instance.
-        var hardware: InstanceHardware? = nil
+        public var hardware: InstanceHardware? = nil
         /// The blueprint ID (e.g., os_amlinux_2016_03).
-        var blueprintId: String? = nil
+        public var blueprintId: String? = nil
         /// The region name and availability zone where the instance is located.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-1:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
-        var arn: String? = nil
+        public var arn: String? = nil
         /// Information about the public ports and monthly data transfer rates for the instance.
-        var networking: InstanceNetworking? = nil
+        public var networking: InstanceNetworking? = nil
 
         public init() {}
 
@@ -716,21 +794,23 @@ extension Lightsail {
 
     }
 
-    public struct Domain: Serializable, Initializable {
+    public struct Domain: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the domain.
-        var name: String? = nil
+        public var name: String? = nil
         /// The AWS Region and Availability Zones where the domain recordset was created.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The resource type. 
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// An array of key-value pairs containing information about the domain entries.
-        var domainEntries: [DomainEntry]? = nil
+        public var domainEntries: [DomainEntry]? = nil
         /// The date when the domain recordset was created.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        var supportCode: String? = nil
+        public var supportCode: String? = nil
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -746,9 +826,11 @@ extension Lightsail {
 
     }
 
-    public struct GetStaticIpResult: Serializable, Initializable {
+    public struct GetStaticIpResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the requested static IP.
-        var staticIp: StaticIp? = nil
+        public var staticIp: StaticIp? = nil
 
         public init() {}
 
@@ -758,9 +840,11 @@ extension Lightsail {
 
     }
 
-    public struct DetachStaticIpRequest: Serializable, Initializable {
+    public struct DetachStaticIpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the static IP to detach from the instance.
-        var staticIpName: String = ""
+        public var staticIpName: String = ""
 
         public init() {}
 
@@ -770,11 +854,13 @@ extension Lightsail {
 
     }
 
-    public struct GetActiveNamesResult: Serializable, Initializable {
+    public struct GetActiveNamesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get active names request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// The list of active names returned by the get active names request.
-        var activeNames: [String]? = nil
+        public var activeNames: [String]? = nil
 
         public init() {}
 
@@ -785,9 +871,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteInstanceRequest: Serializable, Initializable {
+    public struct DeleteInstanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance to delete.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -797,11 +885,13 @@ extension Lightsail {
 
     }
 
-    public struct GetOperationsForResourceResult: Serializable, Initializable {
+    public struct GetOperationsForResourceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns the number of pages of results that remain.
-        var nextPageCount: String? = nil
+        public var nextPageCount: String? = nil
         /// An array of key-value pairs containing information about the results of your get operations for resource request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -812,35 +902,37 @@ extension Lightsail {
 
     }
 
-    public struct Disk: Serializable, Initializable {
+    public struct Disk: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A Boolean value indicating whether the disk is attached.
-        var isAttached: Bool? = nil
+        public var isAttached: Bool? = nil
         /// The name of the disk.
-        var name: String? = nil
+        public var name: String? = nil
         /// The resource type of the disk. 
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The date when the disk was created.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        var supportCode: String? = nil
+        public var supportCode: String? = nil
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
-        var isSystemDisk: Bool? = nil
+        public var isSystemDisk: Bool? = nil
         /// The attachment state of the disk.
-        var attachmentState: String? = nil
+        public var attachmentState: String? = nil
         /// The Amazon Resource Name (ARN) of the disk.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The resources to which the disk is attached.
-        var attachedTo: String? = nil
+        public var attachedTo: String? = nil
         /// The size of the disk in GB.
-        var sizeInGb: Int32? = nil
+        public var sizeInGb: Int32? = nil
         /// The region and Availability Zone where the disk is located.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The disk path.
-        var path: String? = nil
+        public var path: String? = nil
         /// The number of GB in use by the disk.
-        var gbInUse: Int32? = nil
+        public var gbInUse: Int32? = nil
         /// The input/output operations per second (IOPS) of the disk.
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
 
         public init() {}
 
@@ -863,9 +955,11 @@ extension Lightsail {
 
     }
 
-    public struct GetDomainsRequest: Serializable, Initializable {
+    public struct GetDomainsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get domains request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -875,9 +969,11 @@ extension Lightsail {
 
     }
 
-    public struct UpdateDomainEntryResult: Serializable, Initializable {
+    public struct UpdateDomainEntryResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -887,9 +983,11 @@ extension Lightsail {
 
     }
 
-    public struct GetKeyPairsRequest: Serializable, Initializable {
+    public struct GetKeyPairsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get key pairs request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -899,17 +997,19 @@ extension Lightsail {
 
     }
 
-    public struct DomainEntry: Serializable, Initializable {
+    public struct DomainEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The options for the domain entry.
-        var options: [String: String]? = nil
+        public var options: [String: String]? = nil
         /// The name of the domain.
-        var name: String? = nil
+        public var name: String? = nil
         /// The target AWS name server (e.g., ns-111.awsdns-22.com.).
-        var target: String? = nil
+        public var target: String? = nil
         /// The ID of the domain recordset entry.
-        var id: String? = nil
+        public var id: String? = nil
         /// The type of domain entry (e.g., SOA or NS).
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -923,11 +1023,13 @@ extension Lightsail {
 
     }
 
-    public struct DownloadDefaultKeyPairResult: Serializable, Initializable {
+    public struct DownloadDefaultKeyPairResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A base64-encoded RSA private key.
-        var privateKeyBase64: String? = nil
+        public var privateKeyBase64: String? = nil
         /// A base64-encoded public key of the ssh-rsa type.
-        var publicKeyBase64: String? = nil
+        public var publicKeyBase64: String? = nil
 
         public init() {}
 
@@ -938,9 +1040,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateInstancesFromSnapshotResult: Serializable, Initializable {
+    public struct CreateInstancesFromSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -950,11 +1054,13 @@ extension Lightsail {
 
     }
 
-    public struct AvailabilityZone: Serializable, Initializable {
+    public struct AvailabilityZone: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the Availability Zone.
-        var state: String? = nil
+        public var state: String? = nil
         /// The name of the Availability Zone.
-        var zoneName: String? = nil
+        public var zoneName: String? = nil
 
         public init() {}
 
@@ -965,17 +1071,21 @@ extension Lightsail {
 
     }
 
-    public struct IsVpcPeeredRequest: Serializable, Initializable {
+    public struct IsVpcPeeredRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateDomainEntryRequest: Serializable, Initializable {
+    public struct CreateDomainEntryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the domain entry request.
-        var domainEntry: DomainEntry = DomainEntry()
+        public var domainEntry: DomainEntry = DomainEntry()
         /// The domain name (e.g., example.com) for which you want to create the domain entry.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -986,11 +1096,13 @@ extension Lightsail {
 
     }
 
-    public struct CreateInstanceSnapshotRequest: Serializable, Initializable {
+    public struct CreateInstanceSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name for your new snapshot.
-        var instanceSnapshotName: String = ""
+        public var instanceSnapshotName: String = ""
         /// The Lightsail instance on which to base your snapshot.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -1001,9 +1113,11 @@ extension Lightsail {
 
     }
 
-    public struct StopInstanceResult: Serializable, Initializable {
+    public struct StopInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1013,11 +1127,13 @@ extension Lightsail {
 
     }
 
-    public struct GetInstancesResult: Serializable, Initializable {
+    public struct GetInstancesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get instances request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs containing information about your instances.
-        var instances: [Instance]? = nil
+        public var instances: [Instance]? = nil
 
         public init() {}
 
@@ -1028,11 +1144,13 @@ extension Lightsail {
 
     }
 
-    public struct InstanceState: Serializable, Initializable {
+    public struct InstanceState: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the instance (e.g., running or pending).
-        var name: String? = nil
+        public var name: String? = nil
         /// The status code for the instance.
-        var code: Int32? = nil
+        public var code: Int32? = nil
 
         public init() {}
 
@@ -1043,9 +1161,11 @@ extension Lightsail {
 
     }
 
-    public struct PeerVpcResult: Serializable, Initializable {
+    public struct PeerVpcResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1055,9 +1175,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceSnapshotRequest: Serializable, Initializable {
+    public struct GetInstanceSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the snapshot for which you are requesting information.
-        var instanceSnapshotName: String = ""
+        public var instanceSnapshotName: String = ""
 
         public init() {}
 
@@ -1067,9 +1189,11 @@ extension Lightsail {
 
     }
 
-    public struct AllocateStaticIpResult: Serializable, Initializable {
+    public struct AllocateStaticIpResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the static IP address you allocated.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1079,9 +1203,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteKeyPairResult: Serializable, Initializable {
+    public struct DeleteKeyPairResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete key pair request.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1091,9 +1217,11 @@ extension Lightsail {
 
     }
 
-    public struct GetKeyPairResult: Serializable, Initializable {
+    public struct GetKeyPairResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the key pair.
-        var keyPair: KeyPair? = nil
+        public var keyPair: KeyPair? = nil
 
         public init() {}
 
@@ -1103,9 +1231,11 @@ extension Lightsail {
 
     }
 
-    public struct GetRegionsRequest: Serializable, Initializable {
+    public struct GetRegionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-1a.
-        var includeAvailabilityZones: Bool? = nil
+        public var includeAvailabilityZones: Bool? = nil
 
         public init() {}
 
@@ -1115,9 +1245,11 @@ extension Lightsail {
 
     }
 
-    public struct AttachStaticIpResult: Serializable, Initializable {
+    public struct AttachStaticIpResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about your API operations.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1127,9 +1259,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceAccessDetailsResult: Serializable, Initializable {
+    public struct GetInstanceAccessDetailsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about a get instance access request.
-        var accessDetails: InstanceAccessDetails? = nil
+        public var accessDetails: InstanceAccessDetails? = nil
 
         public init() {}
 
@@ -1139,11 +1273,13 @@ extension Lightsail {
 
     }
 
-    public struct ResourceLocation: Serializable, Initializable {
+    public struct ResourceLocation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Region name.
-        var regionName: String? = nil
+        public var regionName: String? = nil
         /// The Availability Zone.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
 
         public init() {}
 
@@ -1154,13 +1290,15 @@ extension Lightsail {
 
     }
 
-    public struct PortInfo: Serializable, Initializable {
+    public struct PortInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The protocol. 
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
         /// The first port in the range.
-        var fromPort: Int32? = nil
+        public var fromPort: Int32? = nil
         /// The last port in the range.
-        var toPort: Int32? = nil
+        public var toPort: Int32? = nil
 
         public init() {}
 
@@ -1172,9 +1310,11 @@ extension Lightsail {
 
     }
 
-    public struct GetActiveNamesRequest: Serializable, Initializable {
+    public struct GetActiveNamesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for paginating results from your get active names request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1184,9 +1324,11 @@ extension Lightsail {
 
     }
 
-    public struct RebootInstanceRequest: Serializable, Initializable {
+    public struct RebootInstanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance to reboot.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -1196,21 +1338,23 @@ extension Lightsail {
 
     }
 
-    public struct MetricDatapoint: Serializable, Initializable {
+    public struct MetricDatapoint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The sample count.
-        var sampleCount: Double? = nil
+        public var sampleCount: Double? = nil
         /// The unit. 
-        var unit: String? = nil
+        public var unit: String? = nil
         /// The average.
-        var average: Double? = nil
+        public var average: Double? = nil
         /// The maximum.
-        var maximum: Double? = nil
+        public var maximum: Double? = nil
         /// The minimum.
-        var minimum: Double? = nil
+        public var minimum: Double? = nil
         /// The sum.
-        var sum: Double? = nil
+        public var sum: Double? = nil
         /// The timestamp (e.g., 1479816991.349).
-        var timestamp: Date? = nil
+        public var timestamp: Date? = nil
 
         public init() {}
 
@@ -1226,9 +1370,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstancesRequest: Serializable, Initializable {
+    public struct GetInstancesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get instances request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1238,11 +1384,13 @@ extension Lightsail {
 
     }
 
-    public struct InstanceNetworking: Serializable, Initializable {
+    public struct InstanceNetworking: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the ports on the instance.
-        var ports: [InstancePortInfo]? = nil
+        public var ports: [InstancePortInfo]? = nil
         /// The amount of data in GB allocated for monthly data transfers.
-        var monthlyTransfer: MonthlyTransfer? = nil
+        public var monthlyTransfer: MonthlyTransfer? = nil
 
         public init() {}
 
@@ -1253,15 +1401,19 @@ extension Lightsail {
 
     }
 
-    public struct DownloadDefaultKeyPairRequest: Serializable, Initializable {
+    public struct DownloadDefaultKeyPairRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetInstanceSnapshotsRequest: Serializable, Initializable {
+    public struct GetInstanceSnapshotsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get instance snapshots request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1271,9 +1423,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceSnapshotResult: Serializable, Initializable {
+    public struct GetInstanceSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
-        var instanceSnapshot: InstanceSnapshot? = nil
+        public var instanceSnapshot: InstanceSnapshot? = nil
 
         public init() {}
 
@@ -1283,11 +1437,13 @@ extension Lightsail {
 
     }
 
-    public struct DeleteDomainEntryRequest: Serializable, Initializable {
+    public struct DeleteDomainEntryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about your domain entries.
-        var domainEntry: DomainEntry = DomainEntry()
+        public var domainEntry: DomainEntry = DomainEntry()
         /// The name of the domain entry to delete.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1298,31 +1454,33 @@ extension Lightsail {
 
     }
 
-    public struct Operation: Serializable, Initializable {
+    public struct Operation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of operation. 
-        var operationType: String? = nil
+        public var operationType: String? = nil
         /// A Boolean value indicating whether the operation is terminal.
-        var isTerminal: Bool? = nil
+        public var isTerminal: Bool? = nil
         /// The region and Availability Zone.
-        var location: ResourceLocation? = nil
+        public var location: ResourceLocation? = nil
         /// The resource type. 
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The ID of the operation.
-        var id: String? = nil
+        public var id: String? = nil
         /// The error code.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The resource name.
-        var resourceName: String? = nil
+        public var resourceName: String? = nil
         /// The error details.
-        var errorDetails: String? = nil
+        public var errorDetails: String? = nil
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The status of the operation. 
-        var status: String? = nil
+        public var status: String? = nil
         /// The timestamp when the status was changed (e.g., 1479816991.349).
-        var statusChangedAt: Date? = nil
+        public var statusChangedAt: Date? = nil
         /// Details about the operation (e.g., Debian-1GB-Virginia-1).
-        var operationDetails: String? = nil
+        public var operationDetails: String? = nil
 
         public init() {}
 
@@ -1343,11 +1501,13 @@ extension Lightsail {
 
     }
 
-    public struct GetOperationsResult: Serializable, Initializable {
+    public struct GetOperationsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get operations request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs containing information about the results of your get operations request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1358,11 +1518,13 @@ extension Lightsail {
 
     }
 
-    public struct GetBlueprintsResult: Serializable, Initializable {
+    public struct GetBlueprintsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get blueprints request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs that contains information about the available blueprints.
-        var blueprints: [Blueprint]? = nil
+        public var blueprints: [Blueprint]? = nil
 
         public init() {}
 
@@ -1373,9 +1535,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateKeyPairRequest: Serializable, Initializable {
+    public struct CreateKeyPairRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name for your new key pair.
-        var keyPairName: String = ""
+        public var keyPairName: String = ""
 
         public init() {}
 
@@ -1385,9 +1549,11 @@ extension Lightsail {
 
     }
 
-    public struct ReleaseStaticIpResult: Serializable, Initializable {
+    public struct ReleaseStaticIpResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1397,9 +1563,11 @@ extension Lightsail {
 
     }
 
-    public struct DetachStaticIpResult: Serializable, Initializable {
+    public struct DetachStaticIpResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your detach static IP request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1409,11 +1577,13 @@ extension Lightsail {
 
     }
 
-    public struct ImportKeyPairRequest: Serializable, Initializable {
+    public struct ImportKeyPairRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the key pair for which you want to import the public key.
-        var keyPairName: String = ""
+        public var keyPairName: String = ""
         /// A base64-encoded public key of the ssh-rsa type.
-        var publicKeyBase64: String = ""
+        public var publicKeyBase64: String = ""
 
         public init() {}
 
@@ -1424,11 +1594,13 @@ extension Lightsail {
 
     }
 
-    public struct GetBlueprintsRequest: Serializable, Initializable {
+    public struct GetBlueprintsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get blueprints request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
         /// A Boolean value indicating whether to include inactive results in your request.
-        var includeInactive: Bool? = nil
+        public var includeInactive: Bool? = nil
 
         public init() {}
 
@@ -1439,9 +1611,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteKeyPairRequest: Serializable, Initializable {
+    public struct DeleteKeyPairRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the key pair to delete.
-        var keyPairName: String = ""
+        public var keyPairName: String = ""
 
         public init() {}
 
@@ -1451,21 +1625,23 @@ extension Lightsail {
 
     }
 
-    public struct InstancePortInfo: Serializable, Initializable {
+    public struct InstancePortInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
-        var accessFrom: String? = nil
+        public var accessFrom: String? = nil
         /// The first port in the range.
-        var fromPort: Int32? = nil
+        public var fromPort: Int32? = nil
         /// The common name.
-        var commonName: String? = nil
+        public var commonName: String? = nil
         /// The protocol. 
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
         /// The access direction (inbound or outbound).
-        var accessDirection: String? = nil
+        public var accessDirection: String? = nil
         /// The type of access (Public or Private).
-        var accessType: String? = nil
+        public var accessType: String? = nil
         /// The last port in the range.
-        var toPort: Int32? = nil
+        public var toPort: Int32? = nil
 
         public init() {}
 
@@ -1481,9 +1657,11 @@ extension Lightsail {
 
     }
 
-    public struct GetDomainRequest: Serializable, Initializable {
+    public struct GetDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The domain name for which your want to return information about.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1493,9 +1671,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstancePortStatesRequest: Serializable, Initializable {
+    public struct GetInstancePortStatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -1505,9 +1685,11 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceStateRequest: Serializable, Initializable {
+    public struct GetInstanceStateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance to get state information about.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -1517,9 +1699,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteInstanceSnapshotResult: Serializable, Initializable {
+    public struct DeleteInstanceSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1529,21 +1713,23 @@ extension Lightsail {
 
     }
 
-    public struct CreateInstancesRequest: Serializable, Initializable {
+    public struct CreateInstancesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive).
-        var availabilityZone: String = ""
+        public var availabilityZone: String = ""
         /// The name of your key pair.
-        var keyPairName: String? = nil
+        public var keyPairName: String? = nil
         /// The name for your custom image.
-        var customImageName: String? = nil
+        public var customImageName: String? = nil
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] 
-        var instanceNames: [String] = []
+        public var instanceNames: [String] = []
         /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
-        var bundleId: String = ""
+        public var bundleId: String = ""
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get –y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
-        var userData: String? = nil
+        public var userData: String? = nil
         /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).
-        var blueprintId: String = ""
+        public var blueprintId: String = ""
 
         public init() {}
 
@@ -1559,29 +1745,31 @@ extension Lightsail {
 
     }
 
-    public struct Blueprint: Serializable, Initializable {
+    public struct Blueprint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of the blueprint (e.g., os or app).
-        var type: String? = nil
+        public var type: String? = nil
         /// A Boolean value indicating whether the blueprint is active. When you update your blueprints, you will inactivate old blueprints and keep the most recent versions active.
-        var isActive: Bool? = nil
+        public var isActive: Bool? = nil
         /// The product URL to learn more about the image or blueprint.
-        var productUrl: String? = nil
+        public var productUrl: String? = nil
         /// The friendly name of the blueprint (e.g., Amazon Linux).
-        var name: String? = nil
+        public var name: String? = nil
         /// The description of the blueprint.
-        var description: String? = nil
+        public var description: String? = nil
         /// The version number of the operating system, application, or stack (e.g., 2016.03.0).
-        var version: String? = nil
+        public var version: String? = nil
         /// The end-user license agreement URL for the image or blueprint.
-        var licenseUrl: String? = nil
+        public var licenseUrl: String? = nil
         /// The version code.
-        var versionCode: String? = nil
+        public var versionCode: String? = nil
         /// The group name of the blueprint (e.g., amazon-linux).
-        var group: String? = nil
+        public var group: String? = nil
         /// The minimum machine size required to run this blueprint. 0 indicates that the blueprint runs on all instances.
-        var minPower: Int32? = nil
+        public var minPower: Int32? = nil
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
-        var blueprintId: String? = nil
+        public var blueprintId: String? = nil
 
         public init() {}
 
@@ -1601,9 +1789,11 @@ extension Lightsail {
 
     }
 
-    public struct DeleteInstanceSnapshotRequest: Serializable, Initializable {
+    public struct DeleteInstanceSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the snapshot to delete.
-        var instanceSnapshotName: String = ""
+        public var instanceSnapshotName: String = ""
 
         public init() {}
 
@@ -1613,11 +1803,13 @@ extension Lightsail {
 
     }
 
-    public struct GetBundlesResult: Serializable, Initializable {
+    public struct GetBundlesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get active names request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs that contains information about the available bundles.
-        var bundles: [Bundle]? = nil
+        public var bundles: [Bundle]? = nil
 
         public init() {}
 
@@ -1628,17 +1820,19 @@ extension Lightsail {
 
     }
 
-    public struct Region: Serializable, Initializable {
+    public struct Region: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
-        var description: String? = nil
+        public var description: String? = nil
         /// The display name (e.g., Virginia).
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The region name (e.g., us-east-1).
-        var name: String? = nil
+        public var name: String? = nil
         /// The continent code (e.g., NA, meaning North America).
-        var continentCode: String? = nil
+        public var continentCode: String? = nil
         /// The Availability Zones.
-        var availabilityZones: [AvailabilityZone]? = nil
+        public var availabilityZones: [AvailabilityZone]? = nil
 
         public init() {}
 
@@ -1652,9 +1846,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateDomainEntryResult: Serializable, Initializable {
+    public struct CreateDomainEntryResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the operation.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1664,11 +1860,13 @@ extension Lightsail {
 
     }
 
-    public struct UpdateDomainEntryRequest: Serializable, Initializable {
+    public struct UpdateDomainEntryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the domain entry.
-        var domainEntry: DomainEntry = DomainEntry()
+        public var domainEntry: DomainEntry = DomainEntry()
         /// The name of the domain recordset to update.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1679,9 +1877,11 @@ extension Lightsail {
 
     }
 
-    public struct GetDomainResult: Serializable, Initializable {
+    public struct GetDomainResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about your get domain request.
-        var domain: Domain? = nil
+        public var domain: Domain? = nil
 
         public init() {}
 
@@ -1691,9 +1891,11 @@ extension Lightsail {
 
     }
 
-    public struct CloseInstancePublicPortsResult: Serializable, Initializable {
+    public struct CloseInstancePublicPortsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs that contains information about the operation.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1703,9 +1905,11 @@ extension Lightsail {
 
     }
 
-    public struct GetOperationResult: Serializable, Initializable {
+    public struct GetOperationResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your get operation request.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1715,9 +1919,11 @@ extension Lightsail {
 
     }
 
-    public struct AllocateStaticIpRequest: Serializable, Initializable {
+    public struct AllocateStaticIpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the static IP address.
-        var staticIpName: String = ""
+        public var staticIpName: String = ""
 
         public init() {}
 
@@ -1727,9 +1933,11 @@ extension Lightsail {
 
     }
 
-    public struct MonthlyTransfer: Serializable, Initializable {
+    public struct MonthlyTransfer: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The amount allocated per month (in GB).
-        var gbPerMonthAllocated: Int32? = nil
+        public var gbPerMonthAllocated: Int32? = nil
 
         public init() {}
 
@@ -1739,9 +1947,11 @@ extension Lightsail {
 
     }
 
-    public struct UnpeerVpcResult: Serializable, Initializable {
+    public struct UnpeerVpcResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1751,9 +1961,11 @@ extension Lightsail {
 
     }
 
-    public struct StartInstanceRequest: Serializable, Initializable {
+    public struct StartInstanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance (a virtual private server) to start.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -1763,9 +1975,11 @@ extension Lightsail {
 
     }
 
-    public struct OpenInstancePublicPortsResult: Serializable, Initializable {
+    public struct OpenInstancePublicPortsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operation: Operation? = nil
+        public var operation: Operation? = nil
 
         public init() {}
 
@@ -1775,9 +1989,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateInstanceSnapshotResult: Serializable, Initializable {
+    public struct CreateInstanceSnapshotResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the results of your create instances snapshot request.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1787,9 +2003,11 @@ extension Lightsail {
 
     }
 
-    public struct StartInstanceResult: Serializable, Initializable {
+    public struct StartInstanceResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        var operations: [Operation]? = nil
+        public var operations: [Operation]? = nil
 
         public init() {}
 
@@ -1799,11 +2017,13 @@ extension Lightsail {
 
     }
 
-    public struct GetStaticIpsResult: Serializable, Initializable {
+    public struct GetStaticIpsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get static IPs request.
-        var nextPageToken: String? = nil
+        public var nextPageToken: String? = nil
         /// An array of key-value pairs containing information about your get static IPs request.
-        var staticIps: [StaticIp]? = nil
+        public var staticIps: [StaticIp]? = nil
 
         public init() {}
 
@@ -1814,21 +2034,23 @@ extension Lightsail {
 
     }
 
-    public struct GetInstanceMetricDataRequest: Serializable, Initializable {
+    public struct GetInstanceMetricDataRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance for which you want to get metrics data.
-        var instanceName: String = ""
+        public var instanceName: String = ""
         /// The unit. The list of valid values is below.
-        var unit: String = ""
+        public var unit: String = ""
         /// The instance statistics. 
-        var statistics: [String] = []
+        public var statistics: [String] = []
         /// The end time of the time period.
-        var endTime: Date = Date()
+        public var endTime: Date = Date()
         /// The time period for which you are requesting data.
-        var period: Int32 = 0
+        public var period: Int32 = 0
         /// The start time of the time period.
-        var startTime: Date = Date()
+        public var startTime: Date = Date()
         /// The metric name to get data about. 
-        var metricName: String = ""
+        public var metricName: String = ""
 
         public init() {}
 
@@ -1844,9 +2066,11 @@ extension Lightsail {
 
     }
 
-    public struct StopInstanceRequest: Serializable, Initializable {
+    public struct StopInstanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the instance (a virtual private server) to stop.
-        var instanceName: String = ""
+        public var instanceName: String = ""
 
         public init() {}
 
@@ -1856,13 +2080,15 @@ extension Lightsail {
 
     }
 
-    public struct InstanceHardware: Serializable, Initializable {
+    public struct InstanceHardware: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of vCPUs the instance has.
-        var cpuCount: Int32? = nil
+        public var cpuCount: Int32? = nil
         /// The disks attached to the instance.
-        var disks: [Disk]? = nil
+        public var disks: [Disk]? = nil
         /// The amount of RAM in GB on the instance (e.g., 1.0).
-        var ramSizeInGb: Float? = nil
+        public var ramSizeInGb: Float? = nil
 
         public init() {}
 
@@ -1874,9 +2100,11 @@ extension Lightsail {
 
     }
 
-    public struct GetStaticIpsRequest: Serializable, Initializable {
+    public struct GetStaticIpsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A token used for advancing to the next page of results from your get static IPs request.
-        var pageToken: String? = nil
+        public var pageToken: String? = nil
 
         public init() {}
 
@@ -1886,9 +2114,11 @@ extension Lightsail {
 
     }
 
-    public struct CreateDomainRequest: Serializable, Initializable {
+    public struct CreateDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 

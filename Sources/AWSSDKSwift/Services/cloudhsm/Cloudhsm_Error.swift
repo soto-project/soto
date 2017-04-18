@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cloudhsm
-public enum CloudhsmError: Error {
+public enum CloudhsmError: AWSErrorType {
     case cloudHsmServiceException(message: String?)
     case cloudHsmInternalException(message: String?)
     case invalidRequestException(message: String?)

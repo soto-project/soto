@@ -29,11 +29,13 @@ import Core
 
 extension Iot {
 
-    public struct DynamoDBv2Action: Serializable, Initializable {
+    public struct DynamoDBv2Action: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that grants access to the DynamoDB table.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// Specifies the DynamoDB table to which the message data will be written. For example: { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } } Each attribute in the message payload will be written to a separate column in the DynamoDB database.
-        var putItem: PutItemInput? = nil
+        public var putItem: PutItemInput? = nil
 
         public init() {}
 
@@ -44,15 +46,17 @@ extension Iot {
 
     }
 
-    public struct CreatePolicyResponse: Serializable, Initializable {
+    public struct CreatePolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The policy version ID.
-        var policyVersionId: String? = nil
+        public var policyVersionId: String? = nil
         /// The policy name.
-        var policyName: String? = nil
+        public var policyName: String? = nil
         /// The policy ARN.
-        var policyArn: String? = nil
+        public var policyArn: String? = nil
         /// The JSON document that describes the policy.
-        var policyDocument: String? = nil
+        public var policyDocument: String? = nil
 
         public init() {}
 
@@ -65,13 +69,21 @@ extension Iot {
 
     }
 
-    public struct TransferCertificateRequest: Serializable, Initializable {
+    public struct TransferCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["targetAwsAccount": "targetAwsAccount"]
+        }
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
         /// The transfer message.
-        var transferMessage: String? = nil
+        public var transferMessage: String? = nil
         /// The AWS account.
-        var targetAwsAccount: String = ""
+        public var targetAwsAccount: String = ""
 
         public init() {}
 
@@ -83,21 +95,31 @@ extension Iot {
 
     }
 
-    public struct GetRegistrationCodeRequest: Serializable, Initializable {
+    public struct GetRegistrationCodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListCertificatesByCARequest: Serializable, Initializable {
+    public struct ListCertificatesByCARequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
+        public var pathParams: [String: String] {
+            return ["caCertificateId": "caCertificateId"]
+        }
         /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate. 
-        var caCertificateId: String = ""
+        public var caCertificateId: String = ""
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
 
         public init() {}
 
@@ -110,11 +132,13 @@ extension Iot {
 
     }
 
-    public struct Policy: Serializable, Initializable {
+    public struct Policy: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The policy ARN.
-        var policyArn: String? = nil
+        public var policyArn: String? = nil
         /// The policy name.
-        var policyName: String? = nil
+        public var policyName: String? = nil
 
         public init() {}
 
@@ -125,9 +149,11 @@ extension Iot {
 
     }
 
-    public struct SetLoggingOptionsRequest: Serializable, Initializable {
+    public struct SetLoggingOptionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "loggingOptionsPayload"
         /// The logging options payload.
-        var loggingOptionsPayload: LoggingOptionsPayload = LoggingOptionsPayload()
+        public var loggingOptionsPayload: LoggingOptionsPayload = LoggingOptionsPayload()
 
         public init() {}
 
@@ -137,11 +163,13 @@ extension Iot {
 
     }
 
-    public struct ListThingTypesResponse: Serializable, Initializable {
+    public struct ListThingTypesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The thing types.
-        var thingTypes: [ThingTypeDefinition]? = nil
+        public var thingTypes: [ThingTypeDefinition]? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -152,31 +180,33 @@ extension Iot {
 
     }
 
-    public struct Action: Serializable, Initializable {
+    public struct Action: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Write data to an Amazon Kinesis stream.
-        var kinesis: KinesisAction? = nil
+        public var kinesis: KinesisAction? = nil
         /// Write data to an Amazon Elasticsearch Service domain.
-        var elasticsearch: ElasticsearchAction? = nil
+        public var elasticsearch: ElasticsearchAction? = nil
         /// Publish to an Amazon SQS queue.
-        var sqs: SqsAction? = nil
+        public var sqs: SqsAction? = nil
         /// Capture a CloudWatch metric.
-        var cloudwatchMetric: CloudwatchMetricAction? = nil
+        public var cloudwatchMetric: CloudwatchMetricAction? = nil
         /// Publish to another MQTT topic.
-        var republish: RepublishAction? = nil
+        public var republish: RepublishAction? = nil
         /// Write to an Amazon S3 bucket.
-        var s3: S3Action? = nil
+        public var s3: S3Action? = nil
         /// Change the state of a CloudWatch alarm.
-        var cloudwatchAlarm: CloudwatchAlarmAction? = nil
+        public var cloudwatchAlarm: CloudwatchAlarmAction? = nil
         /// Write to an Amazon Kinesis Firehose stream.
-        var firehose: FirehoseAction? = nil
+        public var firehose: FirehoseAction? = nil
         /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
-        var dynamoDBv2: DynamoDBv2Action? = nil
+        public var dynamoDBv2: DynamoDBv2Action? = nil
         /// Write to a DynamoDB table.
-        var dynamoDB: DynamoDBAction? = nil
+        public var dynamoDB: DynamoDBAction? = nil
         /// Invoke a Lambda function.
-        var lambda: LambdaAction? = nil
+        public var lambda: LambdaAction? = nil
         /// Publish to an Amazon SNS topic.
-        var sns: SnsAction? = nil
+        public var sns: SnsAction? = nil
 
         public init() {}
 
@@ -197,9 +227,11 @@ extension Iot {
 
     }
 
-    public struct DescribeCACertificateResponse: Serializable, Initializable {
+    public struct DescribeCACertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CA certificate description.
-        var certificateDescription: CACertificateDescription? = nil
+        public var certificateDescription: CACertificateDescription? = nil
 
         public init() {}
 
@@ -209,11 +241,13 @@ extension Iot {
 
     }
 
-    public struct RepublishAction: Serializable, Initializable {
+    public struct RepublishAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that grants access.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The name of the MQTT topic.
-        var topic: String = ""
+        public var topic: String = ""
 
         public init() {}
 
@@ -224,9 +258,14 @@ extension Iot {
 
     }
 
-    public struct GetTopicRuleRequest: Serializable, Initializable {
+    public struct GetTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["ruleName": "ruleName"]
+        }
         /// The name of the rule.
-        var ruleName: String = ""
+        public var ruleName: String = ""
 
         public init() {}
 
@@ -236,11 +275,13 @@ extension Iot {
 
     }
 
-    public struct ListPolicyPrincipalsResponse: Serializable, Initializable {
+    public struct ListPolicyPrincipalsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The descriptions of the principals.
-        var principals: [String]? = nil
+        public var principals: [String]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -251,11 +292,13 @@ extension Iot {
 
     }
 
-    public struct ListCertificatesResponse: Serializable, Initializable {
+    public struct ListCertificatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The descriptions of the certificates.
-        var certificates: [Certificate]? = nil
+        public var certificates: [Certificate]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -266,15 +309,20 @@ extension Iot {
 
     }
 
-    public struct RegisterCACertificateRequest: Serializable, Initializable {
+    public struct RegisterCACertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["allowAutoRegistration": "allowAutoRegistration", "setAsActive": "setAsActive"]
+        }
         /// Allows this CA certificate to be used for auto registration of device certificates.
-        var allowAutoRegistration: Bool? = nil
+        public var allowAutoRegistration: Bool? = nil
         /// The private key verification certificate.
-        var verificationCertificate: String = ""
+        public var verificationCertificate: String = ""
         /// The CA certificate.
-        var caCertificate: String = ""
+        public var caCertificate: String = ""
         /// A boolean value that specifies if the CA certificate is set to active.
-        var setAsActive: Bool? = nil
+        public var setAsActive: Bool? = nil
 
         public init() {}
 
@@ -287,11 +335,19 @@ extension Iot {
 
     }
 
-    public struct DetachThingPrincipalRequest: Serializable, Initializable {
+    public struct DetachThingPrincipalRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-principal": "principal"]
+        }
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
         /// If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
-        var principal: String = ""
+        public var principal: String = ""
 
         public init() {}
 
@@ -302,11 +358,13 @@ extension Iot {
 
     }
 
-    public struct CreateThingResponse: Serializable, Initializable {
+    public struct CreateThingResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the new thing.
-        var thingName: String? = nil
+        public var thingName: String? = nil
         /// The ARN of the new thing.
-        var thingArn: String? = nil
+        public var thingArn: String? = nil
 
         public init() {}
 
@@ -317,11 +375,13 @@ extension Iot {
 
     }
 
-    public struct ListPrincipalThingsResponse: Serializable, Initializable {
+    public struct ListPrincipalThingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The things.
-        var things: [String]? = nil
+        public var things: [String]? = nil
 
         public init() {}
 
@@ -332,11 +392,13 @@ extension Iot {
 
     }
 
-    public struct LoggingOptionsPayload: Serializable, Initializable {
+    public struct LoggingOptionsPayload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that grants access.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The logging level.
-        var logLevel: String? = nil
+        public var logLevel: String? = nil
 
         public init() {}
 
@@ -347,17 +409,22 @@ extension Iot {
 
     }
 
-    public struct ListThingsRequest: Serializable, Initializable {
+    public struct ListThingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["attributeValue": "attributeValue", "thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults", "attributeName": "attributeName"]
+        }
         /// The attribute value used to search for things.
-        var attributeValue: String? = nil
+        public var attributeValue: String? = nil
         /// The name of the thing type used to search for things.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to return in this operation.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The attribute name used to search for things.
-        var attributeName: String? = nil
+        public var attributeName: String? = nil
 
         public init() {}
 
@@ -371,12 +438,14 @@ extension Iot {
 
     }
 
-    public struct ThingTypeDefinition: Serializable, Initializable {
-        var thingTypeMetadata: ThingTypeMetadata? = nil
+    public struct ThingTypeDefinition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var thingTypeMetadata: ThingTypeMetadata? = nil
         /// The name of the thing type.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The ThingTypeProperties for the thing type.
-        var thingTypeProperties: ThingTypeProperties? = nil
+        public var thingTypeProperties: ThingTypeProperties? = nil
 
         public init() {}
 
@@ -388,15 +457,17 @@ extension Iot {
 
     }
 
-    public struct CreateKeysAndCertificateResponse: Serializable, Initializable {
+    public struct CreateKeysAndCertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The generated key pair.
-        var keyPair: KeyPair? = nil
+        public var keyPair: KeyPair? = nil
         /// The certificate data, in PEM format.
-        var certificatePem: String? = nil
+        public var certificatePem: String? = nil
         /// The ID of the certificate. AWS IoT issues a default subject name for the certificate (for example, AWS IoT Certificate).
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The ARN of the certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -409,11 +480,13 @@ extension Iot {
 
     }
 
-    public struct GetTopicRuleResponse: Serializable, Initializable {
+    public struct GetTopicRuleResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The rule ARN.
-        var ruleArn: String? = nil
+        public var ruleArn: String? = nil
         /// The rule.
-        var rule: TopicRule? = nil
+        public var rule: TopicRule? = nil
 
         public init() {}
 
@@ -424,11 +497,16 @@ extension Iot {
 
     }
 
-    public struct CreateThingTypeRequest: Serializable, Initializable {
+    public struct CreateThingTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingTypeName": "thingTypeName"]
+        }
         /// The name of the thing type.
-        var thingTypeName: String = ""
+        public var thingTypeName: String = ""
         /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names.
-        var thingTypeProperties: ThingTypeProperties? = nil
+        public var thingTypeProperties: ThingTypeProperties? = nil
 
         public init() {}
 
@@ -439,9 +517,14 @@ extension Iot {
 
     }
 
-    public struct DescribeCACertificateRequest: Serializable, Initializable {
+    public struct DescribeCACertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["caCertificateId": "certificateId"]
+        }
         /// The CA certificate identifier.
-        var certificateId: String = ""
+        public var certificateId: String = ""
 
         public init() {}
 
@@ -451,9 +534,14 @@ extension Iot {
 
     }
 
-    public struct DescribeCertificateRequest: Serializable, Initializable {
+    public struct DescribeCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
 
         public init() {}
 
@@ -463,11 +551,16 @@ extension Iot {
 
     }
 
-    public struct CreateCertificateFromCsrRequest: Serializable, Initializable {
+    public struct CreateCertificateFromCsrRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["setAsActive": "setAsActive"]
+        }
         /// The certificate signing request (CSR).
-        var certificateSigningRequest: String = ""
+        public var certificateSigningRequest: String = ""
         /// Specifies whether the certificate is active.
-        var setAsActive: Bool? = nil
+        public var setAsActive: Bool? = nil
 
         public init() {}
 
@@ -478,9 +571,11 @@ extension Iot {
 
     }
 
-    public struct DescribeCertificateResponse: Serializable, Initializable {
+    public struct DescribeCertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the certificate.
-        var certificateDescription: CertificateDescription? = nil
+        public var certificateDescription: CertificateDescription? = nil
 
         public init() {}
 
@@ -490,9 +585,14 @@ extension Iot {
 
     }
 
-    public struct CreateKeysAndCertificateRequest: Serializable, Initializable {
+    public struct CreateKeysAndCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["setAsActive": "setAsActive"]
+        }
         /// Specifies whether the certificate is active.
-        var setAsActive: Bool? = nil
+        public var setAsActive: Bool? = nil
 
         public init() {}
 
@@ -502,11 +602,13 @@ extension Iot {
 
     }
 
-    public struct ListPrincipalPoliciesResponse: Serializable, Initializable {
+    public struct ListPrincipalPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The policies.
-        var policies: [Policy]? = nil
+        public var policies: [Policy]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -517,11 +619,19 @@ extension Iot {
 
     }
 
-    public struct DetachPrincipalPolicyRequest: Serializable, Initializable {
+    public struct DetachPrincipalPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-iot-principal": "principal"]
+        }
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The name of the policy to detach.
-        var policyName: String = ""
+        public var policyName: String = ""
         /// The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID.
-        var principal: String = ""
+        public var principal: String = ""
 
         public init() {}
 
@@ -532,13 +642,15 @@ extension Iot {
 
     }
 
-    public struct ThingTypeMetadata: Serializable, Initializable {
+    public struct ThingTypeMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
-        var deprecated: Bool? = nil
+        public var deprecated: Bool? = nil
         /// The date and time when the thing type was deprecated.
-        var deprecationDate: Date? = nil
+        public var deprecationDate: Date? = nil
         /// The date and time when the thing type was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
 
         public init() {}
 
@@ -550,9 +662,14 @@ extension Iot {
 
     }
 
-    public struct EnableTopicRuleRequest: Serializable, Initializable {
+    public struct EnableTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["ruleName": "ruleName"]
+        }
         /// The name of the topic rule to enable.
-        var ruleName: String = ""
+        public var ruleName: String = ""
 
         public init() {}
 
@@ -562,13 +679,21 @@ extension Iot {
 
     }
 
-    public struct CreatePolicyVersionRequest: Serializable, Initializable {
+    public struct CreatePolicyVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["setAsDefault": "setAsDefault"]
+        }
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The policy name.
-        var policyName: String = ""
+        public var policyName: String = ""
         /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
-        var setAsDefault: Bool? = nil
+        public var setAsDefault: Bool? = nil
         /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespaces
-        var policyDocument: String = ""
+        public var policyDocument: String = ""
 
         public init() {}
 
@@ -580,13 +705,15 @@ extension Iot {
 
     }
 
-    public struct KinesisAction: Serializable, Initializable {
+    public struct KinesisAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The name of the Amazon Kinesis stream.
-        var streamName: String = ""
+        public var streamName: String = ""
         /// The partition key.
-        var partitionKey: String? = nil
+        public var partitionKey: String? = nil
 
         public init() {}
 
@@ -598,13 +725,15 @@ extension Iot {
 
     }
 
-    public struct SqsAction: Serializable, Initializable {
+    public struct SqsAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether to use Base64 encoding.
-        var useBase64: Bool? = nil
+        public var useBase64: Bool? = nil
         /// The ARN of the IAM role that grants access.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The URL of the Amazon SQS queue.
-        var queueUrl: String = ""
+        public var queueUrl: String = ""
 
         public init() {}
 
@@ -616,15 +745,22 @@ extension Iot {
 
     }
 
-    public struct UpdateThingResponse: Serializable, Initializable {
+    public struct UpdateThingResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListThingPrincipalsRequest: Serializable, Initializable {
+    public struct ListThingPrincipalsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 
@@ -634,11 +770,16 @@ extension Iot {
 
     }
 
-    public struct SetDefaultPolicyVersionRequest: Serializable, Initializable {
+    public struct SetDefaultPolicyVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
+        }
         /// The policy version ID.
-        var policyVersionId: String = ""
+        public var policyVersionId: String = ""
         /// The policy name.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -649,13 +790,21 @@ extension Iot {
 
     }
 
-    public struct UpdateCACertificateRequest: Serializable, Initializable {
+    public struct UpdateCACertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["newStatus": "newStatus", "newAutoRegistrationStatus": "newAutoRegistrationStatus"]
+        }
+        public var pathParams: [String: String] {
+            return ["caCertificateId": "certificateId"]
+        }
         /// The CA certificate identifier.
-        var certificateId: String = ""
+        public var certificateId: String = ""
         /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        var newStatus: String? = nil
+        public var newStatus: String? = nil
         /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
-        var newAutoRegistrationStatus: String? = nil
+        public var newAutoRegistrationStatus: String? = nil
 
         public init() {}
 
@@ -667,11 +816,13 @@ extension Iot {
 
     }
 
-    public struct ListPoliciesResponse: Serializable, Initializable {
+    public struct ListPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The descriptions of the policies.
-        var policies: [Policy]? = nil
+        public var policies: [Policy]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -682,17 +833,19 @@ extension Iot {
 
     }
 
-    public struct ElasticsearchAction: Serializable, Initializable {
+    public struct ElasticsearchAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IAM role ARN that has access to Elasticsearch.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The endpoint of your Elasticsearch domain.
-        var endpoint: String = ""
+        public var endpoint: String = ""
         /// The unique identifier for the document you are storing.
-        var id: String = ""
+        public var id: String = ""
         /// The type of document you are storing.
-        var type: String = ""
+        public var type: String = ""
         /// The Elasticsearch index where you want to store your data.
-        var index: String = ""
+        public var index: String = ""
 
         public init() {}
 
@@ -706,11 +859,13 @@ extension Iot {
 
     }
 
-    public struct ListOutgoingCertificatesResponse: Serializable, Initializable {
+    public struct ListOutgoingCertificatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The marker for the next set of results.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
         /// The certificates that are being transfered but not yet accepted.
-        var outgoingCertificates: [OutgoingCertificate]? = nil
+        public var outgoingCertificates: [OutgoingCertificate]? = nil
 
         public init() {}
 
@@ -721,11 +876,19 @@ extension Iot {
 
     }
 
-    public struct UpdateCertificateRequest: Serializable, Initializable {
+    public struct UpdateCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["newStatus": "newStatus"]
+        }
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
         /// The new status. Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        var newStatus: String = ""
+        public var newStatus: String = ""
 
         public init() {}
 
@@ -736,17 +899,19 @@ extension Iot {
 
     }
 
-    public struct TopicRuleListItem: Serializable, Initializable {
+    public struct TopicRuleListItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether the rule is disabled.
-        var ruleDisabled: Bool? = nil
+        public var ruleDisabled: Bool? = nil
         /// The pattern for the topic names that apply.
-        var topicPattern: String? = nil
+        public var topicPattern: String? = nil
         /// The name of the rule.
-        var ruleName: String? = nil
+        public var ruleName: String? = nil
         /// The rule ARN.
-        var ruleArn: String? = nil
+        public var ruleArn: String? = nil
         /// The date and time the rule was created.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
 
         public init() {}
 
@@ -760,9 +925,14 @@ extension Iot {
 
     }
 
-    public struct DeleteThingTypeRequest: Serializable, Initializable {
+    public struct DeleteThingTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingTypeName": "thingTypeName"]
+        }
         /// The name of the thing type.
-        var thingTypeName: String = ""
+        public var thingTypeName: String = ""
 
         public init() {}
 
@@ -772,11 +942,13 @@ extension Iot {
 
     }
 
-    public struct RegisterCertificateResponse: Serializable, Initializable {
+    public struct RegisterCertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The certificate identifier.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The certificate ARN.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -787,9 +959,11 @@ extension Iot {
 
     }
 
-    public struct PutItemInput: Serializable, Initializable {
+    public struct PutItemInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The table where the message data will be written
-        var tableName: String = ""
+        public var tableName: String = ""
 
         public init() {}
 
@@ -799,11 +973,13 @@ extension Iot {
 
     }
 
-    public struct AttributePayload: Serializable, Initializable {
+    public struct AttributePayload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
-        var merge: Bool? = nil
+        public var merge: Bool? = nil
         /// A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}})
-        var attributes: [String: String]? = nil
+        public var attributes: [String: String]? = nil
 
         public init() {}
 
@@ -814,11 +990,16 @@ extension Iot {
 
     }
 
-    public struct CreatePolicyRequest: Serializable, Initializable {
+    public struct CreatePolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
-        var policyDocument: String = ""
+        public var policyDocument: String = ""
         /// The policy name.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -829,11 +1010,16 @@ extension Iot {
 
     }
 
-    public struct DeletePolicyVersionRequest: Serializable, Initializable {
+    public struct DeletePolicyVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
+        }
         /// The policy version ID.
-        var policyVersionId: String = ""
+        public var policyVersionId: String = ""
         /// The name of the policy.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -844,27 +1030,35 @@ extension Iot {
 
     }
 
-    public struct DeleteThingTypeResponse: Serializable, Initializable {
+    public struct DeleteThingTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteRegistrationCodeRequest: Serializable, Initializable {
+    public struct DeleteRegistrationCodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetLoggingOptionsRequest: Serializable, Initializable {
+    public struct GetLoggingOptionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct LambdaAction: Serializable, Initializable {
+    public struct LambdaAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the Lambda function.
-        var functionArn: String = ""
+        public var functionArn: String = ""
 
         public init() {}
 
@@ -874,21 +1068,23 @@ extension Iot {
 
     }
 
-    public struct TopicRule: Serializable, Initializable {
+    public struct TopicRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether the rule is disabled.
-        var ruleDisabled: Bool? = nil
+        public var ruleDisabled: Bool? = nil
         /// The name of the rule.
-        var ruleName: String? = nil
+        public var ruleName: String? = nil
         /// The date and time the rule was created.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The version of the SQL rules engine to use when evaluating the rule.
-        var awsIotSqlVersion: String? = nil
+        public var awsIotSqlVersion: String? = nil
         /// The description of the rule.
-        var description: String? = nil
+        public var description: String? = nil
         /// The actions associated with the rule.
-        var actions: [Action]? = nil
+        public var actions: [Action]? = nil
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
-        var sql: String? = nil
+        public var sql: String? = nil
 
         public init() {}
 
@@ -904,13 +1100,18 @@ extension Iot {
 
     }
 
-    public struct CreateThingRequest: Serializable, Initializable {
+    public struct CreateThingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing type associated with the new thing.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example: {\"attributes\":{\"string1\":\"string2\"}})
-        var attributePayload: AttributePayload? = nil
+        public var attributePayload: AttributePayload? = nil
         /// The name of the thing to create.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 
@@ -922,27 +1123,29 @@ extension Iot {
 
     }
 
-    public struct CertificateDescription: Serializable, Initializable {
+    public struct CertificateDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The certificate ID of the CA certificate used to sign this certificate.
-        var caCertificateId: String? = nil
+        public var caCertificateId: String? = nil
         /// The status of the certificate.
-        var status: String? = nil
+        public var status: String? = nil
         /// The date and time the certificate was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The ID of the certificate.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The certificate data, in PEM format.
-        var certificatePem: String? = nil
+        public var certificatePem: String? = nil
         /// The ID of the AWS account of the previous owner of the certificate.
-        var previousOwnedBy: String? = nil
+        public var previousOwnedBy: String? = nil
         /// The transfer data.
-        var transferData: TransferData? = nil
+        public var transferData: TransferData? = nil
         /// The ID of the AWS account that owns the certificate.
-        var ownedBy: String? = nil
+        public var ownedBy: String? = nil
         /// The ARN of the certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The date and time the certificate was last modified.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
 
         public init() {}
 
@@ -961,15 +1164,17 @@ extension Iot {
 
     }
 
-    public struct CloudwatchAlarmAction: Serializable, Initializable {
+    public struct CloudwatchAlarmAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IAM role that allows access to the CloudWatch alarm.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The reason for the alarm change.
-        var stateReason: String = ""
+        public var stateReason: String = ""
         /// The CloudWatch alarm name.
-        var alarmName: String = ""
+        public var alarmName: String = ""
         /// The value of the alarm state. Acceptable values are: OK, ALARM, INSUFFICIENT_DATA.
-        var stateValue: String = ""
+        public var stateValue: String = ""
 
         public init() {}
 
@@ -982,9 +1187,14 @@ extension Iot {
 
     }
 
-    public struct DisableTopicRuleRequest: Serializable, Initializable {
+    public struct DisableTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["ruleName": "ruleName"]
+        }
         /// The name of the rule to disable.
-        var ruleName: String = ""
+        public var ruleName: String = ""
 
         public init() {}
 
@@ -994,13 +1204,21 @@ extension Iot {
 
     }
 
-    public struct ListPrincipalThingsRequest: Serializable, Initializable {
+    public struct ListPrincipalThingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-principal": "principal"]
+        }
+        public var queryParams: [String: String] {
+            return ["maxResults": "maxResults", "nextToken": "nextToken"]
+        }
         /// The maximum number of results to return in this operation.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The principal.
-        var principal: String = ""
+        public var principal: String = ""
 
         public init() {}
 
@@ -1012,11 +1230,16 @@ extension Iot {
 
     }
 
-    public struct CreateTopicRuleRequest: Serializable, Initializable {
+    public struct CreateTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "topicRulePayload"
+        public var pathParams: [String: String] {
+            return ["ruleName": "ruleName"]
+        }
         /// The name of the rule.
-        var ruleName: String = ""
+        public var ruleName: String = ""
         /// The rule payload.
-        var topicRulePayload: TopicRulePayload = TopicRulePayload()
+        public var topicRulePayload: TopicRulePayload = TopicRulePayload()
 
         public init() {}
 
@@ -1027,9 +1250,14 @@ extension Iot {
 
     }
 
-    public struct DeleteCACertificateRequest: Serializable, Initializable {
+    public struct DeleteCACertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["caCertificateId": "certificateId"]
+        }
         /// The ID of the certificate to delete.
-        var certificateId: String = ""
+        public var certificateId: String = ""
 
         public init() {}
 
@@ -1039,15 +1267,17 @@ extension Iot {
 
     }
 
-    public struct CACertificate: Serializable, Initializable {
+    public struct CACertificate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
-        var status: String? = nil
+        public var status: String? = nil
         /// The date the CA certificate was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The ID of the CA certificate.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The ARN of the CA certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -1060,9 +1290,14 @@ extension Iot {
 
     }
 
-    public struct ListPolicyVersionsRequest: Serializable, Initializable {
+    public struct ListPolicyVersionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The policy name.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -1072,15 +1307,23 @@ extension Iot {
 
     }
 
-    public struct ListPolicyPrincipalsRequest: Serializable, Initializable {
+    public struct ListPolicyPrincipalsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-iot-policy": "policyName"]
+        }
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// The policy name.
-        var policyName: String = ""
+        public var policyName: String = ""
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
 
         public init() {}
 
@@ -1093,13 +1336,15 @@ extension Iot {
 
     }
 
-    public struct PolicyVersion: Serializable, Initializable {
+    public struct PolicyVersion: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time the policy was created.
-        var createDate: Date? = nil
+        public var createDate: Date? = nil
         /// The policy version ID.
-        var versionId: String? = nil
+        public var versionId: String? = nil
         /// Specifies whether the policy version is the default.
-        var isDefaultVersion: Bool? = nil
+        public var isDefaultVersion: Bool? = nil
 
         public init() {}
 
@@ -1111,11 +1356,19 @@ extension Iot {
 
     }
 
-    public struct AttachThingPrincipalRequest: Serializable, Initializable {
+    public struct AttachThingPrincipalRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-principal": "principal"]
+        }
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
         /// The principal, such as a certificate or other credential.
-        var principal: String = ""
+        public var principal: String = ""
 
         public init() {}
 
@@ -1126,15 +1379,19 @@ extension Iot {
 
     }
 
-    public struct DeleteCACertificateResponse: Serializable, Initializable {
+    public struct DeleteCACertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetRegistrationCodeResponse: Serializable, Initializable {
+    public struct GetRegistrationCodeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CA certificate registration code.
-        var registrationCode: String? = nil
+        public var registrationCode: String? = nil
 
         public init() {}
 
@@ -1144,11 +1401,13 @@ extension Iot {
 
     }
 
-    public struct ListCertificatesByCAResponse: Serializable, Initializable {
+    public struct ListCertificatesByCAResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device certificates signed by the specified CA certificate.
-        var certificates: [Certificate]? = nil
+        public var certificates: [Certificate]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -1159,13 +1418,18 @@ extension Iot {
 
     }
 
-    public struct ListPoliciesRequest: Serializable, Initializable {
+    public struct ListPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
 
         public init() {}
 
@@ -1177,13 +1441,18 @@ extension Iot {
 
     }
 
-    public struct ListCACertificatesRequest: Serializable, Initializable {
+    public struct ListCACertificatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// Determines the order of the results.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
 
         public init() {}
 
@@ -1195,11 +1464,16 @@ extension Iot {
 
     }
 
-    public struct DeprecateThingTypeRequest: Serializable, Initializable {
+    public struct DeprecateThingTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingTypeName": "thingTypeName"]
+        }
         /// The name of the thing type to deprecate.
-        var thingTypeName: String = ""
+        public var thingTypeName: String = ""
         /// Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things.
-        var undoDeprecate: Bool? = nil
+        public var undoDeprecate: Bool? = nil
 
         public init() {}
 
@@ -1210,17 +1484,19 @@ extension Iot {
 
     }
 
-    public struct TopicRulePayload: Serializable, Initializable {
+    public struct TopicRulePayload: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The version of the SQL rules engine to use when evaluating the rule.
-        var awsIotSqlVersion: String? = nil
+        public var awsIotSqlVersion: String? = nil
         /// Specifies whether the rule is disabled.
-        var ruleDisabled: Bool? = nil
+        public var ruleDisabled: Bool? = nil
         /// The description of the rule.
-        var description: String? = nil
+        public var description: String? = nil
         /// The actions associated with the rule.
-        var actions: [Action] = []
+        public var actions: [Action] = []
         /// The SQL statement used to query the topic. For more information, see AWS IoT SQL Reference in the AWS IoT Developer Guide.
-        var sql: String = ""
+        public var sql: String = ""
 
         public init() {}
 
@@ -1234,13 +1510,15 @@ extension Iot {
 
     }
 
-    public struct SnsAction: Serializable, Initializable {
+    public struct SnsAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see  refer to their official documentation.
-        var messageFormat: String? = nil
+        public var messageFormat: String? = nil
         /// The ARN of the IAM role that grants access.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The ARN of the SNS topic.
-        var targetArn: String = ""
+        public var targetArn: String = ""
 
         public init() {}
 
@@ -1252,11 +1530,13 @@ extension Iot {
 
     }
 
-    public struct KeyPair: Serializable, Initializable {
+    public struct KeyPair: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The public key.
-        var publicKey: String? = nil
+        public var publicKey: String? = nil
         /// The private key.
-        var privateKey: String? = nil
+        public var privateKey: String? = nil
 
         public init() {}
 
@@ -1267,15 +1547,19 @@ extension Iot {
 
     }
 
-    public struct DeleteRegistrationCodeResponse: Serializable, Initializable {
+    public struct DeleteRegistrationCodeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListPolicyVersionsResponse: Serializable, Initializable {
+    public struct ListPolicyVersionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The policy versions.
-        var policyVersions: [PolicyVersion]? = nil
+        public var policyVersions: [PolicyVersion]? = nil
 
         public init() {}
 
@@ -1285,17 +1569,19 @@ extension Iot {
 
     }
 
-    public struct GetPolicyVersionResponse: Serializable, Initializable {
+    public struct GetPolicyVersionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON document that describes the policy.
-        var policyDocument: String? = nil
+        public var policyDocument: String? = nil
         /// The policy version ID.
-        var policyVersionId: String? = nil
+        public var policyVersionId: String? = nil
         /// The policy name.
-        var policyName: String? = nil
+        public var policyName: String? = nil
         /// Specifies whether the policy version is the default.
-        var isDefaultVersion: Bool? = nil
+        public var isDefaultVersion: Bool? = nil
         /// The policy ARN.
-        var policyArn: String? = nil
+        public var policyArn: String? = nil
 
         public init() {}
 
@@ -1309,13 +1595,18 @@ extension Iot {
 
     }
 
-    public struct ListThingTypesRequest: Serializable, Initializable {
+    public struct ListThingTypesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults"]
+        }
         /// The name of the thing type.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to return in this operation.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1327,11 +1618,13 @@ extension Iot {
 
     }
 
-    public struct CreateThingTypeResponse: Serializable, Initializable {
+    public struct CreateThingTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the thing type.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The Amazon Resource Name (ARN) of the thing type.
-        var thingTypeArn: String? = nil
+        public var thingTypeArn: String? = nil
 
         public init() {}
 
@@ -1342,9 +1635,14 @@ extension Iot {
 
     }
 
-    public struct DeleteTopicRuleRequest: Serializable, Initializable {
+    public struct DeleteTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["ruleName": "ruleName"]
+        }
         /// The name of the rule.
-        var ruleName: String = ""
+        public var ruleName: String = ""
 
         public init() {}
 
@@ -1354,11 +1652,16 @@ extension Iot {
 
     }
 
-    public struct GetPolicyVersionRequest: Serializable, Initializable {
+    public struct GetPolicyVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
+        }
         /// The policy version ID.
-        var policyVersionId: String = ""
+        public var policyVersionId: String = ""
         /// The name of the policy.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -1369,11 +1672,13 @@ extension Iot {
 
     }
 
-    public struct ListTopicRulesResponse: Serializable, Initializable {
+    public struct ListTopicRulesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The rules.
-        var rules: [TopicRuleListItem]? = nil
+        public var rules: [TopicRuleListItem]? = nil
         /// A token used to retrieve the next value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1384,15 +1689,17 @@ extension Iot {
 
     }
 
-    public struct S3Action: Serializable, Initializable {
+    public struct S3Action: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon S3 bucket.
-        var bucketName: String = ""
+        public var bucketName: String = ""
         /// The ARN of the IAM role that grants access.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The Amazon S3 canned ACL that controls access to the object identified by the object key. For more information, see S3 canned ACLs.
-        var cannedAcl: String? = nil
+        public var cannedAcl: String? = nil
         /// The object key.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -1405,19 +1712,21 @@ extension Iot {
 
     }
 
-    public struct OutgoingCertificate: Serializable, Initializable {
+    public struct OutgoingCertificate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The transfer message.
-        var transferMessage: String? = nil
+        public var transferMessage: String? = nil
         /// The certificate creation date.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The certificate ID.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The certificate ARN.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The AWS account to which the transfer was made.
-        var transferredTo: String? = nil
+        public var transferredTo: String? = nil
         /// The date the transfer was initiated.
-        var transferDate: Date? = nil
+        public var transferDate: Date? = nil
 
         public init() {}
 
@@ -1432,13 +1741,15 @@ extension Iot {
 
     }
 
-    public struct CreateCertificateFromCsrResponse: Serializable, Initializable {
+    public struct CreateCertificateFromCsrResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the certificate. Certificate management operations only take a certificateId.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The certificate data, in PEM format.
-        var certificatePem: String? = nil
+        public var certificatePem: String? = nil
 
         public init() {}
 
@@ -1450,9 +1761,11 @@ extension Iot {
 
     }
 
-    public struct TransferCertificateResponse: Serializable, Initializable {
+    public struct TransferCertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the certificate.
-        var transferredCertificateArn: String? = nil
+        public var transferredCertificateArn: String? = nil
 
         public init() {}
 
@@ -1462,13 +1775,15 @@ extension Iot {
 
     }
 
-    public struct FirehoseAction: Serializable, Initializable {
+    public struct FirehoseAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IAM role that grants access to the Amazon Kinesis Firehost stream.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The delivery stream name.
-        var deliveryStreamName: String = ""
+        public var deliveryStreamName: String = ""
         /// A character separator that will be used to separate records written to the Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
-        var separator: String? = nil
+        public var separator: String? = nil
 
         public init() {}
 
@@ -1480,15 +1795,17 @@ extension Iot {
 
     }
 
-    public struct CreatePolicyVersionResponse: Serializable, Initializable {
+    public struct CreatePolicyVersionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The policy ARN.
-        var policyArn: String? = nil
+        public var policyArn: String? = nil
         /// The policy version ID.
-        var policyVersionId: String? = nil
+        public var policyVersionId: String? = nil
         /// Specifies whether the policy version is the default.
-        var isDefaultVersion: Bool? = nil
+        public var isDefaultVersion: Bool? = nil
         /// The JSON document that describes the policy.
-        var policyDocument: String? = nil
+        public var policyDocument: String? = nil
 
         public init() {}
 
@@ -1501,11 +1818,19 @@ extension Iot {
 
     }
 
-    public struct AcceptCertificateTransferRequest: Serializable, Initializable {
+    public struct AcceptCertificateTransferRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["setAsActive": "setAsActive"]
+        }
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
         /// Specifies whether the certificate is active.
-        var setAsActive: Bool? = nil
+        public var setAsActive: Bool? = nil
 
         public init() {}
 
@@ -1516,9 +1841,14 @@ extension Iot {
 
     }
 
-    public struct CancelCertificateTransferRequest: Serializable, Initializable {
+    public struct CancelCertificateTransferRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
 
         public init() {}
 
@@ -1528,9 +1858,14 @@ extension Iot {
 
     }
 
-    public struct DeleteCertificateRequest: Serializable, Initializable {
+    public struct DeleteCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
 
         public init() {}
 
@@ -1540,15 +1875,19 @@ extension Iot {
 
     }
 
-    public struct DetachThingPrincipalResponse: Serializable, Initializable {
+    public struct DetachThingPrincipalResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeEndpointResponse: Serializable, Initializable {
+    public struct DescribeEndpointResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
-        var endpointAddress: String? = nil
+        public var endpointAddress: String? = nil
 
         public init() {}
 
@@ -1558,11 +1897,16 @@ extension Iot {
 
     }
 
-    public struct RejectCertificateTransferRequest: Serializable, Initializable {
+    public struct RejectCertificateTransferRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["certificateId": "certificateId"]
+        }
         /// The ID of the certificate.
-        var certificateId: String = ""
+        public var certificateId: String = ""
         /// The reason the certificate transfer was rejected.
-        var rejectReason: String? = nil
+        public var rejectReason: String? = nil
 
         public init() {}
 
@@ -1573,17 +1917,19 @@ extension Iot {
 
     }
 
-    public struct TransferData: Serializable, Initializable {
+    public struct TransferData: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date the transfer was rejected.
-        var rejectDate: Date? = nil
+        public var rejectDate: Date? = nil
         /// The transfer message.
-        var transferMessage: String? = nil
+        public var transferMessage: String? = nil
         /// The date the transfer was accepted.
-        var acceptDate: Date? = nil
+        public var acceptDate: Date? = nil
         /// The date the transfer took place.
-        var transferDate: Date? = nil
+        public var transferDate: Date? = nil
         /// The reason why the transfer was rejected.
-        var rejectReason: String? = nil
+        public var rejectReason: String? = nil
 
         public init() {}
 
@@ -1597,9 +1943,14 @@ extension Iot {
 
     }
 
-    public struct GetPolicyRequest: Serializable, Initializable {
+    public struct GetPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The name of the policy.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -1609,15 +1960,17 @@ extension Iot {
 
     }
 
-    public struct Certificate: Serializable, Initializable {
+    public struct Certificate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
-        var status: String? = nil
+        public var status: String? = nil
         /// The date and time the certificate was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The ID of the certificate.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The ARN of the certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -1630,14 +1983,19 @@ extension Iot {
 
     }
 
-    public struct RegisterCertificateRequest: Serializable, Initializable {
+    public struct RegisterCertificateRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["setAsActive": "setAsActive"]
+        }
         /// The CA certificate used to sign the device certificate being registered.
-        var caCertificatePem: String? = nil
-        var status: String? = nil
+        public var caCertificatePem: String? = nil
+        public var status: String? = nil
         /// The certificate data, in PEM format.
-        var certificatePem: String = ""
+        public var certificatePem: String = ""
         /// A boolean value that specifies if the CA certificate is set to active.
-        var setAsActive: Bool? = nil
+        public var setAsActive: Bool? = nil
 
         public init() {}
 
@@ -1650,9 +2008,11 @@ extension Iot {
 
     }
 
-    public struct ListThingPrincipalsResponse: Serializable, Initializable {
+    public struct ListThingPrincipalsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The principals associated with the thing.
-        var principals: [String]? = nil
+        public var principals: [String]? = nil
 
         public init() {}
 
@@ -1662,11 +2022,13 @@ extension Iot {
 
     }
 
-    public struct GetLoggingOptionsResponse: Serializable, Initializable {
+    public struct GetLoggingOptionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that grants access.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// The logging level.
-        var logLevel: String? = nil
+        public var logLevel: String? = nil
 
         public init() {}
 
@@ -1677,13 +2039,18 @@ extension Iot {
 
     }
 
-    public struct ListOutgoingCertificatesRequest: Serializable, Initializable {
+    public struct ListOutgoingCertificatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
 
         public init() {}
 
@@ -1695,11 +2062,13 @@ extension Iot {
 
     }
 
-    public struct ListCACertificatesResponse: Serializable, Initializable {
+    public struct ListCACertificatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CA certificates registered in your AWS account.
-        var certificates: [CACertificate]? = nil
+        public var certificates: [CACertificate]? = nil
         /// The current position within the list of CA certificates.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -1710,11 +2079,13 @@ extension Iot {
 
     }
 
-    public struct ThingTypeProperties: Serializable, Initializable {
+    public struct ThingTypeProperties: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the thing type.
-        var thingTypeDescription: String? = nil
+        public var thingTypeDescription: String? = nil
         /// A list of searchable thing attribute names.
-        var searchableAttributes: [String]? = nil
+        public var searchableAttributes: [String]? = nil
 
         public init() {}
 
@@ -1725,15 +2096,17 @@ extension Iot {
 
     }
 
-    public struct GetPolicyResponse: Serializable, Initializable {
+    public struct GetPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The policy name.
-        var policyName: String? = nil
+        public var policyName: String? = nil
         /// The default policy version ID.
-        var defaultVersionId: String? = nil
+        public var defaultVersionId: String? = nil
         /// The policy ARN.
-        var policyArn: String? = nil
+        public var policyArn: String? = nil
         /// The JSON document that describes the policy.
-        var policyDocument: String? = nil
+        public var policyDocument: String? = nil
 
         public init() {}
 
@@ -1746,11 +2119,13 @@ extension Iot {
 
     }
 
-    public struct ListThingsResponse: Serializable, Initializable {
+    public struct ListThingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The things.
-        var things: [ThingAttribute]? = nil
+        public var things: [ThingAttribute]? = nil
 
         public init() {}
 
@@ -1761,15 +2136,23 @@ extension Iot {
 
     }
 
-    public struct ListPrincipalPoliciesRequest: Serializable, Initializable {
+    public struct ListPrincipalPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-iot-principal": "principal"]
+        }
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// Specifies the order for results. If true, results are returned in ascending creation order.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
         /// The principal.
-        var principal: String = ""
+        public var principal: String = ""
 
         public init() {}
 
@@ -1782,15 +2165,17 @@ extension Iot {
 
     }
 
-    public struct ThingAttribute: Serializable, Initializable {
+    public struct ThingAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the thing.
-        var thingName: String? = nil
+        public var thingName: String? = nil
         /// The name of the thing type, if the thing has been associated with a type.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// A list of thing attributes which are name-value pairs.
-        var attributes: [String: String]? = nil
+        public var attributes: [String: String]? = nil
         /// The version of the thing record in the registry.
-        var version: Int64? = nil
+        public var version: Int64? = nil
 
         public init() {}
 
@@ -1803,9 +2188,14 @@ extension Iot {
 
     }
 
-    public struct DeletePolicyRequest: Serializable, Initializable {
+    public struct DeletePolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The name of the policy to delete.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -1815,9 +2205,14 @@ extension Iot {
 
     }
 
-    public struct DescribeThingRequest: Serializable, Initializable {
+    public struct DescribeThingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The name of the thing.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 
@@ -1827,21 +2222,23 @@ extension Iot {
 
     }
 
-    public struct CACertificateDescription: Serializable, Initializable {
+    public struct CACertificateDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of a CA certificate.
-        var status: String? = nil
+        public var status: String? = nil
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
-        var autoRegistrationStatus: String? = nil
+        public var autoRegistrationStatus: String? = nil
         /// The date the CA certificate was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The CA certificate ID.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The CA certificate data, in PEM format.
-        var certificatePem: String? = nil
+        public var certificatePem: String? = nil
         /// The owner of the CA certificate.
-        var ownedBy: String? = nil
+        public var ownedBy: String? = nil
         /// The CA certificate ARN.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -1857,15 +2254,20 @@ extension Iot {
 
     }
 
-    public struct ListTopicRulesRequest: Serializable, Initializable {
+    public struct ListTopicRulesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["ruleDisabled": "ruleDisabled", "maxResults": "maxResults", "nextToken": "nextToken", "topic": "topic"]
+        }
         /// Specifies whether the rule is disabled.
-        var ruleDisabled: Bool? = nil
+        public var ruleDisabled: Bool? = nil
         /// The maximum number of results to return.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// A token used to retrieve the next value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The topic.
-        var topic: String? = nil
+        public var topic: String? = nil
 
         public init() {}
 
@@ -1878,17 +2280,19 @@ extension Iot {
 
     }
 
-    public struct DescribeThingResponse: Serializable, Initializable {
+    public struct DescribeThingResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The default client ID.
-        var defaultClientId: String? = nil
+        public var defaultClientId: String? = nil
         /// The name of the thing.
-        var thingName: String? = nil
+        public var thingName: String? = nil
         /// The thing type name.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The thing attributes.
-        var attributes: [String: String]? = nil
+        public var attributes: [String: String]? = nil
         /// The current version of the thing record in the registry.  To avoid unintentional changes to the information in the registry, you can pass the version information in the expectedVersion parameter of the UpdateThing and DeleteThing calls. 
-        var version: Int64? = nil
+        public var version: Int64? = nil
 
         public init() {}
 
@@ -1902,9 +2306,14 @@ extension Iot {
 
     }
 
-    public struct DescribeThingTypeRequest: Serializable, Initializable {
+    public struct DescribeThingTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingTypeName": "thingTypeName"]
+        }
         /// The name of the thing type.
-        var thingTypeName: String = ""
+        public var thingTypeName: String = ""
 
         public init() {}
 
@@ -1914,11 +2323,19 @@ extension Iot {
 
     }
 
-    public struct AttachPrincipalPolicyRequest: Serializable, Initializable {
+    public struct AttachPrincipalPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amzn-iot-principal": "principal"]
+        }
+        public var pathParams: [String: String] {
+            return ["policyName": "policyName"]
+        }
         /// The policy name.
-        var policyName: String = ""
+        public var policyName: String = ""
         /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
-        var principal: String = ""
+        public var principal: String = ""
 
         public init() {}
 
@@ -1929,17 +2346,22 @@ extension Iot {
 
     }
 
-    public struct UpdateThingRequest: Serializable, Initializable {
+    public struct UpdateThingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// Remove a thing type association. If true, the assocation is removed.
-        var removeThingType: Bool? = nil
+        public var removeThingType: Bool? = nil
         /// The name of the thing to update.
-        var thingName: String = ""
+        public var thingName: String = ""
         /// The name of the thing type.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
-        var expectedVersion: Int64? = nil
+        public var expectedVersion: Int64? = nil
         /// A list of thing attributes, a JSON string containing name-value pairs. For example: {\"attributes\":{\"name1\":\"value2\"}}) This data is used to add new attributes or update existing attributes.
-        var attributePayload: AttributePayload? = nil
+        public var attributePayload: AttributePayload? = nil
 
         public init() {}
 
@@ -1953,19 +2375,26 @@ extension Iot {
 
     }
 
-    public struct DeprecateThingTypeResponse: Serializable, Initializable {
+    public struct DeprecateThingTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListCertificatesRequest: Serializable, Initializable {
+    public struct ListCertificatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
+        }
         /// The marker for the next set of results.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The result page size.
-        var pageSize: Int32? = nil
+        public var pageSize: Int32? = nil
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        var ascendingOrder: Bool? = nil
+        public var ascendingOrder: Bool? = nil
 
         public init() {}
 
@@ -1977,11 +2406,16 @@ extension Iot {
 
     }
 
-    public struct ReplaceTopicRuleRequest: Serializable, Initializable {
+    public struct ReplaceTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "topicRulePayload"
+        public var pathParams: [String: String] {
+            return ["ruleName": "ruleName"]
+        }
         /// The name of the rule.
-        var ruleName: String = ""
+        public var ruleName: String = ""
         /// The rule payload.
-        var topicRulePayload: TopicRulePayload = TopicRulePayload()
+        public var topicRulePayload: TopicRulePayload = TopicRulePayload()
 
         public init() {}
 
@@ -1992,19 +2426,21 @@ extension Iot {
 
     }
 
-    public struct CloudwatchMetricAction: Serializable, Initializable {
+    public struct CloudwatchMetricAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CloudWatch metric value.
-        var metricValue: String = ""
+        public var metricValue: String = ""
         /// The IAM role that allows access to the CloudWatch metric.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// An optional Unix timestamp.
-        var metricTimestamp: String? = nil
+        public var metricTimestamp: String? = nil
         /// The CloudWatch metric namespace name.
-        var metricNamespace: String = ""
+        public var metricNamespace: String = ""
         /// The CloudWatch metric name.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The metric unit supported by CloudWatch.
-        var metricUnit: String = ""
+        public var metricUnit: String = ""
 
         public init() {}
 
@@ -2019,11 +2455,13 @@ extension Iot {
 
     }
 
-    public struct RegisterCACertificateResponse: Serializable, Initializable {
+    public struct RegisterCACertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The CA certificate identifier.
-        var certificateId: String? = nil
+        public var certificateId: String? = nil
         /// The CA certificate ARN.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
 
         public init() {}
 
@@ -2034,12 +2472,14 @@ extension Iot {
 
     }
 
-    public struct DescribeThingTypeResponse: Serializable, Initializable {
-        var thingTypeMetadata: ThingTypeMetadata? = nil
+    public struct DescribeThingTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var thingTypeMetadata: ThingTypeMetadata? = nil
         /// The name of the thing type.
-        var thingTypeName: String? = nil
+        public var thingTypeName: String? = nil
         /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
-        var thingTypeProperties: ThingTypeProperties? = nil
+        public var thingTypeProperties: ThingTypeProperties? = nil
 
         public init() {}
 
@@ -2051,27 +2491,29 @@ extension Iot {
 
     }
 
-    public struct DynamoDBAction: Serializable, Initializable {
+    public struct DynamoDBAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the IAM role that grants access to the DynamoDB table.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The range key type. Valid values are "STRING" or "NUMBER"
-        var rangeKeyType: String? = nil
+        public var rangeKeyType: String? = nil
         /// The range key value.
-        var rangeKeyValue: String? = nil
+        public var rangeKeyValue: String? = nil
         /// The hash key value.
-        var hashKeyValue: String = ""
+        public var hashKeyValue: String = ""
         /// The action payload. This name can be customized.
-        var payloadField: String? = nil
+        public var payloadField: String? = nil
         /// The type of operation to be performed. This follows the substitution template, so it can be ${operation}, but the substitution must result in one of the following: INSERT, UPDATE, or DELETE.
-        var operation: String? = nil
+        public var operation: String? = nil
         /// The range key name.
-        var rangeKeyField: String? = nil
+        public var rangeKeyField: String? = nil
         /// The name of the DynamoDB table.
-        var tableName: String = ""
+        public var tableName: String = ""
         /// The hash key name.
-        var hashKeyField: String = ""
+        public var hashKeyField: String = ""
         /// The hash key type. Valid values are "STRING" or "NUMBER"
-        var hashKeyType: String? = nil
+        public var hashKeyType: String? = nil
 
         public init() {}
 
@@ -2090,29 +2532,43 @@ extension Iot {
 
     }
 
-    public struct AttachThingPrincipalResponse: Serializable, Initializable {
+    public struct AttachThingPrincipalResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteThingResponse: Serializable, Initializable {
+    public struct DeleteThingResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeEndpointRequest: Serializable, Initializable {
+    public struct DescribeEndpointRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteThingRequest: Serializable, Initializable {
+    public struct DeleteThingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["expectedVersion": "expectedVersion"]
+        }
+        public var pathParams: [String: String] {
+            return ["thingName": "thingName"]
+        }
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
-        var expectedVersion: Int64? = nil
+        public var expectedVersion: Int64? = nil
         /// The name of the thing to delete.
-        var thingName: String = ""
+        public var thingName: String = ""
 
         public init() {}
 

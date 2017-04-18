@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Sdb
-public enum SdbError: Error {
+public enum SdbError: AWSErrorType {
     case duplicateItemName(message: String?)
     case invalidParameterValue(message: String?)
     case missingParameter(message: String?)

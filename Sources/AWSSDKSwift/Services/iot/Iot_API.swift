@@ -32,341 +32,304 @@ AWS IoT AWS IoT provides secure, bi-directional communication between Internet-c
 */
 public struct Iot {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "iot",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [IotError.self]
         )
     }
 
     ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
     public func updateCertificate(_ input: UpdateCertificateRequest) throws {
-        _ = try request.invoke(operation: "UpdateCertificate", path: "/certificates/\(input.certificateId)?newStatus=\(input.newStatus)", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
     public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) throws {
-        _ = try request.invoke(operation: "SetDefaultPolicyVersion", path: "/policies/\(input.policyName)/version/\(input.policyVersionId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
     public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) throws -> CreateKeysAndCertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate?setAsActive=\(input.setAsActive?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
     }
 
     ///  Gets a registration code used to register a CA certificate with AWS IoT.
     public func getRegistrationCode(_ input: GetRegistrationCodeRequest) throws -> GetRegistrationCodeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
     public func deletePolicy(_ input: DeletePolicyRequest) throws {
-        _ = try request.invoke(operation: "DeletePolicy", path: "/policies/\(input.policyName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes the specified policy from the specified certificate.
     public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) throws {
-        _ = try request.invoke(operation: "DetachPrincipalPolicy", path: "/principal-policies/\(input.policyName)", httpMethod: "DELETE", httpHeaders: ["x-amzn-iot-principal": input.principal], input: input)
+        _ = try client.send(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Lists the things associated with the specified principal.
     public func listPrincipalThings(_ input: ListPrincipalThingsRequest) throws -> ListPrincipalThingsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPrincipalThings", path: "/principals/things?maxResults=\(input.maxResults?.description ?? "")&nextToken=\(input.nextToken?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amzn-principal": input.principal], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: "GET", input: input)
     }
 
     ///  Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
     public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) throws {
-        _ = try request.invoke(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/\(input.certificateId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
     public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest) throws {
-        _ = try request.invoke(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/\(input.certificateId)?setAsActive=\(input.setAsActive?.description ?? "")", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Attaches the specified policy to the specified principal (certificate or other credential).
     public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) throws {
-        _ = try request.invoke(operation: "AttachPrincipalPolicy", path: "/principal-policies/\(input.policyName)", httpMethod: "PUT", httpHeaders: ["x-amzn-iot-principal": input.principal], input: input)
+        _ = try client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
     }
 
     ///  Replaces the specified rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
     public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) throws {
-        _ = try request.invoke(operation: "ReplaceTopicRule", path: "/rules/\(input.ruleName)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.
     public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest) throws -> ListPrincipalPoliciesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPrincipalPolicies", path: "/principal-policies?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amzn-iot-principal": input.principal], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: "GET", input: input)
     }
 
     ///  Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
     public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) throws {
-        _ = try request.invoke(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/\(input.certificateId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  List the device certificates signed by the specified CA certificate.
     public func listCertificatesByCA(_ input: ListCertificatesByCARequest) throws -> ListCertificatesByCAResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListCertificatesByCA", path: "/certificates-by-ca/\(input.caCertificateId)?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: "GET", input: input)
     }
 
     ///  Updates a registered CA certificate.
     public func updateCACertificate(_ input: UpdateCACertificateRequest) throws {
-        _ = try request.invoke(operation: "UpdateCACertificate", path: "/cacertificate/\(input.certificateId)?newStatus=\(input.newStatus?.description ?? "")&newAutoRegistrationStatus=\(input.newAutoRegistrationStatus?.description ?? "")", httpMethod: "PUT", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes the specified rule.
     public func deleteTopicRule(_ input: DeleteTopicRuleRequest) throws {
-        _ = try request.invoke(operation: "DeleteTopicRule", path: "/rules/\(input.ruleName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Lists the versions of the specified policy and identifies the default version.
     public func listPolicyVersions(_ input: ListPolicyVersionsRequest) throws -> ListPolicyVersionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPolicyVersions", path: "/policies/\(input.policyName)/version", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: "GET", input: input)
     }
 
     ///  Attaches the specified principal to the specified thing.
     public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) throws -> AttachThingPrincipalResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AttachThingPrincipal", path: "/things/\(input.thingName)/principals", httpMethod: "PUT", httpHeaders: ["x-amzn-principal": input.principal], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "PUT", input: input)
     }
 
     ///  Registers a device certificate with AWS IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered.
     public func registerCertificate(_ input: RegisterCertificateRequest) throws -> RegisterCertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterCertificate", path: "/certificate/register?setAsActive=\(input.setAsActive?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: "POST", input: input)
     }
 
     ///  Lists the rules for the specific topic.
     public func listTopicRules(_ input: ListTopicRulesRequest) throws -> ListTopicRulesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTopicRules", path: "/rules?ruleDisabled=\(input.ruleDisabled?.description ?? "")&maxResults=\(input.maxResults?.description ?? "")&nextToken=\(input.nextToken?.description ?? "")&topic=\(input.topic?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTopicRules", path: "/rules", httpMethod: "GET", input: input)
     }
 
     ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
     public func listThings(_ input: ListThingsRequest) throws -> ListThingsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListThings", path: "/things?attributeValue=\(input.attributeValue?.description ?? "")&thingTypeName=\(input.thingTypeName?.description ?? "")&nextToken=\(input.nextToken?.description ?? "")&maxResults=\(input.maxResults?.description ?? "")&attributeName=\(input.attributeName?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListThings", path: "/things", httpMethod: "GET", input: input)
     }
 
     ///  Creates an AWS IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
     public func createPolicy(_ input: CreatePolicyRequest) throws -> CreatePolicyResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePolicy", path: "/policies/\(input.policyName)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: "POST", input: input)
     }
 
     ///  Detaches the specified principal from the specified thing.
     public func detachThingPrincipal(_ input: DetachThingPrincipalRequest) throws -> DetachThingPrincipalResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DetachThingPrincipal", path: "/things/\(input.thingName)/principals", httpMethod: "DELETE", httpHeaders: ["x-amzn-principal": input.principal], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "DELETE", input: input)
     }
 
     ///  Transfers the specified certificate to the specified AWS account. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate API to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPrincipalPolicy API to detach them.
     public func transferCertificate(_ input: TransferCertificateRequest) throws -> TransferCertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TransferCertificate", path: "/transfer-certificate/\(input.certificateId)?targetAwsAccount=\(input.targetAwsAccount)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Gets the logging options.
     public func getLoggingOptions(_ input: GetLoggingOptionsRequest) throws -> GetLoggingOptionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: "GET", input: input)
     }
 
     ///  Lists the existing thing types.
     public func listThingTypes(_ input: ListThingTypesRequest) throws -> ListThingTypesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListThingTypes", path: "/thing-types?thingTypeName=\(input.thingTypeName?.description ?? "")&nextToken=\(input.nextToken?.description ?? "")&maxResults=\(input.maxResults?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListThingTypes", path: "/thing-types", httpMethod: "GET", input: input)
     }
 
     ///  Sets the logging options.
     public func setLoggingOptions(_ input: SetLoggingOptionsRequest) throws {
-        _ = try request.invoke(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: "POST", input: input)
     }
 
     ///  Lists certificates that are being transfered but not yet accepted.
     public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest) throws -> ListOutgoingCertificatesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListOutgoingCertificates", path: "/certificates-out-going?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: "GET", input: input)
     }
 
     ///  Describes a registered CA certificate.
     public func describeCACertificate(_ input: DescribeCACertificateRequest) throws -> DescribeCACertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeCACertificate", path: "/cacertificate/\(input.certificateId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "GET", input: input)
     }
 
     ///  Deprecates a thing type. You can not associate new things with deprecated thing type.
     public func deprecateThingType(_ input: DeprecateThingTypeRequest) throws -> DeprecateThingTypeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeprecateThingType", path: "/thing-types/\(input.thingTypeName)/deprecate", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: "POST", input: input)
     }
 
     ///  Creates an X.509 certificate using the specified certificate signing request. Note Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs.  Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR.   The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process:   $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:   &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:   &gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest) throws -> CreateCertificateFromCsrResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateCertificateFromCsr", path: "/certificates?setAsActive=\(input.setAsActive?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: "POST", input: input)
     }
 
     ///  Lists the principals associated with the specified thing.
     public func listThingPrincipals(_ input: ListThingPrincipalsRequest) throws -> ListThingPrincipalsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListThingPrincipals", path: "/things/\(input.thingName)/principals", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: "GET", input: input)
     }
 
     ///  Lists the principals associated with the specified policy.
     public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest) throws -> ListPolicyPrincipalsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPolicyPrincipals", path: "/policy-principals?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: ["x-amzn-iot-policy": input.policyName], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the specified rule.
     public func getTopicRule(_ input: GetTopicRuleRequest) throws -> GetTopicRuleResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetTopicRule", path: "/rules/\(input.ruleName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: "GET", input: input)
     }
 
     ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
     public func createTopicRule(_ input: CreateTopicRuleRequest) throws {
-        _ = try request.invoke(operation: "CreateTopicRule", path: "/rules/\(input.ruleName)", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the specified thing type.
     public func describeThingType(_ input: DescribeThingTypeRequest) throws -> DescribeThingTypeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeThingType", path: "/thing-types/\(input.thingTypeName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: "GET", input: input)
     }
 
     ///  Updates the data for a thing.
     public func updateThing(_ input: UpdateThingRequest) throws -> UpdateThingResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateThing", path: "/things/\(input.thingName)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateThing", path: "/things/{thingName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Creates a thing record in the thing registry.
     public func createThing(_ input: CreateThingRequest) throws -> CreateThingResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateThing", path: "/things/\(input.thingName)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateThing", path: "/things/{thingName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new version of the specified AWS IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
     public func createPolicyVersion(_ input: CreatePolicyVersionRequest) throws -> CreatePolicyVersionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePolicyVersion", path: "/policies/\(input.policyName)/version?setAsDefault=\(input.setAsDefault?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePolicyVersion", path: "/policies/{policyName}/version", httpMethod: "POST", input: input)
     }
 
     ///  Lists your policies.
     public func listPolicies(_ input: ListPoliciesRequest) throws -> ListPoliciesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPolicies", path: "/policies?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPolicies", path: "/policies", httpMethod: "GET", input: input)
     }
 
     ///  Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
     public func listCertificates(_ input: ListCertificatesRequest) throws -> ListCertificatesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListCertificates", path: "/certificates?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListCertificates", path: "/certificates", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
     public func deleteCertificate(_ input: DeleteCertificateRequest) throws {
-        _ = try request.invoke(operation: "DeleteCertificate", path: "/certificates/\(input.certificateId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified thing type . You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type.
     public func deleteThingType(_ input: DeleteThingTypeRequest) throws -> DeleteThingTypeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteThingType", path: "/thing-types/\(input.thingTypeName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a CA certificate registration code.
     public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest) throws -> DeleteRegistrationCodeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about the specified policy version.
     public func getPolicyVersion(_ input: GetPolicyVersionRequest) throws -> GetPolicyVersionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetPolicyVersion", path: "/policies/\(input.policyName)/version/\(input.policyVersionId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a registered CA certificate.
     public func deleteCACertificate(_ input: DeleteCACertificateRequest) throws -> DeleteCACertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteCACertificate", path: "/cacertificate/\(input.certificateId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about the specified policy with the policy document of the default version.
     public func getPolicy(_ input: GetPolicyRequest) throws -> GetPolicyResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetPolicy", path: "/policies/\(input.policyName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new thing type.
     public func createThingType(_ input: CreateThingTypeRequest) throws -> CreateThingTypeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateThingType", path: "/thing-types/\(input.thingTypeName)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: "POST", input: input)
     }
 
     ///  Returns a unique endpoint specific to the AWS account making the call.
     public func describeEndpoint(_ input: DescribeEndpointRequest) throws -> DescribeEndpointResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the specified thing.
     public func describeThing(_ input: DescribeThingRequest) throws -> DescribeThingResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeThing", path: "/things/\(input.thingName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: "GET", input: input)
     }
 
     ///  Enables the specified rule.
     public func enableTopicRule(_ input: EnableTopicRuleRequest) throws {
-        _ = try request.invoke(operation: "EnableTopicRule", path: "/rules/\(input.ruleName)/enable", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: "POST", input: input)
     }
 
     ///  Disables the specified rule.
     public func disableTopicRule(_ input: DisableTopicRuleRequest) throws {
-        _ = try request.invoke(operation: "DisableTopicRule", path: "/rules/\(input.ruleName)/disable", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: "POST", input: input)
     }
 
     ///  Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field and public key. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
     public func registerCACertificate(_ input: RegisterCACertificateRequest) throws -> RegisterCACertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterCACertificate", path: "/cacertificate?allowAutoRegistration=\(input.allowAutoRegistration?.description ?? "")&setAsActive=\(input.setAsActive?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: "POST", input: input)
     }
 
     ///  Lists the CA certificates registered for your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
     public func listCACertificates(_ input: ListCACertificatesRequest) throws -> ListCACertificatesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListCACertificates", path: "/cacertificates?marker=\(input.marker?.description ?? "")&pageSize=\(input.pageSize?.description ?? "")&isAscendingOrder=\(input.ascendingOrder?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListCACertificates", path: "/cacertificates", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the specified thing.
     public func deleteThing(_ input: DeleteThingRequest) throws -> DeleteThingResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteThing", path: "/things/\(input.thingName)?expectedVersion=\(input.expectedVersion?.description ?? "")", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteThing", path: "/things/{thingName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions.
     public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) throws {
-        _ = try request.invoke(operation: "DeletePolicyVersion", path: "/policies/\(input.policyName)/version/\(input.policyVersionId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about the specified certificate.
     public func describeCertificate(_ input: DescribeCertificateRequest) throws -> DescribeCertificateResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeCertificate", path: "/certificates/\(input.certificateId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try IotResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: "GET", input: input)
     }
 
 

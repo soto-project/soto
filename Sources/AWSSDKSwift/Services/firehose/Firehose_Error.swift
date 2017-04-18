@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Firehose
-public enum FirehoseError: Error {
+public enum FirehoseError: AWSErrorType {
     case invalidArgumentException(message: String?)
     case limitExceededException(message: String?)
     case resourceInUseException(message: String?)

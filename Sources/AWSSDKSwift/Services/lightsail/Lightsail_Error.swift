@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Lightsail
-public enum LightsailError: Error {
+public enum LightsailError: AWSErrorType {
     case serviceException(message: String?)
     case invalidInputException(message: String?)
     case notFoundException(message: String?)

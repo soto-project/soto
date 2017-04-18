@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Elasticloadbalancing
-public enum ElasticloadbalancingError: Error {
+public enum ElasticloadbalancingError: AWSErrorType {
     case loadBalancerNotFoundException(message: String?)
     case invalidConfigurationRequestException(message: String?)
     case subnetNotFoundException(message: String?)

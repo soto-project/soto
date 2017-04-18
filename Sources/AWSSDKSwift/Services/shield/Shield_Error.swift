@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Shield
-public enum ShieldError: Error {
+public enum ShieldError: AWSErrorType {
     case internalErrorException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case invalidParameterException(message: String?)

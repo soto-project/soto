@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Glacier
-public enum GlacierError: Error {
+public enum GlacierError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case invalidParameterValueException(message: String?)
     case missingParameterValueException(message: String?)

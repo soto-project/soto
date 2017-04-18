@@ -32,53 +32,50 @@ AWS Health The AWS Health API provides programmatic access to the AWS Health inf
 */
 public struct Health {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSHealth_20160804",
             service: "health",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [HealthError.self]
         )
     }
 
     ///  Returns detailed information about one or more specified events. Information includes standard event data (region, service, etc., as returned by DescribeEvents), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included; to retrieve those, use the DescribeAffectedEntities operation. If a specified event cannot be retrieved, an error message is returned for that event.
     public func describeEventDetails(_ input: DescribeEventDetailsRequest) throws -> DescribeEventDetailsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEventDetails", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try HealthResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEventDetails", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the event types that meet the specified filter criteria. If no filter criteria are specified, all event types are returned, in no particular order.
     public func describeEventTypes(_ input: DescribeEventTypesRequest) throws -> DescribeEventTypesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEventTypes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try HealthResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEventTypes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime, starting with the most recent.
     public func describeEvents(_ input: DescribeEventsRequest) throws -> DescribeEventsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEvents", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try HealthResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the AWS service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. Results are sorted by the lastUpdatedTime of the entity, starting with the most recent.
     public func describeAffectedEntities(_ input: DescribeAffectedEntitiesRequest) throws -> DescribeAffectedEntitiesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAffectedEntities", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try HealthResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAffectedEntities", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned.
     public func describeEventAggregates(_ input: DescribeEventAggregatesRequest) throws -> DescribeEventAggregatesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEventAggregates", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try HealthResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEventAggregates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the number of entities that are affected by each of the specified events. If no events are specified, the counts of all affected entities are returned.
     public func describeEntityAggregates(_ input: DescribeEntityAggregatesRequest) throws -> DescribeEntityAggregatesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEntityAggregates", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try HealthResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEntityAggregates", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Clouddirectory
-public enum ClouddirectoryError: Error {
+public enum ClouddirectoryError: AWSErrorType {
     case internalServiceException(message: String?)
     case invalidArnException(message: String?)
     case retryableConflictException(message: String?)

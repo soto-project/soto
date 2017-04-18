@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Sms
-public enum SmsError: Error {
+public enum SmsError: AWSErrorType {
     case invalidParameterException(message: String?)
     case missingRequiredParameterException(message: String?)
     case unauthorizedOperationException(message: String?)

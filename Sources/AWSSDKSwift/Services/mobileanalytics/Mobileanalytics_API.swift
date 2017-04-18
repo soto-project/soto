@@ -32,21 +32,24 @@ Amazon Mobile Analytics is a service for collecting, visualizing, and understand
 */
 public struct Mobileanalytics {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "mobileanalytics",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [MobileanalyticsError.self]
         )
     }
 
     ///  The PutEvents operation records one or more events. You can have up to 1,500 unique custom events per app, any combination of up to 40 attributes and metrics per custom event, and any number of attribute or metric values.
     public func putEvents(_ input: PutEventsInput) throws {
-        _ = try request.invoke(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: "POST", httpHeaders: ["x-amz-Client-Context-Encoding": input.clientContextEncoding, "x-amz-Client-Context": input.clientContext], input: input)
+        _ = try client.send(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: "POST", input: input)
     }
 
 

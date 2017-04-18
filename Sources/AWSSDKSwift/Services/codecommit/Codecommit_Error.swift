@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Codecommit
-public enum CodecommitError: Error {
+public enum CodecommitError: AWSErrorType {
     case repositoryNameRequiredException(message: String?)
     case invalidRepositoryNameException(message: String?)
     case repositoryDoesNotExistException(message: String?)

@@ -32,295 +32,255 @@ Amazon GameLift Service  Amazon GameLift is a managed service for developers who
 */
 public struct Gamelift {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "GameLift",
             service: "gamelift",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [GameliftError.self]
         )
     }
 
     ///  Requests remote access to a fleet instance. Remote access is useful for debugging, gathering benchmarking data, or watching activity in real time.  Access requires credentials that match the operating system of the instance. For a Windows instance, Amazon GameLift returns a user name and password as strings for use with a Windows Remote Desktop client. For a Linux instance, Amazon GameLift returns a user name and RSA private key, also as strings, for use with an SSH client. The private key must be saved in the proper format to a .pem file before using. If you're making this request using the AWS CLI, saving the secret can be handled as part of the GetInstanceAccess request. (See the example later in this topic). For more information on remote access, see Remotely Accessing an Instance. To request access to a specific instance, specify the IDs of the instance and the fleet it belongs to. If successful, an InstanceAccess object is returned containing the instance's IP address and a set of credentials.
     public func getInstanceAccess(_ input: GetInstanceAccessInput) throws -> GetInstanceAccessOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetInstanceAccess", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetInstanceAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves utilization statistics for one or more fleets. You can request utilization data for all fleets, or specify a list of one or more fleet IDs. When requesting multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a FleetUtilization object is returned for each requested fleet ID. When specifying a list of fleet IDs, utilization objects are returned only for fleets that currently exist.   Some API actions may limit the number of fleet IDs allowed in one request. If a request exceeds this limit, the request fails and the error message includes the maximum allowed. 
     public func describeFleetUtilization(_ input: DescribeFleetUtilizationInput) throws -> DescribeFleetUtilizationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFleetUtilization", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFleetUtilization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the fleet ID that a specified alias is currently pointing to.
     public func resolveAlias(_ input: ResolveAliasInput) throws -> ResolveAliasOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ResolveAlias", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ResolveAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all scaling policies applied to a fleet. To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of ScalingPolicy objects is returned for the fleet.
     public func describeScalingPolicies(_ input: DescribeScalingPoliciesInput) throws -> DescribeScalingPoliciesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeScalingPolicies", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeScalingPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves properties for a fleet alias. This operation returns all alias metadata and settings. To get just the fleet ID an alias is currently pointing to, use ResolveAlias.  To get alias properties, specify the alias ID. If successful, an Alias object is returned.
     public func describeAlias(_ input: DescribeAliasInput) throws -> DescribeAliasOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAlias", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the current runtime configuration for the specified fleet. The runtime configuration tells Amazon GameLift how to launch server processes on instances in the fleet.
     public func describeRuntimeConfiguration(_ input: DescribeRuntimeConfigurationInput) throws -> DescribeRuntimeConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRuntimeConfiguration", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRuntimeConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes everything related to a fleet. Before deleting a fleet, you must set the fleet's desired capacity to zero. See UpdateFleetCapacity. This action removes the fleet's resources and the fleet record. Once a fleet is deleted, you can no longer use that fleet.
     public func deleteFleet(_ input: DeleteFleetInput) throws {
-        _ = try request.invoke(operation: "DeleteFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates game session properties. This includes the session name, maximum player count, protection policy, which controls whether or not an active game session can be terminated during a scale-down event, and the player session creation policy, which controls whether or not new players can join the session. To update a game session, specify the game session ID and the values you want to change. If successful, an updated GameSession object is returned. 
     public func updateGameSession(_ input: UpdateGameSessionInput) throws -> UpdateGameSessionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateGameSession", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateGameSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates port settings for a fleet. To update settings, specify the fleet ID to be updated and list the permissions you want to update. List the permissions you want to add in InboundPermissionAuthorizations, and permissions you want to remove in InboundPermissionRevocations. Permissions to be removed must match existing fleet permissions. If successful, the fleet ID for the updated fleet is returned.
     public func updateFleetPortSettings(_ input: UpdateFleetPortSettingsInput) throws -> UpdateFleetPortSettingsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateFleetPortSettings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateFleetPortSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new fleet to run your game servers. A fleet is a set of Amazon Elastic Compute Cloud (Amazon EC2) instances, each of which can run multiple server processes to host game sessions. You configure a fleet to create instances with certain hardware specifications (see Amazon EC2 Instance Types for more information), and deploy a specified game build to each instance. A newly created fleet passes through several statuses; once it reaches the ACTIVE status, it can begin hosting game sessions. To create a new fleet, provide a fleet name, an EC2 instance type, and a build ID of the game build to deploy. You can also configure the new fleet with the following settings: (1) a runtime configuration describing what server processes to run on each instance in the fleet (required to create fleet), (2) access permissions for inbound traffic, (3) fleet-wide game session protection, and (4) the location of default log files for Amazon GameLift to upload and store. If the CreateFleet call is successful, Amazon GameLift performs the following tasks:   Creates a fleet record and sets the status to NEW (followed by other statuses as the fleet is activated).   Sets the fleet's capacity to 1 "desired", which causes Amazon GameLift to start one new EC2 instance.   Starts launching server processes on the instance. If the fleet is configured to run multiple server processes per instance, Amazon GameLift staggers each launch by a few seconds.   Begins writing events to the fleet event log, which can be accessed in the Amazon GameLift console.   Sets the fleet's status to ACTIVE once one server process in the fleet is ready to host a game session.   After a fleet is created, use the following actions to change fleet properties and configuration:    UpdateFleetAttributes -- Update fleet metadata, including name and description.    UpdateFleetCapacity -- Increase or decrease the number of instances you want the fleet to maintain.    UpdateFleetPortSettings -- Change the IP address and port ranges that allow access to incoming traffic.    UpdateRuntimeConfiguration -- Change how server processes are launched in the fleet, including launch path, launch parameters, and the number of concurrent processes.    PutScalingPolicy -- Create or update rules that are used to set the fleet's capacity (autoscaling).  
     public func createFleet(_ input: CreateFleetInput) throws -> CreateFleetOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a scaling policy for a fleet. An active scaling policy prompts Amazon GameLift to track a certain metric for a fleet and automatically change the fleet's capacity in specific circumstances. Each scaling policy contains one rule statement. Fleets can have multiple scaling policies in force simultaneously. A scaling policy rule statement has the following structure: If [MetricName] is [ComparisonOperator] [Threshold] for [EvaluationPeriods] minutes, then [ScalingAdjustmentType] to/by [ScalingAdjustment]. For example, this policy: "If the number of idle instances exceeds 20 for more than 15 minutes, then reduce the fleet capacity by 10 instances" could be implemented as the following rule statement: If [IdleInstances] is [GreaterThanOrEqualToThreshold] [20] for [15] minutes, then [ChangeInCapacity] by [-10]. To create or update a scaling policy, specify a unique combination of name and fleet ID, and set the rule values. All parameters for this action are required. If successful, the policy name is returned. Scaling policies cannot be suspended or made inactive. To stop enforcing a scaling policy, call DeleteScalingPolicy.
     public func putScalingPolicy(_ input: PutScalingPolicyInput) throws -> PutScalingPolicyOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutScalingPolicy", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a fleet alias. This action removes all record of the alias. Game clients attempting to access a server process using the deleted alias receive an error. To delete an alias, specify the alias ID to be deleted.
     public func deleteAlias(_ input: DeleteAliasInput) throws {
-        _ = try request.invoke(operation: "DeleteAlias", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves properties, including the protection policy in force, for one or more game sessions. This action can be used in several ways: (1) provide a GameSessionId to request details for a specific game session; (2) provide either a FleetId or an AliasId to request properties for all game sessions running on a fleet.  To get game session record(s), specify just one of the following: game session ID, fleet ID, or alias ID. You can filter this request by game session status. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a GameSessionDetail object is returned for each session matching the request.
     public func describeGameSessionDetails(_ input: DescribeGameSessionDetailsInput) throws -> DescribeGameSessionDetailsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeGameSessionDetails", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeGameSessionDetails", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves fleet properties, including metadata, status, and configuration, for one or more fleets. You can request attributes for all fleets, or specify a list of one or more fleet IDs. When requesting multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a FleetAttributes object is returned for each requested fleet ID. When specifying a list of fleet IDs, attribute objects are returned only for fleets that currently exist.   Some API actions may limit the number of fleet IDs allowed in one request. If a request exceeds this limit, the request fails and the error message includes the maximum allowed. 
     public func describeFleetAttributes(_ input: DescribeFleetAttributesInput) throws -> DescribeFleetAttributesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFleetAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFleetAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the current runtime configuration for the specified fleet, which tells Amazon GameLift how to launch server processes on instances in the fleet. You can update a fleet's runtime configuration at any time after the fleet is created; it does not need to be in an ACTIVE status. To update runtime configuration, specify the fleet ID and provide a RuntimeConfiguration object with the updated collection of server process configurations. Each instance in a Amazon GameLift fleet checks regularly for an updated runtime configuration and changes how it launches server processes to comply with the latest version. Existing server processes are not affected by the update; they continue to run until they end, while Amazon GameLift simply adds new server processes to fit the current runtime configuration. As a result, the runtime configuration changes are applied gradually as existing processes shut down and new processes are launched in Amazon GameLift's normal process recycling activity.
     public func updateRuntimeConfiguration(_ input: UpdateRuntimeConfigurationInput) throws -> UpdateRuntimeConfigurationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateRuntimeConfiguration", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateRuntimeConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the inbound connection permissions for a fleet. Connection permissions include a range of IP addresses and port settings that incoming traffic can use to access server processes in the fleet. To get a fleet's inbound connection permissions, specify a fleet ID. If successful, a collection of IpPermission objects is returned for the requested fleet ID. If the requested fleet has been deleted, the result set is empty.
     public func describeFleetPortSettings(_ input: DescribeFleetPortSettingsInput) throws -> DescribeFleetPortSettingsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFleetPortSettings", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFleetPortSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a group of players to a game session. This action is useful with a team matching feature. Before players can be added, a game session must have an ACTIVE status, have a creation policy of ALLOW_ALL, and have an open player slot. To add a single player to a game session, use CreatePlayerSession. To create player sessions, specify a game session ID, a list of player IDs, and optionally a set of player data strings. If successful, the players are added to the game session and a set of new PlayerSession objects is returned. Player sessions cannot be updated.
     public func createPlayerSessions(_ input: CreatePlayerSessionsInput) throws -> CreatePlayerSessionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePlayerSessions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePlayerSessions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves properties for one or more player sessions. This action can be used in several ways: (1) provide a PlayerSessionId parameter to request properties for a specific player session; (2) provide a GameSessionId parameter to request properties for all player sessions in the specified game session; (3) provide a PlayerId parameter to request properties for all player sessions of a specified player.  To get game session record(s), specify only one of the following: a player session ID, a game session ID, or a player ID. You can filter this request by player session status. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a PlayerSession object is returned for each session matching the request.
     public func describePlayerSessions(_ input: DescribePlayerSessionsInput) throws -> DescribePlayerSessionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribePlayerSessions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribePlayerSessions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the current status of fleet capacity for one or more fleets. This information includes the number of instances that have been requested for the fleet and the number currently active. You can request capacity for all fleets, or specify a list of one or more fleet IDs. When requesting multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a FleetCapacity object is returned for each requested fleet ID. When specifying a list of fleet IDs, attribute objects are returned only for fleets that currently exist.   Some API actions may limit the number of fleet IDs allowed in one request. If a request exceeds this limit, the request fails and the error message includes the maximum allowed. 
     public func describeFleetCapacity(_ input: DescribeFleetCapacityInput) throws -> DescribeFleetCapacityOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFleetCapacity", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFleetCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates fleet properties, including name and description, for a fleet. To update metadata, specify the fleet ID and the property values you want to change. If successful, the fleet ID for the updated fleet is returned.
     public func updateFleetAttributes(_ input: UpdateFleetAttributesInput) throws -> UpdateFleetAttributesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateFleetAttributes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateFleetAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon GameLift build from a set of game server binary files stored in an Amazon Simple Storage Service (Amazon S3) location. When using this API call, you must create a .zip file containing all of the build files and store it in an Amazon S3 bucket under your AWS account. For help on packaging your build files and creating a build, see Uploading Your Game to Amazon GameLift.  Use this API action ONLY if you are storing your game build files in an Amazon S3 bucket in your AWS account. To create a build using files stored in a directory, use the CLI command  upload-build , which uploads the build files from a file location you specify and creates a build.  To create a new build using CreateBuild, identify the storage location and operating system of your game build. You also have the option of specifying a build name and version. If successful, this action creates a new build record with an unique build ID and in INITIALIZED status. Use the API call DescribeBuild to check the status of your build. A build must be in READY status before it can be used to create fleets to host your game.
     public func createBuild(_ input: CreateBuildInput) throws -> CreateBuildOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateBuild", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves properties for a build. To get a build record, specify a build ID. If successful, an object containing the build properties is returned.
     public func describeBuild(_ input: DescribeBuildInput) throws -> DescribeBuildOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeBuild", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a collection of fleet records for this AWS account. You can filter the result set by build ID. Use the pagination parameters to retrieve results in sequential pages.  Fleet records are not listed in any particular order. 
     public func listFleets(_ input: ListFleetsInput) throws -> ListFleetsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListFleets", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListFleets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves entries from the specified fleet's event log. You can specify a time range to limit the result set. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a collection of event log entries matching the request are returned.
     public func describeFleetEvents(_ input: DescribeFleetEventsInput) throws -> DescribeFleetEventsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFleetEvents", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFleetEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates capacity settings for a fleet. Use this action to specify the number of EC2 instances (hosts) that you want this fleet to contain. Before calling this action, you may want to call DescribeEC2InstanceLimits to get the maximum capacity based on the fleet's EC2 instance type. If you're using autoscaling (see PutScalingPolicy), you may want to specify a minimum and/or maximum capacity. If you don't provide these, autoscaling can set capacity anywhere between zero and the service limits. To update fleet capacity, specify the fleet ID and the number of instances you want the fleet to host. If successful, Amazon GameLift starts or terminates instances so that the fleet's active instance count matches the desired instance count. You can view a fleet's current capacity information by calling DescribeFleetCapacity. If the desired instance count is higher than the instance type's limit, the "Limit Exceeded" exception occurs.
     public func updateFleetCapacity(_ input: UpdateFleetCapacityInput) throws -> UpdateFleetCapacityOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateFleetCapacity", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateFleetCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a fleet scaling policy. This action means that the policy is no longer in force and removes all record of it. To delete a scaling policy, specify both the scaling policy name and the fleet ID it is associated with.
     public func deleteScalingPolicy(_ input: DeleteScalingPolicyInput) throws {
-        _ = try request.invoke(operation: "DeleteScalingPolicy", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates settings for a game session queue, which determines how new game session requests in the queue are processed. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations.
     public func updateGameSessionQueue(_ input: UpdateGameSessionQueueInput) throws -> UpdateGameSessionQueueOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateGameSessionQueue", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateGameSessionQueue", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a set of one or more game sessions. Request a specific game session or request all game sessions on a fleet. Alternatively, use SearchGameSessions to request a set of active game sessions that are filtered by certain criteria. To retrieve protection policy settings for game sessions, use DescribeGameSessionDetails. To get game sessions, specify one of the following: game session ID, fleet ID, or alias ID. You can filter this request by game session status. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a GameSession object is returned for each game session matching the request.
     public func describeGameSessions(_ input: DescribeGameSessionsInput) throws -> DescribeGameSessionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeGameSessions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeGameSessions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a game session queue. This action means that any StartGameSessionPlacement requests that reference this queue will fail. To delete a queue, specify the queue name.
     public func deleteGameSessionQueue(_ input: DeleteGameSessionQueueInput) throws -> DeleteGameSessionQueueOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteGameSessionQueue", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteGameSessionQueue", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an alias and sets a target fleet. A fleet alias can be used in place of a fleet ID, such as when calling CreateGameSession from a game client or game service or adding destinations to a game session queue. By changing an alias's target fleet, you can switch your players to the new fleet without changing any other component. In production, this feature is particularly useful to redirect your player base seamlessly to the latest game server update.  Amazon GameLift supports two types of routing strategies for aliases: simple and terminal. Use a simple alias to point to an active fleet. Use a terminal alias to display a message to incoming traffic instead of routing players to an active fleet. This option is useful when a game server is no longer supported but you want to provide better messaging than a standard 404 error. To create a fleet alias, specify an alias name, routing strategy, and optional description. If successful, a new alias record is returned, including an alias ID, which you can reference when creating a game session. To reassign the alias to another fleet ID, call UpdateAlias.
     public func createAlias(_ input: CreateAliasInput) throws -> CreateAliasOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateAlias", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves properties and current status of a game session placement request. To get game session placement details, specify the placement ID. If successful, a GameSessionPlacement object is returned.
     public func describeGameSessionPlacement(_ input: DescribeGameSessionPlacementInput) throws -> DescribeGameSessionPlacementOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeGameSessionPlacement", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeGameSessionPlacement", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a collection of alias records for this AWS account. You can filter the result set by alias name and/or routing strategy type. Use the pagination parameters to retrieve results in sequential pages.  Aliases are not listed in any particular order. 
     public func listAliases(_ input: ListAliasesInput) throws -> ListAliasesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListAliases", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListAliases", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Places a request for a new game session in a queue (see CreateGameSessionQueue). When processing a placement request, Amazon GameLift attempts to create a new game session on one of the fleets associated with the queue. If no resources are available, Amazon GameLift tries again with another and so on until resources are found or the placement request times out. A game session placement request can also request player sessions. When a new game session is successfully created, Amazon GameLift creates a player session for each player included in the request. When placing a game session, by default Amazon GameLift tries each fleet in the order they are listed in the queue configuration. Ideally, a queue's destinations are listed in preference order. Alternatively, when requesting a game session with players, you can also provide latency data for each player in relevant regions. Latency data indicates the performance lag a player experiences when connected to a fleet in the region. Amazon GameLift uses latency data to reorder the list of destinations to place the game session in a region with minimal lag. If latency data is provided for multiple players, Amazon GameLift calculates each region's average lag for all players and reorders to get the best game play across all players.  To place a new game session request, specify the queue name and a set of game session properties and settings. Also provide a unique ID (such as a UUID) for the placement. You'll use this ID to track the status of the placement request. Optionally, provide a set of IDs and player data for each player you want to join to the new game session. To optimize game play for the players, also provide latency data for all players. If successful, a new game session placement is created. To track the status of a placement request, call DescribeGameSessionPlacement and check the request's status. If the status is Fulfilled, a new game session has been created and a game session ARN and region are referenced. If the placement request times out, you have the option of resubmitting the request or retrying it with a different queue. 
     public func startGameSessionPlacement(_ input: StartGameSessionPlacementInput) throws -> StartGameSessionPlacementOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartGameSessionPlacement", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartGameSessionPlacement", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a player to a game session and creates a player session record. Before a player can be added, a game session must have an ACTIVE status, have a creation policy of ALLOW_ALL, and have an open player slot. To add a group of players to a game session, use CreatePlayerSessions. To create a player session, specify a game session ID, player ID, and optionally a string of player data. If successful, the player is added to the game session and a new PlayerSession object is returned. Player sessions cannot be updated. 
     public func createPlayerSession(_ input: CreatePlayerSessionInput) throws -> CreatePlayerSessionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePlayerSession", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePlayerSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the following information for the specified EC2 instance type:   maximum number of instances allowed per AWS account (service limit)   current usage level for the AWS account   Service limits vary depending on region. Available regions for Amazon GameLift can be found in the AWS Management Console for Amazon GameLift (see the drop-down list in the upper right corner).
     public func describeEC2InstanceLimits(_ input: DescribeEC2InstanceLimitsInput) throws -> DescribeEC2InstanceLimitsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEC2InstanceLimits", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEC2InstanceLimits", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Establishes a new queue for processing requests for new game sessions. A queue identifies where new game sessions can be hosted--by specifying a list of fleet destinations--and how long a request can remain in the queue waiting to be placed before timing out. Requests for new game sessions are added to a queue by calling StartGameSessionPlacement and referencing the queue name. When processing a request for a game session, Amazon GameLift tries each destination in order until it finds one with available resources to host the new game session. A queue's default order is determined by how destinations are listed. This default order can be overridden in a game session placement request. To create a new queue, provide a name, timeout value, and a list of destinations. If successful, a new queue object is returned.
     public func createGameSessionQueue(_ input: CreateGameSessionQueueInput) throws -> CreateGameSessionQueueOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateGameSessionQueue", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateGameSessionQueue", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a build. This action permanently deletes the build record and any uploaded build files. To delete a build, specify its ID. Deleting a build does not affect the status of any active fleets using the build, but you can no longer create new fleets with the deleted build.
     public func deleteBuild(_ input: DeleteBuildInput) throws {
-        _ = try request.invoke(operation: "DeleteBuild", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a game session placement that is in Pending status. To stop a placement, provide the placement ID values. If successful, the placement is moved to Cancelled status.
     public func stopGameSessionPlacement(_ input: StopGameSessionPlacementInput) throws -> StopGameSessionPlacementOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopGameSessionPlacement", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopGameSessionPlacement", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a fleet's instances, including instance IDs. Use this action to get details on all instances in the fleet or get details on one specific instance. To get a specific instance, specify fleet ID and instance ID. To get all instances in a fleet, specify a fleet ID only. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, an Instance object is returned for each result.
     public func describeInstances(_ input: DescribeInstancesInput) throws -> DescribeInstancesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a multiplayer game session for players. This action creates a game session record and assigns an available server process in the specified fleet to host the game session. A fleet must have an ACTIVE status before a game session can be created in it. To create a game session, specify either fleet ID or alias ID, and indicate a maximum number of players to allow in the game session. You can also provide a name and game-specific properties for this game session. If successful, a GameSession object is returned containing session properties, including an IP address. By default, newly created game sessions allow new players to join. Use UpdateGameSession to change the game session's player session creation policy. When creating a game session on a fleet with a resource limit creation policy, the request should include a creator ID. If none is provided, Amazon GameLift does not evaluate the fleet's resource limit creation policy.
     public func createGameSession(_ input: CreateGameSessionInput) throws -> CreateGameSessionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateGameSession", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateGameSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates properties for a fleet alias. To update properties, specify the alias ID to be updated and provide the information to be changed. To reassign an alias to another fleet, provide an updated routing strategy. If successful, the updated alias record is returned.
     public func updateAlias(_ input: UpdateAliasInput) throws -> UpdateAliasOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateAlias", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves build records for all builds associated with the AWS account in use. You can limit results to builds that are in a specific status by using the Status parameter. Use the pagination parameters to retrieve results in a set of sequential pages.   Build records are not listed in any particular order. 
     public func listBuilds(_ input: ListBuildsInput) throws -> ListBuildsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBuilds", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the location of stored game session logs for a specified game session. When a game session is terminated, Amazon GameLift automatically stores the logs in Amazon S3. Use this URL to download the logs.  See the AWS Service Limits page for maximum log file sizes. Log files that exceed this limit are not saved. 
     public func getGameSessionLogUrl(_ input: GetGameSessionLogUrlInput) throws -> GetGameSessionLogUrlOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetGameSessionLogUrl", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetGameSessionLogUrl", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates metadata in a build record, including the build name and version. To update the metadata, specify the build ID to update and provide the new values. If successful, a build object containing the updated metadata is returned.
     public func updateBuild(_ input: UpdateBuildInput) throws -> UpdateBuildOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateBuild", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the properties for one or more game session queues. When requesting multiple queues, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a GameSessionQueue object is returned for each requested queue. When specifying a list of queues, objects are returned only for queues that currently exist in the region.
     public func describeGameSessionQueues(_ input: DescribeGameSessionQueuesInput) throws -> DescribeGameSessionQueuesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeGameSessionQueues", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeGameSessionQueues", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This API call is not currently in use.  Retrieves a fresh set of upload credentials and the assigned Amazon S3 storage location for a specific build. Valid credentials are required to upload your game build files to Amazon S3.
     public func requestUploadCredentials(_ input: RequestUploadCredentialsInput) throws -> RequestUploadCredentialsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RequestUploadCredentials", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RequestUploadCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a set of game sessions that match a set of search criteria and sorts them in a specified order. Currently a game session search is limited to a single fleet. Search results include only game sessions that are in ACTIVE status. If you need to retrieve game sessions with a status other than active, use DescribeGameSessions. If you need to retrieve the protection policy for each game session, use DescribeGameSessionDetails. You can search or sort by the following game session attributes:    gameSessionId -- ID value assigned to a game session. This unique value is returned in a GameSession object when a new game session is created.     gameSessionName -- Name assigned to a game session. This value is set when requesting a new game session with CreateGameSession or updating with UpdateGameSession. Game session names do not need to be unique to a game session.    creationTimeMillis -- Value indicating when a game session was created. It is expressed in Unix time as milliseconds.    playerSessionCount -- Number of players currently connected to a game session. This value changes rapidly as players join the session or drop out.    maximumSessions -- Maximum number of player sessions allowed for a game session. This value is set when requesting a new game session with CreateGameSession or updating with UpdateGameSession.    hasAvailablePlayerSessions -- Boolean value indicating whether or not a game session has reached its maximum number of players. When searching with this attribute, the search value must be true or false. It is highly recommended that all search requests include this filter attribute to optimize search performance and return only sessions that players can join.    To search or sort, specify either a fleet ID or an alias ID, and provide a search filter expression, a sort expression, or both. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a collection of GameSession objects matching the request is returned.  Returned values for playerSessionCount and hasAvailablePlayerSessions change quickly as players join sessions and others drop out. Results should be considered a snapshot in time. Be sure to refresh search results often, and handle sessions that fill up before a player can join.  
     public func searchGameSessions(_ input: SearchGameSessionsInput) throws -> SearchGameSessionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SearchGameSessions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try GameliftResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SearchGameSessions", path: "/", httpMethod: "POST", input: input)
     }
 
 

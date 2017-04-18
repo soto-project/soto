@@ -29,9 +29,11 @@ import Core
 
 extension Budgets {
 
-    public struct DeleteBudgetRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var budgetName: String = ""
+    public struct DeleteBudgetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -42,9 +44,11 @@ extension Budgets {
 
     }
 
-    public struct DescribeBudgetsResponse: Serializable, Initializable {
-        var budgets: [Budget]? = nil
-        var nextToken: String? = nil
+    public struct DescribeBudgetsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var budgets: [Budget]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -55,9 +59,11 @@ extension Budgets {
 
     }
 
-    public struct DescribeBudgetRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var budgetName: String = ""
+    public struct DescribeBudgetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -68,8 +74,10 @@ extension Budgets {
 
     }
 
-    public struct DescribeBudgetResponse: Serializable, Initializable {
-        var budget: Budget? = nil
+    public struct DescribeBudgetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var budget: Budget? = nil
 
         public init() {}
 
@@ -79,10 +87,12 @@ extension Budgets {
 
     }
 
-    public struct DeleteNotificationRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var notification: Notification = Notification()
-        var budgetName: String = ""
+    public struct DeleteNotificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var notification: Notification = Notification()
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -94,9 +104,11 @@ extension Budgets {
 
     }
 
-    public struct NotificationWithSubscribers: Serializable, Initializable {
-        var subscribers: [Subscriber] = []
-        var notification: Notification = Notification()
+    public struct NotificationWithSubscribers: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var subscribers: [Subscriber] = []
+        public var notification: Notification = Notification()
 
         public init() {}
 
@@ -107,12 +119,14 @@ extension Budgets {
 
     }
 
-    public struct UpdateSubscriberRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var notification: Notification = Notification()
-        var oldSubscriber: Subscriber = Subscriber()
-        var budgetName: String = ""
-        var newSubscriber: Subscriber = Subscriber()
+    public struct UpdateSubscriberRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var notification: Notification = Notification()
+        public var oldSubscriber: Subscriber = Subscriber()
+        public var budgetName: String = ""
+        public var newSubscriber: Subscriber = Subscriber()
 
         public init() {}
 
@@ -126,17 +140,21 @@ extension Budgets {
 
     }
 
-    public struct DeleteNotificationResponse: Serializable, Initializable {
+    public struct DeleteNotificationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateNotificationRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var notification: Notification = Notification()
-        var subscribers: [Subscriber] = []
-        var budgetName: String = ""
+    public struct CreateNotificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var notification: Notification = Notification()
+        public var subscribers: [Subscriber] = []
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -149,15 +167,19 @@ extension Budgets {
 
     }
 
-    public struct UpdateSubscriberResponse: Serializable, Initializable {
+    public struct UpdateSubscriberResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeNotificationsForBudgetResponse: Serializable, Initializable {
-        var notifications: [Notification]? = nil
-        var nextToken: String? = nil
+    public struct DescribeNotificationsForBudgetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var notifications: [Notification]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -168,11 +190,13 @@ extension Budgets {
 
     }
 
-    public struct DeleteSubscriberRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var subscriber: Subscriber = Subscriber()
-        var notification: Notification = Notification()
-        var budgetName: String = ""
+    public struct DeleteSubscriberRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var subscriber: Subscriber = Subscriber()
+        public var notification: Notification = Notification()
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -185,10 +209,12 @@ extension Budgets {
 
     }
 
-    public struct CostTypes: Serializable, Initializable {
-        var includeSubscription: Bool = false
-        var useBlended: Bool = false
-        var includeTax: Bool = false
+    public struct CostTypes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var includeSubscription: Bool = false
+        public var useBlended: Bool = false
+        public var includeTax: Bool = false
 
         public init() {}
 
@@ -200,22 +226,28 @@ extension Budgets {
 
     }
 
-    public struct CreateBudgetResponse: Serializable, Initializable {
+    public struct CreateBudgetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateNotificationResponse: Serializable, Initializable {
+    public struct CreateNotificationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeBudgetsRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+    public struct DescribeBudgetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -227,16 +259,20 @@ extension Budgets {
 
     }
 
-    public struct DeleteBudgetResponse: Serializable, Initializable {
+    public struct DeleteBudgetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateBudgetRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var budget: Budget = Budget()
-        var notificationsWithSubscribers: [NotificationWithSubscribers]? = nil
+    public struct CreateBudgetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var budget: Budget = Budget()
+        public var notificationsWithSubscribers: [NotificationWithSubscribers]? = nil
 
         public init() {}
 
@@ -248,17 +284,21 @@ extension Budgets {
 
     }
 
-    public struct DeleteSubscriberResponse: Serializable, Initializable {
+    public struct DeleteSubscriberResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateNotificationRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var oldNotification: Notification = Notification()
-        var newNotification: Notification = Notification()
-        var budgetName: String = ""
+    public struct UpdateNotificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var oldNotification: Notification = Notification()
+        public var newNotification: Notification = Notification()
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -271,24 +311,30 @@ extension Budgets {
 
     }
 
-    public struct UpdateBudgetResponse: Serializable, Initializable {
+    public struct UpdateBudgetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateNotificationResponse: Serializable, Initializable {
+    public struct UpdateNotificationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeSubscribersForNotificationRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var notification: Notification = Notification()
-        var nextToken: String? = nil
-        var budgetName: String = ""
-        var maxResults: Int32? = nil
+    public struct DescribeSubscribersForNotificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var notification: Notification = Notification()
+        public var nextToken: String? = nil
+        public var budgetName: String = ""
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -302,11 +348,13 @@ extension Budgets {
 
     }
 
-    public struct CreateSubscriberRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var subscriber: Subscriber = Subscriber()
-        var notification: Notification = Notification()
-        var budgetName: String = ""
+    public struct CreateSubscriberRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var subscriber: Subscriber = Subscriber()
+        public var notification: Notification = Notification()
+        public var budgetName: String = ""
 
         public init() {}
 
@@ -319,16 +367,20 @@ extension Budgets {
 
     }
 
-    public struct CreateSubscriberResponse: Serializable, Initializable {
+    public struct CreateSubscriberResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Notification: Serializable, Initializable {
-        var comparisonOperator: String = ""
-        var threshold: Double = 0
-        var notificationType: String = ""
+    public struct Notification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var comparisonOperator: String = ""
+        public var threshold: Double = 0
+        public var notificationType: String = ""
 
         public init() {}
 
@@ -340,9 +392,11 @@ extension Budgets {
 
     }
 
-    public struct Subscriber: Serializable, Initializable {
-        var address: String = ""
-        var subscriptionType: String = ""
+    public struct Subscriber: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var address: String = ""
+        public var subscriptionType: String = ""
 
         public init() {}
 
@@ -353,11 +407,13 @@ extension Budgets {
 
     }
 
-    public struct DescribeNotificationsForBudgetRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var nextToken: String? = nil
-        var budgetName: String = ""
-        var maxResults: Int32? = nil
+    public struct DescribeNotificationsForBudgetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var nextToken: String? = nil
+        public var budgetName: String = ""
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -370,9 +426,11 @@ extension Budgets {
 
     }
 
-    public struct UpdateBudgetRequest: Serializable, Initializable {
-        var accountId: String = ""
-        var newBudget: Budget = Budget()
+    public struct UpdateBudgetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountId: String = ""
+        public var newBudget: Budget = Budget()
 
         public init() {}
 
@@ -383,15 +441,17 @@ extension Budgets {
 
     }
 
-    public struct Budget: Serializable, Initializable {
-        var timeUnit: String = ""
-        var budgetLimit: Spend = Spend()
-        var budgetName: String = ""
-        var timePeriod: TimePeriod = TimePeriod()
-        var budgetType: String = ""
-        var costFilters: [String: [String]]? = nil
-        var calculatedSpend: CalculatedSpend? = nil
-        var costTypes: CostTypes = CostTypes()
+    public struct Budget: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var timeUnit: String = ""
+        public var budgetLimit: Spend = Spend()
+        public var budgetName: String = ""
+        public var timePeriod: TimePeriod = TimePeriod()
+        public var budgetType: String = ""
+        public var costFilters: [String: [String]]? = nil
+        public var calculatedSpend: CalculatedSpend? = nil
+        public var costTypes: CostTypes = CostTypes()
 
         public init() {}
 
@@ -408,9 +468,11 @@ extension Budgets {
 
     }
 
-    public struct TimePeriod: Serializable, Initializable {
-        var start: Date = Date()
-        var end: Date = Date()
+    public struct TimePeriod: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var start: Date = Date()
+        public var end: Date = Date()
 
         public init() {}
 
@@ -421,9 +483,11 @@ extension Budgets {
 
     }
 
-    public struct CalculatedSpend: Serializable, Initializable {
-        var forecastedSpend: Spend? = nil
-        var actualSpend: Spend = Spend()
+    public struct CalculatedSpend: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var forecastedSpend: Spend? = nil
+        public var actualSpend: Spend = Spend()
 
         public init() {}
 
@@ -434,9 +498,11 @@ extension Budgets {
 
     }
 
-    public struct Spend: Serializable, Initializable {
-        var unit: String = ""
-        var amount: String = ""
+    public struct Spend: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var unit: String = ""
+        public var amount: String = ""
 
         public init() {}
 
@@ -447,9 +513,11 @@ extension Budgets {
 
     }
 
-    public struct DescribeSubscribersForNotificationResponse: Serializable, Initializable {
-        var subscribers: [Subscriber]? = nil
-        var nextToken: String? = nil
+    public struct DescribeSubscribersForNotificationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var subscribers: [Subscriber]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 

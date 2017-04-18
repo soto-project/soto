@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Appstream2
-public enum Appstream2Error: Error {
+public enum Appstream2Error: AWSErrorType {
     case resourceInUseException(message: String?)
     case limitExceededException(message: String?)
     case invalidRoleException(message: String?)

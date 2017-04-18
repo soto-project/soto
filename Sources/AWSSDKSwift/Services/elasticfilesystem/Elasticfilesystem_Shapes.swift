@@ -29,13 +29,15 @@ import Core
 
 extension Elasticfilesystem {
 
-    public struct DescribeFileSystemsResponse: Serializable, Initializable {
+    public struct DescribeFileSystemsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Array of file system descriptions.
-        var fileSystems: [FileSystemDescription]? = nil
+        public var fileSystems: [FileSystemDescription]? = nil
         /// Present if provided by caller in the request (String).
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Present if there are more file systems than returned in the response (String). You can use the NextMarker in the subsequent request to fetch the descriptions.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -47,13 +49,15 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeTagsResponse: Serializable, Initializable {
+    public struct DescribeTagsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the request included a Marker, the response returns that value in this field.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Returns tags associated with the file system as an array of Tag objects. 
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
         /// If a value is present, there are more tags to return. In a subsequent request, you can provide the value of NextMarker as the value of the Marker parameter in your next request to retrieve the next set of tags.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -65,11 +69,16 @@ extension Elasticfilesystem {
 
     }
 
-    public struct CreateTagsRequest: Serializable, Initializable {
+    public struct CreateTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FileSystemId": "FileSystemId"]
+        }
         /// ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
         /// Array of Tag objects to add. Each Tag object is a key-value pair. 
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -80,15 +89,20 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeMountTargetsRequest: Serializable, Initializable {
+    public struct DescribeMountTargetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["MaxItems": "MaxItems", "FileSystemId": "FileSystemId", "Marker": "Marker", "MountTargetId": "MountTargetId"]
+        }
         /// (Optional) Maximum number of mount targets to return in the response. It must be an integer with a value greater than zero.
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
         /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if MountTargetId is not included.
-        var fileSystemId: String? = nil
+        public var fileSystemId: String? = nil
         /// (Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String). If present, it specifies to continue the list from where the previous returning call left off.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included.
-        var mountTargetId: String? = nil
+        public var mountTargetId: String? = nil
 
         public init() {}
 
@@ -101,15 +115,20 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeFileSystemsRequest: Serializable, Initializable {
+    public struct DescribeFileSystemsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["MaxItems": "MaxItems", "FileSystemId": "FileSystemId", "Marker": "Marker", "CreationToken": "CreationToken"]
+        }
         /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon EFS returns is the minimum of the MaxItems parameter specified in the request and the service's internal maximum number of items per page. 
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
         /// (Optional) ID of the file system whose description you want to retrieve (String).
-        var fileSystemId: String? = nil
+        public var fileSystemId: String? = nil
         /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
-        var creationToken: String? = nil
+        public var creationToken: String? = nil
 
         public init() {}
 
@@ -122,9 +141,11 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeMountTargetSecurityGroupsResponse: Serializable, Initializable {
+    public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Array of security groups.
-        var securityGroups: [String] = []
+        public var securityGroups: [String] = []
 
         public init() {}
 
@@ -134,11 +155,16 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DeleteTagsRequest: Serializable, Initializable {
+    public struct DeleteTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FileSystemId": "FileSystemId"]
+        }
         /// ID of the file system whose tags you want to delete (String).
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
         /// List of tag keys to delete.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -149,13 +175,21 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeTagsRequest: Serializable, Initializable {
+    public struct DescribeTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Marker": "Marker", "MaxItems": "MaxItems"]
+        }
+        public var pathParams: [String: String] {
+            return ["FileSystemId": "FileSystemId"]
+        }
         /// (Optional) Opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// ID of the file system whose tag set you want to retrieve.
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
         /// (Optional) Maximum number of file system tags to return in the response. It must be an integer with a value greater than zero.
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
 
         public init() {}
 
@@ -167,11 +201,16 @@ extension Elasticfilesystem {
 
     }
 
-    public struct ModifyMountTargetSecurityGroupsRequest: Serializable, Initializable {
+    public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["MountTargetId": "MountTargetId"]
+        }
         /// ID of the mount target whose security groups you want to modify.
-        var mountTargetId: String = ""
+        public var mountTargetId: String = ""
         /// Array of up to five VPC security group IDs.
-        var securityGroups: [String]? = nil
+        public var securityGroups: [String]? = nil
 
         public init() {}
 
@@ -182,11 +221,13 @@ extension Elasticfilesystem {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Value of the tag key.
-        var value: String = ""
+        public var value: String = ""
         /// Tag key (String). The key can't start with aws:.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -197,13 +238,15 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeMountTargetsResponse: Serializable, Initializable {
+    public struct DescribeMountTargetsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the request included the Marker, the response returns that value in this field.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Returns the file system's mount targets as an array of MountTargetDescription objects.
-        var mountTargets: [MountTargetDescription]? = nil
+        public var mountTargets: [MountTargetDescription]? = nil
         /// If a value is present, there are more mount targets to return. In a subsequent request, you can provide Marker in your request with this value to retrieve the next set of mount targets.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -215,9 +258,14 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DeleteMountTargetRequest: Serializable, Initializable {
+    public struct DeleteMountTargetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["MountTargetId": "MountTargetId"]
+        }
         /// ID of the mount target to delete (String).
-        var mountTargetId: String = ""
+        public var mountTargetId: String = ""
 
         public init() {}
 
@@ -227,9 +275,14 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DeleteFileSystemRequest: Serializable, Initializable {
+    public struct DeleteFileSystemRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FileSystemId": "FileSystemId"]
+        }
         /// ID of the file system you want to delete.
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
 
         public init() {}
 
@@ -239,11 +292,13 @@ extension Elasticfilesystem {
 
     }
 
-    public struct CreateFileSystemRequest: Serializable, Initializable {
+    public struct CreateFileSystemRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
-        var performanceMode: String? = nil
+        public var performanceMode: String? = nil
         /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
-        var creationToken: String = ""
+        public var creationToken: String = ""
 
         public init() {}
 
@@ -254,11 +309,13 @@ extension Elasticfilesystem {
 
     }
 
-    public struct FileSystemSize: Serializable, Initializable {
+    public struct FileSystemSize: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Latest known metered size (in bytes) of data stored in the file system.
-        var value: Int64 = 0
+        public var value: Int64 = 0
         /// Time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
-        var timestamp: Date? = nil
+        public var timestamp: Date? = nil
 
         public init() {}
 
@@ -269,9 +326,14 @@ extension Elasticfilesystem {
 
     }
 
-    public struct DescribeMountTargetSecurityGroupsRequest: Serializable, Initializable {
+    public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["MountTargetId": "MountTargetId"]
+        }
         /// ID of the mount target whose security groups you want to retrieve.
-        var mountTargetId: String = ""
+        public var mountTargetId: String = ""
 
         public init() {}
 
@@ -281,15 +343,17 @@ extension Elasticfilesystem {
 
     }
 
-    public struct CreateMountTargetRequest: Serializable, Initializable {
+    public struct CreateMountTargetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
-        var securityGroups: [String]? = nil
+        public var securityGroups: [String]? = nil
         /// ID of the file system for which to create the mount target.
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
         /// ID of the subnet to add the mount target in.
-        var subnetId: String = ""
+        public var subnetId: String = ""
         /// Valid IPv4 address within the address range of the specified subnet.
-        var ipAddress: String? = nil
+        public var ipAddress: String? = nil
 
         public init() {}
 
@@ -302,25 +366,27 @@ extension Elasticfilesystem {
 
     }
 
-    public struct FileSystemDescription: Serializable, Initializable {
+    public struct FileSystemDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
-        var name: String? = nil
+        public var name: String? = nil
         /// Opaque string specified in the request.
-        var creationToken: String = ""
+        public var creationToken: String = ""
         /// Latest known metered size (in bytes) of data stored in the file system, in bytes, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. Note that the value does not represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, the value will represent actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size the file system was at any instant in time. 
-        var sizeInBytes: FileSystemSize = FileSystemSize()
+        public var sizeInBytes: FileSystemSize = FileSystemSize()
         /// ID of the file system, assigned by Amazon EFS.
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
         /// Lifecycle phase of the file system.
-        var lifeCycleState: String = ""
+        public var lifeCycleState: String = ""
         /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
-        var creationTime: Date = Date()
+        public var creationTime: Date = Date()
         /// The PerformanceMode of the file system.
-        var performanceMode: String = ""
+        public var performanceMode: String = ""
         /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
-        var numberOfMountTargets: Int32 = 0
+        public var numberOfMountTargets: Int32 = 0
         /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
-        var ownerId: String = ""
+        public var ownerId: String = ""
 
         public init() {}
 
@@ -338,21 +404,23 @@ extension Elasticfilesystem {
 
     }
 
-    public struct MountTargetDescription: Serializable, Initializable {
+    public struct MountTargetDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ID of the mount target's subnet.
-        var subnetId: String = ""
+        public var subnetId: String = ""
         /// ID of the network interface that Amazon EFS created when it created the mount target.
-        var networkInterfaceId: String? = nil
+        public var networkInterfaceId: String? = nil
         /// System-assigned mount target ID.
-        var mountTargetId: String = ""
+        public var mountTargetId: String = ""
         /// Address at which the file system may be mounted via the mount target.
-        var ipAddress: String? = nil
+        public var ipAddress: String? = nil
         /// ID of the file system for which the mount target is intended.
-        var fileSystemId: String = ""
+        public var fileSystemId: String = ""
         /// Lifecycle state of the mount target.
-        var lifeCycleState: String = ""
+        public var lifeCycleState: String = ""
         /// AWS account ID that owns the resource.
-        var ownerId: String? = nil
+        public var ownerId: String? = nil
 
         public init() {}
 

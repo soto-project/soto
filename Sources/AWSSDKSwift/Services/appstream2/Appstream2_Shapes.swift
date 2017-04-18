@@ -29,11 +29,13 @@ import Core
 
 extension Appstream2 {
 
-    public struct DescribeSessionsResult: Serializable, Initializable {
+    public struct DescribeSessionsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of streaming sessions.
-        var sessions: [Session]? = nil
+        public var sessions: [Session]? = nil
 
         public init() {}
 
@@ -44,11 +46,13 @@ extension Appstream2 {
 
     }
 
-    public struct ListAssociatedFleetsRequest: Serializable, Initializable {
+    public struct ListAssociatedFleetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stack whose associated fleets are listed.
-        var stackName: String = ""
+        public var stackName: String = ""
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -59,11 +63,13 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeStacksResult: Serializable, Initializable {
+    public struct DescribeStacksResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of stack details.
-        var stacks: [Stack]? = nil
+        public var stacks: [Stack]? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -74,15 +80,19 @@ extension Appstream2 {
 
     }
 
-    public struct DeleteStackResult: Serializable, Initializable {
+    public struct DeleteStackResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ComputeCapacity: Serializable, Initializable {
+    public struct ComputeCapacity: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The desired number of streaming instances.
-        var desiredInstances: Int32 = 0
+        public var desiredInstances: Int32 = 0
 
         public init() {}
 
@@ -92,9 +102,11 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeImagesRequest: Serializable, Initializable {
+    public struct DescribeImagesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A specific list of images to describe.
-        var names: [String]? = nil
+        public var names: [String]? = nil
 
         public init() {}
 
@@ -104,9 +116,11 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeImagesResult: Serializable, Initializable {
+    public struct DescribeImagesResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of images.
-        var images: [Image]? = nil
+        public var images: [Image]? = nil
 
         public init() {}
 
@@ -116,17 +130,19 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeSessionsRequest: Serializable, Initializable {
+    public struct DescribeSessionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user for whom to list sessions. Use null to describe all the sessions for the stack and fleet.
-        var userId: String? = nil
+        public var userId: String? = nil
         /// The size of each page of results. The default value is 20 and the maximum supported value is 50.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The name of the stack for which to list sessions.
-        var stackName: String = ""
+        public var stackName: String = ""
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The name of the fleet for which to list sessions.
-        var fleetName: String = ""
+        public var fleetName: String = ""
 
         public init() {}
 
@@ -140,17 +156,19 @@ extension Appstream2 {
 
     }
 
-    public struct Session: Serializable, Initializable {
+    public struct Session: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the user for whom the session was created.
-        var userId: String = ""
+        public var userId: String = ""
         /// The name of the stack for which the streaming session was created.
-        var stackName: String = ""
+        public var stackName: String = ""
         /// The current state of the streaming session.
-        var state: String = ""
+        public var state: String = ""
         /// The name of the fleet for which the streaming session was created.
-        var fleetName: String = ""
+        public var fleetName: String = ""
         /// The unique ID for a streaming session.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -164,11 +182,13 @@ extension Appstream2 {
 
     }
 
-    public struct ListAssociatedFleetsResult: Serializable, Initializable {
+    public struct ListAssociatedFleetsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The names of associated fleets.
-        var names: [String]? = nil
+        public var names: [String]? = nil
 
         public init() {}
 
@@ -179,11 +199,13 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeFleetsRequest: Serializable, Initializable {
+    public struct DescribeFleetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The fleet names to describe. Use null to describe all the fleets for the AWS account.
-        var names: [String]? = nil
+        public var names: [String]? = nil
 
         public init() {}
 
@@ -194,11 +216,13 @@ extension Appstream2 {
 
     }
 
-    public struct FleetError: Serializable, Initializable {
+    public struct FleetError: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The error message generated when the fleet has errors.
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
         /// The error code for the fleet error.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
 
         public init() {}
 
@@ -209,11 +233,13 @@ extension Appstream2 {
 
     }
 
-    public struct ListAssociatedStacksResult: Serializable, Initializable {
+    public struct ListAssociatedStacksResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The names of associated stacks.
-        var names: [String]? = nil
+        public var names: [String]? = nil
 
         public init() {}
 
@@ -224,9 +250,11 @@ extension Appstream2 {
 
     }
 
-    public struct UpdateFleetResult: Serializable, Initializable {
+    public struct UpdateFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of fleet details.
-        var fleet: Fleet? = nil
+        public var fleet: Fleet? = nil
 
         public init() {}
 
@@ -236,43 +264,51 @@ extension Appstream2 {
 
     }
 
-    public struct ExpireSessionResult: Serializable, Initializable {
+    public struct ExpireSessionResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DisassociateFleetResult: Serializable, Initializable {
+    public struct DisassociateFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteFleetResult: Serializable, Initializable {
+    public struct DeleteFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateFleetRequest: Serializable, Initializable {
+    public struct CreateFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The parameters for the capacity allocated to the fleet.
-        var computeCapacity: ComputeCapacity = ComputeCapacity()
+        public var computeCapacity: ComputeCapacity = ComputeCapacity()
         /// The VPC configuration for the fleet.
-        var vpcConfig: VpcConfig? = nil
+        public var vpcConfig: VpcConfig? = nil
         /// A unique identifier for the fleet.
-        var name: String = ""
+        public var name: String = ""
         /// The display name of the fleet.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// Unique name of the image used by the fleet.
-        var imageName: String = ""
+        public var imageName: String = ""
         /// The time after disconnection when a session is considered to have ended. If a user who got disconnected reconnects within this timeout interval, the user is connected back to his/her previous session. 
-        var disconnectTimeoutInSeconds: Int32? = nil
+        public var disconnectTimeoutInSeconds: Int32? = nil
         /// The maximum time up to which a streaming session can run.
-        var maxUserDurationInSeconds: Int32? = nil
+        public var maxUserDurationInSeconds: Int32? = nil
         /// The instance type of compute resources for the fleet. Fleet instances are launched from this instance type.
-        var instanceType: String = ""
+        public var instanceType: String = ""
         /// The description of the fleet.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -290,17 +326,19 @@ extension Appstream2 {
 
     }
 
-    public struct Stack: Serializable, Initializable {
+    public struct Stack: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A meaningful description for the stack.
-        var description: String? = nil
+        public var description: String? = nil
         /// The ARN of the stack.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The unique identifier of the stack.
-        var name: String = ""
+        public var name: String = ""
         /// The timestamp when the stack was created.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// A display name for the stack.
-        var displayName: String? = nil
+        public var displayName: String? = nil
 
         public init() {}
 
@@ -314,9 +352,11 @@ extension Appstream2 {
 
     }
 
-    public struct UpdateStackResult: Serializable, Initializable {
+    public struct UpdateStackResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of stack details.
-        var stack: Stack? = nil
+        public var stack: Stack? = nil
 
         public init() {}
 
@@ -326,27 +366,29 @@ extension Appstream2 {
 
     }
 
-    public struct UpdateFleetRequest: Serializable, Initializable {
+    public struct UpdateFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Delete the VPC association for the specified fleet.
-        var deleteVpcConfig: Bool? = nil
+        public var deleteVpcConfig: Bool? = nil
         /// The parameters for the capacity allocated to the fleet. 
-        var computeCapacity: ComputeCapacity? = nil
+        public var computeCapacity: ComputeCapacity? = nil
         /// The VPC configuration for the fleet.
-        var vpcConfig: VpcConfig? = nil
+        public var vpcConfig: VpcConfig? = nil
         /// The name of the fleet.
-        var name: String = ""
+        public var name: String = ""
         /// The name displayed to end users on the AppStream 2.0 portal.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The image name from which a fleet is created.
-        var imageName: String? = nil
+        public var imageName: String? = nil
         /// The time after disconnection when a session is considered to have ended. When the user reconnects after a disconnection, the user is connected to the same instance within this time interval.
-        var disconnectTimeoutInSeconds: Int32? = nil
+        public var disconnectTimeoutInSeconds: Int32? = nil
         /// The maximum time during which a streaming session can run.
-        var maxUserDurationInSeconds: Int32? = nil
+        public var maxUserDurationInSeconds: Int32? = nil
         /// The instance type of compute resources for the fleet. Fleet instances are launched from this instance type.
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// The description displayed to end users on the AppStream 2.0 portal.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -365,11 +407,13 @@ extension Appstream2 {
 
     }
 
-    public struct DisassociateFleetRequest: Serializable, Initializable {
+    public struct DisassociateFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stack with which the fleet is associated.
-        var stackName: String = ""
+        public var stackName: String = ""
         /// The name of the fleet to disassociate.
-        var fleetName: String = ""
+        public var fleetName: String = ""
 
         public init() {}
 
@@ -380,21 +424,23 @@ extension Appstream2 {
 
     }
 
-    public struct Application: Serializable, Initializable {
+    public struct Application: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Additional attributes that describes the application.
-        var metadata: [String: String]? = nil
+        public var metadata: [String: String]? = nil
         /// The unique identifier for the application.
-        var name: String? = nil
+        public var name: String? = nil
         /// The name of the application shown to the end users.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// An application can be disabled after image creation if there is a problem.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The path to the application executable in the instance.
-        var launchPath: String? = nil
+        public var launchPath: String? = nil
         /// A list of arguments that are passed to the application at launch.
-        var launchParameters: String? = nil
+        public var launchParameters: String? = nil
         /// The URL for the application icon. This URL may be time-limited.
-        var iconURL: String? = nil
+        public var iconURL: String? = nil
 
         public init() {}
 
@@ -410,33 +456,35 @@ extension Appstream2 {
 
     }
 
-    public struct Fleet: Serializable, Initializable {
+    public struct Fleet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN for the fleet.
-        var arn: String = ""
+        public var arn: String = ""
         /// The VPC configuration for the fleet.
-        var vpcConfig: VpcConfig? = nil
+        public var vpcConfig: VpcConfig? = nil
         /// The current state for the fleet.
-        var state: String = ""
+        public var state: String = ""
         /// The name displayed to end users on the AppStream 2.0 portal.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The list of fleet errors is appended to this list.
-        var fleetErrors: [FleetError]? = nil
+        public var fleetErrors: [FleetError]? = nil
         /// The capacity information for the fleet.
-        var computeCapacityStatus: ComputeCapacityStatus = ComputeCapacityStatus()
+        public var computeCapacityStatus: ComputeCapacityStatus = ComputeCapacityStatus()
         /// The image used by the fleet.
-        var imageName: String = ""
+        public var imageName: String = ""
         /// The instance type of compute resources for the fleet. The fleet instances are launched from this instance type. 
-        var instanceType: String = ""
+        public var instanceType: String = ""
         /// The time at which the fleet was created.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// The description displayed to end users on the AppStream 2.0 portal.
-        var description: String? = nil
+        public var description: String? = nil
         /// The name of the fleet.
-        var name: String = ""
+        public var name: String = ""
         /// The time after disconnection when a session is considered to have ended. When a user reconnects after a disconnection, the user is connected to the same session and instance within this time interval.
-        var disconnectTimeoutInSeconds: Int32? = nil
+        public var disconnectTimeoutInSeconds: Int32? = nil
         /// The maximum time during which a streaming session can run.
-        var maxUserDurationInSeconds: Int32? = nil
+        public var maxUserDurationInSeconds: Int32? = nil
 
         public init() {}
 
@@ -458,9 +506,11 @@ extension Appstream2 {
 
     }
 
-    public struct StartFleetRequest: Serializable, Initializable {
+    public struct StartFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the fleet to start.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -470,15 +520,19 @@ extension Appstream2 {
 
     }
 
-    public struct StartFleetResult: Serializable, Initializable {
+    public struct StartFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct VpcConfig: Serializable, Initializable {
+    public struct VpcConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of subnets to which a network interface is established from the fleet instance.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
 
         public init() {}
 
@@ -488,11 +542,13 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeStacksRequest: Serializable, Initializable {
+    public struct DescribeStacksRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The stack names to describe. Use null to describe all the stacks for the AWS account.
-        var names: [String]? = nil
+        public var names: [String]? = nil
 
         public init() {}
 
@@ -503,11 +559,13 @@ extension Appstream2 {
 
     }
 
-    public struct ImageStateChangeReason: Serializable, Initializable {
+    public struct ImageStateChangeReason: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state change reason code of the image.
-        var code: String? = nil
+        public var code: String? = nil
         /// The state change reason message to the end user.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -518,11 +576,13 @@ extension Appstream2 {
 
     }
 
-    public struct ListAssociatedStacksRequest: Serializable, Initializable {
+    public struct ListAssociatedStacksRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The name of the fleet whose associated stacks are listed.
-        var fleetName: String = ""
+        public var fleetName: String = ""
 
         public init() {}
 
@@ -533,13 +593,15 @@ extension Appstream2 {
 
     }
 
-    public struct CreateStackRequest: Serializable, Initializable {
+    public struct CreateStackRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for this stack.
-        var name: String = ""
+        public var name: String = ""
         /// The name displayed to end users on the AppStream 2.0 portal.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The description displayed to end users on the AppStream 2.0 portal.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -551,13 +613,15 @@ extension Appstream2 {
 
     }
 
-    public struct UpdateStackRequest: Serializable, Initializable {
+    public struct UpdateStackRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stack to update.
-        var name: String = ""
+        public var name: String = ""
         /// The name displayed to end users on the AppStream 2.0 portal.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The description displayed to end users on the AppStream 2.0 portal.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -569,9 +633,11 @@ extension Appstream2 {
 
     }
 
-    public struct StopFleetRequest: Serializable, Initializable {
+    public struct StopFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the fleet to stop.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -581,9 +647,11 @@ extension Appstream2 {
 
     }
 
-    public struct ExpireSessionRequest: Serializable, Initializable {
+    public struct ExpireSessionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier of the streaming session to be stopped.
-        var sessionId: String = ""
+        public var sessionId: String = ""
 
         public init() {}
 
@@ -593,9 +661,11 @@ extension Appstream2 {
 
     }
 
-    public struct CreateFleetResult: Serializable, Initializable {
+    public struct CreateFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The details for the created fleet.
-        var fleet: Fleet? = nil
+        public var fleet: Fleet? = nil
 
         public init() {}
 
@@ -605,19 +675,21 @@ extension Appstream2 {
 
     }
 
-    public struct CreateStreamingURLRequest: Serializable, Initializable {
+    public struct CreateStreamingURLRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The validity duration of the URL in seconds. After this duration, the URL returned by this operation becomes invalid.
-        var validity: Int64? = nil
+        public var validity: Int64? = nil
         /// A unique user ID for whom the URL is generated.
-        var userId: String = ""
+        public var userId: String = ""
         /// The ID of the application that must be launched after the session starts.
-        var applicationId: String? = nil
+        public var applicationId: String? = nil
         /// The sessionContext of the streaming URL.
-        var sessionContext: String? = nil
+        public var sessionContext: String? = nil
         /// The stack for which the URL is generated.
-        var stackName: String = ""
+        public var stackName: String = ""
         /// The fleet for which the URL is generated.
-        var fleetName: String = ""
+        public var fleetName: String = ""
 
         public init() {}
 
@@ -632,15 +704,17 @@ extension Appstream2 {
 
     }
 
-    public struct ComputeCapacityStatus: Serializable, Initializable {
+    public struct ComputeCapacityStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of currently available instances that can be used to stream sessions.
-        var available: Int32? = nil
+        public var available: Int32? = nil
         /// The number of instances that are being used for streaming.
-        var inUse: Int32? = nil
+        public var inUse: Int32? = nil
         /// The desired number of streaming instances.
-        var desired: Int32 = 0
+        public var desired: Int32 = 0
         /// The total number of simultaneous streaming instances that are running.
-        var running: Int32? = nil
+        public var running: Int32? = nil
 
         public init() {}
 
@@ -653,11 +727,13 @@ extension Appstream2 {
 
     }
 
-    public struct CreateStreamingURLResult: Serializable, Initializable {
+    public struct CreateStreamingURLResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The URL to start the AppStream 2.0 streaming session.
-        var streamingURL: String? = nil
+        public var streamingURL: String? = nil
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
-        var expires: Date? = nil
+        public var expires: Date? = nil
 
         public init() {}
 
@@ -668,11 +744,13 @@ extension Appstream2 {
 
     }
 
-    public struct AssociateFleetRequest: Serializable, Initializable {
+    public struct AssociateFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stack to which the fleet is associated.
-        var stackName: String = ""
+        public var stackName: String = ""
         /// The name of the fleet to associate.
-        var fleetName: String = ""
+        public var fleetName: String = ""
 
         public init() {}
 
@@ -683,11 +761,13 @@ extension Appstream2 {
 
     }
 
-    public struct DescribeFleetsResult: Serializable, Initializable {
+    public struct DescribeFleetsResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of fleet details.
-        var fleets: [Fleet]? = nil
+        public var fleets: [Fleet]? = nil
 
         public init() {}
 
@@ -698,29 +778,31 @@ extension Appstream2 {
 
     }
 
-    public struct Image: Serializable, Initializable {
+    public struct Image: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The reason why the last state change occurred.
-        var stateChangeReason: ImageStateChangeReason? = nil
+        public var stateChangeReason: ImageStateChangeReason? = nil
         /// The ARN for the image.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The operating system platform of the image.
-        var platform: String? = nil
+        public var platform: String? = nil
         /// The image starts in the PENDING state, and then moves to AVAILABLE if image creation succeeds and FAILED if image creation has failed.
-        var state: String? = nil
+        public var state: String? = nil
         /// The display name for the image.
-        var displayName: String? = nil
+        public var displayName: String? = nil
         /// The unique identifier for the image.
-        var name: String = ""
+        public var name: String = ""
         /// The source image ARN from which this image was created.
-        var baseImageArn: String? = nil
+        public var baseImageArn: String? = nil
         /// The applications associated with an image.
-        var applications: [Application]? = nil
+        public var applications: [Application]? = nil
         /// The visibility of an image to the user; images can be public or private.
-        var visibility: String? = nil
+        public var visibility: String? = nil
         /// The timestamp when the image was created.
-        var createdTime: Date? = nil
+        public var createdTime: Date? = nil
         /// A meaningful description for the image.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -740,9 +822,11 @@ extension Appstream2 {
 
     }
 
-    public struct DeleteStackRequest: Serializable, Initializable {
+    public struct DeleteStackRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the stack to delete.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -752,15 +836,19 @@ extension Appstream2 {
 
     }
 
-    public struct StopFleetResult: Serializable, Initializable {
+    public struct StopFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateStackResult: Serializable, Initializable {
+    public struct CreateStackResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The details for the created stack.
-        var stack: Stack? = nil
+        public var stack: Stack? = nil
 
         public init() {}
 
@@ -770,9 +858,11 @@ extension Appstream2 {
 
     }
 
-    public struct DeleteFleetRequest: Serializable, Initializable {
+    public struct DeleteFleetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the fleet to be deleted.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -782,7 +872,9 @@ extension Appstream2 {
 
     }
 
-    public struct AssociateFleetResult: Serializable, Initializable {
+    public struct AssociateFleetResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 

@@ -29,14 +29,18 @@ import Core
 
 extension Cur {
 
-    public struct PutReportDefinitionResponse: Serializable, Initializable {
+    public struct PutReportDefinitionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteReportDefinitionResponse: Serializable, Initializable {
-        var responseMessage: String? = nil
+    public struct DeleteReportDefinitionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var responseMessage: String? = nil
 
         public init() {}
 
@@ -46,9 +50,11 @@ extension Cur {
 
     }
 
-    public struct DescribeReportDefinitionsResponse: Serializable, Initializable {
-        var nextToken: String? = nil
-        var reportDefinitions: [ReportDefinition]? = nil
+    public struct DescribeReportDefinitionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var reportDefinitions: [ReportDefinition]? = nil
 
         public init() {}
 
@@ -59,16 +65,18 @@ extension Cur {
 
     }
 
-    public struct ReportDefinition: Serializable, Initializable {
-        var timeUnit: String = ""
-        var format: String = ""
-        var compression: String = ""
-        var reportName: String = ""
-        var s3Region: String = ""
-        var additionalArtifacts: [String]? = nil
-        var additionalSchemaElements: [String] = []
-        var s3Bucket: String = ""
-        var s3Prefix: String = ""
+    public struct ReportDefinition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var timeUnit: String = ""
+        public var format: String = ""
+        public var compression: String = ""
+        public var reportName: String = ""
+        public var s3Region: String = ""
+        public var additionalArtifacts: [String]? = nil
+        public var additionalSchemaElements: [String] = []
+        public var s3Bucket: String = ""
+        public var s3Prefix: String = ""
 
         public init() {}
 
@@ -86,8 +94,10 @@ extension Cur {
 
     }
 
-    public struct PutReportDefinitionRequest: Serializable, Initializable {
-        var reportDefinition: ReportDefinition = ReportDefinition()
+    public struct PutReportDefinitionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var reportDefinition: ReportDefinition = ReportDefinition()
 
         public init() {}
 
@@ -97,9 +107,11 @@ extension Cur {
 
     }
 
-    public struct DescribeReportDefinitionsRequest: Serializable, Initializable {
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+    public struct DescribeReportDefinitionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -110,8 +122,10 @@ extension Cur {
 
     }
 
-    public struct DeleteReportDefinitionRequest: Serializable, Initializable {
-        var reportName: String? = nil
+    public struct DeleteReportDefinitionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var reportName: String? = nil
 
         public init() {}
 

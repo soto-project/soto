@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Xray
-public enum XrayError: Error {
+public enum XrayError: AWSErrorType {
     case invalidRequestException(message: String?)
     case throttledException(message: String?)
 }

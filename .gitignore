@@ -5,5 +5,5 @@
 .env
 node_modules
 build
-docs
 awssdkswift.json
+docs/docsets

@@ -29,48 +29,50 @@ import Core
 
 extension MturkRequester {
 
-    public struct HIT: Serializable, Initializable {
+    public struct HIT: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The number of assignments for this HIT that have been approved or rejected.
-        var numberOfAssignmentsCompleted: Int32? = nil
+        public var numberOfAssignmentsCompleted: Int32? = nil
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
-        var autoApprovalDelayInSeconds: Int64? = nil
+        public var autoApprovalDelayInSeconds: Int64? = nil
         ///  The ID of the HIT Layout of this HIT.
-        var hITLayoutId: String? = nil
+        public var hITLayoutId: String? = nil
         ///  The number of assignments for this HIT that are available for Workers to accept.
-        var numberOfAssignmentsAvailable: Int32? = nil
+        public var numberOfAssignmentsAvailable: Int32? = nil
         ///  The title of the HIT.
-        var title: String? = nil
+        public var title: String? = nil
         ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
-        var assignmentDurationInSeconds: Int64? = nil
+        public var assignmentDurationInSeconds: Int64? = nil
         ///  The date and time the HIT was created.
-        var creationTime: Date? = nil
+        public var creationTime: Date? = nil
         ///  The ID of the HIT Group of this HIT.
-        var hITGroupId: String? = nil
-        var reward: String? = nil
+        public var hITGroupId: String? = nil
+        public var reward: String? = nil
         ///  Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
-        var hITReviewStatus: String? = nil
+        public var hITReviewStatus: String? = nil
         /// The ID of the HIT type of this HIT
-        var hITTypeId: String? = nil
+        public var hITTypeId: String? = nil
         ///  A general description of the HIT.
-        var description: String? = nil
+        public var description: String? = nil
         /// The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        var maxAssignments: Int32? = nil
+        public var maxAssignments: Int32? = nil
         ///  A unique identifier for the HIT.
-        var hITId: String? = nil
+        public var hITId: String? = nil
         /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
-        var hITStatus: String? = nil
+        public var hITStatus: String? = nil
         /// The date and time the HIT expires.
-        var expiration: Date? = nil
+        public var expiration: Date? = nil
         ///  A condition that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met by a Worker's Qualifications for the Worker to accept the HIT.
-        var qualificationRequirements: [QualificationRequirement]? = nil
+        public var qualificationRequirements: [QualificationRequirement]? = nil
         ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
-        var keywords: String? = nil
+        public var keywords: String? = nil
         ///  The data the Worker completing the HIT uses produce the results. This is either either a QuestionForm, HTMLQuestion or an ExternalQuestion data structure.
-        var question: String? = nil
+        public var question: String? = nil
         ///  An arbitrary data field the Requester who created the HIT can use. This field is visible only to the creator of the HIT.
-        var requesterAnnotation: String? = nil
+        public var requesterAnnotation: String? = nil
         ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
-        var numberOfAssignmentsPending: Int32? = nil
+        public var numberOfAssignmentsPending: Int32? = nil
 
         public init() {}
 
@@ -100,9 +102,11 @@ extension MturkRequester {
 
     }
 
-    public struct DeleteQualificationTypeRequest: Serializable, Initializable {
+    public struct DeleteQualificationTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the QualificationType to dispose.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
 
         public init() {}
 
@@ -112,14 +116,16 @@ extension MturkRequester {
 
     }
 
-    public struct ListAssignmentsForHITRequest: Serializable, Initializable {
+    public struct ListAssignmentsForHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the HIT.
-        var hITId: String = ""
+        public var hITId: String = ""
         /// Pagination token
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The status of the assignments to return: Submitted | Approved | Rejected
-        var assignmentStatuses: [String]? = nil
-        var maxResults: Int32? = nil
+        public var assignmentStatuses: [String]? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -132,25 +138,31 @@ extension MturkRequester {
 
     }
 
-    public struct DeleteHITResponse: Serializable, Initializable {
+    public struct DeleteHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateHITReviewStatusResponse: Serializable, Initializable {
+    public struct UpdateHITReviewStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct NotifyWorkersRequest: Serializable, Initializable {
+    public struct NotifyWorkersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The subject line of the email message to send. Can include up to 200 characters.
-        var subject: String = ""
+        public var subject: String = ""
         /// The text of the email message to send. Can include up to 4,096 characters
-        var messageText: String = ""
+        public var messageText: String = ""
         /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time.
-        var workerIds: [String] = []
+        public var workerIds: [String] = []
 
         public init() {}
 
@@ -162,9 +174,11 @@ extension MturkRequester {
 
     }
 
-    public struct CreateHITTypeResponse: Serializable, Initializable {
+    public struct CreateHITTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The ID of the newly registered HIT type.
-        var hITTypeId: String? = nil
+        public var hITTypeId: String? = nil
 
         public init() {}
 
@@ -174,12 +188,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListAssignmentsForHITResponse: Serializable, Initializable {
+    public struct ListAssignmentsForHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The collection of Assignment data structures returned by this call.
-        var assignments: [Assignment]? = nil
-        var nextToken: String? = nil
+        public var assignments: [Assignment]? = nil
+        public var nextToken: String? = nil
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -191,16 +207,18 @@ extension MturkRequester {
 
     }
 
-    public struct ListQualificationTypesRequest: Serializable, Initializable {
+    public struct ListQualificationTypesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types. 
-        var mustBeOwnedByCaller: Bool? = nil
+        public var mustBeOwnedByCaller: Bool? = nil
         /// Specifies that only Qualification types that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test, are returned as results of the search. Some Qualification types, such as those assigned automatically by the system, cannot be requested directly by users. If false, all Qualification types, including those managed by the system, are considered. Valid values are True | False. 
-        var mustBeRequestable: Bool = false
+        public var mustBeRequestable: Bool = false
         ///  A text query against all of the searchable attributes of Qualification types. 
-        var query: String? = nil
-        var nextToken: String? = nil
+        public var query: String? = nil
+        public var nextToken: String? = nil
         ///  The maximum number of results to return in a single call. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -214,12 +232,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListQualificationRequestsRequest: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct ListQualificationRequestsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         /// The ID of the QualificationType.
-        var qualificationTypeId: String? = nil
+        public var qualificationTypeId: String? = nil
         ///  The maximum number of results to return in a single call. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -231,12 +251,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListReviewableHITsResponse: Serializable, Initializable {
+    public struct ListReviewableHITsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The list of HIT elements returned by the query.
-        var hITs: [HIT]? = nil
-        var nextToken: String? = nil
+        public var hITs: [HIT]? = nil
+        public var nextToken: String? = nil
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -248,9 +270,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetFileUploadURLResponse: Serializable, Initializable {
+    public struct GetFileUploadURLResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A temporary URL for the file that the Worker uploaded for the answer. 
-        var fileUploadURL: String? = nil
+        public var fileUploadURL: String? = nil
 
         public init() {}
 
@@ -260,11 +284,13 @@ extension MturkRequester {
 
     }
 
-    public struct HITLayoutParameter: Serializable, Initializable {
+    public struct HITLayoutParameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value substituted for the parameter referenced in the HITLayout. 
-        var value: String? = nil
+        public var value: String? = nil
         ///  The name of the parameter in the HITLayout. 
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -275,33 +301,35 @@ extension MturkRequester {
 
     }
 
-    public struct QualificationType: Serializable, Initializable {
+    public struct QualificationType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
-        var testDurationInSeconds: Int64? = nil
+        public var testDurationInSeconds: Int64? = nil
         ///  The amount of time, in seconds, Workers must wait after taking the Qualification test before they can take it again. Workers can take a Qualification test multiple times if they were not granted the Qualification from a previous attempt, or if the test offers a gradient score and they want a better score. If not specified, retries are disabled and Workers can request a Qualification only once. 
-        var retryDelayInSeconds: Int64? = nil
+        public var retryDelayInSeconds: Int64? = nil
         ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
-        var qualificationTypeStatus: String? = nil
+        public var qualificationTypeStatus: String? = nil
         ///  The date and time the Qualification type was created. 
-        var creationTime: Date? = nil
+        public var creationTime: Date? = nil
         /// The answers to the Qualification test specified in the Test parameter.
-        var answerKey: String? = nil
+        public var answerKey: String? = nil
         ///  A long description for the Qualification type. 
-        var description: String? = nil
+        public var description: String? = nil
         /// Specifies that requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Valid values are True | False.
-        var autoGranted: Bool? = nil
+        public var autoGranted: Bool? = nil
         ///  The questions for a Qualification test associated with this Qualification type that a user can take to obtain a Qualification of this type. This parameter must be specified if AnswerKey is present. A Qualification type cannot have both a specified Test parameter and an AutoGranted value of true. 
-        var test: String? = nil
+        public var test: String? = nil
         ///  The name of the Qualification type. The type name is used to identify the type, and to find the type using a Qualification type search. 
-        var name: String? = nil
+        public var name: String? = nil
         ///  One or more words or phrases that describe theQualification type, separated by commas. The Keywords make the type easier to find using a search. 
-        var keywords: String? = nil
+        public var keywords: String? = nil
         ///  Specifies whether the Qualification type is one that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test. This value is False for Qualifications assigned automatically by the system. Valid values are True | False. 
-        var isRequestable: Bool? = nil
+        public var isRequestable: Bool? = nil
         ///  The Qualification integer value to use for automatically granted Qualifications, if AutoGranted is true. This is 1 by default. 
-        var autoGrantedValue: Int32? = nil
+        public var autoGrantedValue: Int32? = nil
         ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
-        var qualificationTypeId: String? = nil
+        public var qualificationTypeId: String? = nil
 
         public init() {}
 
@@ -323,11 +351,13 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateExpirationForHITRequest: Serializable, Initializable {
+    public struct UpdateExpirationForHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The date and time at which you want the HIT to expire 
-        var expireAt: Date? = nil
+        public var expireAt: Date? = nil
         ///  The HIT to update. 
-        var hITId: String = ""
+        public var hITId: String = ""
 
         public init() {}
 
@@ -338,24 +368,30 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateHITTypeOfHITResponse: Serializable, Initializable {
+    public struct UpdateHITTypeOfHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DisassociateQualificationFromWorkerResponse: Serializable, Initializable {
+    public struct DisassociateQualificationFromWorkerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListQualificationTypesResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct ListQualificationTypesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         ///  The list of QualificationType elements returned by the query. 
-        var qualificationTypes: [QualificationType]? = nil
+        public var qualificationTypes: [QualificationType]? = nil
         ///  The number of Qualification types on this page in the filtered results list, equivalent to the number of types this operation returns. 
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -367,17 +403,21 @@ extension MturkRequester {
 
     }
 
-    public struct SendBonusResponse: Serializable, Initializable {
+    public struct SendBonusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ReviewPolicy: Serializable, Initializable {
+    public struct ReviewPolicy: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name of the parameter from the Review policy.
-        var parameters: [PolicyParameter]? = nil
+        public var parameters: [PolicyParameter]? = nil
         ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
-        var policyName: String? = nil
+        public var policyName: String? = nil
 
         public init() {}
 
@@ -388,9 +428,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetHITResponse: Serializable, Initializable {
+    public struct GetHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Contains the requested HIT data.
-        var hIT: HIT? = nil
+        public var hIT: HIT? = nil
 
         public init() {}
 
@@ -400,13 +442,15 @@ extension MturkRequester {
 
     }
 
-    public struct NotifyWorkersFailureStatus: Serializable, Initializable {
+    public struct NotifyWorkersFailureStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A message detailing the reason the Worker could not be notified. 
-        var notifyWorkersFailureMessage: String? = nil
+        public var notifyWorkersFailureMessage: String? = nil
         ///  The ID of the Worker.
-        var workerId: String? = nil
+        public var workerId: String? = nil
         ///  Encoded value for the failure type. 
-        var notifyWorkersFailureCode: String? = nil
+        public var notifyWorkersFailureCode: String? = nil
 
         public init() {}
 
@@ -418,18 +462,22 @@ extension MturkRequester {
 
     }
 
-    public struct DeleteQualificationTypeResponse: Serializable, Initializable {
+    public struct DeleteQualificationTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListHITsForQualificationTypeResponse: Serializable, Initializable {
+    public struct ListHITsForQualificationTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The list of HIT elements returned by the query.
-        var hITs: [HIT]? = nil
-        var nextToken: String? = nil
+        public var hITs: [HIT]? = nil
+        public var nextToken: String? = nil
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -441,45 +489,49 @@ extension MturkRequester {
 
     }
 
-    public struct DeleteWorkerBlockResponse: Serializable, Initializable {
+    public struct DeleteWorkerBlockResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateHITRequest: Serializable, Initializable {
+    public struct CreateHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        var hITLayoutId: String? = nil
+        public var hITLayoutId: String? = nil
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        var hITLayoutParameters: [HITLayoutParameter]? = nil
+        public var hITLayoutParameters: [HITLayoutParameter]? = nil
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
-        var autoApprovalDelayInSeconds: Int64? = nil
+        public var autoApprovalDelayInSeconds: Int64? = nil
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
-        var title: String = ""
+        public var title: String = ""
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        var hITReviewPolicy: ReviewPolicy? = nil
+        public var hITReviewPolicy: ReviewPolicy? = nil
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
-        var assignmentDurationInSeconds: Int64 = 0
+        public var assignmentDurationInSeconds: Int64 = 0
         ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
-        var reward: String = ""
+        public var reward: String = ""
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
-        var uniqueRequestToken: String? = nil
+        public var uniqueRequestToken: String? = nil
         ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
-        var description: String = ""
+        public var description: String = ""
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        var maxAssignments: Int32? = nil
+        public var maxAssignments: Int32? = nil
         ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
-        var qualificationRequirements: [QualificationRequirement]? = nil
+        public var qualificationRequirements: [QualificationRequirement]? = nil
         ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
-        var keywords: String? = nil
+        public var keywords: String? = nil
         ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
-        var question: String? = nil
+        public var question: String? = nil
         ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
-        var lifetimeInSeconds: Int64 = 0
+        public var lifetimeInSeconds: Int64 = 0
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        var assignmentReviewPolicy: ReviewPolicy? = nil
+        public var assignmentReviewPolicy: ReviewPolicy? = nil
         ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
-        var requesterAnnotation: String? = nil
+        public var requesterAnnotation: String? = nil
 
         public init() {}
 
@@ -504,10 +556,12 @@ extension MturkRequester {
 
     }
 
-    public struct ListWorkerBlocksRequest: Serializable, Initializable {
+    public struct ListWorkerBlocksRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Pagination token
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -518,27 +572,35 @@ extension MturkRequester {
 
     }
 
-    public struct AcceptQualificationRequestResponse: Serializable, Initializable {
+    public struct AcceptQualificationRequestResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct RejectQualificationRequestResponse: Serializable, Initializable {
+    public struct RejectQualificationRequestResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct SendTestEventNotificationResponse: Serializable, Initializable {
+    public struct SendTestEventNotificationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetQualificationScoreResponse: Serializable, Initializable {
+    public struct GetQualificationScoreResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
-        var qualification: Qualification? = nil
+        public var qualification: Qualification? = nil
 
         public init() {}
 
@@ -548,17 +610,21 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateNotificationSettingsResponse: Serializable, Initializable {
+    public struct UpdateNotificationSettingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateHITReviewStatusRequest: Serializable, Initializable {
+    public struct UpdateHITReviewStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The ID of the HIT to update. 
-        var hITId: String = ""
+        public var hITId: String = ""
         ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
-        var revert: Bool? = nil
+        public var revert: Bool? = nil
 
         public init() {}
 
@@ -569,15 +635,17 @@ extension MturkRequester {
 
     }
 
-    public struct AssociateQualificationWithWorkerRequest: Serializable, Initializable {
+    public struct AssociateQualificationWithWorkerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the Qualification to assign.
-        var integerValue: Int32? = nil
+        public var integerValue: Int32? = nil
         ///  Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default. 
-        var sendNotification: Bool? = nil
+        public var sendNotification: Bool? = nil
         ///  The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. 
-        var workerId: String = ""
+        public var workerId: String = ""
         /// The ID of the Qualification type to use for the assigned Qualification.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
 
         public init() {}
 
@@ -590,9 +658,11 @@ extension MturkRequester {
 
     }
 
-    public struct DeleteHITRequest: Serializable, Initializable {
+    public struct DeleteHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the HIT to be deleted.
-        var hITId: String = ""
+        public var hITId: String = ""
 
         public init() {}
 
@@ -602,25 +672,27 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateQualificationTypeRequest: Serializable, Initializable {
+    public struct UpdateQualificationTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
-        var testDurationInSeconds: Int64? = nil
+        public var testDurationInSeconds: Int64? = nil
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
-        var autoGranted: Bool? = nil
+        public var autoGranted: Bool? = nil
         /// The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
-        var test: String? = nil
+        public var test: String? = nil
         /// The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
-        var retryDelayInSeconds: Int64? = nil
+        public var retryDelayInSeconds: Int64? = nil
         /// The new status of the Qualification type - Active | Inactive
-        var qualificationTypeStatus: String? = nil
+        public var qualificationTypeStatus: String? = nil
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
-        var answerKey: String? = nil
+        public var answerKey: String? = nil
         /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
-        var autoGrantedValue: Int32? = nil
+        public var autoGrantedValue: Int32? = nil
         /// The ID of the Qualification type to update.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
         /// The new description of the Qualification type.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -638,18 +710,20 @@ extension MturkRequester {
 
     }
 
-    public struct Qualification: Serializable, Initializable {
+    public struct Qualification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
-        var integerValue: Int32? = nil
+        public var integerValue: Int32? = nil
         ///  The status of the Qualification. Valid values are Granted | Revoked.
-        var status: String? = nil
-        var localeValue: Locale? = nil
+        public var status: String? = nil
+        public var localeValue: Locale? = nil
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
-        var grantTime: Date? = nil
+        public var grantTime: Date? = nil
         ///  The ID of the Worker who possesses the Qualification. 
-        var workerId: String? = nil
+        public var workerId: String? = nil
         ///  The ID of the Qualification type for the Qualification.
-        var qualificationTypeId: String? = nil
+        public var qualificationTypeId: String? = nil
 
         public init() {}
 
@@ -664,23 +738,29 @@ extension MturkRequester {
 
     }
 
-    public struct AssociateQualificationWithWorkerResponse: Serializable, Initializable {
+    public struct AssociateQualificationWithWorkerResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateExpirationForHITResponse: Serializable, Initializable {
+    public struct UpdateExpirationForHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateWorkerBlockRequest: Serializable, Initializable {
+    public struct CreateWorkerBlockRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
-        var reason: String = ""
+        public var reason: String = ""
         /// The ID of the Worker to block.
-        var workerId: String = ""
+        public var workerId: String = ""
 
         public init() {}
 
@@ -691,12 +771,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListHITsResponse: Serializable, Initializable {
+    public struct ListHITsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The list of HIT elements returned by the query.
-        var hITs: [HIT]? = nil
-        var nextToken: String? = nil
+        public var hITs: [HIT]? = nil
+        public var nextToken: String? = nil
         /// The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -708,13 +790,15 @@ extension MturkRequester {
 
     }
 
-    public struct CreateAdditionalAssignmentsForHITRequest: Serializable, Initializable {
+    public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the HIT to extend.
-        var hITId: String = ""
+        public var hITId: String = ""
         /// The number of additional assignments to request for this HIT.
-        var numberOfAdditionalAssignments: Int32? = nil
+        public var numberOfAdditionalAssignments: Int32? = nil
         ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
-        var uniqueRequestToken: String? = nil
+        public var uniqueRequestToken: String? = nil
 
         public init() {}
 
@@ -726,11 +810,13 @@ extension MturkRequester {
 
     }
 
-    public struct GetFileUploadURLRequest: Serializable, Initializable {
+    public struct GetFileUploadURLRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the assignment that contains the question with a FileUploadAnswer.
-        var assignmentId: String = ""
+        public var assignmentId: String = ""
         /// The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
-        var questionIdentifier: String = ""
+        public var questionIdentifier: String = ""
 
         public init() {}
 
@@ -741,12 +827,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListQualificationRequestsResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct ListQualificationRequestsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
-        var qualificationRequests: [QualificationRequest]? = nil
+        public var qualificationRequests: [QualificationRequest]? = nil
         /// The number of Qualification requests on this page in the filtered results list, equivalent to the number of Qualification requests being returned by this call.
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -758,11 +846,13 @@ extension MturkRequester {
 
     }
 
-    public struct ReviewReport: Serializable, Initializable {
+    public struct ReviewReport: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A list of ReviewResults objects for each action specified in the Review Policy. 
-        var reviewResults: [ReviewResultDetail]? = nil
+        public var reviewResults: [ReviewResultDetail]? = nil
         ///  A list of ReviewAction objects for each action specified in the Review Policy. 
-        var reviewActions: [ReviewActionDetail]? = nil
+        public var reviewActions: [ReviewActionDetail]? = nil
 
         public init() {}
 
@@ -773,17 +863,21 @@ extension MturkRequester {
 
     }
 
-    public struct RejectAssignmentResponse: Serializable, Initializable {
+    public struct RejectAssignmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetAssignmentResponse: Serializable, Initializable {
+    public struct GetAssignmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The HIT associated with this assignment. The response includes one HIT element.
-        var hIT: HIT? = nil
+        public var hIT: HIT? = nil
         ///  The assignment. The response includes one Assignment element. 
-        var assignment: Assignment? = nil
+        public var assignment: Assignment? = nil
 
         public init() {}
 
@@ -794,17 +888,19 @@ extension MturkRequester {
 
     }
 
-    public struct QualificationRequirement: Serializable, Initializable {
+    public struct QualificationRequirement: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The ID of the Qualification type for the requirement.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
         ///  The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure. 
-        var integerValues: [Int32]? = nil
+        public var integerValues: [Int32]? = nil
         ///  If true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. 
-        var requiredToPreview: Bool? = nil
+        public var requiredToPreview: Bool? = nil
         /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value. 
-        var comparator: String = ""
+        public var comparator: String = ""
         ///  The locale value to compare against the Qualification's value. The local value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions. LocaleValue can only be used with a Worker_Locale QualificationType ID. LocaleValue can only be used with the EqualTo, NotEqualTo, In, and NotIn comparators. You must only use a single LocaleValue element when using the EqualTo or NotEqualTo comparators. When performing a set comparison by using the In or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement data structure. 
-        var localeValues: [Locale]? = nil
+        public var localeValues: [Locale]? = nil
 
         public init() {}
 
@@ -818,17 +914,21 @@ extension MturkRequester {
 
     }
 
-    public struct GetAccountBalanceRequest: Serializable, Initializable {
+    public struct GetAccountBalanceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Locale: Serializable, Initializable {
+    public struct Locale: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America. 
-        var country: String = ""
+        public var country: String = ""
         /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
-        var subdivision: String? = nil
+        public var subdivision: String? = nil
 
         public init() {}
 
@@ -839,11 +939,13 @@ extension MturkRequester {
 
     }
 
-    public struct WorkerBlock: Serializable, Initializable {
+    public struct WorkerBlock: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A message explaining the reason the Worker was blocked. 
-        var reason: String? = nil
+        public var reason: String? = nil
         ///  The ID of the Worker who accepted the HIT.
-        var workerId: String? = nil
+        public var workerId: String? = nil
 
         public init() {}
 
@@ -854,12 +956,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListWorkersWithQualificationTypeResponse: Serializable, Initializable {
+    public struct ListWorkersWithQualificationTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The list of Qualification elements returned by this call. 
-        var qualifications: [Qualification]? = nil
-        var nextToken: String? = nil
+        public var qualifications: [Qualification]? = nil
+        public var nextToken: String? = nil
         ///  The number of Qualifications on this page in the filtered results list, equivalent to the number of Qualifications being returned by this call.
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -871,11 +975,13 @@ extension MturkRequester {
 
     }
 
-    public struct ParameterMapEntry: Serializable, Initializable {
+    public struct ParameterMapEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy. 
-        var key: String? = nil
+        public var key: String? = nil
         ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly. 
-        var values: [String]? = nil
+        public var values: [String]? = nil
 
         public init() {}
 
@@ -886,9 +992,11 @@ extension MturkRequester {
 
     }
 
-    public struct CreateHITWithHITTypeResponse: Serializable, Initializable {
+    public struct CreateHITWithHITTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
-        var hIT: HIT? = nil
+        public var hIT: HIT? = nil
 
         public init() {}
 
@@ -898,9 +1006,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetHITRequest: Serializable, Initializable {
+    public struct GetHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the HIT to be retrieved.
-        var hITId: String = ""
+        public var hITId: String = ""
 
         public init() {}
 
@@ -910,15 +1020,17 @@ extension MturkRequester {
 
     }
 
-    public struct ListWorkersWithQualificationTypeRequest: Serializable, Initializable {
+    public struct ListWorkersWithQualificationTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The status of the Qualifications to return. Can be Granted | Revoked. 
-        var status: String? = nil
+        public var status: String? = nil
         /// Pagination Token
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ID of the Qualification type of the Qualifications to return.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
         ///  Limit the number of results returned. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -931,27 +1043,29 @@ extension MturkRequester {
 
     }
 
-    public struct CreateQualificationTypeRequest: Serializable, Initializable {
+    public struct CreateQualificationTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
-        var testDurationInSeconds: Int64? = nil
+        public var testDurationInSeconds: Int64? = nil
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
-        var autoGranted: Bool? = nil
+        public var autoGranted: Bool? = nil
         ///  The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified.  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
-        var test: String? = nil
+        public var test: String? = nil
         /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Workers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.
-        var retryDelayInSeconds: Int64? = nil
+        public var retryDelayInSeconds: Int64? = nil
         ///  The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type using a Qualification type search. It must be unique across all of your Qualification types.
-        var name: String = ""
+        public var name: String = ""
         /// One or more words or phrases that describe the Qualification type, separated by commas. The keywords of a type make the type easier to find during a search.
-        var keywords: String? = nil
+        public var keywords: String? = nil
         /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive
-        var qualificationTypeStatus: String = ""
+        public var qualificationTypeStatus: String = ""
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
-        var answerKey: String? = nil
+        public var answerKey: String? = nil
         /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
-        var autoGrantedValue: Int32? = nil
+        public var autoGrantedValue: Int32? = nil
         /// A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.
-        var description: String = ""
+        public var description: String = ""
 
         public init() {}
 
@@ -970,19 +1084,23 @@ extension MturkRequester {
 
     }
 
-    public struct CreateAdditionalAssignmentsForHITResponse: Serializable, Initializable {
+    public struct CreateAdditionalAssignmentsForHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListHITsForQualificationTypeRequest: Serializable, Initializable {
+    public struct ListHITsForQualificationTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Pagination Token
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         ///  The ID of the Qualification type to use when querying HITs. 
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
         ///  Limit the number of results returned. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -994,11 +1112,13 @@ extension MturkRequester {
 
     }
 
-    public struct RejectQualificationRequestRequest: Serializable, Initializable {
+    public struct RejectQualificationRequestRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
-        var reason: String? = nil
+        public var reason: String? = nil
         ///  The ID of the Qualification request, as returned by the ListQualificationRequests operation. 
-        var qualificationRequestId: String = ""
+        public var qualificationRequestId: String = ""
 
         public init() {}
 
@@ -1009,21 +1129,23 @@ extension MturkRequester {
 
     }
 
-    public struct CreateHITTypeRequest: Serializable, Initializable {
+    public struct CreateHITTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
-        var autoApprovalDelayInSeconds: Int64? = nil
+        public var autoApprovalDelayInSeconds: Int64? = nil
         ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
-        var qualificationRequirements: [QualificationRequirement]? = nil
+        public var qualificationRequirements: [QualificationRequirement]? = nil
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
-        var assignmentDurationInSeconds: Int64 = 0
+        public var assignmentDurationInSeconds: Int64 = 0
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
-        var title: String = ""
+        public var title: String = ""
         ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
-        var reward: String = ""
+        public var reward: String = ""
         ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
-        var keywords: String? = nil
+        public var keywords: String? = nil
         ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
-        var description: String = ""
+        public var description: String = ""
 
         public init() {}
 
@@ -1039,31 +1161,33 @@ extension MturkRequester {
 
     }
 
-    public struct Assignment: Serializable, Initializable {
+    public struct Assignment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
-        var autoApprovalTime: Date? = nil
+        public var autoApprovalTime: Date? = nil
         ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
-        var submitTime: Date? = nil
+        public var submitTime: Date? = nil
         ///  The ID of the HIT.
-        var hITId: String? = nil
+        public var hITId: String? = nil
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
-        var deadline: Date? = nil
+        public var deadline: Date? = nil
         ///  The status of the assignment.
-        var assignmentStatus: String? = nil
+        public var assignmentStatus: String? = nil
         ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
-        var approvalTime: Date? = nil
+        public var approvalTime: Date? = nil
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
-        var requesterFeedback: String? = nil
+        public var requesterFeedback: String? = nil
         ///  The date and time the Worker accepted the assignment.
-        var acceptTime: Date? = nil
+        public var acceptTime: Date? = nil
         ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
-        var rejectionTime: Date? = nil
+        public var rejectionTime: Date? = nil
         ///  A unique identifier for the assignment.
-        var assignmentId: String? = nil
+        public var assignmentId: String? = nil
         ///  The ID of the Worker who accepted the HIT.
-        var workerId: String? = nil
+        public var workerId: String? = nil
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
-        var answer: String? = nil
+        public var answer: String? = nil
 
         public init() {}
 
@@ -1084,17 +1208,19 @@ extension MturkRequester {
 
     }
 
-    public struct SendBonusRequest: Serializable, Initializable {
+    public struct SendBonusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the assignment for which this bonus is paid.
-        var assignmentId: String = ""
+        public var assignmentId: String = ""
         /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
-        var uniqueRequestToken: String? = nil
+        public var uniqueRequestToken: String? = nil
         /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The ID of the Worker being paid the bonus.
-        var workerId: String = ""
+        public var workerId: String = ""
         ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
-        var bonusAmount: String = ""
+        public var bonusAmount: String = ""
 
         public init() {}
 
@@ -1108,15 +1234,19 @@ extension MturkRequester {
 
     }
 
-    public struct CreateWorkerBlockResponse: Serializable, Initializable {
+    public struct CreateWorkerBlockResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateQualificationTypeResponse: Serializable, Initializable {
+    public struct CreateQualificationTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The created Qualification type, returned as a QualificationType data structure.
-        var qualificationType: QualificationType? = nil
+        public var qualificationType: QualificationType? = nil
 
         public init() {}
 
@@ -1126,18 +1256,20 @@ extension MturkRequester {
 
     }
 
-    public struct ListReviewPolicyResultsForHITResponse: Serializable, Initializable {
+    public struct ListReviewPolicyResultsForHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
-        var hITReviewPolicy: ReviewPolicy? = nil
+        public var hITReviewPolicy: ReviewPolicy? = nil
         /// Contains both ReviewResult and ReviewAction elements for a particular HIT. 
-        var hITReviewReport: ReviewReport? = nil
+        public var hITReviewReport: ReviewReport? = nil
         /// The HITId of the HIT for which results have been returned.
-        var hITId: String? = nil
+        public var hITId: String? = nil
         ///  The name of the Assignment-level Review Policy. This contains only the PolicyName element. 
-        var assignmentReviewPolicy: ReviewPolicy? = nil
-        var nextToken: String? = nil
+        public var assignmentReviewPolicy: ReviewPolicy? = nil
+        public var nextToken: String? = nil
         ///  Contains both ReviewResult and ReviewAction elements for an Assignment. 
-        var assignmentReviewReport: ReviewReport? = nil
+        public var assignmentReviewReport: ReviewReport? = nil
 
         public init() {}
 
@@ -1152,12 +1284,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListBonusPaymentsResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct ListBonusPaymentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects. 
-        var bonusPayments: [BonusPayment]? = nil
+        public var bonusPayments: [BonusPayment]? = nil
         /// The number of bonus payments on this page in the filtered results list, equivalent to the number of bonus payments being returned by this call. 
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
 
         public init() {}
 
@@ -1169,14 +1303,16 @@ extension MturkRequester {
 
     }
 
-    public struct ListBonusPaymentsRequest: Serializable, Initializable {
+    public struct ListBonusPaymentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        var assignmentId: String? = nil
+        public var assignmentId: String? = nil
         /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        var hITId: String? = nil
+        public var hITId: String? = nil
         /// Pagination token
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1189,16 +1325,18 @@ extension MturkRequester {
 
     }
 
-    public struct BonusPayment: Serializable, Initializable {
+    public struct BonusPayment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the assignment associated with this bonus payment.
-        var assignmentId: String? = nil
+        public var assignmentId: String? = nil
         /// The Reason text given when the bonus was granted, if any.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The date and time of when the bonus was granted.
-        var grantTime: Date? = nil
+        public var grantTime: Date? = nil
         /// The ID of the Worker to whom the bonus was paid.
-        var workerId: String? = nil
-        var bonusAmount: String? = nil
+        public var workerId: String? = nil
+        public var bonusAmount: String? = nil
 
         public init() {}
 
@@ -1212,9 +1350,11 @@ extension MturkRequester {
 
     }
 
-    public struct CreateHITResponse: Serializable, Initializable {
+    public struct CreateHITResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
-        var hIT: HIT? = nil
+        public var hIT: HIT? = nil
 
         public init() {}
 
@@ -1224,27 +1364,29 @@ extension MturkRequester {
 
     }
 
-    public struct CreateHITWithHITTypeRequest: Serializable, Initializable {
+    public struct CreateHITWithHITTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        var maxAssignments: Int32? = nil
+        public var maxAssignments: Int32? = nil
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        var hITLayoutId: String? = nil
+        public var hITLayoutId: String? = nil
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        var hITLayoutParameters: [HITLayoutParameter]? = nil
+        public var hITLayoutParameters: [HITLayoutParameter]? = nil
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        var hITReviewPolicy: ReviewPolicy? = nil
+        public var hITReviewPolicy: ReviewPolicy? = nil
         ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
-        var question: String? = nil
+        public var question: String? = nil
         ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
-        var requesterAnnotation: String? = nil
+        public var requesterAnnotation: String? = nil
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        var assignmentReviewPolicy: ReviewPolicy? = nil
+        public var assignmentReviewPolicy: ReviewPolicy? = nil
         ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
-        var lifetimeInSeconds: Int64 = 0
+        public var lifetimeInSeconds: Int64 = 0
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
-        var uniqueRequestToken: String? = nil
+        public var uniqueRequestToken: String? = nil
         /// The HIT type ID you want to create this HIT with.
-        var hITTypeId: String = ""
+        public var hITTypeId: String = ""
 
         public init() {}
 
@@ -1263,23 +1405,25 @@ extension MturkRequester {
 
     }
 
-    public struct ReviewActionDetail: Serializable, Initializable {
+    public struct ReviewActionDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
-        var status: String? = nil
+        public var status: String? = nil
         ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary. 
-        var actionName: String? = nil
+        public var actionName: String? = nil
         /// The unique identifier for the action.
-        var actionId: String? = nil
+        public var actionId: String? = nil
         ///  The specific HITId or AssignmentID targeted by the action.
-        var targetId: String? = nil
+        public var targetId: String? = nil
         ///  The type of object in TargetId.
-        var targetType: String? = nil
+        public var targetType: String? = nil
         ///  A description of the outcome of the review.
-        var result: String? = nil
+        public var result: String? = nil
         ///  Present only when the Results have a FAILED Status.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         ///  The date when the action was completed.
-        var completeTime: Date? = nil
+        public var completeTime: Date? = nil
 
         public init() {}
 
@@ -1296,11 +1440,13 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateHITTypeOfHITRequest: Serializable, Initializable {
+    public struct UpdateHITTypeOfHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the new HIT type.
-        var hITTypeId: String = ""
+        public var hITTypeId: String = ""
         /// The HIT to update.
-        var hITId: String = ""
+        public var hITId: String = ""
 
         public init() {}
 
@@ -1311,25 +1457,29 @@ extension MturkRequester {
 
     }
 
-    public struct ApproveAssignmentResponse: Serializable, Initializable {
+    public struct ApproveAssignmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct QualificationRequest: Serializable, Initializable {
+    public struct QualificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
-        var qualificationRequestId: String? = nil
+        public var qualificationRequestId: String? = nil
         ///  The ID of the Worker requesting the Qualification.
-        var workerId: String? = nil
+        public var workerId: String? = nil
         ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
-        var answer: String? = nil
+        public var answer: String? = nil
         ///  The contents of the Qualification test that was presented to the Worker, if the type has a test and the Worker has submitted answers. This value is identical to the QuestionForm associated with the Qualification type at the time the Worker requests the Qualification.
-        var test: String? = nil
+        public var test: String? = nil
         ///  The ID of the Qualification type the Worker is requesting, as returned by the CreateQualificationType operation. 
-        var qualificationTypeId: String? = nil
+        public var qualificationTypeId: String? = nil
         /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
-        var submitTime: Date? = nil
+        public var submitTime: Date? = nil
 
         public init() {}
 
@@ -1344,13 +1494,15 @@ extension MturkRequester {
 
     }
 
-    public struct DisassociateQualificationFromWorkerRequest: Serializable, Initializable {
+    public struct DisassociateQualificationFromWorkerRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The ID of the Worker who possesses the Qualification to be revoked.
-        var workerId: String = ""
+        public var workerId: String = ""
         /// The ID of the Qualification type of the Qualification to be revoked.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
 
         public init() {}
 
@@ -1362,9 +1514,11 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateQualificationTypeResponse: Serializable, Initializable {
+    public struct UpdateQualificationTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Contains a QualificationType data structure.
-        var qualificationType: QualificationType? = nil
+        public var qualificationType: QualificationType? = nil
 
         public init() {}
 
@@ -1374,19 +1528,21 @@ extension MturkRequester {
 
     }
 
-    public struct ReviewResultDetail: Serializable, Initializable {
+    public struct ReviewResultDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The type of the object from the SubjectId field.
-        var subjectType: String? = nil
+        public var subjectType: String? = nil
         /// The HITID or AssignmentId about which this result was taken. Note that HIT-level Review Policies will often emit results about both the HIT itself and its Assignments, while Assignment-level review policies generally only emit results about the Assignment itself. 
-        var subjectId: String? = nil
+        public var subjectId: String? = nil
         ///  Key identifies the particular piece of reviewed information. 
-        var key: String? = nil
+        public var key: String? = nil
         ///  A unique identifier of the Review action result. 
-        var actionId: String? = nil
+        public var actionId: String? = nil
         ///  The values of Key provided by the review policies you have selected. 
-        var value: String? = nil
+        public var value: String? = nil
         ///  Specifies the QuestionId the result is describing. Depending on whether the TargetType is a HIT or Assignment this results could specify multiple values. If TargetType is HIT and QuestionId is absent, then the result describes results of the HIT, including the HIT agreement score. If ObjectType is Assignment and QuestionId is absent, then the result describes the Worker's performance on the HIT. 
-        var questionId: String? = nil
+        public var questionId: String? = nil
 
         public init() {}
 
@@ -1401,9 +1557,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetAssignmentRequest: Serializable, Initializable {
+    public struct GetAssignmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the Assignment to be retrieved.
-        var assignmentId: String = ""
+        public var assignmentId: String = ""
 
         public init() {}
 
@@ -1413,10 +1571,12 @@ extension MturkRequester {
 
     }
 
-    public struct ListHITsRequest: Serializable, Initializable {
+    public struct ListHITsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Pagination token
-        var nextToken: String? = nil
-        var maxResults: Int32? = nil
+        public var nextToken: String? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1427,9 +1587,11 @@ extension MturkRequester {
 
     }
 
-    public struct NotifyWorkersResponse: Serializable, Initializable {
+    public struct NotifyWorkersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
-        var notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil
+        public var notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil
 
         public init() {}
 
@@ -1439,9 +1601,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetQualificationTypeResponse: Serializable, Initializable {
+    public struct GetQualificationTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The returned Qualification Type
-        var qualificationType: QualificationType? = nil
+        public var qualificationType: QualificationType? = nil
 
         public init() {}
 
@@ -1451,13 +1615,15 @@ extension MturkRequester {
 
     }
 
-    public struct PolicyParameter: Serializable, Initializable {
+    public struct PolicyParameter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  List of ParameterMapEntry objects. 
-        var mapEntries: [ParameterMapEntry]? = nil
+        public var mapEntries: [ParameterMapEntry]? = nil
         ///  Name of the parameter from the list of Review Polices. 
-        var key: String? = nil
+        public var key: String? = nil
         ///  The list of values of the Parameter
-        var values: [String]? = nil
+        public var values: [String]? = nil
 
         public init() {}
 
@@ -1469,11 +1635,13 @@ extension MturkRequester {
 
     }
 
-    public struct DeleteWorkerBlockRequest: Serializable, Initializable {
+    public struct DeleteWorkerBlockRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
-        var reason: String? = nil
+        public var reason: String? = nil
         /// The ID of the Worker to unblock.
-        var workerId: String = ""
+        public var workerId: String = ""
 
         public init() {}
 
@@ -1484,11 +1652,13 @@ extension MturkRequester {
 
     }
 
-    public struct RejectAssignmentRequest: Serializable, Initializable {
+    public struct RejectAssignmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
-        var requesterFeedback: String? = nil
+        public var requesterFeedback: String? = nil
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
-        var assignmentId: String = ""
+        public var assignmentId: String = ""
 
         public init() {}
 
@@ -1499,11 +1669,13 @@ extension MturkRequester {
 
     }
 
-    public struct AcceptQualificationRequestRequest: Serializable, Initializable {
+    public struct AcceptQualificationRequestRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
-        var integerValue: Int32? = nil
+        public var integerValue: Int32? = nil
         /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
-        var qualificationRequestId: String = ""
+        public var qualificationRequestId: String = ""
 
         public init() {}
 
@@ -1514,15 +1686,17 @@ extension MturkRequester {
 
     }
 
-    public struct ListReviewableHITsRequest: Serializable, Initializable {
+    public struct ListReviewableHITsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
-        var status: String? = nil
+        public var status: String? = nil
         ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered 
-        var hITTypeId: String? = nil
+        public var hITTypeId: String? = nil
         /// Pagination Token
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         ///  Limit the number of results returned. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1535,11 +1709,13 @@ extension MturkRequester {
 
     }
 
-    public struct SendTestEventNotificationRequest: Serializable, Initializable {
+    public struct SendTestEventNotificationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
-        var notification: NotificationSpecification = NotificationSpecification()
+        public var notification: NotificationSpecification = NotificationSpecification()
         ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
-        var testEventType: String = ""
+        public var testEventType: String = ""
 
         public init() {}
 
@@ -1550,13 +1726,15 @@ extension MturkRequester {
 
     }
 
-    public struct ApproveAssignmentRequest: Serializable, Initializable {
+    public struct ApproveAssignmentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
-        var requesterFeedback: String? = nil
+        public var requesterFeedback: String? = nil
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
-        var assignmentId: String = ""
+        public var assignmentId: String = ""
         ///  A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False. 
-        var overrideRejection: Bool? = nil
+        public var overrideRejection: Bool? = nil
 
         public init() {}
 
@@ -1568,9 +1746,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetAccountBalanceResponse: Serializable, Initializable {
-        var onHoldBalance: String? = nil
-        var availableBalance: String? = nil
+    public struct GetAccountBalanceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var onHoldBalance: String? = nil
+        public var availableBalance: String? = nil
 
         public init() {}
 
@@ -1581,11 +1761,13 @@ extension MturkRequester {
 
     }
 
-    public struct GetQualificationScoreRequest: Serializable, Initializable {
+    public struct GetQualificationScoreRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the QualificationType.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
         /// The ID of the Worker whose Qualification is being updated.
-        var workerId: String = ""
+        public var workerId: String = ""
 
         public init() {}
 
@@ -1596,12 +1778,14 @@ extension MturkRequester {
 
     }
 
-    public struct ListWorkerBlocksResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct ListWorkerBlocksResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
-        var numResults: Int32? = nil
+        public var numResults: Int32? = nil
         ///  The list of WorkerBlocks, containing the collection of Worker IDs and reasons for blocking.
-        var workerBlocks: [WorkerBlock]? = nil
+        public var workerBlocks: [WorkerBlock]? = nil
 
         public init() {}
 
@@ -1613,13 +1797,15 @@ extension MturkRequester {
 
     }
 
-    public struct UpdateNotificationSettingsRequest: Serializable, Initializable {
+    public struct UpdateNotificationSettingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The notification specification for the HIT type. 
-        var notification: NotificationSpecification? = nil
+        public var notification: NotificationSpecification? = nil
         ///  The ID of the HIT type whose notification specification is being updated. 
-        var hITTypeId: String = ""
+        public var hITTypeId: String = ""
         ///  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed. 
-        var active: Bool? = nil
+        public var active: Bool? = nil
 
         public init() {}
 
@@ -1631,9 +1817,11 @@ extension MturkRequester {
 
     }
 
-    public struct GetQualificationTypeRequest: Serializable, Initializable {
+    public struct GetQualificationTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the QualificationType.
-        var qualificationTypeId: String = ""
+        public var qualificationTypeId: String = ""
 
         public init() {}
 
@@ -1643,15 +1831,17 @@ extension MturkRequester {
 
     }
 
-    public struct NotificationSpecification: Serializable, Initializable {
+    public struct NotificationSpecification: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
-        var eventTypes: [String]? = nil
+        public var eventTypes: [String]? = nil
         ///  The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue. 
-        var destination: String = ""
+        public var destination: String = ""
         ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS. 
-        var transport: String = ""
+        public var transport: String = ""
         /// The version of the Notification API to use. Valid value is 2006-05-05.
-        var version: String? = nil
+        public var version: String? = nil
 
         public init() {}
 
@@ -1664,19 +1854,21 @@ extension MturkRequester {
 
     }
 
-    public struct ListReviewPolicyResultsForHITRequest: Serializable, Initializable {
+    public struct ListReviewPolicyResultsForHITRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Pagination token
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         ///  The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. 
-        var policyLevels: [String]? = nil
+        public var policyLevels: [String]? = nil
         /// The unique identifier of the HIT to retrieve review results for.
-        var hITId: String = ""
+        public var hITId: String = ""
         ///  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
-        var retrieveResults: Bool? = nil
+        public var retrieveResults: Bool? = nil
         ///  Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes. 
-        var retrieveActions: Bool? = nil
+        public var retrieveActions: Bool? = nil
         /// Limit the number of results returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 

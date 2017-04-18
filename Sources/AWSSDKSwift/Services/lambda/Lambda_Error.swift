@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Lambda
-public enum LambdaError: Error {
+public enum LambdaError: AWSErrorType {
     case serviceException(message: String?)
     case resourceNotFoundException(message: String?)
     case resourceConflictException(message: String?)

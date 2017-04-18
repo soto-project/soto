@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Servicecatalog
-public enum ServicecatalogError: Error {
+public enum ServicecatalogError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case limitExceededException(message: String?)
     case invalidParametersException(message: String?)

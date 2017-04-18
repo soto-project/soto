@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Meteringmarketplace
-public enum MeteringmarketplaceError: Error {
+public enum MeteringmarketplaceError: AWSErrorType {
     case internalServiceErrorException(message: String?)
     case invalidProductCodeException(message: String?)
     case invalidUsageDimensionException(message: String?)

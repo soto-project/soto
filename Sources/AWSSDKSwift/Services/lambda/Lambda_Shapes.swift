@@ -29,11 +29,16 @@ import Core
 
 extension Lambda {
 
-    public struct ListFunctionsRequest: Serializable, Initializable {
+    public struct ListFunctionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Marker": "Marker", "MaxItems": "MaxItems"]
+        }
         /// Optional string. An opaque pagination token returned from a previous ListFunctions operation. If present, indicates where to continue the listing. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Optional integer. Specifies the maximum number of AWS Lambda functions to return in response. This parameter value must be greater than 0.
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
 
         public init() {}
 
@@ -44,23 +49,25 @@ extension Lambda {
 
     }
 
-    public struct EventSourceMappingConfiguration: Serializable, Initializable {
+    public struct EventSourceMappingConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The UTC time string indicating the last time the event mapping was updated.
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// The AWS Lambda assigned opaque identifier for the mapping.
-        var uUID: String? = nil
+        public var uUID: String? = nil
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records.
-        var batchSize: Int32? = nil
+        public var batchSize: Int32? = nil
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream that is the source of events.
-        var eventSourceArn: String? = nil
+        public var eventSourceArn: String? = nil
         /// The Lambda function to invoke when AWS Lambda detects an event on the stream.
-        var functionArn: String? = nil
+        public var functionArn: String? = nil
         /// The state of the event source mapping. It can be Creating, Enabled, Disabled, Enabling, Disabling, Updating, or Deleting.
-        var state: String? = nil
+        public var state: String? = nil
         /// The result of the last AWS Lambda invocation of your Lambda function.
-        var lastProcessingResult: String? = nil
+        public var lastProcessingResult: String? = nil
         /// The reason the event source mapping is in its current state. It is either user-requested or an AWS Lambda-initiated state transition.
-        var stateTransitionReason: String? = nil
+        public var stateTransitionReason: String? = nil
 
         public init() {}
 
@@ -77,11 +84,19 @@ extension Lambda {
 
     }
 
-    public struct DeleteFunctionRequest: Serializable, Initializable {
+    public struct DeleteFunctionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The Lambda function to delete.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Using this optional parameter you can specify a function version (but not the $LATEST version) to direct AWS Lambda to delete a specific function version. If the function version has one or more aliases pointing to it, you will get an error because you cannot have aliases pointing to it. You can delete any function version but not the $LATEST, that is, you cannot specify $LATEST as the value of this parameter. The $LATEST version can be deleted only when you want to delete all the function versions and aliases. You can only specify a function version, not an alias name, using this parameter. You cannot delete a function version using its alias. If you don't specify this parameter, AWS Lambda will delete the function, including all of its versions and aliases.
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
 
         public init() {}
 
@@ -92,15 +107,20 @@ extension Lambda {
 
     }
 
-    public struct UpdateAliasRequest: Serializable, Initializable {
+    public struct UpdateAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Name": "Name", "FunctionName": "FunctionName"]
+        }
         /// The function name for which the alias is created.
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Using this parameter you can change the Lambda function version to which the alias points.
-        var functionVersion: String? = nil
+        public var functionVersion: String? = nil
         /// The alias name.
-        var name: String = ""
+        public var name: String = ""
         /// You can change the description of the alias using this parameter.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -113,19 +133,30 @@ extension Lambda {
 
     }
 
-    public struct InvocationRequest: Serializable, Initializable {
+    public struct InvocationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Payload"
+        public var headerParams: [String: String] {
+            return ["X-Amz-Log-Type": "LogType", "X-Amz-Client-Context": "ClientContext", "X-Amz-Invocation-Type": "InvocationType"]
+        }
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// By default, the Invoke API assumes RequestResponse invocation type. You can optionally request asynchronous execution by specifying Event as the InvocationType. You can also use this parameter to request AWS Lambda to not execute the function but do some verification, such as if the caller is authorized to invoke the function and if the inputs are valid. You request this by specifying DryRun as the InvocationType. This is useful in a cross-account scenario when you want to verify access to a function without running it. 
-        var invocationType: String? = nil
+        public var invocationType: String? = nil
         /// JSON that you want to provide to your Lambda function as input.
-        var payload: Data? = nil
+        public var payload: Data? = nil
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Using the ClientContext you can pass client-specific information to the Lambda function you are invoking. You can then process the client information in your Lambda function as you choose through the context variable. For an example of a ClientContext JSON, see PutEvents in the Amazon Mobile Analytics API Reference and User Guide. The ClientContext JSON must be base64-encoded.
-        var clientContext: String? = nil
+        public var clientContext: String? = nil
         /// You can set this optional parameter to Tail in the request only if you specify the InvocationType parameter with value RequestResponse. In this case, AWS Lambda returns the base64-encoded last 4 KB of log data produced by your Lambda function in the x-amz-log-result header. 
-        var logType: String? = nil
+        public var logType: String? = nil
         /// You can use this optional parameter to specify a Lambda function version or alias name. If you specify a function version, the API uses the qualified function ARN to invoke a specific Lambda function. If you specify an alias name, the API uses the alias ARN to invoke the Lambda function version to which the alias points. If you don't provide this parameter, then the API uses unqualified function ARN which results in invocation of the $LATEST version.
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
 
         public init() {}
 
@@ -140,9 +171,11 @@ extension Lambda {
 
     }
 
-    public struct DeadLetterConfig: Serializable, Initializable {
+    public struct DeadLetterConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
-        var targetArn: String? = nil
+        public var targetArn: String? = nil
 
         public init() {}
 
@@ -152,23 +185,31 @@ extension Lambda {
 
     }
 
-    public struct AddPermissionRequest: Serializable, Initializable {
+    public struct AddPermissionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// A unique statement identifier.
-        var statementId: String = ""
+        public var statementId: String = ""
         /// Name of the Lambda function whose resource policy you are updating by adding a new permission.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// The AWS Lambda action you want to allow in this statement. Each Lambda action is a string starting with lambda: followed by the API name . For example, lambda:CreateFunction. You can use wildcard (lambda:*) to grant permission for all AWS Lambda actions. 
-        var action: String = ""
+        public var action: String = ""
         /// This is optional; however, when granting Amazon S3 permission to invoke your function, you should specify this field with the Amazon Resource Name (ARN) as its value. This ensures that only events generated from the specified source can invoke the function. If you add a permission for the Amazon S3 principal without providing the source ARN, any AWS account that creates a mapping to your function ARN can send events to invoke your Lambda function from Amazon S3. 
-        var sourceArn: String? = nil
+        public var sourceArn: String? = nil
         /// This parameter is used for S3, SES, CloudWatch Logs and CloudWatch Rules only. The AWS account ID (without a hyphen) of the source owner. For example, if the SourceArn identifies a bucket, then this is the bucket owner's account ID. You can use this additional condition to ensure the bucket you specify is owned by a specific account (it is possible the bucket owner deleted the bucket and some other AWS account created the bucket). You can also use this condition to specify all sources (that is, you don't specify the SourceArn) owned by a specific account. 
-        var sourceAccount: String? = nil
+        public var sourceAccount: String? = nil
         /// The principal who is getting this permission. It can be Amazon S3 service Principal (s3.amazonaws.com) if you want Amazon S3 to invoke the function, an AWS account ID if you are granting cross-account permission, or any valid AWS service principal such as sns.amazonaws.com. For example, you might want to allow a custom application in another AWS account to push events to AWS Lambda by invoking your function. 
-        var principal: String = ""
+        public var principal: String = ""
         /// A unique token that must be supplied by the principal invoking the function. This is currently only used for Alexa Smart Home functions.
-        var eventSourceToken: String? = nil
+        public var eventSourceToken: String? = nil
         /// You can use this optional query parameter to describe a qualified ARN using a function version or an alias name. The permission will then apply to the specific qualified ARN. For example, if you specify function version 2 as the qualifier, then permission applies only when request is made using qualified function ARN:  arn:aws:lambda:aws-region:acct-id:function:function-name:2  If you specify an alias name, for example PROD, then the permission is valid only for requests made using the alias ARN:  arn:aws:lambda:aws-region:acct-id:function:function-name:PROD  If the qualifier is not specified, the permission is valid only when requests is made using unqualified function ARN.  arn:aws:lambda:aws-region:acct-id:function:function-name 
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
 
         public init() {}
 
@@ -185,19 +226,21 @@ extension Lambda {
 
     }
 
-    public struct CreateEventSourceMappingRequest: Serializable, Initializable {
+    public struct CreateEventSourceMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
-        var functionName: String = ""
+        public var functionName: String = ""
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
-        var batchSize: Int32? = nil
+        public var batchSize: Int32? = nil
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams. 
-        var startingPositionTimestamp: Date? = nil
+        public var startingPositionTimestamp: Date? = nil
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream that is the event source. Any record added to this stream could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
-        var eventSourceArn: String = ""
+        public var eventSourceArn: String = ""
         /// The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference. 
-        var startingPosition: String = ""
+        public var startingPosition: String = ""
         /// Indicates whether AWS Lambda should begin polling the event source. By default, Enabled is true. 
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
 
         public init() {}
 
@@ -212,11 +255,13 @@ extension Lambda {
 
     }
 
-    public struct EnvironmentError: Serializable, Initializable {
+    public struct EnvironmentError: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The error code returned by the environment error object.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// The message returned by the environment error object.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -227,11 +272,16 @@ extension Lambda {
 
     }
 
-    public struct InvokeAsyncRequest: Serializable, Initializable {
+    public struct InvokeAsyncRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "InvokeArgs"
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The Lambda function name.
-        var functionName: String = ""
+        public var functionName: String = ""
         /// JSON that you want to provide to your Lambda function as input.
-        var invokeArgs: Data = Data()
+        public var invokeArgs: Data = Data()
 
         public init() {}
 
@@ -242,9 +292,11 @@ extension Lambda {
 
     }
 
-    public struct Environment: Serializable, Initializable {
+    public struct Environment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ",".
-        var variables: [String: String]? = nil
+        public var variables: [String: String]? = nil
 
         public init() {}
 
@@ -254,13 +306,21 @@ extension Lambda {
 
     }
 
-    public struct ListVersionsByFunctionRequest: Serializable, Initializable {
+    public struct ListVersionsByFunctionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Marker": "Marker", "MaxItems": "MaxItems"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         ///  Optional string. An opaque pagination token returned from a previous ListVersionsByFunction operation. If present, indicates where to continue the listing. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Optional integer. Specifies the maximum number of AWS Lambda function versions to return in response. This parameter value must be greater than 0.
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
         /// Function name whose versions to list. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
 
         public init() {}
 
@@ -272,11 +332,13 @@ extension Lambda {
 
     }
 
-    public struct ListAliasesResponse: Serializable, Initializable {
+    public struct ListAliasesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of aliases.
-        var aliases: [AliasConfiguration]? = nil
+        public var aliases: [AliasConfiguration]? = nil
         /// A string, present if there are more aliases.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -287,15 +349,17 @@ extension Lambda {
 
     }
 
-    public struct FunctionCode: Serializable, Initializable {
+    public struct FunctionCode: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon S3 object (the deployment package) version you want to upload.
-        var s3ObjectVersion: String? = nil
+        public var s3ObjectVersion: String? = nil
         /// The Amazon S3 object (the deployment package) key name you want to upload.
-        var s3Key: String? = nil
+        public var s3Key: String? = nil
         /// Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS region where you are creating the Lambda function.
-        var s3Bucket: String? = nil
+        public var s3Bucket: String? = nil
         /// The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide. 
-        var zipFile: Data? = nil
+        public var zipFile: Data? = nil
 
         public init() {}
 
@@ -308,11 +372,13 @@ extension Lambda {
 
     }
 
-    public struct FunctionCodeLocation: Serializable, Initializable {
+    public struct FunctionCodeLocation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The presigned URL you can use to download the function's .zip file that you previously uploaded. The URL is valid for up to 10 minutes.
-        var location: String? = nil
+        public var location: String? = nil
         /// The repository from which you can download the function.
-        var repositoryType: String? = nil
+        public var repositoryType: String? = nil
 
         public init() {}
 
@@ -323,19 +389,24 @@ extension Lambda {
 
     }
 
-    public struct UpdateFunctionCodeRequest: Serializable, Initializable {
+    public struct UpdateFunctionCodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The Amazon S3 object (the deployment package) version you want to upload.
-        var s3ObjectVersion: String? = nil
+        public var s3ObjectVersion: String? = nil
         /// The existing Lambda function name whose code you want to replace.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS Region where you are creating the Lambda function.
-        var s3Bucket: String? = nil
+        public var s3Bucket: String? = nil
         /// This boolean parameter can be used to request AWS Lambda to update the Lambda function and publish a version as an atomic operation.
-        var publish: Bool? = nil
+        public var publish: Bool? = nil
         /// The Amazon S3 object (the deployment package) key name you want to upload.
-        var s3Key: String? = nil
+        public var s3Key: String? = nil
         /// The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide. 
-        var zipFile: Data? = nil
+        public var zipFile: Data? = nil
 
         public init() {}
 
@@ -350,13 +421,21 @@ extension Lambda {
 
     }
 
-    public struct RemovePermissionRequest: Serializable, Initializable {
+    public struct RemovePermissionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName", "StatementId": "StatementId"]
+        }
         /// You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
         /// Lambda function whose resource policy you want to remove a permission from.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Statement ID of the permission to remove.
-        var statementId: String = ""
+        public var statementId: String = ""
 
         public init() {}
 
@@ -368,15 +447,20 @@ extension Lambda {
 
     }
 
-    public struct ListEventSourceMappingsRequest: Serializable, Initializable {
+    public struct ListEventSourceMappingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["MaxItems": "MaxItems", "FunctionName": "FunctionName", "EventSourceArn": "EventSourceArn", "Marker": "Marker"]
+        }
         /// Optional integer. Specifies the maximum number of event sources to return in response. This value must be greater than 0.
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
         /// The name of the Lambda function.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String? = nil
+        public var functionName: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream. (This parameter is optional.)
-        var eventSourceArn: String? = nil
+        public var eventSourceArn: String? = nil
         /// Optional string. An opaque pagination token returned from a previous ListEventSourceMappings operation. If present, specifies to continue the list from where the returning call left off. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -389,15 +473,20 @@ extension Lambda {
 
     }
 
-    public struct CreateAliasRequest: Serializable, Initializable {
+    public struct CreateAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// Name of the Lambda function for which you want to create an alias.
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Lambda function version for which you are creating the alias.
-        var functionVersion: String = ""
+        public var functionVersion: String = ""
         /// Name for the alias you are creating.
-        var name: String = ""
+        public var name: String = ""
         /// Description of the alias.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -410,15 +499,20 @@ extension Lambda {
 
     }
 
-    public struct UpdateEventSourceMappingRequest: Serializable, Initializable {
+    public struct UpdateEventSourceMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UUID": "UUID"]
+        }
         /// The event source mapping identifier.
-        var uUID: String = ""
+        public var uUID: String = ""
         /// The Lambda function to which you want the stream records sent.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail).  If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
-        var functionName: String? = nil
+        public var functionName: String? = nil
         /// The maximum number of stream records that can be sent to your Lambda function for a single invocation.
-        var batchSize: Int32? = nil
+        public var batchSize: Int32? = nil
         /// Specifies whether AWS Lambda should actively poll the stream or not. If disabled, AWS Lambda will not poll the stream.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
 
         public init() {}
 
@@ -431,11 +525,19 @@ extension Lambda {
 
     }
 
-    public struct GetFunctionConfigurationRequest: Serializable, Initializable {
+    public struct GetFunctionConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Using this optional parameter you can specify a function version or an alias name. If you specify function version, the API uses qualified function ARN and returns information about the specific function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't specify this parameter, the API uses unqualified function ARN, and returns information about the $LATEST function version.
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
 
         public init() {}
 
@@ -446,9 +548,11 @@ extension Lambda {
 
     }
 
-    public struct InvokeAsyncResponse: Serializable, Initializable {
+    public struct InvokeAsyncResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// It will be 202 upon success.
-        var status: Int32? = nil
+        public var status: Int32? = nil
 
         public init() {}
 
@@ -458,17 +562,24 @@ extension Lambda {
 
     }
 
-    public struct GetAccountSettingsRequest: Serializable, Initializable {
+    public struct GetAccountSettingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetAliasRequest: Serializable, Initializable {
+    public struct GetAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Name": "Name", "FunctionName": "FunctionName"]
+        }
         /// Name of the alias for which you want to retrieve information.
-        var name: String = ""
+        public var name: String = ""
         /// Function name for which the alias is created. An alias is a subresource that exists only in the context of an existing Lambda function so you must specify the function name.
-        var functionName: String = ""
+        public var functionName: String = ""
 
         public init() {}
 
@@ -479,15 +590,20 @@ extension Lambda {
 
     }
 
-    public struct InvocationResponse: Serializable, Initializable {
+    public struct InvocationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Payload"
+        public var headerParams: [String: String] {
+            return ["X-Amz-Log-Result": "LogResult", "X-Amz-Function-Error": "FunctionError"]
+        }
         /// The HTTP status code will be in the 200 range for successful request. For the RequestResonse invocation type this status code will be 200. For the Event invocation type this status code will be 202. For the DryRun invocation type the status code will be 204. 
-        var statusCode: Int32? = nil
+        public var statusCode: Int32? = nil
         ///  It is the base64-encoded logs for the Lambda function invocation. This is present only if the invocation type is RequestResponse and the logs were requested. 
-        var logResult: String? = nil
+        public var logResult: String? = nil
         ///  It is the JSON representation of the object returned by the Lambda function. This is present only if the invocation type is RequestResponse.  In the event of a function error this field contains a message describing the error. For the Handled errors the Lambda function will report this message. For Unhandled errors AWS Lambda reports the message. 
-        var payload: Data? = nil
+        public var payload: Data? = nil
         /// Indicates whether an error occurred while executing the Lambda function. If an error occurred this field will have one of two values; Handled or Unhandled. Handled errors are errors that are reported by the function while the Unhandled errors are those detected and reported by AWS Lambda. Unhandled errors include out of memory errors and function timeouts. For information about how to report an Handled error, see Programming Model. 
-        var functionError: String? = nil
+        public var functionError: String? = nil
 
         public init() {}
 
@@ -500,9 +616,11 @@ extension Lambda {
 
     }
 
-    public struct AddPermissionResponse: Serializable, Initializable {
+    public struct AddPermissionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The permission statement you specified in the request. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
-        var statement: String? = nil
+        public var statement: String? = nil
 
         public init() {}
 
@@ -512,28 +630,33 @@ extension Lambda {
 
     }
 
-    public struct UpdateFunctionConfigurationRequest: Serializable, Initializable {
+    public struct UpdateFunctionConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ("") for this parameter.
-        var kMSKeyArn: String? = nil
+        public var kMSKeyArn: String? = nil
         /// The function that Lambda calls to begin executing your function. For Node.js, it is the module-name.export value in your function. 
-        var handler: String? = nil
+        public var handler: String? = nil
         /// The name of the Lambda function.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
-        var vpcConfig: VpcConfig? = nil
+        public var functionName: String = ""
+        public var vpcConfig: VpcConfig? = nil
         /// The amount of memory, in MB, your Lambda function is given. AWS Lambda uses this memory size to infer the amount of CPU allocated to your function. Your function use-case determines your CPU and memory requirements. For example, a database operation might need less memory compared to an image processing function. The default value is 128 MB. The value must be a multiple of 64 MB.
-        var memorySize: Int32? = nil
+        public var memorySize: Int32? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that Lambda will assume when it executes your function.
-        var role: String? = nil
+        public var role: String? = nil
         /// The parent object that contains your environment's configuration settings.
-        var environment: Environment? = nil
+        public var environment: Environment? = nil
         /// The runtime environment for the Lambda function. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".  You can no longer downgrade to the v0.10.42 runtime version. This version will no longer be supported as of early 2017. 
-        var runtime: String? = nil
+        public var runtime: String? = nil
         /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
-        var deadLetterConfig: DeadLetterConfig? = nil
+        public var deadLetterConfig: DeadLetterConfig? = nil
         /// The function execution time at which AWS Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
-        var timeout: Int32? = nil
+        public var timeout: Int32? = nil
         /// A short user-defined function description. AWS Lambda does not use this value. Assign a meaningful description as you see fit.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -553,11 +676,13 @@ extension Lambda {
 
     }
 
-    public struct ListFunctionsResponse: Serializable, Initializable {
+    public struct ListFunctionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of Lambda functions.
-        var functions: [FunctionConfiguration]? = nil
+        public var functions: [FunctionConfiguration]? = nil
         /// A string, present if there are more functions.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -568,32 +693,34 @@ extension Lambda {
 
     }
 
-    public struct CreateFunctionRequest: Serializable, Initializable {
+    public struct CreateFunctionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
-        var vpcConfig: VpcConfig? = nil
+        public var vpcConfig: VpcConfig? = nil
         /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic. 
-        var deadLetterConfig: DeadLetterConfig? = nil
+        public var deadLetterConfig: DeadLetterConfig? = nil
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
-        var timeout: Int32? = nil
+        public var timeout: Int32? = nil
         /// The runtime environment for the Lambda function you are uploading. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".  You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017, but we recommend you migrate them to nodejs4.3 runtime version as soon as possible. 
-        var runtime: String = ""
+        public var runtime: String = ""
         /// This boolean parameter can be used to request AWS Lambda to create the Lambda function and publish a version as an atomic operation.
-        var publish: Bool? = nil
+        public var publish: Bool? = nil
         /// A short, user-defined function description. Lambda does not use this value. Assign a meaningful description as you see fit.
-        var description: String? = nil
+        public var description: String? = nil
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If not provided, AWS Lambda will use a default service key.
-        var kMSKeyArn: String? = nil
+        public var kMSKeyArn: String? = nil
         /// The name you want to assign to the function you are uploading. The function names appear in the console and are returned in the ListFunctions API. Function names are used to specify functions to other AWS Lambda API operations, such as Invoke. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// The code for the Lambda function.
-        var code: FunctionCode = FunctionCode()
+        public var code: FunctionCode = FunctionCode()
         /// The amount of memory, in MB, your Lambda function is given. Lambda uses this memory size to infer the amount of CPU and memory allocated to your function. Your function use-case determines your CPU and memory requirements. For example, a database operation might need less memory compared to an image processing function. The default value is 128 MB. The value must be a multiple of 64 MB.
-        var memorySize: Int32? = nil
+        public var memorySize: Int32? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it executes your function to access any other Amazon Web Services (AWS) resources. For more information, see AWS Lambda: How it Works. 
-        var role: String = ""
-        var environment: Environment? = nil
+        public var role: String = ""
+        public var environment: Environment? = nil
         /// The function within your code that Lambda calls to begin execution. For Node.js, it is the module-name.export value in your function. For Java, it can be package.class-name::handler or package.class-name. For more information, see Lambda Function Handler (Java). 
-        var handler: String = ""
+        public var handler: String = ""
 
         public init() {}
 
@@ -615,13 +742,15 @@ extension Lambda {
 
     }
 
-    public struct VpcConfigResponse: Serializable, Initializable {
+    public struct VpcConfigResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The VPC ID associated with you Lambda function.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
         /// A list of subnet IDs associated with the Lambda function.
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         /// A list of security group IDs associated with the Lambda function.
-        var securityGroupIds: [String]? = nil
+        public var securityGroupIds: [String]? = nil
 
         public init() {}
 
@@ -633,11 +762,19 @@ extension Lambda {
 
     }
 
-    public struct GetPolicyRequest: Serializable, Initializable {
+    public struct GetPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// Function name whose resource policy you want to retrieve.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// You can specify this optional query parameter to specify a function version or an alias name in which case this API will return all permissions associated with the specific qualified ARN. If you don't provide this parameter, the API will return permissions that apply to the unqualified function ARN.
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
 
         public init() {}
 
@@ -648,39 +785,41 @@ extension Lambda {
 
     }
 
-    public struct FunctionConfiguration: Serializable, Initializable {
+    public struct FunctionConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// VPC configuration associated with your Lambda function.
-        var vpcConfig: VpcConfigResponse? = nil
+        public var vpcConfig: VpcConfigResponse? = nil
         /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
-        var deadLetterConfig: DeadLetterConfig? = nil
+        public var deadLetterConfig: DeadLetterConfig? = nil
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
-        var timeout: Int32? = nil
+        public var timeout: Int32? = nil
         /// The runtime environment for the Lambda function. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".
-        var runtime: String? = nil
+        public var runtime: String? = nil
         /// It is the SHA256 hash of your function deployment package.
-        var codeSha256: String? = nil
+        public var codeSha256: String? = nil
         /// The user-provided description.
-        var description: String? = nil
+        public var description: String? = nil
         /// The time stamp of the last time you updated the function.
-        var lastModified: String? = nil
+        public var lastModified: String? = nil
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If empty, it means you are using the AWS Lambda default service key.
-        var kMSKeyArn: String? = nil
+        public var kMSKeyArn: String? = nil
         /// The name of the function.
-        var functionName: String? = nil
+        public var functionName: String? = nil
         /// The memory size, in MB, you configured for the function. Must be a multiple of 64 MB.
-        var memorySize: Int32? = nil
+        public var memorySize: Int32? = nil
         /// The Amazon Resource Name (ARN) assigned to the function.
-        var functionArn: String? = nil
+        public var functionArn: String? = nil
         /// The version of the Lambda function.
-        var version: String? = nil
+        public var version: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it executes your function to access any other Amazon Web Services (AWS) resources.
-        var role: String? = nil
+        public var role: String? = nil
         /// The size, in bytes, of the function .zip file you uploaded.
-        var codeSize: Int64? = nil
+        public var codeSize: Int64? = nil
         /// The parent object that contains your environment's configuration settings.
-        var environment: EnvironmentResponse? = nil
+        public var environment: EnvironmentResponse? = nil
         /// The function Lambda calls to begin executing your function.
-        var handler: String? = nil
+        public var handler: String? = nil
 
         public init() {}
 
@@ -705,9 +844,11 @@ extension Lambda {
 
     }
 
-    public struct GetPolicyResponse: Serializable, Initializable {
+    public struct GetPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource policy associated with the specified function. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
-        var policy: String? = nil
+        public var policy: String? = nil
 
         public init() {}
 
@@ -717,11 +858,13 @@ extension Lambda {
 
     }
 
-    public struct ListVersionsByFunctionResponse: Serializable, Initializable {
+    public struct ListVersionsByFunctionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of Lambda function versions.
-        var versions: [FunctionConfiguration]? = nil
+        public var versions: [FunctionConfiguration]? = nil
         /// A string, present if there are more function versions.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -732,15 +875,17 @@ extension Lambda {
 
     }
 
-    public struct AccountLimit: Serializable, Initializable {
+    public struct AccountLimit: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Size, in bytes, of a single zipped code/dependencies package you can upload for your Lambda function(.zip/.jar file). Try using Amazon S3 for uploading larger files. Default limit is 50 MB.
-        var codeSizeZipped: Int64? = nil
+        public var codeSizeZipped: Int64? = nil
         /// Size, in bytes, of code/dependencies that you can zip into a deployment package (uncompressed zip/jar size) for uploading. The default limit is 250 MB.
-        var codeSizeUnzipped: Int64? = nil
+        public var codeSizeUnzipped: Int64? = nil
         /// Number of simultaneous executions of your function per region. For more information or to request a limit increase for concurrent executions, see Lambda Function Concurrent Executions. The default limit is 100.
-        var concurrentExecutions: Int32? = nil
+        public var concurrentExecutions: Int32? = nil
         /// Maximum size, in megabytes, of a code package you can upload per region. The default size is 75 GB. 
-        var totalCodeSize: Int64? = nil
+        public var totalCodeSize: Int64? = nil
 
         public init() {}
 
@@ -753,15 +898,17 @@ extension Lambda {
 
     }
 
-    public struct AliasConfiguration: Serializable, Initializable {
+    public struct AliasConfiguration: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Function version to which the alias points.
-        var functionVersion: String? = nil
+        public var functionVersion: String? = nil
         /// Lambda function ARN that is qualified using the alias name as the suffix. For example, if you create an alias called BETA that points to a helloworld function version, the ARN is arn:aws:lambda:aws-regions:acct-id:function:helloworld:BETA.
-        var aliasArn: String? = nil
+        public var aliasArn: String? = nil
         /// Alias name.
-        var name: String? = nil
+        public var name: String? = nil
         /// Alias description.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -774,11 +921,16 @@ extension Lambda {
 
     }
 
-    public struct DeleteAliasRequest: Serializable, Initializable {
+    public struct DeleteAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["Name": "Name", "FunctionName": "FunctionName"]
+        }
         /// Name of the alias to delete.
-        var name: String = ""
+        public var name: String = ""
         /// The Lambda function name for which the alias is created. Deleting an alias does not delete the function version to which it is pointing.
-        var functionName: String = ""
+        public var functionName: String = ""
 
         public init() {}
 
@@ -789,15 +941,23 @@ extension Lambda {
 
     }
 
-    public struct ListAliasesRequest: Serializable, Initializable {
+    public struct ListAliasesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["FunctionVersion": "FunctionVersion", "MaxItems": "MaxItems", "Marker": "Marker"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// Optional integer. Specifies the maximum number of aliases to return in response. This parameter value must be greater than 0.
-        var maxItems: Int32? = nil
+        public var maxItems: Int32? = nil
         /// Lambda function name for which the alias is created.
-        var functionName: String = ""
+        public var functionName: String = ""
         /// If you specify this optional parameter, the API returns only the aliases that are pointing to the specific Lambda function version, otherwise the API returns all of the aliases created for the Lambda function.
-        var functionVersion: String? = nil
+        public var functionVersion: String? = nil
         /// Optional string. An opaque pagination token returned from a previous ListAliases operation. If present, indicates where to continue the listing.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -810,10 +970,12 @@ extension Lambda {
 
     }
 
-    public struct EnvironmentResponse: Serializable, Initializable {
-        var error: EnvironmentError? = nil
+    public struct EnvironmentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var error: EnvironmentError? = nil
         /// The key-value pairs returned that represent your environment's configuration settings or error information.
-        var variables: [String: String]? = nil
+        public var variables: [String: String]? = nil
 
         public init() {}
 
@@ -824,11 +986,13 @@ extension Lambda {
 
     }
 
-    public struct AccountUsage: Serializable, Initializable {
+    public struct AccountUsage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of your account's existing functions per region.
-        var functionCount: Int64? = nil
+        public var functionCount: Int64? = nil
         /// Total size, in bytes, of the account's deployment packages per region.
-        var totalCodeSize: Int64? = nil
+        public var totalCodeSize: Int64? = nil
 
         public init() {}
 
@@ -839,11 +1003,13 @@ extension Lambda {
 
     }
 
-    public struct VpcConfig: Serializable, Initializable {
+    public struct VpcConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of one or more subnet IDs in your VPC.
-        var subnetIds: [String]? = nil
+        public var subnetIds: [String]? = nil
         /// A list of one or more security groups IDs in your VPC.
-        var securityGroupIds: [String]? = nil
+        public var securityGroupIds: [String]? = nil
 
         public init() {}
 
@@ -854,9 +1020,14 @@ extension Lambda {
 
     }
 
-    public struct DeleteEventSourceMappingRequest: Serializable, Initializable {
+    public struct DeleteEventSourceMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UUID": "UUID"]
+        }
         /// The event source mapping ID.
-        var uUID: String = ""
+        public var uUID: String = ""
 
         public init() {}
 
@@ -866,9 +1037,14 @@ extension Lambda {
 
     }
 
-    public struct GetEventSourceMappingRequest: Serializable, Initializable {
+    public struct GetEventSourceMappingRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UUID": "UUID"]
+        }
         /// The AWS Lambda assigned ID of the event source mapping.
-        var uUID: String = ""
+        public var uUID: String = ""
 
         public init() {}
 
@@ -878,13 +1054,18 @@ extension Lambda {
 
     }
 
-    public struct PublishVersionRequest: Serializable, Initializable {
+    public struct PublishVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
-        var description: String? = nil
+        public var description: String? = nil
         /// The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter value must match the SHA256 of the $LATEST version for the publication to succeed.
-        var codeSha256: String? = nil
+        public var codeSha256: String? = nil
         /// The Lambda function name. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
 
         public init() {}
 
@@ -896,9 +1077,11 @@ extension Lambda {
 
     }
 
-    public struct GetFunctionResponse: Serializable, Initializable {
-        var configuration: FunctionConfiguration? = nil
-        var code: FunctionCodeLocation? = nil
+    public struct GetFunctionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var configuration: FunctionConfiguration? = nil
+        public var code: FunctionCodeLocation? = nil
 
         public init() {}
 
@@ -909,11 +1092,19 @@ extension Lambda {
 
     }
 
-    public struct GetFunctionRequest: Serializable, Initializable {
+    public struct GetFunctionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["Qualifier": "Qualifier"]
+        }
+        public var pathParams: [String: String] {
+            return ["FunctionName": "FunctionName"]
+        }
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        var functionName: String = ""
+        public var functionName: String = ""
         /// Using this optional parameter to specify a function version or an alias name. If you specify function version, the API uses qualified function ARN for the request and returns information about the specific Lambda function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't provide this parameter, the API uses unqualified function ARN and returns information about the $LATEST version of the Lambda function.
-        var qualifier: String? = nil
+        public var qualifier: String? = nil
 
         public init() {}
 
@@ -924,11 +1115,13 @@ extension Lambda {
 
     }
 
-    public struct ListEventSourceMappingsResponse: Serializable, Initializable {
+    public struct ListEventSourceMappingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of EventSourceMappingConfiguration objects.
-        var eventSourceMappings: [EventSourceMappingConfiguration]? = nil
+        public var eventSourceMappings: [EventSourceMappingConfiguration]? = nil
         /// A string, present if there are more event source mappings.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -939,9 +1132,11 @@ extension Lambda {
 
     }
 
-    public struct GetAccountSettingsResponse: Serializable, Initializable {
-        var accountUsage: AccountUsage? = nil
-        var accountLimit: AccountLimit? = nil
+    public struct GetAccountSettingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var accountUsage: AccountUsage? = nil
+        public var accountLimit: AccountLimit? = nil
 
         public init() {}
 

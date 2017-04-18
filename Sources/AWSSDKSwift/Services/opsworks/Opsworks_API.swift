@@ -32,401 +32,370 @@ AWS OpsWorks Welcome to the AWS OpsWorks API Reference. This guide provides desc
 */
 public struct Opsworks {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "OpsWorks_20130218",
             service: "opsworks",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [OpsworksError.self]
         )
     }
 
     ///  Updates a specified layer.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateLayer(_ input: UpdateLayerRequest) throws {
-        _ = try request.invoke(operation: "UpdateLayer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateLayer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a registered Elastic IP address's name. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateElasticIp(_ input: UpdateElasticIpRequest) throws {
-        _ = try request.invoke(operation: "UpdateElasticIp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateElasticIp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a layer. For more information, see How to Create a Layer.  You should use CreateLayer for noncustom layer types such as PHP App Server only if the stack does not have an existing layer of that type. A stack can have at most one instance of each noncustom layer; if you attempt to create a second instance, CreateLayer fails. A stack can have an arbitrary number of custom layers, so you can call CreateLayer as many times as you like for that layer type.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func createLayer(_ input: CreateLayerRequest) throws -> CreateLayerResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateLayer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateLayer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes time-based auto scaling configurations for specified instances.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeTimeBasedAutoScaling(_ input: DescribeTimeBasedAutoScalingRequest) throws -> DescribeTimeBasedAutoScalingResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeTimeBasedAutoScaling", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeTimeBasedAutoScaling", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a user profile.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deleteUserProfile(_ input: DeleteUserProfileRequest) throws {
-        _ = try request.invoke(operation: "DeleteUserProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Reboots a specified instance. For more information, see Starting, Stopping, and Rebooting Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func rebootInstance(_ input: RebootInstanceRequest) throws {
-        _ = try request.invoke(operation: "RebootInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RebootInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the number of layers and apps in a specified stack, and the number of instances in each state, such as running_setup or online.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeStackSummary(_ input: DescribeStackSummaryRequest) throws -> DescribeStackSummaryResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeStackSummary", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeStackSummary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers a specified Amazon ECS cluster with a stack. You can register only one cluster with a stack. A cluster can be registered with only one stack. For more information, see  Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see  Managing User Permissions.
     public func registerEcsCluster(_ input: RegisterEcsClusterRequest) throws -> RegisterEcsClusterResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterEcsCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterEcsCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an Amazon RDS instance with a stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func registerRdsDbInstance(_ input: RegisterRdsDbInstanceRequest) throws {
-        _ = try request.invoke(operation: "RegisterRdsDbInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RegisterRdsDbInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a description of one or more layers in a specified stack.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeLayers(_ input: DescribeLayersRequest) throws -> DescribeLayersResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeLayers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeLayers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an Amazon RDS instance.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateRdsDbInstance(_ input: UpdateRdsDbInstanceRequest) throws {
-        _ = try request.invoke(operation: "UpdateRdsDbInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateRdsDbInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a description of a specified set of deployments.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeDeployments(_ input: DescribeDeploymentsRequest) throws -> DescribeDeploymentsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeDeployments", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeDeployments", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes Amazon RDS instances.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeRdsDbInstances(_ input: DescribeRdsDbInstancesRequest) throws -> DescribeRdsDbInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRdsDbInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRdsDbInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified app.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deleteApp(_ input: DeleteAppRequest) throws {
-        _ = try request.invoke(operation: "DeleteApp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates an Elastic IP address from its instance. The address remains registered with the stack. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func disassociateElasticIp(_ input: DisassociateElasticIpRequest) throws {
-        _ = try request.invoke(operation: "DisassociateElasticIp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DisassociateElasticIp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters an Amazon EBS volume. The volume can then be registered by another stack. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deregisterVolume(_ input: DeregisterVolumeRequest) throws {
-        _ = try request.invoke(operation: "DeregisterVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified stack. You must first delete all instances, layers, and apps or deregister registered instances. For more information, see Shut Down a Stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deleteStack(_ input: DeleteStackRequest) throws {
-        _ = try request.invoke(operation: "DeleteStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregister a registered Amazon EC2 or on-premises instance. This action removes the instance from the stack and returns it to your control. This action can not be used with instances that were created with AWS OpsWorks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deregisterInstance(_ input: DeregisterInstanceRequest) throws {
-        _ = try request.invoke(operation: "DeregisterInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes Elastic IP addresses.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeElasticIps(_ input: DescribeElasticIpsRequest) throws -> DescribeElasticIpsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeElasticIps", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeElasticIps", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates one of the stack's registered Elastic IP addresses with a specified instance. The address must first be registered with the stack by calling RegisterElasticIp. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func associateElasticIp(_ input: AssociateElasticIpRequest) throws {
-        _ = try request.invoke(operation: "AssociateElasticIp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AssociateElasticIp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe specified users.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeUserProfiles(_ input: DescribeUserProfilesRequest) throws -> DescribeUserProfilesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeUserProfiles", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeUserProfiles", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new stack. For more information, see Create a New Stack.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func createStack(_ input: CreateStackRequest) throws -> CreateStackResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters a specified Amazon ECS cluster from a stack. For more information, see  Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see http://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html.
     public func deregisterEcsCluster(_ input: DeregisterEcsClusterRequest) throws {
-        _ = try request.invoke(operation: "DeregisterEcsCluster", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterEcsCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a specified instance. For more information, see Starting, Stopping, and Rebooting Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func startInstance(_ input: StartInstanceRequest) throws {
-        _ = try request.invoke(operation: "StartInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "StartInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe an instance's RAID arrays.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeRaidArrays(_ input: DescribeRaidArraysRequest) throws -> DescribeRaidArraysResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRaidArrays", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRaidArrays", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Runs deployment or stack commands. For more information, see Deploying Apps and Run Stack Commands.  Required Permissions: To use this action, an IAM user must have a Deploy or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func createDeployment(_ input: CreateDeploymentRequest) throws -> CreateDeploymentResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDeployment", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes AWS OpsWorks service errors.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeServiceErrors(_ input: DescribeServiceErrorsRequest) throws -> DescribeServiceErrorsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeServiceErrors", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeServiceErrors", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a specified Elastic Load Balancing instance from its layer.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func detachElasticLoadBalancer(_ input: DetachElasticLoadBalancerRequest) throws {
-        _ = try request.invoke(operation: "DetachElasticLoadBalancer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DetachElasticLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information on user permissions, see Managing User Permissions.
     public func describeEcsClusters(_ input: DescribeEcsClustersRequest) throws -> DescribeEcsClustersResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeEcsClusters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeEcsClusters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a stack's Elastic Load Balancing instances.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeElasticLoadBalancers(_ input: DescribeElasticLoadBalancersRequest) throws -> DescribeElasticLoadBalancersResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeElasticLoadBalancers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeElasticLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a stack's instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func startStack(_ input: StartStackRequest) throws {
-        _ = try request.invoke(operation: "StartStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "StartStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an Elastic IP address with a specified stack. An address can be registered with only one stack at a time. If the address is already registered, you must first deregister it by calling DeregisterElasticIp. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func registerElasticIp(_ input: RegisterElasticIpRequest) throws -> RegisterElasticIpResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterElasticIp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterElasticIp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The volume must first be registered with the stack by calling RegisterVolume. After you register the volume, you must call UpdateVolume to specify a mount point before calling AssignVolume. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func assignVolume(_ input: AssignVolumeRequest) throws {
-        _ = try request.invoke(operation: "AssignVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AssignVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a description of one or more stacks.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeStacks(_ input: DescribeStacksRequest) throws -> DescribeStacksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeStacks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Specifies a user's permissions. For more information, see Security and Permissions.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func setPermission(_ input: SetPermissionRequest) throws {
-        _ = try request.invoke(operation: "SetPermission", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "SetPermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an Amazon EBS volume with a specified stack. A volume can be registered with only one stack at a time. If the volume is already registered, you must first deregister it by calling DeregisterVolume. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func registerVolume(_ input: RegisterVolumeRequest) throws -> RegisterVolumeResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a clone of a specified stack. For more information, see Clone a Stack. By default, all parameters are set to the values used by the parent stack.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func cloneStack(_ input: CloneStackRequest) throws -> CloneStackResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CloneStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CloneStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unassigns an assigned Amazon EBS volume. The volume remains registered with the stack. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func unassignVolume(_ input: UnassignVolumeRequest) throws {
-        _ = try request.invoke(operation: "UnassignVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UnassignVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an app for a specified stack. For more information, see Creating Apps.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func createApp(_ input: CreateAppRequest) throws -> CreateAppResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateApp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified instance.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateInstance(_ input: UpdateInstanceRequest) throws {
-        _ = try request.invoke(operation: "UpdateInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unassigns a registered instance from all of it's layers. The instance remains in the stack as an unassigned instance and can be assigned to another layer, as needed. You cannot use this action with instances that were created with AWS OpsWorks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func unassignInstance(_ input: UnassignInstanceRequest) throws {
-        _ = try request.invoke(operation: "UnassignInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UnassignInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assign a registered instance to a layer.   You can assign registered on-premises instances to any layer type.   You can assign registered Amazon EC2 instances only to custom layers.   You cannot use this action with instances that were created with AWS OpsWorks.    Required Permissions: To use this action, an AWS Identity and Access Management (IAM) user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func assignInstance(_ input: AssignInstanceRequest) throws {
-        _ = try request.invoke(operation: "AssignInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AssignInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateStack(_ input: UpdateStackRequest) throws {
-        _ = try request.invoke(operation: "UpdateStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the permissions for a specified stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describePermissions(_ input: DescribePermissionsRequest) throws -> DescribePermissionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribePermissions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribePermissions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Specify the load-based auto scaling configuration for a specified layer. For more information, see Managing Load with Time-based and Load-based Instances.  To use load-based auto scaling, you must create a set of load-based auto scaling instances. Load-based auto scaling operates only on the instances from that set, so you must ensure that you have created enough instances to handle the maximum anticipated load.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func setLoadBasedAutoScaling(_ input: SetLoadBasedAutoScalingRequest) throws {
-        _ = try request.invoke(operation: "SetLoadBasedAutoScaling", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "SetLoadBasedAutoScaling", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a generated host name for the specified layer, based on the current host name theme.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func getHostnameSuggestion(_ input: GetHostnameSuggestionRequest) throws -> GetHostnameSuggestionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHostnameSuggestion", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHostnameSuggestion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes an instance's Amazon EBS volumes.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeVolumes(_ input: DescribeVolumesRequest) throws -> DescribeVolumesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVolumes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVolumes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified user profile.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateUserProfile(_ input: UpdateUserProfileRequest) throws {
-        _ = try request.invoke(operation: "UpdateUserProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Specify the time-based auto scaling configuration for a specified instance. For more information, see Managing Load with Time-based and Load-based Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func setTimeBasedAutoScaling(_ input: SetTimeBasedAutoScalingRequest) throws {
-        _ = try request.invoke(operation: "SetTimeBasedAutoScaling", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "SetTimeBasedAutoScaling", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a description of a stack's provisioning parameters.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeStackProvisioningParameters(_ input: DescribeStackProvisioningParametersRequest) throws -> DescribeStackProvisioningParametersResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeStackProvisioningParameters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeStackProvisioningParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This action can be used only with Windows stacks.  Grants RDP access to a Windows instance for a specified time period.
     public func grantAccess(_ input: GrantAccessRequest) throws -> GrantAccessResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GrantAccess", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GrantAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an Amazon EBS volume's name or mount point. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateVolume(_ input: UpdateVolumeRequest) throws {
-        _ = try request.invoke(operation: "UpdateVolume", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters a specified Elastic IP address. The address can then be registered by another stack. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deregisterElasticIp(_ input: DeregisterElasticIpRequest) throws {
-        _ = try request.invoke(operation: "DeregisterElasticIp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterElasticIp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified layer. You must first stop and then delete all associated instances or unassign registered instances. For more information, see How to Delete a Layer.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deleteLayer(_ input: DeleteLayerRequest) throws {
-        _ = try request.invoke(operation: "DeleteLayer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteLayer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new user profile.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func createUserProfile(_ input: CreateUserProfileRequest) throws -> CreateUserProfileResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUserProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a description of a specified set of apps.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeApps(_ input: DescribeAppsRequest) throws -> DescribeAppsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeApps", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeApps", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers instances with a specified stack that were created outside of AWS OpsWorks.  We do not recommend using this action to register instances. The complete registration operation has two primary steps, installing the AWS OpsWorks agent on the instance and registering the instance with the stack. RegisterInstance handles only the second step. You should instead use the AWS CLI register command, which performs the entire registration operation. For more information, see  Registering an Instance with an AWS OpsWorks Stack.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func registerInstance(_ input: RegisterInstanceRequest) throws -> RegisterInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RegisterInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RegisterInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a specified stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func stopStack(_ input: StopStackRequest) throws {
-        _ = try request.invoke(operation: "StopStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "StopStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes load-based auto scaling configurations for specified layers.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeLoadBasedAutoScaling(_ input: DescribeLoadBasedAutoScalingRequest) throws -> DescribeLoadBasedAutoScalingResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeLoadBasedAutoScaling", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeLoadBasedAutoScaling", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a user's SSH information.  Required Permissions: To use this action, an IAM user must have self-management enabled or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeMyUserProfile() throws -> DescribeMyUserProfileResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeMyUserProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: nil)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeMyUserProfile", path: "/", httpMethod: "POST")
     }
 
     ///  Updates a user's SSH public key.  Required Permissions: To use this action, an IAM user must have self-management enabled or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateMyUserProfile(_ input: UpdateMyUserProfileRequest) throws {
-        _ = try request.invoke(operation: "UpdateMyUserProfile", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateMyUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters an Amazon RDS instance.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deregisterRdsDbInstance(_ input: DeregisterRdsDbInstanceRequest) throws {
-        _ = try request.invoke(operation: "DeregisterRdsDbInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterRdsDbInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the available AWS OpsWorks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
     public func describeAgentVersions(_ input: DescribeAgentVersionsRequest) throws -> DescribeAgentVersionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAgentVersions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAgentVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches an Elastic Load Balancing load balancer to a specified layer. For more information, see Elastic Load Balancing.  You must create the Elastic Load Balancing instance separately, by using the Elastic Load Balancing console, API, or CLI. For more information, see  Elastic Load Balancing Developer Guide.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func attachElasticLoadBalancer(_ input: AttachElasticLoadBalancerRequest) throws {
-        _ = try request.invoke(operation: "AttachElasticLoadBalancer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AttachElasticLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a description of a set of instances.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeInstances(_ input: DescribeInstancesRequest) throws -> DescribeInstancesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a specified instance. When you stop a standard instance, the data disappears and must be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance without losing data. For more information, see Starting, Stopping, and Rebooting Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func stopInstance(_ input: StopInstanceRequest) throws {
-        _ = try request.invoke(operation: "StopInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified app.  Required Permissions: To use this action, an IAM user must have a Deploy or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func updateApp(_ input: UpdateAppRequest) throws {
-        _ = try request.invoke(operation: "UpdateApp", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an instance in a specified stack. For more information, see Adding an Instance to a Layer.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func createInstance(_ input: CreateInstanceRequest) throws -> CreateInstanceResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified instance, which terminates the associated Amazon EC2 instance. You must stop an instance before you can delete it. For more information, see Deleting Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deleteInstance(_ input: DeleteInstanceRequest) throws {
-        _ = try request.invoke(operation: "DeleteInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the results of specified commands.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeCommands(_ input: DescribeCommandsRequest) throws -> DescribeCommandsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeCommands", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try OpsworksResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeCommands", path: "/", httpMethod: "POST", input: input)
     }
 
 

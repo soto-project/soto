@@ -29,13 +29,15 @@ import Core
 
 extension Shield {
 
-    public struct Protection: Serializable, Initializable {
+    public struct Protection: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
-        var resourceArn: String? = nil
+        public var resourceArn: String? = nil
         /// The friendly name of the protection. For example, My CloudFront distributions.
-        var name: String? = nil
+        public var name: String? = nil
         /// The unique identifier (ID) of the protection.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -47,23 +49,27 @@ extension Shield {
 
     }
 
-    public struct DeleteSubscriptionRequest: Serializable, Initializable {
+    public struct DeleteSubscriptionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AttackSummary: Serializable, Initializable {
+    public struct AttackSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start time of the attack, in the format 2016-12-16T13:50Z.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// The end time of the attack, in the format 2016-12-16T13:50Z.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
-        var resourceArn: String? = nil
+        public var resourceArn: String? = nil
         /// The list of attacks for a specified time period.
-        var attackVectors: [AttackVectorDescription]? = nil
+        public var attackVectors: [AttackVectorDescription]? = nil
         /// The unique identifier (ID) of the attack.
-        var attackId: String? = nil
+        public var attackId: String? = nil
 
         public init() {}
 
@@ -77,11 +83,13 @@ extension Shield {
 
     }
 
-    public struct Subscription: Serializable, Initializable {
+    public struct Subscription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The start time of the subscription, in the format "2016-12-16T13:50Z".
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
-        var timeCommitmentInSeconds: Int64? = nil
+        public var timeCommitmentInSeconds: Int64? = nil
 
         public init() {}
 
@@ -92,21 +100,23 @@ extension Shield {
 
     }
 
-    public struct AttackDetail: Serializable, Initializable {
+    public struct AttackDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time the attack started, in the format 2016-12-16T13:50Z.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// List of mitigation actions taken for the attack.
-        var mitigations: [Mitigation]? = nil
+        public var mitigations: [Mitigation]? = nil
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
-        var resourceArn: String? = nil
+        public var resourceArn: String? = nil
         /// The time the attack ended, in the format 2016-12-16T13:50Z.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
-        var subResources: [SubResourceSummary]? = nil
+        public var subResources: [SubResourceSummary]? = nil
         /// List of counters that describe the attack for the specified time period.
-        var attackCounters: [SummarizedCounter]? = nil
+        public var attackCounters: [SummarizedCounter]? = nil
         /// The unique identifier (ID) of the attack.
-        var attackId: String? = nil
+        public var attackId: String? = nil
 
         public init() {}
 
@@ -122,11 +132,13 @@ extension Shield {
 
     }
 
-    public struct ListAttacksResponse: Serializable, Initializable {
+    public struct ListAttacksResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The attack information for the specified time range.
-        var attackSummaries: [AttackSummary]? = nil
+        public var attackSummaries: [AttackSummary]? = nil
 
         public init() {}
 
@@ -137,9 +149,11 @@ extension Shield {
 
     }
 
-    public struct DescribeAttackResponse: Serializable, Initializable {
+    public struct DescribeAttackResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attack that is described.
-        var attack: AttackDetail? = nil
+        public var attack: AttackDetail? = nil
 
         public init() {}
 
@@ -149,11 +163,13 @@ extension Shield {
 
     }
 
-    public struct ListProtectionsResponse: Serializable, Initializable {
+    public struct ListProtectionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The array of enabled Protection objects.
-        var protections: [Protection]? = nil
+        public var protections: [Protection]? = nil
 
         public init() {}
 
@@ -164,19 +180,21 @@ extension Shield {
 
     }
 
-    public struct SummarizedCounter: Serializable, Initializable {
+    public struct SummarizedCounter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unit of the counters.
-        var unit: String? = nil
+        public var unit: String? = nil
         /// The average value of the counter for a specified time period.
-        var average: Double? = nil
+        public var average: Double? = nil
         /// The number of counters for a specified time period.
-        var n: Int32? = nil
+        public var n: Int32? = nil
         /// The maximum value of the counter for a specified time period.
-        var max: Double? = nil
+        public var max: Double? = nil
         /// The counter name.
-        var name: String? = nil
+        public var name: String? = nil
         /// The total of counter values for a specified time period.
-        var sum: Double? = nil
+        public var sum: Double? = nil
 
         public init() {}
 
@@ -191,11 +209,13 @@ extension Shield {
 
     }
 
-    public struct CreateProtectionRequest: Serializable, Initializable {
+    public struct CreateProtectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Friendly name for the Protection you are creating.
-        var name: String = ""
+        public var name: String = ""
         /// The ARN (Amazon Resource Name) of the resource to be protected.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
 
         public init() {}
 
@@ -206,9 +226,11 @@ extension Shield {
 
     }
 
-    public struct DescribeProtectionRequest: Serializable, Initializable {
+    public struct DescribeProtectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier (ID) for the Protection object that is described.
-        var protectionId: String = ""
+        public var protectionId: String = ""
 
         public init() {}
 
@@ -218,9 +240,11 @@ extension Shield {
 
     }
 
-    public struct DescribeAttackRequest: Serializable, Initializable {
+    public struct DescribeAttackRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier (ID) for the attack that to be described.
-        var attackId: String = ""
+        public var attackId: String = ""
 
         public init() {}
 
@@ -230,9 +254,11 @@ extension Shield {
 
     }
 
-    public struct DescribeProtectionResponse: Serializable, Initializable {
+    public struct DescribeProtectionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Protection object that is described.
-        var protection: Protection? = nil
+        public var protection: Protection? = nil
 
         public init() {}
 
@@ -242,9 +268,11 @@ extension Shield {
 
     }
 
-    public struct DeleteProtectionRequest: Serializable, Initializable {
+    public struct DeleteProtectionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier (ID) for the Protection object to be deleted.
-        var protectionId: String = ""
+        public var protectionId: String = ""
 
         public init() {}
 
@@ -254,17 +282,21 @@ extension Shield {
 
     }
 
-    public struct DeleteSubscriptionResponse: Serializable, Initializable {
+    public struct DeleteSubscriptionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct TimeRange: Serializable, Initializable {
+    public struct TimeRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The end time, in the format 2016-12-16T15:50Z.
-        var toExclusive: Date? = nil
+        public var toExclusive: Date? = nil
         /// The start time, in the format 2016-12-16T13:50Z.
-        var fromInclusive: Date? = nil
+        public var fromInclusive: Date? = nil
 
         public init() {}
 
@@ -275,15 +307,19 @@ extension Shield {
 
     }
 
-    public struct CreateSubscriptionResponse: Serializable, Initializable {
+    public struct CreateSubscriptionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateProtectionResponse: Serializable, Initializable {
+    public struct CreateProtectionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier (ID) for the Protection object that is created.
-        var protectionId: String? = nil
+        public var protectionId: String? = nil
 
         public init() {}
 
@@ -293,11 +329,13 @@ extension Shield {
 
     }
 
-    public struct SummarizedAttackVector: Serializable, Initializable {
+    public struct SummarizedAttackVector: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of counters that describe the details of the attack.
-        var vectorCounters: [SummarizedCounter]? = nil
+        public var vectorCounters: [SummarizedCounter]? = nil
         /// The attack type, for example, SNMP reflection or SYN flood.
-        var vectorType: String = ""
+        public var vectorType: String = ""
 
         public init() {}
 
@@ -308,9 +346,11 @@ extension Shield {
 
     }
 
-    public struct Mitigation: Serializable, Initializable {
+    public struct Mitigation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the mitigation taken for this attack.
-        var mitigationName: String? = nil
+        public var mitigationName: String? = nil
 
         public init() {}
 
@@ -320,9 +360,11 @@ extension Shield {
 
     }
 
-    public struct DescribeSubscriptionResponse: Serializable, Initializable {
+    public struct DescribeSubscriptionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS Shield Advanced subscription details for an account.
-        var subscription: Subscription? = nil
+        public var subscription: Subscription? = nil
 
         public init() {}
 
@@ -332,23 +374,27 @@ extension Shield {
 
     }
 
-    public struct CreateSubscriptionRequest: Serializable, Initializable {
+    public struct CreateSubscriptionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListAttacksRequest: Serializable, Initializable {
+    public struct ListAttacksRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time period for the attacks.
-        var startTime: TimeRange? = nil
+        public var startTime: TimeRange? = nil
         /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
-        var resourceArns: [String]? = nil
+        public var resourceArns: [String]? = nil
         /// The end of the time period for the attacks.
-        var endTime: TimeRange? = nil
+        public var endTime: TimeRange? = nil
         /// The ListAttacksRequest.NextMarker value from a previous call to ListAttacksRequest. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of AttackSummary objects to be returned. If this is left blank, the first 20 results will be returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -362,9 +408,11 @@ extension Shield {
 
     }
 
-    public struct AttackVectorDescription: Serializable, Initializable {
+    public struct AttackVectorDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attack type, for example, SNMP reflection or SYN flood.
-        var vectorType: String = ""
+        public var vectorType: String = ""
 
         public init() {}
 
@@ -374,15 +422,17 @@ extension Shield {
 
     }
 
-    public struct SubResourceSummary: Serializable, Initializable {
+    public struct SubResourceSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The counters that describe the details of the attack.
-        var counters: [SummarizedCounter]? = nil
+        public var counters: [SummarizedCounter]? = nil
         /// The SubResource type.
-        var type: String? = nil
+        public var type: String? = nil
         /// The list of attack types and associated counters.
-        var attackVectors: [SummarizedAttackVector]? = nil
+        public var attackVectors: [SummarizedAttackVector]? = nil
         /// The unique identifier (ID) of the SubResource.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -395,11 +445,13 @@ extension Shield {
 
     }
 
-    public struct ListProtectionsRequest: Serializable, Initializable {
+    public struct ListProtectionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -410,13 +462,17 @@ extension Shield {
 
     }
 
-    public struct DescribeSubscriptionRequest: Serializable, Initializable {
+    public struct DescribeSubscriptionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteProtectionResponse: Serializable, Initializable {
+    public struct DeleteProtectionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 

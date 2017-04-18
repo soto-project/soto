@@ -29,9 +29,11 @@ import Core
 
 extension Dms {
 
-    public struct ModifyReplicationSubnetGroupResponse: Serializable, Initializable {
+    public struct ModifyReplicationSubnetGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The modified replication subnet group.
-        var replicationSubnetGroup: ReplicationSubnetGroup? = nil
+        public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
 
         public init() {}
 
@@ -41,9 +43,11 @@ extension Dms {
 
     }
 
-    public struct CreateReplicationTaskResponse: Serializable, Initializable {
+    public struct CreateReplicationTaskResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication task that was created.
-        var replicationTask: ReplicationTask? = nil
+        public var replicationTask: ReplicationTask? = nil
 
         public init() {}
 
@@ -53,15 +57,17 @@ extension Dms {
 
     }
 
-    public struct CreateReplicationSubnetGroupMessage: Serializable, Initializable {
+    public struct CreateReplicationSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The EC2 subnet IDs for the subnet group.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
-        var replicationSubnetGroupIdentifier: String = ""
+        public var replicationSubnetGroupIdentifier: String = ""
         /// The description for the subnet group.
-        var replicationSubnetGroupDescription: String = ""
+        public var replicationSubnetGroupDescription: String = ""
         /// The tag to be assigned to the subnet group.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -74,9 +80,11 @@ extension Dms {
 
     }
 
-    public struct ModifyEndpointResponse: Serializable, Initializable {
+    public struct ModifyEndpointResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The modified endpoint.
-        var endpoint: Endpoint? = nil
+        public var endpoint: Endpoint? = nil
 
         public init() {}
 
@@ -86,13 +94,15 @@ extension Dms {
 
     }
 
-    public struct DescribeReplicationSubnetGroupsMessage: Serializable, Initializable {
+    public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters applied to the describe action.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -104,13 +114,15 @@ extension Dms {
 
     }
 
-    public struct DescribeEndpointsMessage: Serializable, Initializable {
+    public struct DescribeEndpointsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -122,9 +134,11 @@ extension Dms {
 
     }
 
-    public struct DeleteEndpointMessage: Serializable, Initializable {
+    public struct DeleteEndpointMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String = ""
+        public var endpointArn: String = ""
 
         public init() {}
 
@@ -134,33 +148,35 @@ extension Dms {
 
     }
 
-    public struct Endpoint: Serializable, Initializable {
+    public struct Endpoint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        var endpointIdentifier: String? = nil
+        public var endpointIdentifier: String? = nil
         /// The user name used to connect to the endpoint.
-        var username: String? = nil
+        public var username: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String? = nil
+        public var endpointArn: String? = nil
         /// The status of the endpoint.
-        var status: String? = nil
+        public var status: String? = nil
         /// The type of endpoint.
-        var endpointType: String? = nil
+        public var endpointType: String? = nil
         /// The name of the server at the endpoint.
-        var serverName: String? = nil
+        public var serverName: String? = nil
         /// The name of the database at the endpoint.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         /// The SSL mode used to connect to the endpoint. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        var sslMode: String? = nil
+        public var sslMode: String? = nil
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        var engineName: String? = nil
+        public var engineName: String? = nil
         /// The port value used to access the endpoint.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// Additional connection attributes used to connect to the endpoint.
-        var extraConnectionAttributes: String? = nil
+        public var extraConnectionAttributes: String? = nil
 
         public init() {}
 
@@ -182,11 +198,13 @@ extension Dms {
 
     }
 
-    public struct DescribeOrderableReplicationInstancesResponse: Serializable, Initializable {
+    public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The order-able replication instances available.
-        var orderableReplicationInstances: [OrderableReplicationInstance]? = nil
+        public var orderableReplicationInstances: [OrderableReplicationInstance]? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -197,13 +215,15 @@ extension Dms {
 
     }
 
-    public struct DescribeTableStatisticsResponse: Serializable, Initializable {
+    public struct DescribeTableStatisticsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The table statistics.
-        var tableStatistics: [TableStatistics]? = nil
+        public var tableStatistics: [TableStatistics]? = nil
         /// The Amazon Resource Name (ARN) of the replication task.
-        var replicationTaskArn: String? = nil
+        public var replicationTaskArn: String? = nil
 
         public init() {}
 
@@ -215,13 +235,15 @@ extension Dms {
 
     }
 
-    public struct DescribeEndpointTypesMessage: Serializable, Initializable {
+    public struct DescribeEndpointTypesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -233,9 +255,11 @@ extension Dms {
 
     }
 
-    public struct DeleteReplicationInstanceMessage: Serializable, Initializable {
+    public struct DeleteReplicationInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
-        var replicationInstanceArn: String = ""
+        public var replicationInstanceArn: String = ""
 
         public init() {}
 
@@ -245,13 +269,15 @@ extension Dms {
 
     }
 
-    public struct SupportedEndpointType: Serializable, Initializable {
+    public struct SupportedEndpointType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        var engineName: String? = nil
+        public var engineName: String? = nil
         /// The type of endpoint.
-        var endpointType: String? = nil
+        public var endpointType: String? = nil
         /// Indicates if Change Data Capture (CDC) is supported.
-        var supportsCDC: Bool? = nil
+        public var supportsCDC: Bool? = nil
 
         public init() {}
 
@@ -263,11 +289,13 @@ extension Dms {
 
     }
 
-    public struct DescribeCertificatesResponse: Serializable, Initializable {
+    public struct DescribeCertificatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
-        var certificates: [Certificate]? = nil
+        public var certificates: [Certificate]? = nil
 
         public init() {}
 
@@ -278,19 +306,23 @@ extension Dms {
 
     }
 
-    public struct RemoveTagsFromResourceResponse: Serializable, Initializable {
+    public struct RemoveTagsFromResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeReplicationTasksMessage: Serializable, Initializable {
+    public struct DescribeReplicationTasksMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -302,9 +334,11 @@ extension Dms {
 
     }
 
-    public struct DeleteReplicationInstanceResponse: Serializable, Initializable {
+    public struct DeleteReplicationInstanceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication instance that was deleted.
-        var replicationInstance: ReplicationInstance? = nil
+        public var replicationInstance: ReplicationInstance? = nil
 
         public init() {}
 
@@ -314,11 +348,13 @@ extension Dms {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        var value: String? = nil
+        public var value: String? = nil
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -329,15 +365,19 @@ extension Dms {
 
     }
 
-    public struct AddTagsToResourceResponse: Serializable, Initializable {
+    public struct AddTagsToResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListTagsForResourceMessage: Serializable, Initializable {
+    public struct ListTagsForResourceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
 
         public init() {}
 
@@ -347,11 +387,13 @@ extension Dms {
 
     }
 
-    public struct DescribeEndpointTypesResponse: Serializable, Initializable {
+    public struct DescribeEndpointTypesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The type of endpoints that are supported.
-        var supportedEndpointTypes: [SupportedEndpointType]? = nil
+        public var supportedEndpointTypes: [SupportedEndpointType]? = nil
 
         public init() {}
 
@@ -362,13 +404,15 @@ extension Dms {
 
     }
 
-    public struct StartReplicationTaskMessage: Serializable, Initializable {
+    public struct StartReplicationTaskMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Number (ARN) of the replication task to be started.
-        var replicationTaskArn: String = ""
+        public var replicationTaskArn: String = ""
         /// The start time for the Change Data Capture (CDC) operation.
-        var cdcStartTime: Date? = nil
+        public var cdcStartTime: Date? = nil
         /// The type of replication task.
-        var startReplicationTaskType: String = ""
+        public var startReplicationTaskType: String = ""
 
         public init() {}
 
@@ -380,33 +424,35 @@ extension Dms {
 
     }
 
-    public struct CreateReplicationInstanceMessage: Serializable, Initializable {
+    public struct CreateReplicationInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// Tags to be associated with the replication instance.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
-        var replicationInstanceIdentifier: String = ""
+        public var replicationInstanceIdentifier: String = ""
         /// The engine version number of the replication instance.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The compute and memory capacity of the replication instance as specified by the replication instance class.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        var replicationInstanceClass: String = ""
+        public var replicationInstanceClass: String = ""
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// A subnet group to associate with the replication instance.
-        var replicationSubnetGroupIdentifier: String? = nil
+        public var replicationSubnetGroupIdentifier: String? = nil
         /// The KMS key identifier that will be used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
 
         public init() {}
 
@@ -428,9 +474,11 @@ extension Dms {
 
     }
 
-    public struct DeleteCertificateResponse: Serializable, Initializable {
+    public struct DeleteCertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Secure Sockets Layer (SSL) certificate.
-        var certificate: Certificate? = nil
+        public var certificate: Certificate? = nil
 
         public init() {}
 
@@ -440,11 +488,13 @@ extension Dms {
 
     }
 
-    public struct DescribeConnectionsResponse: Serializable, Initializable {
+    public struct DescribeConnectionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A description of the connections.
-        var connections: [Connection]? = nil
+        public var connections: [Connection]? = nil
 
         public init() {}
 
@@ -455,13 +505,15 @@ extension Dms {
 
     }
 
-    public struct DescribeTableStatisticsMessage: Serializable, Initializable {
+    public struct DescribeTableStatisticsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         /// The Amazon Resource Name (ARN) of the replication task.
-        var replicationTaskArn: String = ""
+        public var replicationTaskArn: String = ""
 
         public init() {}
 
@@ -473,9 +525,11 @@ extension Dms {
 
     }
 
-    public struct DescribeRefreshSchemasStatusMessage: Serializable, Initializable {
+    public struct DescribeRefreshSchemasStatusMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String = ""
+        public var endpointArn: String = ""
 
         public init() {}
 
@@ -485,11 +539,13 @@ extension Dms {
 
     }
 
-    public struct RemoveTagsFromResourceMessage: Serializable, Initializable {
+    public struct RemoveTagsFromResourceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The tag key (name) of the tag to be removed.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -500,9 +556,11 @@ extension Dms {
 
     }
 
-    public struct ModifyReplicationInstanceResponse: Serializable, Initializable {
+    public struct ModifyReplicationInstanceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The modified replication instance.
-        var replicationInstance: ReplicationInstance? = nil
+        public var replicationInstance: ReplicationInstance? = nil
 
         public init() {}
 
@@ -512,11 +570,13 @@ extension Dms {
 
     }
 
-    public struct DescribeReplicationSubnetGroupsResponse: Serializable, Initializable {
+    public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A description of the replication subnet groups.
-        var replicationSubnetGroups: [ReplicationSubnetGroup]? = nil
+        public var replicationSubnetGroups: [ReplicationSubnetGroup]? = nil
 
         public init() {}
 
@@ -527,9 +587,11 @@ extension Dms {
 
     }
 
-    public struct DescribeAccountAttributesResponse: Serializable, Initializable {
+    public struct DescribeAccountAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Account quota information.
-        var accountQuotas: [AccountQuota]? = nil
+        public var accountQuotas: [AccountQuota]? = nil
 
         public init() {}
 
@@ -539,11 +601,13 @@ extension Dms {
 
     }
 
-    public struct DescribeSchemasResponse: Serializable, Initializable {
+    public struct DescribeSchemasResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The described schema.
-        var schemas: [String]? = nil
+        public var schemas: [String]? = nil
 
         public init() {}
 
@@ -554,33 +618,37 @@ extension Dms {
 
     }
 
-    public struct DescribeAccountAttributesMessage: Serializable, Initializable {
+    public struct DescribeAccountAttributesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct Certificate: Serializable, Initializable {
+    public struct Certificate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The beginning date that the certificate is valid.
-        var validFromDate: Date? = nil
+        public var validFromDate: Date? = nil
         /// The key length of the cryptographic algorithm being used.
-        var keyLength: Int32? = nil
+        public var keyLength: Int32? = nil
         /// The signing algorithm for the certificate.
-        var signingAlgorithm: String? = nil
+        public var signingAlgorithm: String? = nil
         /// The location of the imported Oracle Wallet certificate for use with SSL.
-        var certificateWallet: Data? = nil
+        public var certificateWallet: Data? = nil
         /// The Amazon Resource Name (ARN) for the certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The contents of the .pem X.509 certificate file for the certificate.
-        var certificatePem: String? = nil
+        public var certificatePem: String? = nil
         /// The final date that the certificate is valid.
-        var validToDate: Date? = nil
+        public var validToDate: Date? = nil
         /// The owner of the certificate.
-        var certificateOwner: String? = nil
+        public var certificateOwner: String? = nil
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
-        var certificateIdentifier: String? = nil
+        public var certificateIdentifier: String? = nil
         /// The date that the certificate was created.
-        var certificateCreationDate: Date? = nil
+        public var certificateCreationDate: Date? = nil
 
         public init() {}
 
@@ -599,9 +667,11 @@ extension Dms {
 
     }
 
-    public struct ListTagsForResourceResponse: Serializable, Initializable {
+    public struct ListTagsForResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of tags for the resource.
-        var tagList: [Tag]? = nil
+        public var tagList: [Tag]? = nil
 
         public init() {}
 
@@ -611,13 +681,15 @@ extension Dms {
 
     }
 
-    public struct Subnet: Serializable, Initializable {
+    public struct Subnet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The subnet identifier.
-        var subnetIdentifier: String? = nil
+        public var subnetIdentifier: String? = nil
         /// The Availability Zone of the subnet.
-        var subnetAvailabilityZone: AvailabilityZone? = nil
+        public var subnetAvailabilityZone: AvailabilityZone? = nil
         /// The status of the subnet.
-        var subnetStatus: String? = nil
+        public var subnetStatus: String? = nil
 
         public init() {}
 
@@ -629,9 +701,11 @@ extension Dms {
 
     }
 
-    public struct StartReplicationTaskResponse: Serializable, Initializable {
+    public struct StartReplicationTaskResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication task started.
-        var replicationTask: ReplicationTask? = nil
+        public var replicationTask: ReplicationTask? = nil
 
         public init() {}
 
@@ -641,9 +715,11 @@ extension Dms {
 
     }
 
-    public struct AvailabilityZone: Serializable, Initializable {
+    public struct AvailabilityZone: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the availability zone.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -653,19 +729,21 @@ extension Dms {
 
     }
 
-    public struct Connection: Serializable, Initializable {
+    public struct Connection: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The error message when the connection last failed.
-        var lastFailureMessage: String? = nil
+        public var lastFailureMessage: String? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string.
-        var replicationInstanceIdentifier: String? = nil
+        public var replicationInstanceIdentifier: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String? = nil
+        public var replicationInstanceArn: String? = nil
         /// The connection status.
-        var status: String? = nil
+        public var status: String? = nil
         /// The identifier of the endpoint. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        var endpointIdentifier: String? = nil
+        public var endpointIdentifier: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String? = nil
+        public var endpointArn: String? = nil
 
         public init() {}
 
@@ -680,17 +758,19 @@ extension Dms {
 
     }
 
-    public struct RefreshSchemasStatus: Serializable, Initializable {
+    public struct RefreshSchemasStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The last failure message for the schema.
-        var lastFailureMessage: String? = nil
+        public var lastFailureMessage: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String? = nil
+        public var replicationInstanceArn: String? = nil
         /// The status of the schema.
-        var status: String? = nil
+        public var status: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String? = nil
+        public var endpointArn: String? = nil
         /// The date the schema was last refreshed.
-        var lastRefreshDate: Date? = nil
+        public var lastRefreshDate: Date? = nil
 
         public init() {}
 
@@ -704,9 +784,11 @@ extension Dms {
 
     }
 
-    public struct DeleteReplicationTaskMessage: Serializable, Initializable {
+    public struct DeleteReplicationTaskMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
-        var replicationTaskArn: String = ""
+        public var replicationTaskArn: String = ""
 
         public init() {}
 
@@ -716,13 +798,15 @@ extension Dms {
 
     }
 
-    public struct DescribeReplicationInstancesMessage: Serializable, Initializable {
+    public struct DescribeReplicationInstancesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -734,11 +818,13 @@ extension Dms {
 
     }
 
-    public struct RefreshSchemasMessage: Serializable, Initializable {
+    public struct RefreshSchemasMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String = ""
+        public var replicationInstanceArn: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String = ""
+        public var endpointArn: String = ""
 
         public init() {}
 
@@ -749,29 +835,31 @@ extension Dms {
 
     }
 
-    public struct ModifyReplicationInstanceMessage: Serializable, Initializable {
+    public struct ModifyReplicationInstanceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
-        var allowMajorVersionUpgrade: Bool? = nil
+        public var allowMajorVersionUpgrade: Bool? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string.
-        var replicationInstanceIdentifier: String? = nil
+        public var replicationInstanceIdentifier: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The engine version number of the replication instance.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        var replicationInstanceClass: String? = nil
+        public var replicationInstanceClass: String? = nil
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        var vpcSecurityGroupIds: [String]? = nil
+        public var vpcSecurityGroupIds: [String]? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String = ""
+        public var replicationInstanceArn: String = ""
         /// Indicates whether the changes should be applied immediately or during the next maintenance window.
-        var applyImmediately: Bool? = nil
+        public var applyImmediately: Bool? = nil
         ///  Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version. 
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
 
         public init() {}
 
@@ -791,13 +879,15 @@ extension Dms {
 
     }
 
-    public struct AccountQuota: Serializable, Initializable {
+    public struct AccountQuota: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum allowed value for the quota.
-        var max: Int64? = nil
+        public var max: Int64? = nil
         /// The amount currently used toward the quota maximum.
-        var used: Int64? = nil
+        public var used: Int64? = nil
         /// The name of the AWS DMS quota for this AWS account.
-        var accountQuotaName: String? = nil
+        public var accountQuotaName: String? = nil
 
         public init() {}
 
@@ -809,13 +899,15 @@ extension Dms {
 
     }
 
-    public struct DescribeCertificatesMessage: Serializable, Initializable {
+    public struct DescribeCertificatesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Filters applied to the certificate described in the form of key-value pairs.
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -827,33 +919,35 @@ extension Dms {
 
     }
 
-    public struct CreateEndpointMessage: Serializable, Initializable {
+    public struct CreateEndpointMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        var endpointIdentifier: String = ""
+        public var endpointIdentifier: String = ""
         /// Tags to be added to the endpoint.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The user name to be used to login to the endpoint database.
-        var username: String? = nil
+        public var username: String? = nil
         /// The type of endpoint.
-        var endpointType: String = ""
+        public var endpointType: String = ""
         /// The name of the server where the endpoint database resides.
-        var serverName: String? = nil
+        public var serverName: String? = nil
         /// The name of the endpoint database.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         /// The SSL mode to use for the SSL connection. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        var sslMode: String? = nil
+        public var sslMode: String? = nil
         /// The Amazon Resource Number (ARN) for the certificate.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        var engineName: String = ""
+        public var engineName: String = ""
         /// The password to be used to login to the endpoint database.
-        var password: String? = nil
+        public var password: String? = nil
         /// The port used by the endpoint database.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// Additional attributes associated with the connection.
-        var extraConnectionAttributes: String? = nil
+        public var extraConnectionAttributes: String? = nil
 
         public init() {}
 
@@ -875,17 +969,19 @@ extension Dms {
 
     }
 
-    public struct ReplicationSubnetGroup: Serializable, Initializable {
+    public struct ReplicationSubnetGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the subnet group.
-        var subnetGroupStatus: String? = nil
+        public var subnetGroupStatus: String? = nil
         /// The subnets that are in the subnet group.
-        var subnets: [Subnet]? = nil
+        public var subnets: [Subnet]? = nil
         /// The identifier of the replication instance subnet group.
-        var replicationSubnetGroupIdentifier: String? = nil
+        public var replicationSubnetGroupIdentifier: String? = nil
         /// The description of the replication subnet group.
-        var replicationSubnetGroupDescription: String? = nil
+        public var replicationSubnetGroupDescription: String? = nil
         /// The ID of the VPC.
-        var vpcId: String? = nil
+        public var vpcId: String? = nil
 
         public init() {}
 
@@ -899,9 +995,11 @@ extension Dms {
 
     }
 
-    public struct TestConnectionResponse: Serializable, Initializable {
+    public struct TestConnectionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The connection tested.
-        var connection: Connection? = nil
+        public var connection: Connection? = nil
 
         public init() {}
 
@@ -911,9 +1009,11 @@ extension Dms {
 
     }
 
-    public struct DeleteReplicationTaskResponse: Serializable, Initializable {
+    public struct DeleteReplicationTaskResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The deleted replication task.
-        var replicationTask: ReplicationTask? = nil
+        public var replicationTask: ReplicationTask? = nil
 
         public init() {}
 
@@ -923,9 +1023,11 @@ extension Dms {
 
     }
 
-    public struct CreateReplicationSubnetGroupResponse: Serializable, Initializable {
+    public struct CreateReplicationSubnetGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication subnet group that was created.
-        var replicationSubnetGroup: ReplicationSubnetGroup? = nil
+        public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
 
         public init() {}
 
@@ -935,25 +1037,27 @@ extension Dms {
 
     }
 
-    public struct TableStatistics: Serializable, Initializable {
+    public struct TableStatistics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of delete actions performed on a table.
-        var deletes: Int64? = nil
+        public var deletes: Int64? = nil
         /// The number of update actions performed on a table.
-        var updates: Int64? = nil
+        public var updates: Int64? = nil
         /// The state of the table.
-        var tableState: String? = nil
+        public var tableState: String? = nil
         /// The schema name.
-        var schemaName: String? = nil
+        public var schemaName: String? = nil
         /// The number of rows added during the Full Load operation.
-        var fullLoadRows: Int64? = nil
+        public var fullLoadRows: Int64? = nil
         /// The number of insert actions performed on a table.
-        var inserts: Int64? = nil
+        public var inserts: Int64? = nil
         /// The name of the table.
-        var tableName: String? = nil
+        public var tableName: String? = nil
         /// The last time the table was updated.
-        var lastUpdateTime: Date? = nil
+        public var lastUpdateTime: Date? = nil
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
-        var ddls: Int64? = nil
+        public var ddls: Int64? = nil
 
         public init() {}
 
@@ -971,13 +1075,15 @@ extension Dms {
 
     }
 
-    public struct ImportCertificateMessage: Serializable, Initializable {
+    public struct ImportCertificateMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The location of the imported Oracle Wallet certificate for use with SSL.
-        var certificateWallet: Data? = nil
+        public var certificateWallet: Data? = nil
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
-        var certificateIdentifier: String = ""
+        public var certificateIdentifier: String = ""
         /// The contents of the .pem X.509 certificate file for the certificate.
-        var certificatePem: String? = nil
+        public var certificatePem: String? = nil
 
         public init() {}
 
@@ -989,11 +1095,13 @@ extension Dms {
 
     }
 
-    public struct TestConnectionMessage: Serializable, Initializable {
+    public struct TestConnectionMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String = ""
+        public var replicationInstanceArn: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String = ""
+        public var endpointArn: String = ""
 
         public init() {}
 
@@ -1004,9 +1112,11 @@ extension Dms {
 
     }
 
-    public struct CreateEndpointResponse: Serializable, Initializable {
+    public struct CreateEndpointResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The endpoint that was created.
-        var endpoint: Endpoint? = nil
+        public var endpoint: Endpoint? = nil
 
         public init() {}
 
@@ -1016,9 +1126,11 @@ extension Dms {
 
     }
 
-    public struct CreateReplicationInstanceResponse: Serializable, Initializable {
+    public struct CreateReplicationInstanceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication instance that was created.
-        var replicationInstance: ReplicationInstance? = nil
+        public var replicationInstance: ReplicationInstance? = nil
 
         public init() {}
 
@@ -1028,19 +1140,21 @@ extension Dms {
 
     }
 
-    public struct ModifyReplicationTaskMessage: Serializable, Initializable {
+    public struct ModifyReplicationTaskMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
-        var tableMappings: String? = nil
+        public var tableMappings: String? = nil
         /// The Amazon Resource Name (ARN) of the replication task.
-        var replicationTaskArn: String = ""
+        public var replicationTaskArn: String = ""
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        var replicationTaskIdentifier: String? = nil
+        public var replicationTaskIdentifier: String? = nil
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
-        var migrationType: String? = nil
+        public var migrationType: String? = nil
         /// The start time for the Change Data Capture (CDC) operation.
-        var cdcStartTime: Date? = nil
+        public var cdcStartTime: Date? = nil
         /// JSON file that contains settings for the task, such as target metadata settings.
-        var replicationTaskSettings: String? = nil
+        public var replicationTaskSettings: String? = nil
 
         public init() {}
 
@@ -1055,13 +1169,15 @@ extension Dms {
 
     }
 
-    public struct ModifyReplicationSubnetGroupMessage: Serializable, Initializable {
+    public struct ModifyReplicationSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of subnet IDs.
-        var subnetIds: [String] = []
+        public var subnetIds: [String] = []
         /// The name of the replication instance subnet group.
-        var replicationSubnetGroupIdentifier: String = ""
+        public var replicationSubnetGroupIdentifier: String = ""
         /// The description of the replication instance subnet group.
-        var replicationSubnetGroupDescription: String? = nil
+        public var replicationSubnetGroupDescription: String? = nil
 
         public init() {}
 
@@ -1073,21 +1189,23 @@ extension Dms {
 
     }
 
-    public struct OrderableReplicationInstance: Serializable, Initializable {
+    public struct OrderableReplicationInstance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The version of the replication engine.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        var replicationInstanceClass: String? = nil
+        public var replicationInstanceClass: String? = nil
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
-        var defaultAllocatedStorage: Int32? = nil
+        public var defaultAllocatedStorage: Int32? = nil
         /// The type of storage used by the replication instance.
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        var minAllocatedStorage: Int32? = nil
+        public var minAllocatedStorage: Int32? = nil
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        var includedAllocatedStorage: Int32? = nil
+        public var includedAllocatedStorage: Int32? = nil
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        var maxAllocatedStorage: Int32? = nil
+        public var maxAllocatedStorage: Int32? = nil
 
         public init() {}
 
@@ -1103,19 +1221,21 @@ extension Dms {
 
     }
 
-    public struct ReplicationTaskStats: Serializable, Initializable {
+    public struct ReplicationTaskStats: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of tables loaded for this task.
-        var tablesLoaded: Int32? = nil
+        public var tablesLoaded: Int32? = nil
         /// The elapsed time of the task, in milliseconds.
-        var elapsedTimeMillis: Int64? = nil
+        public var elapsedTimeMillis: Int64? = nil
         /// The percent complete for the full load migration task.
-        var fullLoadProgressPercent: Int32? = nil
+        public var fullLoadProgressPercent: Int32? = nil
         /// The number of tables queued for this task.
-        var tablesQueued: Int32? = nil
+        public var tablesQueued: Int32? = nil
         /// The number of errors that have occurred during this task.
-        var tablesErrored: Int32? = nil
+        public var tablesErrored: Int32? = nil
         /// The number of tables currently loading for this task.
-        var tablesLoading: Int32? = nil
+        public var tablesLoading: Int32? = nil
 
         public init() {}
 
@@ -1130,9 +1250,11 @@ extension Dms {
 
     }
 
-    public struct ModifyReplicationTaskResponse: Serializable, Initializable {
+    public struct ModifyReplicationTaskResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication task that was modified.
-        var replicationTask: ReplicationTask? = nil
+        public var replicationTask: ReplicationTask? = nil
 
         public init() {}
 
@@ -1142,9 +1264,11 @@ extension Dms {
 
     }
 
-    public struct DeleteEndpointResponse: Serializable, Initializable {
+    public struct DeleteEndpointResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The endpoint that was deleted.
-        var endpoint: Endpoint? = nil
+        public var endpoint: Endpoint? = nil
 
         public init() {}
 
@@ -1154,9 +1278,11 @@ extension Dms {
 
     }
 
-    public struct StopReplicationTaskResponse: Serializable, Initializable {
+    public struct StopReplicationTaskResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The replication task stopped.
-        var replicationTask: ReplicationTask? = nil
+        public var replicationTask: ReplicationTask? = nil
 
         public init() {}
 
@@ -1166,35 +1292,37 @@ extension Dms {
 
     }
 
-    public struct ReplicationTask: Serializable, Initializable {
+    public struct ReplicationTask: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
-        var replicationTaskStats: ReplicationTaskStats? = nil
+        public var replicationTaskStats: ReplicationTaskStats? = nil
         /// The last error (failure) message generated for the replication instance.
-        var lastFailureMessage: String? = nil
+        public var lastFailureMessage: String? = nil
         /// The date the replication task is scheduled to start.
-        var replicationTaskStartDate: Date? = nil
+        public var replicationTaskStartDate: Date? = nil
         /// The date the replication task was created.
-        var replicationTaskCreationDate: Date? = nil
+        public var replicationTaskCreationDate: Date? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var sourceEndpointArn: String? = nil
+        public var sourceEndpointArn: String? = nil
         /// Table mappings specified in the task.
-        var tableMappings: String? = nil
+        public var tableMappings: String? = nil
         /// The Amazon Resource Name (ARN) of the replication task.
-        var replicationTaskArn: String? = nil
+        public var replicationTaskArn: String? = nil
         /// The status of the replication task.
-        var status: String? = nil
+        public var status: String? = nil
         /// The reason the replication task was stopped.
-        var stopReason: String? = nil
+        public var stopReason: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String? = nil
+        public var replicationInstanceArn: String? = nil
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        var replicationTaskIdentifier: String? = nil
+        public var replicationTaskIdentifier: String? = nil
         /// The type of migration.
-        var migrationType: String? = nil
+        public var migrationType: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var targetEndpointArn: String? = nil
+        public var targetEndpointArn: String? = nil
         /// The settings for the replication task.
-        var replicationTaskSettings: String? = nil
+        public var replicationTaskSettings: String? = nil
 
         public init() {}
 
@@ -1217,9 +1345,11 @@ extension Dms {
 
     }
 
-    public struct RefreshSchemasResponse: Serializable, Initializable {
+    public struct RefreshSchemasResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the refreshed schema.
-        var refreshSchemasStatus: RefreshSchemasStatus? = nil
+        public var refreshSchemasStatus: RefreshSchemasStatus? = nil
 
         public init() {}
 
@@ -1229,9 +1359,11 @@ extension Dms {
 
     }
 
-    public struct DeleteCertificateMessage: Serializable, Initializable {
+    public struct DeleteCertificateMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the deleted certificate.
-        var certificateArn: String = ""
+        public var certificateArn: String = ""
 
         public init() {}
 
@@ -1241,9 +1373,11 @@ extension Dms {
 
     }
 
-    public struct DescribeRefreshSchemasStatusResponse: Serializable, Initializable {
+    public struct DescribeRefreshSchemasStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the schema.
-        var refreshSchemasStatus: RefreshSchemasStatus? = nil
+        public var refreshSchemasStatus: RefreshSchemasStatus? = nil
 
         public init() {}
 
@@ -1253,13 +1387,15 @@ extension Dms {
 
     }
 
-    public struct DescribeSchemasMessage: Serializable, Initializable {
+    public struct DescribeSchemasMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String = ""
+        public var endpointArn: String = ""
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
 
         public init() {}
 
@@ -1271,9 +1407,11 @@ extension Dms {
 
     }
 
-    public struct StopReplicationTaskMessage: Serializable, Initializable {
+    public struct StopReplicationTaskMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Number(ARN) of the replication task to be stopped.
-        var replicationTaskArn: String = ""
+        public var replicationTaskArn: String = ""
 
         public init() {}
 
@@ -1283,11 +1421,13 @@ extension Dms {
 
     }
 
-    public struct DescribeReplicationTasksResponse: Serializable, Initializable {
+    public struct DescribeReplicationTasksResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A description of the replication tasks.
-        var replicationTasks: [ReplicationTask]? = nil
+        public var replicationTasks: [ReplicationTask]? = nil
 
         public init() {}
 
@@ -1298,11 +1438,13 @@ extension Dms {
 
     }
 
-    public struct AddTagsToResourceMessage: Serializable, Initializable {
+    public struct AddTagsToResourceMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The tag to be assigned to the DMS resource.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -1313,13 +1455,15 @@ extension Dms {
 
     }
 
-    public struct DescribeConnectionsMessage: Serializable, Initializable {
+    public struct DescribeConnectionsMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
-        var filters: [Filter]? = nil
+        public var filters: [Filter]? = nil
 
         public init() {}
 
@@ -1331,15 +1475,19 @@ extension Dms {
 
     }
 
-    public struct DeleteReplicationSubnetGroupResponse: Serializable, Initializable {
+    public struct DeleteReplicationSubnetGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteReplicationSubnetGroupMessage: Serializable, Initializable {
+    public struct DeleteReplicationSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The subnet group name of the replication instance.
-        var replicationSubnetGroupIdentifier: String = ""
+        public var replicationSubnetGroupIdentifier: String = ""
 
         public init() {}
 
@@ -1349,15 +1497,17 @@ extension Dms {
 
     }
 
-    public struct ReplicationPendingModifiedValues: Serializable, Initializable {
+    public struct ReplicationPendingModifiedValues: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The engine version number of the replication instance.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        var replicationInstanceClass: String? = nil
+        public var replicationInstanceClass: String? = nil
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
 
         public init() {}
 
@@ -1370,49 +1520,51 @@ extension Dms {
 
     }
 
-    public struct ReplicationInstance: Serializable, Initializable {
+    public struct ReplicationInstance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time the replication instance was created.
-        var instanceCreateTime: Date? = nil
+        public var instanceCreateTime: Date? = nil
         /// The pending modification values.
-        var pendingModifiedValues: ReplicationPendingModifiedValues? = nil
+        public var pendingModifiedValues: ReplicationPendingModifiedValues? = nil
         /// The status of the replication instance.
-        var replicationInstanceStatus: String? = nil
+        public var replicationInstanceStatus: String? = nil
         /// The VPC security group for the instance.
-        var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        var multiAZ: Bool? = nil
+        public var multiAZ: Bool? = nil
         /// The public IP address of the replication instance.
-        var replicationInstancePublicIpAddresses: [String]? = nil
+        public var replicationInstancePublicIpAddresses: [String]? = nil
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        var allocatedStorage: Int32? = nil
+        public var allocatedStorage: Int32? = nil
         /// The subnet group for the replication instance.
-        var replicationSubnetGroup: ReplicationSubnetGroup? = nil
+        public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
         /// The private IP address of the replication instance.
-        var replicationInstancePrivateIpAddress: String? = nil
+        public var replicationInstancePrivateIpAddress: String? = nil
         /// The Availability Zone for the instance.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        var publiclyAccessible: Bool? = nil
+        public var publiclyAccessible: Bool? = nil
         /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
-        var autoMinorVersionUpgrade: Bool? = nil
+        public var autoMinorVersionUpgrade: Bool? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
-        var replicationInstanceIdentifier: String? = nil
+        public var replicationInstanceIdentifier: String? = nil
         /// The private IP address of the replication instance.
-        var replicationInstancePrivateIpAddresses: [String]? = nil
+        public var replicationInstancePrivateIpAddresses: [String]? = nil
         /// The engine version number of the replication instance.
-        var engineVersion: String? = nil
+        public var engineVersion: String? = nil
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        var replicationInstanceClass: String? = nil
+        public var replicationInstanceClass: String? = nil
         /// The maintenance window times for the replication instance.
-        var preferredMaintenanceWindow: String? = nil
+        public var preferredMaintenanceWindow: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String? = nil
+        public var replicationInstanceArn: String? = nil
         /// The public IP address of the replication instance.
-        var replicationInstancePublicIpAddress: String? = nil
+        public var replicationInstancePublicIpAddress: String? = nil
         /// The availability zone of the standby replication instance in a Multi-AZ deployment.
-        var secondaryAvailabilityZone: String? = nil
+        public var secondaryAvailabilityZone: String? = nil
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        var kmsKeyId: String? = nil
+        public var kmsKeyId: String? = nil
 
         public init() {}
 
@@ -1442,9 +1594,11 @@ extension Dms {
 
     }
 
-    public struct ImportCertificateResponse: Serializable, Initializable {
+    public struct ImportCertificateResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The certificate to be uploaded.
-        var certificate: Certificate? = nil
+        public var certificate: Certificate? = nil
 
         public init() {}
 
@@ -1454,11 +1608,13 @@ extension Dms {
 
     }
 
-    public struct DescribeEndpointsResponse: Serializable, Initializable {
+    public struct DescribeEndpointsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Endpoint description.
-        var endpoints: [Endpoint]? = nil
+        public var endpoints: [Endpoint]? = nil
 
         public init() {}
 
@@ -1469,31 +1625,33 @@ extension Dms {
 
     }
 
-    public struct ModifyEndpointMessage: Serializable, Initializable {
+    public struct ModifyEndpointMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of endpoint.
-        var endpointType: String? = nil
+        public var endpointType: String? = nil
         /// The name of the server where the endpoint database resides.
-        var serverName: String? = nil
+        public var serverName: String? = nil
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        var endpointIdentifier: String? = nil
+        public var endpointIdentifier: String? = nil
         /// The user name to be used to login to the endpoint database.
-        var username: String? = nil
+        public var username: String? = nil
         /// The name of the endpoint database.
-        var databaseName: String? = nil
+        public var databaseName: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var endpointArn: String = ""
+        public var endpointArn: String = ""
         /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        var sslMode: String? = nil
+        public var sslMode: String? = nil
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-        var certificateArn: String? = nil
+        public var certificateArn: String? = nil
         /// The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        var engineName: String? = nil
+        public var engineName: String? = nil
         /// The password to be used to login to the endpoint database.
-        var password: String? = nil
+        public var password: String? = nil
         /// The port used by the endpoint database.
-        var port: Int32? = nil
+        public var port: Int32? = nil
         /// Additional attributes associated with the connection.
-        var extraConnectionAttributes: String? = nil
+        public var extraConnectionAttributes: String? = nil
 
         public init() {}
 
@@ -1514,11 +1672,13 @@ extension Dms {
 
     }
 
-    public struct DescribeOrderableReplicationInstancesMessage: Serializable, Initializable {
+    public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        var maxRecords: Int32? = nil
+        public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1529,11 +1689,13 @@ extension Dms {
 
     }
 
-    public struct VpcSecurityGroupMembership: Serializable, Initializable {
+    public struct VpcSecurityGroupMembership: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the VPC security group.
-        var status: String? = nil
+        public var status: String? = nil
         /// The VPC security group Id.
-        var vpcSecurityGroupId: String? = nil
+        public var vpcSecurityGroupId: String? = nil
 
         public init() {}
 
@@ -1544,25 +1706,27 @@ extension Dms {
 
     }
 
-    public struct CreateReplicationTaskMessage: Serializable, Initializable {
+    public struct CreateReplicationTaskMessage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
-        var tableMappings: String = ""
+        public var tableMappings: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var sourceEndpointArn: String = ""
+        public var sourceEndpointArn: String = ""
         /// Tags to be added to the replication instance.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        var replicationInstanceArn: String = ""
+        public var replicationInstanceArn: String = ""
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        var replicationTaskIdentifier: String = ""
+        public var replicationTaskIdentifier: String = ""
         /// The migration type.
-        var migrationType: String = ""
+        public var migrationType: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        var targetEndpointArn: String = ""
+        public var targetEndpointArn: String = ""
         /// The start time for the Change Data Capture (CDC) operation.
-        var cdcStartTime: Date? = nil
+        public var cdcStartTime: Date? = nil
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
-        var replicationTaskSettings: String? = nil
+        public var replicationTaskSettings: String? = nil
 
         public init() {}
 
@@ -1580,11 +1744,13 @@ extension Dms {
 
     }
 
-    public struct Filter: Serializable, Initializable {
+    public struct Filter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the filter.
-        var name: String = ""
+        public var name: String = ""
         /// The filter value.
-        var values: [String] = []
+        public var values: [String] = []
 
         public init() {}
 
@@ -1595,11 +1761,13 @@ extension Dms {
 
     }
 
-    public struct DescribeReplicationInstancesResponse: Serializable, Initializable {
+    public struct DescribeReplicationInstancesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The replication instances described.
-        var replicationInstances: [ReplicationInstance]? = nil
+        public var replicationInstances: [ReplicationInstance]? = nil
 
         public init() {}
 

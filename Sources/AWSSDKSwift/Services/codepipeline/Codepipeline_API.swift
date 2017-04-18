@@ -32,165 +32,150 @@ AWS CodePipeline  Overview  This is the AWS CodePipeline API Reference. This gui
 */
 public struct Codepipeline {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "CodePipeline_20150709",
             service: "codepipeline",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CodepipelineError.self]
         )
     }
 
     ///  Returns information about any jobs for AWS CodePipeline to act upon.  When this API is called, AWS CodePipeline returns temporary credentials for the Amazon S3 bucket used to store artifacts for the pipeline, if the action requires access to that Amazon S3 bucket for input or output artifacts. Additionally, this API returns any secret values defined for the action. 
     public func pollForJobs(_ input: PollForJobsInput) throws -> PollForJobsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PollForJobs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PollForJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
     public func disableStageTransition(_ input: DisableStageTransitionInput) throws {
-        _ = try request.invoke(operation: "DisableStageTransition", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DisableStageTransition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms a job worker has received the specified job. Only used for partner actions.
     public func acknowledgeThirdPartyJob(_ input: AcknowledgeThirdPartyJobInput) throws -> AcknowledgeThirdPartyJobOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AcknowledgeThirdPartyJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AcknowledgeThirdPartyJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests the details of a job for a third party action. Only used for partner actions.  When this API is called, AWS CodePipeline returns temporary credentials for the Amazon S3 bucket used to store artifacts for the pipeline, if the action requires access to that Amazon S3 bucket for input or output artifacts. Additionally, this API returns any secret values defined for the action. 
     public func getThirdPartyJobDetails(_ input: GetThirdPartyJobDetailsInput) throws -> GetThirdPartyJobDetailsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetThirdPartyJobDetails", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetThirdPartyJobDetails", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the state of a pipeline, including the stages and actions.
     public func getPipelineState(_ input: GetPipelineStateInput) throws -> GetPipelineStateOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetPipelineState", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetPipelineState", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a specified job and whether that job has been received by the job worker. Only used for custom actions.
     public func acknowledgeJob(_ input: AcknowledgeJobInput) throws -> AcknowledgeJobOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AcknowledgeJob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AcknowledgeJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new custom action that can be used in all pipelines associated with the AWS account. Only used for custom actions.
     public func createCustomActionType(_ input: CreateCustomActionTypeInput) throws -> CreateCustomActionTypeOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateCustomActionType", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateCustomActionType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Determines whether there are any third party jobs for a job worker to act on. Only used for partner actions.  When this API is called, AWS CodePipeline returns temporary credentials for the Amazon S3 bucket used to store artifacts for the pipeline, if the action requires access to that Amazon S3 bucket for input or output artifacts. 
     public func pollForThirdPartyJobs(_ input: PollForThirdPartyJobsInput) throws -> PollForThirdPartyJobsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PollForThirdPartyJobs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PollForThirdPartyJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides the response to a manual approval request to AWS CodePipeline. Valid responses include Approved and Rejected.
     public func putApprovalResult(_ input: PutApprovalResultInput) throws -> PutApprovalResultOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutApprovalResult", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutApprovalResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
     public func getPipelineExecution(_ input: GetPipelineExecutionInput) throws -> GetPipelineExecutionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetPipelineExecution", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetPipelineExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a job. Only used for custom actions.  When this API is called, AWS CodePipeline returns temporary credentials for the Amazon S3 bucket used to store artifacts for the pipeline, if the action requires access to that Amazon S3 bucket for input or output artifacts. Additionally, this API returns any secret values defined for the action. 
     public func getJobDetails(_ input: GetJobDetailsInput) throws -> GetJobDetailsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetJobDetails", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetJobDetails", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with UpdatePipeline.
     public func getPipeline(_ input: GetPipelineInput) throws -> GetPipelineOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetPipeline", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetPipeline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a summary of all of the pipelines associated with your account.
     public func listPipelines(_ input: ListPipelinesInput) throws -> ListPipelinesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPipelines", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPipelines", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure in conjunction with UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
     public func updatePipeline(_ input: UpdatePipelineInput) throws -> UpdatePipelineOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdatePipeline", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdatePipeline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides information to AWS CodePipeline about new revisions to a source.
     public func putActionRevision(_ input: PutActionRevisionInput) throws -> PutActionRevisionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutActionRevision", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutActionRevision", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a pipeline.
     public func createPipeline(_ input: CreatePipelineInput) throws -> CreatePipelineOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePipeline", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePipeline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Marks a custom action as deleted. PollForJobs for the custom action will fail after the action is marked for deletion. Only used for custom actions.  You cannot recreate a custom action after it has been deleted unless you increase the version number of the action. 
     public func deleteCustomActionType(_ input: DeleteCustomActionTypeInput) throws {
-        _ = try request.invoke(operation: "DeleteCustomActionType", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteCustomActionType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables artifacts in a pipeline to transition to a stage in a pipeline.
     public func enableStageTransition(_ input: EnableStageTransitionInput) throws {
-        _ = try request.invoke(operation: "EnableStageTransition", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "EnableStageTransition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified pipeline.
     public func deletePipeline(_ input: DeletePipelineInput) throws {
-        _ = try request.invoke(operation: "DeletePipeline", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeletePipeline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resumes the pipeline execution by retrying the last failed actions in a stage.
     public func retryStageExecution(_ input: RetryStageExecutionInput) throws -> RetryStageExecutionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RetryStageExecution", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RetryStageExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the success of a third party job as returned to the pipeline by a job worker. Only used for partner actions.
     public func putThirdPartyJobSuccessResult(_ input: PutThirdPartyJobSuccessResultInput) throws {
-        _ = try request.invoke(operation: "PutThirdPartyJobSuccessResult", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutThirdPartyJobSuccessResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the failure of a third party job as returned to the pipeline by a job worker. Only used for partner actions.
     public func putThirdPartyJobFailureResult(_ input: PutThirdPartyJobFailureResultInput) throws {
-        _ = try request.invoke(operation: "PutThirdPartyJobFailureResult", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutThirdPartyJobFailureResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a summary of all AWS CodePipeline action types associated with your account.
     public func listActionTypes(_ input: ListActionTypesInput) throws -> ListActionTypesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListActionTypes", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListActionTypes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
     public func startPipelineExecution(_ input: StartPipelineExecutionInput) throws -> StartPipelineExecutionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartPipelineExecution", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodepipelineResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartPipelineExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the success of a job as returned to the pipeline by a job worker. Only used for custom actions.
     public func putJobSuccessResult(_ input: PutJobSuccessResultInput) throws {
-        _ = try request.invoke(operation: "PutJobSuccessResult", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutJobSuccessResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the failure of a job as returned to the pipeline by a job worker. Only used for custom actions.
     public func putJobFailureResult(_ input: PutJobFailureResultInput) throws {
-        _ = try request.invoke(operation: "PutJobFailureResult", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "PutJobFailureResult", path: "/", httpMethod: "POST", input: input)
     }
 
 

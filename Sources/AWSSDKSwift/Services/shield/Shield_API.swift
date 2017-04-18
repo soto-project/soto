@@ -32,71 +32,65 @@ AWS Shield Advanced This is the AWS Shield Advanced API Reference. This guide is
 */
 public struct Shield {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSShield_20160616",
             service: "shield",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [ShieldError.self]
         )
     }
 
     ///  Activates AWS Shield Advanced for an account.
     public func createSubscription(_ input: CreateSubscriptionRequest) throws -> CreateSubscriptionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
     public func listAttacks(_ input: ListAttacksRequest) throws -> ListAttacksResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListAttacks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListAttacks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the details of a DDoS attack. 
     public func describeAttack(_ input: DescribeAttackRequest) throws -> DescribeAttackResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeAttack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeAttack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, or an Amazon Route 53 hosted zone.
     public func createProtection(_ input: CreateProtectionRequest) throws -> CreateProtectionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateProtection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the details of a Protection object.
     public func describeProtection(_ input: DescribeProtectionRequest) throws -> DescribeProtectionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeProtection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeProtection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Shield Advanced Protection.
     public func deleteProtection(_ input: DeleteProtectionRequest) throws -> DeleteProtectionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteProtection", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteProtection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides details about the AWS Shield Advanced subscription for an account.
     public func describeSubscription(_ input: DescribeSubscriptionRequest) throws -> DescribeSubscriptionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes AWS Shield Advanced from an account.
     public func deleteSubscription(_ input: DeleteSubscriptionRequest) throws -> DeleteSubscriptionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteSubscription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all Protection objects for the account.
     public func listProtections(_ input: ListProtectionsRequest) throws -> ListProtectionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListProtections", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ShieldResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListProtections", path: "/", httpMethod: "POST", input: input)
     }
 
 

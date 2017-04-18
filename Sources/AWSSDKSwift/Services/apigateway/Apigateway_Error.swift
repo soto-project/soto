@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Apigateway
-public enum ApigatewayError: Error {
+public enum ApigatewayError: AWSErrorType {
     case unauthorizedException(message: String?)
     case badRequestException(message: String?)
     case conflictException(message: String?)

@@ -32,83 +32,75 @@ AWS CodeBuild AWS CodeBuild is a fully managed build service in the cloud. AWS C
 */
 public struct Codebuild {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "CodeBuild_20161006",
             service: "codebuild",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CodebuildError.self]
         )
     }
 
     ///  Gets information about Docker images that are managed by AWS CodeBuild.
     public func listCuratedEnvironmentImages(_ input: ListCuratedEnvironmentImagesInput) throws -> ListCuratedEnvironmentImagesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListCuratedEnvironmentImages", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListCuratedEnvironmentImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts running a build.
     public func startBuild(_ input: StartBuildInput) throws -> StartBuildOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartBuild", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about builds.
     public func batchGetBuilds(_ input: BatchGetBuildsInput) throws -> BatchGetBuildsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetBuilds", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build IDs for the specified build project, with each build ID representing a single build.
     public func listBuildsForProject(_ input: ListBuildsForProjectInput) throws -> ListBuildsForProjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBuildsForProject", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBuildsForProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
     public func listBuilds(_ input: ListBuildsInput) throws -> ListBuildsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBuilds", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to stop running a build.
     public func stopBuild(_ input: StopBuildInput) throws -> StopBuildOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopBuild", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build project names, with each build project name representing a single build project.
     public func listProjects(_ input: ListProjectsInput) throws -> ListProjectsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListProjects", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListProjects", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a build project.
     public func deleteProject(_ input: DeleteProjectInput) throws -> DeleteProjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteProject", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the settings of a build project.
     public func updateProject(_ input: UpdateProjectInput) throws -> UpdateProjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateProject", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a build project.
     public func createProject(_ input: CreateProjectInput) throws -> CreateProjectOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateProject", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about build projects.
     public func batchGetProjects(_ input: BatchGetProjectsInput) throws -> BatchGetProjectsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetProjects", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodebuildResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetProjects", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cur
-public enum CurError: Error {
+public enum CurError: AWSErrorType {
     case internalErrorException(message: String?)
     case duplicateReportNameException(message: String?)
     case reportLimitReachedException(message: String?)

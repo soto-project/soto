@@ -32,115 +32,105 @@ AWS CodeCommit This is the AWS CodeCommit API Reference. This reference provides
 */
 public struct Codecommit {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "CodeCommit_20150413",
             service: "codecommit",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CodecommitError.self]
         )
     }
 
     ///  Creates a new branch in a repository and points the branch to a commit.  Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation. 
     public func createBranch(_ input: CreateBranchInput) throws {
-        _ = try request.invoke(operation: "CreateBranch", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "CreateBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference). Results can be limited to a specified path.
     public func getDifferences(_ input: GetDifferencesInput) throws -> GetDifferencesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDifferences", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDifferences", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new, empty repository.
     public func createRepository(_ input: CreateRepositoryInput) throws -> CreateRepositoryOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateRepository", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets or changes the comment or description for a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
     public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput) throws {
-        _ = try request.invoke(operation: "UpdateRepositoryDescription", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateRepositoryDescription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more branches in a repository.
     public func listBranches(_ input: ListBranchesInput) throws -> ListBranchesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListBranches", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListBranches", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets or changes the default branch name for the specified repository.  If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change. 
     public func updateDefaultBranch(_ input: UpdateDefaultBranchInput) throws {
-        _ = try request.invoke(operation: "UpdateDefaultBranch", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateDefaultBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more repositories.
     public func listRepositories(_ input: ListRepositoriesInput) throws -> ListRepositoriesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListRepositories", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListRepositories", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test will send data from the last commit. If no data is available, sample data will be generated.
     public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput) throws -> TestRepositoryTriggersOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TestRepositoryTriggers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TestRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a repository. If a specified repository was already deleted, a null repository ID will be returned. Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository will fail. 
     public func deleteRepository(_ input: DeleteRepositoryInput) throws -> DeleteRepositoryOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteRepository", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces all triggers for a repository. This can be used to create or delete triggers.
     public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput) throws -> PutRepositoryTriggersOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutRepositoryTriggers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a commit, including commit message and committer information.
     public func getCommit(_ input: GetCommitInput) throws -> GetCommitOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetCommit", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about triggers configured for a repository.
     public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput) throws -> GetRepositoryTriggersOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetRepositoryTriggers", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a repository branch, including its name and the last commit ID.
     public func getBranch(_ input: GetBranchInput) throws -> GetBranchOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBranch", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Renames a repository. The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix ".git" is prohibited. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide.
     public func updateRepositoryName(_ input: UpdateRepositoryNameInput) throws {
-        _ = try request.invoke(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
     public func getRepository(_ input: GetRepositoryInput) throws -> GetRepositoryOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetRepository", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the base-64 encoded content of an individual blob within a repository.
     public func getBlob(_ input: GetBlobInput) throws -> GetBlobOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBlob", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBlob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about one or more repositories.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
     public func batchGetRepositories(_ input: BatchGetRepositoriesInput) throws -> BatchGetRepositoriesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetRepositories", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodecommitResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetRepositories", path: "/", httpMethod: "POST", input: input)
     }
 
 

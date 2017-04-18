@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Runtimelex
-public enum RuntimelexError: Error {
+public enum RuntimelexError: AWSErrorType {
     case notFoundException(message: String?)
     case badRequestException(message: String?)
     case limitExceededException(message: String?)

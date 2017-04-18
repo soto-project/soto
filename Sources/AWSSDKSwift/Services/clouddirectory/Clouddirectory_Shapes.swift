@@ -29,15 +29,17 @@ import Core
 
 extension Clouddirectory {
 
-    public struct FacetAttribute: Serializable, Initializable {
+    public struct FacetAttribute: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information.
-        var attributeDefinition: FacetAttributeDefinition? = nil
+        public var attributeDefinition: FacetAttributeDefinition? = nil
         /// Attribute reference associated with the attribute. See Attribute References for more information.
-        var attributeReference: FacetAttributeReference? = nil
+        public var attributeReference: FacetAttributeReference? = nil
         /// The name of the facet attribute.
-        var name: String = ""
+        public var name: String = ""
         /// The required behavior of the FacetAttribute.
-        var requiredBehavior: String? = nil
+        public var requiredBehavior: String? = nil
 
         public init() {}
 
@@ -50,11 +52,13 @@ extension Clouddirectory {
 
     }
 
-    public struct TagResourceRequest: Serializable, Initializable {
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the resource. Tagging is only supported for directories.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// List of tag key value pairs.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -65,9 +69,11 @@ extension Clouddirectory {
 
     }
 
-    public struct UpdateSchemaResponse: Serializable, Initializable {
+    public struct UpdateSchemaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN associated with the updated schema. For more information, see arns.
-        var schemaArn: String? = nil
+        public var schemaArn: String? = nil
 
         public init() {}
 
@@ -77,11 +83,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectChildrenResponse: Serializable, Initializable {
+    public struct ListObjectChildrenResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
-        var children: [String: String]? = nil
+        public var children: [String: String]? = nil
 
         public init() {}
 
@@ -92,11 +100,13 @@ extension Clouddirectory {
 
     }
 
-    public struct Rule: Serializable, Initializable {
+    public struct Rule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of attribute validation rule.
-        var type: String? = nil
+        public var type: String? = nil
         /// Min and max parameters associated with the rule.
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
 
         public init() {}
 
@@ -107,9 +117,14 @@ extension Clouddirectory {
 
     }
 
-    public struct GetDirectoryRequest: Serializable, Initializable {
+    public struct GetDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// The ARN of the directory.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -119,21 +134,25 @@ extension Clouddirectory {
 
     }
 
-    public struct AddFacetToObjectResponse: Serializable, Initializable {
+    public struct AddFacetToObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct TypedAttributeValueRange: Serializable, Initializable {
+    public struct TypedAttributeValueRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attribute value to terminate the range at.
-        var endValue: TypedAttributeValue? = nil
+        public var endValue: TypedAttributeValue? = nil
         /// Inclusive or exclusive range end.
-        var endMode: String = ""
+        public var endMode: String = ""
         /// The value to start the range at.
-        var startValue: TypedAttributeValue? = nil
+        public var startValue: TypedAttributeValue? = nil
         /// Inclusive or exclusive range start.
-        var startMode: String = ""
+        public var startMode: String = ""
 
         public init() {}
 
@@ -146,11 +165,13 @@ extension Clouddirectory {
 
     }
 
-    public struct GetSchemaAsJsonResponse: Serializable, Initializable {
+    public struct GetSchemaAsJsonResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON representation of the schema document.
-        var document: String? = nil
+        public var document: String? = nil
         /// The name of the retrieved schema.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -161,15 +182,20 @@ extension Clouddirectory {
 
     }
 
-    public struct AddFacetToObjectRequest: Serializable, Initializable {
+    public struct AddFacetToObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Identifiers for the facet that you are adding to the object.
-        var schemaFacet: SchemaFacet = SchemaFacet()
+        public var schemaFacet: SchemaFacet = SchemaFacet()
         /// Attributes on the facet you are adding to the object.
-        var objectAttributeList: [AttributeKeyAndValue]? = nil
+        public var objectAttributeList: [AttributeKeyAndValue]? = nil
         /// A reference to the object you are adding the specified facet to.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -182,11 +208,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListDevelopmentSchemaArnsRequest: Serializable, Initializable {
+    public struct ListDevelopmentSchemaArnsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to retrieve.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -197,15 +225,17 @@ extension Clouddirectory {
 
     }
 
-    public struct Directory: Serializable, Initializable {
+    public struct Directory: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time when the directory was created.
-        var creationDateTime: Date? = nil
+        public var creationDateTime: Date? = nil
         /// ARN associated with the directory. For more information, see arns.
-        var directoryArn: String? = nil
+        public var directoryArn: String? = nil
         /// The name of the directory.
-        var name: String? = nil
+        public var name: String? = nil
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
-        var state: String? = nil
+        public var state: String? = nil
 
         public init() {}
 
@@ -218,11 +248,13 @@ extension Clouddirectory {
 
     }
 
-    public struct LookupPolicyResponse: Serializable, Initializable {
+    public struct LookupPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType.
-        var policyToPathList: [PolicyToPath]? = nil
+        public var policyToPathList: [PolicyToPath]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -233,15 +265,19 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchRemoveFacetFromObjectResponse: Serializable, Initializable {
+    public struct BatchRemoveFacetFromObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateSchemaResponse: Serializable, Initializable {
+    public struct CreateSchemaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN associated with the schema. For more information, see arns.
-        var schemaArn: String? = nil
+        public var schemaArn: String? = nil
 
         public init() {}
 
@@ -251,13 +287,18 @@ extension Clouddirectory {
 
     }
 
-    public struct RemoveFacetFromObjectRequest: Serializable, Initializable {
+    public struct RemoveFacetFromObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// The facet to remove.
-        var schemaFacet: SchemaFacet = SchemaFacet()
+        public var schemaFacet: SchemaFacet = SchemaFacet()
         /// A reference to the object to remove the facet from.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// The ARN of the directory in which the object resides.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -269,11 +310,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ObjectAttributeRange: Serializable, Initializable {
+    public struct ObjectAttributeRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The range of attribute values being selected.
-        var range: TypedAttributeValueRange? = nil
+        public var range: TypedAttributeValueRange? = nil
         /// The key of the attribute the attribute range covers.
-        var attributeKey: AttributeKey? = nil
+        public var attributeKey: AttributeKey? = nil
 
         public init() {}
 
@@ -284,21 +327,23 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchWriteOperationResponse: Serializable, Initializable {
+    public struct BatchWriteOperationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Result of an add facet to object batch operation.
-        var addFacetToObject: BatchAddFacetToObjectResponse? = nil
+        public var addFacetToObject: BatchAddFacetToObjectResponse? = nil
         /// Updates a given object’s attributes.
-        var updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil
+        public var updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil
         /// Detaches an object from a Directory.
-        var detachObject: BatchDetachObjectResponse? = nil
+        public var detachObject: BatchDetachObjectResponse? = nil
         /// Attaches an object to a Directory.
-        var attachObject: BatchAttachObjectResponse? = nil
+        public var attachObject: BatchAttachObjectResponse? = nil
         /// Creates an object in a Directory.
-        var createObject: BatchCreateObjectResponse? = nil
+        public var createObject: BatchCreateObjectResponse? = nil
         /// Deletes an object in a Directory.
-        var deleteObject: BatchDeleteObjectResponse? = nil
+        public var deleteObject: BatchDeleteObjectResponse? = nil
         /// Result of a batch remove facet from object operation.
-        var removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil
+        public var removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil
 
         public init() {}
 
@@ -314,11 +359,13 @@ extension Clouddirectory {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Value associated with the tag.
-        var value: String? = nil
+        public var value: String? = nil
         /// Key associated with the tag.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -329,11 +376,16 @@ extension Clouddirectory {
 
     }
 
-    public struct ApplySchemaRequest: Serializable, Initializable {
+    public struct ApplySchemaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Published schema ARN that needs to be copied. For more information, see arns.
-        var publishedSchemaArn: String = ""
+        public var publishedSchemaArn: String = ""
         /// ARN associated with the Directory into which the schema is copied. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -344,19 +396,24 @@ extension Clouddirectory {
 
     }
 
-    public struct ListIndexRequest: Serializable, Initializable {
+    public struct ListIndexRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// The reference to the index to list.
-        var indexReference: ObjectReference = ObjectReference()
+        public var indexReference: ObjectReference = ObjectReference()
         /// The ARN of the directory that the index exists in.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// The consistency level to execute the request at.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// Specifies the ranges of indexed values that you want to query.
-        var rangesOnIndexedValues: [ObjectAttributeRange]? = nil
+        public var rangesOnIndexedValues: [ObjectAttributeRange]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to retrieve from the index.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -371,13 +428,18 @@ extension Clouddirectory {
 
     }
 
-    public struct AttachToIndexRequest: Serializable, Initializable {
+    public struct AttachToIndexRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// A reference to the object that you are attaching to the index.
-        var targetReference: ObjectReference = ObjectReference()
+        public var targetReference: ObjectReference = ObjectReference()
         /// A reference to the index that you are attaching the object to.
-        var indexReference: ObjectReference = ObjectReference()
+        public var indexReference: ObjectReference = ObjectReference()
         /// The ARN of the directory where the object and index exist.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -389,11 +451,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchListObjectAttributesResponse: Serializable, Initializable {
+    public struct BatchListObjectAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Attributes map associated with the object. AttributeArn is the key; attribute value is the value.
-        var attributes: [AttributeKeyAndValue]? = nil
+        public var attributes: [AttributeKeyAndValue]? = nil
 
         public init() {}
 
@@ -404,9 +468,14 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteDirectoryRequest: Serializable, Initializable {
+    public struct DeleteDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// The ARN of the directory to delete.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -416,15 +485,19 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteFacetResponse: Serializable, Initializable {
+    public struct DeleteFacetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct BatchWriteResponse: Serializable, Initializable {
+    public struct BatchWriteResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of all the responses for each batch write.
-        var responses: [BatchWriteOperationResponse]? = nil
+        public var responses: [BatchWriteOperationResponse]? = nil
 
         public init() {}
 
@@ -434,9 +507,11 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteDirectoryResponse: Serializable, Initializable {
+    public struct DeleteDirectoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the deleted directory.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -446,15 +521,20 @@ extension Clouddirectory {
 
     }
 
-    public struct AttachObjectRequest: Serializable, Initializable {
+    public struct AttachObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Parent object reference.
-        var parentReference: ObjectReference = ObjectReference()
+        public var parentReference: ObjectReference = ObjectReference()
         /// Child object reference to be attached to the object.
-        var childReference: ObjectReference = ObjectReference()
+        public var childReference: ObjectReference = ObjectReference()
         /// ARN associated with the Directory where both objects reside. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Link name with which the child object is attached to the parent.
-        var linkName: String = ""
+        public var linkName: String = ""
 
         public init() {}
 
@@ -467,13 +547,18 @@ extension Clouddirectory {
 
     }
 
-    public struct GetObjectInformationRequest: Serializable, Initializable {
+    public struct GetObjectInformationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// The consistency level at which to retrieve the object information.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// A reference to the object.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// The ARN of the directory being retrieved.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -485,23 +570,30 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteObjectResponse: Serializable, Initializable {
+    public struct DeleteObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListAttachedIndicesRequest: Serializable, Initializable {
+    public struct ListAttachedIndicesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// The ARN of the directory.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// A reference to the object to that has indices attached.
-        var targetReference: ObjectReference = ObjectReference()
+        public var targetReference: ObjectReference = ObjectReference()
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The consistency level to use for this operation.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// The maximum number of results to retrieve.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -515,9 +607,11 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateIndexResponse: Serializable, Initializable {
+    public struct CreateIndexResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ObjectIdentifier of the index created by this operation.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -527,13 +621,15 @@ extension Clouddirectory {
 
     }
 
-    public struct PolicyAttachment: Serializable, Initializable {
+    public struct PolicyAttachment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of policy that can be associated with PolicyAttachment.
-        var policyType: String? = nil
+        public var policyType: String? = nil
         /// The ObjectIdentifier associated with PolicyAttachment.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
         /// The ID of PolicyAttachment.
-        var policyId: String? = nil
+        public var policyId: String? = nil
 
         public init() {}
 
@@ -545,11 +641,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListAppliedSchemaArnsResponse: Serializable, Initializable {
+    public struct ListAppliedSchemaArnsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARNs of schemas that are applied to the directory.
-        var schemaArns: [String]? = nil
+        public var schemaArns: [String]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -560,9 +658,11 @@ extension Clouddirectory {
 
     }
 
-    public struct EnableDirectoryResponse: Serializable, Initializable {
+    public struct EnableDirectoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the enabled directory.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -572,13 +672,15 @@ extension Clouddirectory {
 
     }
 
-    public struct ListTagsForResourceRequest: Serializable, Initializable {
+    public struct ListTagsForResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the resource. Tagging is only supported for directories.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// The pagination token. This is for future use. Currently pagination is not supported for tagging.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -590,11 +692,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListTagsForResourceResponse: Serializable, Initializable {
+    public struct ListTagsForResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// List of tag key value pairs associated with the response.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
 
         public init() {}
 
@@ -605,11 +709,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListPolicyAttachmentsResponse: Serializable, Initializable {
+    public struct ListPolicyAttachmentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// List of ObjectIdentifiers to which the policy is attached.
-        var objectIdentifiers: [String]? = nil
+        public var objectIdentifiers: [String]? = nil
 
         public init() {}
 
@@ -620,17 +726,22 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectParentsRequest: Serializable, Initializable {
+    public struct ListObjectParentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reference that identifies the object for which parent objects are being listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -644,11 +755,16 @@ extension Clouddirectory {
 
     }
 
-    public struct PutSchemaFromJsonRequest: Serializable, Initializable {
+    public struct PutSchemaFromJsonRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// The replacement JSON schema.
-        var document: String = ""
+        public var document: String = ""
         /// The ARN of the schema to update.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -659,13 +775,15 @@ extension Clouddirectory {
 
     }
 
-    public struct ListAppliedSchemaArnsRequest: Serializable, Initializable {
+    public struct ListAppliedSchemaArnsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of results to retrieve.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ARN of the directory you are listing.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -677,11 +795,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ObjectAttributeAction: Serializable, Initializable {
+    public struct ObjectAttributeAction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Type can be either Update or Delete.
-        var objectAttributeActionType: String? = nil
+        public var objectAttributeActionType: String? = nil
         /// The value that you want to update to.
-        var objectAttributeUpdateValue: TypedAttributeValue? = nil
+        public var objectAttributeUpdateValue: TypedAttributeValue? = nil
 
         public init() {}
 
@@ -692,13 +812,18 @@ extension Clouddirectory {
 
     }
 
-    public struct DetachObjectRequest: Serializable, Initializable {
+    public struct DetachObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Link name associated with the object that needs to be detached.
-        var linkName: String = ""
+        public var linkName: String = ""
         /// Parent reference from which the object with the specified link name is detached.
-        var parentReference: ObjectReference = ObjectReference()
+        public var parentReference: ObjectReference = ObjectReference()
         /// ARN associated with the Directory where objects reside. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -710,13 +835,18 @@ extension Clouddirectory {
 
     }
 
-    public struct DetachPolicyRequest: Serializable, Initializable {
+    public struct DetachPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Reference that identifies the policy object.
-        var policyReference: ObjectReference = ObjectReference()
+        public var policyReference: ObjectReference = ObjectReference()
         /// Reference that identifies the object whose policy object will be detached.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// ARN associated with the Directory where both objects reside. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -728,11 +858,13 @@ extension Clouddirectory {
 
     }
 
-    public struct SchemaFacet: Serializable, Initializable {
+    public struct SchemaFacet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the schema that contains the facet.
-        var schemaArn: String? = nil
+        public var schemaArn: String? = nil
         /// The name of the facet.
-        var facetName: String? = nil
+        public var facetName: String? = nil
 
         public init() {}
 
@@ -743,13 +875,18 @@ extension Clouddirectory {
 
     }
 
-    public struct PublishSchemaRequest: Serializable, Initializable {
+    public struct PublishSchemaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DevelopmentSchemaArn"]
+        }
         /// ARN associated with the development schema. For more information, see arns.
-        var developmentSchemaArn: String = ""
+        public var developmentSchemaArn: String = ""
         /// New name under which the schema will be published. If this is not provided, the development schema is considered.
-        var name: String? = nil
+        public var name: String? = nil
         /// Version under which the schema will be published.
-        var version: String = ""
+        public var version: String = ""
 
         public init() {}
 
@@ -761,9 +898,11 @@ extension Clouddirectory {
 
     }
 
-    public struct GetDirectoryResponse: Serializable, Initializable {
+    public struct GetDirectoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Metadata about the directory.
-        var directory: Directory = Directory()
+        public var directory: Directory = Directory()
 
         public init() {}
 
@@ -773,9 +912,11 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchReadResponse: Serializable, Initializable {
+    public struct BatchReadResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of all the responses for each batch read.
-        var responses: [BatchReadOperationResponse]? = nil
+        public var responses: [BatchReadOperationResponse]? = nil
 
         public init() {}
 
@@ -785,9 +926,11 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchDetachObjectResponse: Serializable, Initializable {
+    public struct BatchDetachObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ObjectIdentifier of the detached object.
-        var detachedObjectIdentifier: String? = nil
+        public var detachedObjectIdentifier: String? = nil
 
         public init() {}
 
@@ -797,11 +940,13 @@ extension Clouddirectory {
 
     }
 
-    public struct FacetAttributeReference: Serializable, Initializable {
+    public struct FacetAttributeReference: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Target attribute name associated with the facet reference. See Attribute References for more information.
-        var targetAttributeName: String = ""
+        public var targetAttributeName: String = ""
         /// Target facet name associated with the facet reference. See Attribute References for more information.
-        var targetFacetName: String = ""
+        public var targetFacetName: String = ""
 
         public init() {}
 
@@ -812,9 +957,11 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchDeleteObject: Serializable, Initializable {
+    public struct BatchDeleteObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Reference that identifies the object.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -824,17 +971,22 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateObjectRequest: Serializable, Initializable {
+    public struct CreateObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// List of facet ARNs to be associated with the object. For more information, see arns.
-        var schemaFacets: [SchemaFacet] = []
+        public var schemaFacets: [SchemaFacet] = []
         /// If specified, the parent reference to which this object will be attached.
-        var parentReference: ObjectReference? = nil
+        public var parentReference: ObjectReference? = nil
         /// ARN associated with the Directory in which the object will be created. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Attribute map whose attribute ARN contains the key and attribute value as the map value.
-        var objectAttributeList: [AttributeKeyAndValue]? = nil
+        public var objectAttributeList: [AttributeKeyAndValue]? = nil
         /// The name of link that is used to attach this object to a parent.
-        var linkName: String? = nil
+        public var linkName: String? = nil
 
         public init() {}
 
@@ -848,11 +1000,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ApplySchemaResponse: Serializable, Initializable {
+    public struct ApplySchemaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Applied schema ARN associated with the copied schema in the Directory. You can use this ARN to describe the schema information applied on this directory. For more information, see arns.
-        var appliedSchemaArn: String? = nil
+        public var appliedSchemaArn: String? = nil
         /// ARN associated with the Directory. For more information, see arns.
-        var directoryArn: String? = nil
+        public var directoryArn: String? = nil
 
         public init() {}
 
@@ -863,21 +1017,28 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateFacetResponse: Serializable, Initializable {
+    public struct CreateFacetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct LookupPolicyRequest: Serializable, Initializable {
+    public struct LookupPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// ARN associated with the Directory. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// The token to request the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reference that identifies the object whose policies will be looked up.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -890,11 +1051,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchReadOperationResponse: Serializable, Initializable {
+    public struct BatchReadOperationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifies which operation in a batch has failed.
-        var exceptionResponse: BatchReadException? = nil
+        public var exceptionResponse: BatchReadException? = nil
         /// Identifies which operation in a batch has succeeded.
-        var successfulResponse: BatchReadSuccessfulResponse? = nil
+        public var successfulResponse: BatchReadSuccessfulResponse? = nil
 
         public init() {}
 
@@ -905,11 +1068,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListAttachedIndicesResponse: Serializable, Initializable {
+    public struct ListAttachedIndicesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The indices attached to the specified object.
-        var indexAttachments: [IndexAttachment]? = nil
+        public var indexAttachments: [IndexAttachment]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -920,13 +1085,15 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchAddFacetToObject: Serializable, Initializable {
+    public struct BatchAddFacetToObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Represents the facet being added to the object.
-        var schemaFacet: SchemaFacet = SchemaFacet()
+        public var schemaFacet: SchemaFacet = SchemaFacet()
         /// The attributes to set on the object.
-        var objectAttributeList: [AttributeKeyAndValue] = []
+        public var objectAttributeList: [AttributeKeyAndValue] = []
         /// A reference to the object being mutated.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -938,11 +1105,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectAttributesResponse: Serializable, Initializable {
+    public struct ListObjectAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Attributes map associated with the object. AttributeArn is the key, and attribute value is the value.
-        var attributes: [AttributeKeyAndValue]? = nil
+        public var attributes: [AttributeKeyAndValue]? = nil
 
         public init() {}
 
@@ -953,11 +1122,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchUpdateObjectAttributes: Serializable, Initializable {
+    public struct BatchUpdateObjectAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Attributes update structure.
-        var attributeUpdates: [ObjectAttributeUpdate] = []
+        public var attributeUpdates: [ObjectAttributeUpdate] = []
         /// Reference that identifies the object.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -968,15 +1139,20 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateFacetRequest: Serializable, Initializable {
+    public struct CreateFacetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// Specifies whether a given object created from this facet is of type Node, Leaf Node, Policy or Index.   Node: Can have multiple children but one parent.     Leaf Node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
-        var objectType: String = ""
+        public var objectType: String = ""
         /// Attributes associated with the Facet.e
-        var attributes: [FacetAttribute]? = nil
+        public var attributes: [FacetAttribute]? = nil
         /// Name of the Facet, which is unique for a given schema.
-        var name: String = ""
+        public var name: String = ""
         /// Schema ARN in which the new Facet will be created. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -989,17 +1165,21 @@ extension Clouddirectory {
 
     }
 
-    public struct RemoveFacetFromObjectResponse: Serializable, Initializable {
+    public struct RemoveFacetFromObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListFacetNamesResponse: Serializable, Initializable {
+    public struct ListFacetNamesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The names of facets that exist within the schema.
-        var facetNames: [String]? = nil
+        public var facetNames: [String]? = nil
 
         public init() {}
 
@@ -1010,15 +1190,17 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateDirectoryResponse: Serializable, Initializable {
+    public struct CreateDirectoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN associated with the Directory. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Name of the Directory.
-        var name: String = ""
+        public var name: String = ""
         /// The root object node of the created directory.
-        var objectIdentifier: String = ""
+        public var objectIdentifier: String = ""
         /// ARN of the published schema in the Directory. Once a published schema is copied into the directory, it has its own ARN which is referred to applied schema ARN. For more information, see arns.
-        var appliedSchemaArn: String = ""
+        public var appliedSchemaArn: String = ""
 
         public init() {}
 
@@ -1031,23 +1213,27 @@ extension Clouddirectory {
 
     }
 
-    public struct AttachPolicyResponse: Serializable, Initializable {
+    public struct AttachPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct BatchCreateObject: Serializable, Initializable {
+    public struct BatchCreateObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If specified, the parent reference to which this object will be attached.
-        var parentReference: ObjectReference = ObjectReference()
+        public var parentReference: ObjectReference = ObjectReference()
         /// List of FacetArns that will be associated with the object. For more information, see arns.
-        var schemaFacet: [SchemaFacet] = []
+        public var schemaFacet: [SchemaFacet] = []
         /// The batch reference name. See Batches for more information.
-        var batchReferenceName: String = ""
+        public var batchReferenceName: String = ""
         /// Attribute map, which contains an attribute ARN as the key and attribute value as the map value.
-        var objectAttributeList: [AttributeKeyAndValue] = []
+        public var objectAttributeList: [AttributeKeyAndValue] = []
         /// The name of the link.
-        var linkName: String = ""
+        public var linkName: String = ""
 
         public init() {}
 
@@ -1061,11 +1247,13 @@ extension Clouddirectory {
 
     }
 
-    public struct UntagResourceRequest: Serializable, Initializable {
+    public struct UntagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the resource. Tagging is only supported for directories.
-        var resourceArn: String = ""
+        public var resourceArn: String = ""
         /// Keys of the tag that needs to be removed from the resource.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -1076,11 +1264,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListDirectoriesResponse: Serializable, Initializable {
+    public struct ListDirectoriesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Lists all directories associated with your account in pagination fashion.
-        var directories: [Directory] = []
+        public var directories: [Directory] = []
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1091,11 +1281,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchListObjectChildrenResponse: Serializable, Initializable {
+    public struct BatchListObjectChildrenResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
-        var children: [String: String]? = nil
+        public var children: [String: String]? = nil
 
         public init() {}
 
@@ -1106,17 +1298,22 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectPoliciesRequest: Serializable, Initializable {
+    public struct ListObjectPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// ARN associated with the Directory where objects reside. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reference that identifies the object for which policies will be listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -1130,9 +1327,14 @@ extension Clouddirectory {
 
     }
 
-    public struct DisableDirectoryRequest: Serializable, Initializable {
+    public struct DisableDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// The ARN of the directory to disable.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -1142,9 +1344,11 @@ extension Clouddirectory {
 
     }
 
-    public struct DetachFromIndexResponse: Serializable, Initializable {
+    public struct DetachFromIndexResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ObjectIdentifier of the object that was detached from the index.
-        var detachedObjectIdentifier: String? = nil
+        public var detachedObjectIdentifier: String? = nil
 
         public init() {}
 
@@ -1154,19 +1358,23 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchAddFacetToObjectResponse: Serializable, Initializable {
+    public struct BatchAddFacetToObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct BatchListObjectAttributes: Serializable, Initializable {
+    public struct BatchListObjectAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Reference of the object whose attributes need to be listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1178,9 +1386,11 @@ extension Clouddirectory {
 
     }
 
-    public struct AttachObjectResponse: Serializable, Initializable {
+    public struct AttachObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Attached ObjectIdentifier, which is the child ObjectIdentifier.
-        var attachedObjectIdentifier: String? = nil
+        public var attachedObjectIdentifier: String? = nil
 
         public init() {}
 
@@ -1190,15 +1400,20 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectParentPathsRequest: Serializable, Initializable {
+    public struct ListObjectParentPathsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The ARN of the directory to which the parent path applies.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reference that identifies the object whose parent paths are listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -1211,11 +1426,16 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateDirectoryRequest: Serializable, Initializable {
+    public struct CreateDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// Name of the Directory. Should be unique per account, per region.
-        var name: String = ""
+        public var name: String = ""
         /// ARN of the published schema that will be copied into the data Directory. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -1226,9 +1446,14 @@ extension Clouddirectory {
 
     }
 
-    public struct GetSchemaAsJsonRequest: Serializable, Initializable {
+    public struct GetSchemaAsJsonRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// The ARN of the schema to retrieve.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -1238,15 +1463,20 @@ extension Clouddirectory {
 
     }
 
-    public struct UpdateFacetRequest: Serializable, Initializable {
+    public struct UpdateFacetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// Object type associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        var objectType: String? = nil
+        public var objectType: String? = nil
         /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
-        var attributeUpdates: [FacetAttributeUpdate]? = nil
+        public var attributeUpdates: [FacetAttributeUpdate]? = nil
         ///  
-        var name: String = ""
+        public var name: String = ""
         /// ARN associated with the Facet. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -1259,9 +1489,11 @@ extension Clouddirectory {
 
     }
 
-    public struct DisableDirectoryResponse: Serializable, Initializable {
+    public struct DisableDirectoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the directory that has been disabled.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -1271,13 +1503,18 @@ extension Clouddirectory {
 
     }
 
-    public struct AttachPolicyRequest: Serializable, Initializable {
+    public struct AttachPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Reference associated with the policy object.
-        var policyReference: ObjectReference = ObjectReference()
+        public var policyReference: ObjectReference = ObjectReference()
         /// Reference that identifies the object to which the policy will be attached.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// ARN associated with the Directory where both objects reside. For more information, see arns.
-        var directoryArn: String? = nil
+        public var directoryArn: String? = nil
 
         public init() {}
 
@@ -1289,11 +1526,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListDevelopmentSchemaArnsResponse: Serializable, Initializable {
+    public struct ListDevelopmentSchemaArnsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARNs of retrieved development schemas.
-        var schemaArns: [String]? = nil
+        public var schemaArns: [String]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1304,11 +1543,16 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchWriteRequest: Serializable, Initializable {
+    public struct BatchWriteRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// List of operations that are part of the batch.
-        var operations: [BatchWriteOperation] = []
+        public var operations: [BatchWriteOperation] = []
         /// ARN associated with the Directory. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -1319,9 +1563,11 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchCreateObjectResponse: Serializable, Initializable {
+    public struct BatchCreateObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ID associated with the object.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -1331,9 +1577,11 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchUpdateObjectAttributesResponse: Serializable, Initializable {
+    public struct BatchUpdateObjectAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ID associated with the object.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -1343,13 +1591,18 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchReadRequest: Serializable, Initializable {
+    public struct BatchReadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// List of operations that are part of the batch.
-        var operations: [BatchReadOperation] = []
+        public var operations: [BatchReadOperation] = []
         /// ARN associated with the Directory. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -1361,11 +1614,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListPublishedSchemaArnsResponse: Serializable, Initializable {
+    public struct ListPublishedSchemaArnsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARNs of published schemas.
-        var schemaArns: [String]? = nil
+        public var schemaArns: [String]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1376,11 +1631,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchReadSuccessfulResponse: Serializable, Initializable {
+    public struct BatchReadSuccessfulResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns a paginated list of child objects associated with a given object.
-        var listObjectChildren: BatchListObjectChildrenResponse? = nil
+        public var listObjectChildren: BatchListObjectChildrenResponse? = nil
         /// Lists all attributes associated with an object.
-        var listObjectAttributes: BatchListObjectAttributesResponse? = nil
+        public var listObjectAttributes: BatchListObjectAttributesResponse? = nil
 
         public init() {}
 
@@ -1391,17 +1648,19 @@ extension Clouddirectory {
 
     }
 
-    public struct TypedAttributeValue: Serializable, Initializable {
+    public struct TypedAttributeValue: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string data value.
-        var stringValue: String? = nil
+        public var stringValue: String? = nil
         /// A binary data value.
-        var binaryValue: Data? = nil
+        public var binaryValue: Data? = nil
         /// A Boolean data value.
-        var booleanValue: Bool? = nil
+        public var booleanValue: Bool? = nil
         /// A date and time value.
-        var datetimeValue: Date? = nil
+        public var datetimeValue: Date? = nil
         /// A number data value.
-        var numberValue: String? = nil
+        public var numberValue: String? = nil
 
         public init() {}
 
@@ -1415,11 +1674,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectParentPathsResponse: Serializable, Initializable {
+    public struct ListObjectParentPathsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Returns the path to the ObjectIdentifiers associated with the directory.
-        var pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil
+        public var pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil
 
         public init() {}
 
@@ -1430,13 +1691,15 @@ extension Clouddirectory {
 
     }
 
-    public struct AttributeKey: Serializable, Initializable {
+    public struct AttributeKey: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the attribute.
-        var name: String = ""
+        public var name: String = ""
         /// The ARN of the schema that contains the facet and attribute.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
         /// The name of the facet the attribute exists within.
-        var facetName: String = ""
+        public var facetName: String = ""
 
         public init() {}
 
@@ -1448,11 +1711,13 @@ extension Clouddirectory {
 
     }
 
-    public struct PathToObjectIdentifiers: Serializable, Initializable {
+    public struct PathToObjectIdentifiers: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Lists ObjectIdentifiers starting from directory root to the object in the request.
-        var objectIdentifiers: [String]? = nil
+        public var objectIdentifiers: [String]? = nil
         /// The path used to identify the object starting from directory root.
-        var path: String? = nil
+        public var path: String? = nil
 
         public init() {}
 
@@ -1463,13 +1728,15 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchDetachObject: Serializable, Initializable {
+    public struct BatchDetachObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The batch reference name. See Batches for more information.
-        var batchReferenceName: String = ""
+        public var batchReferenceName: String = ""
         /// Parent reference from which the object with the specified link name is detached.
-        var parentReference: ObjectReference = ObjectReference()
+        public var parentReference: ObjectReference = ObjectReference()
         /// The name of the link.
-        var linkName: String = ""
+        public var linkName: String = ""
 
         public init() {}
 
@@ -1481,11 +1748,16 @@ extension Clouddirectory {
 
     }
 
-    public struct GetFacetRequest: Serializable, Initializable {
+    public struct GetFacetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// The name of the facet to retrieve.
-        var name: String = ""
+        public var name: String = ""
         /// ARN associated with the Facet. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -1496,11 +1768,16 @@ extension Clouddirectory {
 
     }
 
-    public struct UpdateSchemaRequest: Serializable, Initializable {
+    public struct UpdateSchemaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// Name of the schema.
-        var name: String = ""
+        public var name: String = ""
         /// ARN of the development schema. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -1511,11 +1788,13 @@ extension Clouddirectory {
 
     }
 
-    public struct IndexAttachment: Serializable, Initializable {
+    public struct IndexAttachment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The indexed attribute values.
-        var indexedAttributes: [AttributeKeyAndValue]? = nil
+        public var indexedAttributes: [AttributeKeyAndValue]? = nil
         /// The ObjectIdentifier of the object attached to the index.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -1526,11 +1805,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ObjectAttributeUpdate: Serializable, Initializable {
+    public struct ObjectAttributeUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key of the attribute being updated.
-        var objectAttributeKey: AttributeKey? = nil
+        public var objectAttributeKey: AttributeKey? = nil
         /// The action to perform as part of the attribute update.
-        var objectAttributeAction: ObjectAttributeAction? = nil
+        public var objectAttributeAction: ObjectAttributeAction? = nil
 
         public init() {}
 
@@ -1541,17 +1822,22 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateIndexRequest: Serializable, Initializable {
+    public struct CreateIndexRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Specifies the Attributes that should be indexed on. Currently only a single attribute is supported.
-        var orderedIndexedAttributeList: [AttributeKey] = []
+        public var orderedIndexedAttributeList: [AttributeKey] = []
         /// Indicates whether objects with the same indexed attribute value can be added to the index.
-        var isUnique: Bool = false
+        public var isUnique: Bool = false
         /// A reference to the parent object that contains the index object.
-        var parentReference: ObjectReference? = nil
+        public var parentReference: ObjectReference? = nil
         /// The ARN of the directory where the index should be created.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// The name of the link between the parent object and the index object.
-        var linkName: String? = nil
+        public var linkName: String? = nil
 
         public init() {}
 
@@ -1565,11 +1851,13 @@ extension Clouddirectory {
 
     }
 
-    public struct Facet: Serializable, Initializable {
+    public struct Facet: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Object type associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        var objectType: String? = nil
+        public var objectType: String? = nil
         /// The name of the Facet.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -1580,13 +1868,15 @@ extension Clouddirectory {
 
     }
 
-    public struct ListDirectoriesRequest: Serializable, Initializable {
+    public struct ListDirectoriesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
-        var state: String? = nil
+        public var state: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to retrieve.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1598,15 +1888,17 @@ extension Clouddirectory {
 
     }
 
-    public struct FacetAttributeDefinition: Serializable, Initializable {
+    public struct FacetAttributeDefinition: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the attribute is mutable or not.
-        var isImmutable: Bool? = nil
+        public var isImmutable: Bool? = nil
         /// Validation rules attached to the attribute definition.
-        var rules: [String: Rule]? = nil
+        public var rules: [String: Rule]? = nil
         /// The type of the attribute.
-        var type: String = ""
+        public var type: String = ""
         /// The default value of the attribute (if configured).
-        var defaultValue: TypedAttributeValue? = nil
+        public var defaultValue: TypedAttributeValue? = nil
 
         public init() {}
 
@@ -1619,23 +1911,30 @@ extension Clouddirectory {
 
     }
 
-    public struct DetachPolicyResponse: Serializable, Initializable {
+    public struct DetachPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListObjectAttributesRequest: Serializable, Initializable {
+    public struct ListObjectAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reference that identifies the object whose attributes will be listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -1649,9 +1948,11 @@ extension Clouddirectory {
 
     }
 
-    public struct PublishSchemaResponse: Serializable, Initializable {
+    public struct PublishSchemaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN associated with the published schema. For more information, see arns.
-        var publishedSchemaArn: String? = nil
+        public var publishedSchemaArn: String? = nil
 
         public init() {}
 
@@ -1661,9 +1962,11 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateObjectResponse: Serializable, Initializable {
+    public struct CreateObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier associated with the object.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -1673,9 +1976,14 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteSchemaRequest: Serializable, Initializable {
+    public struct DeleteSchemaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// ARN of the development schema. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 
@@ -1685,11 +1993,13 @@ extension Clouddirectory {
 
     }
 
-    public struct GetObjectInformationResponse: Serializable, Initializable {
+    public struct GetObjectInformationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The facets attached to the specified object.
-        var schemaFacets: [SchemaFacet]? = nil
+        public var schemaFacets: [SchemaFacet]? = nil
         /// The ObjectIdentifier of the specified object.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -1700,17 +2010,21 @@ extension Clouddirectory {
 
     }
 
-    public struct TagResourceResponse: Serializable, Initializable {
+    public struct TagResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListIndexResponse: Serializable, Initializable {
+    public struct ListIndexResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The objects and indexed values attached to the index.
-        var indexAttachments: [IndexAttachment]? = nil
+        public var indexAttachments: [IndexAttachment]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1721,13 +2035,18 @@ extension Clouddirectory {
 
     }
 
-    public struct UpdateObjectAttributesRequest: Serializable, Initializable {
+    public struct UpdateObjectAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Reference that identifies the object.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// Attributes update structure.
-        var attributeUpdates: [ObjectAttributeUpdate] = []
+        public var attributeUpdates: [ObjectAttributeUpdate] = []
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -1739,21 +2058,23 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchWriteOperation: Serializable, Initializable {
+    public struct BatchWriteOperation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Batch operation adding a facet to an object.
-        var addFacetToObject: BatchAddFacetToObject? = nil
+        public var addFacetToObject: BatchAddFacetToObject? = nil
         /// Update a given object's attributes.
-        var updateObjectAttributes: BatchUpdateObjectAttributes? = nil
+        public var updateObjectAttributes: BatchUpdateObjectAttributes? = nil
         /// Detaches an object from a Directory.
-        var detachObject: BatchDetachObject? = nil
+        public var detachObject: BatchDetachObject? = nil
         /// Attaches an object to a Directory.
-        var attachObject: BatchAttachObject? = nil
+        public var attachObject: BatchAttachObject? = nil
         /// Creates an object.
-        var createObject: BatchCreateObject? = nil
+        public var createObject: BatchCreateObject? = nil
         /// Deletes an object in a Directory.
-        var deleteObject: BatchDeleteObject? = nil
+        public var deleteObject: BatchDeleteObject? = nil
         /// Batch operation removing a facet from an object.
-        var removeFacetFromObject: BatchRemoveFacetFromObject? = nil
+        public var removeFacetFromObject: BatchRemoveFacetFromObject? = nil
 
         public init() {}
 
@@ -1769,9 +2090,11 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteSchemaResponse: Serializable, Initializable {
+    public struct DeleteSchemaResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Input ARN that is returned as part of the response. For more information, see arns.
-        var schemaArn: String? = nil
+        public var schemaArn: String? = nil
 
         public init() {}
 
@@ -1781,17 +2104,22 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectChildrenRequest: Serializable, Initializable {
+    public struct ListObjectChildrenRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Reference that identifies the object for which child objects are being listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -1805,11 +2133,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListPublishedSchemaArnsRequest: Serializable, Initializable {
+    public struct ListPublishedSchemaArnsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to retrieve.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1820,9 +2150,11 @@ extension Clouddirectory {
 
     }
 
-    public struct CreateSchemaRequest: Serializable, Initializable {
+    public struct CreateSchemaRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name associated with the schema. This is unique to each account and in each region.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -1832,9 +2164,11 @@ extension Clouddirectory {
 
     }
 
-    public struct GetFacetResponse: Serializable, Initializable {
+    public struct GetFacetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Facet structure associated with the facet.
-        var facet: Facet? = nil
+        public var facet: Facet? = nil
 
         public init() {}
 
@@ -1844,11 +2178,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectPoliciesResponse: Serializable, Initializable {
+    public struct ListObjectPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of policy ObjectIdentifiers, that are attached to the object.
-        var attachedPolicyIds: [String]? = nil
+        public var attachedPolicyIds: [String]? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1859,9 +2195,11 @@ extension Clouddirectory {
 
     }
 
-    public struct PutSchemaFromJsonResponse: Serializable, Initializable {
+    public struct PutSchemaFromJsonResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the schema to update.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -1871,13 +2209,15 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchAttachObject: Serializable, Initializable {
+    public struct BatchAttachObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Child object reference to be attached to the object.
-        var childReference: ObjectReference = ObjectReference()
+        public var childReference: ObjectReference = ObjectReference()
         /// Parent object reference.
-        var parentReference: ObjectReference = ObjectReference()
+        public var parentReference: ObjectReference = ObjectReference()
         /// The name of the link.
-        var linkName: String = ""
+        public var linkName: String = ""
 
         public init() {}
 
@@ -1889,9 +2229,11 @@ extension Clouddirectory {
 
     }
 
-    public struct DetachObjectResponse: Serializable, Initializable {
+    public struct DetachObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ObjectIdentifier that was detached from the object.
-        var detachedObjectIdentifier: String? = nil
+        public var detachedObjectIdentifier: String? = nil
 
         public init() {}
 
@@ -1901,11 +2243,13 @@ extension Clouddirectory {
 
     }
 
-    public struct AttributeKeyAndValue: Serializable, Initializable {
+    public struct AttributeKeyAndValue: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the attribute.
-        var value: TypedAttributeValue = TypedAttributeValue()
+        public var value: TypedAttributeValue = TypedAttributeValue()
         /// The key of the attribute.
-        var key: AttributeKey = AttributeKey()
+        public var key: AttributeKey = AttributeKey()
 
         public init() {}
 
@@ -1916,9 +2260,14 @@ extension Clouddirectory {
 
     }
 
-    public struct EnableDirectoryRequest: Serializable, Initializable {
+    public struct EnableDirectoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// The ARN of the directory to enable.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -1928,11 +2277,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListFacetAttributesResponse: Serializable, Initializable {
+    public struct ListFacetAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The attributes attached to the facet.
-        var attributes: [FacetAttribute]? = nil
+        public var attributes: [FacetAttribute]? = nil
 
         public init() {}
 
@@ -1943,11 +2294,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchReadOperation: Serializable, Initializable {
+    public struct BatchReadOperation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Returns a paginated list of child objects that are associated with a given object.
-        var listObjectChildren: BatchListObjectChildren? = nil
+        public var listObjectChildren: BatchListObjectChildren? = nil
         /// Lists all attributes associated with an object.
-        var listObjectAttributes: BatchListObjectAttributes? = nil
+        public var listObjectAttributes: BatchListObjectAttributes? = nil
 
         public init() {}
 
@@ -1958,15 +2311,20 @@ extension Clouddirectory {
 
     }
 
-    public struct ListFacetAttributesRequest: Serializable, Initializable {
+    public struct ListFacetAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The name of the facet whose attributes will be retrieved.
-        var name: String = ""
+        public var name: String = ""
         /// The ARN of the schema where the facet resides.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
         /// The maximum number of results to retrieve.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -1979,11 +2337,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchReadException: Serializable, Initializable {
+    public struct BatchReadException: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Type of exception, such as InvalidArnException.
-        var type: String? = nil
+        public var type: String? = nil
         /// Exception message associated with the failure.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -1994,11 +2354,16 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteObjectRequest: Serializable, Initializable {
+    public struct DeleteObjectRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// Reference that identifies the object.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -2009,13 +2374,15 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchListObjectChildren: Serializable, Initializable {
+    public struct BatchListObjectChildren: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Reference of the object for which child objects are being listed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -2027,17 +2394,21 @@ extension Clouddirectory {
 
     }
 
-    public struct UntagResourceResponse: Serializable, Initializable {
+    public struct UntagResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct PolicyToPath: Serializable, Initializable {
+    public struct PolicyToPath: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of policy objects.
-        var policies: [PolicyAttachment]? = nil
+        public var policies: [PolicyAttachment]? = nil
         /// The path that is referenced from the root.
-        var path: String? = nil
+        public var path: String? = nil
 
         public init() {}
 
@@ -2048,9 +2419,11 @@ extension Clouddirectory {
 
     }
 
-    public struct ObjectReference: Serializable, Initializable {
+    public struct ObjectReference: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Allows you to specify an object. You can identify an object in one of the following ways:    $ObjectIdentifier - Identifies the object by ObjectIdentifier     /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
-        var selector: String? = nil
+        public var selector: String? = nil
 
         public init() {}
 
@@ -2060,15 +2433,19 @@ extension Clouddirectory {
 
     }
 
-    public struct UpdateFacetResponse: Serializable, Initializable {
+    public struct UpdateFacetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AttachToIndexResponse: Serializable, Initializable {
+    public struct AttachToIndexResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ObjectIdentifier of the object that was attached to the index.
-        var attachedObjectIdentifier: String? = nil
+        public var attachedObjectIdentifier: String? = nil
 
         public init() {}
 
@@ -2078,13 +2455,18 @@ extension Clouddirectory {
 
     }
 
-    public struct DetachFromIndexRequest: Serializable, Initializable {
+    public struct DetachFromIndexRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "DirectoryArn"]
+        }
         /// A reference to the object being detached from the index.
-        var targetReference: ObjectReference = ObjectReference()
+        public var targetReference: ObjectReference = ObjectReference()
         /// A reference to the index object.
-        var indexReference: ObjectReference = ObjectReference()
+        public var indexReference: ObjectReference = ObjectReference()
         /// The ARN of the directory the index and object exist in.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
 
         public init() {}
 
@@ -2096,11 +2478,13 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchRemoveFacetFromObject: Serializable, Initializable {
+    public struct BatchRemoveFacetFromObject: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The facet to remove from the object.
-        var schemaFacet: SchemaFacet = SchemaFacet()
+        public var schemaFacet: SchemaFacet = SchemaFacet()
         /// A reference to the object whose facet will be removed.
-        var objectReference: ObjectReference = ObjectReference()
+        public var objectReference: ObjectReference = ObjectReference()
 
         public init() {}
 
@@ -2111,13 +2495,18 @@ extension Clouddirectory {
 
     }
 
-    public struct ListFacetNamesRequest: Serializable, Initializable {
+    public struct ListFacetNamesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The ARN to retrieve facet names from.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
         /// The maximum number of results to retrieve
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -2129,9 +2518,11 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchAttachObjectResponse: Serializable, Initializable {
+    public struct BatchAttachObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ObjectIdentifier of the object that has been attached.
-        var attachedObjectIdentifier: String? = nil
+        public var attachedObjectIdentifier: String? = nil
 
         public init() {}
 
@@ -2141,11 +2532,13 @@ extension Clouddirectory {
 
     }
 
-    public struct FacetAttributeUpdate: Serializable, Initializable {
+    public struct FacetAttributeUpdate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The action to perform when updating the attribute.
-        var action: String? = nil
+        public var action: String? = nil
         /// The attribute to update.
-        var attribute: FacetAttribute? = nil
+        public var attribute: FacetAttribute? = nil
 
         public init() {}
 
@@ -2156,9 +2549,11 @@ extension Clouddirectory {
 
     }
 
-    public struct UpdateObjectAttributesResponse: Serializable, Initializable {
+    public struct UpdateObjectAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  ObjectIdentifier of the updated object.
-        var objectIdentifier: String? = nil
+        public var objectIdentifier: String? = nil
 
         public init() {}
 
@@ -2168,23 +2563,30 @@ extension Clouddirectory {
 
     }
 
-    public struct BatchDeleteObjectResponse: Serializable, Initializable {
+    public struct BatchDeleteObjectResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListPolicyAttachmentsRequest: Serializable, Initializable {
+    public struct ListPolicyAttachmentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
+        }
         /// ARN associated with the Directory where objects reside. For more information, see arns.
-        var directoryArn: String = ""
+        public var directoryArn: String = ""
         /// Reference that identifies the policy object.
-        var policyReference: ObjectReference = ObjectReference()
+        public var policyReference: ObjectReference = ObjectReference()
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        var consistencyLevel: String? = nil
+        public var consistencyLevel: String? = nil
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -2198,11 +2600,13 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectParentsResponse: Serializable, Initializable {
+    public struct ListObjectParentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Parent structure, which is a map with key as the ObjectIdentifier and LinkName as the value.
-        var parents: [String: String]? = nil
+        public var parents: [String: String]? = nil
 
         public init() {}
 
@@ -2213,11 +2617,16 @@ extension Clouddirectory {
 
     }
 
-    public struct DeleteFacetRequest: Serializable, Initializable {
+    public struct DeleteFacetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-data-partition": "SchemaArn"]
+        }
         /// The name of the facet to delete.
-        var name: String = ""
+        public var name: String = ""
         /// ARN associated with the Facet. For more information, see arns.
-        var schemaArn: String = ""
+        public var schemaArn: String = ""
 
         public init() {}
 

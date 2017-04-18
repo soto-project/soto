@@ -29,13 +29,15 @@ import Core
 
 extension Kms {
 
-    public struct ListKeyPoliciesResponse: Serializable, Initializable {
+    public struct ListKeyPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
-        var truncated: Bool? = nil
+        public var truncated: Bool? = nil
         /// A list of policy names. Currently, there is only one policy and it is named "Default".
-        var policyNames: [String]? = nil
+        public var policyNames: [String]? = nil
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -47,13 +49,15 @@ extension Kms {
 
     }
 
-    public struct GetParametersForImportRequest: Serializable, Initializable {
+    public struct GetParametersForImportRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
-        var wrappingAlgorithm: String = ""
+        public var wrappingAlgorithm: String = ""
         /// The type of wrapping key (public key) to return in the response. Only 2048-bit RSA public keys are supported.
-        var wrappingKeySpec: String = ""
+        public var wrappingKeySpec: String = ""
 
         public init() {}
 
@@ -65,11 +69,13 @@ extension Kms {
 
     }
 
-    public struct TagResourceRequest: Serializable, Initializable {
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// One or more tags. Each tag consists of a tag key and a tag value.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
         /// A unique identifier for the CMK you are tagging. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -80,9 +86,11 @@ extension Kms {
 
     }
 
-    public struct GenerateRandomRequest: Serializable, Initializable {
+    public struct GenerateRandomRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The length of the byte string.
-        var numberOfBytes: Int32? = nil
+        public var numberOfBytes: Int32? = nil
 
         public init() {}
 
@@ -92,11 +100,13 @@ extension Kms {
 
     }
 
-    public struct UpdateAliasRequest: Serializable, Initializable {
+    public struct UpdateAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// String that contains the name of the alias to be modified. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/aws" are reserved.
-        var aliasName: String = ""
+        public var aliasName: String = ""
         /// Unique identifier of the customer master key to be mapped to the alias. This value can be a globally unique identifier or the fully specified ARN of a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012   You can call ListAliases to verify that the alias is mapped to the correct TargetKeyId.
-        var targetKeyId: String = ""
+        public var targetKeyId: String = ""
 
         public init() {}
 
@@ -107,17 +117,19 @@ extension Kms {
 
     }
 
-    public struct ReEncryptRequest: Serializable, Initializable {
+    public struct ReEncryptRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Encryption context to use when the data is reencrypted.
-        var destinationEncryptionContext: [String: String]? = nil
+        public var destinationEncryptionContext: [String: String]? = nil
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
         /// Ciphertext of the data to reencrypt.
-        var ciphertextBlob: Data = Data()
+        public var ciphertextBlob: Data = Data()
         /// Encryption context used to encrypt and decrypt the data specified in the CiphertextBlob parameter.
-        var sourceEncryptionContext: [String: String]? = nil
+        public var sourceEncryptionContext: [String: String]? = nil
         /// A unique identifier for the CMK to use to reencrypt the data. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012   Alias Name Example - alias/MyAliasName  
-        var destinationKeyId: String = ""
+        public var destinationKeyId: String = ""
 
         public init() {}
 
@@ -131,13 +143,15 @@ extension Kms {
 
     }
 
-    public struct ReEncryptResponse: Serializable, Initializable {
+    public struct ReEncryptResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The reencrypted data.
-        var ciphertextBlob: Data? = nil
+        public var ciphertextBlob: Data? = nil
         /// Unique identifier of the CMK used to originally encrypt the data.
-        var sourceKeyId: String? = nil
+        public var sourceKeyId: String? = nil
         /// Unique identifier of the CMK used to reencrypt the data.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -149,11 +163,13 @@ extension Kms {
 
     }
 
-    public struct KeyListEntry: Serializable, Initializable {
+    public struct KeyListEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// ARN of the key.
-        var keyArn: String? = nil
+        public var keyArn: String? = nil
         /// Unique identifier of the key.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -164,11 +180,13 @@ extension Kms {
 
     }
 
-    public struct DescribeKeyRequest: Serializable, Initializable {
+    public struct DescribeKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012   Alias Name Example - alias/MyAliasName  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -179,9 +197,11 @@ extension Kms {
 
     }
 
-    public struct GetKeyPolicyResponse: Serializable, Initializable {
+    public struct GetKeyPolicyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A policy document in JSON format.
-        var policy: String? = nil
+        public var policy: String? = nil
 
         public init() {}
 
@@ -191,13 +211,15 @@ extension Kms {
 
     }
 
-    public struct DecryptRequest: Serializable, Initializable {
+    public struct DecryptRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Ciphertext to be decrypted. The blob includes metadata.
-        var ciphertextBlob: Data = Data()
+        public var ciphertextBlob: Data = Data()
         /// The encryption context. If this was specified in the Encrypt function, it must be specified here or the decryption operation will fail. For more information, see Encryption Context.
-        var encryptionContext: [String: String]? = nil
+        public var encryptionContext: [String: String]? = nil
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
 
         public init() {}
 
@@ -209,13 +231,15 @@ extension Kms {
 
     }
 
-    public struct ListKeyPoliciesRequest: Serializable, Initializable {
+    public struct ListKeyPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A unique identifier for the customer master key (CMK). You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Currently only 1 policy can be attached to a key.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -227,11 +251,13 @@ extension Kms {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the tag.
-        var tagValue: String = ""
+        public var tagValue: String = ""
         /// The key of the tag.
-        var tagKey: String = ""
+        public var tagKey: String = ""
 
         public init() {}
 
@@ -242,13 +268,15 @@ extension Kms {
 
     }
 
-    public struct ListAliasesResponse: Serializable, Initializable {
+    public struct ListAliasesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of key aliases in the user's account.
-        var aliases: [AliasListEntry]? = nil
+        public var aliases: [AliasListEntry]? = nil
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
-        var truncated: Bool? = nil
+        public var truncated: Bool? = nil
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -260,31 +288,33 @@ extension Kms {
 
     }
 
-    public struct KeyMetadata: Serializable, Initializable {
+    public struct KeyMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the CMK. For examples, see AWS Key Management Service (AWS KMS) in the Example ARNs section of the AWS General Reference.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The globally unique identifier for the CMK.
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material.
-        var origin: String? = nil
+        public var origin: String? = nil
         /// Specifies whether the CMK's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
-        var expirationModel: String? = nil
+        public var expirationModel: String? = nil
         /// The twelve-digit account ID of the AWS account that owns the CMK.
-        var aWSAccountId: String? = nil
+        public var aWSAccountId: String? = nil
         /// Specifies whether the CMK is enabled. When KeyState is Enabled this value is true, otherwise it is false.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The state of the CMK. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
-        var keyState: String? = nil
+        public var keyState: String? = nil
         /// The date and time when the CMK was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The cryptographic operations for which you can use the CMK. Currently the only allowed value is ENCRYPT_DECRYPT, which means you can use the CMK for the Encrypt and Decrypt operations.
-        var keyUsage: String? = nil
+        public var keyUsage: String? = nil
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
-        var validTo: Date? = nil
+        public var validTo: Date? = nil
         /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion, otherwise this value is omitted.
-        var deletionDate: Date? = nil
+        public var deletionDate: Date? = nil
         /// The description of the CMK.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -305,9 +335,11 @@ extension Kms {
 
     }
 
-    public struct CancelKeyDeletionRequest: Serializable, Initializable {
+    public struct CancelKeyDeletionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for the customer master key (CMK) for which to cancel deletion. To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey.
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -317,9 +349,11 @@ extension Kms {
 
     }
 
-    public struct GetKeyRotationStatusResponse: Serializable, Initializable {
+    public struct GetKeyRotationStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A Boolean value that specifies whether key rotation is enabled.
-        var keyRotationEnabled: Bool? = nil
+        public var keyRotationEnabled: Bool? = nil
 
         public init() {}
 
@@ -329,15 +363,17 @@ extension Kms {
 
     }
 
-    public struct PutKeyPolicyRequest: Serializable, Initializable {
+    public struct PutKeyPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
-        var bypassPolicyLockoutSafetyCheck: Bool? = nil
+        public var bypassPolicyLockoutSafetyCheck: Bool? = nil
         /// A unique identifier for the CMK. Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:   Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab  
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The key policy to attach to the CMK. If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   The policy size limit is 32 KiB (32768 bytes).
-        var policy: String = ""
+        public var policy: String = ""
         /// The name of the key policy. This value must be default.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -350,11 +386,13 @@ extension Kms {
 
     }
 
-    public struct CreateAliasRequest: Serializable, Initializable {
+    public struct CreateAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// String that contains the display name. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
-        var aliasName: String = ""
+        public var aliasName: String = ""
         /// An identifier of the key for which you are creating the alias. This value cannot be another alias but can be a globally unique identifier or a fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var targetKeyId: String = ""
+        public var targetKeyId: String = ""
 
         public init() {}
 
@@ -365,11 +403,13 @@ extension Kms {
 
     }
 
-    public struct ScheduleKeyDeletionRequest: Serializable, Initializable {
+    public struct ScheduleKeyDeletionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
-        var pendingWindowInDays: Int32? = nil
+        public var pendingWindowInDays: Int32? = nil
         /// The unique identifier for the customer master key (CMK) to delete. To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey.
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -380,11 +420,13 @@ extension Kms {
 
     }
 
-    public struct CreateGrantResponse: Serializable, Initializable {
+    public struct CreateGrantResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The grant token. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantToken: String? = nil
+        public var grantToken: String? = nil
         /// The unique identifier for the grant. You can use the GrantId in a subsequent RetireGrant or RevokeGrant operation.
-        var grantId: String? = nil
+        public var grantId: String? = nil
 
         public init() {}
 
@@ -395,13 +437,15 @@ extension Kms {
 
     }
 
-    public struct ListRetirableGrantsRequest: Serializable, Initializable {
+    public struct ListRetirableGrantsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The retiring principal for which to list grants. To specify the retiring principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the Amazon Web Services General Reference.
-        var retiringPrincipal: String = ""
+        public var retiringPrincipal: String = ""
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -413,11 +457,13 @@ extension Kms {
 
     }
 
-    public struct ListKeysRequest: Serializable, Initializable {
+    public struct ListKeysRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -428,15 +474,17 @@ extension Kms {
 
     }
 
-    public struct GetParametersForImportResponse: Serializable, Initializable {
+    public struct GetParametersForImportResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The import token to send in a subsequent ImportKeyMaterial request.
-        var importToken: Data? = nil
+        public var importToken: Data? = nil
         /// The public key to use to encrypt the key material before importing it with ImportKeyMaterial.
-        var publicKey: Data? = nil
+        public var publicKey: Data? = nil
         /// The identifier of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
-        var keyId: String? = nil
+        public var keyId: String? = nil
         /// The time at which the import token and public key are no longer valid. After this time, you cannot use them to make an ImportKeyMaterial request and you must send another GetParametersForImport request to retrieve new ones.
-        var parametersValidTo: Date? = nil
+        public var parametersValidTo: Date? = nil
 
         public init() {}
 
@@ -449,9 +497,11 @@ extension Kms {
 
     }
 
-    public struct DisableKeyRotationRequest: Serializable, Initializable {
+    public struct DisableKeyRotationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -461,13 +511,15 @@ extension Kms {
 
     }
 
-    public struct ListResourceTagsRequest: Serializable, Initializable {
+    public struct ListResourceTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received. Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A unique identifier for the CMK whose tags you are listing. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 50, inclusive. If you do not include a value, it defaults to 50.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -479,9 +531,11 @@ extension Kms {
 
     }
 
-    public struct EnableKeyRequest: Serializable, Initializable {
+    public struct EnableKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -491,21 +545,25 @@ extension Kms {
 
     }
 
-    public struct ImportKeyMaterialResponse: Serializable, Initializable {
+    public struct ImportKeyMaterialResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct EncryptRequest: Serializable, Initializable {
+    public struct EncryptRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context.
-        var encryptionContext: [String: String]? = nil
+        public var encryptionContext: [String: String]? = nil
         /// Data to be encrypted.
-        var plaintext: Data = Data()
+        public var plaintext: Data = Data()
         /// A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012   Alias Name Example - alias/MyAliasName  
-        var keyId: String = ""
+        public var keyId: String = ""
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
 
         public init() {}
 
@@ -518,9 +576,11 @@ extension Kms {
 
     }
 
-    public struct EnableKeyRotationRequest: Serializable, Initializable {
+    public struct EnableKeyRotationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -530,11 +590,13 @@ extension Kms {
 
     }
 
-    public struct RevokeGrantRequest: Serializable, Initializable {
+    public struct RevokeGrantRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Identifier of the grant to be revoked.
-        var grantId: String = ""
+        public var grantId: String = ""
         /// A unique identifier for the customer master key associated with the grant. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -545,13 +607,15 @@ extension Kms {
 
     }
 
-    public struct RetireGrantRequest: Serializable, Initializable {
+    public struct RetireGrantRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Token that identifies the grant to be retired.
-        var grantToken: String? = nil
+        public var grantToken: String? = nil
         /// Unique identifier of the grant to retire. The grant ID is returned in the response to a CreateGrant operation.   Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123  
-        var grantId: String? = nil
+        public var grantId: String? = nil
         /// The Amazon Resource Name of the CMK associated with the grant. Example:   arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab  
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -563,9 +627,11 @@ extension Kms {
 
     }
 
-    public struct CancelKeyDeletionResponse: Serializable, Initializable {
+    public struct CancelKeyDeletionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier of the master key for which deletion is canceled.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -575,9 +641,11 @@ extension Kms {
 
     }
 
-    public struct GenerateRandomResponse: Serializable, Initializable {
+    public struct GenerateRandomResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unpredictable byte string.
-        var plaintext: Data? = nil
+        public var plaintext: Data? = nil
 
         public init() {}
 
@@ -587,21 +655,23 @@ extension Kms {
 
     }
 
-    public struct CreateGrantRequest: Serializable, Initializable {
+    public struct CreateGrantRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for the customer master key (CMK) that the grant applies to. To specify this value, use the globally unique key ID or the Amazon Resource Name (ARN) of the key. Examples:   Globally unique key ID: 12345678-1234-1234-1234-123456789012   Key ARN: arn:aws:kms:us-west-2:123456789012:key/12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The principal that is given permission to retire the grant by using RetireGrant operation. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
-        var retiringPrincipal: String? = nil
+        public var retiringPrincipal: String? = nil
         /// A friendly name for identifying the grant. Use this value to prevent unintended creation of duplicate grants when retrying this request. When this value is absent, all CreateGrant requests result in a new grant with a unique GrantId even if all the supplied parameters are identical. This can result in unintended duplicates when you retry the CreateGrant request. When this value is present, you can retry a CreateGrant request with identical parameters; if the grant already exists, the original GrantId is returned without creating a new grant. Note that the returned grant token is unique with every CreateGrant request, even when a duplicate GrantId is returned. All grant tokens obtained in this way can be used interchangeably.
-        var name: String? = nil
+        public var name: String? = nil
         /// A list of operations that the grant permits.
-        var operations: [String]? = nil
+        public var operations: [String]? = nil
         /// The principal that is given permission to perform the operations that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
-        var granteePrincipal: String = ""
+        public var granteePrincipal: String = ""
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
         /// The conditions under which the operations permitted by the grant are allowed. You can use this value to allow the operations permitted by the grant only when a specified encryption context is present. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
-        var constraints: GrantConstraints? = nil
+        public var constraints: GrantConstraints? = nil
 
         public init() {}
 
@@ -617,9 +687,11 @@ extension Kms {
 
     }
 
-    public struct DescribeKeyResponse: Serializable, Initializable {
+    public struct DescribeKeyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Metadata associated with the key.
-        var keyMetadata: KeyMetadata? = nil
+        public var keyMetadata: KeyMetadata? = nil
 
         public init() {}
 
@@ -629,11 +701,13 @@ extension Kms {
 
     }
 
-    public struct UpdateKeyDescriptionRequest: Serializable, Initializable {
+    public struct UpdateKeyDescriptionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the CMK. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
         /// New description for the CMK.
-        var description: String = ""
+        public var description: String = ""
 
         public init() {}
 
@@ -644,11 +718,13 @@ extension Kms {
 
     }
 
-    public struct GetKeyPolicyRequest: Serializable, Initializable {
+    public struct GetKeyPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
         /// String that contains the name of the policy. Currently, this must be "default". Policy names can be discovered by calling ListKeyPolicies.
-        var policyName: String = ""
+        public var policyName: String = ""
 
         public init() {}
 
@@ -659,17 +735,19 @@ extension Kms {
 
     }
 
-    public struct GenerateDataKeyWithoutPlaintextRequest: Serializable, Initializable {
+    public struct GenerateDataKeyWithoutPlaintextRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
-        var encryptionContext: [String: String]? = nil
+        public var encryptionContext: [String: String]? = nil
         /// The length of the data encryption key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
-        var numberOfBytes: Int32? = nil
+        public var numberOfBytes: Int32? = nil
         /// The identifier of the CMK under which to generate and encrypt the data encryption key. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK, or the alias name or ARN of an alias that refers to the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    CMK ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
         /// The length of the data encryption key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
-        var keySpec: String? = nil
+        public var keySpec: String? = nil
 
         public init() {}
 
@@ -683,13 +761,15 @@ extension Kms {
 
     }
 
-    public struct ListKeysResponse: Serializable, Initializable {
+    public struct ListKeysResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
-        var truncated: Bool? = nil
+        public var truncated: Bool? = nil
         /// A list of keys.
-        var keys: [KeyListEntry]? = nil
+        public var keys: [KeyListEntry]? = nil
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -701,13 +781,15 @@ extension Kms {
 
     }
 
-    public struct ListGrantsResponse: Serializable, Initializable {
+    public struct ListGrantsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
-        var truncated: Bool? = nil
+        public var truncated: Bool? = nil
         /// A list of grants.
-        var grants: [GrantListEntry]? = nil
+        public var grants: [GrantListEntry]? = nil
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -719,9 +801,11 @@ extension Kms {
 
     }
 
-    public struct DeleteAliasRequest: Serializable, Initializable {
+    public struct DeleteAliasRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The alias to be deleted. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
-        var aliasName: String = ""
+        public var aliasName: String = ""
 
         public init() {}
 
@@ -731,11 +815,13 @@ extension Kms {
 
     }
 
-    public struct ListAliasesRequest: Serializable, Initializable {
+    public struct ListAliasesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -746,11 +832,13 @@ extension Kms {
 
     }
 
-    public struct DecryptResponse: Serializable, Initializable {
+    public struct DecryptResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Decrypted plaintext data. This value may not be returned if the customer master key is not available or if you didn't have permission to use it.
-        var plaintext: Data? = nil
+        public var plaintext: Data? = nil
         /// ARN of the key used to perform the decryption. This value is returned if no errors are encountered during the operation.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -761,13 +849,15 @@ extension Kms {
 
     }
 
-    public struct GenerateDataKeyResponse: Serializable, Initializable {
+    public struct GenerateDataKeyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The encrypted data encryption key.
-        var ciphertextBlob: Data? = nil
+        public var ciphertextBlob: Data? = nil
         /// The data encryption key. Use this data key for local encryption and decryption, then remove it from memory as soon as possible.
-        var plaintext: Data? = nil
+        public var plaintext: Data? = nil
         /// The identifier of the CMK under which the data encryption key was generated and encrypted.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -779,11 +869,13 @@ extension Kms {
 
     }
 
-    public struct ScheduleKeyDeletionResponse: Serializable, Initializable {
+    public struct ScheduleKeyDeletionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
-        var deletionDate: Date? = nil
+        public var deletionDate: Date? = nil
         /// The unique identifier of the customer master key (CMK) for which deletion is scheduled.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -794,9 +886,11 @@ extension Kms {
 
     }
 
-    public struct DeleteImportedKeyMaterialRequest: Serializable, Initializable {
+    public struct DeleteImportedKeyMaterialRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The identifier of the CMK whose key material to delete. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -806,17 +900,19 @@ extension Kms {
 
     }
 
-    public struct GenerateDataKeyRequest: Serializable, Initializable {
+    public struct GenerateDataKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
-        var encryptionContext: [String: String]? = nil
+        public var encryptionContext: [String: String]? = nil
         /// The length of the data encryption key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
-        var numberOfBytes: Int32? = nil
+        public var numberOfBytes: Int32? = nil
         /// The identifier of the CMK under which to generate and encrypt the data encryption key. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK, or the alias name or ARN of an alias that refers to the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    CMK ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
-        var grantTokens: [String]? = nil
+        public var grantTokens: [String]? = nil
         /// The length of the data encryption key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
-        var keySpec: String? = nil
+        public var keySpec: String? = nil
 
         public init() {}
 
@@ -830,9 +926,11 @@ extension Kms {
 
     }
 
-    public struct CreateKeyResponse: Serializable, Initializable {
+    public struct CreateKeyResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Metadata associated with the CMK.
-        var keyMetadata: KeyMetadata? = nil
+        public var keyMetadata: KeyMetadata? = nil
 
         public init() {}
 
@@ -842,25 +940,27 @@ extension Kms {
 
     }
 
-    public struct GrantListEntry: Serializable, Initializable {
+    public struct GrantListEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for the customer master key (CMK) to which the grant applies.
-        var keyId: String? = nil
+        public var keyId: String? = nil
         /// The principal that can retire the grant.
-        var retiringPrincipal: String? = nil
+        public var retiringPrincipal: String? = nil
         /// The friendly name that identifies the grant. If a name was provided in the CreateGrant request, that name is returned. Otherwise this value is null.
-        var name: String? = nil
+        public var name: String? = nil
         /// The list of operations permitted by the grant.
-        var operations: [String]? = nil
+        public var operations: [String]? = nil
         /// The unique identifier for the grant.
-        var grantId: String? = nil
+        public var grantId: String? = nil
         /// The AWS account under which the grant was issued.
-        var issuingAccount: String? = nil
+        public var issuingAccount: String? = nil
         /// The date and time when the grant was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The principal that receives the grant's permissions.
-        var granteePrincipal: String? = nil
+        public var granteePrincipal: String? = nil
         /// The conditions under which the grant's operations are allowed.
-        var constraints: GrantConstraints? = nil
+        public var constraints: GrantConstraints? = nil
 
         public init() {}
 
@@ -878,13 +978,15 @@ extension Kms {
 
     }
 
-    public struct ListGrantsRequest: Serializable, Initializable {
+    public struct ListGrantsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -896,11 +998,13 @@ extension Kms {
 
     }
 
-    public struct GrantConstraints: Serializable, Initializable {
+    public struct GrantConstraints: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Contains a list of key-value pairs, a subset of which must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list or is a subset of this list, the grant allows the operation. Otherwise, the operation is not allowed.
-        var encryptionContextSubset: [String: String]? = nil
+        public var encryptionContextSubset: [String: String]? = nil
         /// Contains a list of key-value pairs that must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list, the grant allows the operation. Otherwise, the operation is not allowed.
-        var encryptionContextEquals: [String: String]? = nil
+        public var encryptionContextEquals: [String: String]? = nil
 
         public init() {}
 
@@ -911,9 +1015,11 @@ extension Kms {
 
     }
 
-    public struct GetKeyRotationStatusRequest: Serializable, Initializable {
+    public struct GetKeyRotationStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -923,9 +1029,11 @@ extension Kms {
 
     }
 
-    public struct DisableKeyRequest: Serializable, Initializable {
+    public struct DisableKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the CMK. Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:   Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab  
-        var keyId: String = ""
+        public var keyId: String = ""
 
         public init() {}
 
@@ -935,13 +1043,15 @@ extension Kms {
 
     }
 
-    public struct AliasListEntry: Serializable, Initializable {
+    public struct AliasListEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// String that contains the alias.
-        var aliasName: String? = nil
+        public var aliasName: String? = nil
         /// String that contains the key ARN.
-        var aliasArn: String? = nil
+        public var aliasArn: String? = nil
         /// String that contains the key identifier referred to by the alias.
-        var targetKeyId: String? = nil
+        public var targetKeyId: String? = nil
 
         public init() {}
 
@@ -953,17 +1063,19 @@ extension Kms {
 
     }
 
-    public struct ImportKeyMaterialRequest: Serializable, Initializable {
+    public struct ImportKeyMaterialRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
-        var importToken: Data = Data()
+        public var importToken: Data = Data()
         /// The encrypted key material to import. It must be encrypted with the public key that you received in the response to a previous GetParametersForImport request, using the wrapping algorithm that you specified in that request.
-        var encryptedKeyMaterial: Data = Data()
+        public var encryptedKeyMaterial: Data = Data()
         /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
-        var expirationModel: String? = nil
+        public var expirationModel: String? = nil
         /// The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
-        var validTo: Date? = nil
+        public var validTo: Date? = nil
 
         public init() {}
 
@@ -977,11 +1089,13 @@ extension Kms {
 
     }
 
-    public struct EncryptResponse: Serializable, Initializable {
+    public struct EncryptResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The encrypted plaintext. If you are using the CLI, the value is Base64 encoded. Otherwise, it is not encoded.
-        var ciphertextBlob: Data? = nil
+        public var ciphertextBlob: Data? = nil
         /// The ID of the key used during encryption.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 
@@ -992,19 +1106,21 @@ extension Kms {
 
     }
 
-    public struct CreateKeyRequest: Serializable, Initializable {
+    public struct CreateKeyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
-        var bypassPolicyLockoutSafetyCheck: Bool? = nil
+        public var bypassPolicyLockoutSafetyCheck: Bool? = nil
         /// The intended use of the CMK. You can use CMKs only for symmetric encryption and decryption.
-        var keyUsage: String? = nil
+        public var keyUsage: String? = nil
         /// The source of the CMK's key material. The default is AWS_KMS, which means AWS KMS creates the key material. When this parameter is set to EXTERNAL, the request creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. The CMK's Origin is immutable and is set when the CMK is created.
-        var origin: String? = nil
+        public var origin: String? = nil
         /// One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The key policy to attach to the CMK. If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide. The policy size limit is 32 KiB (32768 bytes).
-        var policy: String? = nil
+        public var policy: String? = nil
         /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1019,11 +1135,13 @@ extension Kms {
 
     }
 
-    public struct UntagResourceRequest: Serializable, Initializable {
+    public struct UntagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier for the CMK from which you are removing tags. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        var keyId: String = ""
+        public var keyId: String = ""
         /// One or more tag keys. Specify only the tag keys, not the tag values.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -1034,13 +1152,15 @@ extension Kms {
 
     }
 
-    public struct ListResourceTagsResponse: Serializable, Initializable {
+    public struct ListResourceTagsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
-        var truncated: Bool? = nil
+        public var truncated: Bool? = nil
         /// A list of tags. Each tag consists of a tag key and a tag value.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request. Do not assume or infer any information from this value.
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -1052,11 +1172,13 @@ extension Kms {
 
     }
 
-    public struct GenerateDataKeyWithoutPlaintextResponse: Serializable, Initializable {
+    public struct GenerateDataKeyWithoutPlaintextResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The encrypted data encryption key.
-        var ciphertextBlob: Data? = nil
+        public var ciphertextBlob: Data? = nil
         /// The identifier of the CMK under which the data encryption key was generated and encrypted.
-        var keyId: String? = nil
+        public var keyId: String? = nil
 
         public init() {}
 

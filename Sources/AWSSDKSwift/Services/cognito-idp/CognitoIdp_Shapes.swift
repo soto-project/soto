@@ -29,9 +29,11 @@ import Core
 
 extension CognitoIdp {
 
-    public struct DescribeUserImportJobResponse: Serializable, Initializable {
+    public struct DescribeUserImportJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job object that represents the user import job.
-        var userImportJob: UserImportJobType? = nil
+        public var userImportJob: UserImportJobType? = nil
 
         public init() {}
 
@@ -41,45 +43,49 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminUserGlobalSignOutResponse: Serializable, Initializable {
+    public struct AdminUserGlobalSignOutResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateUserPoolRequest: Serializable, Initializable {
+    public struct CreateUserPoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        var userPoolTags: [String: String]? = nil
+        public var userPoolTags: [String: String]? = nil
         /// A string representing the email verification subject.
-        var emailVerificationSubject: String? = nil
+        public var emailVerificationSubject: String? = nil
         /// The configuration for AdminCreateUser requests.
-        var adminCreateUserConfig: AdminCreateUserConfigType? = nil
+        public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
         /// An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
-        var schema: [SchemaAttributeType]? = nil
+        public var schema: [SchemaAttributeType]? = nil
         /// The policies associated with the new user pool.
-        var policies: UserPoolPolicyType? = nil
+        public var policies: UserPoolPolicyType? = nil
         /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
-        var aliasAttributes: [String]? = nil
+        public var aliasAttributes: [String]? = nil
         /// The Lambda trigger configuration information for the new user pool.
-        var lambdaConfig: LambdaConfigType? = nil
+        public var lambdaConfig: LambdaConfigType? = nil
         /// Specifies MFA configuration details.
-        var mfaConfiguration: String? = nil
+        public var mfaConfiguration: String? = nil
         /// A string used to name the user pool.
-        var poolName: String = ""
+        public var poolName: String = ""
         /// The email configuration.
-        var emailConfiguration: EmailConfigurationType? = nil
+        public var emailConfiguration: EmailConfigurationType? = nil
         /// A string representing the SMS verification message.
-        var smsVerificationMessage: String? = nil
+        public var smsVerificationMessage: String? = nil
         /// A string representing the email verification message.
-        var emailVerificationMessage: String? = nil
+        public var emailVerificationMessage: String? = nil
         /// The SMS configuration.
-        var smsConfiguration: SmsConfigurationType? = nil
+        public var smsConfiguration: SmsConfigurationType? = nil
         /// A string representing the SMS authentication message.
-        var smsAuthenticationMessage: String? = nil
+        public var smsAuthenticationMessage: String? = nil
         /// The attributes to be auto-verified. Possible values: email, phone_number.
-        var autoVerifiedAttributes: [String]? = nil
+        public var autoVerifiedAttributes: [String]? = nil
         /// The device configuration.
-        var deviceConfiguration: DeviceConfigurationType? = nil
+        public var deviceConfiguration: DeviceConfigurationType? = nil
 
         public init() {}
 
@@ -104,17 +110,21 @@ extension CognitoIdp {
 
     }
 
-    public struct AddCustomAttributesResponse: Serializable, Initializable {
+    public struct AddCustomAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListUsersInGroupResponse: Serializable, Initializable {
+    public struct ListUsersInGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The users returned in the request to list users.
-        var users: [UserType]? = nil
+        public var users: [UserType]? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -125,11 +135,13 @@ extension CognitoIdp {
 
     }
 
-    public struct NumberAttributeConstraintsType: Serializable, Initializable {
+    public struct NumberAttributeConstraintsType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The minimum value of an attribute that is of the number data type.
-        var minValue: String? = nil
+        public var minValue: String? = nil
         /// The maximum value of an attribute that is of the number data type.
-        var maxValue: String? = nil
+        public var maxValue: String? = nil
 
         public init() {}
 
@@ -140,13 +152,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ListDevicesRequest: Serializable, Initializable {
+    public struct ListDevicesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The limit of the device request.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The pagination token for the list request.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The access tokens for the request to list devices.
-        var accessToken: String = ""
+        public var accessToken: String = ""
 
         public init() {}
 
@@ -158,9 +172,11 @@ extension CognitoIdp {
 
     }
 
-    public struct DeleteUserPoolRequest: Serializable, Initializable {
+    public struct DeleteUserPoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool you want to delete.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -170,9 +186,11 @@ extension CognitoIdp {
 
     }
 
-    public struct GetUserAttributeVerificationCodeResponse: Serializable, Initializable {
+    public struct GetUserAttributeVerificationCodeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
-        var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
+        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
 
         public init() {}
 
@@ -182,19 +200,21 @@ extension CognitoIdp {
 
     }
 
-    public struct SignUpRequest: Serializable, Initializable {
+    public struct SignUpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of name-value pairs representing user attributes.
-        var userAttributes: [AttributeType]? = nil
+        public var userAttributes: [AttributeType]? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The password of the user you wish to register.
-        var password: String = ""
+        public var password: String = ""
         /// The validation data in the request to register a user.
-        var validationData: [AttributeType]? = nil
+        public var validationData: [AttributeType]? = nil
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        var secretHash: String? = nil
+        public var secretHash: String? = nil
         /// The user name of the user you wish to register.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -209,9 +229,11 @@ extension CognitoIdp {
 
     }
 
-    public struct DescribeUserPoolClientResponse: Serializable, Initializable {
+    public struct DescribeUserPoolClientResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool client from a server response to describe the user pool client.
-        var userPoolClient: UserPoolClientType? = nil
+        public var userPoolClient: UserPoolClientType? = nil
 
         public init() {}
 
@@ -221,17 +243,19 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminRespondToAuthChallengeRequest: Serializable, Initializable {
+    public struct AdminRespondToAuthChallengeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the challenge.
-        var challengeName: String = ""
+        public var challengeName: String = ""
         /// The client ID.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The session.
-        var session: String? = nil
+        public var session: String? = nil
         /// The challenge response.
-        var challengeResponses: [String: String]? = nil
+        public var challengeResponses: [String: String]? = nil
         /// The ID of the Amazon Cognito user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -245,15 +269,17 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminListGroupsForUserRequest: Serializable, Initializable {
+    public struct AdminListGroupsForUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The username for the user.
-        var username: String = ""
+        public var username: String = ""
         /// The limit of the request to list groups.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -266,23 +292,29 @@ extension CognitoIdp {
 
     }
 
-    public struct SetUserSettingsResponse: Serializable, Initializable {
+    public struct SetUserSettingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ConfirmSignUpResponse: Serializable, Initializable {
+    public struct ConfirmSignUpResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ListUserPoolsRequest: Serializable, Initializable {
+    public struct ListUserPoolsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results you want the request to return when listing the user pools.
-        var maxResults: Int32 = 0
+        public var maxResults: Int32 = 0
 
         public init() {}
 
@@ -293,17 +325,19 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateGroupRequest: Serializable, Initializable {
+    public struct UpdateGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string containing the new description of the group.
-        var description: String? = nil
+        public var description: String? = nil
         /// The new precedence value for the group. For more information about this parameter, see CreateGroupRequest.
-        var precedence: Int32? = nil
+        public var precedence: Int32? = nil
         /// The name of the group.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -317,15 +351,17 @@ extension CognitoIdp {
 
     }
 
-    public struct InitiateAuthResponse: Serializable, Initializable {
+    public struct InitiateAuthResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the challenge.
-        var challengeName: String? = nil
+        public var challengeName: String? = nil
         /// The challenge parameters.
-        var challengeParameters: [String: String]? = nil
+        public var challengeParameters: [String: String]? = nil
         /// The result returned by the server in response to the request to initiate authentication.
-        var authenticationResult: AuthenticationResultType? = nil
+        public var authenticationResult: AuthenticationResultType? = nil
         /// The session.
-        var session: String? = nil
+        public var session: String? = nil
 
         public init() {}
 
@@ -338,11 +374,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DeleteUserAttributesRequest: Serializable, Initializable {
+    public struct DeleteUserAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of strings representing the user attribute names you wish to delete.
-        var userAttributeNames: [String] = []
+        public var userAttributeNames: [String] = []
         /// The access token used in the request to delete user attributes.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -353,11 +391,13 @@ extension CognitoIdp {
 
     }
 
-    public struct StartUserImportJobRequest: Serializable, Initializable {
+    public struct StartUserImportJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job ID for the user import job.
-        var jobId: String = ""
+        public var jobId: String = ""
         /// The user pool ID for the user pool that the users are being imported into.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -368,9 +408,11 @@ extension CognitoIdp {
 
     }
 
-    public struct GetUserRequest: Serializable, Initializable {
+    public struct GetUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access token returned by the server response to get information about the user.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -380,11 +422,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DeleteUserPoolClientRequest: Serializable, Initializable {
+    public struct DeleteUserPoolClientRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The user pool ID for the user pool where you want to delete the client.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -395,13 +439,15 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateDeviceStatusRequest: Serializable, Initializable {
+    public struct UpdateDeviceStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The status of whether a device is remembered.
-        var deviceRememberedStatus: String? = nil
+        public var deviceRememberedStatus: String? = nil
         /// The access token.
-        var accessToken: String = ""
+        public var accessToken: String = ""
 
         public init() {}
 
@@ -413,13 +459,15 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminRemoveUserFromGroupRequest: Serializable, Initializable {
+    public struct AdminRemoveUserFromGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The username for the user.
-        var username: String = ""
+        public var username: String = ""
         /// The group name.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -431,13 +479,15 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminDeleteUserAttributesRequest: Serializable, Initializable {
+    public struct AdminDeleteUserAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to delete user attributes.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// An array of strings representing the user attribute names you wish to delete.
-        var userAttributeNames: [String] = []
+        public var userAttributeNames: [String] = []
         /// The user name of the user from which you would like to delete attributes.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -449,13 +499,15 @@ extension CognitoIdp {
 
     }
 
-    public struct UserPoolClientDescription: Serializable, Initializable {
+    public struct UserPoolClientDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The client name from the user pool client description.
-        var clientName: String? = nil
+        public var clientName: String? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String? = nil
+        public var clientId: String? = nil
         /// The user pool ID for the user pool where you want to describe the user pool client.
-        var userPoolId: String? = nil
+        public var userPoolId: String? = nil
 
         public init() {}
 
@@ -467,11 +519,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DeviceSecretVerifierConfigType: Serializable, Initializable {
+    public struct DeviceSecretVerifierConfigType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The salt.
-        var salt: String? = nil
+        public var salt: String? = nil
         /// The password verifier.
-        var passwordVerifier: String? = nil
+        public var passwordVerifier: String? = nil
 
         public init() {}
 
@@ -482,11 +536,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUserImportJobsResponse: Serializable, Initializable {
+    public struct ListUserImportJobsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that can be used to return the next set of user import jobs in the list.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The user import jobs.
-        var userImportJobs: [UserImportJobType]? = nil
+        public var userImportJobs: [UserImportJobType]? = nil
 
         public init() {}
 
@@ -497,15 +553,17 @@ extension CognitoIdp {
 
     }
 
-    public struct RespondToAuthChallengeResponse: Serializable, Initializable {
+    public struct RespondToAuthChallengeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The challenge name.
-        var challengeName: String? = nil
+        public var challengeName: String? = nil
         /// The challenge parameters.
-        var challengeParameters: [String: String]? = nil
+        public var challengeParameters: [String: String]? = nil
         /// The result returned by the server in response to the request to respond to the authentication challenge.
-        var authenticationResult: AuthenticationResultType? = nil
+        public var authenticationResult: AuthenticationResultType? = nil
         /// The session.
-        var session: String? = nil
+        public var session: String? = nil
 
         public init() {}
 
@@ -518,9 +576,11 @@ extension CognitoIdp {
 
     }
 
-    public struct CreateUserPoolClientResponse: Serializable, Initializable {
+    public struct CreateUserPoolClientResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool client that was just created.
-        var userPoolClient: UserPoolClientType? = nil
+        public var userPoolClient: UserPoolClientType? = nil
 
         public init() {}
 
@@ -530,11 +590,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ListGroupsResponse: Serializable, Initializable {
+    public struct ListGroupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The group objects for the groups.
-        var groups: [GroupType]? = nil
+        public var groups: [GroupType]? = nil
 
         public init() {}
 
@@ -545,17 +607,19 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminInitiateAuthRequest: Serializable, Initializable {
+    public struct AdminInitiateAuthRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The client app metadata.
-        var clientMetadata: [String: String]? = nil
+        public var clientMetadata: [String: String]? = nil
         /// The client app ID.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The authentication parameters.
-        var authParameters: [String: String]? = nil
+        public var authParameters: [String: String]? = nil
         /// The authentication flow.
-        var authFlow: String = ""
+        public var authFlow: String = ""
         /// The ID of the Amazon Cognito user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -569,9 +633,11 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateUserPoolClientResponse: Serializable, Initializable {
+    public struct UpdateUserPoolClientResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool client value from the response from the server when an update user pool client request is made.
-        var userPoolClient: UserPoolClientType? = nil
+        public var userPoolClient: UserPoolClientType? = nil
 
         public init() {}
 
@@ -581,11 +647,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DescribeUserImportJobRequest: Serializable, Initializable {
+    public struct DescribeUserImportJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job ID for the user import job.
-        var jobId: String = ""
+        public var jobId: String = ""
         /// The user pool ID for the user pool that the users are being imported into.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -596,9 +664,11 @@ extension CognitoIdp {
 
     }
 
-    public struct DeleteUserRequest: Serializable, Initializable {
+    public struct DeleteUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access token from a request to delete a user.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -608,9 +678,11 @@ extension CognitoIdp {
 
     }
 
-    public struct GlobalSignOutRequest: Serializable, Initializable {
+    public struct GlobalSignOutRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access token.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -620,21 +692,23 @@ extension CognitoIdp {
 
     }
 
-    public struct CreateUserPoolClientRequest: Serializable, Initializable {
+    public struct CreateUserPoolClientRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The client name for the user pool client you would like to create.
-        var clientName: String = ""
+        public var clientName: String = ""
         /// The user pool ID for the user pool where you want to create a user pool client.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The write attributes.
-        var writeAttributes: [String]? = nil
+        public var writeAttributes: [String]? = nil
         /// The validity of the refresh token, in days.
-        var refreshTokenValidity: Int32? = nil
+        public var refreshTokenValidity: Int32? = nil
         /// The read attributes.
-        var readAttributes: [String]? = nil
+        public var readAttributes: [String]? = nil
         /// The explicit authentication flows.
-        var explicitAuthFlows: [String]? = nil
+        public var explicitAuthFlows: [String]? = nil
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
-        var generateSecret: Bool? = nil
+        public var generateSecret: Bool? = nil
 
         public init() {}
 
@@ -650,11 +724,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AttributeType: Serializable, Initializable {
+    public struct AttributeType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value of the attribute.
-        var value: String? = nil
+        public var value: String? = nil
         /// The name of the attribute.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -665,33 +741,37 @@ extension CognitoIdp {
 
     }
 
-    public struct VerifyUserAttributeResponse: Serializable, Initializable {
+    public struct VerifyUserAttributeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UserPoolClientType: Serializable, Initializable {
+    public struct UserPoolClientType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The client name from the user pool request of the client type.
-        var clientName: String? = nil
+        public var clientName: String? = nil
         /// The validity of the refresh token, in days.
-        var refreshTokenValidity: Int32? = nil
+        public var refreshTokenValidity: Int32? = nil
         /// The writeable attributes.
-        var writeAttributes: [String]? = nil
+        public var writeAttributes: [String]? = nil
         /// The Read-only attributes.
-        var readAttributes: [String]? = nil
+        public var readAttributes: [String]? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String? = nil
+        public var clientId: String? = nil
         /// The creation date from the user pool request of the client type.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The last modified date from the user pool request of the client type.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// The explicit authentication flows.
-        var explicitAuthFlows: [String]? = nil
+        public var explicitAuthFlows: [String]? = nil
         /// The client secret from the user pool request of the client type.
-        var clientSecret: String? = nil
+        public var clientSecret: String? = nil
         /// The user pool ID for the user pool client.
-        var userPoolId: String? = nil
+        public var userPoolId: String? = nil
 
         public init() {}
 
@@ -710,13 +790,15 @@ extension CognitoIdp {
 
     }
 
-    public struct CreateUserImportJobRequest: Serializable, Initializable {
+    public struct CreateUserImportJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job name for the user import job.
-        var jobName: String = ""
+        public var jobName: String = ""
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
-        var cloudWatchLogsRoleArn: String = ""
+        public var cloudWatchLogsRoleArn: String = ""
         /// The user pool ID for the user pool that the users are being imported into.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -728,21 +810,23 @@ extension CognitoIdp {
 
     }
 
-    public struct SchemaAttributeType: Serializable, Initializable {
+    public struct SchemaAttributeType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the constraints for an attribute of the number type.
-        var numberAttributeConstraints: NumberAttributeConstraintsType? = nil
+        public var numberAttributeConstraints: NumberAttributeConstraintsType? = nil
         /// Specifies whether the attribute type is developer only.
-        var developerOnlyAttribute: Bool? = nil
+        public var developerOnlyAttribute: Bool? = nil
         /// A schema attribute of the name type.
-        var name: String? = nil
+        public var name: String? = nil
         /// The attribute data type.
-        var attributeDataType: String? = nil
+        public var attributeDataType: String? = nil
         /// Specifies the constraints for an attribute of the string type.
-        var stringAttributeConstraints: StringAttributeConstraintsType? = nil
+        public var stringAttributeConstraints: StringAttributeConstraintsType? = nil
         /// Specifies whether a user pool attribute is required. If the attribute is required and the user does not provide a value, registration or sign-in will fail.
-        var required: Bool? = nil
+        public var required: Bool? = nil
         /// Specifies whether the attribute can be changed once it has been created.
-        var mutable: Bool? = nil
+        public var mutable: Bool? = nil
 
         public init() {}
 
@@ -758,17 +842,19 @@ extension CognitoIdp {
 
     }
 
-    public struct ConfirmForgotPasswordRequest: Serializable, Initializable {
+    public struct ConfirmForgotPasswordRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The confirmation code sent by a user's request to retrieve a forgotten password.
-        var confirmationCode: String = ""
+        public var confirmationCode: String = ""
         /// The password sent by sent by a user's request to retrieve a forgotten password.
-        var password: String = ""
+        public var password: String = ""
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        var secretHash: String? = nil
+        public var secretHash: String? = nil
         /// The user name of the user for whom you want to enter a code to retrieve a forgotten password.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -782,17 +868,19 @@ extension CognitoIdp {
 
     }
 
-    public struct ConfirmSignUpRequest: Serializable, Initializable {
+    public struct ConfirmSignUpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
-        var forceAliasCreation: Bool? = nil
+        public var forceAliasCreation: Bool? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The confirmation code sent by a user's request to confirm registration.
-        var confirmationCode: String = ""
+        public var confirmationCode: String = ""
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        var secretHash: String? = nil
+        public var secretHash: String? = nil
         /// The user name of the user whose registration you wish to confirm.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -806,21 +894,23 @@ extension CognitoIdp {
 
     }
 
-    public struct GroupType: Serializable, Initializable {
+    public struct GroupType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool.
-        var userPoolId: String? = nil
+        public var userPoolId: String? = nil
         /// The name of the group.
-        var groupName: String? = nil
+        public var groupName: String? = nil
         /// The date the group was last modified.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// The date the group was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        var precedence: Int32? = nil
+        public var precedence: Int32? = nil
         /// The role ARN for the group.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// A string containing the description of the group.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -836,9 +926,11 @@ extension CognitoIdp {
 
     }
 
-    public struct StopUserImportJobResponse: Serializable, Initializable {
+    public struct StopUserImportJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job object that represents the user import job.
-        var userImportJob: UserImportJobType? = nil
+        public var userImportJob: UserImportJobType? = nil
 
         public init() {}
 
@@ -848,11 +940,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminEnableUserRequest: Serializable, Initializable {
+    public struct AdminEnableUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to enable the user.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name of the user you wish to ebable.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -863,13 +957,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ForgotPasswordRequest: Serializable, Initializable {
+    public struct ForgotPasswordRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        var secretHash: String? = nil
+        public var secretHash: String? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The user name of the user for whom you want to enter a code to reset a forgotten password.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -881,15 +977,17 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminListDevicesRequest: Serializable, Initializable {
+    public struct AdminListDevicesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user name.
-        var username: String = ""
+        public var username: String = ""
         /// The pagination token.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The limit of the devices request.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The user pool ID.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -902,17 +1000,21 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateDeviceStatusResponse: Serializable, Initializable {
+    public struct UpdateDeviceStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetUserAttributeVerificationCodeRequest: Serializable, Initializable {
+    public struct GetUserAttributeVerificationCodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attribute name returned by the server response to get the user attribute verification code.
-        var attributeName: String = ""
+        public var attributeName: String = ""
         /// The access token returned by the server response to get the user attribute verification code.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -923,15 +1025,17 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminInitiateAuthResponse: Serializable, Initializable {
+    public struct AdminInitiateAuthResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the challenge.
-        var challengeName: String? = nil
+        public var challengeName: String? = nil
         /// The challenge parameters.
-        var challengeParameters: [String: String]? = nil
+        public var challengeParameters: [String: String]? = nil
         /// The result of the authentication response.
-        var authenticationResult: AuthenticationResultType? = nil
+        public var authenticationResult: AuthenticationResultType? = nil
         /// The session.
-        var session: String? = nil
+        public var session: String? = nil
 
         public init() {}
 
@@ -944,11 +1048,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminDeleteUserRequest: Serializable, Initializable {
+    public struct AdminDeleteUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to delete the user.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name of the user you wish to delete.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -959,11 +1065,13 @@ extension CognitoIdp {
 
     }
 
-    public struct GetGroupRequest: Serializable, Initializable {
+    public struct GetGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the group.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -974,13 +1082,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUserImportJobsRequest: Serializable, Initializable {
+    public struct ListUserImportJobsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool that the users are being imported into.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The maximum number of import jobs you want the request to return.
-        var maxResults: Int32 = 0
+        public var maxResults: Int32 = 0
 
         public init() {}
 
@@ -992,11 +1102,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminResetUserPasswordRequest: Serializable, Initializable {
+    public struct AdminResetUserPasswordRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to reset the user's password.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name of the user whose password you wish to reset.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1007,13 +1119,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ChangePasswordRequest: Serializable, Initializable {
+    public struct ChangePasswordRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The old password in the change password request.
-        var previousPassword: String = ""
+        public var previousPassword: String = ""
         /// The new password in the change password request.
-        var proposedPassword: String = ""
+        public var proposedPassword: String = ""
         /// The access token in the change password request.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -1025,19 +1139,21 @@ extension CognitoIdp {
 
     }
 
-    public struct UserPoolDescriptionType: Serializable, Initializable {
+    public struct UserPoolDescriptionType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The last modified date in a user pool description.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// The creation date in a user pool description.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The user pool status in a user pool description.
-        var status: String? = nil
+        public var status: String? = nil
         /// The AWS Lambda configuration information in a user pool description.
-        var lambdaConfig: LambdaConfigType? = nil
+        public var lambdaConfig: LambdaConfigType? = nil
         /// The name in a user pool description.
-        var name: String? = nil
+        public var name: String? = nil
         /// The ID in a user pool description.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -1052,11 +1168,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DeviceConfigurationType: Serializable, Initializable {
+    public struct DeviceConfigurationType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If true, a device is only remembered on user prompt.
-        var deviceOnlyRememberedOnUserPrompt: Bool? = nil
+        public var deviceOnlyRememberedOnUserPrompt: Bool? = nil
         /// Indicates whether a challenge is required on a new device. Only applicable to a new device.
-        var challengeRequiredOnNewDevice: Bool? = nil
+        public var challengeRequiredOnNewDevice: Bool? = nil
 
         public init() {}
 
@@ -1067,11 +1185,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUserPoolsResponse: Serializable, Initializable {
+    public struct ListUserPoolsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pools from the response to list users.
-        var userPools: [UserPoolDescriptionType]? = nil
+        public var userPools: [UserPoolDescriptionType]? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1082,21 +1202,23 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminGetUserResponse: Serializable, Initializable {
+    public struct AdminGetUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
-        var userStatus: String? = nil
+        public var userStatus: String? = nil
         /// The user name of the user about whom you are receiving information.
-        var username: String = ""
+        public var username: String = ""
         /// Indicates that the status is enabled.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The date the user was created.
-        var userCreateDate: Date? = nil
+        public var userCreateDate: Date? = nil
         /// Specifies the options for MFA (e.g., email or phone number).
-        var mFAOptions: [MFAOptionType]? = nil
+        public var mFAOptions: [MFAOptionType]? = nil
         /// The date the user was last modified.
-        var userLastModifiedDate: Date? = nil
+        public var userLastModifiedDate: Date? = nil
         /// An array of name-value pairs representing user attributes.
-        var userAttributes: [AttributeType]? = nil
+        public var userAttributes: [AttributeType]? = nil
 
         public init() {}
 
@@ -1112,15 +1234,17 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUsersInGroupRequest: Serializable, Initializable {
+    public struct ListUsersInGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the group.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The limit of the request to list users.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1133,17 +1257,19 @@ extension CognitoIdp {
 
     }
 
-    public struct CreateGroupRequest: Serializable, Initializable {
+    public struct CreateGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string containing the description of the group.
-        var description: String? = nil
+        public var description: String? = nil
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        var precedence: Int32? = nil
+        public var precedence: Int32? = nil
         /// The name of the group. Must be unique.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The role ARN for the group.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1157,13 +1283,15 @@ extension CognitoIdp {
 
     }
 
-    public struct MessageTemplateType: Serializable, Initializable {
+    public struct MessageTemplateType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The message template for SMS messages.
-        var sMSMessage: String? = nil
+        public var sMSMessage: String? = nil
         /// The message template for email messages.
-        var emailMessage: String? = nil
+        public var emailMessage: String? = nil
         /// The subject line for email messages.
-        var emailSubject: String? = nil
+        public var emailSubject: String? = nil
 
         public init() {}
 
@@ -1175,9 +1303,11 @@ extension CognitoIdp {
 
     }
 
-    public struct ConfirmDeviceResponse: Serializable, Initializable {
+    public struct ConfirmDeviceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether the user confirmation is necessary to confirm the device response.
-        var userConfirmationNecessary: Bool? = nil
+        public var userConfirmationNecessary: Bool? = nil
 
         public init() {}
 
@@ -1187,9 +1317,11 @@ extension CognitoIdp {
 
     }
 
-    public struct StartUserImportJobResponse: Serializable, Initializable {
+    public struct StartUserImportJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job object that represents the user import job.
-        var userImportJob: UserImportJobType? = nil
+        public var userImportJob: UserImportJobType? = nil
 
         public init() {}
 
@@ -1199,11 +1331,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminDisableUserRequest: Serializable, Initializable {
+    public struct AdminDisableUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to disable the user.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name of the user you wish to disable.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1214,11 +1348,13 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateUserAttributesRequest: Serializable, Initializable {
+    public struct UpdateUserAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of name-value pairs representing user attributes.
-        var userAttributes: [AttributeType] = []
+        public var userAttributes: [AttributeType] = []
         /// The access token for the request to update user attributes.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -1229,11 +1365,13 @@ extension CognitoIdp {
 
     }
 
-    public struct MFAOptionType: Serializable, Initializable {
+    public struct MFAOptionType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attribute name of the MFA option type.
-        var attributeName: String? = nil
+        public var attributeName: String? = nil
         /// The delivery medium (email message or SMS message) to send the MFA code.
-        var deliveryMedium: String? = nil
+        public var deliveryMedium: String? = nil
 
         public init() {}
 
@@ -1244,15 +1382,19 @@ extension CognitoIdp {
 
     }
 
-    public struct ConfirmForgotPasswordResponse: Serializable, Initializable {
+    public struct ConfirmForgotPasswordResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeUserPoolRequest: Serializable, Initializable {
+    public struct DescribeUserPoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool you want to describe.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1262,13 +1404,15 @@ extension CognitoIdp {
 
     }
 
-    public struct GetUserResponse: Serializable, Initializable {
+    public struct GetUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of name-value pairs representing user attributes.
-        var userAttributes: [AttributeType] = []
+        public var userAttributes: [AttributeType] = []
         /// Specifies the options for MFA (e.g., email or phone number).
-        var mFAOptions: [MFAOptionType]? = nil
+        public var mFAOptions: [MFAOptionType]? = nil
         /// The user name of the user you wish to retrieve from the get user request.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1280,21 +1424,25 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminSetUserSettingsResponse: Serializable, Initializable {
+    public struct AdminSetUserSettingsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AdminRespondToAuthChallengeResponse: Serializable, Initializable {
+    public struct AdminRespondToAuthChallengeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the challenge.
-        var challengeName: String? = nil
+        public var challengeName: String? = nil
         /// The challenge parameters.
-        var challengeParameters: [String: String]? = nil
+        public var challengeParameters: [String: String]? = nil
         /// The result returned by the server in response to the authentication request.
-        var authenticationResult: AuthenticationResultType? = nil
+        public var authenticationResult: AuthenticationResultType? = nil
         /// The session.
-        var session: String? = nil
+        public var session: String? = nil
 
         public init() {}
 
@@ -1307,21 +1455,23 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateUserPoolClientRequest: Serializable, Initializable {
+    public struct UpdateUserPoolClientRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The client name from the update user pool client request.
-        var clientName: String? = nil
+        public var clientName: String? = nil
         /// The validity of the refresh token, in days.
-        var refreshTokenValidity: Int32? = nil
+        public var refreshTokenValidity: Int32? = nil
         /// The writeable attributes of the user pool.
-        var writeAttributes: [String]? = nil
+        public var writeAttributes: [String]? = nil
         /// The read-only attributes of the user pool.
-        var readAttributes: [String]? = nil
+        public var readAttributes: [String]? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// Explicit authentication flows.
-        var explicitAuthFlows: [String]? = nil
+        public var explicitAuthFlows: [String]? = nil
         /// The user pool ID for the user pool where you want to update the user pool client.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1337,17 +1487,19 @@ extension CognitoIdp {
 
     }
 
-    public struct DeviceType: Serializable, Initializable {
+    public struct DeviceType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String? = nil
+        public var deviceKey: String? = nil
         /// The last modified date of the device.
-        var deviceLastModifiedDate: Date? = nil
+        public var deviceLastModifiedDate: Date? = nil
         /// The device attributes.
-        var deviceAttributes: [AttributeType]? = nil
+        public var deviceAttributes: [AttributeType]? = nil
         /// The creation date of the device.
-        var deviceCreateDate: Date? = nil
+        public var deviceCreateDate: Date? = nil
         /// The date in which the device was last authenticated.
-        var deviceLastAuthenticatedDate: Date? = nil
+        public var deviceLastAuthenticatedDate: Date? = nil
 
         public init() {}
 
@@ -1361,19 +1513,23 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminUpdateDeviceStatusResponse: Serializable, Initializable {
+    public struct AdminUpdateDeviceStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AdminUpdateUserAttributesRequest: Serializable, Initializable {
+    public struct AdminUpdateUserAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user name of the user for whom you want to update user attributes.
-        var username: String = ""
+        public var username: String = ""
         /// An array of name-value pairs representing user attributes.
-        var userAttributes: [AttributeType] = []
+        public var userAttributes: [AttributeType] = []
         /// The user pool ID for the user pool where you want to update user attributes.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1385,11 +1541,13 @@ extension CognitoIdp {
 
     }
 
-    public struct SmsConfigurationType: Serializable, Initializable {
+    public struct SmsConfigurationType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The external ID.
-        var externalId: String? = nil
+        public var externalId: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
-        var snsCallerArn: String = ""
+        public var snsCallerArn: String = ""
 
         public init() {}
 
@@ -1400,13 +1558,15 @@ extension CognitoIdp {
 
     }
 
-    public struct CodeDeliveryDetailsType: Serializable, Initializable {
+    public struct CodeDeliveryDetailsType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the attribute in the code delivery details type.
-        var attributeName: String? = nil
+        public var attributeName: String? = nil
         /// The destination for the code delivery details.
-        var destination: String? = nil
+        public var destination: String? = nil
         /// The delivery medium (email message or phone number).
-        var deliveryMedium: String? = nil
+        public var deliveryMedium: String? = nil
 
         public init() {}
 
@@ -1418,11 +1578,13 @@ extension CognitoIdp {
 
     }
 
-    public struct GetCSVHeaderResponse: Serializable, Initializable {
+    public struct GetCSVHeaderResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The header information for the .csv file for the user import job.
-        var cSVHeader: [String]? = nil
+        public var cSVHeader: [String]? = nil
         /// The user pool ID for the user pool that the users are to be imported into.
-        var userPoolId: String? = nil
+        public var userPoolId: String? = nil
 
         public init() {}
 
@@ -1433,17 +1595,21 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminEnableUserResponse: Serializable, Initializable {
+    public struct AdminEnableUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AdminConfirmSignUpRequest: Serializable, Initializable {
+    public struct AdminConfirmSignUpRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for which you want to confirm user registration.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name for which you want to confirm user registration.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1454,11 +1620,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ForgetDeviceRequest: Serializable, Initializable {
+    public struct ForgetDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The access token for the forgotten device request.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -1469,11 +1637,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUsersResponse: Serializable, Initializable {
+    public struct ListUsersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The users returned in the request to list users.
-        var users: [UserType]? = nil
+        public var users: [UserType]? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
 
         public init() {}
 
@@ -1484,53 +1654,55 @@ extension CognitoIdp {
 
     }
 
-    public struct UserPoolType: Serializable, Initializable {
+    public struct UserPoolType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        var userPoolTags: [String: String]? = nil
+        public var userPoolTags: [String: String]? = nil
         /// The subject of the email verification message.
-        var emailVerificationSubject: String? = nil
+        public var emailVerificationSubject: String? = nil
         /// The reason why the email configuration cannot send the messages to your users.
-        var emailConfigurationFailure: String? = nil
+        public var emailConfigurationFailure: String? = nil
         /// The configuration for AdminCreateUser requests.
-        var adminCreateUserConfig: AdminCreateUserConfigType? = nil
+        public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
         /// A number estimating the size of the user pool.
-        var estimatedNumberOfUsers: Int32? = nil
+        public var estimatedNumberOfUsers: Int32? = nil
         /// Specifies the attributes that are aliased in a user pool.
-        var aliasAttributes: [String]? = nil
+        public var aliasAttributes: [String]? = nil
         /// A container with the schema attributes of a user pool.
-        var schemaAttributes: [SchemaAttributeType]? = nil
+        public var schemaAttributes: [SchemaAttributeType]? = nil
         /// The reason why the SMS configuration cannot send the message(s) to your users.
-        var smsConfigurationFailure: String? = nil
+        public var smsConfigurationFailure: String? = nil
         /// A container describing the AWS Lambda triggers associated with a user pool.
-        var lambdaConfig: LambdaConfigType? = nil
+        public var lambdaConfig: LambdaConfigType? = nil
         /// A container describing the policies associated with a user pool.
-        var policies: UserPoolPolicyType? = nil
+        public var policies: UserPoolPolicyType? = nil
         /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
-        var mfaConfiguration: String? = nil
+        public var mfaConfiguration: String? = nil
         /// The creation date of a user pool.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The ID of the user pool.
-        var id: String? = nil
+        public var id: String? = nil
         /// The status of a user pool.
-        var status: String? = nil
+        public var status: String? = nil
         /// The SMS configuration.
-        var smsConfiguration: SmsConfigurationType? = nil
+        public var smsConfiguration: SmsConfigurationType? = nil
         /// The contents of the SMS verification message.
-        var smsVerificationMessage: String? = nil
+        public var smsVerificationMessage: String? = nil
         /// The contents of the SMS authentication message.
-        var smsAuthenticationMessage: String? = nil
+        public var smsAuthenticationMessage: String? = nil
         /// The name of the user pool.
-        var name: String? = nil
+        public var name: String? = nil
         /// The email configuration.
-        var emailConfiguration: EmailConfigurationType? = nil
+        public var emailConfiguration: EmailConfigurationType? = nil
         /// The contents of the email verification message.
-        var emailVerificationMessage: String? = nil
+        public var emailVerificationMessage: String? = nil
         /// The last modified date of a user pool.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// Specifies the attributes that are auto-verified in a user pool.
-        var autoVerifiedAttributes: [String]? = nil
+        public var autoVerifiedAttributes: [String]? = nil
         /// The device configuration.
-        var deviceConfiguration: DeviceConfigurationType? = nil
+        public var deviceConfiguration: DeviceConfigurationType? = nil
 
         public init() {}
 
@@ -1562,11 +1734,13 @@ extension CognitoIdp {
 
     }
 
-    public struct GetDeviceRequest: Serializable, Initializable {
+    public struct GetDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The access token.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -1577,11 +1751,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ListDevicesResponse: Serializable, Initializable {
+    public struct ListDevicesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token for the list device response.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The devices returned in the list devices response.
-        var devices: [DeviceType]? = nil
+        public var devices: [DeviceType]? = nil
 
         public init() {}
 
@@ -1592,9 +1768,11 @@ extension CognitoIdp {
 
     }
 
-    public struct CreateUserPoolResponse: Serializable, Initializable {
+    public struct CreateUserPoolResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A container for the user pool details.
-        var userPool: UserPoolType? = nil
+        public var userPool: UserPoolType? = nil
 
         public init() {}
 
@@ -1604,9 +1782,11 @@ extension CognitoIdp {
 
     }
 
-    public struct ResendConfirmationCodeResponse: Serializable, Initializable {
+    public struct ResendConfirmationCodeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code delivery details returned by the server in response to the request to resend the confirmation code.
-        var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
+        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
 
         public init() {}
 
@@ -1616,15 +1796,19 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminConfirmSignUpResponse: Serializable, Initializable {
+    public struct AdminConfirmSignUpResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct CreateUserImportJobResponse: Serializable, Initializable {
+    public struct CreateUserImportJobResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job object that represents the user import job.
-        var userImportJob: UserImportJobType? = nil
+        public var userImportJob: UserImportJobType? = nil
 
         public init() {}
 
@@ -1634,15 +1818,17 @@ extension CognitoIdp {
 
     }
 
-    public struct RespondToAuthChallengeRequest: Serializable, Initializable {
+    public struct RespondToAuthChallengeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the challenge.
-        var challengeName: String = ""
+        public var challengeName: String = ""
         /// The client ID.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The session.
-        var session: String? = nil
+        public var session: String? = nil
         /// The responses to the authentication challenge.
-        var challengeResponses: [String: String]? = nil
+        public var challengeResponses: [String: String]? = nil
 
         public init() {}
 
@@ -1655,41 +1841,45 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateUserPoolResponse: Serializable, Initializable {
+    public struct UpdateUserPoolResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateUserPoolRequest: Serializable, Initializable {
+    public struct UpdateUserPoolRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        var userPoolTags: [String: String]? = nil
+        public var userPoolTags: [String: String]? = nil
         /// The subject of the email verfication message.
-        var emailVerificationSubject: String? = nil
+        public var emailVerificationSubject: String? = nil
         /// The configuration for AdminCreateUser requests.
-        var adminCreateUserConfig: AdminCreateUserConfigType? = nil
+        public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
         /// A container with the policies you wish to update in a user pool.
-        var policies: UserPoolPolicyType? = nil
+        public var policies: UserPoolPolicyType? = nil
         /// The AWS Lambda configuration information from the request to update the user pool.
-        var lambdaConfig: LambdaConfigType? = nil
+        public var lambdaConfig: LambdaConfigType? = nil
         /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
-        var mfaConfiguration: String? = nil
+        public var mfaConfiguration: String? = nil
         /// The user pool ID for the user pool you want to update.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// Email configuration.
-        var emailConfiguration: EmailConfigurationType? = nil
+        public var emailConfiguration: EmailConfigurationType? = nil
         /// A container with information about the SMS verification message.
-        var smsVerificationMessage: String? = nil
+        public var smsVerificationMessage: String? = nil
         /// The contents of the SMS authentication message.
-        var smsAuthenticationMessage: String? = nil
+        public var smsAuthenticationMessage: String? = nil
         /// The contents of the email verification message.
-        var emailVerificationMessage: String? = nil
+        public var emailVerificationMessage: String? = nil
         /// SMS configuration.
-        var smsConfiguration: SmsConfigurationType? = nil
+        public var smsConfiguration: SmsConfigurationType? = nil
         /// The attributes that are automatically verified when the Amazon Cognito service makes a request to update user pools.
-        var autoVerifiedAttributes: [String]? = nil
+        public var autoVerifiedAttributes: [String]? = nil
         /// Device configuration.
-        var deviceConfiguration: DeviceConfigurationType? = nil
+        public var deviceConfiguration: DeviceConfigurationType? = nil
 
         public init() {}
 
@@ -1712,23 +1902,25 @@ extension CognitoIdp {
 
     }
 
-    public struct LambdaConfigType: Serializable, Initializable {
+    public struct LambdaConfigType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A post-authentication AWS Lambda trigger.
-        var postAuthentication: String? = nil
+        public var postAuthentication: String? = nil
         /// A custom Message AWS Lambda trigger.
-        var customMessage: String? = nil
+        public var customMessage: String? = nil
         /// A pre-registration AWS Lambda trigger.
-        var preSignUp: String? = nil
+        public var preSignUp: String? = nil
         /// Verifies the authentication challenge response.
-        var verifyAuthChallengeResponse: String? = nil
+        public var verifyAuthChallengeResponse: String? = nil
         /// Defines the authentication challenge.
-        var defineAuthChallenge: String? = nil
+        public var defineAuthChallenge: String? = nil
         /// Creates an authentication challenge.
-        var createAuthChallenge: String? = nil
+        public var createAuthChallenge: String? = nil
         /// A pre-authentication AWS Lambda trigger.
-        var preAuthentication: String? = nil
+        public var preAuthentication: String? = nil
         /// A post-confirmation AWS Lambda trigger.
-        var postConfirmation: String? = nil
+        public var postConfirmation: String? = nil
 
         public init() {}
 
@@ -1745,13 +1937,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ListGroupsRequest: Serializable, Initializable {
+    public struct ListGroupsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The limit of the request to list groups.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1763,11 +1957,13 @@ extension CognitoIdp {
 
     }
 
-    public struct SetUserSettingsRequest: Serializable, Initializable {
+    public struct SetUserSettingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the options for MFA (e.g., email or phone number).
-        var mFAOptions: [MFAOptionType] = []
+        public var mFAOptions: [MFAOptionType] = []
         /// The access token for the set user settings request.
-        var accessToken: String = ""
+        public var accessToken: String = ""
 
         public init() {}
 
@@ -1778,11 +1974,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminGetUserRequest: Serializable, Initializable {
+    public struct AdminGetUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to get information about the user.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name of the user you wish to retrieve.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1793,9 +1991,11 @@ extension CognitoIdp {
 
     }
 
-    public struct GetGroupResponse: Serializable, Initializable {
+    public struct GetGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The group object for the group.
-        var group: GroupType? = nil
+        public var group: GroupType? = nil
 
         public init() {}
 
@@ -1805,19 +2005,21 @@ extension CognitoIdp {
 
     }
 
-    public struct AuthenticationResultType: Serializable, Initializable {
+    public struct AuthenticationResultType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The expiration period of the authentication result.
-        var expiresIn: Int32? = nil
+        public var expiresIn: Int32? = nil
         /// The new device metadata from an authentication result.
-        var newDeviceMetadata: NewDeviceMetadataType? = nil
+        public var newDeviceMetadata: NewDeviceMetadataType? = nil
         /// The ID token of the authentication result.
-        var idToken: String? = nil
+        public var idToken: String? = nil
         /// The token type of the authentication result.
-        var tokenType: String? = nil
+        public var tokenType: String? = nil
         /// The refresh token of the authentication result.
-        var refreshToken: String? = nil
+        public var refreshToken: String? = nil
         /// The access token of the authentication result.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -1832,13 +2034,15 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminCreateUserConfigType: Serializable, Initializable {
+    public struct AdminCreateUserConfigType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
-        var allowAdminCreateUserOnly: Bool? = nil
+        public var allowAdminCreateUserOnly: Bool? = nil
         /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this paameter is 7.
-        var unusedAccountValidityDays: Int32? = nil
+        public var unusedAccountValidityDays: Int32? = nil
         /// The message template to be used for the welcome message to new users.
-        var inviteMessageTemplate: MessageTemplateType? = nil
+        public var inviteMessageTemplate: MessageTemplateType? = nil
 
         public init() {}
 
@@ -1850,11 +2054,13 @@ extension CognitoIdp {
 
     }
 
-    public struct StringAttributeConstraintsType: Serializable, Initializable {
+    public struct StringAttributeConstraintsType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The minimum length of an attribute value of the string type.
-        var minLength: String? = nil
+        public var minLength: String? = nil
         /// The maximum length of an attribute value of the string type.
-        var maxLength: String? = nil
+        public var maxLength: String? = nil
 
         public init() {}
 
@@ -1865,9 +2071,11 @@ extension CognitoIdp {
 
     }
 
-    public struct UserPoolPolicyType: Serializable, Initializable {
+    public struct UserPoolPolicyType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A container with information about the user pool password policy.
-        var passwordPolicy: PasswordPolicyType? = nil
+        public var passwordPolicy: PasswordPolicyType? = nil
 
         public init() {}
 
@@ -1877,9 +2085,11 @@ extension CognitoIdp {
 
     }
 
-    public struct ForgotPasswordResponse: Serializable, Initializable {
+    public struct ForgotPasswordResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code delivery details returned by the server in response to the request to reset a password.
-        var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
+        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
 
         public init() {}
 
@@ -1889,9 +2099,11 @@ extension CognitoIdp {
 
     }
 
-    public struct CreateGroupResponse: Serializable, Initializable {
+    public struct CreateGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The group object for the group.
-        var group: GroupType? = nil
+        public var group: GroupType? = nil
 
         public init() {}
 
@@ -1901,17 +2113,21 @@ extension CognitoIdp {
 
     }
 
-    public struct GlobalSignOutResponse: Serializable, Initializable {
+    public struct GlobalSignOutResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct NewDeviceMetadataType: Serializable, Initializable {
+    public struct NewDeviceMetadataType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device group key.
-        var deviceGroupKey: String? = nil
+        public var deviceGroupKey: String? = nil
         /// The device key.
-        var deviceKey: String? = nil
+        public var deviceKey: String? = nil
 
         public init() {}
 
@@ -1922,11 +2138,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DescribeUserPoolClientRequest: Serializable, Initializable {
+    public struct DescribeUserPoolClientRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The user pool ID for the user pool you want to describe.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -1937,11 +2155,13 @@ extension CognitoIdp {
 
     }
 
-    public struct SignUpResponse: Serializable, Initializable {
+    public struct SignUpResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code delivery details returned by the server response to the user registration request.
-        var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
+        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
         /// A response from the server indicating that a user registration has been confirmed.
-        var userConfirmed: Bool? = nil
+        public var userConfirmed: Bool? = nil
 
         public init() {}
 
@@ -1952,9 +2172,11 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateGroupResponse: Serializable, Initializable {
+    public struct UpdateGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The group object for the group.
-        var group: GroupType? = nil
+        public var group: GroupType? = nil
 
         public init() {}
 
@@ -1964,19 +2186,23 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminResetUserPasswordResponse: Serializable, Initializable {
+    public struct AdminResetUserPasswordResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AdminSetUserSettingsRequest: Serializable, Initializable {
+    public struct AdminSetUserSettingsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to set the user's settings, such as MFA options.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// Specifies the options for MFA (e.g., email or phone number).
-        var mFAOptions: [MFAOptionType] = []
+        public var mFAOptions: [MFAOptionType] = []
         /// The user name of the user for whom you wish to set user settings.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1988,23 +2214,29 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminDisableUserResponse: Serializable, Initializable {
+    public struct AdminDisableUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AdminDeleteUserAttributesResponse: Serializable, Initializable {
+    public struct AdminDeleteUserAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct StopUserImportJobRequest: Serializable, Initializable {
+    public struct StopUserImportJobRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The job ID for the user import job.
-        var jobId: String = ""
+        public var jobId: String = ""
         /// The user pool ID for the user pool that the users are being imported into.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -2015,9 +2247,11 @@ extension CognitoIdp {
 
     }
 
-    public struct GetCSVHeaderRequest: Serializable, Initializable {
+    public struct GetCSVHeaderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool that the users are to be imported into.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -2027,13 +2261,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ResendConfirmationCodeRequest: Serializable, Initializable {
+    public struct ResendConfirmationCodeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        var secretHash: String? = nil
+        public var secretHash: String? = nil
         /// The ID of the client associated with the user pool.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The user name of the user to whom you wish to resend a confirmation code.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -2045,9 +2281,11 @@ extension CognitoIdp {
 
     }
 
-    public struct DescribeUserPoolResponse: Serializable, Initializable {
+    public struct DescribeUserPoolResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The container of metadata returned by the server to describe the pool.
-        var userPool: UserPoolType? = nil
+        public var userPool: UserPoolType? = nil
 
         public init() {}
 
@@ -2057,11 +2295,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AddCustomAttributesRequest: Serializable, Initializable {
+    public struct AddCustomAttributesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of custom attributes, such as Mutable and Name.
-        var customAttributes: [SchemaAttributeType] = []
+        public var customAttributes: [SchemaAttributeType] = []
         /// The user pool ID for the user pool where you want to add custom attributes.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -2072,9 +2312,11 @@ extension CognitoIdp {
 
     }
 
-    public struct UpdateUserAttributesResponse: Serializable, Initializable {
+    public struct UpdateUserAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The code delivery details list from the server for the request to update user attributes.
-        var codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil
+        public var codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil
 
         public init() {}
 
@@ -2084,33 +2326,35 @@ extension CognitoIdp {
 
     }
 
-    public struct UserImportJobType: Serializable, Initializable {
+    public struct UserImportJobType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date when the user imoprt job was completed.
-        var completionDate: Date? = nil
+        public var completionDate: Date? = nil
         /// The message returned when the user import job is completed.
-        var completionMessage: String? = nil
+        public var completionMessage: String? = nil
         /// The number of users that could not be imported.
-        var failedUsers: Int64? = nil
+        public var failedUsers: Int64? = nil
         /// The number of users that were skipped.
-        var skippedUsers: Int64? = nil
+        public var skippedUsers: Int64? = nil
         /// The date when the user import job was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The job ID for the user import job.
-        var jobId: String? = nil
+        public var jobId: String? = nil
         /// The user pool ID for the user pool that the users are being imported into.
-        var userPoolId: String? = nil
+        public var userPoolId: String? = nil
         /// The status of the user import job. One of the following:   Created - The job was created but not started.   Pending - A transition state. You have started the job, but it has not begun importing users yet.   InProgress - The job has started, and users are being imported.   Stopping - You have stopped the job, but the job has not stopped importing users yet.   Stopped - You have stopped the job, and the job has stopped importing users.   Succeeded - The job has completed successfully.   Failed - The job has stopped due to an error.   Expired - You created a job, but did not start the job within 24-48 hours. All data associated with the job was deleted, and the job cannot be started.  
-        var status: String? = nil
+        public var status: String? = nil
         /// The pre-signed URL to be used to upload the .csv file.
-        var preSignedUrl: String? = nil
+        public var preSignedUrl: String? = nil
         /// The date when the user import job was started.
-        var startDate: Date? = nil
+        public var startDate: Date? = nil
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
-        var cloudWatchLogsRoleArn: String? = nil
+        public var cloudWatchLogsRoleArn: String? = nil
         /// The job name for the user import job.
-        var jobName: String? = nil
+        public var jobName: String? = nil
         /// The number of users that were successfully imported.
-        var importedUsers: Int64? = nil
+        public var importedUsers: Int64? = nil
 
         public init() {}
 
@@ -2132,27 +2376,33 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminUpdateUserAttributesResponse: Serializable, Initializable {
+    public struct AdminUpdateUserAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteUserAttributesResponse: Serializable, Initializable {
+    public struct DeleteUserAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ConfirmDeviceRequest: Serializable, Initializable {
+    public struct ConfirmDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The configuration of the device secret verifier.
-        var deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil
+        public var deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil
         /// The device name.
-        var deviceName: String? = nil
+        public var deviceName: String? = nil
         /// The access token.
-        var accessToken: String = ""
+        public var accessToken: String = ""
 
         public init() {}
 
@@ -2165,23 +2415,25 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminCreateUserRequest: Serializable, Initializable {
+    public struct AdminCreateUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (in CreateUserPool or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You cannot do this by calling other operations such as AdminUpdateUserAttributes.)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if "EMAIL" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.  
-        var userAttributes: [AttributeType]? = nil
+        public var userAttributes: [AttributeType]? = nil
         /// The user pool ID for the user pool where the user will be created.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". More than one value can be specified.
-        var desiredDeliveryMediums: [String]? = nil
+        public var desiredDeliveryMediums: [String]? = nil
         /// Set to "RESEND" to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to "SUPPRESS" to suppress sending the message. Only one value can be specified.
-        var messageAction: String? = nil
+        public var messageAction: String? = nil
         /// The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data is not persisted.
-        var validationData: [AttributeType]? = nil
+        public var validationData: [AttributeType]? = nil
         /// The username for the user. Must be unique within the user pool. Must be a UTF-8 string between 1 and 128 characters. After the user is created, the username cannot be changed.
-        var username: String = ""
+        public var username: String = ""
         /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page along with a new password to be used in all future sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
-        var temporaryPassword: String? = nil
+        public var temporaryPassword: String? = nil
         /// This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-        var forceAliasCreation: Bool? = nil
+        public var forceAliasCreation: Bool? = nil
 
         public init() {}
 
@@ -2198,11 +2450,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminListGroupsForUserResponse: Serializable, Initializable {
+    public struct AdminListGroupsForUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The groups that the user belongs to.
-        var groups: [GroupType]? = nil
+        public var groups: [GroupType]? = nil
 
         public init() {}
 
@@ -2213,11 +2467,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminListDevicesResponse: Serializable, Initializable {
+    public struct AdminListDevicesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The devices in the list of devices response.
-        var devices: [DeviceType]? = nil
+        public var devices: [DeviceType]? = nil
 
         public init() {}
 
@@ -2228,17 +2484,19 @@ extension CognitoIdp {
 
     }
 
-    public struct PasswordPolicyType: Serializable, Initializable {
+    public struct PasswordPolicyType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
-        var minimumLength: Int32? = nil
+        public var minimumLength: Int32? = nil
         /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
-        var requireLowercase: Bool? = nil
+        public var requireLowercase: Bool? = nil
         /// In the password policy that you have set, refers to whether you have required users to use at least one symbol in their password.
-        var requireSymbols: Bool? = nil
+        public var requireSymbols: Bool? = nil
         /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
-        var requireUppercase: Bool? = nil
+        public var requireUppercase: Bool? = nil
         /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
-        var requireNumbers: Bool? = nil
+        public var requireNumbers: Bool? = nil
 
         public init() {}
 
@@ -2252,21 +2510,23 @@ extension CognitoIdp {
 
     }
 
-    public struct UserType: Serializable, Initializable {
+    public struct UserType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
-        var userStatus: String? = nil
+        public var userStatus: String? = nil
         /// The user name of the user you wish to describe.
-        var username: String? = nil
+        public var username: String? = nil
         /// Specifies whether the user is enabled.
-        var enabled: Bool? = nil
+        public var enabled: Bool? = nil
         /// The creation date of the user.
-        var userCreateDate: Date? = nil
+        public var userCreateDate: Date? = nil
         /// A container with information about the user type attributes.
-        var attributes: [AttributeType]? = nil
+        public var attributes: [AttributeType]? = nil
         /// The last modified date of the user.
-        var userLastModifiedDate: Date? = nil
+        public var userLastModifiedDate: Date? = nil
         /// The MFA options for the user.
-        var mFAOptions: [MFAOptionType]? = nil
+        public var mFAOptions: [MFAOptionType]? = nil
 
         public init() {}
 
@@ -2282,17 +2542,19 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUsersRequest: Serializable, Initializable {
+    public struct ListUsersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attributes to get from the request to list users.
-        var attributesToGet: [String]? = nil
+        public var attributesToGet: [String]? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var paginationToken: String? = nil
+        public var paginationToken: String? = nil
         /// The limit of the request to list users.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The filter for the list users request.
-        var filter: String? = nil
+        public var filter: String? = nil
         /// The user pool ID for which you want to list users.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -2306,9 +2568,11 @@ extension CognitoIdp {
 
     }
 
-    public struct GetDeviceResponse: Serializable, Initializable {
+    public struct GetDeviceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device.
-        var device: DeviceType = DeviceType()
+        public var device: DeviceType = DeviceType()
 
         public init() {}
 
@@ -2318,9 +2582,11 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminGetDeviceResponse: Serializable, Initializable {
+    public struct AdminGetDeviceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device.
-        var device: DeviceType = DeviceType()
+        public var device: DeviceType = DeviceType()
 
         public init() {}
 
@@ -2330,15 +2596,17 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminUpdateDeviceStatusRequest: Serializable, Initializable {
+    public struct AdminUpdateDeviceStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The status indicating whether a device has been remembered or not.
-        var deviceRememberedStatus: String? = nil
+        public var deviceRememberedStatus: String? = nil
         /// The user pool ID&gt;
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -2351,13 +2619,15 @@ extension CognitoIdp {
 
     }
 
-    public struct VerifyUserAttributeRequest: Serializable, Initializable {
+    public struct VerifyUserAttributeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The attribute name in the request to verify user attributes.
-        var attributeName: String = ""
+        public var attributeName: String = ""
         /// The verification code in the request to verify user attributes.
-        var code: String = ""
+        public var code: String = ""
         /// Represents the access token of the request to verify user attributes.
-        var accessToken: String? = nil
+        public var accessToken: String? = nil
 
         public init() {}
 
@@ -2369,19 +2639,23 @@ extension CognitoIdp {
 
     }
 
-    public struct ChangePasswordResponse: Serializable, Initializable {
+    public struct ChangePasswordResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct AdminForgetDeviceRequest: Serializable, Initializable {
+    public struct AdminForgetDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The user pool ID.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -2393,13 +2667,15 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminGetDeviceRequest: Serializable, Initializable {
+    public struct AdminGetDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The device key.
-        var deviceKey: String = ""
+        public var deviceKey: String = ""
         /// The user name.
-        var username: String = ""
+        public var username: String = ""
         /// The user pool ID.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -2411,15 +2687,17 @@ extension CognitoIdp {
 
     }
 
-    public struct InitiateAuthRequest: Serializable, Initializable {
+    public struct InitiateAuthRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The client app's metadata.
-        var clientMetadata: [String: String]? = nil
+        public var clientMetadata: [String: String]? = nil
         /// The client ID.
-        var clientId: String = ""
+        public var clientId: String = ""
         /// The authentication parameters.
-        var authParameters: [String: String]? = nil
+        public var authParameters: [String: String]? = nil
         /// The authentication flow.
-        var authFlow: String = ""
+        public var authFlow: String = ""
 
         public init() {}
 
@@ -2432,13 +2710,15 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUserPoolClientsRequest: Serializable, Initializable {
+    public struct ListUserPoolClientsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID for the user pool where you want to list user pool clients.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results you want the request to return when listing the user pool clients.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -2450,13 +2730,15 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminAddUserToGroupRequest: Serializable, Initializable {
+    public struct AdminAddUserToGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The username for the user.
-        var username: String = ""
+        public var username: String = ""
         /// The group name.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 
@@ -2468,11 +2750,13 @@ extension CognitoIdp {
 
     }
 
-    public struct EmailConfigurationType: Serializable, Initializable {
+    public struct EmailConfigurationType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The REPLY-TO email address.
-        var replyToEmailAddress: String? = nil
+        public var replyToEmailAddress: String? = nil
         /// The Amazon Resource Name (ARN) of the email source.
-        var sourceArn: String? = nil
+        public var sourceArn: String? = nil
 
         public init() {}
 
@@ -2483,11 +2767,13 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminUserGlobalSignOutRequest: Serializable, Initializable {
+    public struct AdminUserGlobalSignOutRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user pool ID.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
         /// The user name.
-        var username: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -2498,9 +2784,11 @@ extension CognitoIdp {
 
     }
 
-    public struct AdminCreateUserResponse: Serializable, Initializable {
+    public struct AdminCreateUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user returned in the request to create a new user.
-        var user: UserType? = nil
+        public var user: UserType? = nil
 
         public init() {}
 
@@ -2510,11 +2798,13 @@ extension CognitoIdp {
 
     }
 
-    public struct ListUserPoolClientsResponse: Serializable, Initializable {
+    public struct ListUserPoolClientsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The user pool clients in the response that lists user pool clients.
-        var userPoolClients: [UserPoolClientDescription]? = nil
+        public var userPoolClients: [UserPoolClientDescription]? = nil
 
         public init() {}
 
@@ -2525,11 +2815,13 @@ extension CognitoIdp {
 
     }
 
-    public struct DeleteGroupRequest: Serializable, Initializable {
+    public struct DeleteGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the group.
-        var groupName: String = ""
+        public var groupName: String = ""
         /// The user pool ID for the user pool.
-        var userPoolId: String = ""
+        public var userPoolId: String = ""
 
         public init() {}
 

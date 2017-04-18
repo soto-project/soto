@@ -32,310 +32,264 @@ import Core
 */
 public struct Route53 {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "route53",
-            endpoint: endpoint
+            serviceProtocol: .restxml,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [Route53Error.self]
         )
     }
 
     ///  Creates a traffic policy, which you use to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). Send a POST request to the /2013-04-01/trafficpolicy resource. The request body must include a document with a CreateTrafficPolicyRequest element. The response includes the CreateTrafficPolicyResponse element, which contains information about the new traffic policy.
     public func createTrafficPolicy(_ input: CreateTrafficPolicyRequest) throws -> CreateTrafficPolicyResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateTrafficPolicy", path: "/2013-04-01/trafficpolicy", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateTrafficPolicy", path: "/2013-04-01/trafficpolicy", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a specified traffic policy instance. Send a GET request to the /Amazon Route 53 API version/trafficpolicyinstance resource.  After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element.   In the Amazon Route 53 console, traffic policy instances are known as policy records. 
     public func getTrafficPolicyInstance(_ input: GetTrafficPolicyInstanceRequest) throws -> GetTrafficPolicyInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Disassociates a VPC from a Amazon Route 53 private hosted zone.   You can't disassociate the last VPC from a private hosted zone.  Send a POST request to the /2013-04-01/hostedzone/hosted zone ID/disassociatevpc resource. The request body must include a document with a DisassociateVPCFromHostedZoneRequest element. The response includes a DisassociateVPCFromHostedZoneResponse element.  You can't disassociate a VPC from a private hosted zone when only one VPC is associated with the hosted zone. You also can't convert a private hosted zone into a public hosted zone. 
     public func disassociateVPCFromHostedZone(_ input: DisassociateVPCFromHostedZoneRequest) throws -> DisassociateVPCFromHostedZoneResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateVPCFromHostedZone", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/disassociatevpc", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateVPCFromHostedZone", path: "/2013-04-01/hostedzone/{Id}/disassociatevpc", httpMethod: "POST", input: input)
     }
 
     ///  Gets status of a specified health check. Send a GET request to the /2013-04-01/healthcheck/health check ID/status resource. You can use this call to get a health check's current status. 
     public func getHealthCheckStatus(_ input: GetHealthCheckStatusRequest) throws -> GetHealthCheckStatusResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHealthCheckStatus", path: "/2013-04-01/healthcheck/\(input.healthCheckId)/status", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHealthCheckStatus", path: "/2013-04-01/healthcheck/{HealthCheckId}/status", httpMethod: "GET", input: input)
     }
 
     ///  Lists tags for one health check or hosted zone.  For information about using tags for cost allocation, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTagsForResource", path: "/2013-04-01/tags/\(input.resourceType)/\(input.resourceId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: "GET", input: input)
     }
 
     ///  Updates the hosted zone comment. Send a POST request to the /2013-04-01/hostedzone/hosted zone ID  resource. 
     public func updateHostedZoneComment(_ input: UpdateHostedZoneCommentRequest) throws -> UpdateHostedZoneCommentResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateHostedZoneComment", path: "/2013-04-01/hostedzone/\(input.id)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateHostedZoneComment", path: "/2013-04-01/hostedzone/{Id}", httpMethod: "POST", input: input)
     }
 
     ///   GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all AWS services. For more information, see IP Address Ranges of Amazon Route 53 Servers in the Amazon Route 53 Developer Guide.
     public func getCheckerIpRanges(_ input: GetCheckerIpRangesRequest) throws -> GetCheckerIpRangesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetCheckerIpRanges", path: "/2013-04-01/checkeripranges", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetCheckerIpRanges", path: "/2013-04-01/checkeripranges", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a health check. Send a DELETE request to the /2013-04-01/healthcheck/health check ID  resource.  Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see Replacing and Deleting Health Checks in the Amazon Route 53 Developer Guide. 
     public func deleteHealthCheck(_ input: DeleteHealthCheckRequest) throws -> DeleteHealthCheckResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteHealthCheck", path: "/2013-04-01/healthcheck/\(input.healthCheckId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves the reusable delegation set. Send a GET request to the /2013-04-01/delegationset/delegation set ID  resource.
     public func getReusableDelegationSet(_ input: GetReusableDelegationSetRequest) throws -> GetReusableDelegationSetResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetReusableDelegationSet", path: "/2013-04-01/delegationset/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the number of traffic policy instances that are associated with the current AWS account. To get the number of traffic policy instances, send a GET request to the /2013-04-01/trafficpolicyinstancecount resource.
     public func getTrafficPolicyInstanceCount(_ input: GetTrafficPolicyInstanceCountRequest) throws -> GetTrafficPolicyInstanceCountResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetTrafficPolicyInstanceCount", path: "/2013-04-01/trafficpolicyinstancecount", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetTrafficPolicyInstanceCount", path: "/2013-04-01/trafficpolicyinstancecount", httpMethod: "GET", input: input)
     }
 
     ///  Updates the comment for a specified traffic policy version. Send a POST request to the /2013-04-01/trafficpolicy/ resource. The request body must include a document with an UpdateTrafficPolicyCommentRequest element.
     public func updateTrafficPolicyComment(_ input: UpdateTrafficPolicyCommentRequest) throws -> UpdateTrafficPolicyCommentResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateTrafficPolicyComment", path: "/2013-04-01/trafficpolicy/\(input.id)/\(input.version)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateTrafficPolicyComment", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: "POST", input: input)
     }
 
     ///  Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. 
     public func testDNSAnswer(_ input: TestDNSAnswerRequest) throws -> TestDNSAnswerResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TestDNSAnswer", path: "/2013-04-01/testdnsanswer?resolverip=\(input.resolverIP?.description ?? "")&edns0clientsubnetip=\(input.eDNS0ClientSubnetIP?.description ?? "")&recordname=\(input.recordName)&hostedzoneid=\(input.hostedZoneId)&edns0clientsubnetmask=\(input.eDNS0ClientSubnetMask?.description ?? "")&recordtype=\(input.recordType)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TestDNSAnswer", path: "/2013-04-01/testdnsanswer", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a specified health check. Send a GET request to the /2013-04-01/healthcheck/health check ID  resource. For more information about using the console to perform this operation, see Amazon Route 53 Health Checks and DNS Failover in the Amazon Route 53 Developer Guide.
     public func getHealthCheck(_ input: GetHealthCheckRequest) throws -> GetHealthCheckResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHealthCheck", path: "/2013-04-01/healthcheck/\(input.healthCheckId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: "GET", input: input)
     }
 
     ///  Authorizes the AWS account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the association, use the account that created the VPC to submit an AssociateVPCWithHostedZone request.  If you want to associate multiple VPCs that you created by using one account with a hosted zone that you created by using a different account, you must submit one authorization request for each VPC.  Send a POST request to the /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation resource. The request body must include a document with a CreateVPCAssociationAuthorizationRequest element. The response contains information about the authorization.
     public func createVPCAssociationAuthorization(_ input: CreateVPCAssociationAuthorizationRequest) throws -> CreateVPCAssociationAuthorizationResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/authorizevpcassociation", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{Id}/authorizevpcassociation", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of your hosted zones in lexicographic order. Send a GET request to the /2013-04-01/hostedzonesbyname resource. The response includes a HostedZones child element for each hosted zone created by the current AWS account.   ListHostedZonesByName sorts hosted zones by name with the labels reversed. For example:    com.example.www.    Note the trailing dot, which can change the sort order in some circumstances. If the domain name includes escape characters or Punycode, ListHostedZonesByName alphabetizes the domain name using the escaped or Punycoded value, which is the format that Amazon Route 53 saves in its database. For example, to create a hosted zone for example.com, specify ex\344mple.com for the domain name. ListHostedZonesByName alphabetizes it as:    com.ex\344mple.    The labels are reversed and alphabetized using the escaped value. For more information about valid domain name formats, including internationalized domain names, see DNS Domain Name Format in the Amazon Route 53 Developer Guide. Amazon Route 53 returns up to 100 items in each response. If you have a lot of hosted zones, use the MaxItems parameter to list them in groups of up to 100. The response includes values that help navigate from one group of MaxItems hosted zones to the next:   The DNSName and HostedZoneId elements in the response contain the values, if any, specified for the dnsname and hostedzoneid parameters in the request that produced the current response.   The MaxItems element in the response contains the value, if any, that you specified for the maxitems parameter in the request that produced the current response.   If the value of IsTruncated in the response is true, there are more hosted zones associated with the current AWS account.  If IsTruncated is false, this response includes the last hosted zone that is associated with the current account. The NextDNSName element and NextHostedZoneId elements are omitted from the response.   The NextDNSName and NextHostedZoneId elements in the response contain the domain name and the hosted zone ID of the next hosted zone that is associated with the current AWS account. If you want to list more hosted zones, make another call to ListHostedZonesByName, and specify the value of NextDNSName and NextHostedZoneId in the dnsname and hostedzoneid parameters, respectively.  
     public func listHostedZonesByName(_ input: ListHostedZonesByNameRequest) throws -> ListHostedZonesByNameResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListHostedZonesByName", path: "/2013-04-01/hostedzonesbyname?dnsname=\(input.dNSName?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")&hostedzoneid=\(input.hostedZoneId?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListHostedZonesByName", path: "/2013-04-01/hostedzonesbyname", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the traffic policy instances that you created in a specified hosted zone.  After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element.  Send a GET request to the /Amazon Route 53 API version/trafficpolicyinstance resource and include the ID of the hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100. The response includes four values that help you navigate from one group of MaxItems traffic policy instances to the next:    IsTruncated  If the value of IsTruncated in the response is true, there are more traffic policy instances associated with the current AWS account. If IsTruncated is false, this response includes the last traffic policy instance that is associated with the current account.    MaxItems  The value that you specified for the MaxItems parameter in the request that produced the current response.    TrafficPolicyInstanceNameMarker and TrafficPolicyInstanceTypeMarker  If IsTruncated is true, these two values in the response represent the first traffic policy instance in the next group of MaxItems traffic policy instances. To list more traffic policy instances, make another call to ListTrafficPolicyInstancesByHostedZone, and specify these values in the corresponding request parameters. If IsTruncated is false, all three elements are omitted from the response.  
     public func listTrafficPolicyInstancesByHostedZone(_ input: ListTrafficPolicyInstancesByHostedZoneRequest) throws -> ListTrafficPolicyInstancesByHostedZoneResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTrafficPolicyInstancesByHostedZone", path: "/2013-04-01/trafficpolicyinstances/hostedzone?trafficpolicyinstancename=\(input.trafficPolicyInstanceNameMarker?.description ?? "")&trafficpolicyinstancetype=\(input.trafficPolicyInstanceTypeMarker?.description ?? "")&id=\(input.hostedZoneId)&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTrafficPolicyInstancesByHostedZone", path: "/2013-04-01/trafficpolicyinstances/hostedzone", httpMethod: "GET", input: input)
     }
 
     ///  Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones. If a hosted zoned ID is specified, CreateReusableDelegationSet marks the delegation set associated with that zone as reusable Send a POST request to the /2013-04-01/delegationset resource. The request body must include a document with a CreateReusableDelegationSetRequest element.  A reusable delegation set can't be associated with a private hosted zone/  For more information, including a procedure on how to create and configure a reusable delegation set (also known as white label name servers), see Configuring White Label Name Servers.
     public func createReusableDelegationSet(_ input: CreateReusableDelegationSetRequest) throws -> CreateReusableDelegationSetResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateReusableDelegationSet", path: "/2013-04-01/delegationset", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateReusableDelegationSet", path: "/2013-04-01/delegationset", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the traffic policy instances that you created by using the current AWS account.  After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element.  Send a GET request to the /Amazon Route 53 API version/trafficpolicyinstance resource. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100. The response includes five values that help you navigate from one group of MaxItems traffic policy instances to the next:    IsTruncated  If the value of IsTruncated in the response is true, there are more traffic policy instances associated with the current AWS account. If IsTruncated is false, this response includes the last traffic policy instance that is associated with the current account.    MaxItems  The value that you specified for the MaxItems parameter in the request that produced the current response.    HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker  If IsTruncated is true, these three values in the response represent the first traffic policy instance in the next group of MaxItems traffic policy instances. To list more traffic policy instances, make another call to ListTrafficPolicyInstances, and specify these values in the corresponding request parameters. If IsTruncated is false, all three elements are omitted from the response.  
     public func listTrafficPolicyInstances(_ input: ListTrafficPolicyInstancesRequest) throws -> ListTrafficPolicyInstancesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTrafficPolicyInstances", path: "/2013-04-01/trafficpolicyinstances?hostedzoneid=\(input.hostedZoneIdMarker?.description ?? "")&trafficpolicyinstancetype=\(input.trafficPolicyInstanceTypeMarker?.description ?? "")&trafficpolicyinstancename=\(input.trafficPolicyInstanceNameMarker?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTrafficPolicyInstances", path: "/2013-04-01/trafficpolicyinstances", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new health check. To create a new health check, send a POST request to the /2013-04-01/healthcheck resource. The request body must include a document with a CreateHealthCheckRequest element. The response returns the CreateHealthCheckResponse element, containing the health check ID specified when adding health check to a resource record set. For information about adding health checks to resource record sets, see ResourceRecordSet$HealthCheckId in ChangeResourceRecordSets.  If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer, do not create Amazon Route 53 health checks for the EC2 instances. When you register an EC2 instance with a load balancer, you configure settings for an ELB health check, which performs a similar function to an Amazon Route 53 health check. You can associate health checks with failover resource record sets in a private hosted zone. Note the following:   Amazon Route 53 health checkers are outside the VPC. To check the health of an endpoint within a VPC by IP address, you must assign a public IP address to the instance in the VPC.   You can configure a health checker to check the health of an external resource that the instance relies on, such as a database server.   You can create a CloudWatch metric, associate an alarm with the metric, and then create a health check that is based on the state of the alarm. For example, you might create a CloudWatch metric that checks the status of the Amazon EC2 StatusCheckFailed metric, add an alarm to the metric, and then create a health check that is based on the state of the alarm. For information about creating CloudWatch metrics and alarms by using the CloudWatch console, see the Amazon CloudWatch User Guide.  
     public func createHealthCheck(_ input: CreateHealthCheckRequest) throws -> CreateHealthCheckResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateHealthCheck", path: "/2013-04-01/healthcheck", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateHealthCheck", path: "/2013-04-01/healthcheck", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a hosted zone. Send a DELETE request to the /Amazon Route 53 API version/hostedzone/hosted zone ID  resource.  Delete a hosted zone only if there are no resource record sets other than the default SOA record and NS resource record sets. If the hosted zone contains other resource record sets, delete them before deleting the hosted zone. If you try to delete a hosted zone that contains other resource record sets, Amazon Route 53 denies your request with a HostedZoneNotEmpty error. For information about deleting records from your hosted zone, see ChangeResourceRecordSets. 
     public func deleteHostedZone(_ input: DeleteHostedZoneRequest) throws -> DeleteHostedZoneResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/\(input.id)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about a specific traffic policy version. Send a GET request to the /Amazon Route 53 API version/trafficpolicy resource.
     public func getTrafficPolicy(_ input: GetTrafficPolicyRequest) throws -> GetTrafficPolicyResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/\(input.id)/\(input.version)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: "GET", input: input)
     }
 
     ///  Removes authorization to submit an AssociateVPCWithHostedZone request to associate a specified VPC with a hosted zone that was created by a different account. You must use the account that created the hosted zone to submit a DeleteVPCAssociationAuthorization request.  Sending this request only prevents the AWS account that created the VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If the VPC is already associated with the hosted zone, DeleteVPCAssociationAuthorization won't disassociate the VPC from the hosted zone. If you want to delete an existing association, use DisassociateVPCFromHostedZone.  Send a DELETE request to the /2013-04-01/hostedzone/hosted zone ID/deauthorizevpcassociation resource. The request body must include a document with a DeleteVPCAssociationAuthorizationRequest element.
     public func deleteVPCAssociationAuthorization(_ input: DeleteVPCAssociationAuthorizationRequest) throws -> DeleteVPCAssociationAuthorizationResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/deauthorizevpcassociation", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{Id}/deauthorizevpcassociation", httpMethod: "POST", input: input)
     }
 
     ///  Returns the current status of a change batch request. The status is one of the following values:    PENDING indicates that the changes in this request have not replicated to all Amazon Route 53 DNS servers. This is the initial status of all change batch requests.    INSYNC indicates that the changes have replicated to all Amazon Route 53 DNS servers.   
     public func getChange(_ input: GetChangeRequest) throws -> GetChangeResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetChange", path: "/2013-04-01/change/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetChange", path: "/2013-04-01/change/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  To retrieve a count of all your health checks, send a GET request to the /2013-04-01/healthcheckcount resource.
     public func getHealthCheckCount(_ input: GetHealthCheckCountRequest) throws -> GetHealthCheckCountResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHealthCheckCount", path: "/2013-04-01/healthcheckcount", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHealthCheckCount", path: "/2013-04-01/healthcheckcount", httpMethod: "GET", input: input)
     }
 
     ///  Lists the resource record sets in a specified hosted zone.  ListResourceRecordSets returns up to 100 resource record sets at a time in ASCII order, beginning at a position specified by the name and type elements. The action sorts results first by DNS name with the labels reversed, for example:  com.example.www.  Note the trailing dot, which can change the sort order in some circumstances. When multiple records have the same DNS name, the action sorts results by the record type. You can use the name and type elements to adjust the beginning position of the list of resource record sets returned:  If you do not specify Name or Type  The results begin with the first resource record set that the hosted zone contains.  If you specify Name but not Type  The results begin with the first resource record set in the list whose name is greater than or equal to Name.  If you specify Type but not Name  Amazon Route 53 returns the InvalidInput error.  If you specify both Name and Type  The results begin with the first resource record set in the list whose name is greater than or equal to Name, and whose type is greater than or equal to Type.   This action returns the most current version of the records. This includes records that are PENDING, and that are not yet available on all Amazon Route 53 DNS servers. To ensure that you get an accurate listing of the resource record sets for a hosted zone at a point in time, do not submit a ChangeResourceRecordSets request while you're paging through the results of a ListResourceRecordSets request. If you do, some pages may display results without the latest changes while other pages display results with the latest changes.
     public func listResourceRecordSets(_ input: ListResourceRecordSetsRequest) throws -> ListResourceRecordSetsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListResourceRecordSets", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/rrset?name=\(input.startRecordName?.description ?? "")&type=\(input.startRecordType?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")&identifier=\(input.startRecordIdentifier?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListResourceRecordSets", path: "/2013-04-01/hostedzone/{Id}/rrset", httpMethod: "GET", input: input)
     }
 
     ///  Updates an existing health check. Send a POST request to the /2013-04-01/healthcheck/health check ID  resource. The request body must include a document with an UpdateHealthCheckRequest element. For more information about updating health checks, see Creating, Updating, and Deleting Health Checks in the Amazon Route 53 Developer Guide.
     public func updateHealthCheck(_ input: UpdateHealthCheckRequest) throws -> UpdateHealthCheckResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateHealthCheck", path: "/2013-04-01/healthcheck/\(input.healthCheckId)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the delegation set for a hosted zone, including the four name servers assigned to the hosted zone. Send a GET request to the /Amazon Route 53 API version/hostedzone/hosted zone ID  resource. 
     public func getHostedZone(_ input: GetHostedZoneRequest) throws -> GetHostedZoneResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHostedZone", path: "/2013-04-01/hostedzone/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  Updates the resource record sets in a specified hosted zone that were created based on the settings in a specified traffic policy version. Send a POST request to the /2013-04-01/trafficpolicyinstance/traffic policy ID  resource. The request body must include a document with an UpdateTrafficPolicyInstanceRequest element. When you update a traffic policy instance, Amazon Route 53 continues to respond to DNS queries for the root resource record set name (such as example.com) while it replaces one group of resource record sets with another. Amazon Route 53 performs the following operations:   Amazon Route 53 creates a new group of resource record sets based on the specified traffic policy. This is true regardless of how substantial the differences are between the existing resource record sets and the new resource record sets.    When all of the new resource record sets have been created, Amazon Route 53 starts to respond to DNS queries for the root resource record set name (such as example.com) by using the new resource record sets.   Amazon Route 53 deletes the old group of resource record sets that are associated with the root resource record set name.  
     public func updateTrafficPolicyInstance(_ input: UpdateTrafficPolicyInstanceRequest) throws -> UpdateTrafficPolicyInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/\(input.id)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: "POST", input: input)
     }
 
     ///  Create, change, update, or delete authoritative DNS information on all Amazon Route 53 servers. Send a POST request to:   /2013-04-01/hostedzone/Amazon Route 53 hosted Zone ID/rrset resource.   Change Batches and Transactional Changes  The request body must include a document with a ChangeResourceRecordSetsRequest element. The request body contains a list of change items, known as a change batch. Change batches are considered transactional changes. When using the Amazon Route 53 API to change resource record sets, Amazon Route 53 either makes all or none of the changes in a change batch request. This ensures that Amazon Route 53 never partially implements the intended changes to the resource record sets in a hosted zone.  For example, a change batch request that deletes the CNAME record for www.example.com and creates an alias resource record set for www.example.com. Amazon Route 53 deletes the first resource record set and creates the second resource record set in a single operation. If either the DELETE or the CREATE action fails, then both changes (plus any other changes in the batch) fail, and the original CNAME record continues to exist.  Due to the nature of transactional changes, you can't delete the same resource record set more than once in a single change batch. If you attempt to delete the same change batch more than once, Amazon Route 53 returns an InvalidChangeBatch error.   Traffic Flow  To create resource record sets for complex routing configurations, use either the traffic flow visual editor in the Amazon Route 53 console or the API actions for traffic policies and traffic policy instances. Save the configuration as a traffic policy, then associate the traffic policy with one or more domain names (such as example.com) or subdomain names (such as www.example.com), in the same hosted zone or in multiple hosted zones. You can roll back the updates if the new configuration isn't performing as expected. For more information, see Using Traffic Flow to Route DNS Traffic in the Amazon Route 53 Developer Guide.  Create, Delete, and Upsert  Use ChangeResourceRecordsSetsRequest to perform the following actions:    CREATE: Creates a resource record set that has the specified values.    DELETE: Deletes an existing resource record set that has the specified values.    UPSERT: If a resource record set does not already exist, AWS creates it. If a resource set does exist, Amazon Route 53 updates it with the values in the request.     Syntaxes for Creating, Updating, and Deleting Resource Record Sets  The syntax for a request depends on the type of resource record set that you want to create, delete, or update, such as weighted, alias, or failover. The XML elements in your request must appear in the order listed in the syntax.  For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes all of the elements for every kind of resource record set that you can create, delete, or update by using ChangeResourceRecordSets.   Change Propagation to Amazon Route 53 DNS Servers  When you submit a ChangeResourceRecordSets request, Amazon Route 53 propagates your changes to all of the Amazon Route 53 authoritative DNS servers. While your changes are propagating, GetChange returns a status of PENDING. When propagation is complete, GetChange returns a status of INSYNC. Changes generally propagate to all Amazon Route 53 name servers in a few minutes. In rare circumstances, propagation can take up to 30 minutes. For more information, see GetChange.  Limits on ChangeResourceRecordSets Requests  For information about the limits on a ChangeResourceRecordSets request, see Limits in the Amazon Route 53 Developer Guide.
     public func changeResourceRecordSets(_ input: ChangeResourceRecordSetsRequest) throws -> ChangeResourceRecordSetsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ChangeResourceRecordSets", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/rrset/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ChangeResourceRecordSets", path: "/2013-04-01/hostedzone/{Id}/rrset/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about all of the versions for a specified traffic policy. Send a GET request to the /Amazon Route 53 API version/trafficpolicy resource and specify the ID of the traffic policy for which you want to list versions. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policies, you can use the maxitems parameter to list them in groups of up to 100. The response includes three values that help you navigate from one group of maxitems traffic policies to the next:    IsTruncated  If the value of IsTruncated in the response is true, there are more traffic policy versions associated with the specified traffic policy. If IsTruncated is false, this response includes the last traffic policy version that is associated with the specified traffic policy.    TrafficPolicyVersionMarker  The ID of the next traffic policy version that is associated with the current AWS account. If you want to list more traffic policies, make another call to ListTrafficPolicyVersions, and specify the value of the TrafficPolicyVersionMarker element in the TrafficPolicyVersionMarker request parameter. If IsTruncated is false, Amazon Route 53 omits the TrafficPolicyVersionMarker element from the response.    MaxItems  The value that you specified for the MaxItems parameter in the request that produced the current response.  
     public func listTrafficPolicyVersions(_ input: ListTrafficPolicyVersionsRequest) throws -> ListTrafficPolicyVersionsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTrafficPolicyVersions", path: "/2013-04-01/trafficpolicies/\(input.id)/versions?trafficpolicyversion=\(input.trafficPolicyVersionMarker?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTrafficPolicyVersions", path: "/2013-04-01/trafficpolicies/{Id}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the latest version for every traffic policy that is associated with the current AWS account. Send a GET request to the /Amazon Route 53 API version/trafficpolicy resource. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policies, you can use the maxitems parameter to list them in groups of up to 100. The response includes three values that help you navigate from one group of maxitems traffic policies to the next:    IsTruncated  If the value of IsTruncated in the response is true, there are more traffic policies associated with the current AWS account. If IsTruncated is false, this response includes the last traffic policy that is associated with the current account.    TrafficPolicyIdMarker  If IsTruncated is true, TrafficPolicyIdMarker is the ID of the first traffic policy in the next group of MaxItems traffic policies. If you want to list more traffic policies, make another call to ListTrafficPolicies, and specify the value of the TrafficPolicyIdMarker element from the response in the TrafficPolicyIdMarker request parameter. If IsTruncated is false, the TrafficPolicyIdMarker element is omitted from the response.    MaxItems  The value that you specified for the MaxItems parameter in the request that produced the current response.  
     public func listTrafficPolicies(_ input: ListTrafficPoliciesRequest) throws -> ListTrafficPoliciesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies?trafficpolicyid=\(input.trafficPolicyIdMarker?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a traffic policy. Send a DELETE request to the /Amazon Route 53 API version/trafficpolicy resource.
     public func deleteTrafficPolicy(_ input: DeleteTrafficPolicyRequest) throws -> DeleteTrafficPolicyResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/\(input.id)/\(input.version)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieve a list of your health checks. Send a GET request to the /2013-04-01/healthcheck resource. The response to this request includes a HealthChecks element with zero or more HealthCheck child elements. By default, the list of health checks is displayed on a single page. You can control the length of the page that is displayed by using the MaxItems parameter. You can use the Marker parameter to control the health check that the list begins with. For information about listing health checks using the Amazon Route 53 console, see Amazon Route 53 Health Checks and DNS Failover.
     public func listHealthChecks(_ input: ListHealthChecksRequest) throws -> ListHealthChecksResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListHealthChecks", path: "/2013-04-01/healthcheck?marker=\(input.marker?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListHealthChecks", path: "/2013-04-01/healthcheck", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves a count of all your hosted zones. Send a GET request to the /2013-04-01/hostedzonecount resource.
     public func getHostedZoneCount(_ input: GetHostedZoneCountRequest) throws -> GetHostedZoneCountResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHostedZoneCount", path: "/2013-04-01/hostedzonecount", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHostedZoneCount", path: "/2013-04-01/hostedzonecount", httpMethod: "GET", input: input)
     }
 
     ///  To retrieve a list of your public and private hosted zones, send a GET request to the /2013-04-01/hostedzone resource. The response to this request includes a HostedZones child element for each hosted zone created by the current AWS account. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100. The response includes four values that help navigate from one group of maxitems hosted zones to the next:    MaxItems is the value specified for the maxitems parameter in the request that produced the current response.   If the value of IsTruncated in the response is true, there are more hosted zones associated with the current AWS account.     NextMarker is the hosted zone ID of the next hosted zone that is associated with the current AWS account. If you want to list more hosted zones, make another call to ListHostedZones, and specify the value of the NextMarker element in the marker parameter.  If IsTruncated is false, the NextMarker element is omitted from the response.   If you're making the second or subsequent call to ListHostedZones, the Marker element matches the value that you specified in the marker parameter in the previous request.  
     public func listHostedZones(_ input: ListHostedZonesRequest) throws -> ListHostedZonesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListHostedZones", path: "/2013-04-01/hostedzone?marker=\(input.marker?.description ?? "")&delegationsetid=\(input.delegationSetId?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListHostedZones", path: "/2013-04-01/hostedzone", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create another version, you'll need to start a new traffic policy. Send a POST request to the /2013-04-01/trafficpolicy/ resource. The request body includes a document with a CreateTrafficPolicyVersionRequest element. The response returns the CreateTrafficPolicyVersionResponse element, which contains information about the new version of the traffic policy.
     public func createTrafficPolicyVersion(_ input: CreateTrafficPolicyVersionRequest) throws -> CreateTrafficPolicyVersionResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateTrafficPolicyVersion", path: "/2013-04-01/trafficpolicy/\(input.id)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateTrafficPolicyVersion", path: "/2013-04-01/trafficpolicy/{Id}", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of supported geo locations. Send a GET request to the /2013-04-01/geolocations resource. The response to this request includes a GeoLocationDetailsList element for each location that Amazon Route 53 supports. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. 
     public func listGeoLocations(_ input: ListGeoLocationsRequest) throws -> ListGeoLocationsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListGeoLocations", path: "/2013-04-01/geolocations?startsubdivisioncode=\(input.startSubdivisionCode?.description ?? "")&startcountrycode=\(input.startCountryCode?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")&startcontinentcode=\(input.startContinentCode?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListGeoLocations", path: "/2013-04-01/geolocations", httpMethod: "GET", input: input)
     }
 
     ///  Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
     public func changeTagsForResource(_ input: ChangeTagsForResourceRequest) throws -> ChangeTagsForResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/\(input.resourceType)/\(input.resourceId)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: "POST", input: input)
     }
 
     ///  To retrieve a list of your reusable delegation sets, send a GET request to the /2013-04-01/delegationset resource. The response to this request includes a DelegationSets element with zero, one, or multiple DelegationSet child elements. By default, the list of delegation sets is displayed on a single page. You can control the length of the page that is displayed by using the MaxItems parameter. You can use the Marker parameter to control the delegation set that the list begins with.    Amazon Route 53 returns a maximum of 100 items. If you set MaxItems to a value greater than 100, Amazon Route 53 returns only the first 100. 
     public func listReusableDelegationSets(_ input: ListReusableDelegationSetsRequest) throws -> ListReusableDelegationSetsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListReusableDelegationSets", path: "/2013-04-01/delegationset?marker=\(input.marker?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListReusableDelegationSets", path: "/2013-04-01/delegationset", httpMethod: "GET", input: input)
     }
 
     ///  Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created. Send a POST request to the /2013-04-01/trafficpolicyinstance resource. The request body must include a document with a CreateTrafficPolicyRequest element. The response returns the CreateTrafficPolicyInstanceResponse element, which contains information about the traffic policy instance.
     public func createTrafficPolicyInstance(_ input: CreateTrafficPolicyInstanceRequest) throws -> CreateTrafficPolicyInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests.  Send a GET request to the /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation resource. The response to this request includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. Amazon Route 53 returns up to 50 VPCs per page. To return fewer VPCs per page, include the MaxResults parameter:   /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation?MaxItems=VPCs per page   If the response includes a NextToken element, there are more VPCs to list. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the NextToken request parameter:  /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation?MaxItems=VPCs per page&amp;NextToken=  
     public func listVPCAssociationAuthorizations(_ input: ListVPCAssociationAuthorizationsRequest) throws -> ListVPCAssociationAuthorizationsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListVPCAssociationAuthorizations", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/authorizevpcassociation?maxresults=\(input.maxResults?.description ?? "")&nexttoken=\(input.nextToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListVPCAssociationAuthorizations", path: "/2013-04-01/hostedzone/{Id}/authorizevpcassociation", httpMethod: "GET", input: input)
     }
 
     ///  Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
     public func listTagsForResources(_ input: ListTagsForResourcesRequest) throws -> ListTagsForResourcesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTagsForResources", path: "/2013-04-01/tags/\(input.resourceType)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTagsForResources", path: "/2013-04-01/tags/{ResourceType}", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the traffic policy instances that you created by using a specify traffic policy version.  After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element.  Send a GET request to the /Route 53 API version/trafficpolicyinstance resource and include the ID and version of the traffic policy. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100. The response includes five values that help you navigate from one group of MaxItems traffic policy instances to the next:    IsTruncated  If the value of IsTruncated in the response is true, there are more traffic policy instances associated with the specified traffic policy. If IsTruncated is false, this response includes the last traffic policy instance that is associated with the specified traffic policy.    MaxItems  The value that you specified for the MaxItems parameter in the request that produced the current response.    HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker  If IsTruncated is true, these values in the response represent the first traffic policy instance in the next group of MaxItems traffic policy instances. To list more traffic policy instances, make another call to ListTrafficPolicyInstancesByPolicy, and specify these values in the corresponding request parameters. If IsTruncated is false, all three elements are omitted from the response.  
     public func listTrafficPolicyInstancesByPolicy(_ input: ListTrafficPolicyInstancesByPolicyRequest) throws -> ListTrafficPolicyInstancesByPolicyResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTrafficPolicyInstancesByPolicy", path: "/2013-04-01/trafficpolicyinstances/trafficpolicy?version=\(input.trafficPolicyVersion)&hostedzoneid=\(input.hostedZoneIdMarker?.description ?? "")&trafficpolicyinstancetype=\(input.trafficPolicyInstanceTypeMarker?.description ?? "")&trafficpolicyinstancename=\(input.trafficPolicyInstanceNameMarker?.description ?? "")&maxitems=\(input.maxItems?.description ?? "")&id=\(input.trafficPolicyId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTrafficPolicyInstancesByPolicy", path: "/2013-04-01/trafficpolicyinstances/trafficpolicy", httpMethod: "GET", input: input)
     }
 
     ///  Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone.  Send a POST request to the /2013-04-01/hostedzone/hosted zone ID/associatevpc resource. The request body must include a document with an AssociateVPCWithHostedZoneRequest element. The response contains a ChangeInfo data type that you can use to track the progress of the request.   If you want to associate a VPC that was created by using one AWS account with a private hosted zone that was created by using a different account, the AWS account that created the private hosted zone must first submit a CreateVPCAssociationAuthorization request. Then the account that created the VPC must submit an AssociateVPCWithHostedZone request. 
     public func associateVPCWithHostedZone(_ input: AssociateVPCWithHostedZoneRequest) throws -> AssociateVPCWithHostedZoneResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/\(input.hostedZoneId)/associatevpc", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/{Id}/associatevpc", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. Send a DELETE request to the /Amazon Route 53 API version/trafficpolicy/traffic policy instance ID  resource.  In the Amazon Route 53 console, traffic policy instances are known as policy records. 
     public func deleteTrafficPolicyInstance(_ input: DeleteTrafficPolicyInstanceRequest) throws -> DeleteTrafficPolicyInstanceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/\(input.id)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a reusable delegation set. Send a DELETE request to the /2013-04-01/delegationset/delegation set ID  resource.   You can delete a reusable delegation set only if there are no associated hosted zones.  To verify that the reusable delegation set is not associated with any hosted zones, run the GetReusableDelegationSet action and specify the ID of the reusable delegation set that you want to delete.
     public func deleteReusableDelegationSet(_ input: DeleteReusableDelegationSetRequest) throws -> DeleteReusableDelegationSetResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/\(input.id)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves a single geo location. Send a GET request to the /2013-04-01/geolocation resource with one of these options: continentcode | countrycode | countrycode and subdivisioncode.
     public func getGeoLocation(_ input: GetGeoLocationRequest) throws -> GetGeoLocationResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetGeoLocation", path: "/2013-04-01/geolocation?subdivisioncode=\(input.subdivisionCode?.description ?? "")&countrycode=\(input.countryCode?.description ?? "")&continentcode=\(input.continentCode?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetGeoLocation", path: "/2013-04-01/geolocation", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new public hosted zone, used to specify how the Domain Name System (DNS) routes traffic on the Internet for a domain, such as example.com, and its subdomains.   Public hosted zones can't be converted to a private hosted zone or vice versa. Instead, create a new hosted zone with the same name and create new resource record sets.  Send a POST request to the /2013-04-01/hostedzone resource. The request body must include a document with a CreateHostedZoneRequest element. The response returns the CreateHostedZoneResponse element containing metadata about the hosted zone. Fore more information about charges for hosted zones, see Amazon Route 53 Pricing. Note the following:   You can't create a hosted zone for a top-level domain (TLD).   Amazon Route 53 automatically creates a default SOA record and four NS records for the zone. For more information about SOA and NS records, see NS and SOA Records that Amazon Route 53 Creates for a Hosted Zone in the Amazon Route 53 Developer Guide.   If your domain is registered with a registrar other than Amazon Route 53, you must update the name servers with your registrar to make Amazon Route 53 your DNS service. For more information, see Configuring Amazon Route 53 as your DNS Service in the Amazon Route 53 Developer's Guide.   After creating a zone, its initial status is PENDING. This means that it is not yet available on all DNS servers. The status of the zone changes to INSYNC when the NS and SOA records are available on all Amazon Route 53 DNS servers.  When trying to create a hosted zone using a reusable delegation set, specify an optional DelegationSetId, and Amazon Route 53 would assign those 4 NS records for the zone, instead of allotting a new one.
     public func createHostedZone(_ input: CreateHostedZoneRequest) throws -> CreateHostedZoneResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateHostedZone", path: "/2013-04-01/hostedzone", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateHostedZone", path: "/2013-04-01/hostedzone", httpMethod: "POST", input: input)
     }
 
     ///  If you want to learn why a health check is currently failing or why it failed most recently (if at all), you can get the failure reason for the most recent failure. Send a GET request to the /Amazon Route 53 API version/healthcheck/health check ID/lastfailurereason resource.
     public func getHealthCheckLastFailureReason(_ input: GetHealthCheckLastFailureReasonRequest) throws -> GetHealthCheckLastFailureReasonResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetHealthCheckLastFailureReason", path: "/2013-04-01/healthcheck/\(input.healthCheckId)/lastfailurereason", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try Route53ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetHealthCheckLastFailureReason", path: "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason", httpMethod: "GET", input: input)
     }
 
 

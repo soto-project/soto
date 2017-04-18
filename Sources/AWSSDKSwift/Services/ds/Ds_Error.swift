@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Ds
-public enum DsError: Error {
+public enum DsError: AWSErrorType {
     case entityDoesNotExistException(message: String?)
     case directoryUnavailableException(message: String?)
     case invalidParameterException(message: String?)

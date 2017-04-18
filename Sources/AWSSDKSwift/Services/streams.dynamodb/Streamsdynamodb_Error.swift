@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Streamsdynamodb
-public enum StreamsdynamodbError: Error {
+public enum StreamsdynamodbError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case internalServerError(message: String?)
     case trimmedDataAccessException(message: String?)

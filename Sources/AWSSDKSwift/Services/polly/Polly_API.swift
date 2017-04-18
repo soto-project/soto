@@ -32,52 +32,49 @@ Amazon Polly is a web service that makes it easy to synthesize speech from text.
 */
 public struct Polly {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "polly",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [PollyError.self]
         )
     }
 
     ///  Returns the content of the specified pronunciation lexicon stored in an AWS Region. For more information, see Managing Lexicons.
     public func getLexicon(_ input: GetLexiconInput) throws -> GetLexiconOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetLexicon", path: "/v1/lexicons/\(input.name)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try PollyResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the list of voices that are available for use when requesting speech synthesis. Each voice speaks a specified language, is either male or female, and is identified by an ID, which is the ASCII version of the voice name.  When synthesizing speech ( SynthesizeSpeech ), you provide the voice ID for the voice you want from the list of voices returned by DescribeVoices. For example, you want your news reader application to read news in a specific language, but giving a user the option to choose the voice. Using the DescribeVoices operation you can provide the user with a list of available voices to select from.  You can optionally specify a language code to filter the available voices. For example, if you specify en-US, the operation returns a list of all available US English voices.  This operation requires permissions to perform the polly:DescribeVoices action.
     public func describeVoices(_ input: DescribeVoicesInput) throws -> DescribeVoicesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeVoices", path: "/v1/voices?LanguageCode=\(input.languageCode?.description ?? "")&NextToken=\(input.nextToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try PollyResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeVoices", path: "/v1/voices", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of pronunciation lexicons stored in an AWS Region. For more information, see Managing Lexicons.
     public func listLexicons(_ input: ListLexiconsInput) throws -> ListLexiconsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListLexicons", path: "/v1/lexicons?NextToken=\(input.nextToken?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try PollyResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListLexicons", path: "/v1/lexicons", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the specified pronunciation lexicon stored in an AWS Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons.
     public func deleteLexicon(_ input: DeleteLexiconInput) throws -> DeleteLexiconOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteLexicon", path: "/v1/lexicons/\(input.name)", httpMethod: "DELETE", httpHeaders: [:], input: input)
-        return try PollyResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works.
     public func synthesizeSpeech(_ input: SynthesizeSpeechInput) throws -> SynthesizeSpeechOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try PollyResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: "POST", input: input)
     }
 
     ///  Stores a pronunciation lexicon in an AWS Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
     public func putLexicon(_ input: PutLexiconInput) throws -> PutLexiconOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutLexicon", path: "/v1/lexicons/\(input.name)", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try PollyResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: "PUT", input: input)
     }
 
 

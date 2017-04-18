@@ -9,6 +9,8 @@ let docs = try loadDocJSONList()
 
 let group = DispatchGroup()
 
+var errorShapeMap: [String: String] = [:]
+
 for index in 0..<apis.count {
     let api = apis[index]
     let doc = docs[index]
@@ -37,19 +39,15 @@ for index in 0..<apis.count {
                     encoding: .utf8
                 )
             
-            try service.generateResponseBuilderCode()
-                .write(
-                    toFile: "\(basePath)/\(service.serviceName)_Response_Builder.swift",
-                    atomically: true,
-                    encoding: .utf8
-            )
-            
-            try service.generateErrorCode()
-                .write(
-                    toFile: "\(basePath)/\(service.serviceName)_Error.swift",
-                    atomically: true,
-                    encoding: .utf8
+            if !service.errorShapeNames.isEmpty {
+                errorShapeMap[service.endpointPrefix] = service.serviceErrorName
+                try service.generateErrorCode()
+                    .write(
+                        toFile: "\(basePath)/\(service.serviceName)_Error.swift",
+                        atomically: true,
+                        encoding: .utf8
                 )
+            }
             
             log("Succesfully Generated \(serviceName) codes!")
             group.leave()

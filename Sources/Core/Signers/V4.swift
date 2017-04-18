@@ -22,11 +22,26 @@ extension Signers {
         
         let algorithm = "AWS4-HMAC-SHA256"
         
-        func hexEncodedBodyHash(digest: String) -> String {
-            if digest.isEmpty && service == "s3" {
-                return "UNSIGNED-PAYLOAD"
+        var unsignableHeaders: [String] {
+            return [
+                "authorization",
+                "content-type",
+                "content-length",
+                "user-agent",
+                "presigned-expires",
+                "expect",
+                "x-amzn-trace-id"
+            ]
+        }
+        
+        func hexEncodedBodyHash(_ data: Data) -> String {
+            if data.isEmpty {
+                if service == "s3" {
+                    return "UNSIGNED-PAYLOAD"
+                }
+                return ""
             }
-            return digest
+            return sha256(data).hexdigest()
         }
         
         public init(credentials: CredentialProvider, region: Region, service: String) {
@@ -35,16 +50,16 @@ extension Signers {
             self.service = service
         }
         
-        public func signedURLWithQueryParams(url: URL, date: Date = Date()) -> URL {
-            let datetime = timestamp(date)
+        public func signedURL(url: URL, date: Date = Date(), expires: Int = 86400) -> URL {
+            let datetime = V4.timestamp(date)
             let headers = ["Host": url.host!]
-            let bodyDigest = hexEncodedBodyHash(digest: "")
+            let bodyDigest = hexEncodedBodyHash(Data())
             
             var queries = [
                 URLQueryItem(name: "X-Amz-Algorithm", value: algorithm),
                 URLQueryItem(name: "X-Amz-Credential", value: credential(datetime).replacingOccurrences(of: "/", with: "%2F")),
                 URLQueryItem(name: "X-Amz-Date", value: datetime),
-                URLQueryItem(name: "X-Amz-Expires", value: "86400"),
+                URLQueryItem(name: "X-Amz-Expires", value: "\(expires)"),
                 URLQueryItem(name: "X-Amz-SignedHeaders", value: "host"),
             ]
             
@@ -70,27 +85,33 @@ extension Signers {
             return URL(string: url.absoluteString+"&X-Amz-Signature="+sig)!
         }
         
-        public func signedHeaders(url: URL, bodyDigest: String, method: String, date: Date = Date()) -> [String: String] {
-            let datetime = timestamp(date)
+        public func signedHeaders(url: URL, headers: [String: String], method: String, date: Date = Date(), bodyData: Data) -> [String: String] {
+            let datetime = V4.timestamp(date)
+            let bodyDigest = hexEncodedBodyHash(bodyData)
             
-            var headers = [
-                "x-amz-content-sha256": bodyDigest,
+            var headersForSign = [
+                "x-amz-content-sha256": hexEncodedBodyHash(bodyData),
                 "x-amz-date": datetime,
                 "Host": url.host!,
             ]
             
-            headers["Authorization"] = authorization(
+            for header in headers {
+                if unsignableHeaders.contains(header.key.lowercased()) { continue }
+                headersForSign[header.key] = header.value
+            }
+            
+            headersForSign["Authorization"] = authorization(
                 url: url,
-                headers: headers,
+                headers: headersForSign,
                 datetime: datetime,
                 method: method,
-                bodyDigest: hexEncodedBodyHash(digest: bodyDigest)
+                bodyDigest: bodyDigest
             )
             
-            return headers
+            return headersForSign
         }
         
-        func timestamp(_ date: Date) -> String {
+        static func timestamp(_ date: Date) -> String {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
             formatter.timeZone = TimeZone(abbreviation: "UTC")
@@ -149,9 +170,9 @@ extension Signers {
             let service = hmac(string: self.service, key: region)
             let credentials = hmac(string: identifier, key: service)
             let string = stringToSign(
-                datetime: datetime,
                 url: url,
                 headers: headers,
+                datetime: datetime,
                 method: method,
                 bodyDigest: bodyDigest
             )
@@ -168,9 +189,10 @@ extension Signers {
             ].joined(separator: "/")
         }
         
-        func stringToSign(datetime: String, url: URL, headers: [String: String], method: String, bodyDigest: String) -> String {
+        func stringToSign(url: URL, headers: [String: String], datetime: String, method: String, bodyDigest: String) -> String {
             
             let canonicalRequestString = canonicalRequest(url: url, headers: headers, method: method, bodyDigest: bodyDigest)
+            
             var canonicalRequestBytes = Array(canonicalRequestString.utf8)
             
             return [

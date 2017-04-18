@@ -29,13 +29,15 @@ import Core
 
 extension CognitoSync {
 
-    public struct ListDatasetsResponse: Serializable, Initializable {
+    public struct ListDatasetsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A pagination token for obtaining the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A set of datasets.
-        var datasets: [Dataset]? = nil
+        public var datasets: [Dataset]? = nil
         /// Number of datasets returned.
-        var count: Int32? = nil
+        public var count: Int32? = nil
 
         public init() {}
 
@@ -47,13 +49,18 @@ extension CognitoSync {
 
     }
 
-    public struct DescribeDatasetRequest: Serializable, Initializable {
+    public struct DescribeDatasetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        var datasetName: String = ""
+        public var datasetName: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String = ""
+        public var identityId: String = ""
 
         public init() {}
 
@@ -65,11 +72,16 @@ extension CognitoSync {
 
     }
 
-    public struct ListIdentityPoolUsageRequest: Serializable, Initializable {
+    public struct ListIdentityPoolUsageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["nextToken": "NextToken", "maxResults": "MaxResults"]
+        }
         /// A pagination token for obtaining the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to be returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -80,9 +92,11 @@ extension CognitoSync {
 
     }
 
-    public struct UpdateRecordsResponse: Serializable, Initializable {
+    public struct UpdateRecordsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of records that have been updated.
-        var records: [Record]? = nil
+        public var records: [Record]? = nil
 
         public init() {}
 
@@ -92,9 +106,14 @@ extension CognitoSync {
 
     }
 
-    public struct BulkPublishRequest: Serializable, Initializable {
+    public struct BulkPublishRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
 
         public init() {}
 
@@ -104,17 +123,19 @@ extension CognitoSync {
 
     }
 
-    public struct GetBulkPublishDetailsResponse: Serializable, Initializable {
+    public struct GetBulkPublishDetailsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date/time at which the last bulk publish was initiated.
-        var bulkPublishStartTime: Date? = nil
+        public var bulkPublishStartTime: Date? = nil
         /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation completed.
-        var bulkPublishCompleteTime: Date? = nil
+        public var bulkPublishCompleteTime: Date? = nil
         /// Status of the last bulk publish operation, valid values are: NOT_STARTED - No bulk publish has been requested for this identity pool IN_PROGRESS - Data is being published to the configured stream SUCCEEDED - All data for the identity pool has been published to the configured stream FAILED - Some portion of the data has failed to publish, check FailureMessage for the cause.
-        var bulkPublishStatus: String? = nil
+        public var bulkPublishStatus: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String? = nil
+        public var identityPoolId: String? = nil
         /// If BulkPublishStatus is FAILED this field will contain the error message that caused the bulk publish to fail.
-        var failureMessage: String? = nil
+        public var failureMessage: String? = nil
 
         public init() {}
 
@@ -128,9 +149,14 @@ extension CognitoSync {
 
     }
 
-    public struct GetBulkPublishDetailsRequest: Serializable, Initializable {
+    public struct GetBulkPublishDetailsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
 
         public init() {}
 
@@ -140,9 +166,11 @@ extension CognitoSync {
 
     }
 
-    public struct RegisterDeviceResponse: Serializable, Initializable {
+    public struct RegisterDeviceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique ID generated for this device by Cognito.
-        var deviceId: String? = nil
+        public var deviceId: String? = nil
 
         public init() {}
 
@@ -152,15 +180,23 @@ extension CognitoSync {
 
     }
 
-    public struct ListDatasetsRequest: Serializable, Initializable {
+    public struct ListDatasetsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["nextToken": "NextToken", "maxResults": "MaxResults"]
+        }
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String = ""
+        public var identityId: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// A pagination token for obtaining the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to be returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -173,9 +209,14 @@ extension CognitoSync {
 
     }
 
-    public struct GetIdentityPoolConfigurationRequest: Serializable, Initializable {
+    public struct GetIdentityPoolConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
 
         public init() {}
 
@@ -185,9 +226,14 @@ extension CognitoSync {
 
     }
 
-    public struct GetCognitoEventsRequest: Serializable, Initializable {
+    public struct GetCognitoEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// The Cognito Identity Pool ID for the request
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
 
         public init() {}
 
@@ -197,15 +243,19 @@ extension CognitoSync {
 
     }
 
-    public struct SubscribeToDatasetResponse: Serializable, Initializable {
+    public struct SubscribeToDatasetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct GetCognitoEventsResponse: Serializable, Initializable {
+    public struct GetCognitoEventsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Cognito Events returned from the GetCognitoEvents request
-        var events: [String: String]? = nil
+        public var events: [String: String]? = nil
 
         public init() {}
 
@@ -215,15 +265,20 @@ extension CognitoSync {
 
     }
 
-    public struct RegisterDeviceRequest: Serializable, Initializable {
+    public struct RegisterDeviceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
+        }
         /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
-        var platform: String = ""
+        public var platform: String = ""
         /// The push token.
-        var token: String = ""
+        public var token: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// The unique ID for this identity.
-        var identityId: String = ""
+        public var identityId: String = ""
 
         public init() {}
 
@@ -236,13 +291,18 @@ extension CognitoSync {
 
     }
 
-    public struct SetIdentityPoolConfigurationRequest: Serializable, Initializable {
+    public struct SetIdentityPoolConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// Options to apply to this identity pool for push synchronization.
-        var pushSync: PushSync? = nil
+        public var pushSync: PushSync? = nil
         /// Options to apply to this identity pool for Amazon Cognito streams.
-        var cognitoStreams: CognitoStreams? = nil
+        public var cognitoStreams: CognitoStreams? = nil
 
         public init() {}
 
@@ -254,13 +314,15 @@ extension CognitoSync {
 
     }
 
-    public struct CognitoStreams: Serializable, Initializable {
+    public struct CognitoStreams: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the role Amazon Cognito can assume in order to publish to the stream. This role must grant access to Amazon Cognito (cognito-sync) to invoke PutRecord on your Cognito stream.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// Status of the Cognito streams. Valid values are: ENABLED - Streaming of updates to identity pool is enabled. DISABLED - Streaming of updates to identity pool is disabled. Bulk publish will also fail if StreamingStatus is DISABLED.
-        var streamingStatus: String? = nil
+        public var streamingStatus: String? = nil
         /// The name of the Cognito stream to receive updates. This stream must be in the developers account and in the same region as the identity pool.
-        var streamName: String? = nil
+        public var streamName: String? = nil
 
         public init() {}
 
@@ -272,21 +334,29 @@ extension CognitoSync {
 
     }
 
-    public struct ListRecordsRequest: Serializable, Initializable {
+    public struct ListRecordsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["syncSessionToken": "SyncSessionToken", "lastSyncCount": "LastSyncCount", "nextToken": "NextToken", "maxResults": "MaxResults"]
+        }
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
+        }
         /// A token containing a session ID, identity ID, and expiration.
-        var syncSessionToken: String? = nil
+        public var syncSessionToken: String? = nil
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        var datasetName: String = ""
+        public var datasetName: String = ""
         /// The last server sync count for this record.
-        var lastSyncCount: Int64? = nil
+        public var lastSyncCount: Int64? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String = ""
+        public var identityId: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// A pagination token for obtaining the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of results to be returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -302,9 +372,11 @@ extension CognitoSync {
 
     }
 
-    public struct DescribeDatasetResponse: Serializable, Initializable {
+    public struct DescribeDatasetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
-        var dataset: Dataset? = nil
+        public var dataset: Dataset? = nil
 
         public init() {}
 
@@ -314,15 +386,20 @@ extension CognitoSync {
 
     }
 
-    public struct UnsubscribeFromDatasetRequest: Serializable, Initializable {
+    public struct UnsubscribeFromDatasetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DeviceId": "DeviceId", "IdentityId": "IdentityId", "IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName"]
+        }
         /// The unique ID generated for this device by Cognito.
-        var deviceId: String = ""
+        public var deviceId: String = ""
         /// Unique ID for this identity.
-        var identityId: String = ""
+        public var identityId: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// The name of the dataset from which to unsubcribe.
-        var datasetName: String = ""
+        public var datasetName: String = ""
 
         public init() {}
 
@@ -335,11 +412,13 @@ extension CognitoSync {
 
     }
 
-    public struct PushSync: Serializable, Initializable {
+    public struct PushSync: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A role configured to allow Cognito to call SNS on behalf of the developer.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// List of SNS platform application ARNs that could be used by clients.
-        var applicationArns: [String]? = nil
+        public var applicationArns: [String]? = nil
 
         public init() {}
 
@@ -350,19 +429,21 @@ extension CognitoSync {
 
     }
 
-    public struct Record: Serializable, Initializable {
+    public struct Record: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The date on which the record was last modified.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// The last modified date of the client device.
-        var deviceLastModifiedDate: Date? = nil
+        public var deviceLastModifiedDate: Date? = nil
         /// The key for the record.
-        var key: String? = nil
+        public var key: String? = nil
         /// The server sync count for this record.
-        var syncCount: Int64? = nil
+        public var syncCount: Int64? = nil
         /// The value for the record.
-        var value: String? = nil
+        public var value: String? = nil
         /// The user/device that made the last change to this record.
-        var lastModifiedBy: String? = nil
+        public var lastModifiedBy: String? = nil
 
         public init() {}
 
@@ -377,17 +458,19 @@ extension CognitoSync {
 
     }
 
-    public struct IdentityUsage: Serializable, Initializable {
+    public struct IdentityUsage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Number of datasets for the identity.
-        var datasetCount: Int32? = nil
+        public var datasetCount: Int32? = nil
         /// Date on which the identity was last modified.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String? = nil
+        public var identityId: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String? = nil
+        public var identityPoolId: String? = nil
         /// Total data storage for this identity.
-        var dataStorage: Int64? = nil
+        public var dataStorage: Int64? = nil
 
         public init() {}
 
@@ -401,9 +484,14 @@ extension CognitoSync {
 
     }
 
-    public struct DescribeIdentityPoolUsageRequest: Serializable, Initializable {
+    public struct DescribeIdentityPoolUsageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
 
         public init() {}
 
@@ -413,21 +501,23 @@ extension CognitoSync {
 
     }
 
-    public struct Dataset: Serializable, Initializable {
+    public struct Dataset: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Number of records in this dataset.
-        var numRecords: Int64? = nil
+        public var numRecords: Int64? = nil
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        var datasetName: String? = nil
+        public var datasetName: String? = nil
         /// Date when the dataset was last modified.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// Date on which the dataset was created.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String? = nil
+        public var identityId: String? = nil
         /// Total size in bytes of the records in this dataset.
-        var dataStorage: Int64? = nil
+        public var dataStorage: Int64? = nil
         /// The device that made the last change to this dataset.
-        var lastModifiedBy: String? = nil
+        public var lastModifiedBy: String? = nil
 
         public init() {}
 
@@ -443,13 +533,15 @@ extension CognitoSync {
 
     }
 
-    public struct SetIdentityPoolConfigurationResponse: Serializable, Initializable {
+    public struct SetIdentityPoolConfigurationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-        var identityPoolId: String? = nil
+        public var identityPoolId: String? = nil
         /// Options to apply to this identity pool for push synchronization.
-        var pushSync: PushSync? = nil
+        public var pushSync: PushSync? = nil
         /// Options to apply to this identity pool for Amazon Cognito streams.
-        var cognitoStreams: CognitoStreams? = nil
+        public var cognitoStreams: CognitoStreams? = nil
 
         public init() {}
 
@@ -461,9 +553,11 @@ extension CognitoSync {
 
     }
 
-    public struct DescribeIdentityUsageResponse: Serializable, Initializable {
+    public struct DescribeIdentityUsageResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Usage information for the identity.
-        var identityUsage: IdentityUsage? = nil
+        public var identityUsage: IdentityUsage? = nil
 
         public init() {}
 
@@ -473,13 +567,15 @@ extension CognitoSync {
 
     }
 
-    public struct GetIdentityPoolConfigurationResponse: Serializable, Initializable {
+    public struct GetIdentityPoolConfigurationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-        var identityPoolId: String? = nil
+        public var identityPoolId: String? = nil
         /// Options to apply to this identity pool for push synchronization.
-        var pushSync: PushSync? = nil
+        public var pushSync: PushSync? = nil
         /// Options to apply to this identity pool for Amazon Cognito streams.
-        var cognitoStreams: CognitoStreams? = nil
+        public var cognitoStreams: CognitoStreams? = nil
 
         public init() {}
 
@@ -491,15 +587,17 @@ extension CognitoSync {
 
     }
 
-    public struct ListIdentityPoolUsageResponse: Serializable, Initializable {
+    public struct ListIdentityPoolUsageResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of results to be returned.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// A pagination token for obtaining the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Usage information for the identity pools.
-        var identityPoolUsages: [IdentityPoolUsage]? = nil
+        public var identityPoolUsages: [IdentityPoolUsage]? = nil
         /// Total number of identities for the identity pool.
-        var count: Int32? = nil
+        public var count: Int32? = nil
 
         public init() {}
 
@@ -512,21 +610,29 @@ extension CognitoSync {
 
     }
 
-    public struct UpdateRecordsRequest: Serializable, Initializable {
+    public struct UpdateRecordsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var headerParams: [String: String] {
+            return ["x-amz-Client-Context": "ClientContext"]
+        }
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
+        }
         /// The unique ID generated for this device by Cognito.
-        var deviceId: String? = nil
+        public var deviceId: String? = nil
         /// The SyncSessionToken returned by a previous call to ListRecords for this dataset and identity.
-        var syncSessionToken: String = ""
+        public var syncSessionToken: String = ""
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        var datasetName: String = ""
+        public var datasetName: String = ""
         /// A list of patch operations.
-        var recordPatches: [RecordPatch]? = nil
+        public var recordPatches: [RecordPatch]? = nil
         /// Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
-        var clientContext: String? = nil
+        public var clientContext: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String = ""
+        public var identityId: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
 
         public init() {}
 
@@ -542,15 +648,20 @@ extension CognitoSync {
 
     }
 
-    public struct SubscribeToDatasetRequest: Serializable, Initializable {
+    public struct SubscribeToDatasetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DeviceId": "DeviceId", "IdentityId": "IdentityId", "IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName"]
+        }
         /// The unique ID generated for this device by Cognito.
-        var deviceId: String = ""
+        public var deviceId: String = ""
         /// Unique ID for this identity.
-        var identityId: String = ""
+        public var identityId: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// The name of the dataset to subcribe to.
-        var datasetName: String = ""
+        public var datasetName: String = ""
 
         public init() {}
 
@@ -563,15 +674,17 @@ extension CognitoSync {
 
     }
 
-    public struct IdentityPoolUsage: Serializable, Initializable {
+    public struct IdentityPoolUsage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Number of sync sessions for the identity pool.
-        var syncSessionsCount: Int64? = nil
+        public var syncSessionsCount: Int64? = nil
         /// Date on which the identity pool was last modified.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String? = nil
+        public var identityPoolId: String? = nil
         /// Data storage information for the identity pool.
-        var dataStorage: Int64? = nil
+        public var dataStorage: Int64? = nil
 
         public init() {}
 
@@ -584,9 +697,11 @@ extension CognitoSync {
 
     }
 
-    public struct DescribeIdentityPoolUsageResponse: Serializable, Initializable {
+    public struct DescribeIdentityPoolUsageResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the usage of the identity pool.
-        var identityPoolUsage: IdentityPoolUsage? = nil
+        public var identityPoolUsage: IdentityPoolUsage? = nil
 
         public init() {}
 
@@ -596,25 +711,27 @@ extension CognitoSync {
 
     }
 
-    public struct ListRecordsResponse: Serializable, Initializable {
+    public struct ListRecordsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of all records.
-        var records: [Record]? = nil
+        public var records: [Record]? = nil
         /// Names of merged datasets.
-        var mergedDatasetNames: [String]? = nil
+        public var mergedDatasetNames: [String]? = nil
         /// A token containing a session ID, identity ID, and expiration.
-        var syncSessionToken: String? = nil
+        public var syncSessionToken: String? = nil
         /// Server sync count for this dataset.
-        var datasetSyncCount: Int64? = nil
+        public var datasetSyncCount: Int64? = nil
         /// Total number of records.
-        var count: Int32? = nil
+        public var count: Int32? = nil
         /// Indicates whether the dataset exists.
-        var datasetExists: Bool? = nil
+        public var datasetExists: Bool? = nil
         /// A boolean value specifying whether to delete the dataset locally.
-        var datasetDeletedAfterRequestedSyncCount: Bool? = nil
+        public var datasetDeletedAfterRequestedSyncCount: Bool? = nil
         /// A pagination token for obtaining the next page of results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The user/device that made the last change to this record.
-        var lastModifiedBy: String? = nil
+        public var lastModifiedBy: String? = nil
 
         public init() {}
 
@@ -632,13 +749,18 @@ extension CognitoSync {
 
     }
 
-    public struct DeleteDatasetRequest: Serializable, Initializable {
+    public struct DeleteDatasetRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        var datasetName: String = ""
+        public var datasetName: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String = ""
+        public var identityId: String = ""
 
         public init() {}
 
@@ -650,9 +772,11 @@ extension CognitoSync {
 
     }
 
-    public struct DeleteDatasetResponse: Serializable, Initializable {
+    public struct DeleteDatasetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
-        var dataset: Dataset? = nil
+        public var dataset: Dataset? = nil
 
         public init() {}
 
@@ -662,17 +786,19 @@ extension CognitoSync {
 
     }
 
-    public struct RecordPatch: Serializable, Initializable {
+    public struct RecordPatch: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An operation, either replace or remove.
-        var op: String = ""
+        public var op: String = ""
         /// The last modified date of the client device.
-        var deviceLastModifiedDate: Date? = nil
+        public var deviceLastModifiedDate: Date? = nil
         /// The key associated with the record patch.
-        var key: String = ""
+        public var key: String = ""
         /// Last known server sync count for this record. Set to 0 if unknown.
-        var syncCount: Int64 = 0
+        public var syncCount: Int64 = 0
         /// The value associated with the record patch.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -686,11 +812,16 @@ extension CognitoSync {
 
     }
 
-    public struct SetCognitoEventsRequest: Serializable, Initializable {
+    public struct SetCognitoEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId"]
+        }
         /// The Cognito Identity Pool to use when configuring Cognito Events
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// The events to configure
-        var events: [String: String] = [:]
+        public var events: [String: String] = [:]
 
         public init() {}
 
@@ -701,11 +832,16 @@ extension CognitoSync {
 
     }
 
-    public struct DescribeIdentityUsageRequest: Serializable, Initializable {
+    public struct DescribeIdentityUsageRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
+        }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String = ""
+        public var identityPoolId: String = ""
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityId: String = ""
+        public var identityId: String = ""
 
         public init() {}
 
@@ -716,15 +852,19 @@ extension CognitoSync {
 
     }
 
-    public struct UnsubscribeFromDatasetResponse: Serializable, Initializable {
+    public struct UnsubscribeFromDatasetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct BulkPublishResponse: Serializable, Initializable {
+    public struct BulkPublishResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        var identityPoolId: String? = nil
+        public var identityPoolId: String? = nil
 
         public init() {}
 

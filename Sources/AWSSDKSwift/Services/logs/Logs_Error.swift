@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Logs
-public enum LogsError: Error {
+public enum LogsError: AWSErrorType {
     case invalidParameterException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case resourceNotFoundException(message: String?)

@@ -32,608 +32,529 @@ Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, a
 */
 public struct Apigateway {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             service: "apigateway",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [ApigatewayError.self]
         )
     }
 
     ///  Represents a put integration.
     public func putIntegration(_ input: PutIntegrationRequest) throws -> Integration {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutIntegration", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PUT", input: input)
     }
 
     ///  Gets information about a Deployment resource.
     public func getDeployment(_ input: GetDeploymentRequest) throws -> Deployment {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDeployment", path: "/restapis/\(input.restApiId)/deployments/\(input.deploymentId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "GET", input: input)
     }
 
     ///  Describe a BasePathMapping resource.
     public func getBasePathMapping(_ input: GetBasePathMappingRequest) throws -> BasePathMapping {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBasePathMapping", path: "/domainnames/\(input.domainName)/basepathmappings/\(input.basePath)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "GET", input: input)
     }
 
     ///  Represents a put integration.
     public func putIntegrationResponse(_ input: PutIntegrationResponseRequest) throws -> IntegrationResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutIntegrationResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration/responses/\(input.statusCode)", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PUT", input: input)
     }
 
     ///  Gets information about the current Account resource.
     public func getAccount(_ input: GetAccountRequest) throws -> Account {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetAccount", path: "/account", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetAccount", path: "/account", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocumentationVersion", path: "/restapis/\(input.restApiId)/documentation/versions/\(input.documentationVersion)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current ApiKeys resource.
     public func getApiKeys(_ input: GetApiKeysRequest) throws -> ApiKeys {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetApiKeys", path: "/apikeys?includeValues=\(input.includeValues?.description ?? "")&position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")&name=\(input.nameQuery?.description ?? "")&customerId=\(input.customerId?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", input: input)
     }
 
     ///  Changes information about a Resource resource.
     public func updateResource(_ input: UpdateResourceRequest) throws -> Resource {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateResource", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  
     public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
-        _ = try request.invoke(operation: "DeleteDocumentationVersion", path: "/restapis/\(input.restApiId)/documentation/versions/\(input.documentationVersion)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about the BasePathMapping resource.
     public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest) throws -> BasePathMapping {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateBasePathMapping", path: "/domainnames/\(input.domainName)/basepathmappings/\(input.basePath)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", input: input)
     }
 
     ///  Represents a delete integration.
     public func deleteIntegration(_ input: DeleteIntegrationRequest) throws {
-        _ = try request.invoke(operation: "DeleteIntegration", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", input: input)
     }
 
     ///  
     public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest) throws -> DocumentationPart {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDocumentationPart", path: "/restapis/\(input.restApiId)/documentation/parts/\(input.documentationPartId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Gets a usage plan key of a given key identifier.
     public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest) throws -> UsagePlanKey {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUsagePlanKey", path: "/usageplans/\(input.usagePlanId)/keys/\(input.keyId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func createDocumentationPart(_ input: CreateDocumentationPartRequest) throws -> DocumentationPart {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDocumentationPart", path: "/restapis/\(input.restApiId)/documentation/parts", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "POST", input: input)
     }
 
     ///  Add a method to an existing Resource resource.
     public func putMethod(_ input: PutMethodRequest) throws -> Method {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutMethod", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing Authorizer resource. AWS CLI
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest) throws -> Authorizer {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateAuthorizer", path: "/restapis/\(input.restApiId)/authorizers/\(input.authorizerId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Describe an existing Method resource.
     public func getMethod(_ input: GetMethodRequest) throws -> Method {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetMethod", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getDocumentationPart(_ input: GetDocumentationPartRequest) throws -> DocumentationPart {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocumentationPart", path: "/restapis/\(input.restApiId)/documentation/parts/\(input.documentationPartId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a usage plan of a given plan identifier.
     public func getUsagePlan(_ input: GetUsagePlanRequest) throws -> UsagePlan {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUsagePlan", path: "/usageplans/\(input.usagePlanId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes an existing Method resource.
     public func deleteMethod(_ input: DeleteMethodRequest) throws {
-        _ = try request.invoke(operation: "DeleteMethod", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about one or more Stage resources.
     public func getStages(_ input: GetStagesRequest) throws -> Stages {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetStages", path: "/restapis/\(input.restApiId)/stages?deploymentId=\(input.deploymentId?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetStages", path: "/restapis/{restapi_id}/stages", httpMethod: "GET", input: input)
     }
 
     ///  Generates a sample mapping template that can be used to transform a payload into the structure of a model.
     public func getModelTemplate(_ input: GetModelTemplateRequest) throws -> Template {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetModelTemplate", path: "/restapis/\(input.restApiId)/models/\(input.modelName)/default_template", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetModelTemplate", path: "/restapis/{restapi_id}/models/{model_name}/default_template", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a Stage resource.
     public func deleteStage(_ input: DeleteStageRequest) throws {
-        _ = try request.invoke(operation: "DeleteStage", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Generates a ClientCertificate resource.
     public func generateClientCertificate(_ input: GenerateClientCertificateRequest) throws -> ClientCertificate {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: "POST", input: input)
     }
 
     ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload. 
     public func createUsagePlan(_ input: CreateUsagePlanRequest) throws -> UsagePlan {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: "POST", input: input)
     }
 
     ///  Describes existing Models defined for a RestApi resource.
     public func getModels(_ input: GetModelsRequest) throws -> Models {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetModels", path: "/restapis/\(input.restApiId)/models?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetModels", path: "/restapis/{restapi_id}/models", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current ApiKey resource.
     public func getApiKey(_ input: GetApiKeyRequest) throws -> ApiKey {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetApiKey", path: "/apikeys/\(input.apiKey)?includeValue=\(input.includeValue?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetApiKey", path: "/apikeys/{api_Key}", httpMethod: "GET", input: input)
     }
 
     ///  Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.
     public func testInvokeMethod(_ input: TestInvokeMethodRequest) throws -> TestInvokeMethodResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TestInvokeMethod", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "POST", input: input)
     }
 
     ///  Changes information about a model.
     public func updateModel(_ input: UpdateModelRequest) throws -> Model {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateModel", path: "/restapis/\(input.restApiId)/models/\(input.modelName)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Represents a collection of DomainName resources.
     public func getDomainNames(_ input: GetDomainNamesRequest) throws -> DomainNames {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDomainNames", path: "/domainnames?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDomainNames", path: "/domainnames", httpMethod: "GET", input: input)
     }
 
     ///  Adds a MethodResponse to an existing Method resource.
     public func putMethodResponse(_ input: PutMethodResponseRequest) throws -> MethodResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutMethodResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/responses/\(input.statusCode)", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PUT", input: input)
     }
 
     ///  
     public func getSdkTypes(_ input: GetSdkTypesRequest) throws -> SdkTypes {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetSdkTypes", path: "/sdktypes?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: "GET", input: input)
     }
 
     ///  Changes information about the DomainName resource.
     public func updateDomainName(_ input: UpdateDomainNameRequest) throws -> DomainName {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDomainName", path: "/domainnames/\(input.domainName)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Lists the RestApi resource in the collection.
     public func getRestApi(_ input: GetRestApiRequest) throws -> RestApi {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetRestApi", path: "/restapis/\(input.restApiId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: "GET", input: input)
     }
 
     ///  
     public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest) throws -> DocumentationVersions {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocumentationVersions", path: "/restapis/\(input.restApiId)/documentation/versions?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "GET", input: input)
     }
 
     ///  Lists the RestApis resources for your collection.
     public func getRestApis(_ input: GetRestApisRequest) throws -> RestApis {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetRestApis", path: "/restapis?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetRestApis", path: "/restapis", httpMethod: "GET", input: input)
     }
 
     ///  Gets all the usage plans of the caller's account.
     public func getUsagePlans(_ input: GetUsagePlansRequest) throws -> UsagePlans {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUsagePlans", path: "/usageplans?keyId=\(input.keyId?.description ?? "")&position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUsagePlans", path: "/usageplans", httpMethod: "GET", input: input)
     }
 
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
     public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest) throws -> UsagePlanKeys {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUsagePlanKeys", path: "/usageplans/\(input.usagePlanId)/keys?position=\(input.position?.description ?? "")&name=\(input.nameQuery?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: "GET", input: input)
     }
 
     ///  
     public func importDocumentationParts(_ input: ImportDocumentationPartsRequest) throws -> DocumentationPartIds {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportDocumentationParts", path: "/restapis/\(input.restApiId)/documentation/parts?failonwarnings=\(input.failOnWarnings?.description ?? "")&mode=\(input.mode?.description ?? "")", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "PUT", input: input)
     }
 
     ///  Flushes all authorizer cache entries on a stage.
     public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest) throws {
-        _ = try request.invoke(operation: "FlushStageAuthorizersCache", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)/cache/authorizers", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", input: input)
     }
 
     ///  
     public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest) throws {
-        _ = try request.invoke(operation: "DeleteDocumentationPart", path: "/restapis/\(input.restApiId)/documentation/parts/\(input.documentationPartId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates a usage plan of a given plan Id.
     public func updateUsagePlan(_ input: UpdateUsagePlanRequest) throws -> UsagePlan {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateUsagePlan", path: "/usageplans/\(input.usagePlanId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Enable custom authorizers 
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) throws -> TestInvokeAuthorizerResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TestInvokeAuthorizer", path: "/restapis/\(input.restApiId)/authorizers/\(input.authorizerId)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new BasePathMapping resource.
     public func createBasePathMapping(_ input: CreateBasePathMappingRequest) throws -> BasePathMapping {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateBasePathMapping", path: "/domainnames/\(input.domainName)/basepathmappings", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "POST", input: input)
     }
 
     ///  Represents a delete integration response.
     public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) throws {
-        _ = try request.invoke(operation: "DeleteIntegrationResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration/responses/\(input.statusCode)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", input: input)
     }
 
     ///  Generates a client SDK for a RestApi and Stage.
     public func getSdk(_ input: GetSdkRequest) throws -> SdkResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetSdk", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)/sdks/\(input.sdkType)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
     public func deleteDeployment(_ input: DeleteDeploymentRequest) throws {
-        _ = try request.invoke(operation: "DeleteDeployment", path: "/restapis/\(input.restApiId)/deployments/\(input.deploymentId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the DomainName resource.
     public func deleteDomainName(_ input: DeleteDomainNameRequest) throws {
-        _ = try request.invoke(operation: "DeleteDomainName", path: "/domainnames/\(input.domainName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Grants a temporary extension to the reamining quota of a usage plan associated with a specified API key.
     public func updateUsage(_ input: UpdateUsageRequest) throws -> Usage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateUsage", path: "/usageplans/\(input.usagePlanId)/keys/\(input.keyId)/usage", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: "PATCH", input: input)
     }
 
     ///  Describe an existing Authorizer resource. AWS CLI
     public func getAuthorizer(_ input: GetAuthorizerRequest) throws -> Authorizer {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetAuthorizer", path: "/restapis/\(input.restApiId)/authorizers/\(input.authorizerId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes an existing MethodResponse resource.
     public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) throws {
-        _ = try request.invoke(operation: "DeleteMethodResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/responses/\(input.statusCode)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input)
     }
 
     ///  Describe an existing Authorizers resource. AWS CLI
     public func getAuthorizers(_ input: GetAuthorizersRequest) throws -> Authorizers {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetAuthorizers", path: "/restapis/\(input.restApiId)/authorizers?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a usage plan key and remove the underlying API key from the associated usage plan.
     public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest) throws {
-        _ = try request.invoke(operation: "DeleteUsagePlanKey", path: "/usageplans/\(input.usagePlanId)/keys/\(input.keyId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an existing Method resource.
     public func updateMethod(_ input: UpdateMethodRequest) throws -> Method {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateMethod", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PATCH", input: input)
     }
 
     ///  Deletes an existing Authorizer resource. AWS CLI
     public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) throws {
-        _ = try request.invoke(operation: "DeleteAuthorizer", path: "/restapis/\(input.restApiId)/authorizers/\(input.authorizerId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified API.
     public func deleteRestApi(_ input: DeleteRestApiRequest) throws {
-        _ = try request.invoke(operation: "DeleteRestApi", path: "/restapis/\(input.restApiId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about an ApiKey resource.
     public func updateApiKey(_ input: UpdateApiKeyRequest) throws -> ApiKey {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateApiKey", path: "/apikeys/\(input.apiKey)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: "PATCH", input: input)
     }
 
     ///  Creates a Resource resource.
     public func createResource(_ input: CreateResourceRequest) throws -> Resource {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateResource", path: "/restapis/\(input.restApiId)/resources/\(input.parentId)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: "POST", input: input)
     }
 
     ///  
     public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest) throws -> DocumentationVersion {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDocumentationVersion", path: "/restapis/\(input.restApiId)/documentation/versions", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", input: input)
     }
 
     ///  Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
     public func createAuthorizer(_ input: CreateAuthorizerRequest) throws -> Authorizer {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateAuthorizer", path: "/restapis/\(input.restApiId)/authorizers", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: "POST", input: input)
     }
 
     ///  Represents a get integration response.
     public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) throws -> IntegrationResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetIntegrationResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration/responses/\(input.statusCode)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the usage data of a usage plan in a specified time interval.
     public func getUsage(_ input: GetUsageRequest) throws -> Usage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetUsage", path: "/usageplans/\(input.usagePlanId)/usage?keyId=\(input.keyId?.description ?? "")&position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")&startDate=\(input.startDate)&endDate=\(input.endDate)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetUsage", path: "/usageplans/{usageplanId}/usage", httpMethod: "GET", input: input)
     }
 
     ///  Changes information about an ClientCertificate resource.
     public func updateClientCertificate(_ input: UpdateClientCertificateRequest) throws -> ClientCertificate {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateClientCertificate", path: "/clientcertificates/\(input.clientCertificateId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  
     public func getDocumentationParts(_ input: GetDocumentationPartsRequest) throws -> DocumentationParts {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDocumentationParts", path: "/restapis/\(input.restApiId)/documentation/parts?position=\(input.position?.description ?? "")&name=\(input.nameQuery?.description ?? "")&limit=\(input.limit?.description ?? "")&path=\(input.path?.description ?? "")&type=\(input.type?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a usage plan of a given plan Id.
     public func deleteUsagePlan(_ input: DeleteUsagePlanRequest) throws {
-        _ = try request.invoke(operation: "DeleteUsagePlan", path: "/usageplans/\(input.usagePlanId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Adds a new Model resource to an existing RestApi resource.
     public func createModel(_ input: CreateModelRequest) throws -> Model {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateModel", path: "/restapis/\(input.restApiId)/models", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Deployment resource, which makes a specified RestApi callable over the internet.
     public func createDeployment(_ input: CreateDeploymentRequest) throws -> Deployment {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDeployment", path: "/restapis/\(input.restApiId)/deployments", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: "POST", input: input)
     }
 
     ///  Represents a get integration.
     public func getIntegration(_ input: GetIntegrationRequest) throws -> Integration {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetIntegration", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
     }
 
     ///  Flushes a stage's cache.
     public func flushStageCache(_ input: FlushStageCacheRequest) throws {
-        _ = try request.invoke(operation: "FlushStageCache", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)/cache/data", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a new domain name.
     public func createDomainName(_ input: CreateDomainNameRequest) throws -> DomainName {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDomainName", path: "/domainnames", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDomainName", path: "/domainnames", httpMethod: "POST", input: input)
     }
 
     ///  Create an ApiKey resource.  AWS CLI
     public func createApiKey(_ input: CreateApiKeyRequest) throws -> ApiKey {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateApiKey", path: "/apikeys", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateApiKey", path: "/apikeys", httpMethod: "POST", input: input)
     }
 
     ///  Represents an update integration.
     public func updateIntegration(_ input: UpdateIntegrationRequest) throws -> Integration {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateIntegration", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PATCH", input: input)
     }
 
     ///  A feature of the Amazon API Gateway control service for creating a new API from an external API definition file.
     public func importRestApi(_ input: ImportRestApiRequest) throws -> RestApi {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportRestApi", path: "/restapis?mode=import&failonwarnings=\(input.failOnWarnings?.description ?? "")", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: "POST", input: input)
     }
 
     ///  Creates a usage plan key for adding an existing API key to a usage plan.
     public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest) throws -> UsagePlanKey {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateUsagePlanKey", path: "/usageplans/\(input.usagePlanId)/keys", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the ApiKey resource.
     public func deleteApiKey(_ input: DeleteApiKeyRequest) throws {
-        _ = try request.invoke(operation: "DeleteApiKey", path: "/apikeys/\(input.apiKey)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: "DELETE", input: input)
     }
 
     ///  Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
     public func getDomainName(_ input: GetDomainNameRequest) throws -> DomainName {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDomainName", path: "/domainnames/\(input.domainName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDomainName", path: "/domainnames/{domain_name}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a model.
     public func deleteModel(_ input: DeleteModelRequest) throws {
-        _ = try request.invoke(operation: "DeleteModel", path: "/restapis/\(input.restApiId)/models/\(input.modelName)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a new Stage resource that references a pre-existing Deployment for the API. 
     public func createStage(_ input: CreateStageRequest) throws -> Stage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStage", path: "/restapis/\(input.restApiId)/stages", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: "POST", input: input)
     }
 
     ///  Gets a collection of ClientCertificate resources.
     public func getClientCertificates(_ input: GetClientCertificatesRequest) throws -> ClientCertificates {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetClientCertificates", path: "/clientcertificates?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: "GET", input: input)
     }
 
     ///  Represents an update integration response.
     public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) throws -> IntegrationResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateIntegrationResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/integration/responses/\(input.statusCode)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about the specified API.
     public func updateRestApi(_ input: UpdateRestApiRequest) throws -> RestApi {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateRestApi", path: "/restapis/\(input.restApiId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Represents a collection of BasePathMapping resources.
     public func getBasePathMappings(_ input: GetBasePathMappingsRequest) throws -> BasePathMappings {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetBasePathMappings", path: "/domainnames/\(input.domainName)/basepathmappings?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetBasePathMappings", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "GET", input: input)
     }
 
     ///  Changes information about a Deployment resource.
     public func updateDeployment(_ input: UpdateDeploymentRequest) throws -> Deployment {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDeployment", path: "/restapis/\(input.restApiId)/deployments/\(input.deploymentId)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Exports a deployed version of a RestApi in a specified format.
     public func getExport(_ input: GetExportRequest) throws -> ExportResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetExport", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)/exports/\(input.exportType)", httpMethod: "GET", httpHeaders: ["Accept": input.accepts], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: "GET", input: input)
     }
 
     ///  A feature of the Amazon API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     public func putRestApi(_ input: PutRestApiRequest) throws -> RestApi {
-        let (bodyData, urlResponse) = try request.invoke(operation: "PutRestApi", path: "/restapis/\(input.restApiId)?failonwarnings=\(input.failOnWarnings?.description ?? "")&mode=\(input.mode?.description ?? "")", httpMethod: "PUT", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: "PUT", input: input)
     }
 
     ///  Describes a MethodResponse resource.
     public func getMethodResponse(_ input: GetMethodResponseRequest) throws -> MethodResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetMethodResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/responses/\(input.statusCode)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing model defined for a RestApi resource.
     public func getModel(_ input: GetModelRequest) throws -> Model {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetModel", path: "/restapis/\(input.restApiId)/models/\(input.modelName)?flatten=\(input.flatten?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new RestApi resource.
     public func createRestApi(_ input: CreateRestApiRequest) throws -> RestApi {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateRestApi", path: "/restapis", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateRestApi", path: "/restapis", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing MethodResponse resource.
     public func updateMethodResponse(_ input: UpdateMethodResponseRequest) throws -> MethodResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateMethodResponse", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)/methods/\(input.httpMethod)/responses/\(input.statusCode)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
     ///  Deletes the BasePathMapping resource.
     public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest) throws {
-        _ = try request.invoke(operation: "DeleteBasePathMapping", path: "/domainnames/\(input.domainName)/basepathmappings/\(input.basePath)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets information about a Deployments collection.
     public func getDeployments(_ input: GetDeploymentsRequest) throws -> Deployments {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDeployments", path: "/restapis/\(input.restApiId)/deployments?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: "GET", input: input)
     }
 
     ///  Changes information about the current Account resource.
     public func updateAccount(_ input: UpdateAccountRequest) throws -> Account {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateAccount", path: "/account", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateAccount", path: "/account", httpMethod: "PATCH", input: input)
     }
 
     ///  
     public func getSdkType(_ input: GetSdkTypeRequest) throws -> SdkType {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetSdkType", path: "/sdktypes/\(input.id)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a Stage resource.
     public func getStage(_ input: GetStageRequest) throws -> Stage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetStage", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a Resource resource.
     public func deleteResource(_ input: DeleteResourceRequest) throws {
-        _ = try request.invoke(operation: "DeleteResource", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about a Stage resource.
     public func updateStage(_ input: UpdateStageRequest) throws -> Stage {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateStage", path: "/restapis/\(input.restApiId)/stages/\(input.stageName)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Deletes the ClientCertificate resource.
     public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) throws {
-        _ = try request.invoke(operation: "DeleteClientCertificate", path: "/clientcertificates/\(input.clientCertificateId)", httpMethod: "DELETE", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Lists information about a resource.
     public func getResource(_ input: GetResourceRequest) throws -> Resource {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetResource", path: "/restapis/\(input.restApiId)/resources/\(input.resourceId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current ClientCertificate resource.
     public func getClientCertificate(_ input: GetClientCertificateRequest) throws -> ClientCertificate {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetClientCertificate", path: "/clientcertificates/\(input.clientCertificateId)", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "GET", input: input)
     }
 
     ///  Lists information about a collection of Resource resources.
     public func getResources(_ input: GetResourcesRequest) throws -> Resources {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetResources", path: "/restapis/\(input.restApiId)/resources?position=\(input.position?.description ?? "")&limit=\(input.limit?.description ?? "")", httpMethod: "GET", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: "GET", input: input)
     }
 
     ///  
     public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest) throws -> DocumentationVersion {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDocumentationVersion", path: "/restapis/\(input.restApiId)/documentation/versions/\(input.documentationVersion)", httpMethod: "PATCH", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "PATCH", input: input)
     }
 
     ///  Import API keys from an external source, such as a CSV-formatted file.
     public func importApiKeys(_ input: ImportApiKeysRequest) throws -> ApiKeyIds {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ImportApiKeys", path: "/apikeys?mode=import&failonwarnings=\(input.failOnWarnings?.description ?? "")&format=\(input.format)", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ApigatewayResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: "POST", input: input)
     }
 
 

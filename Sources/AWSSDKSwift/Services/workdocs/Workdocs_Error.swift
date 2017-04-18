@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Workdocs
-public enum WorkdocsError: Error {
+public enum WorkdocsError: AWSErrorType {
     case entityNotExistsException(message: String?)
     case unauthorizedOperationException(message: String?)
     case unauthorizedResourceAccessException(message: String?)

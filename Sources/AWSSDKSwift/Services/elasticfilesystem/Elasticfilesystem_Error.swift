@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Elasticfilesystem
-public enum ElasticfilesystemError: Error {
+public enum ElasticfilesystemError: AWSErrorType {
     case badRequest(message: String?)
     case internalServerError(message: String?)
     case fileSystemNotFound(message: String?)

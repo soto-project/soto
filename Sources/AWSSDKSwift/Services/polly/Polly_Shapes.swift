@@ -29,11 +29,13 @@ import Core
 
 extension Polly {
 
-    public struct Lexicon: Serializable, Initializable {
+    public struct Lexicon: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
-        var content: String? = nil
+        public var content: String? = nil
         /// Name of the lexicon.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -44,11 +46,16 @@ extension Polly {
 
     }
 
-    public struct DescribeVoicesInput: Serializable, Initializable {
+    public struct DescribeVoicesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["LanguageCode": "LanguageCode", "NextToken": "NextToken"]
+        }
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
-        var languageCode: String? = nil
+        public var languageCode: String? = nil
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -59,13 +66,18 @@ extension Polly {
 
     }
 
-    public struct SynthesizeSpeechOutput: Serializable, Initializable {
+    public struct SynthesizeSpeechOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "AudioStream"
+        public var headerParams: [String: String] {
+            return ["Content-Type": "ContentType", "x-amzn-RequestCharacters": "RequestCharacters"]
+        }
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.     
-        var contentType: String? = nil
+        public var contentType: String? = nil
         ///  Stream containing the synthesized speech. 
-        var audioStream: Data? = nil
+        public var audioStream: Data? = nil
         /// Number of characters synthesized.
-        var requestCharacters: Int32? = nil
+        public var requestCharacters: Int32? = nil
 
         public init() {}
 
@@ -77,11 +89,16 @@ extension Polly {
 
     }
 
-    public struct PutLexiconInput: Serializable, Initializable {
+    public struct PutLexiconInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["LexiconName": "Name"]
+        }
         /// Content of the PLS lexicon as string data.
-        var content: String = ""
+        public var content: String = ""
         /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. 
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -92,11 +109,13 @@ extension Polly {
 
     }
 
-    public struct GetLexiconOutput: Serializable, Initializable {
+    public struct GetLexiconOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Lexicon object that provides name and the string content of the lexicon. 
-        var lexicon: Lexicon? = nil
+        public var lexicon: Lexicon? = nil
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
-        var lexiconAttributes: LexiconAttributes? = nil
+        public var lexiconAttributes: LexiconAttributes? = nil
 
         public init() {}
 
@@ -107,11 +126,13 @@ extension Polly {
 
     }
 
-    public struct ListLexiconsOutput: Serializable, Initializable {
+    public struct ListLexiconsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of lexicon names and attributes.
-        var lexicons: [LexiconDescription]? = nil
+        public var lexicons: [LexiconDescription]? = nil
 
         public init() {}
 
@@ -122,9 +143,14 @@ extension Polly {
 
     }
 
-    public struct GetLexiconInput: Serializable, Initializable {
+    public struct GetLexiconInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["LexiconName": "Name"]
+        }
         /// Name of the lexicon.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -134,25 +160,29 @@ extension Polly {
 
     }
 
-    public struct DeleteLexiconOutput: Serializable, Initializable {
+    public struct DeleteLexiconOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct SynthesizeSpeechInput: Serializable, Initializable {
+    public struct SynthesizeSpeechInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The audio format in which the resulting stream will be encoded. 
-        var outputFormat: String = ""
+        public var outputFormat: String = ""
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
-        var voiceId: String = ""
+        public var voiceId: String = ""
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
-        var lexiconNames: [String]? = nil
+        public var lexiconNames: [String]? = nil
         ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
-        var textType: String? = nil
+        public var textType: String? = nil
         ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
-        var text: String = ""
+        public var text: String = ""
         ///  The audio frequency specified in Hz.  The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050".   Valid values for pcm are "8000" and "16000" The default value is "16000". 
-        var sampleRate: String? = nil
+        public var sampleRate: String? = nil
 
         public init() {}
 
@@ -167,11 +197,13 @@ extension Polly {
 
     }
 
-    public struct DescribeVoicesOutput: Serializable, Initializable {
+    public struct DescribeVoicesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of voices with their properties.
-        var voices: [Voice]? = nil
+        public var voices: [Voice]? = nil
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -182,9 +214,14 @@ extension Polly {
 
     }
 
-    public struct ListLexiconsInput: Serializable, Initializable {
+    public struct ListLexiconsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["NextToken": "NextToken"]
+        }
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -194,19 +231,21 @@ extension Polly {
 
     }
 
-    public struct LexiconAttributes: Serializable, Initializable {
+    public struct LexiconAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Amazon Resource Name (ARN) of the lexicon.
-        var lexiconArn: String? = nil
+        public var lexiconArn: String? = nil
         /// Date lexicon was last modified (a timestamp value).
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// Number of lexemes in the lexicon.
-        var lexemesCount: Int32? = nil
+        public var lexemesCount: Int32? = nil
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
-        var languageCode: String? = nil
+        public var languageCode: String? = nil
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
-        var alphabet: String? = nil
+        public var alphabet: String? = nil
         /// Total size of the lexicon, in characters.
-        var size: Int32? = nil
+        public var size: Int32? = nil
 
         public init() {}
 
@@ -221,11 +260,13 @@ extension Polly {
 
     }
 
-    public struct LexiconDescription: Serializable, Initializable {
+    public struct LexiconDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Name of the lexicon.
-        var name: String? = nil
+        public var name: String? = nil
         /// Provides lexicon metadata.
-        var attributes: LexiconAttributes? = nil
+        public var attributes: LexiconAttributes? = nil
 
         public init() {}
 
@@ -236,15 +277,22 @@ extension Polly {
 
     }
 
-    public struct PutLexiconOutput: Serializable, Initializable {
+    public struct PutLexiconOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DeleteLexiconInput: Serializable, Initializable {
+    public struct DeleteLexiconInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["LexiconName": "Name"]
+        }
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -254,17 +302,19 @@ extension Polly {
 
     }
 
-    public struct Voice: Serializable, Initializable {
+    public struct Voice: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Human readable name of the language in English.
-        var languageName: String? = nil
+        public var languageName: String? = nil
         /// Language code of the voice.
-        var languageCode: String? = nil
+        public var languageCode: String? = nil
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
-        var name: String? = nil
+        public var name: String? = nil
         /// Gender of the voice.
-        var gender: String? = nil
+        public var gender: String? = nil
         /// Amazon Polly assigned voice ID. This is the ID that you specify when calling the SynthesizeSpeech operation.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 

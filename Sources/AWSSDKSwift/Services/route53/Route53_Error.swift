@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Route53
-public enum Route53Error: Error {
+public enum Route53Error: AWSErrorType {
     case invalidInput(message: String?)
     case tooManyTrafficPolicies(message: String?)
     case trafficPolicyAlreadyExists(message: String?)

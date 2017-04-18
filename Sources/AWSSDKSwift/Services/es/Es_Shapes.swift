@@ -29,9 +29,11 @@ import Core
 
 extension Es {
 
-    public struct InstanceCountLimits: Serializable, Initializable {
-        var minimumInstanceCount: Int32? = nil
-        var maximumInstanceCount: Int32? = nil
+    public struct InstanceCountLimits: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var minimumInstanceCount: Int32? = nil
+        public var maximumInstanceCount: Int32? = nil
 
         public init() {}
 
@@ -42,9 +44,11 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchDomainsRequest: Serializable, Initializable {
+    public struct DescribeElasticsearchDomainsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Elasticsearch domains for which you want information.
-        var domainNames: [String] = []
+        public var domainNames: [String] = []
 
         public init() {}
 
@@ -54,9 +58,14 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchDomainRequest: Serializable, Initializable {
+    public struct DescribeElasticsearchDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DomainName": "DomainName"]
+        }
         /// The name of the Elasticsearch domain for which you want information.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -66,11 +75,13 @@ extension Es {
 
     }
 
-    public struct AddTagsRequest: Serializable, Initializable {
+    public struct AddTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specify the ARN for which you want to add the tags.
-        var aRN: String = ""
+        public var aRN: String = ""
         ///  List of Tag that need to be added for the Elasticsearch domain. 
-        var tagList: [Tag] = []
+        public var tagList: [Tag] = []
 
         public init() {}
 
@@ -81,15 +92,23 @@ extension Es {
 
     }
 
-    public struct ListElasticsearchInstanceTypesRequest: Serializable, Initializable {
+    public struct ListElasticsearchInstanceTypesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["domainName": "DomainName", "maxResults": "MaxResults", "nextToken": "NextToken"]
+        }
+        public var pathParams: [String: String] {
+            return ["ElasticsearchVersion": "ElasticsearchVersion"]
+        }
         ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
-        var domainName: String? = nil
+        public var domainName: String? = nil
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
-        var elasticsearchVersion: String = ""
+        public var elasticsearchVersion: String = ""
 
         public init() {}
 
@@ -102,19 +121,24 @@ extension Es {
 
     }
 
-    public struct UpdateElasticsearchDomainConfigRequest: Serializable, Initializable {
+    public struct UpdateElasticsearchDomainConfigRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DomainName": "DomainName"]
+        }
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours. 
-        var snapshotOptions: SnapshotOptions? = nil
+        public var snapshotOptions: SnapshotOptions? = nil
         /// The type and number of instances to instantiate for the domain cluster.
-        var elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil
+        public var elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil
         /// Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
-        var advancedOptions: [String: String]? = nil
+        public var advancedOptions: [String: String]? = nil
         /// IAM access policy as a JSON-formatted string.
-        var accessPolicies: String? = nil
+        public var accessPolicies: String? = nil
         /// Specify the type and size of the EBS volume that you want to use. 
-        var eBSOptions: EBSOptions? = nil
+        public var eBSOptions: EBSOptions? = nil
         /// The name of the Elasticsearch domain that you are updating. 
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -129,9 +153,11 @@ extension Es {
 
     }
 
-    public struct CreateElasticsearchDomainResponse: Serializable, Initializable {
+    public struct CreateElasticsearchDomainResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the newly created Elasticsearch domain. 
-        var domainStatus: ElasticsearchDomainStatus? = nil
+        public var domainStatus: ElasticsearchDomainStatus? = nil
 
         public init() {}
 
@@ -141,11 +167,13 @@ extension Es {
 
     }
 
-    public struct ElasticsearchClusterConfigStatus: Serializable, Initializable {
+    public struct ElasticsearchClusterConfigStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
-        var options: ElasticsearchClusterConfig = ElasticsearchClusterConfig()
+        public var options: ElasticsearchClusterConfig = ElasticsearchClusterConfig()
         ///  Specifies the status of the configuration for the specified Elasticsearch domain.
-        var status: OptionStatus = OptionStatus()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -156,9 +184,11 @@ extension Es {
 
     }
 
-    public struct ListTagsResponse: Serializable, Initializable {
+    public struct ListTagsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  List of Tag for the requested Elasticsearch domain.
-        var tagList: [Tag]? = nil
+        public var tagList: [Tag]? = nil
 
         public init() {}
 
@@ -168,13 +198,21 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchInstanceTypeLimitsRequest: Serializable, Initializable {
+    public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["domainName": "DomainName"]
+        }
+        public var pathParams: [String: String] {
+            return ["InstanceType": "InstanceType", "ElasticsearchVersion": "ElasticsearchVersion"]
+        }
         ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed. 
-        var instanceType: String = ""
+        public var instanceType: String = ""
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
-        var domainName: String? = nil
+        public var domainName: String? = nil
         ///  Version of Elasticsearch for which  Limits  are needed. 
-        var elasticsearchVersion: String = ""
+        public var elasticsearchVersion: String = ""
 
         public init() {}
 
@@ -186,11 +224,13 @@ extension Es {
 
     }
 
-    public struct RemoveTagsRequest: Serializable, Initializable {
+    public struct RemoveTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
-        var aRN: String = ""
+        public var aRN: String = ""
         /// Specifies the TagKey list which you want to remove from the Elasticsearch domain.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -201,17 +241,19 @@ extension Es {
 
     }
 
-    public struct OptionStatus: Serializable, Initializable {
+    public struct OptionStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the latest version for the entity.
-        var updateVersion: Int32? = nil
+        public var updateVersion: Int32? = nil
         /// Indicates whether the Elasticsearch domain is being deleted.
-        var pendingDeletion: Bool? = nil
+        public var pendingDeletion: Bool? = nil
         /// Timestamp which tells the creation date for the entity.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
         /// Provides the OptionState for the Elasticsearch domain.
-        var state: String = ""
+        public var state: String = ""
         /// Timestamp which tells the last updated time for the entity.
-        var updateDate: Date = Date()
+        public var updateDate: Date = Date()
 
         public init() {}
 
@@ -225,8 +267,10 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchInstanceTypeLimitsResponse: Serializable, Initializable {
-        var limitsByRole: [String: Limits]? = nil
+    public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var limitsByRole: [String: Limits]? = nil
 
         public init() {}
 
@@ -236,9 +280,11 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchDomainResponse: Serializable, Initializable {
+    public struct DescribeElasticsearchDomainResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The current status of the Elasticsearch domain.
-        var domainStatus: ElasticsearchDomainStatus = ElasticsearchDomainStatus()
+        public var domainStatus: ElasticsearchDomainStatus = ElasticsearchDomainStatus()
 
         public init() {}
 
@@ -248,11 +294,13 @@ extension Es {
 
     }
 
-    public struct AdditionalLimit: Serializable, Initializable {
+    public struct AdditionalLimit: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
-        var limitName: String? = nil
+        public var limitName: String? = nil
         ///  Value for given  AdditionalLimit$LimitName  . 
-        var limitValues: [String]? = nil
+        public var limitValues: [String]? = nil
 
         public init() {}
 
@@ -263,9 +311,11 @@ extension Es {
 
     }
 
-    public struct ListDomainNamesResponse: Serializable, Initializable {
+    public struct ListDomainNamesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of Elasticsearch domain names.
-        var domainNames: [DomainInfo]? = nil
+        public var domainNames: [DomainInfo]? = nil
 
         public init() {}
 
@@ -275,9 +325,11 @@ extension Es {
 
     }
 
-    public struct SnapshotOptions: Serializable, Initializable {
+    public struct SnapshotOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
-        var automatedSnapshotStartHour: Int32? = nil
+        public var automatedSnapshotStartHour: Int32? = nil
 
         public init() {}
 
@@ -287,15 +339,17 @@ extension Es {
 
     }
 
-    public struct EBSOptions: Serializable, Initializable {
+    public struct EBSOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Integer to specify the size of an EBS volume.
-        var volumeSize: Int32? = nil
+        public var volumeSize: Int32? = nil
         ///  Specifies the volume type for EBS-based storage.
-        var volumeType: String? = nil
+        public var volumeType: String? = nil
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
-        var iops: Int32? = nil
+        public var iops: Int32? = nil
         /// Specifies whether EBS-based storage is enabled.
-        var eBSEnabled: Bool? = nil
+        public var eBSEnabled: Bool? = nil
 
         public init() {}
 
@@ -308,9 +362,14 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchDomainConfigRequest: Serializable, Initializable {
+    public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DomainName": "DomainName"]
+        }
         /// The Elasticsearch domain that you want to get information about.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -320,9 +379,11 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchDomainConfigResponse: Serializable, Initializable {
+    public struct DescribeElasticsearchDomainConfigResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
-        var domainConfig: ElasticsearchDomainConfig = ElasticsearchDomainConfig()
+        public var domainConfig: ElasticsearchDomainConfig = ElasticsearchDomainConfig()
 
         public init() {}
 
@@ -332,10 +393,15 @@ extension Es {
 
     }
 
-    public struct ListElasticsearchVersionsRequest: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct ListElasticsearchVersionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["nextToken": "NextToken", "maxResults": "MaxResults"]
+        }
+        public var nextToken: String? = nil
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -346,11 +412,13 @@ extension Es {
 
     }
 
-    public struct SnapshotOptionsStatus: Serializable, Initializable {
+    public struct SnapshotOptionsStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
-        var options: SnapshotOptions = SnapshotOptions()
+        public var options: SnapshotOptions = SnapshotOptions()
         /// Specifies the status of a daily automated snapshot.
-        var status: OptionStatus = OptionStatus()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -361,11 +429,13 @@ extension Es {
 
     }
 
-    public struct ListElasticsearchInstanceTypesResponse: Serializable, Initializable {
+    public struct ListElasticsearchInstanceTypesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
-        var elasticsearchInstanceTypes: [String]? = nil
+        public var elasticsearchInstanceTypes: [String]? = nil
         /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results. 
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -376,11 +446,13 @@ extension Es {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
-        var value: String = ""
+        public var value: String = ""
         /// Specifies the TagKey, the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
-        var key: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -391,9 +463,11 @@ extension Es {
 
     }
 
-    public struct DomainInfo: Serializable, Initializable {
+    public struct DomainInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies the DomainName.
-        var domainName: String? = nil
+        public var domainName: String? = nil
 
         public init() {}
 
@@ -403,9 +477,11 @@ extension Es {
 
     }
 
-    public struct DescribeElasticsearchDomainsResponse: Serializable, Initializable {
+    public struct DescribeElasticsearchDomainsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
-        var domainStatusList: [ElasticsearchDomainStatus] = []
+        public var domainStatusList: [ElasticsearchDomainStatus] = []
 
         public init() {}
 
@@ -415,9 +491,11 @@ extension Es {
 
     }
 
-    public struct UpdateElasticsearchDomainConfigResponse: Serializable, Initializable {
+    public struct UpdateElasticsearchDomainConfigResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the updated Elasticsearch domain. 
-        var domainConfig: ElasticsearchDomainConfig = ElasticsearchDomainConfig()
+        public var domainConfig: ElasticsearchDomainConfig = ElasticsearchDomainConfig()
 
         public init() {}
 
@@ -427,11 +505,13 @@ extension Es {
 
     }
 
-    public struct StorageTypeLimit: Serializable, Initializable {
+    public struct StorageTypeLimit: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
-        var limitName: String? = nil
+        public var limitName: String? = nil
         ///  Values for the  StorageTypeLimit$LimitName  . 
-        var limitValues: [String]? = nil
+        public var limitValues: [String]? = nil
 
         public init() {}
 
@@ -442,11 +522,13 @@ extension Es {
 
     }
 
-    public struct ElasticsearchVersionStatus: Serializable, Initializable {
+    public struct ElasticsearchVersionStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
-        var options: String = ""
+        public var options: String = ""
         ///  Specifies the status of the Elasticsearch version options for the specified Elasticsearch domain.
-        var status: OptionStatus = OptionStatus()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -457,9 +539,11 @@ extension Es {
 
     }
 
-    public struct ListElasticsearchVersionsResponse: Serializable, Initializable {
-        var elasticsearchVersions: [String]? = nil
-        var nextToken: String? = nil
+    public struct ListElasticsearchVersionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var elasticsearchVersions: [String]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -470,8 +554,10 @@ extension Es {
 
     }
 
-    public struct InstanceLimits: Serializable, Initializable {
-        var instanceCountLimits: InstanceCountLimits? = nil
+    public struct InstanceLimits: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var instanceCountLimits: InstanceCountLimits? = nil
 
         public init() {}
 
@@ -481,9 +567,14 @@ extension Es {
 
     }
 
-    public struct DeleteElasticsearchDomainRequest: Serializable, Initializable {
+    public struct DeleteElasticsearchDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DomainName": "DomainName"]
+        }
         /// The name of the Elasticsearch domain that you want to permanently delete.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -493,11 +584,13 @@ extension Es {
 
     }
 
-    public struct AdvancedOptionsStatus: Serializable, Initializable {
+    public struct AdvancedOptionsStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
-        var options: [String: String] = [:]
+        public var options: [String: String] = [:]
         ///  Specifies the status of OptionStatus for advanced options for the specified Elasticsearch domain.
-        var status: OptionStatus = OptionStatus()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -508,12 +601,14 @@ extension Es {
 
     }
 
-    public struct Limits: Serializable, Initializable {
+    public struct Limits: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
-        var additionalLimits: [AdditionalLimit]? = nil
+        public var additionalLimits: [AdditionalLimit]? = nil
         /// StorageType represents the list of storage related types and attributes that are available for given InstanceType. 
-        var storageTypes: [StorageType]? = nil
-        var instanceLimits: InstanceLimits? = nil
+        public var storageTypes: [StorageType]? = nil
+        public var instanceLimits: InstanceLimits? = nil
 
         public init() {}
 
@@ -525,19 +620,21 @@ extension Es {
 
     }
 
-    public struct ElasticsearchDomainConfig: Serializable, Initializable {
+    public struct ElasticsearchDomainConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
-        var snapshotOptions: SnapshotOptionsStatus? = nil
+        public var snapshotOptions: SnapshotOptionsStatus? = nil
         /// Specifies the ElasticsearchClusterConfig for the Elasticsearch domain.
-        var elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil
+        public var elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil
         /// IAM access policy as a JSON-formatted string.
-        var accessPolicies: AccessPoliciesStatus? = nil
+        public var accessPolicies: AccessPoliciesStatus? = nil
         /// Specifies the AdvancedOptions for the domain. See Configuring Advanced Options for more information.
-        var advancedOptions: AdvancedOptionsStatus? = nil
+        public var advancedOptions: AdvancedOptionsStatus? = nil
         /// Specifies the EBSOptions for the Elasticsearch domain.
-        var eBSOptions: EBSOptionsStatus? = nil
+        public var eBSOptions: EBSOptionsStatus? = nil
         /// String of format X.Y to specify version for the Elasticsearch domain.
-        var elasticsearchVersion: ElasticsearchVersionStatus? = nil
+        public var elasticsearchVersion: ElasticsearchVersionStatus? = nil
 
         public init() {}
 
@@ -552,21 +649,23 @@ extension Es {
 
     }
 
-    public struct CreateElasticsearchDomainRequest: Serializable, Initializable {
+    public struct CreateElasticsearchDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours. 
-        var snapshotOptions: SnapshotOptions? = nil
+        public var snapshotOptions: SnapshotOptions? = nil
         /// Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster. 
-        var elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil
+        public var elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil
         /// Options to enable, disable and specify the type and size of EBS storage volumes. 
-        var eBSOptions: EBSOptions? = nil
+        public var eBSOptions: EBSOptions? = nil
         /// String of format X.Y to specify version for the Elasticsearch domain eg. "1.5" or "2.3". For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
-        var elasticsearchVersion: String? = nil
+        public var elasticsearchVersion: String? = nil
         ///  IAM access policy as a JSON-formatted string.
-        var accessPolicies: String? = nil
+        public var accessPolicies: String? = nil
         ///  Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
-        var advancedOptions: [String: String]? = nil
+        public var advancedOptions: [String: String]? = nil
         /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -582,11 +681,13 @@ extension Es {
 
     }
 
-    public struct StorageType: Serializable, Initializable {
+    public struct StorageType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// List of limits that are applicable for given storage type. 
-        var storageTypeLimits: [StorageTypeLimit]? = nil
-        var storageSubTypeName: String? = nil
-        var storageTypeName: String? = nil
+        public var storageTypeLimits: [StorageTypeLimit]? = nil
+        public var storageSubTypeName: String? = nil
+        public var storageTypeName: String? = nil
 
         public init() {}
 
@@ -598,9 +699,11 @@ extension Es {
 
     }
 
-    public struct DeleteElasticsearchDomainResponse: Serializable, Initializable {
+    public struct DeleteElasticsearchDomainResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the Elasticsearch domain being deleted.
-        var domainStatus: ElasticsearchDomainStatus? = nil
+        public var domainStatus: ElasticsearchDomainStatus? = nil
 
         public init() {}
 
@@ -610,11 +713,13 @@ extension Es {
 
     }
 
-    public struct EBSOptionsStatus: Serializable, Initializable {
+    public struct EBSOptionsStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  Specifies the EBS options for the specified Elasticsearch domain.
-        var options: EBSOptions = EBSOptions()
+        public var options: EBSOptions = EBSOptions()
         ///  Specifies the status of the EBS options for the specified Elasticsearch domain.
-        var status: OptionStatus = OptionStatus()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -625,9 +730,14 @@ extension Es {
 
     }
 
-    public struct ListTagsRequest: Serializable, Initializable {
+    public struct ListTagsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["arn": "ARN"]
+        }
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
-        var aRN: String = ""
+        public var aRN: String = ""
 
         public init() {}
 
@@ -637,19 +747,21 @@ extension Es {
 
     }
 
-    public struct ElasticsearchClusterConfig: Serializable, Initializable {
+    public struct ElasticsearchClusterConfig: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
-        var dedicatedMasterCount: Int32? = nil
+        public var dedicatedMasterCount: Int32? = nil
         /// The number of instances in the specified domain cluster.
-        var instanceCount: Int32? = nil
+        public var instanceCount: Int32? = nil
         /// The instance type for an Elasticsearch cluster.
-        var instanceType: String? = nil
+        public var instanceType: String? = nil
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
-        var dedicatedMasterEnabled: Bool? = nil
+        public var dedicatedMasterEnabled: Bool? = nil
         /// The instance type for a dedicated master node.
-        var dedicatedMasterType: String? = nil
+        public var dedicatedMasterType: String? = nil
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
-        var zoneAwarenessEnabled: Bool? = nil
+        public var zoneAwarenessEnabled: Bool? = nil
 
         public init() {}
 
@@ -664,11 +776,13 @@ extension Es {
 
     }
 
-    public struct AccessPoliciesStatus: Serializable, Initializable {
+    public struct AccessPoliciesStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
-        var options: String = ""
+        public var options: String = ""
         /// The status of the access policy for the Elasticsearch domain. See OptionStatus for the status information that's included. 
-        var status: OptionStatus = OptionStatus()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -679,32 +793,34 @@ extension Es {
 
     }
 
-    public struct ElasticsearchDomainStatus: Serializable, Initializable {
+    public struct ElasticsearchDomainStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the Elasticsearch domain configuration. True if Amazon Elasticsearch Service is processing configuration changes. False if the configuration is active.
-        var processing: Bool? = nil
-        var elasticsearchVersion: String? = nil
+        public var processing: Bool? = nil
+        public var elasticsearchVersion: String? = nil
         /// The domain creation status. True if the creation of an Elasticsearch domain is complete. False if domain creation is still in progress.
-        var created: Bool? = nil
+        public var created: Bool? = nil
         /// The Amazon resource name (ARN) of an Elasticsearch domain. See Identifiers for IAM Entities in Using AWS Identity and Access Management for more information.
-        var aRN: String = ""
+        public var aRN: String = ""
         /// The EBSOptions for the specified domain. See Configuring EBS-based Storage for more information.
-        var eBSOptions: EBSOptions? = nil
+        public var eBSOptions: EBSOptions? = nil
         /// The type and number of instances in the domain cluster.
-        var elasticsearchClusterConfig: ElasticsearchClusterConfig = ElasticsearchClusterConfig()
+        public var elasticsearchClusterConfig: ElasticsearchClusterConfig = ElasticsearchClusterConfig()
         /// Specifies the status of the SnapshotOptions
-        var snapshotOptions: SnapshotOptions? = nil
+        public var snapshotOptions: SnapshotOptions? = nil
         ///  IAM access policy as a JSON-formatted string.
-        var accessPolicies: String? = nil
+        public var accessPolicies: String? = nil
         /// Specifies the status of the AdvancedOptions
-        var advancedOptions: [String: String]? = nil
+        public var advancedOptions: [String: String]? = nil
         /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
-        var domainName: String = ""
+        public var domainName: String = ""
         /// The Elasticsearch domain endpoint that you use to submit index and search requests.
-        var endpoint: String? = nil
+        public var endpoint: String? = nil
         /// The unique identifier for the specified Elasticsearch domain.
-        var domainId: String = ""
+        public var domainId: String = ""
         /// The domain deletion status. True if a delete request has been received for the domain but resource cleanup is still in progress. False if the domain has not been deleted. Once domain deletion is complete, the status of the domain is no longer returned.
-        var deleted: Bool? = nil
+        public var deleted: Bool? = nil
 
         public init() {}
 

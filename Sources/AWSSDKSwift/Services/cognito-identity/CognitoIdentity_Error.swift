@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for CognitoIdentity
-public enum CognitoIdentityError: Error {
+public enum CognitoIdentityError: AWSErrorType {
     case invalidParameterException(message: String?)
     case resourceNotFoundException(message: String?)
     case notAuthorizedException(message: String?)

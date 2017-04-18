@@ -32,29 +32,30 @@ Provides AWS Marketplace business intelligence data on-demand.
 */
 public struct Marketplacecommerceanalytics {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "MarketplaceCommerceAnalytics20150701",
             service: "marketplacecommerceanalytics",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [MarketplacecommerceanalyticsError.self]
         )
     }
 
     ///  Given a data set type and a from date, asynchronously publishes the requested customer support data to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD'T'HH-mm-ss'Z'.csv. If a file with the same name already exists (e.g. if the same data set is requested twice), the original file will be overwritten by the new file. Requires a Role with an attached permissions policy providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
     public func startSupportDataExport(_ input: StartSupportDataExportRequest) throws -> StartSupportDataExportResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartSupportDataExport", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try MarketplacecommerceanalyticsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartSupportDataExport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD.csv. If a file with the same name already exists (e.g. if the same data set is requested twice), the original file will be overwritten by the new file. Requires a Role with an attached permissions policy providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
     public func generateDataSet(_ input: GenerateDataSetRequest) throws -> GenerateDataSetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GenerateDataSet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try MarketplacecommerceanalyticsResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GenerateDataSet", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Codepipeline
-public enum CodepipelineError: Error {
+public enum CodepipelineError: AWSErrorType {
     case validationException(message: String?)
     case actionTypeNotFoundException(message: String?)
     case pipelineNotFoundException(message: String?)

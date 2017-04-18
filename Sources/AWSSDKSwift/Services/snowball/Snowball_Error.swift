@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Snowball
-public enum SnowballError: Error {
+public enum SnowballError: AWSErrorType {
     case invalidResourceException(message: String?)
     case kMSRequestFailedException(message: String?)
     case invalidInputCombinationException(message: String?)

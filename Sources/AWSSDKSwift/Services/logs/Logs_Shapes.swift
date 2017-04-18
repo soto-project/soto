@@ -29,11 +29,13 @@ import Core
 
 extension Logs {
 
-    public struct CreateLogStreamRequest: Serializable, Initializable {
+    public struct CreateLogStreamRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// The name of the log stream.
-        var logStreamName: String = ""
+        public var logStreamName: String = ""
 
         public init() {}
 
@@ -44,10 +46,12 @@ extension Logs {
 
     }
 
-    public struct DescribeDestinationsResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct DescribeDestinationsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         /// The destinations.
-        var destinations: [Destination]? = nil
+        public var destinations: [Destination]? = nil
 
         public init() {}
 
@@ -58,9 +62,11 @@ extension Logs {
 
     }
 
-    public struct TestMetricFilterResponse: Serializable, Initializable {
+    public struct TestMetricFilterResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The matched events.
-        var matches: [MetricFilterMatchRecord]? = nil
+        public var matches: [MetricFilterMatchRecord]? = nil
 
         public init() {}
 
@@ -70,23 +76,25 @@ extension Logs {
 
     }
 
-    public struct LogStream: Serializable, Initializable {
+    public struct LogStream: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of bytes stored.
-        var storedBytes: Int64? = nil
+        public var storedBytes: Int64? = nil
         /// The time of the last event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        var lastEventTimestamp: Int64? = nil
+        public var lastEventTimestamp: Int64? = nil
         /// The name of the log stream.
-        var logStreamName: String? = nil
+        public var logStreamName: String? = nil
         /// The creation time of the stream.
-        var creationTime: Int64? = nil
+        public var creationTime: Int64? = nil
         /// The ingestion time.
-        var lastIngestionTime: Int64? = nil
+        public var lastIngestionTime: Int64? = nil
         /// The time of the first event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        var firstEventTimestamp: Int64? = nil
+        public var firstEventTimestamp: Int64? = nil
         /// The sequence token.
-        var uploadSequenceToken: String? = nil
+        public var uploadSequenceToken: String? = nil
         /// The Amazon Resource Name (ARN) of the log stream.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -103,11 +111,13 @@ extension Logs {
 
     }
 
-    public struct InputLogEvent: Serializable, Initializable {
+    public struct InputLogEvent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        var timestamp: Int64 = 0
+        public var timestamp: Int64 = 0
         /// The raw event message.
-        var message: String = ""
+        public var message: String = ""
 
         public init() {}
 
@@ -118,15 +128,17 @@ extension Logs {
 
     }
 
-    public struct PutLogEventsRequest: Serializable, Initializable {
+    public struct PutLogEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The log events.
-        var logEvents: [InputLogEvent] = []
+        public var logEvents: [InputLogEvent] = []
         /// The sequence token.
-        var sequenceToken: String? = nil
+        public var sequenceToken: String? = nil
         /// The name of the log stream.
-        var logStreamName: String = ""
+        public var logStreamName: String = ""
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -139,17 +151,19 @@ extension Logs {
 
     }
 
-    public struct FilteredLogEvent: Serializable, Initializable {
+    public struct FilteredLogEvent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the event.
-        var eventId: String? = nil
+        public var eventId: String? = nil
         /// The data contained in the log event.
-        var message: String? = nil
+        public var message: String? = nil
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        var timestamp: Int64? = nil
+        public var timestamp: Int64? = nil
         /// The name of the log stream this event belongs to.
-        var logStreamName: String? = nil
+        public var logStreamName: String? = nil
         /// The time the event was ingested.
-        var ingestionTime: Int64? = nil
+        public var ingestionTime: Int64? = nil
 
         public init() {}
 
@@ -163,11 +177,13 @@ extension Logs {
 
     }
 
-    public struct ExportTaskExecutionInfo: Serializable, Initializable {
+    public struct ExportTaskExecutionInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The creation time of the export task.
-        var creationTime: Int64? = nil
+        public var creationTime: Int64? = nil
         /// The completion time of the export task.
-        var completionTime: Int64? = nil
+        public var completionTime: Int64? = nil
 
         public init() {}
 
@@ -178,19 +194,21 @@ extension Logs {
 
     }
 
-    public struct DescribeLogStreamsRequest: Serializable, Initializable {
+    public struct DescribeLogStreamsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
-        var descending: Bool? = nil
+        public var descending: Bool? = nil
         /// The prefix to match. You cannot specify this parameter if orderBy is LastEventTime.
-        var logStreamNamePrefix: String? = nil
+        public var logStreamNamePrefix: String? = nil
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.
-        var orderBy: String? = nil
+        public var orderBy: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -205,10 +223,12 @@ extension Logs {
 
     }
 
-    public struct DescribeLogStreamsResponse: Serializable, Initializable {
+    public struct DescribeLogStreamsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The log streams.
-        var logStreams: [LogStream]? = nil
-        var nextToken: String? = nil
+        public var logStreams: [LogStream]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -219,9 +239,11 @@ extension Logs {
 
     }
 
-    public struct DeleteRetentionPolicyRequest: Serializable, Initializable {
+    public struct DeleteRetentionPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -231,15 +253,17 @@ extension Logs {
 
     }
 
-    public struct MetricTransformation: Serializable, Initializable {
+    public struct MetricTransformation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
-        var metricValue: String = ""
+        public var metricValue: String = ""
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
-        var defaultValue: Double? = nil
+        public var defaultValue: Double? = nil
         /// The name of the CloudWatch metric.
-        var metricName: String = ""
+        public var metricName: String = ""
         /// The namespace of the CloudWatch metric.
-        var metricNamespace: String = ""
+        public var metricNamespace: String = ""
 
         public init() {}
 
@@ -252,19 +276,21 @@ extension Logs {
 
     }
 
-    public struct PutSubscriptionFilterRequest: Serializable, Initializable {
+    public struct PutSubscriptionFilterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name for the subscription filter.
-        var filterName: String = ""
+        public var filterName: String = ""
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
-        var destinationArn: String = ""
+        public var destinationArn: String = ""
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream. By default, log data is grouped by log stream. For a more even distribution, you can group log data randomly.
-        var distribution: String? = nil
+        public var distribution: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// A filter pattern for subscribing to a filtered stream of log events.
-        var filterPattern: String = ""
+        public var filterPattern: String = ""
 
         public init() {}
 
@@ -279,13 +305,15 @@ extension Logs {
 
     }
 
-    public struct RejectedLogEventsInfo: Serializable, Initializable {
+    public struct RejectedLogEventsInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The expired log events.
-        var expiredLogEventEndIndex: Int32? = nil
+        public var expiredLogEventEndIndex: Int32? = nil
         /// The log events that are too old.
-        var tooOldLogEventEndIndex: Int32? = nil
+        public var tooOldLogEventEndIndex: Int32? = nil
         /// The log events that are too new.
-        var tooNewLogEventStartIndex: Int32? = nil
+        public var tooNewLogEventStartIndex: Int32? = nil
 
         public init() {}
 
@@ -297,9 +325,11 @@ extension Logs {
 
     }
 
-    public struct DeleteDestinationRequest: Serializable, Initializable {
+    public struct DeleteDestinationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the destination.
-        var destinationName: String = ""
+        public var destinationName: String = ""
 
         public init() {}
 
@@ -309,10 +339,12 @@ extension Logs {
 
     }
 
-    public struct DescribeLogGroupsResponse: Serializable, Initializable {
+    public struct DescribeLogGroupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The log groups.
-        var logGroups: [LogGroup]? = nil
-        var nextToken: String? = nil
+        public var logGroups: [LogGroup]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -323,15 +355,17 @@ extension Logs {
 
     }
 
-    public struct PutMetricFilterRequest: Serializable, Initializable {
+    public struct PutMetricFilterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name for the metric filter.
-        var filterName: String = ""
+        public var filterName: String = ""
         /// A collection of information needed to define how metric data gets emitted.
-        var metricTransformations: [MetricTransformation] = []
+        public var metricTransformations: [MetricTransformation] = []
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// A filter pattern for extracting metric data out of ingested log events.
-        var filterPattern: String = ""
+        public var filterPattern: String = ""
 
         public init() {}
 
@@ -344,13 +378,15 @@ extension Logs {
 
     }
 
-    public struct PutDestinationRequest: Serializable, Initializable {
+    public struct PutDestinationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name for the destination.
-        var destinationName: String = ""
+        public var destinationName: String = ""
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to call Amazon Kinesis PutRecord on the destination stream.
-        var roleArn: String = ""
+        public var roleArn: String = ""
         /// The ARN of an Amazon Kinesis stream to deliver matching log events to.
-        var targetArn: String = ""
+        public var targetArn: String = ""
 
         public init() {}
 
@@ -362,13 +398,15 @@ extension Logs {
 
     }
 
-    public struct OutputLogEvent: Serializable, Initializable {
+    public struct OutputLogEvent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        var timestamp: Int64? = nil
+        public var timestamp: Int64? = nil
         /// The data contained in the log event.
-        var message: String? = nil
+        public var message: String? = nil
         /// The time the event was ingested.
-        var ingestionTime: Int64? = nil
+        public var ingestionTime: Int64? = nil
 
         public init() {}
 
@@ -380,11 +418,13 @@ extension Logs {
 
     }
 
-    public struct DeleteLogStreamRequest: Serializable, Initializable {
+    public struct DeleteLogStreamRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// The name of the log stream.
-        var logStreamName: String = ""
+        public var logStreamName: String = ""
 
         public init() {}
 
@@ -395,15 +435,17 @@ extension Logs {
 
     }
 
-    public struct DescribeSubscriptionFiltersRequest: Serializable, Initializable {
+    public struct DescribeSubscriptionFiltersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        var filterNamePrefix: String? = nil
+        public var filterNamePrefix: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -416,13 +458,15 @@ extension Logs {
 
     }
 
-    public struct DescribeLogGroupsRequest: Serializable, Initializable {
+    public struct DescribeLogGroupsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The prefix to match.
-        var logGroupNamePrefix: String? = nil
+        public var logGroupNamePrefix: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -434,19 +478,21 @@ extension Logs {
 
     }
 
-    public struct DescribeMetricFiltersRequest: Serializable, Initializable {
+    public struct DescribeMetricFiltersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The prefix to match.
-        var filterNamePrefix: String? = nil
+        public var filterNamePrefix: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The name of the log group.
-        var logGroupName: String? = nil
+        public var logGroupName: String? = nil
         /// The name of the CloudWatch metric.
-        var metricName: String? = nil
+        public var metricName: String? = nil
         /// The namespace of the CloudWatch metric.
-        var metricNamespace: String? = nil
+        public var metricNamespace: String? = nil
 
         public init() {}
 
@@ -461,11 +507,13 @@ extension Logs {
 
     }
 
-    public struct DeleteSubscriptionFilterRequest: Serializable, Initializable {
+    public struct DeleteSubscriptionFilterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the subscription filter.
-        var filterName: String = ""
+        public var filterName: String = ""
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -476,15 +524,17 @@ extension Logs {
 
     }
 
-    public struct DescribeExportTasksRequest: Serializable, Initializable {
+    public struct DescribeExportTasksRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
         /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
-        var taskId: String? = nil
+        public var taskId: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -497,21 +547,23 @@ extension Logs {
 
     }
 
-    public struct CreateExportTaskRequest: Serializable, Initializable {
+    public struct CreateExportTaskRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
-        var destination: String = ""
+        public var destination: String = ""
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
-        var destinationPrefix: String? = nil
+        public var destinationPrefix: String? = nil
         /// The start time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
-        var from: Int64 = 0
+        public var from: Int64 = 0
         /// The name of the export task.
-        var taskName: String? = nil
+        public var taskName: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// The end time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-        var to: Int64 = 0
+        public var to: Int64 = 0
         /// Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied.
-        var logStreamNamePrefix: String? = nil
+        public var logStreamNamePrefix: String? = nil
 
         public init() {}
 
@@ -527,16 +579,18 @@ extension Logs {
 
     }
 
-    public struct MetricFilter: Serializable, Initializable {
+    public struct MetricFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The metric transformations.
-        var metricTransformations: [MetricTransformation]? = nil
+        public var metricTransformations: [MetricTransformation]? = nil
         /// The name of the metric filter.
-        var filterName: String? = nil
+        public var filterName: String? = nil
         /// The name of the log group.
-        var logGroupName: String? = nil
+        public var logGroupName: String? = nil
         /// The creation time of the metric filter.
-        var creationTime: Int64? = nil
-        var filterPattern: String? = nil
+        public var creationTime: Int64? = nil
+        public var filterPattern: String? = nil
 
         public init() {}
 
@@ -550,10 +604,12 @@ extension Logs {
 
     }
 
-    public struct TestMetricFilterRequest: Serializable, Initializable {
-        var filterPattern: String = ""
+    public struct TestMetricFilterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var filterPattern: String = ""
         /// The log event messages to test.
-        var logEventMessages: [String] = []
+        public var logEventMessages: [String] = []
 
         public init() {}
 
@@ -564,9 +620,11 @@ extension Logs {
 
     }
 
-    public struct DeleteLogGroupRequest: Serializable, Initializable {
+    public struct DeleteLogGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -576,13 +634,15 @@ extension Logs {
 
     }
 
-    public struct GetLogEventsResponse: Serializable, Initializable {
+    public struct GetLogEventsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of items in the forward direction. The token expires after 24 hours.
-        var nextForwardToken: String? = nil
+        public var nextForwardToken: String? = nil
         /// The token for the next set of items in the backward direction. The token expires after 24 hours.
-        var nextBackwardToken: String? = nil
+        public var nextBackwardToken: String? = nil
         /// The events.
-        var events: [OutputLogEvent]? = nil
+        public var events: [OutputLogEvent]? = nil
 
         public init() {}
 
@@ -594,11 +654,13 @@ extension Logs {
 
     }
 
-    public struct ExportTaskStatus: Serializable, Initializable {
+    public struct ExportTaskStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status code of the export task.
-        var code: String? = nil
+        public var code: String? = nil
         /// The status message related to the status code.
-        var message: String? = nil
+        public var message: String? = nil
 
         public init() {}
 
@@ -609,19 +671,21 @@ extension Logs {
 
     }
 
-    public struct Destination: Serializable, Initializable {
+    public struct Destination: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
-        var accessPolicy: String? = nil
+        public var accessPolicy: String? = nil
         /// The name of the destination.
-        var destinationName: String? = nil
+        public var destinationName: String? = nil
         /// A role for impersonation, used when delivering log events to the target.
-        var roleArn: String? = nil
+        public var roleArn: String? = nil
         /// The creation time of the destination.
-        var creationTime: Int64? = nil
+        public var creationTime: Int64? = nil
         /// The Amazon Resource Name (ARN) of the physical target where the log events will be delivered (for example, a Kinesis stream).
-        var targetArn: String? = nil
+        public var targetArn: String? = nil
         /// The ARN of this destination.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -636,11 +700,13 @@ extension Logs {
 
     }
 
-    public struct CreateLogGroupRequest: Serializable, Initializable {
+    public struct CreateLogGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key-value pairs to use for the tags.
-        var tags: [String: String]? = nil
+        public var tags: [String: String]? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -651,10 +717,12 @@ extension Logs {
 
     }
 
-    public struct DescribeExportTasksResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct DescribeExportTasksResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         /// The export tasks.
-        var exportTasks: [ExportTask]? = nil
+        public var exportTasks: [ExportTask]? = nil
 
         public init() {}
 
@@ -665,9 +733,11 @@ extension Logs {
 
     }
 
-    public struct CancelExportTaskRequest: Serializable, Initializable {
+    public struct CancelExportTaskRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the export task.
-        var taskId: String = ""
+        public var taskId: String = ""
 
         public init() {}
 
@@ -677,11 +747,13 @@ extension Logs {
 
     }
 
-    public struct UntagLogGroupRequest: Serializable, Initializable {
+    public struct UntagLogGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag keys. The corresponding tags are removed from the log group.
-        var tags: [String] = []
+        public var tags: [String] = []
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -692,9 +764,11 @@ extension Logs {
 
     }
 
-    public struct ListTagsLogGroupResponse: Serializable, Initializable {
+    public struct ListTagsLogGroupResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tags.
-        var tags: [String: String]? = nil
+        public var tags: [String: String]? = nil
 
         public init() {}
 
@@ -704,11 +778,13 @@ extension Logs {
 
     }
 
-    public struct DeleteMetricFilterRequest: Serializable, Initializable {
+    public struct DeleteMetricFilterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the metric filter.
-        var filterName: String = ""
+        public var filterName: String = ""
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -719,18 +795,20 @@ extension Logs {
 
     }
 
-    public struct LogGroup: Serializable, Initializable {
+    public struct LogGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of bytes stored.
-        var storedBytes: Int64? = nil
+        public var storedBytes: Int64? = nil
         /// The Amazon Resource Name (ARN) of the log group.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The name of the log group.
-        var logGroupName: String? = nil
+        public var logGroupName: String? = nil
         /// The creation time of the log group.
-        var creationTime: Int64? = nil
-        var retentionInDays: Int32? = nil
+        public var creationTime: Int64? = nil
+        public var retentionInDays: Int32? = nil
         /// The number of metric filters.
-        var metricFilterCount: Int32? = nil
+        public var metricFilterCount: Int32? = nil
 
         public init() {}
 
@@ -745,11 +823,13 @@ extension Logs {
 
     }
 
-    public struct TagLogGroupRequest: Serializable, Initializable {
+    public struct TagLogGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The key-value pairs to use for the tags.
-        var tags: [String: String] = [:]
+        public var tags: [String: String] = [:]
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -760,10 +840,12 @@ extension Logs {
 
     }
 
-    public struct DescribeSubscriptionFiltersResponse: Serializable, Initializable {
+    public struct DescribeSubscriptionFiltersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The subscription filters.
-        var subscriptionFilters: [SubscriptionFilter]? = nil
-        var nextToken: String? = nil
+        public var subscriptionFilters: [SubscriptionFilter]? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -774,21 +856,23 @@ extension Logs {
 
     }
 
-    public struct GetLogEventsRequest: Serializable, Initializable {
+    public struct GetLogEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1MB, up to 10,000 log events.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The name of the log stream.
-        var logStreamName: String = ""
+        public var logStreamName: String = ""
         /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false.
-        var startFromHead: Bool? = nil
+        public var startFromHead: Bool? = nil
         /// The end of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not included.
-        var endTime: Int64? = nil
+        public var endTime: Int64? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// The start of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not included.
-        var startTime: Int64? = nil
+        public var startTime: Int64? = nil
 
         public init() {}
 
@@ -804,13 +888,15 @@ extension Logs {
 
     }
 
-    public struct FilterLogEventsResponse: Serializable, Initializable {
+    public struct FilterLogEventsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates which log streams have been searched and whether each has been searched completely.
-        var searchedLogStreams: [SearchedLogStream]? = nil
+        public var searchedLogStreams: [SearchedLogStream]? = nil
         /// The matched events.
-        var events: [FilteredLogEvent]? = nil
+        public var events: [FilteredLogEvent]? = nil
         /// The token to use when requesting the next set of items. The token expires after 24 hours.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -822,11 +908,13 @@ extension Logs {
 
     }
 
-    public struct PutDestinationPolicyRequest: Serializable, Initializable {
+    public struct PutDestinationPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
-        var accessPolicy: String = ""
+        public var accessPolicy: String = ""
         /// A name for an existing destination.
-        var destinationName: String = ""
+        public var destinationName: String = ""
 
         public init() {}
 
@@ -837,9 +925,11 @@ extension Logs {
 
     }
 
-    public struct ListTagsLogGroupRequest: Serializable, Initializable {
+    public struct ListTagsLogGroupRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
 
         public init() {}
 
@@ -849,11 +939,13 @@ extension Logs {
 
     }
 
-    public struct SearchedLogStream: Serializable, Initializable {
+    public struct SearchedLogStream: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log stream.
-        var logStreamName: String? = nil
+        public var logStreamName: String? = nil
         /// Indicates whether all the events in this log stream were searched.
-        var searchedCompletely: Bool? = nil
+        public var searchedCompletely: Bool? = nil
 
         public init() {}
 
@@ -864,10 +956,12 @@ extension Logs {
 
     }
 
-    public struct PutRetentionPolicyRequest: Serializable, Initializable {
+    public struct PutRetentionPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
-        var retentionInDays: Int32 = 0
+        public var logGroupName: String = ""
+        public var retentionInDays: Int32 = 0
 
         public init() {}
 
@@ -878,23 +972,25 @@ extension Logs {
 
     }
 
-    public struct FilterLogEventsRequest: Serializable, Initializable {
+    public struct FilterLogEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The token for the next set of events to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The maximum number of events to return. The default is 10,000 events.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The filter pattern to use. If not provided, all the events are matched.
-        var filterPattern: String? = nil
+        public var filterPattern: String? = nil
         /// The end of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
-        var endTime: Int64? = nil
+        public var endTime: Int64? = nil
         /// The name of the log group.
-        var logGroupName: String = ""
+        public var logGroupName: String = ""
         /// Optional list of log stream names.
-        var logStreamNames: [String]? = nil
+        public var logStreamNames: [String]? = nil
         /// The start of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp prior to this time are not returned.
-        var startTime: Int64? = nil
+        public var startTime: Int64? = nil
         /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group interleaved in a single response. If the value is false all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
-        var interleaved: Bool? = nil
+        public var interleaved: Bool? = nil
 
         public init() {}
 
@@ -911,9 +1007,11 @@ extension Logs {
 
     }
 
-    public struct CreateExportTaskResponse: Serializable, Initializable {
+    public struct CreateExportTaskResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the export task.
-        var taskId: String? = nil
+        public var taskId: String? = nil
 
         public init() {}
 
@@ -923,13 +1021,15 @@ extension Logs {
 
     }
 
-    public struct MetricFilterMatchRecord: Serializable, Initializable {
+    public struct MetricFilterMatchRecord: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The values extracted from the event data by the filter.
-        var extractedValues: [String: String]? = nil
+        public var extractedValues: [String: String]? = nil
         /// The event number.
-        var eventNumber: Int64? = nil
+        public var eventNumber: Int64? = nil
         /// The raw event data.
-        var eventMessage: String? = nil
+        public var eventMessage: String? = nil
 
         public init() {}
 
@@ -941,9 +1041,11 @@ extension Logs {
 
     }
 
-    public struct PutDestinationResponse: Serializable, Initializable {
+    public struct PutDestinationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The destination.
-        var destination: Destination? = nil
+        public var destination: Destination? = nil
 
         public init() {}
 
@@ -953,19 +1055,21 @@ extension Logs {
 
     }
 
-    public struct SubscriptionFilter: Serializable, Initializable {
+    public struct SubscriptionFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream.
-        var distribution: String? = nil
-        var roleArn: String? = nil
+        public var distribution: String? = nil
+        public var roleArn: String? = nil
         /// The Amazon Resource Name (ARN) of the destination.
-        var destinationArn: String? = nil
+        public var destinationArn: String? = nil
         /// The creation time of the subscription filter.
-        var creationTime: Int64? = nil
-        var filterPattern: String? = nil
+        public var creationTime: Int64? = nil
+        public var filterPattern: String? = nil
         /// The name of the subscription filter.
-        var filterName: String? = nil
+        public var filterName: String? = nil
         /// The name of the log group.
-        var logGroupName: String? = nil
+        public var logGroupName: String? = nil
 
         public init() {}
 
@@ -981,10 +1085,12 @@ extension Logs {
 
     }
 
-    public struct DescribeMetricFiltersResponse: Serializable, Initializable {
-        var nextToken: String? = nil
+    public struct DescribeMetricFiltersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var nextToken: String? = nil
         /// The metric filters.
-        var metricFilters: [MetricFilter]? = nil
+        public var metricFilters: [MetricFilter]? = nil
 
         public init() {}
 
@@ -995,25 +1101,27 @@ extension Logs {
 
     }
 
-    public struct ExportTask: Serializable, Initializable {
+    public struct ExportTask: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the export task.
-        var status: ExportTaskStatus? = nil
+        public var status: ExportTaskStatus? = nil
         /// The ID of the export task.
-        var taskId: String? = nil
+        public var taskId: String? = nil
         /// The name of Amazon S3 bucket to which the log data was exported.
-        var destination: String? = nil
+        public var destination: String? = nil
         /// The prefix that was used as the start of Amazon S3 key for every object exported.
-        var destinationPrefix: String? = nil
+        public var destinationPrefix: String? = nil
         /// The start time, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp prior to this time are not exported.
-        var from: Int64? = nil
+        public var from: Int64? = nil
         /// The name of the export task.
-        var taskName: String? = nil
+        public var taskName: String? = nil
         /// Execution info about the export task.
-        var executionInfo: ExportTaskExecutionInfo? = nil
+        public var executionInfo: ExportTaskExecutionInfo? = nil
         /// The name of the log group from which logs data was exported.
-        var logGroupName: String? = nil
+        public var logGroupName: String? = nil
         /// The end time, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-        var to: Int64? = nil
+        public var to: Int64? = nil
 
         public init() {}
 
@@ -1031,11 +1139,13 @@ extension Logs {
 
     }
 
-    public struct PutLogEventsResponse: Serializable, Initializable {
+    public struct PutLogEventsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The rejected events.
-        var rejectedLogEventsInfo: RejectedLogEventsInfo? = nil
+        public var rejectedLogEventsInfo: RejectedLogEventsInfo? = nil
         /// The next sequence token.
-        var nextSequenceToken: String? = nil
+        public var nextSequenceToken: String? = nil
 
         public init() {}
 
@@ -1046,13 +1156,15 @@ extension Logs {
 
     }
 
-    public struct DescribeDestinationsRequest: Serializable, Initializable {
+    public struct DescribeDestinationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        var destinationNamePrefix: String? = nil
+        public var destinationNamePrefix: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 

@@ -32,229 +32,205 @@ AWS CodeDeploy  Overview  This reference guide provides descriptions of the AWS 
 */
 public struct Codedeploy {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "CodeDeploy_20141006",
             service: "codedeploy",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CodedeployError.self]
         )
     }
 
     ///  Lists the instance for a deployment associated with the applicable IAM user or AWS account.
     public func listDeploymentInstances(_ input: ListDeploymentInstancesInput) throws -> ListDeploymentInstancesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDeploymentInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDeploymentInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more deployments.
     public func batchGetDeployments(_ input: BatchGetDeploymentsInput) throws -> BatchGetDeploymentsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetDeployments", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetDeployments", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the deployment groups for an application registered with the applicable IAM user or AWS account.
     public func listDeploymentGroups(_ input: ListDeploymentGroupsInput) throws -> ListDeploymentGroupsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDeploymentGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDeploymentGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a deployment configuration.
     public func createDeploymentConfig(_ input: CreateDeploymentConfigInput) throws -> CreateDeploymentConfigOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDeploymentConfig", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names will be listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
     public func listOnPremisesInstances(_ input: ListOnPremisesInstancesInput) throws -> ListOnPremisesInstancesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListOnPremisesInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds tags to on-premises instances.
     public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput) throws {
-        _ = try request.invoke(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters an on-premises instance.
     public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput) throws {
-        _ = try request.invoke(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a deployment.
     public func getDeployment(_ input: GetDeploymentInput) throws -> GetDeploymentOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDeployment", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more deployment groups.
     public func batchGetDeploymentGroups(_ input: BatchGetDeploymentGroupsInput) throws -> BatchGetDeploymentGroupsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetDeploymentGroups", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetDeploymentGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an application.
     public func deleteApplication(_ input: DeleteApplicationInput) throws {
-        _ = try request.invoke(operation: "DeleteApplication", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an instance as part of a deployment.
     public func getDeploymentInstance(_ input: GetDeploymentInstanceInput) throws -> GetDeploymentInstanceOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDeploymentInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDeploymentInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a deployment group to which application revisions will be deployed.
     public func createDeploymentGroup(_ input: CreateDeploymentGroupInput) throws -> CreateDeploymentGroupOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDeploymentGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an application revision.
     public func getApplicationRevision(_ input: GetApplicationRevisionInput) throws -> GetApplicationRevisionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetApplicationRevision", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetApplicationRevision", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers with AWS CodeDeploy a revision for the specified application.
     public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput) throws {
-        _ = try request.invoke(operation: "RegisterApplicationRevision", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RegisterApplicationRevision", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to stop an ongoing deployment.
     public func stopDeployment(_ input: StopDeploymentInput) throws -> StopDeploymentOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopDeployment", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the deployments in a deployment group for an application registered with the applicable IAM user or AWS account.
     public func listDeployments(_ input: ListDeploymentsInput) throws -> ListDeploymentsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDeployments", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDeployments", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the deployment configurations with the applicable IAM user or AWS account.
     public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput) throws -> ListDeploymentConfigsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListDeploymentConfigs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListDeploymentConfigs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a deployment configuration.  A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. 
     public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput) throws {
-        _ = try request.invoke(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the name of an application.
     public func updateApplication(_ input: UpdateApplicationInput) throws {
-        _ = try request.invoke(operation: "UpdateApplication", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an application.
     public func createApplication(_ input: CreateApplicationInput) throws -> CreateApplicationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateApplication", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an on-premises instance.
     public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput) throws -> GetOnPremisesInstanceOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetOnPremisesInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deploys an application revision through the specified deployment group.
     public func createDeployment(_ input: CreateDeploymentInput) throws -> CreateDeploymentOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateDeployment", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes information about a deployment group.
     public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput) throws -> UpdateDeploymentGroupOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateDeploymentGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists information about revisions for an application.
     public func listApplicationRevisions(_ input: ListApplicationRevisionsInput) throws -> ListApplicationRevisionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListApplicationRevisions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListApplicationRevisions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more on-premises instances.
     public func batchGetOnPremisesInstances(_ input: BatchGetOnPremisesInstancesInput) throws -> BatchGetOnPremisesInstancesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a deployment group.
     public func getDeploymentGroup(_ input: GetDeploymentGroupInput) throws -> GetDeploymentGroupOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDeploymentGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is completed.
     public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput) throws {
-        _ = try request.invoke(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the process of rerouting traffic from instances in the original environment to instances in thereplacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) 
     public func continueDeployment(_ input: ContinueDeploymentInput) throws {
-        _ = try request.invoke(operation: "ContinueDeployment", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "ContinueDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an application.
     public func getApplication(_ input: GetApplicationInput) throws -> GetApplicationOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetApplication", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more applications.
     public func batchGetApplications(_ input: BatchGetApplicationsInput) throws -> BatchGetApplicationsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetApplications", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetApplications", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more application revisions.
     public func batchGetApplicationRevisions(_ input: BatchGetApplicationRevisionsInput) throws -> BatchGetApplicationRevisionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a deployment configuration.
     public func getDeploymentConfig(_ input: GetDeploymentConfigInput) throws -> GetDeploymentConfigOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetDeploymentConfig", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a deployment group.
     public func deleteDeploymentGroup(_ input: DeleteDeploymentGroupInput) throws -> DeleteDeploymentGroupOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteDeploymentGroup", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the applications registered with the applicable IAM user or AWS account.
     public func listApplications(_ input: ListApplicationsInput) throws -> ListApplicationsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListApplications", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more instance that are part of a deployment group.
     public func batchGetDeploymentInstances(_ input: BatchGetDeploymentInstancesInput) throws -> BatchGetDeploymentInstancesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CodedeployResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags from one or more on-premises instances.
     public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput) throws {
-        _ = try request.invoke(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both. 
     public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput) throws {
-        _ = try request.invoke(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
+        _ = try client.send(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
     }
 
 

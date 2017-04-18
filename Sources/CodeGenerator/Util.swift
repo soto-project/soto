@@ -8,26 +8,7 @@
 
 import Foundation
 import SwiftyJSON
-
-let swiftReservedWords = [
-    "protocol",
-    "return",
-    "operator",
-    "class",
-    "struct",
-    "break",
-    "continue",
-    "extension",
-    "self",
-    "public",
-    "private",
-    "internal",
-    "where",
-    "catch",
-    "try",
-    "default",
-    "case"
-]
+import Core
 
 let enableShowLog = ProcessInfo.processInfo.environment["Verbose"] == nil ? false : true
 

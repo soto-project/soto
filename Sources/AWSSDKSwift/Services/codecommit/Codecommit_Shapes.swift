@@ -29,11 +29,13 @@ import Core
 
 extension Codecommit {
 
-    public struct ListRepositoriesOutput: Serializable, Initializable {
+    public struct ListRepositoriesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Lists the repositories called by the list repositories operation.
-        var repositories: [RepositoryNameIdPair]? = nil
+        public var repositories: [RepositoryNameIdPair]? = nil
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -44,13 +46,15 @@ extension Codecommit {
 
     }
 
-    public struct UserInfo: Serializable, Initializable {
+    public struct UserInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the user who made the specified commit.
-        var name: String? = nil
+        public var name: String? = nil
         /// The date when the specified commit was pushed to the repository.
-        var date: String? = nil
+        public var date: String? = nil
         /// The email address associated with the user who made the commit, if any.
-        var email: String? = nil
+        public var email: String? = nil
 
         public init() {}
 
@@ -62,11 +66,13 @@ extension Codecommit {
 
     }
 
-    public struct BranchInfo: Serializable, Initializable {
+    public struct BranchInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the branch.
-        var branchName: String? = nil
+        public var branchName: String? = nil
         /// The ID of the last commit made to the branch.
-        var commitId: String? = nil
+        public var commitId: String? = nil
 
         public init() {}
 
@@ -77,9 +83,11 @@ extension Codecommit {
 
     }
 
-    public struct GetCommitOutput: Serializable, Initializable {
+    public struct GetCommitOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A commit data type object that contains information about the specified commit.
-        var commit: Commit = Commit()
+        public var commit: Commit = Commit()
 
         public init() {}
 
@@ -89,9 +97,11 @@ extension Codecommit {
 
     }
 
-    public struct DeleteRepositoryOutput: Serializable, Initializable {
+    public struct DeleteRepositoryOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the repository that was deleted.
-        var repositoryId: String? = nil
+        public var repositoryId: String? = nil
 
         public init() {}
 
@@ -101,27 +111,29 @@ extension Codecommit {
 
     }
 
-    public struct RepositoryMetadata: Serializable, Initializable {
+    public struct RepositoryMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A comment or description about the repository.
-        var repositoryDescription: String? = nil
+        public var repositoryDescription: String? = nil
         /// The Amazon Resource Name (ARN) of the repository.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The repository's name.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
         /// The date and time the repository was created, in timestamp format.
-        var creationDate: Date? = nil
+        public var creationDate: Date? = nil
         /// The URL to use for cloning the repository over SSH.
-        var cloneUrlSsh: String? = nil
+        public var cloneUrlSsh: String? = nil
         /// The ID of the AWS account associated with the repository.
-        var accountId: String? = nil
+        public var accountId: String? = nil
         /// The URL to use for cloning the repository over HTTPS.
-        var cloneUrlHttp: String? = nil
+        public var cloneUrlHttp: String? = nil
         /// The ID of the repository.
-        var repositoryId: String? = nil
+        public var repositoryId: String? = nil
         /// The date and time the repository was last modified, in timestamp format.
-        var lastModifiedDate: Date? = nil
+        public var lastModifiedDate: Date? = nil
         /// The repository's default branch name.
-        var defaultBranch: String? = nil
+        public var defaultBranch: String? = nil
 
         public init() {}
 
@@ -140,11 +152,13 @@ extension Codecommit {
 
     }
 
-    public struct ListBranchesOutput: Serializable, Initializable {
+    public struct ListBranchesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An enumeration token that returns the batch of the results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of branch names.
-        var branches: [String]? = nil
+        public var branches: [String]? = nil
 
         public init() {}
 
@@ -155,17 +169,19 @@ extension Codecommit {
 
     }
 
-    public struct RepositoryTrigger: Serializable, Initializable {
+    public struct RepositoryTrigger: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
-        var destinationArn: String = ""
+        public var destinationArn: String = ""
         /// The name of the trigger.
-        var name: String = ""
+        public var name: String = ""
         /// The branches that will be included in the trigger configuration. If no branches are specified, the trigger will apply to all branches.
-        var branches: [String]? = nil
+        public var branches: [String]? = nil
         /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
-        var customData: String? = nil
+        public var customData: String? = nil
         /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).   The valid value "all" cannot be used with any other values. 
-        var events: [String] = []
+        public var events: [String] = []
 
         public init() {}
 
@@ -179,13 +195,15 @@ extension Codecommit {
 
     }
 
-    public struct BlobMetadata: Serializable, Initializable {
+    public struct BlobMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The full ID of the blob.
-        var blobId: String? = nil
+        public var blobId: String? = nil
         /// The file mode permissions of the blob. File mode permission codes include:    100644 indicates read/write    100755 indicates read/write/execute    160000 indicates a submodule    120000 indicates a symlink  
-        var mode: String? = nil
+        public var mode: String? = nil
         /// The path to the blob and any associated file name, if any.
-        var path: String? = nil
+        public var path: String? = nil
 
         public init() {}
 
@@ -197,19 +215,21 @@ extension Codecommit {
 
     }
 
-    public struct Commit: Serializable, Initializable {
+    public struct Commit: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The parent list for the specified commit.
-        var parents: [String]? = nil
+        public var parents: [String]? = nil
         /// The commit message associated with the specified commit.
-        var message: String? = nil
+        public var message: String? = nil
         /// Information about the author of the specified commit. Information includes the date in timestamp format with GMT offset, the name of the author, and the email address for the author, as configured in Git.
-        var author: UserInfo? = nil
+        public var author: UserInfo? = nil
         /// Tree information for the specified commit.
-        var treeId: String? = nil
+        public var treeId: String? = nil
         /// Any additional data associated with the specified commit.
-        var additionalData: String? = nil
+        public var additionalData: String? = nil
         /// Information about the person who committed the specified commit, also known as the committer. Information includes the date in timestamp format with GMT offset, the name of the committer, and the email address for the committer, as configured in Git. For more information about the difference between an author and a committer in Git, see Viewing the Commit History in Pro Git by Scott Chacon and Ben Straub.
-        var committer: UserInfo? = nil
+        public var committer: UserInfo? = nil
 
         public init() {}
 
@@ -224,11 +244,13 @@ extension Codecommit {
 
     }
 
-    public struct UpdateDefaultBranchInput: Serializable, Initializable {
+    public struct UpdateDefaultBranchInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the branch to set as the default.
-        var defaultBranchName: String = ""
+        public var defaultBranchName: String = ""
         /// The name of the repository to set or change the default branch for.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -239,9 +261,11 @@ extension Codecommit {
 
     }
 
-    public struct GetRepositoryOutput: Serializable, Initializable {
+    public struct GetRepositoryOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the repository.
-        var repositoryMetadata: RepositoryMetadata? = nil
+        public var repositoryMetadata: RepositoryMetadata? = nil
 
         public init() {}
 
@@ -251,11 +275,13 @@ extension Codecommit {
 
     }
 
-    public struct TestRepositoryTriggersOutput: Serializable, Initializable {
+    public struct TestRepositoryTriggersOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
-        var successfulExecutions: [String]? = nil
+        public var successfulExecutions: [String]? = nil
         /// The list of triggers that were not able to be tested. This list provides the names of the triggers that could not be tested, separated by commas.
-        var failedExecutions: [RepositoryTriggerExecutionFailure]? = nil
+        public var failedExecutions: [RepositoryTriggerExecutionFailure]? = nil
 
         public init() {}
 
@@ -266,11 +292,13 @@ extension Codecommit {
 
     }
 
-    public struct TestRepositoryTriggersInput: Serializable, Initializable {
+    public struct TestRepositoryTriggersInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of triggers to test.
-        var triggers: [RepositoryTrigger] = []
+        public var triggers: [RepositoryTrigger] = []
         /// The name of the repository in which to test the triggers.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -281,11 +309,13 @@ extension Codecommit {
 
     }
 
-    public struct UpdateRepositoryDescriptionInput: Serializable, Initializable {
+    public struct UpdateRepositoryDescriptionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the repository to set or change the comment or description for.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
-        var repositoryDescription: String? = nil
+        public var repositoryDescription: String? = nil
 
         public init() {}
 
@@ -296,9 +326,11 @@ extension Codecommit {
 
     }
 
-    public struct PutRepositoryTriggersOutput: Serializable, Initializable {
+    public struct PutRepositoryTriggersOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The system-generated unique ID for the create or update operation.
-        var configurationId: String? = nil
+        public var configurationId: String? = nil
 
         public init() {}
 
@@ -308,11 +340,13 @@ extension Codecommit {
 
     }
 
-    public struct GetBranchInput: Serializable, Initializable {
+    public struct GetBranchInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the branch for which you want to retrieve information.
-        var branchName: String? = nil
+        public var branchName: String? = nil
         /// The name of the repository that contains the branch for which you want to retrieve information.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
 
         public init() {}
 
@@ -323,9 +357,11 @@ extension Codecommit {
 
     }
 
-    public struct CreateRepositoryOutput: Serializable, Initializable {
+    public struct CreateRepositoryOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the newly created repository.
-        var repositoryMetadata: RepositoryMetadata? = nil
+        public var repositoryMetadata: RepositoryMetadata? = nil
 
         public init() {}
 
@@ -335,13 +371,15 @@ extension Codecommit {
 
     }
 
-    public struct Difference: Serializable, Initializable {
+    public struct Difference: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
-        var changeType: String? = nil
+        public var changeType: String? = nil
         /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
-        var afterBlob: BlobMetadata? = nil
+        public var afterBlob: BlobMetadata? = nil
         /// Information about a beforeBlob data type object, including the ID, the file mode permission code, and the path.
-        var beforeBlob: BlobMetadata? = nil
+        public var beforeBlob: BlobMetadata? = nil
 
         public init() {}
 
@@ -353,11 +391,13 @@ extension Codecommit {
 
     }
 
-    public struct RepositoryNameIdPair: Serializable, Initializable {
+    public struct RepositoryNameIdPair: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID associated with the repository.
-        var repositoryId: String? = nil
+        public var repositoryId: String? = nil
         /// The name associated with the repository.
-        var repositoryName: String? = nil
+        public var repositoryName: String? = nil
 
         public init() {}
 
@@ -368,21 +408,23 @@ extension Codecommit {
 
     }
 
-    public struct GetDifferencesInput: Serializable, Initializable {
+    public struct GetDifferencesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
-        var afterCommitSpecifier: String = ""
+        public var afterCommitSpecifier: String = ""
         /// The name of the repository where you want to get differences.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, the full commit ID. Optional. If not specified, all changes prior to the afterCommitSpecifier value will be shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults.
-        var beforeCommitSpecifier: String? = nil
+        public var beforeCommitSpecifier: String? = nil
         /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
-        var beforePath: String? = nil
+        public var beforePath: String? = nil
         /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
-        var afterPath: String? = nil
+        public var afterPath: String? = nil
         /// An enumeration token that when provided in a request, returns the next batch of the results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A non-negative integer used to limit the number of returned results.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
 
         public init() {}
 
@@ -398,13 +440,15 @@ extension Codecommit {
 
     }
 
-    public struct CreateBranchInput: Serializable, Initializable {
+    public struct CreateBranchInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the new branch to create.
-        var branchName: String = ""
+        public var branchName: String = ""
         /// The ID of the commit to point the new branch to.
-        var commitId: String = ""
+        public var commitId: String = ""
         /// The name of the repository in which you want to create the new branch.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -416,9 +460,11 @@ extension Codecommit {
 
     }
 
-    public struct DeleteRepositoryInput: Serializable, Initializable {
+    public struct DeleteRepositoryInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the repository to delete.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -428,11 +474,13 @@ extension Codecommit {
 
     }
 
-    public struct ListBranchesInput: Serializable, Initializable {
+    public struct ListBranchesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An enumeration token that allows the operation to batch the results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The name of the repository that contains the branches.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -443,9 +491,11 @@ extension Codecommit {
 
     }
 
-    public struct GetBranchOutput: Serializable, Initializable {
+    public struct GetBranchOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the branch.
-        var branch: BranchInfo? = nil
+        public var branch: BranchInfo? = nil
 
         public init() {}
 
@@ -455,11 +505,13 @@ extension Codecommit {
 
     }
 
-    public struct GetCommitInput: Serializable, Initializable {
+    public struct GetCommitInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The commit ID.
-        var commitId: String = ""
+        public var commitId: String = ""
         /// The name of the repository to which the commit was made.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -470,9 +522,11 @@ extension Codecommit {
 
     }
 
-    public struct GetRepositoryInput: Serializable, Initializable {
+    public struct GetRepositoryInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the repository to get information about.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -482,11 +536,13 @@ extension Codecommit {
 
     }
 
-    public struct GetRepositoryTriggersOutput: Serializable, Initializable {
+    public struct GetRepositoryTriggersOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The system-generated unique ID for the trigger.
-        var configurationId: String? = nil
+        public var configurationId: String? = nil
         /// The JSON block of configuration information for each trigger.
-        var triggers: [RepositoryTrigger]? = nil
+        public var triggers: [RepositoryTrigger]? = nil
 
         public init() {}
 
@@ -497,9 +553,11 @@ extension Codecommit {
 
     }
 
-    public struct GetRepositoryTriggersInput: Serializable, Initializable {
+    public struct GetRepositoryTriggersInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the repository for which the trigger is configured.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -509,11 +567,13 @@ extension Codecommit {
 
     }
 
-    public struct UpdateRepositoryNameInput: Serializable, Initializable {
+    public struct UpdateRepositoryNameInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The existing name of the repository.
-        var oldName: String = ""
+        public var oldName: String = ""
         /// The new name for the repository.
-        var newName: String = ""
+        public var newName: String = ""
 
         public init() {}
 
@@ -524,11 +584,13 @@ extension Codecommit {
 
     }
 
-    public struct BatchGetRepositoriesOutput: Serializable, Initializable {
+    public struct BatchGetRepositoriesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of repositories returned by the batch get repositories operation.
-        var repositories: [RepositoryMetadata]? = nil
+        public var repositories: [RepositoryMetadata]? = nil
         /// Returns a list of repository names for which information could not be found.
-        var repositoriesNotFound: [String]? = nil
+        public var repositoriesNotFound: [String]? = nil
 
         public init() {}
 
@@ -539,11 +601,13 @@ extension Codecommit {
 
     }
 
-    public struct GetDifferencesOutput: Serializable, Initializable {
+    public struct GetDifferencesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An enumeration token that can be used in a request to return the next batch of the results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A differences data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
-        var differences: [Difference]? = nil
+        public var differences: [Difference]? = nil
 
         public init() {}
 
@@ -554,13 +618,15 @@ extension Codecommit {
 
     }
 
-    public struct ListRepositoriesInput: Serializable, Initializable {
+    public struct ListRepositoriesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The criteria used to sort the results of a list repositories operation.
-        var sortBy: String? = nil
+        public var sortBy: String? = nil
         /// The order in which to sort the results of a list repositories operation.
-        var order: String? = nil
+        public var order: String? = nil
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -572,9 +638,11 @@ extension Codecommit {
 
     }
 
-    public struct GetBlobOutput: Serializable, Initializable {
+    public struct GetBlobOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The content of the blob, usually a file.
-        var content: Data = Data()
+        public var content: Data = Data()
 
         public init() {}
 
@@ -584,11 +652,13 @@ extension Codecommit {
 
     }
 
-    public struct RepositoryTriggerExecutionFailure: Serializable, Initializable {
+    public struct RepositoryTriggerExecutionFailure: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Additional message information about the trigger that did not run.
-        var failureMessage: String? = nil
+        public var failureMessage: String? = nil
         /// The name of the trigger that did not run.
-        var trigger: String? = nil
+        public var trigger: String? = nil
 
         public init() {}
 
@@ -599,11 +669,13 @@ extension Codecommit {
 
     }
 
-    public struct GetBlobInput: Serializable, Initializable {
+    public struct GetBlobInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the blob, which is its SHA-1 pointer.
-        var blobId: String = ""
+        public var blobId: String = ""
         /// The name of the repository that contains the blob.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -614,11 +686,13 @@ extension Codecommit {
 
     }
 
-    public struct CreateRepositoryInput: Serializable, Initializable {
+    public struct CreateRepositoryInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-        var repositoryDescription: String? = nil
+        public var repositoryDescription: String? = nil
 
         public init() {}
 
@@ -629,11 +703,13 @@ extension Codecommit {
 
     }
 
-    public struct PutRepositoryTriggersInput: Serializable, Initializable {
+    public struct PutRepositoryTriggersInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The JSON block of configuration information for each trigger.
-        var triggers: [RepositoryTrigger] = []
+        public var triggers: [RepositoryTrigger] = []
         /// The name of the repository where you want to create or update the trigger.
-        var repositoryName: String = ""
+        public var repositoryName: String = ""
 
         public init() {}
 
@@ -644,9 +720,11 @@ extension Codecommit {
 
     }
 
-    public struct BatchGetRepositoriesInput: Serializable, Initializable {
+    public struct BatchGetRepositoriesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the repositories to get information about.
-        var repositoryNames: [String] = []
+        public var repositoryNames: [String] = []
 
         public init() {}
 

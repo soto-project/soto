@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Es
-public enum EsError: Error {
+public enum EsError: AWSErrorType {
     case baseException(message: String?)
     case internalException(message: String?)
     case resourceNotFoundException(message: String?)

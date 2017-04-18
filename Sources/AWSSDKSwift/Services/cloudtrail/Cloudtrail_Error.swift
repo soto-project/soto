@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cloudtrail
-public enum CloudtrailError: Error {
+public enum CloudtrailError: AWSErrorType {
     case trailNotFoundException(message: String?)
     case invalidTrailNameException(message: String?)
     case invalidHomeRegionException(message: String?)

@@ -32,119 +32,105 @@ AWS Step Functions AWS Step Functions is a web service that enables you to coord
 */
 public struct States {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSStepFunctions",
             service: "states",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [StatesError.self]
         )
     }
 
     ///  Used by workers to retrieve a task (with the specified activity ARN) scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll will return an empty result, that is, the taskToken returned is an empty string.  Workers should set their client side socket timeout to at least 65 seconds (5 seconds higher than the maximum time the service may hold the poll request). 
     public func getActivityTask(_ input: GetActivityTaskInput) throws -> GetActivityTaskOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetActivityTask", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetActivityTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Used by workers to report that the task identified by the taskToken completed successfully.
     public func sendTaskSuccess(_ input: SendTaskSuccessInput) throws -> SendTaskSuccessOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SendTaskSuccess", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SendTaskSuccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextToken returned by the previous call.
     public func getExecutionHistory(_ input: GetExecutionHistoryInput) throws -> GetExecutionHistoryOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetExecutionHistory", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetExecutionHistory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Used by workers to report that the task identified by the taskToken failed.
     public func sendTaskFailure(_ input: SendTaskFailureInput) throws -> SendTaskFailureOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SendTaskFailure", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SendTaskFailure", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a state machine execution.
     public func startExecution(_ input: StartExecutionInput) throws -> StartExecutionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartExecution", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes an activity.
     public func describeActivity(_ input: DescribeActivityInput) throws -> DescribeActivityOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeActivity", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeActivity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the existing activities. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextToken returned by the previous call.
     public func listActivities(_ input: ListActivitiesInput) throws -> ListActivitiesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListActivities", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListActivities", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes an execution.
     public func describeExecution(_ input: DescribeExecutionInput) throws -> DescribeExecutionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeExecution", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the existing state machines. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextToken returned by the previous call.
     public func listStateMachines(_ input: ListStateMachinesInput) throws -> ListStateMachinesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListStateMachines", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListStateMachines", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a state machine.
     public func describeStateMachine(_ input: DescribeStateMachineInput) throws -> DescribeStateMachineOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeStateMachine", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an activity.
     public func createActivity(_ input: CreateActivityInput) throws -> CreateActivityOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateActivity", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateActivity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a state machine.
     public func createStateMachine(_ input: CreateStateMachineInput) throws -> CreateStateMachineOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStateMachine", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a state machine. This is an asynchronous operation-- it sets the state machine's status to "DELETING" and begins the delete process.
     public func deleteStateMachine(_ input: DeleteStateMachineInput) throws -> DeleteStateMachineOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteStateMachine", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops an execution.
     public func stopExecution(_ input: StopExecutionInput) throws -> StopExecutionOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopExecution", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the executions of a state machine that meet the filtering criteria. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextToken returned by the previous call.
     public func listExecutions(_ input: ListExecutionsInput) throws -> ListExecutionsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListExecutions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Used by workers to report to the service that the task represented by the specified taskToken is still making progress. This action resets the Heartbeat clock. The Heartbeat threshold is specified in the state machine's Amazon States Language definition. This action does not in itself create an event in the execution history. However, if the task times out, the execution history will contain an ActivityTimedOut event.  The Timeout of a task, defined in the state machine's Amazon States Language definition, is its maximum allowed duration, regardless of the number of SendTaskHeartbeat requests received.   This operation is only useful for long-lived tasks to report the liveliness of the task. 
     public func sendTaskHeartbeat(_ input: SendTaskHeartbeatInput) throws -> SendTaskHeartbeatOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SendTaskHeartbeat", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SendTaskHeartbeat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an activity.
     public func deleteActivity(_ input: DeleteActivityInput) throws -> DeleteActivityOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteActivity", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try StatesResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteActivity", path: "/", httpMethod: "POST", input: input)
     }
 
 

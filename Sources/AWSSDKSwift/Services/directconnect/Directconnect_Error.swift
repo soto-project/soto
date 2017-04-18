@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Directconnect
-public enum DirectconnectError: Error {
+public enum DirectconnectError: AWSErrorType {
     case directConnectServerException(message: String?)
     case directConnectClientException(message: String?)
     case duplicateTagKeysException(message: String?)

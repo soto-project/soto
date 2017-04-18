@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Dataiot
-public enum DataiotError: Error {
+public enum DataiotError: AWSErrorType {
     case conflictException(message: String?)
     case requestEntityTooLargeException(message: String?)
     case invalidRequestException(message: String?)

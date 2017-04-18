@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Budgets
-public enum BudgetsError: Error {
+public enum BudgetsError: AWSErrorType {
     case invalidParameterException(message: String?)
     case internalErrorException(message: String?)
     case notFoundException(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for WafRegional
-public enum WafRegionalError: Error {
+public enum WafRegionalError: AWSErrorType {
     case wAFInternalErrorException(message: String?)
     case wAFInvalidAccountException(message: String?)
     case wAFStaleDataException(message: String?)

@@ -29,9 +29,11 @@ import Core
 
 extension Health {
 
-    public struct DescribeEntityAggregatesResponse: Serializable, Initializable {
+    public struct DescribeEntityAggregatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of entities that are affected by each of the specified events.
-        var entityAggregates: [EntityAggregate]? = nil
+        public var entityAggregates: [EntityAggregate]? = nil
 
         public init() {}
 
@@ -41,21 +43,23 @@ extension Health {
 
     }
 
-    public struct AffectedEntity: Serializable, Initializable {
+    public struct AffectedEntity: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The most recent time that the entity was updated.
-        var lastUpdatedTime: Date? = nil
+        public var lastUpdatedTime: Date? = nil
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
-        var entityArn: String? = nil
+        public var entityArn: String? = nil
         /// A map of entity tags attached to the affected entity.
-        var tags: [String: String]? = nil
+        public var tags: [String: String]? = nil
         /// The 12-digit AWS account number that contains the affected entity.
-        var awsAccountId: String? = nil
+        public var awsAccountId: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        var eventArn: String? = nil
+        public var eventArn: String? = nil
         /// The ID of the affected entity.
-        var entityValue: String? = nil
+        public var entityValue: String? = nil
 
         public init() {}
 
@@ -71,13 +75,15 @@ extension Health {
 
     }
 
-    public struct EventDetailsErrorItem: Serializable, Initializable {
+    public struct EventDetailsErrorItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        var eventArn: String? = nil
+        public var eventArn: String? = nil
         /// A message that describes the error.
-        var errorMessage: String? = nil
+        public var errorMessage: String? = nil
         /// The name of the error.
-        var errorName: String? = nil
+        public var errorName: String? = nil
 
         public init() {}
 
@@ -89,13 +95,15 @@ extension Health {
 
     }
 
-    public struct EventTypeFilter: Serializable, Initializable {
+    public struct EventTypeFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        var eventTypeCategories: [String]? = nil
+        public var eventTypeCategories: [String]? = nil
         /// The AWS services associated with the event. For example, EC2, RDS.
-        var services: [String]? = nil
+        public var services: [String]? = nil
         /// A list of event type codes.
-        var eventTypeCodes: [String]? = nil
+        public var eventTypeCodes: [String]? = nil
 
         public init() {}
 
@@ -107,11 +115,13 @@ extension Health {
 
     }
 
-    public struct DescribeAffectedEntitiesResponse: Serializable, Initializable {
+    public struct DescribeAffectedEntitiesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The entities that match the filter criteria.
-        var entities: [AffectedEntity]? = nil
+        public var entities: [AffectedEntity]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -122,27 +132,29 @@ extension Health {
 
     }
 
-    public struct Event: Serializable, Initializable {
+    public struct Event: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS service that is affected by the event. For example, EC2, RDS.
-        var service: String? = nil
+        public var service: String? = nil
         /// The AWS Availability Zone of the event. For example, us-east-1a.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// The most recent date and time that the event was updated.
-        var lastUpdatedTime: Date? = nil
+        public var lastUpdatedTime: Date? = nil
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
         /// The AWS region name of the event.
-        var region: String? = nil
+        public var region: String? = nil
         /// The 
-        var eventTypeCategory: String? = nil
+        public var eventTypeCategory: String? = nil
         /// The date and time that the event ended.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
-        var eventTypeCode: String? = nil
+        public var eventTypeCode: String? = nil
         /// The date and time that the event began.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -161,11 +173,13 @@ extension Health {
 
     }
 
-    public struct DescribeEventDetailsResponse: Serializable, Initializable {
+    public struct DescribeEventDetailsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Error messages for any events that could not be retrieved.
-        var failedSet: [EventDetailsErrorItem]? = nil
+        public var failedSet: [EventDetailsErrorItem]? = nil
         /// Information about the events that could be retrieved.
-        var successfulSet: [EventDetails]? = nil
+        public var successfulSet: [EventDetails]? = nil
 
         public init() {}
 
@@ -176,11 +190,13 @@ extension Health {
 
     }
 
-    public struct DescribeEventDetailsRequest: Serializable, Initializable {
+    public struct DescribeEventDetailsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        var eventArns: [String] = []
+        public var eventArns: [String] = []
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        var locale: String? = nil
+        public var locale: String? = nil
 
         public init() {}
 
@@ -191,9 +207,11 @@ extension Health {
 
     }
 
-    public struct EventDescription: Serializable, Initializable {
+    public struct EventDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The most recent description of the event.
-        var latestDescription: String? = nil
+        public var latestDescription: String? = nil
 
         public init() {}
 
@@ -203,11 +221,13 @@ extension Health {
 
     }
 
-    public struct DescribeEventAggregatesResponse: Serializable, Initializable {
+    public struct DescribeEventAggregatesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of events in each category that meet the optional filter criteria.
-        var eventAggregates: [EventAggregate]? = nil
+        public var eventAggregates: [EventAggregate]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -218,15 +238,17 @@ extension Health {
 
     }
 
-    public struct DescribeEventAggregatesRequest: Serializable, Initializable {
+    public struct DescribeEventAggregatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Values to narrow the results returned.
-        var filter: EventFilter? = nil
+        public var filter: EventFilter? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// The only currently supported value is eventTypeCategory.
-        var aggregateField: String = ""
+        public var aggregateField: String = ""
 
         public init() {}
 
@@ -239,33 +261,35 @@ extension Health {
 
     }
 
-    public struct EventFilter: Serializable, Initializable {
+    public struct EventFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        var eventTypeCategories: [String]? = nil
+        public var eventTypeCategories: [String]? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        var eventArns: [String]? = nil
+        public var eventArns: [String]? = nil
         /// A list of event status codes.
-        var eventStatusCodes: [String]? = nil
+        public var eventStatusCodes: [String]? = nil
         /// A list of dates and times that the event was last updated.
-        var lastUpdatedTimes: [DateTimeRange]? = nil
+        public var lastUpdatedTimes: [DateTimeRange]? = nil
         /// A map of entity tags attached to the affected entity.
-        var tags: [[String: String]]? = nil
+        public var tags: [[String: String]]? = nil
         /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED" 
-        var eventTypeCodes: [String]? = nil
+        public var eventTypeCodes: [String]? = nil
         /// A list of entity ARNs (unique identifiers).
-        var entityArns: [String]? = nil
+        public var entityArns: [String]? = nil
         /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
-        var entityValues: [String]? = nil
+        public var entityValues: [String]? = nil
         /// A list of AWS availability zones.
-        var availabilityZones: [String]? = nil
+        public var availabilityZones: [String]? = nil
         /// The AWS services associated with the event. For example, EC2, RDS.
-        var services: [String]? = nil
+        public var services: [String]? = nil
         /// A list of dates and times that the event ended.
-        var endTimes: [DateTimeRange]? = nil
+        public var endTimes: [DateTimeRange]? = nil
         /// A list of AWS regions.
-        var regions: [String]? = nil
+        public var regions: [String]? = nil
         /// A list of dates and times that the event began.
-        var startTimes: [DateTimeRange]? = nil
+        public var startTimes: [DateTimeRange]? = nil
 
         public init() {}
 
@@ -287,11 +311,13 @@ extension Health {
 
     }
 
-    public struct EventAggregate: Serializable, Initializable {
+    public struct EventAggregate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of events of the associated issue type.
-        var count: Int32? = nil
+        public var count: Int32? = nil
         /// The issue type for the associated count.
-        var aggregateValue: String? = nil
+        public var aggregateValue: String? = nil
 
         public init() {}
 
@@ -302,11 +328,13 @@ extension Health {
 
     }
 
-    public struct EntityAggregate: Serializable, Initializable {
+    public struct EntityAggregate: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        var eventArn: String? = nil
+        public var eventArn: String? = nil
         /// The number entities that match the criteria for the specified events.
-        var count: Int32? = nil
+        public var count: Int32? = nil
 
         public init() {}
 
@@ -317,13 +345,15 @@ extension Health {
 
     }
 
-    public struct EventType: Serializable, Initializable {
+    public struct EventType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The AWS service that is affected by the event. For example, EC2, RDS.
-        var service: String? = nil
+        public var service: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        var category: String? = nil
+        public var category: String? = nil
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
-        var code: String? = nil
+        public var code: String? = nil
 
         public init() {}
 
@@ -335,9 +365,11 @@ extension Health {
 
     }
 
-    public struct DescribeEntityAggregatesRequest: Serializable, Initializable {
+    public struct DescribeEntityAggregatesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        var eventArns: [String]? = nil
+        public var eventArns: [String]? = nil
 
         public init() {}
 
@@ -347,11 +379,13 @@ extension Health {
 
     }
 
-    public struct DescribeEventTypesResponse: Serializable, Initializable {
+    public struct DescribeEventTypesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
-        var eventTypes: [EventType]? = nil
+        public var eventTypes: [EventType]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -362,13 +396,15 @@ extension Health {
 
     }
 
-    public struct EventDetails: Serializable, Initializable {
+    public struct EventDetails: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Additional metadata about the event.
-        var eventMetadata: [String: String]? = nil
+        public var eventMetadata: [String: String]? = nil
         /// Summary information about the event.
-        var event: Event? = nil
+        public var event: Event? = nil
         /// The most recent description of the event.
-        var eventDescription: EventDescription? = nil
+        public var eventDescription: EventDescription? = nil
 
         public init() {}
 
@@ -380,15 +416,17 @@ extension Health {
 
     }
 
-    public struct DescribeAffectedEntitiesRequest: Serializable, Initializable {
+    public struct DescribeAffectedEntitiesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// Values to narrow the results returned. At least one event ARN is required. 
-        var filter: EntityFilter = EntityFilter()
+        public var filter: EntityFilter = EntityFilter()
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        var locale: String? = nil
+        public var locale: String? = nil
 
         public init() {}
 
@@ -401,15 +439,17 @@ extension Health {
 
     }
 
-    public struct DescribeEventsRequest: Serializable, Initializable {
+    public struct DescribeEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// Values to narrow the results returned.
-        var filter: EventFilter? = nil
+        public var filter: EventFilter? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        var locale: String? = nil
+        public var locale: String? = nil
 
         public init() {}
 
@@ -422,11 +462,13 @@ extension Health {
 
     }
 
-    public struct DateTimeRange: Serializable, Initializable {
+    public struct DateTimeRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ending date and time of a time range.
-        var to: Date? = nil
+        public var to: Date? = nil
         /// The starting date and time of a time range.
-        var from: Date? = nil
+        public var from: Date? = nil
 
         public init() {}
 
@@ -437,19 +479,21 @@ extension Health {
 
     }
 
-    public struct EntityFilter: Serializable, Initializable {
+    public struct EntityFilter: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        var eventArns: [String] = []
+        public var eventArns: [String] = []
         /// A list of the most recent dates and times that the entity was updated.
-        var lastUpdatedTimes: [DateTimeRange]? = nil
+        public var lastUpdatedTimes: [DateTimeRange]? = nil
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
-        var statusCodes: [String]? = nil
+        public var statusCodes: [String]? = nil
         /// A map of entity tags attached to the affected entity.
-        var tags: [[String: String]]? = nil
+        public var tags: [[String: String]]? = nil
         /// A list of entity ARNs (unique identifiers).
-        var entityArns: [String]? = nil
+        public var entityArns: [String]? = nil
         /// A list of IDs for affected entities.
-        var entityValues: [String]? = nil
+        public var entityValues: [String]? = nil
 
         public init() {}
 
@@ -464,15 +508,17 @@ extension Health {
 
     }
 
-    public struct DescribeEventTypesRequest: Serializable, Initializable {
+    public struct DescribeEventTypesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        var maxResults: Int32? = nil
+        public var maxResults: Int32? = nil
         /// Values to narrow the results returned.
-        var filter: EventTypeFilter? = nil
+        public var filter: EventTypeFilter? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        var locale: String? = nil
+        public var locale: String? = nil
 
         public init() {}
 
@@ -485,11 +531,13 @@ extension Health {
 
     }
 
-    public struct DescribeEventsResponse: Serializable, Initializable {
+    public struct DescribeEventsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The events that match the specified filter criteria.
-        var events: [Event]? = nil
+        public var events: [Event]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 

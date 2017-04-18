@@ -32,137 +32,120 @@ AWS CloudHSM Service
 */
 public struct Cloudhsm {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "CloudHsmFrontendService",
             service: "cloudhsm",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [CloudhsmError.self]
         )
     }
 
     ///  Modifies an HSM.  This operation can result in the HSM being offline for up to 15 minutes while the AWS CloudHSM service is reconfigured. If you are modifying a production HSM, you should ensure that your AWS CloudHSM service is configured for high availability, and consider executing this operation during a maintenance window. 
     public func modifyHsm(_ input: ModifyHsmRequest) throws -> ModifyHsmResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyHsm", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyHsm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about an HSM client.
     public func describeLunaClient(_ input: DescribeLunaClientRequest) throws -> DescribeLunaClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeLunaClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeLunaClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about an HSM. You can identify the HSM by its ARN or its serial number.
     public func describeHsm(_ input: DescribeHsmRequest) throws -> DescribeHsmResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeHsm", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeHsm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an HSM. After completion, this operation cannot be undone and your key material cannot be recovered.
     public func deleteHsm(_ input: DeleteHsmRequest) throws -> DeleteHsmResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteHsm", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteHsm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags from the specified AWS CloudHSM resource. To remove a tag, specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) throws -> RemoveTagsFromResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a high-availability partition group. A high-availability partition group is a group of partitions that spans multiple physical HSMs.
     public func createHapg(_ input: CreateHapgRequest) throws -> CreateHapgResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateHapg", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateHapg", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a client.
     public func deleteLunaClient(_ input: DeleteLunaClientRequest) throws -> DeleteLunaClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteLunaClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteLunaClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the certificate used by the client. This action can potentially start a workflow to install the new certificate on the client's HSMs.
     public func modifyLunaClient(_ input: ModifyLunaClientRequest) throws -> ModifyLunaClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyLunaClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyLunaClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of all tags for the specified AWS CloudHSM resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListTagsForResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the configuration files necessary to connect to all high availability partition groups the client is associated with.
     public func getConfig(_ input: GetConfigRequest) throws -> GetConfigResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "GetConfig", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "GetConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the Availability Zones that have available AWS CloudHSM capacity.
     public func listAvailableZones(_ input: ListAvailableZonesRequest) throws -> ListAvailableZonesResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListAvailableZones", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListAvailableZones", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all of the clients. This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListLunaClients to retrieve the next set of items.
     public func listLunaClients(_ input: ListLunaClientsRequest) throws -> ListLunaClientsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListLunaClients", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListLunaClients", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a high-availability partition group.
     public func deleteHapg(_ input: DeleteHapgRequest) throws -> DeleteHapgResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteHapg", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteHapg", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing high-availability partition group.
     public func modifyHapg(_ input: ModifyHapgRequest) throws -> ModifyHapgResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ModifyHapg", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ModifyHapg", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a high-availability partition group.
     public func describeHapg(_ input: DescribeHapgRequest) throws -> DescribeHapgResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeHapg", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeHapg", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the identifiers of all of the HSMs provisioned for the current customer. This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListHsms to retrieve the next set of items.
     public func listHsms(_ input: ListHsmsRequest) throws -> ListHsmsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListHsms", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListHsms", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an uninitialized HSM instance. There is an upfront fee charged for each HSM instance that you create with the CreateHsm operation. If you accidentally provision an HSM and want to request a refund, delete the instance using the DeleteHsm operation, go to the AWS Support Center, create a new case, and select Account and Billing Support.  It can take up to 20 minutes to create and provision an HSM. You can monitor the status of the HSM with the DescribeHsm operation. The HSM is ready to be initialized when the status changes to RUNNING. 
     public func createHsm(_ input: CreateHsmRequest) throws -> CreateHsmResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateHsm", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateHsm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or overwrites one or more tags for the specified AWS CloudHSM resource. Each tag consists of a key and a value. Tag keys must be unique to each resource.
     public func addTagsToResource(_ input: AddTagsToResourceRequest) throws -> AddTagsToResourceResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AddTagsToResource", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the high-availability partition groups for the account. This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListHapgs to retrieve the next set of items.
     public func listHapgs(_ input: ListHapgsRequest) throws -> ListHapgsResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListHapgs", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListHapgs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an HSM client.
     public func createLunaClient(_ input: CreateLunaClientRequest) throws -> CreateLunaClientResponse {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateLunaClient", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try CloudhsmResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateLunaClient", path: "/", httpMethod: "POST", input: input)
     }
 
 

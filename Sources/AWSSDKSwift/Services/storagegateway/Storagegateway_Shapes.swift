@@ -29,8 +29,10 @@ import Core
 
 extension Storagegateway {
 
-    public struct DeleteSnapshotScheduleOutput: Serializable, Initializable {
-        var volumeARN: String? = nil
+    public struct DeleteSnapshotScheduleOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var volumeARN: String? = nil
 
         public init() {}
 
@@ -40,9 +42,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteTapeArchiveOutput: Serializable, Initializable {
+    public struct DeleteTapeArchiveOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -52,8 +56,10 @@ extension Storagegateway {
 
     }
 
-    public struct ResetCacheInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct ResetCacheInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -63,8 +69,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeGatewayInformationInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeGatewayInformationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -74,10 +82,12 @@ extension Storagegateway {
 
     }
 
-    public struct SetLocalConsolePasswordInput: Serializable, Initializable {
+    public struct SetLocalConsolePasswordInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The password you want to set for your VM local console.
-        var localConsolePassword: String = ""
-        var gatewayARN: String = ""
+        public var localConsolePassword: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -88,11 +98,13 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeTapesOutput: Serializable, Initializable {
+    public struct DescribeTapesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// An array of virtual tape descriptions.
-        var tapes: [Tape]? = nil
+        public var tapes: [Tape]? = nil
 
         public init() {}
 
@@ -103,8 +115,10 @@ extension Storagegateway {
 
     }
 
-    public struct AddUploadBufferOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct AddUploadBufferOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -114,11 +128,13 @@ extension Storagegateway {
 
     }
 
-    public struct RetrieveTapeArchiveInput: Serializable, Initializable {
+    public struct RetrieveTapeArchiveInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
-        var tapeARN: String = ""
+        public var tapeARN: String = ""
         /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a gateway-VTL.
-        var gatewayARN: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -129,13 +145,15 @@ extension Storagegateway {
 
     }
 
-    public struct CreateTapeWithBarcodeInput: Serializable, Initializable {
+    public struct CreateTapeWithBarcodeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
-        var gatewayARN: String = ""
+        public var gatewayARN: String = ""
         /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
-        var tapeSizeInBytes: Int64 = 0
+        public var tapeSizeInBytes: Int64 = 0
         /// The barcode that you want to assign to the tape.
-        var tapeBarcode: String = ""
+        public var tapeBarcode: String = ""
 
         public init() {}
 
@@ -147,10 +165,12 @@ extension Storagegateway {
 
     }
 
-    public struct CancelArchivalInput: Serializable, Initializable {
+    public struct CancelArchivalInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
-        var tapeARN: String = ""
-        var gatewayARN: String = ""
+        public var tapeARN: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -161,8 +181,10 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteGatewayOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct DeleteGatewayOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -172,14 +194,16 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeCacheOutput: Serializable, Initializable {
-        var cacheAllocatedInBytes: Int64? = nil
-        var gatewayARN: String? = nil
-        var cacheUsedPercentage: Double? = nil
-        var cacheDirtyPercentage: Double? = nil
-        var cacheHitPercentage: Double? = nil
-        var cacheMissPercentage: Double? = nil
-        var diskIds: [String]? = nil
+    public struct DescribeCacheOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var cacheAllocatedInBytes: Int64? = nil
+        public var gatewayARN: String? = nil
+        public var cacheUsedPercentage: Double? = nil
+        public var cacheDirtyPercentage: Double? = nil
+        public var cacheHitPercentage: Double? = nil
+        public var cacheMissPercentage: Double? = nil
+        public var diskIds: [String]? = nil
 
         public init() {}
 
@@ -195,9 +219,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeNFSFileSharesOutput: Serializable, Initializable {
+    public struct DescribeNFSFileSharesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array containing a description for each requested file share. 
-        var nFSFileShareInfoList: [NFSFileShareInfo]? = nil
+        public var nFSFileShareInfoList: [NFSFileShareInfo]? = nil
 
         public init() {}
 
@@ -207,15 +233,17 @@ extension Storagegateway {
 
     }
 
-    public struct NFSFileShareDefaults: Serializable, Initializable {
+    public struct NFSFileShareDefaults: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody. 
-        var ownerId: Int64? = nil
+        public var ownerId: Int64? = nil
         /// The Unix file mode in the form "nnnn". For example, "0666" represents the default file mode inside the file share. The default value is 0666. 
-        var fileMode: String? = nil
+        public var fileMode: String? = nil
         /// The default group ID for the file share (unless the files have another group ID specified). The default value is nfsnobody. 
-        var groupId: Int64? = nil
+        public var groupId: Int64? = nil
         /// The Unix directory mode in the form "nnnn". For example, "0666" represents the default access mode for all directories inside the file share. The default value is 0777.
-        var directoryMode: String? = nil
+        public var directoryMode: String? = nil
 
         public init() {}
 
@@ -228,14 +256,16 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeTapesInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeTapesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, AWS Storage Gateway returns a description of all virtual tapes associated with the specified gateway.
-        var tapeARNs: [String]? = nil
+        public var tapeARNs: [String]? = nil
         /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// A marker value, obtained in a previous call to DescribeTapes. This marker indicates which page of results to retrieve.  If not specified, the first page of results is retrieved.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -248,12 +278,14 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeTapeRecoveryPointsInput: Serializable, Initializable {
+    public struct DescribeTapeRecoveryPointsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
-        var marker: String? = nil
-        var gatewayARN: String = ""
+        public var marker: String? = nil
+        public var gatewayARN: String = ""
         /// Specifies that the number of virtual tape recovery points that are described be limited to the specified number.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -265,9 +297,11 @@ extension Storagegateway {
 
     }
 
-    public struct CreateSnapshotFromVolumeRecoveryPointInput: Serializable, Initializable {
-        var snapshotDescription: String = ""
-        var volumeARN: String = ""
+    public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var snapshotDescription: String = ""
+        public var volumeARN: String = ""
 
         public init() {}
 
@@ -278,9 +312,11 @@ extension Storagegateway {
 
     }
 
-    public struct AddUploadBufferInput: Serializable, Initializable {
-        var gatewayARN: String = ""
-        var diskIds: [String] = []
+    public struct AddUploadBufferInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
+        public var diskIds: [String] = []
 
         public init() {}
 
@@ -291,8 +327,10 @@ extension Storagegateway {
 
     }
 
-    public struct ListVolumeRecoveryPointsInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct ListVolumeRecoveryPointsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -302,13 +340,15 @@ extension Storagegateway {
 
     }
 
-    public struct ListTagsForResourceInput: Serializable, Initializable {
+    public struct ListTagsForResourceInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// An opaque string that indicates the position at which to begin returning the list of tags.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Specifies that the list of tags returned be limited to the specified number of items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -320,11 +360,13 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateVTLDeviceTypeInput: Serializable, Initializable {
+    public struct UpdateVTLDeviceTypeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
-        var deviceType: String = ""
+        public var deviceType: String = ""
         /// The Amazon Resource Name (ARN) of the medium changer you want to select.
-        var vTLDeviceARN: String = ""
+        public var vTLDeviceARN: String = ""
 
         public init() {}
 
@@ -335,14 +377,16 @@ extension Storagegateway {
 
     }
 
-    public struct TapeRecoveryPointInfo: Serializable, Initializable {
+    public struct TapeRecoveryPointInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
         /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The string format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        var tapeRecoveryPointTime: Date? = nil
-        var tapeStatus: String? = nil
+        public var tapeRecoveryPointTime: Date? = nil
+        public var tapeStatus: String? = nil
         /// The size, in bytes, of the virtual tapes to recover.
-        var tapeSizeInBytes: Int64? = nil
+        public var tapeSizeInBytes: Int64? = nil
 
         public init() {}
 
@@ -355,9 +399,11 @@ extension Storagegateway {
 
     }
 
-    public struct RetrieveTapeArchiveOutput: Serializable, Initializable {
+    public struct RetrieveTapeArchiveOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -367,9 +413,11 @@ extension Storagegateway {
 
     }
 
-    public struct Tag: Serializable, Initializable {
-        var value: String = ""
-        var key: String = ""
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var value: String = ""
+        public var key: String = ""
 
         public init() {}
 
@@ -380,8 +428,10 @@ extension Storagegateway {
 
     }
 
-    public struct AddCacheOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct AddCacheOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -391,8 +441,10 @@ extension Storagegateway {
 
     }
 
-    public struct StartGatewayInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct StartGatewayInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -402,10 +454,12 @@ extension Storagegateway {
 
     }
 
-    public struct ListTapesOutput: Serializable, Initializable {
+    public struct ListTapesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
-        var marker: String? = nil
-        var tapeInfos: [TapeInfo]? = nil
+        public var marker: String? = nil
+        public var tapeInfos: [TapeInfo]? = nil
 
         public init() {}
 
@@ -416,17 +470,19 @@ extension Storagegateway {
 
     }
 
-    public struct TapeInfo: Serializable, Initializable {
+    public struct TapeInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of a virtual tape.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
-        var gatewayARN: String? = nil
+        public var gatewayARN: String? = nil
         /// The status of the tape.
-        var tapeStatus: String? = nil
+        public var tapeStatus: String? = nil
         /// The size, in bytes, of a virtual tape.
-        var tapeSizeInBytes: Int64? = nil
+        public var tapeSizeInBytes: Int64? = nil
         /// The barcode that identifies a specific virtual tape.
-        var tapeBarcode: String? = nil
+        public var tapeBarcode: String? = nil
 
         public init() {}
 
@@ -440,10 +496,12 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateGatewayInformationInput: Serializable, Initializable {
-        var gatewayTimezone: String? = nil
-        var gatewayName: String? = nil
-        var gatewayARN: String = ""
+    public struct UpdateGatewayInformationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayTimezone: String? = nil
+        public var gatewayName: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -455,14 +513,16 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateMaintenanceStartTimeInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct UpdateMaintenanceStartTimeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
-        var hourOfDay: Int32 = 0
+        public var hourOfDay: Int32 = 0
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
-        var minuteOfHour: Int32 = 0
+        public var minuteOfHour: Int32 = 0
         /// The maintenance start time day of the week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
-        var dayOfWeek: Int32 = 0
+        public var dayOfWeek: Int32 = 0
 
         public init() {}
 
@@ -475,9 +535,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteVolumeInput: Serializable, Initializable {
+    public struct DeleteVolumeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        var volumeARN: String = ""
+        public var volumeARN: String = ""
 
         public init() {}
 
@@ -487,9 +549,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeSnapshotScheduleInput: Serializable, Initializable {
+    public struct DescribeSnapshotScheduleInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        var volumeARN: String = ""
+        public var volumeARN: String = ""
 
         public init() {}
 
@@ -499,11 +563,13 @@ extension Storagegateway {
 
     }
 
-    public struct RemoveTagsFromResourceInput: Serializable, Initializable {
+    public struct RemoveTagsFromResourceInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key/value pair.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -514,8 +580,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeWorkingStorageInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeWorkingStorageInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -525,14 +593,16 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeWorkingStorageOutput: Serializable, Initializable {
+    public struct DescribeWorkingStorageOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
-        var diskIds: [String]? = nil
-        var gatewayARN: String? = nil
+        public var diskIds: [String]? = nil
+        public var gatewayARN: String? = nil
         /// The total working storage in bytes in use by the gateway. If no working storage is configured for the gateway, this field returns 0.
-        var workingStorageUsedInBytes: Int64? = nil
+        public var workingStorageUsedInBytes: Int64? = nil
         /// The total working storage in bytes allocated for the gateway. If no working storage is configured for the gateway, this field returns 0.
-        var workingStorageAllocatedInBytes: Int64? = nil
+        public var workingStorageAllocatedInBytes: Int64? = nil
 
         public init() {}
 
@@ -545,9 +615,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteTapeArchiveInput: Serializable, Initializable {
+    public struct DeleteTapeArchiveInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
-        var tapeARN: String = ""
+        public var tapeARN: String = ""
 
         public init() {}
 
@@ -557,14 +629,16 @@ extension Storagegateway {
 
     }
 
-    public struct Disk: Serializable, Initializable {
-        var diskStatus: String? = nil
-        var diskSizeInBytes: Int64? = nil
-        var diskId: String? = nil
-        var diskNode: String? = nil
-        var diskPath: String? = nil
-        var diskAllocationType: String? = nil
-        var diskAllocationResource: String? = nil
+    public struct Disk: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var diskStatus: String? = nil
+        public var diskSizeInBytes: Int64? = nil
+        public var diskId: String? = nil
+        public var diskNode: String? = nil
+        public var diskPath: String? = nil
+        public var diskAllocationType: String? = nil
+        public var diskAllocationResource: String? = nil
 
         public init() {}
 
@@ -580,9 +654,11 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateVTLDeviceTypeOutput: Serializable, Initializable {
+    public struct UpdateVTLDeviceTypeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
-        var vTLDeviceARN: String? = nil
+        public var vTLDeviceARN: String? = nil
 
         public init() {}
 
@@ -592,21 +668,23 @@ extension Storagegateway {
 
     }
 
-    public struct ActivateGatewayInput: Serializable, Initializable {
+    public struct ActivateGatewayInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.
-        var activationKey: String = ""
+        public var activationKey: String = ""
         /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is STORED. 
-        var gatewayType: String? = nil
+        public var gatewayType: String? = nil
         /// The value that indicates the type of medium changer to use for gateway-VTL. This field is optional.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
-        var mediumChangerType: String? = nil
+        public var mediumChangerType: String? = nil
         /// A value that indicates the time zone you want to set for the gateway. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
-        var gatewayTimezone: String = ""
+        public var gatewayTimezone: String = ""
         /// A value that indicates the region where you want to store the snapshot backups. The gateway region specified must be the same region as the region in your Host header in the request. For more information about available regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: "us-east-1", "us-west-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-northeast-1", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "sa-east-1"
-        var gatewayRegion: String = ""
+        public var gatewayRegion: String = ""
         /// The name you configured for your gateway.
-        var gatewayName: String = ""
+        public var gatewayName: String = ""
         /// The value that indicates the type of tape drive to use for gateway-VTL. This field is optional.  Valid Values: "IBM-ULT3580-TD5" 
-        var tapeDriveType: String? = nil
+        public var tapeDriveType: String? = nil
 
         public init() {}
 
@@ -622,21 +700,23 @@ extension Storagegateway {
 
     }
 
-    public struct NFSFileShareInfo: Serializable, Initializable {
+    public struct NFSFileShareInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// True to use Amazon S3 server side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. 
-        var kMSEncrypted: Bool? = nil
-        var fileShareStatus: String? = nil
-        var gatewayARN: String? = nil
-        var path: String? = nil
-        var fileShareId: String? = nil
-        var role: String? = nil
-        var kMSKey: String? = nil
-        var nFSFileShareDefaults: NFSFileShareDefaults? = nil
-        var clientList: [String]? = nil
-        var fileShareARN: String? = nil
-        var locationARN: String? = nil
+        public var kMSEncrypted: Bool? = nil
+        public var fileShareStatus: String? = nil
+        public var gatewayARN: String? = nil
+        public var path: String? = nil
+        public var fileShareId: String? = nil
+        public var role: String? = nil
+        public var kMSKey: String? = nil
+        public var nFSFileShareDefaults: NFSFileShareDefaults? = nil
+        public var clientList: [String]? = nil
+        public var fileShareARN: String? = nil
+        public var locationARN: String? = nil
         /// The default storage class for objects put into an Amazon S3 bucket by file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        var defaultStorageClass: String? = nil
+        public var defaultStorageClass: String? = nil
 
         public init() {}
 
@@ -657,11 +737,13 @@ extension Storagegateway {
 
     }
 
-    public struct AddTagsToResourceInput: Serializable, Initializable {
+    public struct AddTagsToResourceInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
-        var resourceARN: String = ""
+        public var resourceARN: String = ""
         /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. 
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
 
         public init() {}
 
@@ -672,11 +754,13 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateChapCredentialsOutput: Serializable, Initializable {
+    public struct UpdateChapCredentialsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
-        var targetARN: String? = nil
+        public var targetARN: String? = nil
         /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
-        var initiatorName: String? = nil
+        public var initiatorName: String? = nil
 
         public init() {}
 
@@ -687,8 +771,10 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateMaintenanceStartTimeOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct UpdateMaintenanceStartTimeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -698,8 +784,10 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateGatewaySoftwareNowOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct UpdateGatewaySoftwareNowOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -709,9 +797,11 @@ extension Storagegateway {
 
     }
 
-    public struct CancelArchivalOutput: Serializable, Initializable {
+    public struct CancelArchivalOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -721,13 +811,15 @@ extension Storagegateway {
 
     }
 
-    public struct NetworkInterface: Serializable, Initializable {
+    public struct NetworkInterface: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
-        var ipv6Address: String? = nil
+        public var ipv6Address: String? = nil
         /// The Media Access Control (MAC) address of the interface.  This is currently unsupported and will not be returned in output. 
-        var macAddress: String? = nil
+        public var macAddress: String? = nil
         /// The Internet Protocol version 4 (IPv4) address of the interface.
-        var ipv4Address: String? = nil
+        public var ipv4Address: String? = nil
 
         public init() {}
 
@@ -739,15 +831,17 @@ extension Storagegateway {
 
     }
 
-    public struct DeviceiSCSIAttributes: Serializable, Initializable {
+    public struct DeviceiSCSIAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the unique Amazon Resource Name(ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
-        var targetARN: String? = nil
+        public var targetARN: String? = nil
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-        var chapEnabled: Bool? = nil
+        public var chapEnabled: Bool? = nil
         /// The network interface identifier of the VTL device.
-        var networkInterfaceId: String? = nil
+        public var networkInterfaceId: String? = nil
         /// The port used to communicate with iSCSI VTL device targets.
-        var networkInterfacePort: Int32? = nil
+        public var networkInterfacePort: Int32? = nil
 
         public init() {}
 
@@ -760,10 +854,12 @@ extension Storagegateway {
 
     }
 
-    public struct CancelRetrievalInput: Serializable, Initializable {
+    public struct CancelRetrievalInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
-        var tapeARN: String = ""
-        var gatewayARN: String = ""
+        public var tapeARN: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -774,8 +870,10 @@ extension Storagegateway {
 
     }
 
-    public struct ResetCacheOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct ResetCacheOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -785,8 +883,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeCachediSCSIVolumesInput: Serializable, Initializable {
-        var volumeARNs: [String] = []
+    public struct DescribeCachediSCSIVolumesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var volumeARNs: [String] = []
 
         public init() {}
 
@@ -796,20 +896,22 @@ extension Storagegateway {
 
     }
 
-    public struct TapeArchive: Serializable, Initializable {
+    public struct TapeArchive: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
         /// The time that the archiving of the virtual tape was completed. The string format of the completion time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        var completionTime: Date? = nil
-        var tapeCreatedDate: Date? = nil
+        public var completionTime: Date? = nil
+        public var tapeCreatedDate: Date? = nil
         /// The barcode that identifies the archived virtual tape.
-        var tapeBarcode: String? = nil
+        public var tapeBarcode: String? = nil
         /// The Amazon Resource Name (ARN) of the gateway-VTL that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
-        var retrievedTo: String? = nil
+        public var retrievedTo: String? = nil
         /// The current state of the archived virtual tape.
-        var tapeStatus: String? = nil
+        public var tapeStatus: String? = nil
         /// The size, in bytes, of the archived virtual tape.
-        var tapeSizeInBytes: Int64? = nil
+        public var tapeSizeInBytes: Int64? = nil
 
         public init() {}
 
@@ -825,12 +927,14 @@ extension Storagegateway {
 
     }
 
-    public struct ListTapesInput: Serializable, Initializable {
+    public struct ListTapesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string that indicates the position at which to begin the returned list of tapes.
-        var marker: String? = nil
-        var tapeARNs: [String]? = nil
+        public var marker: String? = nil
+        public var tapeARNs: [String]? = nil
         /// An optional number limit for the tapes in the list returned by this call.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -842,9 +946,11 @@ extension Storagegateway {
 
     }
 
-    public struct ListVolumeInitiatorsInput: Serializable, Initializable {
+    public struct ListVolumeInitiatorsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
-        var volumeARN: String = ""
+        public var volumeARN: String = ""
 
         public init() {}
 
@@ -854,11 +960,13 @@ extension Storagegateway {
 
     }
 
-    public struct CreateSnapshotOutput: Serializable, Initializable {
+    public struct CreateSnapshotOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
-        var snapshotId: String? = nil
+        public var snapshotId: String? = nil
         /// The Amazon Resource Name (ARN) of the volume of which the snapshot was taken.
-        var volumeARN: String? = nil
+        public var volumeARN: String? = nil
 
         public init() {}
 
@@ -869,25 +977,27 @@ extension Storagegateway {
 
     }
 
-    public struct CreateNFSFileShareInput: Serializable, Initializable {
+    public struct CreateNFSFileShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
-        var gatewayARN: String = ""
+        public var gatewayARN: String = ""
         /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
-        var clientToken: String = ""
+        public var clientToken: String = ""
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional.
-        var kMSKey: String? = nil
+        public var kMSKey: String? = nil
         /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
-        var role: String = ""
+        public var role: String = ""
         /// File share default values. Optional.
-        var nFSFileShareDefaults: NFSFileShareDefaults? = nil
+        public var nFSFileShareDefaults: NFSFileShareDefaults? = nil
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
-        var clientList: [String]? = nil
+        public var clientList: [String]? = nil
         /// The ARN of the backend storage used for storing file data. 
-        var locationARN: String = ""
+        public var locationARN: String = ""
         /// The default storage class for objects put into an Amazon S3 bucket by file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        var defaultStorageClass: String? = nil
+        public var defaultStorageClass: String? = nil
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        var kMSEncrypted: Bool? = nil
+        public var kMSEncrypted: Bool? = nil
 
         public init() {}
 
@@ -905,13 +1015,15 @@ extension Storagegateway {
 
     }
 
-    public struct ListTagsForResourceOutput: Serializable, Initializable {
+    public struct ListTagsForResourceOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
         /// An array that contains the tags for the specified resource.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// An opaque string that indicates the position at which to stop returning the list of tags.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -923,9 +1035,11 @@ extension Storagegateway {
 
     }
 
-    public struct CreateCachediSCSIVolumeOutput: Serializable, Initializable {
-        var targetARN: String? = nil
-        var volumeARN: String? = nil
+    public struct CreateCachediSCSIVolumeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var targetARN: String? = nil
+        public var volumeARN: String? = nil
 
         public init() {}
 
@@ -936,12 +1050,14 @@ extension Storagegateway {
 
     }
 
-    public struct ListVolumesInput: Serializable, Initializable {
+    public struct ListVolumesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
-        var marker: String? = nil
-        var gatewayARN: String? = nil
+        public var marker: String? = nil
+        public var gatewayARN: String? = nil
         /// Specifies that the list of volumes returned be limited to the specified number of items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -953,9 +1069,11 @@ extension Storagegateway {
 
     }
 
-    public struct RemoveTagsFromResourceOutput: Serializable, Initializable {
+    public struct RemoveTagsFromResourceOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
 
         public init() {}
 
@@ -965,15 +1083,17 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateChapCredentialsInput: Serializable, Initializable {
+    public struct UpdateChapCredentialsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
-        var targetARN: String = ""
+        public var targetARN: String = ""
         /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client). Byte constraints: Minimum bytes of 12. Maximum bytes of 16.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
-        var secretToAuthenticateTarget: String? = nil
+        public var secretToAuthenticateTarget: String? = nil
         /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
-        var secretToAuthenticateInitiator: String = ""
+        public var secretToAuthenticateInitiator: String = ""
         /// The iSCSI initiator that connects to the target.
-        var initiatorName: String = ""
+        public var initiatorName: String = ""
 
         public init() {}
 
@@ -986,9 +1106,11 @@ extension Storagegateway {
 
     }
 
-    public struct CreateNFSFileShareOutput: Serializable, Initializable {
+    public struct CreateNFSFileShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the newly created file share. 
-        var fileShareARN: String? = nil
+        public var fileShareARN: String? = nil
 
         public init() {}
 
@@ -998,9 +1120,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteVolumeOutput: Serializable, Initializable {
+    public struct DeleteVolumeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
-        var volumeARN: String? = nil
+        public var volumeARN: String? = nil
 
         public init() {}
 
@@ -1010,10 +1134,12 @@ extension Storagegateway {
 
     }
 
-    public struct RetrieveTapeRecoveryPointInput: Serializable, Initializable {
+    public struct RetrieveTapeRecoveryPointInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
-        var tapeARN: String = ""
-        var gatewayARN: String = ""
+        public var tapeARN: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1024,12 +1150,14 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeBandwidthRateLimitOutput: Serializable, Initializable {
+    public struct DescribeBandwidthRateLimitOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
-        var averageDownloadRateLimitInBitsPerSec: Int64? = nil
+        public var averageDownloadRateLimitInBitsPerSec: Int64? = nil
         /// The average upload bandwidth rate limit in bits per second. This field does not appear in the response if the upload rate limit is not set.
-        var averageUploadRateLimitInBitsPerSec: Int64? = nil
-        var gatewayARN: String? = nil
+        public var averageUploadRateLimitInBitsPerSec: Int64? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1041,8 +1169,10 @@ extension Storagegateway {
 
     }
 
-    public struct SetLocalConsolePasswordOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct SetLocalConsolePasswordOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1052,8 +1182,10 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateSnapshotScheduleOutput: Serializable, Initializable {
-        var volumeARN: String? = nil
+    public struct UpdateSnapshotScheduleOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var volumeARN: String? = nil
 
         public init() {}
 
@@ -1063,9 +1195,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeChapCredentialsOutput: Serializable, Initializable {
+    public struct DescribeChapCredentialsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
-        var chapCredentials: [ChapInfo]? = nil
+        public var chapCredentials: [ChapInfo]? = nil
 
         public init() {}
 
@@ -1075,19 +1209,21 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateNFSFileShareInput: Serializable, Initializable {
+    public struct UpdateNFSFileShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional. 
-        var kMSKey: String? = nil
+        public var kMSKey: String? = nil
         /// The Amazon Resource Name (ARN) of the file share to be updated. 
-        var fileShareARN: String = ""
+        public var fileShareARN: String = ""
         /// The default values for the file share. Optional.
-        var nFSFileShareDefaults: NFSFileShareDefaults? = nil
+        public var nFSFileShareDefaults: NFSFileShareDefaults? = nil
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
-        var clientList: [String]? = nil
+        public var clientList: [String]? = nil
         /// The default storage class for objects put into an Amazon S3 bucket by a file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        var defaultStorageClass: String? = nil
+        public var defaultStorageClass: String? = nil
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
-        var kMSEncrypted: Bool? = nil
+        public var kMSEncrypted: Bool? = nil
 
         public init() {}
 
@@ -1102,9 +1238,11 @@ extension Storagegateway {
 
     }
 
-    public struct ListLocalDisksOutput: Serializable, Initializable {
-        var disks: [Disk]? = nil
-        var gatewayARN: String? = nil
+    public struct ListLocalDisksOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var disks: [Disk]? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1115,8 +1253,10 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteBandwidthRateLimitOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct DeleteBandwidthRateLimitOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1126,10 +1266,12 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteBandwidthRateLimitInput: Serializable, Initializable {
+    public struct DeleteBandwidthRateLimitInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
-        var bandwidthType: String = ""
-        var gatewayARN: String = ""
+        public var bandwidthType: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1140,11 +1282,13 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteTapeInput: Serializable, Initializable {
+    public struct DeleteTapeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
-        var tapeARN: String = ""
+        public var tapeARN: String = ""
         /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and region.
-        var gatewayARN: String = ""
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1155,8 +1299,10 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateBandwidthRateLimitOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct UpdateBandwidthRateLimitOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1166,14 +1312,16 @@ extension Storagegateway {
 
     }
 
-    public struct VTLDevice: Serializable, Initializable {
-        var vTLDeviceVendor: String? = nil
-        var vTLDeviceType: String? = nil
+    public struct VTLDevice: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var vTLDeviceVendor: String? = nil
+        public var vTLDeviceType: String? = nil
         /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or media changer).
-        var vTLDeviceARN: String? = nil
+        public var vTLDeviceARN: String? = nil
         /// A list of iSCSI information about a VTL device.
-        var deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil
-        var vTLDeviceProductIdentifier: String? = nil
+        public var deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil
+        public var vTLDeviceProductIdentifier: String? = nil
 
         public init() {}
 
@@ -1187,17 +1335,19 @@ extension Storagegateway {
 
     }
 
-    public struct GatewayInfo: Serializable, Initializable {
+    public struct GatewayInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
-        var gatewayARN: String? = nil
+        public var gatewayARN: String? = nil
         /// The type of the gateway.
-        var gatewayType: String? = nil
+        public var gatewayType: String? = nil
         /// The state of the gateway. Valid Values: DISABLED or ACTIVE
-        var gatewayOperationalState: String? = nil
+        public var gatewayOperationalState: String? = nil
         /// The name of the gateway.
-        var gatewayName: String? = nil
+        public var gatewayName: String? = nil
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
-        var gatewayId: String? = nil
+        public var gatewayId: String? = nil
 
         public init() {}
 
@@ -1211,11 +1361,13 @@ extension Storagegateway {
 
     }
 
-    public struct CreateSnapshotInput: Serializable, Initializable {
+    public struct CreateSnapshotInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
-        var snapshotDescription: String = ""
+        public var snapshotDescription: String = ""
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        var volumeARN: String = ""
+        public var volumeARN: String = ""
 
         public init() {}
 
@@ -1226,12 +1378,14 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateBandwidthRateLimitInput: Serializable, Initializable {
+    public struct UpdateBandwidthRateLimitInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The average download bandwidth rate limit in bits per second.
-        var averageDownloadRateLimitInBitsPerSec: Int64? = nil
+        public var averageDownloadRateLimitInBitsPerSec: Int64? = nil
         /// The average upload bandwidth rate limit in bits per second.
-        var averageUploadRateLimitInBitsPerSec: Int64? = nil
-        var gatewayARN: String = ""
+        public var averageUploadRateLimitInBitsPerSec: Int64? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1243,8 +1397,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeMaintenanceStartTimeInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeMaintenanceStartTimeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1254,8 +1410,10 @@ extension Storagegateway {
 
     }
 
-    public struct StartGatewayOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct StartGatewayOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1265,13 +1423,15 @@ extension Storagegateway {
 
     }
 
-    public struct ListFileSharesInput: Serializable, Initializable {
+    public struct ListFileSharesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
-        var gatewayARN: String? = nil
+        public var gatewayARN: String? = nil
         /// The maximum number of file shares to return in the response. The value must be an integer with a value greater than zero. Optional.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -1283,8 +1443,10 @@ extension Storagegateway {
 
     }
 
-    public struct ActivateGatewayOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct ActivateGatewayOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1294,11 +1456,13 @@ extension Storagegateway {
 
     }
 
-    public struct VolumeRecoveryPointInfo: Serializable, Initializable {
-        var volumeRecoveryPointTime: String? = nil
-        var volumeARN: String? = nil
-        var volumeUsageInBytes: Int64? = nil
-        var volumeSizeInBytes: Int64? = nil
+    public struct VolumeRecoveryPointInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var volumeRecoveryPointTime: String? = nil
+        public var volumeARN: String? = nil
+        public var volumeUsageInBytes: Int64? = nil
+        public var volumeSizeInBytes: Int64? = nil
 
         public init() {}
 
@@ -1311,11 +1475,13 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeTapeArchivesOutput: Serializable, Initializable {
+    public struct DescribeTapeArchivesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name(ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description and tape barcode.
-        var tapeArchives: [TapeArchive]? = nil
+        public var tapeArchives: [TapeArchive]? = nil
         /// An opaque string that indicates the position at which the virtual tapes that were fetched for description ended. Use this marker in your next request to fetch the next set of virtual tapes in the virtual tape shelf (VTS). If there are no more virtual tapes to describe, this field does not appear in the response.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -1326,28 +1492,30 @@ extension Storagegateway {
 
     }
 
-    public struct StorediSCSIVolume: Serializable, Initializable {
+    public struct StorediSCSIVolume: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
-        var volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil
+        public var volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil
         /// If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-        var sourceSnapshotId: String? = nil
+        public var sourceSnapshotId: String? = nil
         /// One of the VolumeType enumeration values describing the type of the volume.
-        var volumeType: String? = nil
+        public var volumeType: String? = nil
         /// One of the VolumeStatus values that indicates the state of the storage volume.
-        var volumeStatus: String? = nil
+        public var volumeStatus: String? = nil
         /// The unique identifier of the volume, e.g. vol-AE4B946D.
-        var volumeId: String? = nil
+        public var volumeId: String? = nil
         /// The size of the volume in bytes.
-        var volumeSizeInBytes: Int64? = nil
+        public var volumeSizeInBytes: Int64? = nil
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
-        var preservedExistingData: Bool? = nil
-        var createdDate: Date? = nil
+        public var preservedExistingData: Bool? = nil
+        public var createdDate: Date? = nil
         /// The Amazon Resource Name (ARN) of the storage volume.
-        var volumeARN: String? = nil
+        public var volumeARN: String? = nil
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
-        var volumeProgress: Double? = nil
+        public var volumeProgress: Double? = nil
         /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
-        var volumeDiskId: String? = nil
+        public var volumeDiskId: String? = nil
 
         public init() {}
 
@@ -1367,17 +1535,19 @@ extension Storagegateway {
 
     }
 
-    public struct CreateTapesInput: Serializable, Initializable {
+    public struct CreateTapesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of virtual tapes that you want to create.
-        var numTapesToCreate: Int32 = 0
+        public var numTapesToCreate: Int32 = 0
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and region.
-        var gatewayARN: String = ""
+        public var gatewayARN: String = ""
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times. 
-        var clientToken: String = ""
+        public var clientToken: String = ""
         /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
-        var tapeSizeInBytes: Int64 = 0
+        public var tapeSizeInBytes: Int64 = 0
         /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique.  The prefix must be 1 to 4 characters in length and must be one of the uppercase letters from A to Z. 
-        var tapeBarcodePrefix: String = ""
+        public var tapeBarcodePrefix: String = ""
 
         public init() {}
 
@@ -1391,24 +1561,26 @@ extension Storagegateway {
 
     }
 
-    public struct CachediSCSIVolume: Serializable, Initializable {
+    public struct CachediSCSIVolume: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-        var sourceSnapshotId: String? = nil
+        public var sourceSnapshotId: String? = nil
         /// One of the VolumeType enumeration values that describes the type of the volume.
-        var volumeType: String? = nil
+        public var volumeType: String? = nil
         /// One of the VolumeStatus values that indicates the state of the storage volume.
-        var volumeStatus: String? = nil
+        public var volumeStatus: String? = nil
         /// The unique identifier of the volume, e.g. vol-AE4B946D.
-        var volumeId: String? = nil
+        public var volumeId: String? = nil
         /// The size of the volume in bytes.
-        var volumeSizeInBytes: Int64? = nil
+        public var volumeSizeInBytes: Int64? = nil
         /// The Amazon Resource Name (ARN) of the storage volume.
-        var volumeARN: String? = nil
+        public var volumeARN: String? = nil
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the cached volume is not restoring or bootstrapping.
-        var volumeProgress: Double? = nil
+        public var volumeProgress: Double? = nil
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
-        var volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil
-        var createdDate: Date? = nil
+        public var volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil
+        public var createdDate: Date? = nil
 
         public init() {}
 
@@ -1426,9 +1598,11 @@ extension Storagegateway {
 
     }
 
-    public struct AddTagsToResourceOutput: Serializable, Initializable {
+    public struct AddTagsToResourceOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
-        var resourceARN: String? = nil
+        public var resourceARN: String? = nil
 
         public init() {}
 
@@ -1438,9 +1612,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeChapCredentialsInput: Serializable, Initializable {
+    public struct DescribeChapCredentialsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
-        var targetARN: String = ""
+        public var targetARN: String = ""
 
         public init() {}
 
@@ -1450,9 +1626,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteFileShareOutput: Serializable, Initializable {
+    public struct DeleteFileShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the deleted file share. 
-        var fileShareARN: String? = nil
+        public var fileShareARN: String? = nil
 
         public init() {}
 
@@ -1462,8 +1640,10 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteGatewayInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DeleteGatewayInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1473,20 +1653,22 @@ extension Storagegateway {
 
     }
 
-    public struct Tape: Serializable, Initializable {
+    public struct Tape: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
         /// The virtual tape library (VTL) device that the virtual tape is associated with.
-        var vTLDevice: String? = nil
+        public var vTLDevice: String? = nil
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
-        var progress: Double? = nil
-        var tapeCreatedDate: Date? = nil
+        public var progress: Double? = nil
+        public var tapeCreatedDate: Date? = nil
         /// The barcode that identifies a specific virtual tape.
-        var tapeBarcode: String? = nil
+        public var tapeBarcode: String? = nil
         /// The current state of the virtual tape.
-        var tapeStatus: String? = nil
+        public var tapeStatus: String? = nil
         /// The size, in bytes, of the virtual tape.
-        var tapeSizeInBytes: Int64? = nil
+        public var tapeSizeInBytes: Int64? = nil
 
         public init() {}
 
@@ -1502,9 +1684,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteTapeOutput: Serializable, Initializable {
+    public struct DeleteTapeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -1514,9 +1698,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeStorediSCSIVolumesInput: Serializable, Initializable {
+    public struct DescribeStorediSCSIVolumesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
-        var volumeARNs: [String] = []
+        public var volumeARNs: [String] = []
 
         public init() {}
 
@@ -1526,13 +1712,15 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeTapeArchivesInput: Serializable, Initializable {
+    public struct DescribeTapeArchivesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque string that indicates the position at which to begin describing virtual tapes.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
-        var tapeARNs: [String]? = nil
+        public var tapeARNs: [String]? = nil
         /// Specifies that the number of virtual tapes descried be limited to the specified number.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -1544,8 +1732,10 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateGatewaySoftwareNowInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct UpdateGatewaySoftwareNowInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1555,9 +1745,11 @@ extension Storagegateway {
 
     }
 
-    public struct CreateTapeWithBarcodeOutput: Serializable, Initializable {
+    public struct CreateTapeWithBarcodeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -1567,10 +1759,12 @@ extension Storagegateway {
 
     }
 
-    public struct AddWorkingStorageInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct AddWorkingStorageInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
-        var diskIds: [String] = []
+        public var diskIds: [String] = []
 
         public init() {}
 
@@ -1581,11 +1775,13 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteChapCredentialsInput: Serializable, Initializable {
+    public struct DeleteChapCredentialsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
-        var targetARN: String = ""
+        public var targetARN: String = ""
         /// The iSCSI initiator that connects to the target.
-        var initiatorName: String = ""
+        public var initiatorName: String = ""
 
         public init() {}
 
@@ -1596,9 +1792,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeNFSFileSharesInput: Serializable, Initializable {
+    public struct DescribeNFSFileSharesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
-        var fileShareARNList: [String] = []
+        public var fileShareARNList: [String] = []
 
         public init() {}
 
@@ -1608,8 +1806,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeStorediSCSIVolumesOutput: Serializable, Initializable {
-        var storediSCSIVolumes: [StorediSCSIVolume]? = nil
+    public struct DescribeStorediSCSIVolumesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var storediSCSIVolumes: [StorediSCSIVolume]? = nil
 
         public init() {}
 
@@ -1619,11 +1819,13 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeUploadBufferOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
-        var uploadBufferUsedInBytes: Int64? = nil
-        var uploadBufferAllocatedInBytes: Int64? = nil
-        var diskIds: [String]? = nil
+    public struct DescribeUploadBufferOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
+        public var uploadBufferUsedInBytes: Int64? = nil
+        public var uploadBufferAllocatedInBytes: Int64? = nil
+        public var diskIds: [String]? = nil
 
         public init() {}
 
@@ -1636,9 +1838,11 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateNFSFileShareOutput: Serializable, Initializable {
+    public struct UpdateNFSFileShareOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the updated file share. 
-        var fileShareARN: String? = nil
+        public var fileShareARN: String? = nil
 
         public init() {}
 
@@ -1648,10 +1852,12 @@ extension Storagegateway {
 
     }
 
-    public struct ListVolumesOutput: Serializable, Initializable {
-        var marker: String? = nil
-        var gatewayARN: String? = nil
-        var volumeInfos: [VolumeInfo]? = nil
+    public struct ListVolumesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var marker: String? = nil
+        public var gatewayARN: String? = nil
+        public var volumeInfos: [VolumeInfo]? = nil
 
         public init() {}
 
@@ -1663,9 +1869,11 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeCachediSCSIVolumesOutput: Serializable, Initializable {
+    public struct DescribeCachediSCSIVolumesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An array of objects where each object contains metadata about one cached volume.
-        var cachediSCSIVolumes: [CachediSCSIVolume]? = nil
+        public var cachediSCSIVolumes: [CachediSCSIVolume]? = nil
 
         public init() {}
 
@@ -1675,8 +1883,10 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteSnapshotScheduleInput: Serializable, Initializable {
-        var volumeARN: String = ""
+    public struct DeleteSnapshotScheduleInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var volumeARN: String = ""
 
         public init() {}
 
@@ -1686,9 +1896,11 @@ extension Storagegateway {
 
     }
 
-    public struct CreateTapesOutput: Serializable, Initializable {
+    public struct CreateTapesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
-        var tapeARNs: [String]? = nil
+        public var tapeARNs: [String]? = nil
 
         public init() {}
 
@@ -1698,13 +1910,15 @@ extension Storagegateway {
 
     }
 
-    public struct CreateStorediSCSIVolumeOutput: Serializable, Initializable {
+    public struct CreateStorediSCSIVolumeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
-        var targetARN: String? = nil
+        public var targetARN: String? = nil
         /// The Amazon Resource Name (ARN) of the configured volume.
-        var volumeARN: String? = nil
+        public var volumeARN: String? = nil
         /// The size of the volume in bytes.
-        var volumeSizeInBytes: Int64? = nil
+        public var volumeSizeInBytes: Int64? = nil
 
         public init() {}
 
@@ -1716,8 +1930,10 @@ extension Storagegateway {
 
     }
 
-    public struct ListLocalDisksInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct ListLocalDisksInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1727,10 +1943,12 @@ extension Storagegateway {
 
     }
 
-    public struct CreateSnapshotFromVolumeRecoveryPointOutput: Serializable, Initializable {
-        var volumeARN: String? = nil
-        var volumeRecoveryPointTime: String? = nil
-        var snapshotId: String? = nil
+    public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var volumeARN: String? = nil
+        public var volumeRecoveryPointTime: String? = nil
+        public var snapshotId: String? = nil
 
         public init() {}
 
@@ -1742,24 +1960,26 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeGatewayInformationOutput: Serializable, Initializable {
+    public struct DescribeGatewayInformationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A value that indicates the operating state of the gateway.
-        var gatewayState: String? = nil
+        public var gatewayState: String? = nil
         /// The type of the gateway.
-        var gatewayType: String? = nil
-        var gatewayARN: String? = nil
+        public var gatewayType: String? = nil
+        public var gatewayARN: String? = nil
         /// A value that indicates the time zone configured for the gateway.
-        var gatewayTimezone: String? = nil
+        public var gatewayTimezone: String? = nil
         /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response.
-        var lastSoftwareUpdate: String? = nil
+        public var lastSoftwareUpdate: String? = nil
         /// A NetworkInterface array that contains descriptions of the gateway network interfaces.
-        var gatewayNetworkInterfaces: [NetworkInterface]? = nil
+        public var gatewayNetworkInterfaces: [NetworkInterface]? = nil
         /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
-        var nextUpdateAvailabilityDate: String? = nil
+        public var nextUpdateAvailabilityDate: String? = nil
         /// The name you configured for your gateway.
-        var gatewayName: String? = nil
+        public var gatewayName: String? = nil
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
-        var gatewayId: String? = nil
+        public var gatewayId: String? = nil
 
         public init() {}
 
@@ -1777,11 +1997,13 @@ extension Storagegateway {
 
     }
 
-    public struct FileShareInfo: Serializable, Initializable {
-        var fileShareId: String? = nil
-        var fileShareStatus: String? = nil
-        var fileShareARN: String? = nil
-        var gatewayARN: String? = nil
+    public struct FileShareInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var fileShareId: String? = nil
+        public var fileShareStatus: String? = nil
+        public var fileShareARN: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1794,15 +2016,17 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateSnapshotScheduleInput: Serializable, Initializable {
+    public struct UpdateSnapshotScheduleInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Frequency of snapshots. Specify the number of hours between snapshots.
-        var recurrenceInHours: Int32 = 0
+        public var recurrenceInHours: Int32 = 0
         /// The hour of the day at which the snapshot schedule begins represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        var startAt: Int32 = 0
+        public var startAt: Int32 = 0
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        var volumeARN: String = ""
+        public var volumeARN: String = ""
         /// Optional description of the snapshot that overwrites the existing description.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1815,12 +2039,14 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeVTLDevicesOutput: Serializable, Initializable {
+    public struct DescribeVTLDevicesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// An array of VTL device objects composed of the Amazon Resource Name(ARN) of the VTL devices.
-        var vTLDevices: [VTLDevice]? = nil
-        var gatewayARN: String? = nil
+        public var vTLDevices: [VTLDevice]? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1832,11 +2058,13 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteChapCredentialsOutput: Serializable, Initializable {
+    public struct DeleteChapCredentialsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target.
-        var targetARN: String? = nil
+        public var targetARN: String? = nil
         /// The iSCSI initiator that connects to the target.
-        var initiatorName: String? = nil
+        public var initiatorName: String? = nil
 
         public init() {}
 
@@ -1847,9 +2075,11 @@ extension Storagegateway {
 
     }
 
-    public struct UpdateGatewayInformationOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
-        var gatewayName: String? = nil
+    public struct UpdateGatewayInformationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
+        public var gatewayName: String? = nil
 
         public init() {}
 
@@ -1860,15 +2090,17 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeMaintenanceStartTimeOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct DescribeMaintenanceStartTimeOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        var hourOfDay: Int32? = nil
+        public var hourOfDay: Int32? = nil
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
-        var minuteOfHour: Int32? = nil
-        var timezone: String? = nil
+        public var minuteOfHour: Int32? = nil
+        public var timezone: String? = nil
         /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
-        var dayOfWeek: Int32? = nil
+        public var dayOfWeek: Int32? = nil
 
         public init() {}
 
@@ -1882,12 +2114,14 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeSnapshotScheduleOutput: Serializable, Initializable {
-        var startAt: Int32? = nil
-        var recurrenceInHours: Int32? = nil
-        var volumeARN: String? = nil
-        var timezone: String? = nil
-        var description: String? = nil
+    public struct DescribeSnapshotScheduleOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var startAt: Int32? = nil
+        public var recurrenceInHours: Int32? = nil
+        public var volumeARN: String? = nil
+        public var timezone: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -1901,9 +2135,11 @@ extension Storagegateway {
 
     }
 
-    public struct DeleteFileShareInput: Serializable, Initializable {
+    public struct DeleteFileShareInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the file share to be deleted. 
-        var fileShareARN: String = ""
+        public var fileShareARN: String = ""
 
         public init() {}
 
@@ -1913,12 +2149,14 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeTapeRecoveryPointsOutput: Serializable, Initializable {
+    public struct DescribeTapeRecoveryPointsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
-        var marker: String? = nil
-        var gatewayARN: String? = nil
+        public var marker: String? = nil
+        public var gatewayARN: String? = nil
         /// An array of TapeRecoveryPointInfos that are available for the specified gateway.
-        var tapeRecoveryPointInfos: [TapeRecoveryPointInfo]? = nil
+        public var tapeRecoveryPointInfos: [TapeRecoveryPointInfo]? = nil
 
         public init() {}
 
@@ -1930,8 +2168,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeCacheInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeCacheInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1941,8 +2181,10 @@ extension Storagegateway {
 
     }
 
-    public struct ShutdownGatewayOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct ShutdownGatewayOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -1952,13 +2194,15 @@ extension Storagegateway {
 
     }
 
-    public struct ListFileSharesOutput: Serializable, Initializable {
+    public struct ListFileSharesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If the request includes Marker, the response returns that value in this field. 
-        var marker: String? = nil
+        public var marker: String? = nil
         /// An array of information about the file gateway's file shares. 
-        var fileShareInfoList: [FileShareInfo]? = nil
+        public var fileShareInfoList: [FileShareInfo]? = nil
         /// If a value is present, there are more file shares to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file shares. 
-        var nextMarker: String? = nil
+        public var nextMarker: String? = nil
 
         public init() {}
 
@@ -1970,8 +2214,10 @@ extension Storagegateway {
 
     }
 
-    public struct DisableGatewayInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DisableGatewayInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -1981,14 +2227,16 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeVTLDevicesInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeVTLDevicesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
         /// Specifies that the number of VTL devices described be limited to the specified number.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// An opaque string that indicates the position at which to begin describing the VTL devices.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway. 
-        var vTLDeviceARNs: [String]? = nil
+        public var vTLDeviceARNs: [String]? = nil
 
         public init() {}
 
@@ -2001,17 +2249,19 @@ extension Storagegateway {
 
     }
 
-    public struct VolumeiSCSIAttributes: Serializable, Initializable {
+    public struct VolumeiSCSIAttributes: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the volume target.
-        var targetARN: String? = nil
+        public var targetARN: String? = nil
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-        var chapEnabled: Bool? = nil
+        public var chapEnabled: Bool? = nil
         /// The network interface identifier.
-        var networkInterfaceId: String? = nil
+        public var networkInterfaceId: String? = nil
         /// The port used to communicate with iSCSI targets.
-        var networkInterfacePort: Int32? = nil
+        public var networkInterfacePort: Int32? = nil
         /// The logical disk number.
-        var lunNumber: Int32? = nil
+        public var lunNumber: Int32? = nil
 
         public init() {}
 
@@ -2025,9 +2275,11 @@ extension Storagegateway {
 
     }
 
-    public struct ListVolumeRecoveryPointsOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
-        var volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]? = nil
+    public struct ListVolumeRecoveryPointsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
+        public var volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]? = nil
 
         public init() {}
 
@@ -2038,11 +2290,13 @@ extension Storagegateway {
 
     }
 
-    public struct ListGatewaysInput: Serializable, Initializable {
+    public struct ListGatewaysInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An opaque string that indicates the position at which to begin the returned list of gateways.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// Specifies that the list of gateways returned be limited to the specified number of items.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -2053,18 +2307,20 @@ extension Storagegateway {
 
     }
 
-    public struct CreateStorediSCSIVolumeInput: Serializable, Initializable {
+    public struct CreateStorediSCSIVolumeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
-        var snapshotId: String? = nil
-        var gatewayARN: String = ""
+        public var snapshotId: String? = nil
+        public var gatewayARN: String = ""
         /// Specify this field as true if you want to preserve the data on the local disk. Otherwise, specifying this field as false creates an empty volume.  Valid Values: true, false
-        var preserveExistingData: Bool = false
+        public var preserveExistingData: Bool = false
         /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
-        var networkInterfaceId: String = ""
+        public var networkInterfaceId: String = ""
         /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
-        var diskId: String = ""
+        public var diskId: String = ""
         /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
-        var targetName: String = ""
+        public var targetName: String = ""
 
         public init() {}
 
@@ -2079,15 +2335,17 @@ extension Storagegateway {
 
     }
 
-    public struct ChapInfo: Serializable, Initializable {
+    public struct ChapInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the volume.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        var targetARN: String? = nil
+        public var targetARN: String? = nil
         /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).
-        var secretToAuthenticateTarget: String? = nil
+        public var secretToAuthenticateTarget: String? = nil
         /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.
-        var secretToAuthenticateInitiator: String? = nil
+        public var secretToAuthenticateInitiator: String? = nil
         /// The iSCSI initiator that connects to the target.
-        var initiatorName: String? = nil
+        public var initiatorName: String? = nil
 
         public init() {}
 
@@ -2100,11 +2358,13 @@ extension Storagegateway {
 
     }
 
-    public struct StorageGatewayError: Serializable, Initializable {
+    public struct StorageGatewayError: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Additional information about the error.
-        var errorCode: String? = nil
+        public var errorCode: String? = nil
         /// Human-readable text that provides detail about the error that occurred.
-        var errorDetails: [String: String]? = nil
+        public var errorDetails: [String: String]? = nil
 
         public init() {}
 
@@ -2115,17 +2375,19 @@ extension Storagegateway {
 
     }
 
-    public struct VolumeInfo: Serializable, Initializable {
+    public struct VolumeInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The size of the volume in bytes. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        var volumeSizeInBytes: Int64? = nil
-        var gatewayARN: String? = nil
-        var volumeType: String? = nil
+        public var volumeSizeInBytes: Int64? = nil
+        public var gatewayARN: String? = nil
+        public var volumeType: String? = nil
         /// The Amazon Resource Name (ARN) for the storage volume. For example, the following is a valid ARN:  arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABB   Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        var volumeARN: String? = nil
+        public var volumeARN: String? = nil
         /// The unique identifier assigned to the volume. This ID becomes part of the volume Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        var volumeId: String? = nil
+        public var volumeId: String? = nil
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        var gatewayId: String? = nil
+        public var gatewayId: String? = nil
 
         public init() {}
 
@@ -2140,8 +2402,10 @@ extension Storagegateway {
 
     }
 
-    public struct AddWorkingStorageOutput: Serializable, Initializable {
-        var gatewayARN: String? = nil
+    public struct AddWorkingStorageOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -2151,9 +2415,11 @@ extension Storagegateway {
 
     }
 
-    public struct CancelRetrievalOutput: Serializable, Initializable {
+    public struct CancelRetrievalOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -2163,9 +2429,11 @@ extension Storagegateway {
 
     }
 
-    public struct ListVolumeInitiatorsOutput: Serializable, Initializable {
+    public struct ListVolumeInitiatorsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
-        var initiators: [String]? = nil
+        public var initiators: [String]? = nil
 
         public init() {}
 
@@ -2175,8 +2443,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeBandwidthRateLimitInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeBandwidthRateLimitInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -2186,8 +2456,10 @@ extension Storagegateway {
 
     }
 
-    public struct DescribeUploadBufferInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct DescribeUploadBufferInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -2197,15 +2469,17 @@ extension Storagegateway {
 
     }
 
-    public struct CreateCachediSCSIVolumeInput: Serializable, Initializable {
-        var gatewayARN: String = ""
-        var networkInterfaceId: String = ""
-        var clientToken: String = ""
-        var volumeSizeInBytes: Int64 = 0
-        var snapshotId: String? = nil
-        var targetName: String = ""
+    public struct CreateCachediSCSIVolumeInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
+        public var networkInterfaceId: String = ""
+        public var clientToken: String = ""
+        public var volumeSizeInBytes: Int64 = 0
+        public var snapshotId: String? = nil
+        public var targetName: String = ""
         /// The ARN for an existing volume. Specifying this ARN makes the new volume into an exact copy of the specified existing volume's latest recovery point. The VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the existing volume, in bytes.
-        var sourceVolumeARN: String? = nil
+        public var sourceVolumeARN: String? = nil
 
         public init() {}
 
@@ -2221,9 +2495,11 @@ extension Storagegateway {
 
     }
 
-    public struct ListGatewaysOutput: Serializable, Initializable {
-        var marker: String? = nil
-        var gateways: [GatewayInfo]? = nil
+    public struct ListGatewaysOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var marker: String? = nil
+        public var gateways: [GatewayInfo]? = nil
 
         public init() {}
 
@@ -2234,8 +2510,10 @@ extension Storagegateway {
 
     }
 
-    public struct ShutdownGatewayInput: Serializable, Initializable {
-        var gatewayARN: String = ""
+    public struct ShutdownGatewayInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
 
         public init() {}
 
@@ -2245,9 +2523,11 @@ extension Storagegateway {
 
     }
 
-    public struct RetrieveTapeRecoveryPointOutput: Serializable, Initializable {
+    public struct RetrieveTapeRecoveryPointOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
-        var tapeARN: String? = nil
+        public var tapeARN: String? = nil
 
         public init() {}
 
@@ -2257,9 +2537,11 @@ extension Storagegateway {
 
     }
 
-    public struct DisableGatewayOutput: Serializable, Initializable {
+    public struct DisableGatewayOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The unique Amazon Resource Name of the disabled gateway.
-        var gatewayARN: String? = nil
+        public var gatewayARN: String? = nil
 
         public init() {}
 
@@ -2269,9 +2551,11 @@ extension Storagegateway {
 
     }
 
-    public struct AddCacheInput: Serializable, Initializable {
-        var gatewayARN: String = ""
-        var diskIds: [String] = []
+    public struct AddCacheInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var gatewayARN: String = ""
+        public var diskIds: [String] = []
 
         public init() {}
 

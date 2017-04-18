@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for CognitoSync
-public enum CognitoSyncError: Error {
+public enum CognitoSyncError: AWSErrorType {
     case notAuthorizedException(message: String?)
     case invalidParameterException(message: String?)
     case resourceNotFoundException(message: String?)

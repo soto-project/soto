@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Gamelift
-public enum GameliftError: Error {
+public enum GameliftError: AWSErrorType {
     case unauthorizedException(message: String?)
     case invalidRequestException(message: String?)
     case notFoundException(message: String?)

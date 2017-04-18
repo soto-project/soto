@@ -29,17 +29,25 @@ import Core
 
 extension Workdocs {
 
-    public struct DescribeDocumentVersionsRequest: Serializable, Initializable {
+    public struct DescribeDocumentVersionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["fields": "Fields", "marker": "Marker", "limit": "Limit", "include": "Include"]
+        }
+        public var pathParams: [String: String] {
+            return ["DocumentId": "DocumentId"]
+        }
         /// Specify "SOURCE" to include initialized versions and a URL for the source document.
-        var fields: String? = nil
+        public var fields: String? = nil
         /// The maximum number of versions to return with this call.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
         /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions.
-        var include: String? = nil
+        public var include: String? = nil
 
         public init() {}
 
@@ -53,15 +61,20 @@ extension Workdocs {
 
     }
 
-    public struct CreateNotificationSubscriptionRequest: Serializable, Initializable {
+    public struct CreateNotificationSubscriptionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["OrganizationId": "OrganizationId"]
+        }
         /// The ID of the organization.
-        var organizationId: String = ""
+        public var organizationId: String = ""
         /// The notification type.
-        var subscriptionType: String = ""
+        public var subscriptionType: String = ""
         /// The protocol to use. The supported value is https, which delivers JSON-encoded messasges using HTTPS POST.
-        var `protocol`: String = ""
+        public var `protocol`: String = ""
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with "https://".
-        var endpoint: String = ""
+        public var endpoint: String = ""
 
         public init() {}
 
@@ -74,17 +87,19 @@ extension Workdocs {
 
     }
 
-    public struct ShareResult: Serializable, Initializable {
+    public struct ShareResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The role.
-        var role: String? = nil
+        public var role: String? = nil
         /// The status.
-        var status: String? = nil
+        public var status: String? = nil
         /// The ID of the principal.
-        var principalId: String? = nil
+        public var principalId: String? = nil
         /// The status message.
-        var statusMessage: String? = nil
+        public var statusMessage: String? = nil
         /// The ID of the resource that was shared.
-        var shareId: String? = nil
+        public var shareId: String? = nil
 
         public init() {}
 
@@ -98,13 +113,21 @@ extension Workdocs {
 
     }
 
-    public struct GetDocumentVersionRequest: Serializable, Initializable {
+    public struct GetDocumentVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["fields": "Fields"]
+        }
+        public var pathParams: [String: String] {
+            return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
+        }
         /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
-        var fields: String? = nil
+        public var fields: String? = nil
         /// The version ID of the document.
-        var versionId: String = ""
+        public var versionId: String = ""
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
 
         public init() {}
 
@@ -116,11 +139,13 @@ extension Workdocs {
 
     }
 
-    public struct PermissionInfo: Serializable, Initializable {
+    public struct PermissionInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of permissions.
-        var type: String? = nil
+        public var type: String? = nil
         /// The role of the user.
-        var role: String? = nil
+        public var role: String? = nil
 
         public init() {}
 
@@ -131,9 +156,11 @@ extension Workdocs {
 
     }
 
-    public struct UpdateUserResponse: Serializable, Initializable {
+    public struct UpdateUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user information.
-        var user: User? = nil
+        public var user: User? = nil
 
         public init() {}
 
@@ -143,13 +170,15 @@ extension Workdocs {
 
     }
 
-    public struct DescribeUsersResponse: Serializable, Initializable {
+    public struct DescribeUsersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The users.
-        var users: [User]? = nil
+        public var users: [User]? = nil
         /// The total number of users included in the results.
-        var totalNumberOfUsers: Int64? = nil
+        public var totalNumberOfUsers: Int64? = nil
 
         public init() {}
 
@@ -161,13 +190,15 @@ extension Workdocs {
 
     }
 
-    public struct Subscription: Serializable, Initializable {
+    public struct Subscription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the subscription.
-        var subscriptionId: String? = nil
+        public var subscriptionId: String? = nil
         /// The endpoint of the subscription.
-        var endPoint: String? = nil
+        public var endPoint: String? = nil
         /// The protocol of the subscription.
-        var `protocol`: String? = nil
+        public var `protocol`: String? = nil
 
         public init() {}
 
@@ -179,13 +210,15 @@ extension Workdocs {
 
     }
 
-    public struct DescribeFolderContentsResponse: Serializable, Initializable {
+    public struct DescribeFolderContentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The documents in the specified folder.
-        var documents: [DocumentMetadata]? = nil
+        public var documents: [DocumentMetadata]? = nil
         /// The sub-folders in the specified folder.
-        var folders: [FolderMetadata]? = nil
+        public var folders: [FolderMetadata]? = nil
 
         public init() {}
 
@@ -197,11 +230,13 @@ extension Workdocs {
 
     }
 
-    public struct ResourcePathComponent: Serializable, Initializable {
+    public struct ResourcePathComponent: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the resource path.
-        var name: String? = nil
+        public var name: String? = nil
         /// The ID of the resource path.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -212,11 +247,13 @@ extension Workdocs {
 
     }
 
-    public struct DescribeResourcePermissionsResponse: Serializable, Initializable {
+    public struct DescribeResourcePermissionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The principals.
-        var principals: [Principal]? = nil
+        public var principals: [Principal]? = nil
 
         public init() {}
 
@@ -227,9 +264,14 @@ extension Workdocs {
 
     }
 
-    public struct DeleteDocumentRequest: Serializable, Initializable {
+    public struct DeleteDocumentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DocumentId": "DocumentId"]
+        }
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
 
         public init() {}
 
@@ -239,15 +281,20 @@ extension Workdocs {
 
     }
 
-    public struct UpdateDocumentRequest: Serializable, Initializable {
+    public struct UpdateDocumentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DocumentId": "DocumentId"]
+        }
         /// The ID of the parent folder.
-        var parentFolderId: String? = nil
+        public var parentFolderId: String? = nil
         /// The resource state of the document. Note that only ACTIVE and RECYCLED are supported.
-        var resourceState: String? = nil
+        public var resourceState: String? = nil
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
         /// The name of the document.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -260,9 +307,14 @@ extension Workdocs {
 
     }
 
-    public struct GetDocumentRequest: Serializable, Initializable {
+    public struct GetDocumentRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["DocumentId": "DocumentId"]
+        }
         /// The ID of the document object.
-        var documentId: String = ""
+        public var documentId: String = ""
 
         public init() {}
 
@@ -272,21 +324,23 @@ extension Workdocs {
 
     }
 
-    public struct InitiateDocumentVersionUploadRequest: Serializable, Initializable {
+    public struct InitiateDocumentVersionUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the document.
-        var id: String? = nil
+        public var id: String? = nil
         /// The time stamp when the content of the document was modified.
-        var contentModifiedTimestamp: Date? = nil
+        public var contentModifiedTimestamp: Date? = nil
         /// The name of the document.
-        var name: String? = nil
+        public var name: String? = nil
         /// The content type of the document.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The ID of the parent folder.
-        var parentFolderId: String = ""
+        public var parentFolderId: String = ""
         /// The time stamp when the content of the document was originally created.
-        var contentCreatedTimestamp: Date? = nil
+        public var contentCreatedTimestamp: Date? = nil
         /// The size of the document, in bytes.
-        var documentSizeInBytes: Int64? = nil
+        public var documentSizeInBytes: Int64? = nil
 
         public init() {}
 
@@ -302,9 +356,11 @@ extension Workdocs {
 
     }
 
-    public struct AddResourcePermissionsResponse: Serializable, Initializable {
+    public struct AddResourcePermissionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The share results.
-        var shareResults: [ShareResult]? = nil
+        public var shareResults: [ShareResult]? = nil
 
         public init() {}
 
@@ -314,23 +370,25 @@ extension Workdocs {
 
     }
 
-    public struct FolderMetadata: Serializable, Initializable {
+    public struct FolderMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource state of the folder.
-        var resourceState: String? = nil
+        public var resourceState: String? = nil
         /// The unique identifier created from the subfolders and documents of the folder.
-        var signature: String? = nil
+        public var signature: String? = nil
         /// The name of the folder.
-        var name: String? = nil
+        public var name: String? = nil
         /// The ID of the creator.
-        var creatorId: String? = nil
+        public var creatorId: String? = nil
         /// The time when the folder was updated.
-        var modifiedTimestamp: Date? = nil
+        public var modifiedTimestamp: Date? = nil
         /// The ID of the parent folder.
-        var parentFolderId: String? = nil
+        public var parentFolderId: String? = nil
         /// The time when the folder was created.
-        var createdTimestamp: Date? = nil
+        public var createdTimestamp: Date? = nil
         /// The ID of the folder.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -347,33 +405,35 @@ extension Workdocs {
 
     }
 
-    public struct DocumentVersionMetadata: Serializable, Initializable {
+    public struct DocumentVersionMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time stamp when the content of the document was modified.
-        var contentModifiedTimestamp: Date? = nil
+        public var contentModifiedTimestamp: Date? = nil
         /// The signature of the document.
-        var signature: String? = nil
+        public var signature: String? = nil
         /// The time stamp when the document was last uploaded.
-        var modifiedTimestamp: Date? = nil
+        public var modifiedTimestamp: Date? = nil
         /// The source of the document.
-        var source: [String: String]? = nil
+        public var source: [String: String]? = nil
         /// The time stamp when the document was first uploaded.
-        var createdTimestamp: Date? = nil
+        public var createdTimestamp: Date? = nil
         /// The ID of the version.
-        var id: String? = nil
+        public var id: String? = nil
         /// The status of the document.
-        var status: String? = nil
+        public var status: String? = nil
         /// The name of the version.
-        var name: String? = nil
+        public var name: String? = nil
         /// The size of the document, in bytes.
-        var size: Int64? = nil
+        public var size: Int64? = nil
         /// The content type of the document.
-        var contentType: String? = nil
+        public var contentType: String? = nil
         /// The ID of the creator.
-        var creatorId: String? = nil
+        public var creatorId: String? = nil
         /// The thumbnail of the document.
-        var thumbnail: [String: String]? = nil
+        public var thumbnail: [String: String]? = nil
         /// The time stamp when the content of the document was originally created.
-        var contentCreatedTimestamp: Date? = nil
+        public var contentCreatedTimestamp: Date? = nil
 
         public init() {}
 
@@ -395,11 +455,13 @@ extension Workdocs {
 
     }
 
-    public struct UserStorageMetadata: Serializable, Initializable {
+    public struct UserStorageMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The storage for a user.
-        var storageRule: StorageRuleType? = nil
+        public var storageRule: StorageRuleType? = nil
         /// The amount of storage utilized, in bytes.
-        var storageUtilizedInBytes: Int64? = nil
+        public var storageUtilizedInBytes: Int64? = nil
 
         public init() {}
 
@@ -410,9 +472,11 @@ extension Workdocs {
 
     }
 
-    public struct GetFolderPathResponse: Serializable, Initializable {
+    public struct GetFolderPathResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The path information.
-        var path: ResourcePath? = nil
+        public var path: ResourcePath? = nil
 
         public init() {}
 
@@ -422,9 +486,11 @@ extension Workdocs {
 
     }
 
-    public struct GetFolderResponse: Serializable, Initializable {
+    public struct GetFolderResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The metadata of the folder.
-        var metadata: FolderMetadata? = nil
+        public var metadata: FolderMetadata? = nil
 
         public init() {}
 
@@ -434,21 +500,23 @@ extension Workdocs {
 
     }
 
-    public struct CreateUserRequest: Serializable, Initializable {
+    public struct CreateUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time zone ID of the user.
-        var timeZoneId: String? = nil
+        public var timeZoneId: String? = nil
         /// The given name of the user.
-        var givenName: String = ""
+        public var givenName: String = ""
         /// The login name of the user.
-        var username: String = ""
+        public var username: String = ""
         /// The surname of the user.
-        var surname: String = ""
+        public var surname: String = ""
         /// The ID of the organization.
-        var organizationId: String? = nil
+        public var organizationId: String? = nil
         /// The password of the user.
-        var password: String = ""
+        public var password: String = ""
         /// The amount of storage for the user.
-        var storageRule: StorageRuleType? = nil
+        public var storageRule: StorageRuleType? = nil
 
         public init() {}
 
@@ -464,9 +532,11 @@ extension Workdocs {
 
     }
 
-    public struct ActivateUserResponse: Serializable, Initializable {
+    public struct ActivateUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user information.
-        var user: User? = nil
+        public var user: User? = nil
 
         public init() {}
 
@@ -476,9 +546,14 @@ extension Workdocs {
 
     }
 
-    public struct GetFolderRequest: Serializable, Initializable {
+    public struct GetFolderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FolderId": "FolderId"]
+        }
         /// The ID of the folder.
-        var folderId: String = ""
+        public var folderId: String = ""
 
         public init() {}
 
@@ -488,9 +563,11 @@ extension Workdocs {
 
     }
 
-    public struct GetDocumentResponse: Serializable, Initializable {
+    public struct GetDocumentResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The document object.
-        var metadata: DocumentMetadata? = nil
+        public var metadata: DocumentMetadata? = nil
 
         public init() {}
 
@@ -500,11 +577,16 @@ extension Workdocs {
 
     }
 
-    public struct AddResourcePermissionsRequest: Serializable, Initializable {
+    public struct AddResourcePermissionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["ResourceId": "ResourceId"]
+        }
         /// The ID of the resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The users, groups, or organization being granted permission.
-        var principals: [SharePrincipal] = []
+        public var principals: [SharePrincipal] = []
 
         public init() {}
 
@@ -515,9 +597,14 @@ extension Workdocs {
 
     }
 
-    public struct DeleteUserRequest: Serializable, Initializable {
+    public struct DeleteUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UserId": "UserId"]
+        }
         /// The ID of the user.
-        var userId: String = ""
+        public var userId: String = ""
 
         public init() {}
 
@@ -527,11 +614,13 @@ extension Workdocs {
 
     }
 
-    public struct UploadMetadata: Serializable, Initializable {
+    public struct UploadMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The URL of the upload.
-        var uploadUrl: String? = nil
+        public var uploadUrl: String? = nil
         /// The signed headers.
-        var signedHeaders: [String: String]? = nil
+        public var signedHeaders: [String: String]? = nil
 
         public init() {}
 
@@ -542,9 +631,11 @@ extension Workdocs {
 
     }
 
-    public struct CreateNotificationSubscriptionResponse: Serializable, Initializable {
+    public struct CreateNotificationSubscriptionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The subscription.
-        var subscription: Subscription? = nil
+        public var subscription: Subscription? = nil
 
         public init() {}
 
@@ -554,15 +645,20 @@ extension Workdocs {
 
     }
 
-    public struct UpdateFolderRequest: Serializable, Initializable {
+    public struct UpdateFolderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FolderId": "FolderId"]
+        }
         /// The ID of the parent folder.
-        var parentFolderId: String? = nil
+        public var parentFolderId: String? = nil
         /// The ID of the folder.
-        var folderId: String = ""
+        public var folderId: String = ""
         /// The resource state of the folder. Note that only ACTIVE and RECYCLED are accepted values from the API.
-        var resourceState: String? = nil
+        public var resourceState: String? = nil
         /// The name of the folder.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -575,13 +671,21 @@ extension Workdocs {
 
     }
 
-    public struct DescribeNotificationSubscriptionsRequest: Serializable, Initializable {
+    public struct DescribeNotificationSubscriptionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "Marker", "limit": "Limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["OrganizationId": "OrganizationId"]
+        }
         /// The ID of the organization.
-        var organizationId: String = ""
+        public var organizationId: String = ""
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The maximum number of items to return with this call.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -593,9 +697,14 @@ extension Workdocs {
 
     }
 
-    public struct RemoveAllResourcePermissionsRequest: Serializable, Initializable {
+    public struct RemoveAllResourcePermissionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["ResourceId": "ResourceId"]
+        }
         /// The ID of the resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -605,9 +714,11 @@ extension Workdocs {
 
     }
 
-    public struct GetDocumentPathResponse: Serializable, Initializable {
+    public struct GetDocumentPathResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The path information.
-        var path: ResourcePath? = nil
+        public var path: ResourcePath? = nil
 
         public init() {}
 
@@ -617,21 +728,26 @@ extension Workdocs {
 
     }
 
-    public struct UpdateUserRequest: Serializable, Initializable {
+    public struct UpdateUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UserId": "UserId"]
+        }
         /// The locale of the user.
-        var locale: String? = nil
+        public var locale: String? = nil
         /// The ID of the user.
-        var userId: String = ""
+        public var userId: String = ""
         /// The given name of the user.
-        var givenName: String? = nil
+        public var givenName: String? = nil
         /// The time zone ID of the user.
-        var timeZoneId: String? = nil
+        public var timeZoneId: String? = nil
         /// The surname of the user.
-        var surname: String? = nil
+        public var surname: String? = nil
         /// The type of the user.
-        var type: String? = nil
+        public var type: String? = nil
         /// The amount of storage for the user.
-        var storageRule: StorageRuleType? = nil
+        public var storageRule: StorageRuleType? = nil
 
         public init() {}
 
@@ -647,9 +763,14 @@ extension Workdocs {
 
     }
 
-    public struct DeleteFolderRequest: Serializable, Initializable {
+    public struct DeleteFolderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FolderId": "FolderId"]
+        }
         /// The ID of the folder.
-        var folderId: String = ""
+        public var folderId: String = ""
 
         public init() {}
 
@@ -659,11 +780,13 @@ extension Workdocs {
 
     }
 
-    public struct CreateFolderRequest: Serializable, Initializable {
+    public struct CreateFolderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the new folder.
-        var name: String? = nil
+        public var name: String? = nil
         /// The ID of the parent folder.
-        var parentFolderId: String = ""
+        public var parentFolderId: String = ""
 
         public init() {}
 
@@ -674,21 +797,23 @@ extension Workdocs {
 
     }
 
-    public struct DocumentMetadata: Serializable, Initializable {
+    public struct DocumentMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource state.
-        var resourceState: String? = nil
+        public var resourceState: String? = nil
         /// The ID of the creator.
-        var creatorId: String? = nil
+        public var creatorId: String? = nil
         /// The time when the document was updated.
-        var modifiedTimestamp: Date? = nil
+        public var modifiedTimestamp: Date? = nil
         /// The ID of the parent folder.
-        var parentFolderId: String? = nil
+        public var parentFolderId: String? = nil
         /// The latest version of the document.
-        var latestVersionMetadata: DocumentVersionMetadata? = nil
+        public var latestVersionMetadata: DocumentVersionMetadata? = nil
         /// The time when the document was created.
-        var createdTimestamp: Date? = nil
+        public var createdTimestamp: Date? = nil
         /// The ID of the document.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -704,13 +829,21 @@ extension Workdocs {
 
     }
 
-    public struct DescribeResourcePermissionsRequest: Serializable, Initializable {
+    public struct DescribeResourcePermissionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "Marker", "limit": "Limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["ResourceId": "ResourceId"]
+        }
         /// The ID of the resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The marker for the next set of results. (You received this marker from a previous call)
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The maximum number of items to return with this call.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -722,13 +855,15 @@ extension Workdocs {
 
     }
 
-    public struct Principal: Serializable, Initializable {
+    public struct Principal: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of resource.
-        var type: String? = nil
+        public var type: String? = nil
         /// The permission information for the resource.
-        var roles: [PermissionInfo]? = nil
+        public var roles: [PermissionInfo]? = nil
         /// The ID of the resource.
-        var id: String? = nil
+        public var id: String? = nil
 
         public init() {}
 
@@ -740,11 +875,13 @@ extension Workdocs {
 
     }
 
-    public struct DescribeNotificationSubscriptionsResponse: Serializable, Initializable {
+    public struct DescribeNotificationSubscriptionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The subscriptions.
-        var subscriptions: [Subscription]? = nil
+        public var subscriptions: [Subscription]? = nil
 
         public init() {}
 
@@ -755,13 +892,18 @@ extension Workdocs {
 
     }
 
-    public struct UpdateDocumentVersionRequest: Serializable, Initializable {
+    public struct UpdateDocumentVersionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
+        }
         /// The status of the version.
-        var versionStatus: String? = nil
+        public var versionStatus: String? = nil
         /// The version ID of the document.
-        var versionId: String = ""
+        public var versionId: String = ""
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
 
         public init() {}
 
@@ -773,15 +915,23 @@ extension Workdocs {
 
     }
 
-    public struct GetDocumentPathRequest: Serializable, Initializable {
+    public struct GetDocumentPathRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["fields": "Fields", "marker": "Marker", "limit": "Limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["DocumentId": "DocumentId"]
+        }
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
-        var fields: String? = nil
+        public var fields: String? = nil
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
         /// This value is not supported.
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The maximum number of levels in the hierarchy to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -794,13 +944,21 @@ extension Workdocs {
 
     }
 
-    public struct RemoveResourcePermissionRequest: Serializable, Initializable {
+    public struct RemoveResourcePermissionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["type": "PrincipalType"]
+        }
+        public var pathParams: [String: String] {
+            return ["ResourceId": "ResourceId", "PrincipalId": "PrincipalId"]
+        }
         /// The ID of the resource.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The principal type of the resource.
-        var principalType: String? = nil
+        public var principalType: String? = nil
         /// The principal ID of the resource.
-        var principalId: String = ""
+        public var principalId: String = ""
 
         public init() {}
 
@@ -812,9 +970,11 @@ extension Workdocs {
 
     }
 
-    public struct CreateUserResponse: Serializable, Initializable {
+    public struct CreateUserResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user information.
-        var user: User? = nil
+        public var user: User? = nil
 
         public init() {}
 
@@ -824,11 +984,13 @@ extension Workdocs {
 
     }
 
-    public struct DescribeDocumentVersionsResponse: Serializable, Initializable {
+    public struct DescribeDocumentVersionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The document versions.
-        var documentVersions: [DocumentVersionMetadata]? = nil
+        public var documentVersions: [DocumentVersionMetadata]? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -839,37 +1001,39 @@ extension Workdocs {
 
     }
 
-    public struct User: Serializable, Initializable {
+    public struct User: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The email address of the user.
-        var emailAddress: String? = nil
+        public var emailAddress: String? = nil
         /// The ID of the recycle bin folder.
-        var recycleBinFolderId: String? = nil
+        public var recycleBinFolderId: String? = nil
         /// The login name of the user.
-        var username: String? = nil
+        public var username: String? = nil
         /// The time when the user was modified.
-        var modifiedTimestamp: Date? = nil
+        public var modifiedTimestamp: Date? = nil
         /// The ID of the organization.
-        var organizationId: String? = nil
+        public var organizationId: String? = nil
         /// The time when the user was created.
-        var createdTimestamp: Date? = nil
+        public var createdTimestamp: Date? = nil
         /// The ID of the user.
-        var id: String? = nil
+        public var id: String? = nil
         /// The time zone ID of the user.
-        var timeZoneId: String? = nil
+        public var timeZoneId: String? = nil
         /// The locale of the user.
-        var locale: String? = nil
+        public var locale: String? = nil
         /// The status of the user.
-        var status: String? = nil
+        public var status: String? = nil
         /// The given name of the user.
-        var givenName: String? = nil
+        public var givenName: String? = nil
         /// The storage for the user.
-        var storage: UserStorageMetadata? = nil
+        public var storage: UserStorageMetadata? = nil
         /// The surname of the user.
-        var surname: String? = nil
+        public var surname: String? = nil
         /// The ID of the root folder.
-        var rootFolderId: String? = nil
+        public var rootFolderId: String? = nil
         /// The type of user.
-        var type: String? = nil
+        public var type: String? = nil
 
         public init() {}
 
@@ -893,11 +1057,13 @@ extension Workdocs {
 
     }
 
-    public struct StorageRuleType: Serializable, Initializable {
+    public struct StorageRuleType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of storage.
-        var storageType: String? = nil
+        public var storageType: String? = nil
         /// The amount of storage allocated, in bytes.
-        var storageAllocatedInBytes: Int64? = nil
+        public var storageAllocatedInBytes: Int64? = nil
 
         public init() {}
 
@@ -908,9 +1074,11 @@ extension Workdocs {
 
     }
 
-    public struct CreateFolderResponse: Serializable, Initializable {
+    public struct CreateFolderResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The metadata of the folder.
-        var metadata: FolderMetadata? = nil
+        public var metadata: FolderMetadata? = nil
 
         public init() {}
 
@@ -920,13 +1088,15 @@ extension Workdocs {
 
     }
 
-    public struct SharePrincipal: Serializable, Initializable {
+    public struct SharePrincipal: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The role of the recipient.
-        var role: String = ""
+        public var role: String = ""
         /// The type of the recipient.
-        var type: String = ""
+        public var type: String = ""
         /// The ID of the recipient.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -938,15 +1108,23 @@ extension Workdocs {
 
     }
 
-    public struct GetFolderPathRequest: Serializable, Initializable {
+    public struct GetFolderPathRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["fields": "Fields", "marker": "Marker", "limit": "Limit"]
+        }
+        public var pathParams: [String: String] {
+            return ["FolderId": "FolderId"]
+        }
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
-        var fields: String? = nil
+        public var fields: String? = nil
         /// The ID of the folder.
-        var folderId: String = ""
+        public var folderId: String = ""
         /// The maximum number of levels in the hierarchy to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// This value is not supported.
-        var marker: String? = nil
+        public var marker: String? = nil
 
         public init() {}
 
@@ -959,9 +1137,14 @@ extension Workdocs {
 
     }
 
-    public struct DeactivateUserRequest: Serializable, Initializable {
+    public struct DeactivateUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UserId": "UserId"]
+        }
         /// The ID of the user.
-        var userId: String = ""
+        public var userId: String = ""
 
         public init() {}
 
@@ -971,9 +1154,11 @@ extension Workdocs {
 
     }
 
-    public struct ResourcePath: Serializable, Initializable {
+    public struct ResourcePath: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The components of the resource path.
-        var components: [ResourcePathComponent]? = nil
+        public var components: [ResourcePathComponent]? = nil
 
         public init() {}
 
@@ -983,9 +1168,14 @@ extension Workdocs {
 
     }
 
-    public struct DeleteFolderContentsRequest: Serializable, Initializable {
+    public struct DeleteFolderContentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["FolderId": "FolderId"]
+        }
         /// The ID of the folder.
-        var folderId: String = ""
+        public var folderId: String = ""
 
         public init() {}
 
@@ -995,25 +1185,30 @@ extension Workdocs {
 
     }
 
-    public struct DescribeUsersRequest: Serializable, Initializable {
+    public struct DescribeUsersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["fields": "Fields", "marker": "Marker", "userIds": "UserIds", "limit": "Limit", "organizationId": "OrganizationId", "sort": "Sort", "include": "Include", "query": "Query", "order": "Order"]
+        }
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
-        var fields: String? = nil
+        public var fields: String? = nil
         /// The IDs of the users.
-        var userIds: String? = nil
+        public var userIds: String? = nil
         /// The sorting criteria.
-        var sort: String? = nil
+        public var sort: String? = nil
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        var marker: String? = nil
+        public var marker: String? = nil
         /// A query to filter users by user name.
-        var query: String? = nil
+        public var query: String? = nil
         /// The maximum number of items to return.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The ID of the organization.
-        var organizationId: String? = nil
+        public var organizationId: String? = nil
         /// The order for the results.
-        var order: String? = nil
+        public var order: String? = nil
         /// The state of the users. Specify "ALL" to include inactive users.
-        var include: String? = nil
+        public var include: String? = nil
 
         public init() {}
 
@@ -1031,11 +1226,13 @@ extension Workdocs {
 
     }
 
-    public struct InitiateDocumentVersionUploadResponse: Serializable, Initializable {
+    public struct InitiateDocumentVersionUploadResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The document metadata.
-        var metadata: DocumentMetadata? = nil
+        public var metadata: DocumentMetadata? = nil
         /// The upload metadata.
-        var uploadMetadata: UploadMetadata? = nil
+        public var uploadMetadata: UploadMetadata? = nil
 
         public init() {}
 
@@ -1046,21 +1243,29 @@ extension Workdocs {
 
     }
 
-    public struct DescribeFolderContentsRequest: Serializable, Initializable {
+    public struct DescribeFolderContentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var queryParams: [String: String] {
+            return ["marker": "Marker", "include": "Include", "limit": "Limit", "type": "Type", "sort": "Sort", "order": "Order"]
+        }
+        public var pathParams: [String: String] {
+            return ["FolderId": "FolderId"]
+        }
         /// The sorting criteria.
-        var sort: String? = nil
+        public var sort: String? = nil
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        var marker: String? = nil
+        public var marker: String? = nil
         /// The ID of the folder.
-        var folderId: String = ""
+        public var folderId: String = ""
         /// The maximum number of items to return with this call.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The order for the contents of the folder.
-        var order: String? = nil
+        public var order: String? = nil
         /// The type of items.
-        var type: String? = nil
+        public var type: String? = nil
         /// The contents to include. Specify "INITIALIZED" to include initialized documents.
-        var include: String? = nil
+        public var include: String? = nil
 
         public init() {}
 
@@ -1076,11 +1281,16 @@ extension Workdocs {
 
     }
 
-    public struct AbortDocumentVersionUploadRequest: Serializable, Initializable {
+    public struct AbortDocumentVersionUploadRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
+        }
         /// The ID of the version.
-        var versionId: String = ""
+        public var versionId: String = ""
         /// The ID of the document.
-        var documentId: String = ""
+        public var documentId: String = ""
 
         public init() {}
 
@@ -1091,9 +1301,11 @@ extension Workdocs {
 
     }
 
-    public struct GetDocumentVersionResponse: Serializable, Initializable {
+    public struct GetDocumentVersionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The version metadata.
-        var metadata: DocumentVersionMetadata? = nil
+        public var metadata: DocumentVersionMetadata? = nil
 
         public init() {}
 
@@ -1103,11 +1315,16 @@ extension Workdocs {
 
     }
 
-    public struct DeleteNotificationSubscriptionRequest: Serializable, Initializable {
+    public struct DeleteNotificationSubscriptionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["OrganizationId": "OrganizationId", "SubscriptionId": "SubscriptionId"]
+        }
         /// The ID of the organization.
-        var organizationId: String = ""
+        public var organizationId: String = ""
         /// The ID of the subscription.
-        var subscriptionId: String = ""
+        public var subscriptionId: String = ""
 
         public init() {}
 
@@ -1118,9 +1335,14 @@ extension Workdocs {
 
     }
 
-    public struct ActivateUserRequest: Serializable, Initializable {
+    public struct ActivateUserRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var pathParams: [String: String] {
+            return ["UserId": "UserId"]
+        }
         /// The ID of the user.
-        var userId: String = ""
+        public var userId: String = ""
 
         public init() {}
 

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for MturkRequester
-public enum MturkRequesterError: Error {
+public enum MturkRequesterError: AWSErrorType {
     case serviceFault(message: String?)
     case requestError(message: String?)
 }

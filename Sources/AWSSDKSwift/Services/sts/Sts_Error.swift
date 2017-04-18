@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Sts
-public enum StsError: Error {
+public enum StsError: AWSErrorType {
     case malformedPolicyDocumentException(message: String?)
     case packedPolicyTooLargeException(message: String?)
     case regionDisabledException(message: String?)

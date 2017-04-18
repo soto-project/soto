@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cloudfront
-public enum CloudfrontError: Error {
+public enum CloudfrontError: AWSErrorType {
     case accessDenied(message: String?)
     case illegalUpdate(message: String?)
     case invalidIfMatchVersion(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cloudformation
-public enum CloudformationError: Error {
+public enum CloudformationError: AWSErrorType {
     case changeSetNotFoundException(message: String?)
     case limitExceededException(message: String?)
     case alreadyExistsException(message: String?)

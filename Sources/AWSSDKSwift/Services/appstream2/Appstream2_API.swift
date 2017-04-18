@@ -32,125 +32,110 @@ Amazon AppStream 2.0 API documentation for Amazon AppStream 2.0.
 */
 public struct Appstream2 {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "PhotonAdminProxyService",
             service: "appstream2",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [Appstream2Error.self]
         )
     }
 
     ///  Updates an existing fleet. All the attributes except the fleet name can be updated in the STOPPED state. Only ComputeCapacity and ImageName can be updated in any other state. 
     public func updateFleet(_ input: UpdateFleetRequest) throws -> UpdateFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Create a new stack.
     public func createStack(_ input: CreateStackRequest) throws -> CreateStackResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all fleets associated with the stack.
     public func listAssociatedFleets(_ input: ListAssociatedFleetsRequest) throws -> ListAssociatedFleetsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListAssociatedFleets", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListAssociatedFleets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associate a fleet to a stack.
     public func associateFleet(_ input: AssociateFleetRequest) throws -> AssociateFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a fleet.
     public func startFleet(_ input: StartFleetRequest) throws -> StartFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StartFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StartFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a fleet.
     public func stopFleet(_ input: StopFleetRequest) throws -> StopFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "StopFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "StopFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a fleet from a stack.
     public func disassociateFleet(_ input: DisassociateFleetRequest) throws -> DisassociateFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a fleet.
     public func deleteFleet(_ input: DeleteFleetRequest) throws -> DeleteFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  This operation immediately stops a streaming session.
     public func expireSession(_ input: ExpireSessionRequest) throws -> ExpireSessionResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ExpireSession", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ExpireSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all stacks to which the specified fleet is associated.
     public func listAssociatedStacks(_ input: ListAssociatedStacksRequest) throws -> ListAssociatedStacksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListAssociatedStacks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListAssociatedStacks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new fleet.
     public func createFleet(_ input: CreateFleetRequest) throws -> CreateFleetResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateFleet", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the streaming sessions for a stack and a fleet. If a user ID is provided, this operation returns streaming sessions for only that user. Pass this value for the nextToken parameter in a subsequent call to this operation to retrieve the next set of items.
     public func describeSessions(_ input: DescribeSessionsRequest) throws -> DescribeSessionsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeSessions", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  If stack names are not provided, this operation describes the specified stacks; otherwise, all stacks in the account are described. Pass the nextToken value in a subsequent call to this operation to retrieve the next set of items.
     public func describeStacks(_ input: DescribeStacksRequest) throws -> DescribeStacksResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeStacks", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  If fleet names are provided, this operation describes the specified fleets; otherwise, all the fleets in the account are described.
     public func describeFleets(_ input: DescribeFleetsRequest) throws -> DescribeFleetsResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeFleets", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeFleets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the images. If a list of names is not provided, all images in your account are returned. This operation does not return a paginated result.
     public func describeImages(_ input: DescribeImagesRequest) throws -> DescribeImagesResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeImages", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified fields in the stack with the specified name.
     public func updateStack(_ input: UpdateStackRequest) throws -> UpdateStackResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a URL to start an AppStream 2.0 streaming session for a user. By default, the URL is valid only for 1 minute from the time that it is generated.
     public func createStreamingURL(_ input: CreateStreamingURLRequest) throws -> CreateStreamingURLResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateStreamingURL", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateStreamingURL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the stack. After this operation completes, the environment can no longer be activated, and any reservations made for the stack are released.
     public func deleteStack(_ input: DeleteStackRequest) throws -> DeleteStackResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteStack", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try Appstream2ResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
 

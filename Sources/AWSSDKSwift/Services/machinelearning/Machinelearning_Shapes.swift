@@ -29,17 +29,19 @@ import Core
 
 extension Machinelearning {
 
-    public struct CreateBatchPredictionInput: Serializable, Initializable {
+    public struct CreateBatchPredictionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
-        var batchPredictionName: String? = nil
+        public var batchPredictionName: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
-        var batchPredictionId: String = ""
+        public var batchPredictionId: String = ""
         /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide.
-        var outputUri: String = ""
+        public var outputUri: String = ""
         /// The ID of the DataSource that points to the group of observations to predict.
-        var batchPredictionDataSourceId: String = ""
+        public var batchPredictionDataSourceId: String = ""
         /// The ID of the MLModel that will generate predictions for the group of observations. 
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
 
         public init() {}
 
@@ -53,17 +55,19 @@ extension Machinelearning {
 
     }
 
-    public struct CreateDataSourceFromRedshiftInput: Serializable, Initializable {
+    public struct CreateDataSourceFromRedshiftInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource.
-        var dataSourceId: String = ""
+        public var dataSourceId: String = ""
         /// A user-supplied name or description of the DataSource. 
-        var dataSourceName: String? = nil
+        public var dataSourceName: String? = nil
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-        var computeStatistics: Bool? = nil
+        public var computeStatistics: Bool? = nil
         /// The data specification of an Amazon Redshift DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon Redshift database.    ClusterIdentifier - The unique ID for the Amazon Redshift cluster.  DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift database. SelectSqlQuery - The query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
-        var dataSpec: RedshiftDataSpec = RedshiftDataSpec()
+        public var dataSpec: RedshiftDataSpec = RedshiftDataSpec()
         /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:    A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation  
-        var roleARN: String = ""
+        public var roleARN: String = ""
 
         public init() {}
 
@@ -77,9 +81,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateDataSourceFromS3Output: Serializable, Initializable {
+    public struct CreateDataSourceFromS3Output: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
 
         public init() {}
 
@@ -89,15 +95,17 @@ extension Machinelearning {
 
     }
 
-    public struct S3DataSpec: Serializable, Initializable {
+    public struct S3DataSpec: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
-        var dataLocationS3: String = ""
+        public var dataLocationS3: String = ""
         ///  A JSON string that represents the schema for an Amazon S3 DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. You must provide either the DataSchema or the DataSchemaLocationS3. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
-        var dataSchema: String? = nil
+        public var dataSchema: String? = nil
         /// Describes the schema location in Amazon S3. You must provide either the DataSchema or the DataSchemaLocationS3.
-        var dataSchemaLocationS3: String? = nil
+        public var dataSchemaLocationS3: String? = nil
         /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
-        var dataRearrangement: String? = nil
+        public var dataRearrangement: String? = nil
 
         public init() {}
 
@@ -110,11 +118,13 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeDataSourcesOutput: Serializable, Initializable {
+    public struct DescribeDataSourcesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An ID of the next page in the paginated results that indicates at least one more page follows.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of DataSource that meet the search criteria. 
-        var results: [DataSource]? = nil
+        public var results: [DataSource]? = nil
 
         public init() {}
 
@@ -125,9 +135,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteBatchPredictionOutput: Serializable, Initializable {
+    public struct DeleteBatchPredictionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
-        var batchPredictionId: String? = nil
+        public var batchPredictionId: String? = nil
 
         public init() {}
 
@@ -137,11 +149,13 @@ extension Machinelearning {
 
     }
 
-    public struct GetMLModelInput: Serializable, Initializable {
+    public struct GetMLModelInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the MLModel at creation.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
         /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
-        var verbose: Bool? = nil
+        public var verbose: Bool? = nil
 
         public init() {}
 
@@ -152,11 +166,13 @@ extension Machinelearning {
 
     }
 
-    public struct RedshiftMetadata: Serializable, Initializable {
+    public struct RedshiftMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
-        var selectSqlQuery: String? = nil
-        var databaseUserName: String? = nil
-        var redshiftDatabase: RedshiftDatabase? = nil
+        public var selectSqlQuery: String? = nil
+        public var databaseUserName: String? = nil
+        public var redshiftDatabase: RedshiftDatabase? = nil
 
         public init() {}
 
@@ -168,10 +184,12 @@ extension Machinelearning {
 
     }
 
-    public struct RDSDatabase: Serializable, Initializable {
+    public struct RDSDatabase: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of an RDS DB instance.
-        var instanceIdentifier: String = ""
-        var databaseName: String = ""
+        public var instanceIdentifier: String = ""
+        public var databaseName: String = ""
 
         public init() {}
 
@@ -182,11 +200,13 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeMLModelsOutput: Serializable, Initializable {
+    public struct DescribeMLModelsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of MLModel that meet the search criteria.
-        var results: [MLModel]? = nil
+        public var results: [MLModel]? = nil
 
         public init() {}
 
@@ -197,11 +217,13 @@ extension Machinelearning {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
-        var value: String? = nil
+        public var value: String? = nil
         /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
-        var key: String? = nil
+        public var key: String? = nil
 
         public init() {}
 
@@ -212,13 +234,15 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateMLModelInput: Serializable, Initializable {
+    public struct UpdateMLModelInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the MLModel during creation.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
         /// The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
-        var scoreThreshold: Float? = nil
+        public var scoreThreshold: Float? = nil
         /// A user-supplied name or description of the MLModel.
-        var mLModelName: String? = nil
+        public var mLModelName: String? = nil
 
         public init() {}
 
@@ -230,9 +254,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteBatchPredictionInput: Serializable, Initializable {
+    public struct DeleteBatchPredictionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
-        var batchPredictionId: String = ""
+        public var batchPredictionId: String = ""
 
         public init() {}
 
@@ -242,15 +268,17 @@ extension Machinelearning {
 
     }
 
-    public struct CreateEvaluationInput: Serializable, Initializable {
+    public struct CreateEvaluationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied name or description of the Evaluation.
-        var evaluationName: String? = nil
+        public var evaluationName: String? = nil
         /// A user-supplied ID that uniquely identifies the Evaluation.
-        var evaluationId: String = ""
+        public var evaluationId: String = ""
         /// The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
         /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel.
-        var evaluationDataSourceId: String = ""
+        public var evaluationDataSourceId: String = ""
 
         public init() {}
 
@@ -263,15 +291,17 @@ extension Machinelearning {
 
     }
 
-    public struct RealtimeEndpointInfo: Serializable, Initializable {
+    public struct RealtimeEndpointInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
-        var peakRequestsPerSecond: Int32? = nil
+        public var peakRequestsPerSecond: Int32? = nil
         /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI. 
-        var endpointUrl: String? = nil
+        public var endpointUrl: String? = nil
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.  
-        var endpointStatus: String? = nil
+        public var endpointStatus: String? = nil
 
         public init() {}
 
@@ -284,11 +314,13 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeBatchPredictionsOutput: Serializable, Initializable {
+    public struct DescribeBatchPredictionsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of BatchPrediction objects that meet the search criteria. 
-        var results: [BatchPrediction]? = nil
+        public var results: [BatchPrediction]? = nil
 
         public init() {}
 
@@ -299,44 +331,46 @@ extension Machinelearning {
 
     }
 
-    public struct GetDataSourceOutput: Serializable, Initializable {
+    public struct GetDataSourceOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The total size of observations in the data files.
-        var dataSizeInBytes: Int64? = nil
+        public var dataSizeInBytes: Int64? = nil
         /// The user-supplied description of the most recent details about creating the DataSource.
-        var message: String? = nil
+        public var message: String? = nil
         /// The number of data files referenced by the DataSource.
-        var numberOfFiles: Int64? = nil
+        public var numberOfFiles: Int64? = nil
         /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
+        public var createdByIamUser: String? = nil
         /// The schema used by all of the data files of this DataSource. Note This parameter is provided as part of the verbose format.
-        var dataSourceSchema: String? = nil
-        var roleARN: String? = nil
-        var rDSMetadata: RDSMetadata? = nil
+        public var dataSourceSchema: String? = nil
+        public var roleARN: String? = nil
+        public var rDSMetadata: RDSMetadata? = nil
         /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
-        var finishedAt: Date? = nil
+        public var finishedAt: Date? = nil
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
-        var computeTime: Int64? = nil
+        public var computeTime: Int64? = nil
         /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
-        var dataRearrangement: String? = nil
+        public var dataRearrangement: String? = nil
         /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The ID assigned to the DataSource at creation. This value should be identical to the value of the DataSourceId in the request.
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        var dataLocationS3: String? = nil
+        public var dataLocationS3: String? = nil
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the DataSource.
-        var name: String? = nil
-        var redshiftMetadata: RedshiftMetadata? = nil
+        public var name: String? = nil
+        public var redshiftMetadata: RedshiftMetadata? = nil
         /// A link to the file containing logs of CreateDataSourceFrom* operations.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
-        var startedAt: Date? = nil
+        public var startedAt: Date? = nil
         ///  The parameter is true if statistics need to be generated from the observation data. 
-        var computeStatistics: Bool? = nil
+        public var computeStatistics: Bool? = nil
 
         public init() {}
 
@@ -365,11 +399,13 @@ extension Machinelearning {
 
     }
 
-    public struct PredictInput: Serializable, Initializable {
+    public struct PredictInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique identifier of the MLModel.
-        var mLModelId: String = ""
-        var predictEndpoint: String = ""
-        var record: [String: String] = [:]
+        public var mLModelId: String = ""
+        public var predictEndpoint: String = ""
+        public var record: [String: String] = [:]
 
         public init() {}
 
@@ -381,11 +417,13 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteRealtimeEndpointOutput: Serializable, Initializable {
+    public struct DeleteRealtimeEndpointOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The endpoint information of the MLModel 
-        var realtimeEndpointInfo: RealtimeEndpointInfo? = nil
+        public var realtimeEndpointInfo: RealtimeEndpointInfo? = nil
 
         public init() {}
 
@@ -396,11 +434,13 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeEvaluationsOutput: Serializable, Initializable {
+    public struct DescribeEvaluationsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// A list of Evaluation that meet the search criteria. 
-        var results: [Evaluation]? = nil
+        public var results: [Evaluation]? = nil
 
         public init() {}
 
@@ -411,29 +451,31 @@ extension Machinelearning {
 
     }
 
-    public struct RDSDataSpec: Serializable, Initializable {
+    public struct RDSDataSpec: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon S3 location of the DataSchema. 
-        var dataSchemaUri: String? = nil
+        public var dataSchemaUri: String? = nil
         /// The AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon RDS database.
-        var databaseCredentials: RDSDatabaseCredentials = RDSDatabaseCredentials()
+        public var databaseCredentials: RDSDatabaseCredentials = RDSDatabaseCredentials()
         /// The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location.
-        var s3StagingLocation: String = ""
+        public var s3StagingLocation: String = ""
         /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon Elastic Compute Cloud (Amazon EC2) instance to carry out the copy operation from Amazon RDS to an Amazon S3 task. For more information, see Role templates for data pipelines.
-        var resourceRole: String = ""
+        public var resourceRole: String = ""
         /// Describes the DatabaseName and InstanceIdentifier of an Amazon RDS database.
-        var databaseInformation: RDSDatabase = RDSDatabase()
+        public var databaseInformation: RDSDatabase = RDSDatabase()
         /// A JSON string that represents the schema for an Amazon RDS DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
-        var dataSchema: String? = nil
+        public var dataSchema: String? = nil
         /// The subnet ID to be used to access a VPC-based RDS DB instance. This attribute is used by Data Pipeline to carry out the copy task from Amazon RDS to Amazon S3.
-        var subnetId: String = ""
+        public var subnetId: String = ""
         /// The security group IDs to be used to access a VPC-based RDS DB instance. Ensure that there are appropriate ingress rules set up to allow access to the RDS DB instance. This attribute is used by Data Pipeline to carry out the copy operation from Amazon RDS to an Amazon S3 task.
-        var securityGroupIds: [String] = []
+        public var securityGroupIds: [String] = []
         /// The query that is used to retrieve the observation data for the DataSource.
-        var selectSqlQuery: String = ""
+        public var selectSqlQuery: String = ""
         /// The role (DataPipelineDefaultRole) assumed by AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
-        var serviceRole: String = ""
+        public var serviceRole: String = ""
         /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
-        var dataRearrangement: String? = nil
+        public var dataRearrangement: String? = nil
 
         public init() {}
 
@@ -453,13 +495,15 @@ extension Machinelearning {
 
     }
 
-    public struct Prediction: Serializable, Initializable {
-        var details: [String: String]? = nil
-        var predictedScores: [String: Float]? = nil
+    public struct Prediction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var details: [String: String]? = nil
+        public var predictedScores: [String: Float]? = nil
         /// The prediction label for either a BINARY or MULTICLASS MLModel.
-        var predictedLabel: String? = nil
+        public var predictedLabel: String? = nil
         /// The prediction value for REGRESSION MLModel.
-        var predictedValue: Float? = nil
+        public var predictedValue: Float? = nil
 
         public init() {}
 
@@ -472,9 +516,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteMLModelInput: Serializable, Initializable {
+    public struct DeleteMLModelInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
 
         public init() {}
 
@@ -484,9 +530,11 @@ extension Machinelearning {
 
     }
 
-    public struct GetBatchPredictionInput: Serializable, Initializable {
+    public struct GetBatchPredictionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An ID assigned to the BatchPrediction at creation.
-        var batchPredictionId: String = ""
+        public var batchPredictionId: String = ""
 
         public init() {}
 
@@ -496,17 +544,19 @@ extension Machinelearning {
 
     }
 
-    public struct CreateDataSourceFromRDSInput: Serializable, Initializable {
+    public struct CreateDataSourceFromRDSInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
-        var dataSourceId: String = ""
+        public var dataSourceId: String = ""
         /// The data specification of an Amazon RDS DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon RDS database.  InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.   DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database. ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines. ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines. SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance. SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.    Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
-        var rDSData: RDSDataSpec = RDSDataSpec()
+        public var rDSData: RDSDataSpec = RDSDataSpec()
         /// A user-supplied name or description of the DataSource.
-        var dataSourceName: String? = nil
+        public var dataSourceName: String? = nil
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training. 
-        var computeStatistics: Bool? = nil
+        public var computeStatistics: Bool? = nil
         /// The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.  
-        var roleARN: String = ""
+        public var roleARN: String = ""
 
         public init() {}
 
@@ -520,21 +570,23 @@ extension Machinelearning {
 
     }
 
-    public struct RedshiftDataSpec: Serializable, Initializable {
+    public struct RedshiftDataSpec: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Describes the schema location for an Amazon Redshift DataSource.
-        var dataSchemaUri: String? = nil
+        public var dataSchemaUri: String? = nil
         /// Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database.
-        var databaseCredentials: RedshiftDatabaseCredentials = RedshiftDatabaseCredentials()
+        public var databaseCredentials: RedshiftDatabaseCredentials = RedshiftDatabaseCredentials()
         /// Describes an Amazon S3 location to store the result set of the SelectSqlQuery query.
-        var s3StagingLocation: String = ""
+        public var s3StagingLocation: String = ""
         /// Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource.
-        var databaseInformation: RedshiftDatabase = RedshiftDatabase()
+        public var databaseInformation: RedshiftDatabase = RedshiftDatabase()
         /// A JSON string that represents the schema for an Amazon Redshift DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] } 
-        var dataSchema: String? = nil
+        public var dataSchema: String? = nil
         /// Describes the SQL Query to execute on an Amazon Redshift database for an Amazon Redshift DataSource.
-        var selectSqlQuery: String = ""
+        public var selectSqlQuery: String = ""
         /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
-        var dataRearrangement: String? = nil
+        public var dataRearrangement: String? = nil
 
         public init() {}
 
@@ -550,32 +602,34 @@ extension Machinelearning {
 
     }
 
-    public struct Evaluation: Serializable, Initializable {
+    public struct Evaluation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
-        var performanceMetrics: PerformanceMetrics? = nil
+        public var performanceMetrics: PerformanceMetrics? = nil
         /// The ID that is assigned to the Evaluation at creation.
-        var evaluationId: String? = nil
+        public var evaluationId: String? = nil
         /// A description of the most recent details about evaluating the MLModel.
-        var message: String? = nil
+        public var message: String? = nil
         /// The ID of the MLModel that is the focus of the evaluation.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
-        var computeTime: Int64? = nil
-        var finishedAt: Date? = nil
+        public var createdByIamUser: String? = nil
+        public var computeTime: Int64? = nil
+        public var finishedAt: Date? = nil
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The location and name of the data in Amazon Simple Storage Server (Amazon S3) that is used in the evaluation.
-        var inputDataLocationS3: String? = nil
+        public var inputDataLocationS3: String? = nil
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the Evaluation. 
-        var name: String? = nil
-        var startedAt: Date? = nil
+        public var name: String? = nil
+        public var startedAt: Date? = nil
         /// The ID of the DataSource that is used to evaluate the MLModel.
-        var evaluationDataSourceId: String? = nil
+        public var evaluationDataSourceId: String? = nil
 
         public init() {}
 
@@ -598,9 +652,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateDataSourceFromRedshiftOutput: Serializable, Initializable {
+    public struct CreateDataSourceFromRedshiftOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
 
         public init() {}
 
@@ -610,18 +666,20 @@ extension Machinelearning {
 
     }
 
-    public struct RDSMetadata: Serializable, Initializable {
+    public struct RDSMetadata: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The SQL query that is supplied during CreateDataSourceFromRDS. Returns only if Verbose is true in GetDataSourceInput. 
-        var selectSqlQuery: String? = nil
+        public var selectSqlQuery: String? = nil
         /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
-        var dataPipelineId: String? = nil
+        public var dataPipelineId: String? = nil
         /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance to carry out the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
-        var resourceRole: String? = nil
+        public var resourceRole: String? = nil
         /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
         /// The database details required to connect to an Amazon RDS.
-        var database: RDSDatabase? = nil
-        var databaseUserName: String? = nil
+        public var database: RDSDatabase? = nil
+        public var databaseUserName: String? = nil
 
         public init() {}
 
@@ -636,13 +694,15 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeTagsOutput: Serializable, Initializable {
+    public struct DescribeTagsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the tagged ML object.
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// A list of tags associated with the ML object.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The type of the tagged ML object.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
 
         public init() {}
 
@@ -654,9 +714,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateEvaluationOutput: Serializable, Initializable {
+    public struct CreateEvaluationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
-        var evaluationId: String? = nil
+        public var evaluationId: String? = nil
 
         public init() {}
 
@@ -666,11 +728,13 @@ extension Machinelearning {
 
     }
 
-    public struct AddTagsOutput: Serializable, Initializable {
+    public struct AddTagsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the ML object that was tagged.
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The type of the ML object that was tagged.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
 
         public init() {}
 
@@ -681,9 +745,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteDataSourceInput: Serializable, Initializable {
+    public struct DeleteDataSourceInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource.
-        var dataSourceId: String = ""
+        public var dataSourceId: String = ""
 
         public init() {}
 
@@ -693,11 +759,13 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateDataSourceInput: Serializable, Initializable {
+    public struct UpdateDataSourceInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the DataSource during creation.
-        var dataSourceId: String = ""
+        public var dataSourceId: String = ""
         /// A new user-supplied name or description of the DataSource that will replace the current description. 
-        var dataSourceName: String = ""
+        public var dataSourceName: String = ""
 
         public init() {}
 
@@ -708,41 +776,43 @@ extension Machinelearning {
 
     }
 
-    public struct GetBatchPredictionOutput: Serializable, Initializable {
+    public struct GetBatchPredictionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A description of the most recent details about processing the batch prediction request.
-        var message: String? = nil
+        public var message: String? = nil
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
-        var invalidRecordCount: Int64? = nil
+        public var invalidRecordCount: Int64? = nil
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
+        public var createdByIamUser: String? = nil
         /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
-        var totalRecordCount: Int64? = nil
+        public var totalRecordCount: Int64? = nil
         /// An ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
-        var batchPredictionId: String? = nil
+        public var batchPredictionId: String? = nil
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
-        var computeTime: Int64? = nil
+        public var computeTime: Int64? = nil
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as COMPLETED or FAILED. FinishedAt is only available when the BatchPrediction is in the COMPLETED or FAILED state.
-        var finishedAt: Date? = nil
+        public var finishedAt: Date? = nil
         /// The time of the most recent edit to BatchPrediction. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        var inputDataLocationS3: String? = nil
+        public var inputDataLocationS3: String? = nil
         /// The time when the BatchPrediction was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the BatchPrediction.
-        var name: String? = nil
+        public var name: String? = nil
         /// A link to the file that contains logs of the CreateBatchPrediction operation.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
-        var startedAt: Date? = nil
+        public var startedAt: Date? = nil
         /// The location of an Amazon S3 bucket or directory to receive the operation results.
-        var outputUri: String? = nil
+        public var outputUri: String? = nil
         /// The ID of the DataSource that was used to create the BatchPrediction. 
-        var batchPredictionDataSourceId: String? = nil
+        public var batchPredictionDataSourceId: String? = nil
 
         public init() {}
 
@@ -768,11 +838,13 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateBatchPredictionInput: Serializable, Initializable {
+    public struct UpdateBatchPredictionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A new user-supplied name or description of the BatchPrediction.
-        var batchPredictionName: String = ""
+        public var batchPredictionName: String = ""
         /// The ID assigned to the BatchPrediction during creation.
-        var batchPredictionId: String = ""
+        public var batchPredictionId: String = ""
 
         public init() {}
 
@@ -783,9 +855,11 @@ extension Machinelearning {
 
     }
 
-    public struct RedshiftDatabaseCredentials: Serializable, Initializable {
-        var password: String = ""
-        var username: String = ""
+    public struct RedshiftDatabaseCredentials: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var password: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -796,9 +870,11 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateEvaluationOutput: Serializable, Initializable {
+    public struct UpdateEvaluationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
-        var evaluationId: String? = nil
+        public var evaluationId: String? = nil
 
         public init() {}
 
@@ -808,11 +884,13 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateEvaluationInput: Serializable, Initializable {
+    public struct UpdateEvaluationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A new user-supplied name or description of the Evaluation that will replace the current content. 
-        var evaluationName: String = ""
+        public var evaluationName: String = ""
         /// The ID assigned to the Evaluation during creation.
-        var evaluationId: String = ""
+        public var evaluationId: String = ""
 
         public init() {}
 
@@ -823,9 +901,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateBatchPredictionOutput: Serializable, Initializable {
+    public struct CreateBatchPredictionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
-        var batchPredictionId: String? = nil
+        public var batchPredictionId: String? = nil
 
         public init() {}
 
@@ -835,29 +915,31 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeEvaluationsInput: Serializable, Initializable {
+    public struct DescribeEvaluationsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
-        var nE: String? = nil
+        public var nE: String? = nil
         /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
-        var eQ: String? = nil
+        public var eQ: String? = nil
         /// The greater than operator. The Evaluation results will have FilterVariable values that are greater than the value specified with GT.
-        var gT: String? = nil
+        public var gT: String? = nil
         /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
-        var filterVariable: String? = nil
+        public var filterVariable: String? = nil
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
-        var lT: String? = nil
+        public var lT: String? = nil
         /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
-        var lE: String? = nil
+        public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
         ///  The maximum number of Evaluation to include in the result.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The ID of the page in the paginated results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        var gE: String? = nil
+        public var gE: String? = nil
 
         public init() {}
 
@@ -877,9 +959,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateMLModelOutput: Serializable, Initializable {
+    public struct CreateMLModelOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
 
         public init() {}
 
@@ -889,9 +973,11 @@ extension Machinelearning {
 
     }
 
-    public struct RedshiftDatabase: Serializable, Initializable {
-        var clusterIdentifier: String = ""
-        var databaseName: String = ""
+    public struct RedshiftDatabase: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var clusterIdentifier: String = ""
+        public var databaseName: String = ""
 
         public init() {}
 
@@ -902,9 +988,11 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateMLModelOutput: Serializable, Initializable {
+    public struct UpdateMLModelOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
 
         public init() {}
 
@@ -914,34 +1002,36 @@ extension Machinelearning {
 
     }
 
-    public struct BatchPrediction: Serializable, Initializable {
+    public struct BatchPrediction: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A description of the most recent details about processing the batch prediction request.
-        var message: String? = nil
+        public var message: String? = nil
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
-        var mLModelId: String? = nil
-        var invalidRecordCount: Int64? = nil
+        public var mLModelId: String? = nil
+        public var invalidRecordCount: Int64? = nil
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
-        var totalRecordCount: Int64? = nil
+        public var createdByIamUser: String? = nil
+        public var totalRecordCount: Int64? = nil
         /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request. 
-        var batchPredictionId: String? = nil
-        var computeTime: Int64? = nil
-        var finishedAt: Date? = nil
+        public var batchPredictionId: String? = nil
+        public var computeTime: Int64? = nil
+        public var finishedAt: Date? = nil
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        var inputDataLocationS3: String? = nil
+        public var inputDataLocationS3: String? = nil
         /// The time that the BatchPrediction was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the BatchPrediction.
-        var name: String? = nil
-        var startedAt: Date? = nil
+        public var name: String? = nil
+        public var startedAt: Date? = nil
         /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
-        var outputUri: String? = nil
+        public var outputUri: String? = nil
         /// The ID of the DataSource that points to the group of observations to predict.
-        var batchPredictionDataSourceId: String? = nil
+        public var batchPredictionDataSourceId: String? = nil
 
         public init() {}
 
@@ -966,15 +1056,17 @@ extension Machinelearning {
 
     }
 
-    public struct CreateDataSourceFromS3Input: Serializable, Initializable {
+    public struct CreateDataSourceFromS3Input: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied identifier that uniquely identifies the DataSource. 
-        var dataSourceId: String = ""
+        public var dataSourceId: String = ""
         /// A user-supplied name or description of the DataSource. 
-        var dataSourceName: String? = nil
+        public var dataSourceName: String? = nil
         /// The data specification of a DataSource:  DataLocationS3 - The Amazon S3 location of the observation data. DataSchemaLocationS3 - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.   Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
-        var dataSpec: S3DataSpec = S3DataSpec()
+        public var dataSpec: S3DataSpec = S3DataSpec()
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-        var computeStatistics: Bool? = nil
+        public var computeStatistics: Bool? = nil
 
         public init() {}
 
@@ -987,9 +1079,11 @@ extension Machinelearning {
 
     }
 
-    public struct GetEvaluationInput: Serializable, Initializable {
+    public struct GetEvaluationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
-        var evaluationId: String = ""
+        public var evaluationId: String = ""
 
         public init() {}
 
@@ -999,9 +1093,11 @@ extension Machinelearning {
 
     }
 
-    public struct RDSDatabaseCredentials: Serializable, Initializable {
-        var password: String = ""
-        var username: String = ""
+    public struct RDSDatabaseCredentials: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var password: String = ""
+        public var username: String = ""
 
         public init() {}
 
@@ -1012,9 +1108,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteRealtimeEndpointInput: Serializable, Initializable {
+    public struct DeleteRealtimeEndpointInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the MLModel during creation.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
 
         public init() {}
 
@@ -1024,9 +1122,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateRealtimeEndpointInput: Serializable, Initializable {
+    public struct CreateRealtimeEndpointInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the MLModel during creation.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
 
         public init() {}
 
@@ -1036,9 +1136,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteDataSourceOutput: Serializable, Initializable {
+    public struct DeleteDataSourceOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
 
         public init() {}
 
@@ -1048,48 +1150,50 @@ extension Machinelearning {
 
     }
 
-    public struct GetMLModelOutput: Serializable, Initializable {
+    public struct GetMLModelOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        var scoreThresholdLastUpdatedAt: Date? = nil
+        public var scoreThresholdLastUpdatedAt: Date? = nil
         /// The ID of the training DataSource.
-        var trainingDataSourceId: String? = nil
+        public var trainingDataSourceId: String? = nil
         /// A description of the most recent details about accessing the MLModel.
-        var message: String? = nil
+        public var message: String? = nil
         /// The MLModel ID, which is same as the MLModelId in the request.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training. Note This parameter is provided as part of the verbose format.
-        var recipe: String? = nil
+        public var recipe: String? = nil
         /// The current endpoint of the MLModel
-        var endpointInfo: RealtimeEndpointInfo? = nil
+        public var endpointInfo: RealtimeEndpointInfo? = nil
         /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
+        public var createdByIamUser: String? = nil
         /// The schema used by all of the data files referenced by the DataSource. Note This parameter is provided as part of the verbose format.
-        var schema: String? = nil
+        public var schema: String? = nil
         /// Identifies the MLModel category. The following are the available types:   REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?" BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?" MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?" 
-        var mLModelType: String? = nil
+        public var mLModelType: String? = nil
         /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
-        var finishedAt: Date? = nil
+        public var finishedAt: Date? = nil
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
-        var computeTime: Int64? = nil
+        public var computeTime: Int64? = nil
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        var inputDataLocationS3: String? = nil
+        public var inputDataLocationS3: String? = nil
         /// A user-supplied name or description of the MLModel.
-        var name: String? = nil
+        public var name: String? = nil
         /// The scoring threshold is used in binary classification MLModel models. It marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the threshold receive a positive result from the MLModel, such as true. Output values less than the threshold receive a negative response from the MLModel, such as false.
-        var scoreThreshold: Float? = nil
-        var sizeInBytes: Int64? = nil
+        public var scoreThreshold: Float? = nil
+        public var sizeInBytes: Int64? = nil
         /// A link to the file that contains logs of the CreateMLModel operation.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
-        var startedAt: Date? = nil
+        public var startedAt: Date? = nil
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
-        var trainingParameters: [String: String]? = nil
+        public var trainingParameters: [String: String]? = nil
 
         public init() {}
 
@@ -1119,9 +1223,11 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateDataSourceOutput: Serializable, Initializable {
+    public struct UpdateDataSourceOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
 
         public init() {}
 
@@ -1131,11 +1237,13 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeTagsInput: Serializable, Initializable {
+    public struct DescribeTagsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the ML object. For example, exampleModelId. 
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The type of the ML object.
-        var resourceType: String = ""
+        public var resourceType: String = ""
 
         public init() {}
 
@@ -1146,9 +1254,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteEvaluationInput: Serializable, Initializable {
+    public struct DeleteEvaluationInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
-        var evaluationId: String = ""
+        public var evaluationId: String = ""
 
         public init() {}
 
@@ -1158,40 +1268,42 @@ extension Machinelearning {
 
     }
 
-    public struct MLModel: Serializable, Initializable {
+    public struct MLModel: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
-        var algorithm: String? = nil
+        public var algorithm: String? = nil
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        var scoreThresholdLastUpdatedAt: Date? = nil
+        public var scoreThresholdLastUpdatedAt: Date? = nil
         /// A description of the most recent details about accessing the MLModel.
-        var message: String? = nil
+        public var message: String? = nil
         /// The ID assigned to the MLModel at creation.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
-        var trainingDataSourceId: String? = nil
+        public var trainingDataSourceId: String? = nil
         /// Identifies the MLModel category. The following are the available types:   REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"  BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".  MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?". 
-        var mLModelType: String? = nil
+        public var mLModelType: String? = nil
         /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
+        public var createdByIamUser: String? = nil
         /// The current endpoint of the MLModel.
-        var endpointInfo: RealtimeEndpointInfo? = nil
-        var computeTime: Int64? = nil
-        var finishedAt: Date? = nil
+        public var endpointInfo: RealtimeEndpointInfo? = nil
+        public var computeTime: Int64? = nil
+        public var finishedAt: Date? = nil
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        var inputDataLocationS3: String? = nil
+        public var inputDataLocationS3: String? = nil
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the MLModel.
-        var name: String? = nil
-        var scoreThreshold: Float? = nil
-        var sizeInBytes: Int64? = nil
-        var startedAt: Date? = nil
+        public var name: String? = nil
+        public var scoreThreshold: Float? = nil
+        public var sizeInBytes: Int64? = nil
+        public var startedAt: Date? = nil
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
-        var trainingParameters: [String: String]? = nil
+        public var trainingParameters: [String: String]? = nil
 
         public init() {}
 
@@ -1219,37 +1331,39 @@ extension Machinelearning {
 
     }
 
-    public struct DataSource: Serializable, Initializable {
+    public struct DataSource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The total number of observations contained in the data files that the DataSource references.
-        var dataSizeInBytes: Int64? = nil
+        public var dataSizeInBytes: Int64? = nil
         /// A description of the most recent details about creating the DataSource.
-        var message: String? = nil
+        public var message: String? = nil
         /// The number of data files referenced by the DataSource.
-        var numberOfFiles: Int64? = nil
+        public var numberOfFiles: Int64? = nil
         /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
-        var roleARN: String? = nil
-        var rDSMetadata: RDSMetadata? = nil
-        var computeTime: Int64? = nil
-        var finishedAt: Date? = nil
+        public var createdByIamUser: String? = nil
+        public var roleARN: String? = nil
+        public var rDSMetadata: RDSMetadata? = nil
+        public var computeTime: Int64? = nil
+        public var finishedAt: Date? = nil
         /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
-        var dataRearrangement: String? = nil
+        public var dataRearrangement: String? = nil
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The ID that is assigned to the DataSource during creation.
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
-        var dataLocationS3: String? = nil
+        public var dataLocationS3: String? = nil
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the DataSource.
-        var name: String? = nil
-        var redshiftMetadata: RedshiftMetadata? = nil
-        var startedAt: Date? = nil
+        public var name: String? = nil
+        public var redshiftMetadata: RedshiftMetadata? = nil
+        public var startedAt: Date? = nil
         ///  The parameter is true if statistics need to be generated from the observation data. 
-        var computeStatistics: Bool? = nil
+        public var computeStatistics: Bool? = nil
 
         public init() {}
 
@@ -1276,8 +1390,10 @@ extension Machinelearning {
 
     }
 
-    public struct PredictOutput: Serializable, Initializable {
-        var prediction: Prediction? = nil
+    public struct PredictOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var prediction: Prediction? = nil
 
         public init() {}
 
@@ -1287,8 +1403,10 @@ extension Machinelearning {
 
     }
 
-    public struct PerformanceMetrics: Serializable, Initializable {
-        var properties: [String: String]? = nil
+    public struct PerformanceMetrics: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var properties: [String: String]? = nil
 
         public init() {}
 
@@ -1298,29 +1416,31 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeMLModelsInput: Serializable, Initializable {
+    public struct DescribeMLModelsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
-        var nE: String? = nil
+        public var nE: String? = nil
         /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
-        var eQ: String? = nil
+        public var eQ: String? = nil
         /// The greater than operator. The MLModel results will have FilterVariable values that are greater than the value specified with GT.
-        var gT: String? = nil
+        public var gT: String? = nil
         /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory. 
-        var filterVariable: String? = nil
+        public var filterVariable: String? = nil
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
-        var lT: String? = nil
+        public var lT: String? = nil
         /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
-        var lE: String? = nil
+        public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The ID of the page in the paginated results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        var gE: String? = nil
+        public var gE: String? = nil
 
         public init() {}
 
@@ -1340,13 +1460,15 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteTagsInput: Serializable, Initializable {
+    public struct DeleteTagsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the tagged ML object. For example, exampleModelId.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The type of the tagged ML object.
-        var resourceType: String = ""
+        public var resourceType: String = ""
         /// One or more tags to delete.
-        var tagKeys: [String] = []
+        public var tagKeys: [String] = []
 
         public init() {}
 
@@ -1358,37 +1480,39 @@ extension Machinelearning {
 
     }
 
-    public struct GetEvaluationOutput: Serializable, Initializable {
+    public struct GetEvaluationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
-        var performanceMetrics: PerformanceMetrics? = nil
+        public var performanceMetrics: PerformanceMetrics? = nil
         /// The evaluation ID which is same as the EvaluationId in the request.
-        var evaluationId: String? = nil
+        public var evaluationId: String? = nil
         /// A description of the most recent details about evaluating the MLModel.
-        var message: String? = nil
+        public var message: String? = nil
         /// The ID of the MLModel that was the focus of the evaluation.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        var createdByIamUser: String? = nil
+        public var createdByIamUser: String? = nil
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
-        var computeTime: Int64? = nil
+        public var computeTime: Int64? = nil
         /// The epoch time when Amazon Machine Learning marked the Evaluation as COMPLETED or FAILED. FinishedAt is only available when the Evaluation is in the COMPLETED or FAILED state.
-        var finishedAt: Date? = nil
+        public var finishedAt: Date? = nil
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        var lastUpdatedAt: Date? = nil
+        public var lastUpdatedAt: Date? = nil
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        var inputDataLocationS3: String? = nil
+        public var inputDataLocationS3: String? = nil
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        var createdAt: Date? = nil
+        public var createdAt: Date? = nil
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
-        var status: String? = nil
+        public var status: String? = nil
         /// A user-supplied name or description of the Evaluation. 
-        var name: String? = nil
+        public var name: String? = nil
         /// A link to the file that contains logs of the CreateEvaluation operation.
-        var logUri: String? = nil
+        public var logUri: String? = nil
         /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
-        var startedAt: Date? = nil
+        public var startedAt: Date? = nil
         /// The DataSource used for this evaluation.
-        var evaluationDataSourceId: String? = nil
+        public var evaluationDataSourceId: String? = nil
 
         public init() {}
 
@@ -1412,13 +1536,15 @@ extension Machinelearning {
 
     }
 
-    public struct AddTagsInput: Serializable, Initializable {
+    public struct AddTagsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the ML object to tag. For example, exampleModelId.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
-        var tags: [Tag] = []
+        public var tags: [Tag] = []
         /// The type of the ML object to tag. 
-        var resourceType: String = ""
+        public var resourceType: String = ""
 
         public init() {}
 
@@ -1430,9 +1556,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteMLModelOutput: Serializable, Initializable {
+    public struct DeleteMLModelOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
 
         public init() {}
 
@@ -1442,9 +1570,11 @@ extension Machinelearning {
 
     }
 
-    public struct CreateDataSourceFromRDSOutput: Serializable, Initializable {
+    public struct CreateDataSourceFromRDSOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
-        var dataSourceId: String? = nil
+        public var dataSourceId: String? = nil
 
         public init() {}
 
@@ -1454,9 +1584,11 @@ extension Machinelearning {
 
     }
 
-    public struct UpdateBatchPredictionOutput: Serializable, Initializable {
+    public struct UpdateBatchPredictionOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
-        var batchPredictionId: String? = nil
+        public var batchPredictionId: String? = nil
 
         public init() {}
 
@@ -1466,11 +1598,13 @@ extension Machinelearning {
 
     }
 
-    public struct CreateRealtimeEndpointOutput: Serializable, Initializable {
+    public struct CreateRealtimeEndpointOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
-        var mLModelId: String? = nil
+        public var mLModelId: String? = nil
         /// The endpoint information of the MLModel 
-        var realtimeEndpointInfo: RealtimeEndpointInfo? = nil
+        public var realtimeEndpointInfo: RealtimeEndpointInfo? = nil
 
         public init() {}
 
@@ -1481,21 +1615,23 @@ extension Machinelearning {
 
     }
 
-    public struct CreateMLModelInput: Serializable, Initializable {
+    public struct CreateMLModelInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-        var recipeUri: String? = nil
+        public var recipeUri: String? = nil
         /// The DataSource that points to the training data.
-        var trainingDataSourceId: String = ""
+        public var trainingDataSourceId: String = ""
         /// A user-supplied ID that uniquely identifies the MLModel.
-        var mLModelId: String = ""
+        public var mLModelId: String = ""
         /// The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-        var recipe: String? = nil
+        public var recipe: String? = nil
         /// The category of supervised learning that this MLModel will address. Choose from the following types:  Choose REGRESSION if the MLModel will be used to predict a numeric value. Choose BINARY if the MLModel result has two possible values. Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
-        var mLModelType: String = ""
+        public var mLModelType: String = ""
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.  sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.   sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
-        var parameters: [String: String]? = nil
+        public var parameters: [String: String]? = nil
         /// A user-supplied name or description of the MLModel.
-        var mLModelName: String? = nil
+        public var mLModelName: String? = nil
 
         public init() {}
 
@@ -1511,29 +1647,31 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeBatchPredictionsInput: Serializable, Initializable {
+    public struct DescribeBatchPredictionsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
-        var nE: String? = nil
+        public var nE: String? = nil
         /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
-        var eQ: String? = nil
+        public var eQ: String? = nil
         /// The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT.
-        var gT: String? = nil
+        public var gT: String? = nil
         /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
-        var filterVariable: String? = nil
+        public var filterVariable: String? = nil
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
-        var lT: String? = nil
+        public var lT: String? = nil
         /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
-        var lE: String? = nil
+        public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// An ID of the page in the paginated results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        var gE: String? = nil
+        public var gE: String? = nil
 
         public init() {}
 
@@ -1553,29 +1691,31 @@ extension Machinelearning {
 
     }
 
-    public struct DescribeDataSourcesInput: Serializable, Initializable {
+    public struct DescribeDataSourcesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
-        var nE: String? = nil
+        public var nE: String? = nil
         /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
-        var eQ: String? = nil
+        public var eQ: String? = nil
         /// The greater than operator. The DataSource results will have FilterVariable values that are greater than the value specified with GT.
-        var gT: String? = nil
+        public var gT: String? = nil
         /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation. 
-        var filterVariable: String? = nil
+        public var filterVariable: String? = nil
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        var prefix: String? = nil
+        public var prefix: String? = nil
         /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
-        var lT: String? = nil
+        public var lT: String? = nil
         /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
-        var lE: String? = nil
+        public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
         ///  The maximum number of DataSource to include in the result.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The ID of the page in the paginated results.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        var gE: String? = nil
+        public var gE: String? = nil
 
         public init() {}
 
@@ -1595,11 +1735,13 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteTagsOutput: Serializable, Initializable {
+    public struct DeleteTagsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the ML object from which tags were deleted.
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The type of the ML object from which tags were deleted.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
 
         public init() {}
 
@@ -1610,11 +1752,13 @@ extension Machinelearning {
 
     }
 
-    public struct GetDataSourceInput: Serializable, Initializable {
+    public struct GetDataSourceInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID assigned to the DataSource at creation.
-        var dataSourceId: String = ""
+        public var dataSourceId: String = ""
         /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
-        var verbose: Bool? = nil
+        public var verbose: Bool? = nil
 
         public init() {}
 
@@ -1625,9 +1769,11 @@ extension Machinelearning {
 
     }
 
-    public struct DeleteEvaluationOutput: Serializable, Initializable {
+    public struct DeleteEvaluationOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
-        var evaluationId: String? = nil
+        public var evaluationId: String? = nil
 
         public init() {}
 

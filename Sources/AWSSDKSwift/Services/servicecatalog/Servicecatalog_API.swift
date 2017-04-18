@@ -32,275 +32,235 @@ AWS Service Catalog  Overview   AWS Service Catalog allows organizations to crea
 */
 public struct Servicecatalog {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWS242ServiceCatalogService",
             service: "servicecatalog",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [ServicecatalogError.self]
         )
     }
 
     ///  Creates a new portfolio share.
     public func createPortfolioShare(_ input: CreatePortfolioShareInput) throws -> CreatePortfolioShareOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a paginated list all of the Products objects to which the caller has access.  The output of this operation can be used as input for other operations, such as DescribeProductView.
     public func searchProducts(_ input: SearchProductsInput) throws -> SearchProductsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SearchProducts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SearchProducts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified constraint.
     public func deleteConstraint(_ input: DeleteConstraintInput) throws -> DeleteConstraintOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteConstraint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteConstraint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests updates to the configuration of an existing ProvisionedProduct object. If there are tags associated with the object, they cannot be updated or added with this operation. Depending on the specific updates requested, this operation may update with no interruption, with some interruption, or replace the ProvisionedProduct object entirely.  You can check the status of this request using the DescribeRecord operation.
     public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput) throws -> UpdateProvisionedProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all principal ARNs associated with the specified portfolio.
     public func listPrincipalsForPortfolio(_ input: ListPrincipalsForPortfolioInput) throws -> ListPrincipalsForPortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a paginated list of all the ProvisionedProduct objects that are currently available (not terminated). 
     public func scanProvisionedProducts(_ input: ScanProvisionedProductsInput) throws -> ScanProvisionedProductsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ScanProvisionedProducts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ScanProvisionedProducts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves detailed information for a specified constraint.
     public func describeConstraint(_ input: DescribeConstraintInput) throws -> DescribeConstraintOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeConstraint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeConstraint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified portfolio's details. This operation will not work with a product that has been shared with you.
     public func updatePortfolio(_ input: UpdatePortfolioInput) throws -> UpdatePortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves detailed information and any tags associated with the specified portfolio.
     public func describePortfolio(_ input: DescribePortfolioInput) throws -> DescribePortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribePortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribePortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accepts an offer to share a portfolio.
     public func acceptPortfolioShare(_ input: AcceptPortfolioShareInput) throws -> AcceptPortfolioShareOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AcceptPortfolioShare", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AcceptPortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a product with a portfolio.
     public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput) throws -> AssociateProductWithPortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a paginated list of all paths to a specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
     public func listLaunchPaths(_ input: ListLaunchPathsInput) throws -> ListLaunchPathsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing constraint.
     public func updateConstraint(_ input: UpdateConstraintInput) throws -> UpdateConstraintOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateConstraint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateConstraint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves summary and status information about all products created within the caller's account. If a portfolio ID is provided, this operation retrieves information for only those products that are associated with the specified portfolio.
     public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput) throws -> SearchProductsAsAdminOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "SearchProductsAsAdmin", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "SearchProductsAsAdmin", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a paginated list of the full details of a specific request. Use this operation after calling a request operation (ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct). 
     public func describeRecord(_ input: DescribeRecordInput) throws -> DescribeRecordOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeRecord", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeRecord", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists details of all portfolios for which sharing was accepted by this account.
     public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput) throws -> ListAcceptedPortfolioSharesOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new product.
     public func createProduct(_ input: CreateProductInput) throws -> CreateProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a previously associated principal ARN from a specified portfolio.
     public func disassociatePrincipalFromPortfolio(_ input: DisassociatePrincipalFromPortfolioInput) throws -> DisassociatePrincipalFromPortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the account IDs that have been authorized sharing of the specified portfolio.
     public func listPortfolioAccess(_ input: ListPortfolioAccessInput) throws -> ListPortfolioAccessOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPortfolioAccess", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPortfolioAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Rejects an offer to share a portfolio.
     public func rejectPortfolioShare(_ input: RejectPortfolioShareInput) throws -> RejectPortfolioShareOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "RejectPortfolioShare", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "RejectPortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified product from the specified portfolio. 
     public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput) throws -> DisassociateProductFromPortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides information about parameters required to provision a specified product in a specified manner. Use this operation to obtain the list of ProvisioningArtifactParameters parameters available to call the ProvisionProduct operation for the specified product.
     public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput) throws -> DescribeProvisioningParametersOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves detailed information about the specified provisioning artifact.
     public func describeProvisioningArtifact(_ input: DescribeProvisioningArtifactInput) throws -> DescribeProvisioningArtifactOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves detailed constraint information for the specified portfolio and product.
     public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput) throws -> ListConstraintsForPortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified product, run with administrator access.
     public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput) throws -> DescribeProductAsAdminOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeProductAsAdmin", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeProductAsAdmin", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates the specified principal ARN with the specified portfolio.
     public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput) throws -> AssociatePrincipalWithPortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new constraint.
     public func createConstraint(_ input: CreateConstraintInput) throws -> CreateConstraintOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateConstraint", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateConstraint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified product. This operation is functionally identical to DescribeProduct except that it takes as input ProductViewId instead of ProductId.
     public func describeProductView(_ input: DescribeProductViewInput) throws -> DescribeProductViewOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeProductView", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeProductView", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all provisioning artifacts associated with the specified product.
     public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput) throws -> ListProvisioningArtifactsOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListProvisioningArtifacts", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListProvisioningArtifacts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new portfolio.
     public func createPortfolio(_ input: CreatePortfolioInput) throws -> CreatePortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreatePortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreatePortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a paginated list of all performed requests, in the form of RecordDetails objects that are filtered as specified.
     public func listRecordHistory(_ input: ListRecordHistoryInput) throws -> ListRecordHistoryOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListRecordHistory", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListRecordHistory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified provisioning artifact. This operation will not work on a provisioning artifact associated with a product that has been shared with you, or on the last provisioning artifact associated with a product (a product must have at least one provisioning artifact).
     public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput) throws -> DeleteProvisioningArtifactOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests termination of an existing ProvisionedProduct object. If there are Tags associated with the object, they are terminated when the ProvisionedProduct object is terminated.  This operation does not delete any records associated with the ProvisionedProduct object. You can check the status of this request using the DescribeRecord operation.
     public func terminateProvisionedProduct(_ input: TerminateProvisionedProductInput) throws -> TerminateProvisionedProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "TerminateProvisionedProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "TerminateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all portfolios in the catalog.
     public func listPortfolios(_ input: ListPortfoliosInput) throws -> ListPortfoliosOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPortfolios", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPortfolios", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing provisioning artifact's information. This operation will not work on a provisioning artifact associated with a product that has been shared with you.
     public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput) throws -> UpdateProvisioningArtifactOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified product. This operation will not work with a product that has been shared with you or is associated with a portfolio. 
     public func deleteProduct(_ input: DeleteProductInput) throws -> DeleteProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeleteProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeleteProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing product.
     public func updateProduct(_ input: UpdateProductInput) throws -> UpdateProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "UpdateProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "UpdateProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified product. This operation is functionally identical to DescribeProductView except that it takes as input ProductId instead of ProductViewId.
     public func describeProduct(_ input: DescribeProductInput) throws -> DescribeProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DescribeProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DescribeProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all portfolios that the specified product is associated with.
     public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput) throws -> ListPortfoliosForProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified portfolio. This operation will not work with a portfolio that has been shared with you or if it has products, users, constraints, or shared accounts associated with it.
     public func deletePortfolio(_ input: DeletePortfolioInput) throws -> DeletePortfolioOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeletePortfolio", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeletePortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests a Provision of a specified product. A ProvisionedProduct is a resourced instance for a product. For example, provisioning a CloudFormation-template-backed product results in launching a CloudFormation stack and all the underlying resources that come with it.  You can check the status of this request using the DescribeRecord operation.
     public func provisionProduct(_ input: ProvisionProductInput) throws -> ProvisionProductOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ProvisionProduct", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ProvisionProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Create a new provisioning artifact for the specified product. This operation will not work with a product that has been shared with you.
     public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput) throws -> CreateProvisioningArtifactOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified portfolio share.
     public func deletePortfolioShare(_ input: DeletePortfolioShareInput) throws -> DeletePortfolioShareOutput {
-        let (bodyData, urlResponse) = try request.invoke(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try ServicecatalogResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
 

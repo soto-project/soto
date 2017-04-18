@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Storagegateway
-public enum StoragegatewayError: Error {
+public enum StoragegatewayError: AWSErrorType {
     case invalidGatewayRequestException(message: String?)
     case internalServerError(message: String?)
     case serviceUnavailableError(message: String?)

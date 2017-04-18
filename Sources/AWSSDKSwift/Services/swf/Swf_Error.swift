@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Swf
-public enum SwfError: Error {
+public enum SwfError: AWSErrorType {
     case unknownResourceFault(message: String?)
     case operationNotPermittedFault(message: String?)
     case domainAlreadyExistsFault(message: String?)

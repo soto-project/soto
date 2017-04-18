@@ -29,8 +29,10 @@ import Core
 
 extension Cloudsearch {
 
-    public struct DescribeScalingParametersRequest: Serializable, Initializable {
-        var domainName: String = ""
+    public struct DescribeScalingParametersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainName: String = ""
 
         public init() {}
 
@@ -40,10 +42,12 @@ extension Cloudsearch {
 
     }
 
-    public struct ExpressionStatus: Serializable, Initializable {
+    public struct ExpressionStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The expression that is evaluated for sorting while processing a search request.
-        var options: Expression = Expression()
-        var status: OptionStatus = OptionStatus()
+        public var options: Expression = Expression()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -54,19 +58,21 @@ extension Cloudsearch {
 
     }
 
-    public struct IntOptions: Serializable, Initializable {
+    public struct IntOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
+        public var facetEnabled: Bool? = nil
         /// The name of the source field to map to the field. 
-        var sourceField: String? = nil
+        public var sourceField: String? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// Whether the field can be used to sort the search results.
-        var sortEnabled: Bool? = nil
+        public var sortEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
-        var defaultValue: Int64? = nil
+        public var defaultValue: Int64? = nil
 
         public init() {}
 
@@ -81,8 +87,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeScalingParametersResponse: Serializable, Initializable {
-        var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
+    public struct DescribeScalingParametersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
 
         public init() {}
 
@@ -92,10 +100,12 @@ extension Cloudsearch {
 
     }
 
-    public struct AnalysisScheme: Serializable, Initializable {
-        var analysisSchemeLanguage: String = ""
-        var analysisSchemeName: String = ""
-        var analysisOptions: AnalysisOptions? = nil
+    public struct AnalysisScheme: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var analysisSchemeLanguage: String = ""
+        public var analysisSchemeName: String = ""
+        public var analysisOptions: AnalysisOptions? = nil
 
         public init() {}
 
@@ -107,10 +117,12 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteIndexFieldRequest: Serializable, Initializable {
+    public struct DeleteIndexFieldRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the index field your want to remove from the domain's indexing options.
-        var indexFieldName: String = ""
-        var domainName: String = ""
+        public var indexFieldName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -121,18 +133,20 @@ extension Cloudsearch {
 
     }
 
-    public struct LiteralOptions: Serializable, Initializable {
+    public struct LiteralOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
-        var sourceField: String? = nil
+        public var facetEnabled: Bool? = nil
+        public var sourceField: String? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// Whether the field can be used to sort the search results.
-        var sortEnabled: Bool? = nil
+        public var sortEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -147,9 +161,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteExpressionResponse: Serializable, Initializable {
+    public struct DeleteExpressionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the expression being deleted.
-        var expression: ExpressionStatus = ExpressionStatus()
+        public var expression: ExpressionStatus = ExpressionStatus()
 
         public init() {}
 
@@ -159,13 +175,15 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeAnalysisSchemesRequest: Serializable, Initializable {
+    public struct DescribeAnalysisSchemesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The analysis schemes you want to describe.
-        var analysisSchemeNames: [String]? = nil
+        public var analysisSchemeNames: [String]? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        var deployed: Bool? = nil
+        public var deployed: Bool? = nil
         /// The name of the domain you want to describe.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -177,17 +195,19 @@ extension Cloudsearch {
 
     }
 
-    public struct OptionStatus: Serializable, Initializable {
+    public struct OptionStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A unique integer that indicates when this option was last updated.
-        var updateVersion: Int32? = nil
+        public var updateVersion: Int32? = nil
         /// Indicates that the option will be deleted once processing is complete.
-        var pendingDeletion: Bool? = nil
+        public var pendingDeletion: Bool? = nil
         /// A timestamp for when this option was created.
-        var creationDate: Date = Date()
+        public var creationDate: Date = Date()
         /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
-        var state: String = ""
+        public var state: String = ""
         /// A timestamp for when this option was last updated.
-        var updateDate: Date = Date()
+        public var updateDate: Date = Date()
 
         public init() {}
 
@@ -201,9 +221,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeDomainsRequest: Serializable, Initializable {
+    public struct DescribeDomainsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the domains you want to include in the response.
-        var domainNames: [String]? = nil
+        public var domainNames: [String]? = nil
 
         public init() {}
 
@@ -213,17 +235,19 @@ extension Cloudsearch {
 
     }
 
-    public struct DoubleArrayOptions: Serializable, Initializable {
+    public struct DoubleArrayOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
-        var sourceFields: String? = nil
+        public var sourceFields: String? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
+        public var facetEnabled: Bool? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: Double? = nil
+        public var defaultValue: Double? = nil
 
         public init() {}
 
@@ -237,29 +261,31 @@ extension Cloudsearch {
 
     }
 
-    public struct DomainStatus: Serializable, Initializable {
-        var limits: Limits? = nil
+    public struct DomainStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var limits: Limits? = nil
         /// True if processing is being done to activate the current domain configuration.
-        var processing: Bool? = nil
+        public var processing: Bool? = nil
         /// True if the search domain is created. It can take several minutes to initialize a domain when CreateDomain is called. Newly created search domains are returned from DescribeDomains with a false value for Created until domain creation is complete.
-        var created: Bool? = nil
-        var aRN: String? = nil
+        public var created: Bool? = nil
+        public var aRN: String? = nil
         /// The service endpoint for updating documents in a search domain.
-        var docService: ServiceEndpoint? = nil
+        public var docService: ServiceEndpoint? = nil
         /// True if IndexDocuments needs to be called to activate the current domain configuration.
-        var requiresIndexDocuments: Bool = false
+        public var requiresIndexDocuments: Bool = false
         /// The service endpoint for requesting search results from a search domain.
-        var searchService: ServiceEndpoint? = nil
+        public var searchService: ServiceEndpoint? = nil
         /// The number of partitions across which the search index is spread.
-        var searchPartitionCount: Int32? = nil
+        public var searchPartitionCount: Int32? = nil
         /// The instance type that is being used to process search requests.
-        var searchInstanceType: String? = nil
-        var domainName: String = ""
+        public var searchInstanceType: String? = nil
+        public var domainName: String = ""
         /// The number of search instances that are available to process search requests.
-        var searchInstanceCount: Int32? = nil
+        public var searchInstanceCount: Int32? = nil
         /// True if the search domain has been deleted. The system must clean up resources dedicated to the search domain when DeleteDomain is called. Newly deleted search domains are returned from DescribeDomains with a true value for IsDeleted for several minutes until resource cleanup is complete.
-        var deleted: Bool? = nil
-        var domainId: String = ""
+        public var deleted: Bool? = nil
+        public var domainId: String = ""
 
         public init() {}
 
@@ -281,9 +307,11 @@ extension Cloudsearch {
 
     }
 
-    public struct UpdateServiceAccessPoliciesResponse: Serializable, Initializable {
+    public struct UpdateServiceAccessPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access rules configured for the domain.
-        var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
+        public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
 
         public init() {}
 
@@ -293,8 +321,10 @@ extension Cloudsearch {
 
     }
 
-    public struct UpdateScalingParametersResponse: Serializable, Initializable {
-        var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
+    public struct UpdateScalingParametersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
 
         public init() {}
 
@@ -304,9 +334,11 @@ extension Cloudsearch {
 
     }
 
-    public struct ListDomainNamesResponse: Serializable, Initializable {
+    public struct ListDomainNamesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the search domains owned by an account.
-        var domainNames: [String: String]? = nil
+        public var domainNames: [String: String]? = nil
 
         public init() {}
 
@@ -316,11 +348,13 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeAvailabilityOptionsRequest: Serializable, Initializable {
+    public struct DescribeAvailabilityOptionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        var deployed: Bool? = nil
+        public var deployed: Bool? = nil
         /// The name of the domain you want to describe.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -331,9 +365,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteIndexFieldResponse: Serializable, Initializable {
+    public struct DeleteIndexFieldResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the index field being deleted.
-        var indexField: IndexFieldStatus = IndexFieldStatus()
+        public var indexField: IndexFieldStatus = IndexFieldStatus()
 
         public init() {}
 
@@ -343,9 +379,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineSuggesterRequest: Serializable, Initializable {
-        var suggester: Suggester = Suggester()
-        var domainName: String = ""
+    public struct DefineSuggesterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var suggester: Suggester = Suggester()
+        public var domainName: String = ""
 
         public init() {}
 
@@ -356,13 +394,15 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeIndexFieldsRequest: Serializable, Initializable {
+    public struct DescribeIndexFieldsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        var deployed: Bool? = nil
+        public var deployed: Bool? = nil
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
-        var fieldNames: [String]? = nil
+        public var fieldNames: [String]? = nil
         /// The name of the domain you want to describe.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -374,8 +414,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteDomainResponse: Serializable, Initializable {
-        var domainStatus: DomainStatus? = nil
+    public struct DeleteDomainResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainStatus: DomainStatus? = nil
 
         public init() {}
 
@@ -385,9 +427,11 @@ extension Cloudsearch {
 
     }
 
-    public struct Suggester: Serializable, Initializable {
-        var suggesterName: String = ""
-        var documentSuggesterOptions: DocumentSuggesterOptions = DocumentSuggesterOptions()
+    public struct Suggester: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var suggesterName: String = ""
+        public var documentSuggesterOptions: DocumentSuggesterOptions = DocumentSuggesterOptions()
 
         public init() {}
 
@@ -398,13 +442,15 @@ extension Cloudsearch {
 
     }
 
-    public struct ScalingParameters: Serializable, Initializable {
+    public struct ScalingParameters: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of replicas you want to preconfigure for each index partition.
-        var desiredReplicationCount: Int32? = nil
+        public var desiredReplicationCount: Int32? = nil
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
-        var desiredInstanceType: String? = nil
+        public var desiredInstanceType: String? = nil
         /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
-        var desiredPartitionCount: Int32? = nil
+        public var desiredPartitionCount: Int32? = nil
 
         public init() {}
 
@@ -416,11 +462,13 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeServiceAccessPoliciesRequest: Serializable, Initializable {
+    public struct DescribeServiceAccessPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        var deployed: Bool? = nil
+        public var deployed: Bool? = nil
         /// The name of the domain you want to describe.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -431,8 +479,10 @@ extension Cloudsearch {
 
     }
 
-    public struct CreateDomainResponse: Serializable, Initializable {
-        var domainStatus: DomainStatus? = nil
+    public struct CreateDomainResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainStatus: DomainStatus? = nil
 
         public init() {}
 
@@ -442,13 +492,15 @@ extension Cloudsearch {
 
     }
 
-    public struct DocumentSuggesterOptions: Serializable, Initializable {
+    public struct DocumentSuggesterOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
-        var sortExpression: String? = nil
+        public var sortExpression: String? = nil
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
-        var fuzzyMatching: String? = nil
+        public var fuzzyMatching: String? = nil
         /// The name of the index field you want to use for suggestions. 
-        var sourceField: String = ""
+        public var sourceField: String = ""
 
         public init() {}
 
@@ -460,9 +512,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineExpressionRequest: Serializable, Initializable {
-        var domainName: String = ""
-        var expression: Expression = Expression()
+    public struct DefineExpressionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainName: String = ""
+        public var expression: Expression = Expression()
 
         public init() {}
 
@@ -473,17 +527,19 @@ extension Cloudsearch {
 
     }
 
-    public struct TextArrayOptions: Serializable, Initializable {
+    public struct TextArrayOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of an analysis scheme for a text-array field.
-        var analysisScheme: String? = nil
+        public var analysisScheme: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
-        var sourceFields: String? = nil
+        public var sourceFields: String? = nil
         /// Whether highlights can be returned for the field.
-        var highlightEnabled: Bool? = nil
+        public var highlightEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -497,8 +553,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeDomainsResponse: Serializable, Initializable {
-        var domainStatusList: [DomainStatus] = []
+    public struct DescribeDomainsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainStatusList: [DomainStatus] = []
 
         public init() {}
 
@@ -508,9 +566,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteSuggesterResponse: Serializable, Initializable {
+    public struct DeleteSuggesterResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the suggester being deleted.
-        var suggester: SuggesterStatus = SuggesterStatus()
+        public var suggester: SuggesterStatus = SuggesterStatus()
 
         public init() {}
 
@@ -520,10 +580,12 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineIndexFieldRequest: Serializable, Initializable {
+    public struct DefineIndexFieldRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The index field and field options you want to configure. 
-        var indexField: IndexField = IndexField()
-        var domainName: String = ""
+        public var indexField: IndexField = IndexField()
+        public var domainName: String = ""
 
         public init() {}
 
@@ -534,9 +596,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineAnalysisSchemeRequest: Serializable, Initializable {
-        var analysisScheme: AnalysisScheme = AnalysisScheme()
-        var domainName: String = ""
+    public struct DefineAnalysisSchemeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var analysisScheme: AnalysisScheme = AnalysisScheme()
+        public var domainName: String = ""
 
         public init() {}
 
@@ -547,9 +611,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteDomainRequest: Serializable, Initializable {
+    public struct DeleteDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the domain you want to permanently delete.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -559,8 +625,10 @@ extension Cloudsearch {
 
     }
 
-    public struct IndexDocumentsRequest: Serializable, Initializable {
-        var domainName: String = ""
+    public struct IndexDocumentsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainName: String = ""
 
         public init() {}
 
@@ -570,10 +638,12 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteExpressionRequest: Serializable, Initializable {
+    public struct DeleteExpressionRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the Expression to delete.
-        var expressionName: String = ""
-        var domainName: String = ""
+        public var expressionName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -584,9 +654,11 @@ extension Cloudsearch {
 
     }
 
-    public struct IndexFieldStatus: Serializable, Initializable {
-        var options: IndexField = IndexField()
-        var status: OptionStatus = OptionStatus()
+    public struct IndexFieldStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var options: IndexField = IndexField()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -597,10 +669,12 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteAnalysisSchemeRequest: Serializable, Initializable {
+    public struct DeleteAnalysisSchemeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the analysis scheme you want to delete.
-        var analysisSchemeName: String = ""
-        var domainName: String = ""
+        public var analysisSchemeName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -611,9 +685,11 @@ extension Cloudsearch {
 
     }
 
-    public struct ScalingParametersStatus: Serializable, Initializable {
-        var options: ScalingParameters = ScalingParameters()
-        var status: OptionStatus = OptionStatus()
+    public struct ScalingParametersStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var options: ScalingParameters = ScalingParameters()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -624,17 +700,19 @@ extension Cloudsearch {
 
     }
 
-    public struct AnalysisOptions: Serializable, Initializable {
+    public struct AnalysisOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
-        var stemmingDictionary: String? = nil
+        public var stemmingDictionary: String? = nil
         /// A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields.
-        var japaneseTokenizationDictionary: String? = nil
+        public var japaneseTokenizationDictionary: String? = nil
         /// A JSON array of terms to ignore during indexing and searching. For example, ["a", "an", "the", "of"]. The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. 
-        var stopwords: String? = nil
+        public var stopwords: String? = nil
         /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide 
-        var algorithmicStemming: String? = nil
+        public var algorithmicStemming: String? = nil
         /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
-        var synonyms: String? = nil
+        public var synonyms: String? = nil
 
         public init() {}
 
@@ -648,10 +726,12 @@ extension Cloudsearch {
 
     }
 
-    public struct UpdateServiceAccessPoliciesRequest: Serializable, Initializable {
+    public struct UpdateServiceAccessPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access rules you want to configure. These rules replace any existing rules. 
-        var accessPolicies: String = ""
-        var domainName: String = ""
+        public var accessPolicies: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -662,17 +742,19 @@ extension Cloudsearch {
 
     }
 
-    public struct DateArrayOptions: Serializable, Initializable {
+    public struct DateArrayOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
-        var sourceFields: String? = nil
+        public var sourceFields: String? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
+        public var facetEnabled: Bool? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -686,9 +768,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteAnalysisSchemeResponse: Serializable, Initializable {
+    public struct DeleteAnalysisSchemeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The status of the analysis scheme being deleted.
-        var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
+        public var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
 
         public init() {}
 
@@ -698,8 +782,10 @@ extension Cloudsearch {
 
     }
 
-    public struct BuildSuggestersResponse: Serializable, Initializable {
-        var fieldNames: [String]? = nil
+    public struct BuildSuggestersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var fieldNames: [String]? = nil
 
         public init() {}
 
@@ -709,9 +795,11 @@ extension Cloudsearch {
 
     }
 
-    public struct AnalysisSchemeStatus: Serializable, Initializable {
-        var options: AnalysisScheme = AnalysisScheme()
-        var status: OptionStatus = OptionStatus()
+    public struct AnalysisSchemeStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var options: AnalysisScheme = AnalysisScheme()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -722,9 +810,11 @@ extension Cloudsearch {
 
     }
 
-    public struct AccessPoliciesStatus: Serializable, Initializable {
-        var options: String = ""
-        var status: OptionStatus = OptionStatus()
+    public struct AccessPoliciesStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var options: String = ""
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -735,18 +825,20 @@ extension Cloudsearch {
 
     }
 
-    public struct TextOptions: Serializable, Initializable {
+    public struct TextOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of an analysis scheme for a text field.
-        var analysisScheme: String? = nil
+        public var analysisScheme: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
-        var sourceField: String? = nil
+        public var returnEnabled: Bool? = nil
+        public var sourceField: String? = nil
         /// Whether highlights can be returned for the field.
-        var highlightEnabled: Bool? = nil
+        public var highlightEnabled: Bool? = nil
         /// Whether the field can be used to sort the search results.
-        var sortEnabled: Bool? = nil
+        public var sortEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -761,9 +853,11 @@ extension Cloudsearch {
 
     }
 
-    public struct IndexDocumentsResponse: Serializable, Initializable {
+    public struct IndexDocumentsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the fields that are currently being indexed.
-        var fieldNames: [String]? = nil
+        public var fieldNames: [String]? = nil
 
         public init() {}
 
@@ -773,8 +867,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineExpressionResponse: Serializable, Initializable {
-        var expression: ExpressionStatus = ExpressionStatus()
+    public struct DefineExpressionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var expression: ExpressionStatus = ExpressionStatus()
 
         public init() {}
 
@@ -784,9 +880,11 @@ extension Cloudsearch {
 
     }
 
-    public struct UpdateAvailabilityOptionsResponse: Serializable, Initializable {
+    public struct UpdateAvailabilityOptionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
-        var availabilityOptions: AvailabilityOptionsStatus? = nil
+        public var availabilityOptions: AvailabilityOptionsStatus? = nil
 
         public init() {}
 
@@ -796,17 +894,19 @@ extension Cloudsearch {
 
     }
 
-    public struct LiteralArrayOptions: Serializable, Initializable {
+    public struct LiteralArrayOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
-        var sourceFields: String? = nil
+        public var sourceFields: String? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
+        public var facetEnabled: Bool? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -820,17 +920,19 @@ extension Cloudsearch {
 
     }
 
-    public struct IntArrayOptions: Serializable, Initializable {
+    public struct IntArrayOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
-        var sourceFields: String? = nil
+        public var sourceFields: String? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
+        public var facetEnabled: Bool? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: Int64? = nil
+        public var defaultValue: Int64? = nil
 
         public init() {}
 
@@ -844,9 +946,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeAnalysisSchemesResponse: Serializable, Initializable {
+    public struct DescribeAnalysisSchemesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The analysis scheme descriptions.
-        var analysisSchemes: [AnalysisSchemeStatus] = []
+        public var analysisSchemes: [AnalysisSchemeStatus] = []
 
         public init() {}
 
@@ -856,9 +960,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeExpressionsResponse: Serializable, Initializable {
+    public struct DescribeExpressionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The expressions configured for the domain.
-        var expressions: [ExpressionStatus] = []
+        public var expressions: [ExpressionStatus] = []
 
         public init() {}
 
@@ -868,9 +974,11 @@ extension Cloudsearch {
 
     }
 
-    public struct Expression: Serializable, Initializable {
-        var expressionValue: String = ""
-        var expressionName: String = ""
+    public struct Expression: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var expressionValue: String = ""
+        public var expressionName: String = ""
 
         public init() {}
 
@@ -881,9 +989,11 @@ extension Cloudsearch {
 
     }
 
-    public struct SuggesterStatus: Serializable, Initializable {
-        var options: Suggester = Suggester()
-        var status: OptionStatus = OptionStatus()
+    public struct SuggesterStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var options: Suggester = Suggester()
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -894,13 +1004,15 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeSuggestersRequest: Serializable, Initializable {
+    public struct DescribeSuggestersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        var deployed: Bool? = nil
+        public var deployed: Bool? = nil
         /// The suggesters you want to describe.
-        var suggesterNames: [String]? = nil
+        public var suggesterNames: [String]? = nil
         /// The name of the domain you want to describe.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -912,21 +1024,23 @@ extension Cloudsearch {
 
     }
 
-    public struct IndexField: Serializable, Initializable {
-        var intOptions: IntOptions? = nil
-        var dateOptions: DateOptions? = nil
-        var textArrayOptions: TextArrayOptions? = nil
-        var doubleOptions: DoubleOptions? = nil
-        var literalArrayOptions: LiteralArrayOptions? = nil
-        var intArrayOptions: IntArrayOptions? = nil
-        var indexFieldType: String = ""
+    public struct IndexField: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var intOptions: IntOptions? = nil
+        public var dateOptions: DateOptions? = nil
+        public var textArrayOptions: TextArrayOptions? = nil
+        public var doubleOptions: DoubleOptions? = nil
+        public var literalArrayOptions: LiteralArrayOptions? = nil
+        public var intArrayOptions: IntArrayOptions? = nil
+        public var indexFieldType: String = ""
         /// A string that represents the name of an index field. CloudSearch supports regular index fields as well as dynamic fields. A dynamic field's name defines a pattern that begins or ends with a wildcard. Any document fields that don't map to a regular index field but do match a dynamic field's pattern are configured with the dynamic field's indexing options.  Regular field names begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Dynamic field names must begin or end with a wildcard (*). The wildcard can also be the only character in a dynamic field name. Multiple wildcards, and wildcards embedded within a string are not supported.  The name score is reserved and cannot be used as a field name. To reference a document's ID, you can use the name _id. 
-        var indexFieldName: String = ""
-        var dateArrayOptions: DateArrayOptions? = nil
-        var literalOptions: LiteralOptions? = nil
-        var latLonOptions: LatLonOptions? = nil
-        var textOptions: TextOptions? = nil
-        var doubleArrayOptions: DoubleArrayOptions? = nil
+        public var indexFieldName: String = ""
+        public var dateArrayOptions: DateArrayOptions? = nil
+        public var literalOptions: LiteralOptions? = nil
+        public var latLonOptions: LatLonOptions? = nil
+        public var textOptions: TextOptions? = nil
+        public var doubleArrayOptions: DoubleArrayOptions? = nil
 
         public init() {}
 
@@ -948,18 +1062,20 @@ extension Cloudsearch {
 
     }
 
-    public struct LatLonOptions: Serializable, Initializable {
+    public struct LatLonOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
-        var sourceField: String? = nil
+        public var facetEnabled: Bool? = nil
+        public var sourceField: String? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// Whether the field can be used to sort the search results.
-        var sortEnabled: Bool? = nil
+        public var sortEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -974,13 +1090,15 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeExpressionsRequest: Serializable, Initializable {
+    public struct DescribeExpressionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        var deployed: Bool? = nil
+        public var deployed: Bool? = nil
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
-        var expressionNames: [String]? = nil
+        public var expressionNames: [String]? = nil
         /// The name of the domain you want to describe.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -992,19 +1110,21 @@ extension Cloudsearch {
 
     }
 
-    public struct DoubleOptions: Serializable, Initializable {
+    public struct DoubleOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
+        public var facetEnabled: Bool? = nil
         /// The name of the source field to map to the field. 
-        var sourceField: String? = nil
+        public var sourceField: String? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// Whether the field can be used to sort the search results.
-        var sortEnabled: Bool? = nil
+        public var sortEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
-        var defaultValue: Double? = nil
+        public var defaultValue: Double? = nil
 
         public init() {}
 
@@ -1019,18 +1139,20 @@ extension Cloudsearch {
 
     }
 
-    public struct DateOptions: Serializable, Initializable {
+    public struct DateOptions: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        var returnEnabled: Bool? = nil
+        public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
-        var facetEnabled: Bool? = nil
-        var sourceField: String? = nil
+        public var facetEnabled: Bool? = nil
+        public var sourceField: String? = nil
         /// Whether the contents of the field are searchable.
-        var searchEnabled: Bool? = nil
+        public var searchEnabled: Bool? = nil
         /// Whether the field can be used to sort the search results.
-        var sortEnabled: Bool? = nil
+        public var sortEnabled: Bool? = nil
         /// A value to use for the field if the field isn't specified for a document.
-        var defaultValue: String? = nil
+        public var defaultValue: String? = nil
 
         public init() {}
 
@@ -1045,10 +1167,12 @@ extension Cloudsearch {
 
     }
 
-    public struct UpdateAvailabilityOptionsRequest: Serializable, Initializable {
+    public struct UpdateAvailabilityOptionsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
-        var multiAZ: Bool = false
-        var domainName: String = ""
+        public var multiAZ: Bool = false
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1059,9 +1183,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeServiceAccessPoliciesResponse: Serializable, Initializable {
+    public struct DescribeServiceAccessPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The access rules configured for the domain specified in the request.
-        var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
+        public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
 
         public init() {}
 
@@ -1071,8 +1197,10 @@ extension Cloudsearch {
 
     }
 
-    public struct BuildSuggestersRequest: Serializable, Initializable {
-        var domainName: String = ""
+    public struct BuildSuggestersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1082,10 +1210,12 @@ extension Cloudsearch {
 
     }
 
-    public struct AvailabilityOptionsStatus: Serializable, Initializable {
+    public struct AvailabilityOptionsStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The availability options configured for the domain.
-        var options: Bool = false
-        var status: OptionStatus = OptionStatus()
+        public var options: Bool = false
+        public var status: OptionStatus = OptionStatus()
 
         public init() {}
 
@@ -1096,8 +1226,10 @@ extension Cloudsearch {
 
     }
 
-    public struct ServiceEndpoint: Serializable, Initializable {
-        var endpoint: String? = nil
+    public struct ServiceEndpoint: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var endpoint: String? = nil
 
         public init() {}
 
@@ -1107,10 +1239,12 @@ extension Cloudsearch {
 
     }
 
-    public struct DeleteSuggesterRequest: Serializable, Initializable {
+    public struct DeleteSuggesterRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies the name of the suggester you want to delete.
-        var suggesterName: String = ""
-        var domainName: String = ""
+        public var suggesterName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1121,9 +1255,11 @@ extension Cloudsearch {
 
     }
 
-    public struct Limits: Serializable, Initializable {
-        var maximumReplicationCount: Int32 = 0
-        var maximumPartitionCount: Int32 = 0
+    public struct Limits: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var maximumReplicationCount: Int32 = 0
+        public var maximumPartitionCount: Int32 = 0
 
         public init() {}
 
@@ -1134,9 +1270,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeIndexFieldsResponse: Serializable, Initializable {
+    public struct DescribeIndexFieldsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The index fields configured for the domain.
-        var indexFields: [IndexFieldStatus] = []
+        public var indexFields: [IndexFieldStatus] = []
 
         public init() {}
 
@@ -1146,9 +1284,11 @@ extension Cloudsearch {
 
     }
 
-    public struct UpdateScalingParametersRequest: Serializable, Initializable {
-        var scalingParameters: ScalingParameters = ScalingParameters()
-        var domainName: String = ""
+    public struct UpdateScalingParametersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var scalingParameters: ScalingParameters = ScalingParameters()
+        public var domainName: String = ""
 
         public init() {}
 
@@ -1159,8 +1299,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineAnalysisSchemeResponse: Serializable, Initializable {
-        var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
+    public struct DefineAnalysisSchemeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
 
         public init() {}
 
@@ -1170,8 +1312,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineSuggesterResponse: Serializable, Initializable {
-        var suggester: SuggesterStatus = SuggesterStatus()
+    public struct DefineSuggesterResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var suggester: SuggesterStatus = SuggesterStatus()
 
         public init() {}
 
@@ -1181,8 +1325,10 @@ extension Cloudsearch {
 
     }
 
-    public struct DefineIndexFieldResponse: Serializable, Initializable {
-        var indexField: IndexFieldStatus = IndexFieldStatus()
+    public struct DefineIndexFieldResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var indexField: IndexFieldStatus = IndexFieldStatus()
 
         public init() {}
 
@@ -1192,9 +1338,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeSuggestersResponse: Serializable, Initializable {
+    public struct DescribeSuggestersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The suggesters configured for the domain specified in the request.
-        var suggesters: [SuggesterStatus] = []
+        public var suggesters: [SuggesterStatus] = []
 
         public init() {}
 
@@ -1204,9 +1352,11 @@ extension Cloudsearch {
 
     }
 
-    public struct DescribeAvailabilityOptionsResponse: Serializable, Initializable {
+    public struct DescribeAvailabilityOptionsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
-        var availabilityOptions: AvailabilityOptionsStatus? = nil
+        public var availabilityOptions: AvailabilityOptionsStatus? = nil
 
         public init() {}
 
@@ -1216,9 +1366,11 @@ extension Cloudsearch {
 
     }
 
-    public struct CreateDomainRequest: Serializable, Initializable {
+    public struct CreateDomainRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
-        var domainName: String = ""
+        public var domainName: String = ""
 
         public init() {}
 

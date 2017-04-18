@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Route53domains
-public enum Route53domainsError: Error {
+public enum Route53domainsError: AWSErrorType {
     case invalidInput(message: String?)
     case duplicateRequest(message: String?)
     case tLDRulesViolation(message: String?)

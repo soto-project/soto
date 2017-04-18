@@ -29,15 +29,17 @@ import Core
 
 extension Config {
 
-    public struct ConfigStreamDeliveryInfo: Serializable, Initializable {
+    public struct ConfigStreamDeliveryInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The error message from the last attempted delivery.
-        var lastErrorMessage: String? = nil
+        public var lastErrorMessage: String? = nil
         /// The error code from the last attempted delivery.
-        var lastErrorCode: String? = nil
+        public var lastErrorCode: String? = nil
         /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
-        var lastStatus: String? = nil
+        public var lastStatus: String? = nil
         /// The time from the last status change.
-        var lastStatusChangeTime: Date? = nil
+        public var lastStatusChangeTime: Date? = nil
 
         public init() {}
 
@@ -50,11 +52,13 @@ extension Config {
 
     }
 
-    public struct GetComplianceDetailsByConfigRuleResponse: Serializable, Initializable {
+    public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether the AWS resource complies with the specified AWS Config rule.
-        var evaluationResults: [EvaluationResult]? = nil
+        public var evaluationResults: [EvaluationResult]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -65,11 +69,13 @@ extension Config {
 
     }
 
-    public struct GetComplianceDetailsByResourceResponse: Serializable, Initializable {
+    public struct GetComplianceDetailsByResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether the specified AWS resource complies each AWS Config rule.
-        var evaluationResults: [EvaluationResult]? = nil
+        public var evaluationResults: [EvaluationResult]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -80,13 +86,15 @@ extension Config {
 
     }
 
-    public struct Source: Serializable, Initializable {
+    public struct Source: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
-        var owner: String = ""
+        public var owner: String = ""
         /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
-        var sourceDetails: [SourceDetail]? = nil
+        public var sourceDetails: [SourceDetail]? = nil
         /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-1:123456789012:function:custom_rule_name.
-        var sourceIdentifier: String = ""
+        public var sourceIdentifier: String = ""
 
         public init() {}
 
@@ -98,9 +106,11 @@ extension Config {
 
     }
 
-    public struct DeleteConfigRuleRequest: Serializable, Initializable {
+    public struct DeleteConfigRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the AWS Config rule that you want to delete.
-        var configRuleName: String = ""
+        public var configRuleName: String = ""
 
         public init() {}
 
@@ -110,13 +120,15 @@ extension Config {
 
     }
 
-    public struct SourceDetail: Serializable, Initializable {
+    public struct SourceDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification. 
-        var messageType: String? = nil
+        public var messageType: String? = nil
         /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
-        var eventSource: String? = nil
+        public var eventSource: String? = nil
         /// The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.
-        var maximumExecutionFrequency: String? = nil
+        public var maximumExecutionFrequency: String? = nil
 
         public init() {}
 
@@ -128,19 +140,21 @@ extension Config {
 
     }
 
-    public struct ConfigExportDeliveryInfo: Serializable, Initializable {
+    public struct ConfigExportDeliveryInfo: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The error message from the last attempted delivery.
-        var lastErrorMessage: String? = nil
+        public var lastErrorMessage: String? = nil
         /// The time of the last attempted delivery.
-        var lastAttemptTime: Date? = nil
+        public var lastAttemptTime: Date? = nil
         /// The time of the last successful delivery.
-        var lastSuccessfulTime: Date? = nil
+        public var lastSuccessfulTime: Date? = nil
         /// The error code from the last attempted delivery.
-        var lastErrorCode: String? = nil
+        public var lastErrorCode: String? = nil
         /// Status of the last attempted delivery.
-        var lastStatus: String? = nil
+        public var lastStatus: String? = nil
         /// The time that the next delivery occurs.
-        var nextDeliveryTime: Date? = nil
+        public var nextDeliveryTime: Date? = nil
 
         public init() {}
 
@@ -155,9 +169,11 @@ extension Config {
 
     }
 
-    public struct DescribeConfigurationRecordersResponse: Serializable, Initializable {
+    public struct DescribeConfigurationRecordersResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list that contains the descriptions of the specified configuration recorders.
-        var configurationRecorders: [ConfigurationRecorder]? = nil
+        public var configurationRecorders: [ConfigurationRecorder]? = nil
 
         public init() {}
 
@@ -167,9 +183,11 @@ extension Config {
 
     }
 
-    public struct DescribeConfigurationRecordersRequest: Serializable, Initializable {
+    public struct DescribeConfigurationRecordersRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of configuration recorder names.
-        var configurationRecorderNames: [String]? = nil
+        public var configurationRecorderNames: [String]? = nil
 
         public init() {}
 
@@ -179,15 +197,17 @@ extension Config {
 
     }
 
-    public struct ResourceIdentifier: Serializable, Initializable {
+    public struct ResourceIdentifier: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The type of resource.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The ID of the resource (for example., sg-xxxxxx).
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The custom name of the resource (if available).
-        var resourceName: String? = nil
+        public var resourceName: String? = nil
         /// The time that the resource was deleted.
-        var resourceDeletionTime: Date? = nil
+        public var resourceDeletionTime: Date? = nil
 
         public init() {}
 
@@ -200,16 +220,18 @@ extension Config {
 
     }
 
-    public struct DeliveryChannel: Serializable, Initializable {
+    public struct DeliveryChannel: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The prefix for the specified Amazon S3 bucket.
-        var s3KeyPrefix: String? = nil
+        public var s3KeyPrefix: String? = nil
         /// The name of the delivery channel. By default, AWS Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
-        var name: String? = nil
-        var configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil
+        public var name: String? = nil
+        public var configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil
         /// The name of the Amazon S3 bucket to which AWS Config delivers configuration snapshots and configuration history files. If you specify a bucket that belongs to another AWS account, that bucket must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon S3 Bucket in the AWS Config Developer Guide.
-        var s3BucketName: String? = nil
+        public var s3BucketName: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
-        var snsTopicARN: String? = nil
+        public var snsTopicARN: String? = nil
 
         public init() {}
 
@@ -223,8 +245,10 @@ extension Config {
 
     }
 
-    public struct PutConfigRuleRequest: Serializable, Initializable {
-        var configRule: ConfigRule = ConfigRule()
+    public struct PutConfigRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var configRule: ConfigRule = ConfigRule()
 
         public init() {}
 
@@ -234,9 +258,11 @@ extension Config {
 
     }
 
-    public struct DescribeDeliveryChannelsResponse: Serializable, Initializable {
+    public struct DescribeDeliveryChannelsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list that contains the descriptions of the specified delivery channel.
-        var deliveryChannels: [DeliveryChannel]? = nil
+        public var deliveryChannels: [DeliveryChannel]? = nil
 
         public init() {}
 
@@ -246,11 +272,13 @@ extension Config {
 
     }
 
-    public struct DescribeConfigRuleEvaluationStatusResponse: Serializable, Initializable {
+    public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Status information about your AWS managed Config rules.
-        var configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]? = nil
+        public var configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]? = nil
 
         public init() {}
 
@@ -261,11 +289,13 @@ extension Config {
 
     }
 
-    public struct DescribeComplianceByResourceResponse: Serializable, Initializable {
+    public struct DescribeComplianceByResourceResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Indicates whether the specified AWS resource complies with all of the AWS Config rules that evaluate it.
-        var complianceByResources: [ComplianceByResource]? = nil
+        public var complianceByResources: [ComplianceByResource]? = nil
 
         public init() {}
 
@@ -276,11 +306,13 @@ extension Config {
 
     }
 
-    public struct DescribeConfigRulesRequest: Serializable, Initializable {
+    public struct DescribeConfigRulesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
-        var configRuleNames: [String]? = nil
+        public var configRuleNames: [String]? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -291,9 +323,11 @@ extension Config {
 
     }
 
-    public struct DeliverConfigSnapshotResponse: Serializable, Initializable {
+    public struct DeliverConfigSnapshotResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the snapshot that is being created.
-        var configSnapshotId: String? = nil
+        public var configSnapshotId: String? = nil
 
         public init() {}
 
@@ -303,19 +337,21 @@ extension Config {
 
     }
 
-    public struct ListDiscoveredResourcesRequest: Serializable, Initializable {
+    public struct ListDiscoveredResourcesRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
-        var includeDeletedResources: Bool? = nil
+        public var includeDeletedResources: Bool? = nil
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The type of resources that you want AWS Config to list in the response.
-        var resourceType: String = ""
+        public var resourceType: String = ""
         /// The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
-        var resourceIds: [String]? = nil
+        public var resourceIds: [String]? = nil
         /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The custom name of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
-        var resourceName: String? = nil
+        public var resourceName: String? = nil
 
         public init() {}
 
@@ -330,9 +366,11 @@ extension Config {
 
     }
 
-    public struct DeliverConfigSnapshotRequest: Serializable, Initializable {
+    public struct DeliverConfigSnapshotRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the delivery channel through which the snapshot is delivered.
-        var deliveryChannelName: String = ""
+        public var deliveryChannelName: String = ""
 
         public init() {}
 
@@ -342,9 +380,11 @@ extension Config {
 
     }
 
-    public struct DescribeDeliveryChannelsRequest: Serializable, Initializable {
+    public struct DescribeDeliveryChannelsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of delivery channel names.
-        var deliveryChannelNames: [String]? = nil
+        public var deliveryChannelNames: [String]? = nil
 
         public init() {}
 
@@ -354,9 +394,11 @@ extension Config {
 
     }
 
-    public struct GetComplianceSummaryByResourceTypeResponse: Serializable, Initializable {
+    public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
-        var complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil
+        public var complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil
 
         public init() {}
 
@@ -366,9 +408,11 @@ extension Config {
 
     }
 
-    public struct DeleteEvaluationResultsRequest: Serializable, Initializable {
+    public struct DeleteEvaluationResultsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the Config rule for which you want to delete the evaluation results.
-        var configRuleName: String = ""
+        public var configRuleName: String = ""
 
         public init() {}
 
@@ -378,43 +422,45 @@ extension Config {
 
     }
 
-    public struct ConfigurationItem: Serializable, Initializable {
+    public struct ConfigurationItem: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An identifier that indicates the ordering of the configuration items of a resource.
-        var configurationStateId: String? = nil
+        public var configurationStateId: String? = nil
         /// The type of AWS resource.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The custom name of the resource, if available.
-        var resourceName: String? = nil
+        public var resourceName: String? = nil
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see What is AWS CloudTrail?. An empty field indicates that the current configuration was not initiated by any event.
-        var relatedEvents: [String]? = nil
+        public var relatedEvents: [String]? = nil
         /// A mapping of key value tags associated with the resource.
-        var tags: [String: String]? = nil
+        public var tags: [String: String]? = nil
         /// The ID of the resource (for example., sg-xxxxxx).
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The description of the resource configuration.
-        var configuration: String? = nil
+        public var configuration: String? = nil
         /// The configuration item status.
-        var configurationItemStatus: String? = nil
+        public var configurationItemStatus: String? = nil
         /// The Availability Zone associated with the resource.
-        var availabilityZone: String? = nil
+        public var availabilityZone: String? = nil
         /// A list of related AWS resources.
-        var relationships: [Relationship]? = nil
+        public var relationships: [Relationship]? = nil
         /// The Amazon Resource Name (ARN) of the resource.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The time when the configuration recording was initiated.
-        var configurationItemCaptureTime: Date? = nil
+        public var configurationItemCaptureTime: Date? = nil
         /// The version number of the resource configuration.
-        var version: String? = nil
+        public var version: String? = nil
         /// The 12 digit AWS account ID associated with the resource.
-        var accountId: String? = nil
+        public var accountId: String? = nil
         /// The time stamp when the resource was created.
-        var resourceCreationTime: Date? = nil
+        public var resourceCreationTime: Date? = nil
         /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
-        var supplementaryConfiguration: [String: String]? = nil
+        public var supplementaryConfiguration: [String: String]? = nil
         /// The region where the resource resides.
-        var awsRegion: String? = nil
+        public var awsRegion: String? = nil
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
-        var configurationItemMD5Hash: String? = nil
+        public var configurationItemMD5Hash: String? = nil
 
         public init() {}
 
@@ -441,9 +487,11 @@ extension Config {
 
     }
 
-    public struct PutConfigurationRecorderRequest: Serializable, Initializable {
+    public struct PutConfigurationRecorderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The configuration recorder object that records each configuration change made to the resources.
-        var configurationRecorder: ConfigurationRecorder = ConfigurationRecorder()
+        public var configurationRecorder: ConfigurationRecorder = ConfigurationRecorder()
 
         public init() {}
 
@@ -453,11 +501,13 @@ extension Config {
 
     }
 
-    public struct EvaluationResultIdentifier: Serializable, Initializable {
+    public struct EvaluationResultIdentifier: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
-        var orderingTimestamp: Date? = nil
+        public var orderingTimestamp: Date? = nil
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
-        var evaluationResultQualifier: EvaluationResultQualifier? = nil
+        public var evaluationResultQualifier: EvaluationResultQualifier? = nil
 
         public init() {}
 
@@ -468,13 +518,15 @@ extension Config {
 
     }
 
-    public struct RecordingGroup: Serializable, Initializable {
+    public struct RecordingGroup: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it automatically starts recording resources of that type. If you set this option to true, you cannot enumerate a list of resourceTypes.
-        var allSupported: Bool? = nil
+        public var allSupported: Bool? = nil
         /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it automatically starts recording resources of that type. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
-        var includeGlobalResourceTypes: Bool? = nil
+        public var includeGlobalResourceTypes: Bool? = nil
         /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). Before you can set this option to true, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
-        var resourceTypes: [String]? = nil
+        public var resourceTypes: [String]? = nil
 
         public init() {}
 
@@ -486,15 +538,17 @@ extension Config {
 
     }
 
-    public struct GetComplianceDetailsByConfigRuleRequest: Serializable, Initializable {
+    public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the AWS Config rule for which you want compliance information.
-        var configRuleName: String = ""
+        public var configRuleName: String = ""
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
-        var complianceTypes: [String]? = nil
+        public var complianceTypes: [String]? = nil
 
         public init() {}
 
@@ -507,11 +561,13 @@ extension Config {
 
     }
 
-    public struct ComplianceSummaryByResourceType: Serializable, Initializable {
+    public struct ComplianceSummaryByResourceType: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each compliance.
-        var complianceSummary: ComplianceSummary? = nil
+        public var complianceSummary: ComplianceSummary? = nil
         /// The type of AWS resource.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
 
         public init() {}
 
@@ -522,9 +578,11 @@ extension Config {
 
     }
 
-    public struct PutDeliveryChannelRequest: Serializable, Initializable {
+    public struct PutDeliveryChannelRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket, and to an Amazon SNS topic.
-        var deliveryChannel: DeliveryChannel = DeliveryChannel()
+        public var deliveryChannel: DeliveryChannel = DeliveryChannel()
 
         public init() {}
 
@@ -534,17 +592,19 @@ extension Config {
 
     }
 
-    public struct Evaluation: Serializable, Initializable {
+    public struct Evaluation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
-        var complianceType: String = ""
+        public var complianceType: String = ""
         /// The ID of the AWS resource that was evaluated.
-        var complianceResourceId: String = ""
+        public var complianceResourceId: String = ""
         /// The type of AWS resource that was evaluated.
-        var complianceResourceType: String = ""
+        public var complianceResourceType: String = ""
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
-        var orderingTimestamp: Date = Date()
+        public var orderingTimestamp: Date = Date()
         /// Supplementary information about how the evaluation determined the compliance.
-        var annotation: String? = nil
+        public var annotation: String? = nil
 
         public init() {}
 
@@ -558,9 +618,11 @@ extension Config {
 
     }
 
-    public struct StopConfigurationRecorderRequest: Serializable, Initializable {
+    public struct StopConfigurationRecorderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the recorder object that records each configuration change made to the resources.
-        var configurationRecorderName: String = ""
+        public var configurationRecorderName: String = ""
 
         public init() {}
 
@@ -570,25 +632,27 @@ extension Config {
 
     }
 
-    public struct ConfigRule: Serializable, Initializable {
+    public struct ConfigRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
-        var configRuleName: String? = nil
+        public var configRuleName: String? = nil
         /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the Config rule. AWS Config sets the state of a rule to DELETING temporarily after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
-        var configRuleState: String? = nil
+        public var configRuleState: String? = nil
         /// The ID of the AWS Config rule.
-        var configRuleId: String? = nil
+        public var configRuleId: String? = nil
         /// A string in JSON format that is passed to the AWS Config rule Lambda function.
-        var inputParameters: String? = nil
+        public var inputParameters: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
-        var configRuleArn: String? = nil
+        public var configRuleArn: String? = nil
         /// Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
-        var source: Source = Source()
+        public var source: Source = Source()
         /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
-        var scope: Scope? = nil
+        public var scope: Scope? = nil
         /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot.   For more information, see ConfigSnapshotDeliveryProperties.
-        var maximumExecutionFrequency: String? = nil
+        public var maximumExecutionFrequency: String? = nil
         /// The description that you provide for the AWS Config rule.
-        var description: String? = nil
+        public var description: String? = nil
 
         public init() {}
 
@@ -606,13 +670,15 @@ extension Config {
 
     }
 
-    public struct EvaluationResultQualifier: Serializable, Initializable {
+    public struct EvaluationResultQualifier: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the evaluated AWS resource.
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The type of AWS resource that was evaluated.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The name of the AWS Config rule that was used in the evaluation.
-        var configRuleName: String? = nil
+        public var configRuleName: String? = nil
 
         public init() {}
 
@@ -624,9 +690,11 @@ extension Config {
 
     }
 
-    public struct DescribeConfigurationRecorderStatusResponse: Serializable, Initializable {
+    public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list that contains status of the specified recorders.
-        var configurationRecordersStatus: [ConfigurationRecorderStatus]? = nil
+        public var configurationRecordersStatus: [ConfigurationRecorderStatus]? = nil
 
         public init() {}
 
@@ -636,13 +704,15 @@ extension Config {
 
     }
 
-    public struct ComplianceSummary: Serializable, Initializable {
+    public struct ComplianceSummary: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time that AWS Config created the compliance summary.
-        var complianceSummaryTimestamp: Date? = nil
+        public var complianceSummaryTimestamp: Date? = nil
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
-        var nonCompliantResourceCount: ComplianceContributorCount? = nil
+        public var nonCompliantResourceCount: ComplianceContributorCount? = nil
         /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
-        var compliantResourceCount: ComplianceContributorCount? = nil
+        public var compliantResourceCount: ComplianceContributorCount? = nil
 
         public init() {}
 
@@ -654,15 +724,17 @@ extension Config {
 
     }
 
-    public struct Scope: Serializable, Initializable {
+    public struct Scope: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource types of only those AWS resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
-        var complianceResourceTypes: [String]? = nil
+        public var complianceResourceTypes: [String]? = nil
         /// The IDs of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
-        var complianceResourceId: String? = nil
+        public var complianceResourceId: String? = nil
         /// The tag value applied to only those AWS resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
-        var tagValue: String? = nil
+        public var tagValue: String? = nil
         /// The tag key that is applied to only those AWS resources that you want you want to trigger an evaluation for the rule.
-        var tagKey: String? = nil
+        public var tagKey: String? = nil
 
         public init() {}
 
@@ -675,29 +747,31 @@ extension Config {
 
     }
 
-    public struct ConfigRuleEvaluationStatus: Serializable, Initializable {
+    public struct ConfigRuleEvaluationStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
-        var lastFailedEvaluationTime: Date? = nil
+        public var lastFailedEvaluationTime: Date? = nil
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
-        var firstEvaluationStarted: Bool? = nil
+        public var firstEvaluationStarted: Bool? = nil
         /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
-        var lastSuccessfulEvaluationTime: Date? = nil
+        public var lastSuccessfulEvaluationTime: Date? = nil
         /// The name of the AWS Config rule.
-        var configRuleName: String? = nil
+        public var configRuleName: String? = nil
         /// The time that you first activated the AWS Config rule.
-        var firstActivatedTime: Date? = nil
+        public var firstActivatedTime: Date? = nil
         /// The ID of the AWS Config rule.
-        var configRuleId: String? = nil
+        public var configRuleId: String? = nil
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
-        var lastSuccessfulInvocationTime: Date? = nil
+        public var lastSuccessfulInvocationTime: Date? = nil
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
-        var configRuleArn: String? = nil
+        public var configRuleArn: String? = nil
         /// The error code that AWS Config returned when the rule last failed.
-        var lastErrorCode: String? = nil
+        public var lastErrorCode: String? = nil
         /// The error message that AWS Config returned when the rule last failed.
-        var lastErrorMessage: String? = nil
+        public var lastErrorMessage: String? = nil
         /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
-        var lastFailedInvocationTime: Date? = nil
+        public var lastFailedInvocationTime: Date? = nil
 
         public init() {}
 
@@ -717,9 +791,11 @@ extension Config {
 
     }
 
-    public struct GetComplianceSummaryByConfigRuleResponse: Serializable, Initializable {
+    public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
-        var complianceSummary: ComplianceSummary? = nil
+        public var complianceSummary: ComplianceSummary? = nil
 
         public init() {}
 
@@ -729,9 +805,11 @@ extension Config {
 
     }
 
-    public struct GetComplianceSummaryByResourceTypeRequest: Serializable, Initializable {
+    public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance, and you can specify that the resource type is an AWS account by specifying AWS::::Account.
-        var resourceTypes: [String]? = nil
+        public var resourceTypes: [String]? = nil
 
         public init() {}
 
@@ -741,13 +819,15 @@ extension Config {
 
     }
 
-    public struct DescribeComplianceByConfigRuleRequest: Serializable, Initializable {
+    public struct DescribeComplianceByConfigRuleRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Specify one or more AWS Config rule names to filter the results by rule.
-        var configRuleNames: [String]? = nil
+        public var configRuleNames: [String]? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
-        var complianceTypes: [String]? = nil
+        public var complianceTypes: [String]? = nil
 
         public init() {}
 
@@ -759,15 +839,17 @@ extension Config {
 
     }
 
-    public struct GetComplianceDetailsByResourceRequest: Serializable, Initializable {
+    public struct GetComplianceDetailsByResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the AWS resource for which you want compliance information.
-        var resourceId: String = ""
+        public var resourceId: String = ""
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The type of the AWS resource for which you want compliance information.
-        var resourceType: String = ""
+        public var resourceType: String = ""
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
-        var complianceTypes: [String]? = nil
+        public var complianceTypes: [String]? = nil
 
         public init() {}
 
@@ -780,13 +862,15 @@ extension Config {
 
     }
 
-    public struct ComplianceByResource: Serializable, Initializable {
+    public struct ComplianceByResource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
-        var compliance: Compliance? = nil
+        public var compliance: Compliance? = nil
         /// The ID of the AWS resource that was evaluated.
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The type of the AWS resource that was evaluated.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
 
         public init() {}
 
@@ -798,11 +882,13 @@ extension Config {
 
     }
 
-    public struct DescribeComplianceByConfigRuleResponse: Serializable, Initializable {
+    public struct DescribeComplianceByConfigRuleResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether each of the specified AWS Config rules is compliant.
-        var complianceByConfigRules: [ComplianceByConfigRule]? = nil
+        public var complianceByConfigRules: [ComplianceByConfigRule]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -813,13 +899,15 @@ extension Config {
 
     }
 
-    public struct DescribeConfigRuleEvaluationStatusRequest: Serializable, Initializable {
+    public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
-        var configRuleNames: [String]? = nil
+        public var configRuleNames: [String]? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 50 rules. For more information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
 
         public init() {}
 
@@ -831,15 +919,17 @@ extension Config {
 
     }
 
-    public struct DeliveryChannelStatus: Serializable, Initializable {
+    public struct DeliveryChannelStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the delivery channel.
-        var name: String? = nil
+        public var name: String? = nil
         /// A list containing the status of the delivery of the configuration stream notification to the specified Amazon SNS topic.
-        var configStreamDeliveryInfo: ConfigStreamDeliveryInfo? = nil
+        public var configStreamDeliveryInfo: ConfigStreamDeliveryInfo? = nil
         /// A list that contains the status of the delivery of the configuration history to the specified Amazon S3 bucket.
-        var configHistoryDeliveryInfo: ConfigExportDeliveryInfo? = nil
+        public var configHistoryDeliveryInfo: ConfigExportDeliveryInfo? = nil
         /// A list containing the status of the delivery of the snapshot to the specified Amazon S3 bucket.
-        var configSnapshotDeliveryInfo: ConfigExportDeliveryInfo? = nil
+        public var configSnapshotDeliveryInfo: ConfigExportDeliveryInfo? = nil
 
         public init() {}
 
@@ -852,17 +942,21 @@ extension Config {
 
     }
 
-    public struct StartConfigRulesEvaluationResponse: Serializable, Initializable {
+    public struct StartConfigRulesEvaluationResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct ComplianceByConfigRule: Serializable, Initializable {
+    public struct ComplianceByConfigRule: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Indicates whether the AWS Config rule is compliant.
-        var compliance: Compliance? = nil
+        public var compliance: Compliance? = nil
         /// The name of the AWS Config rule.
-        var configRuleName: String? = nil
+        public var configRuleName: String? = nil
 
         public init() {}
 
@@ -873,11 +967,13 @@ extension Config {
 
     }
 
-    public struct GetResourceConfigHistoryResponse: Serializable, Initializable {
+    public struct GetResourceConfigHistoryResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list that contains the configuration history of one or more resources.
-        var configurationItems: [ConfigurationItem]? = nil
+        public var configurationItems: [ConfigurationItem]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -888,11 +984,13 @@ extension Config {
 
     }
 
-    public struct ComplianceContributorCount: Serializable, Initializable {
+    public struct ComplianceContributorCount: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
-        var cappedCount: Int32? = nil
+        public var cappedCount: Int32? = nil
         /// Indicates whether the maximum count is reached.
-        var capExceeded: Bool? = nil
+        public var capExceeded: Bool? = nil
 
         public init() {}
 
@@ -903,9 +1001,11 @@ extension Config {
 
     }
 
-    public struct DeleteConfigurationRecorderRequest: Serializable, Initializable {
+    public struct DeleteConfigurationRecorderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
-        var configurationRecorderName: String = ""
+        public var configurationRecorderName: String = ""
 
         public init() {}
 
@@ -915,21 +1015,23 @@ extension Config {
 
     }
 
-    public struct GetResourceConfigHistoryRequest: Serializable, Initializable {
+    public struct GetResourceConfigHistoryRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The time stamp that indicates a later time. If not specified, current time is taken.
-        var laterTime: Date? = nil
+        public var laterTime: Date? = nil
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The resource type.
-        var resourceType: String = ""
+        public var resourceType: String = ""
         /// The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
-        var chronologicalOrder: String? = nil
+        public var chronologicalOrder: String? = nil
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
-        var earlierTime: Date? = nil
+        public var earlierTime: Date? = nil
         /// The ID of the resource (for example., sg-xxxxxx).
-        var resourceId: String = ""
+        public var resourceId: String = ""
 
         public init() {}
 
@@ -945,15 +1047,17 @@ extension Config {
 
     }
 
-    public struct Relationship: Serializable, Initializable {
+    public struct Relationship: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The resource type of the related resource.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// The ID of the related resource (for example, sg-xxxxxx).
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The custom name of the related resource, if available.
-        var resourceName: String? = nil
+        public var resourceName: String? = nil
         /// The type of relationship with the related resource.
-        var relationshipName: String? = nil
+        public var relationshipName: String? = nil
 
         public init() {}
 
@@ -966,11 +1070,13 @@ extension Config {
 
     }
 
-    public struct Compliance: Serializable, Initializable {
+    public struct Compliance: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
-        var complianceContributorCount: ComplianceContributorCount? = nil
+        public var complianceContributorCount: ComplianceContributorCount? = nil
         /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it, and it is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it, and it is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
-        var complianceType: String? = nil
+        public var complianceType: String? = nil
 
         public init() {}
 
@@ -981,9 +1087,11 @@ extension Config {
 
     }
 
-    public struct DescribeConfigurationRecorderStatusRequest: Serializable, Initializable {
+    public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
-        var configurationRecorderNames: [String]? = nil
+        public var configurationRecorderNames: [String]? = nil
 
         public init() {}
 
@@ -993,9 +1101,11 @@ extension Config {
 
     }
 
-    public struct ConfigSnapshotDeliveryProperties: Serializable, Initializable {
+    public struct ConfigSnapshotDeliveryProperties: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The frequency with which AWS Config delivers configuration snapshots.
-        var deliveryFrequency: String? = nil
+        public var deliveryFrequency: String? = nil
 
         public init() {}
 
@@ -1005,11 +1115,13 @@ extension Config {
 
     }
 
-    public struct ListDiscoveredResourcesResponse: Serializable, Initializable {
+    public struct ListDiscoveredResourcesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
-        var resourceIdentifiers: [ResourceIdentifier]? = nil
+        public var resourceIdentifiers: [ResourceIdentifier]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1020,17 +1132,21 @@ extension Config {
 
     }
 
-    public struct DeleteEvaluationResultsResponse: Serializable, Initializable {
+    public struct DeleteEvaluationResultsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct DescribeConfigRulesResponse: Serializable, Initializable {
+    public struct DescribeConfigRulesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The details about your AWS Config rules.
-        var configRules: [ConfigRule]? = nil
+        public var configRules: [ConfigRule]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -1041,19 +1157,21 @@ extension Config {
 
     }
 
-    public struct EvaluationResult: Serializable, Initializable {
+    public struct EvaluationResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Uniquely identifies the evaluation result.
-        var evaluationResultIdentifier: EvaluationResultIdentifier? = nil
+        public var evaluationResultIdentifier: EvaluationResultIdentifier? = nil
         /// The time when the AWS Config rule evaluated the AWS resource.
-        var configRuleInvokedTime: Date? = nil
+        public var configRuleInvokedTime: Date? = nil
         /// The time when AWS Config recorded the evaluation result.
-        var resultRecordedTime: Date? = nil
+        public var resultRecordedTime: Date? = nil
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
-        var complianceType: String? = nil
+        public var complianceType: String? = nil
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
-        var resultToken: String? = nil
+        public var resultToken: String? = nil
         /// Supplementary information about how the evaluation determined the compliance.
-        var annotation: String? = nil
+        public var annotation: String? = nil
 
         public init() {}
 
@@ -1068,17 +1186,19 @@ extension Config {
 
     }
 
-    public struct DescribeComplianceByResourceRequest: Serializable, Initializable {
+    public struct DescribeComplianceByResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        var limit: Int32? = nil
+        public var limit: Int32? = nil
         /// The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
-        var resourceId: String? = nil
+        public var resourceId: String? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The types of AWS resources for which you want compliance information; for example, AWS::EC2::Instance. For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account.
-        var resourceType: String? = nil
+        public var resourceType: String? = nil
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
-        var complianceTypes: [String]? = nil
+        public var complianceTypes: [String]? = nil
 
         public init() {}
 
@@ -1092,9 +1212,11 @@ extension Config {
 
     }
 
-    public struct DescribeDeliveryChannelStatusResponse: Serializable, Initializable {
+    public struct DescribeDeliveryChannelStatusResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list that contains the status of a specified delivery channel.
-        var deliveryChannelsStatus: [DeliveryChannelStatus]? = nil
+        public var deliveryChannelsStatus: [DeliveryChannelStatus]? = nil
 
         public init() {}
 
@@ -1104,9 +1226,11 @@ extension Config {
 
     }
 
-    public struct PutEvaluationsResponse: Serializable, Initializable {
+    public struct PutEvaluationsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Requests that failed because of a client or server error.
-        var failedEvaluations: [Evaluation]? = nil
+        public var failedEvaluations: [Evaluation]? = nil
 
         public init() {}
 
@@ -1116,9 +1240,11 @@ extension Config {
 
     }
 
-    public struct StartConfigRulesEvaluationRequest: Serializable, Initializable {
+    public struct StartConfigRulesEvaluationRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of names of Config rules that you want to run evaluations for.
-        var configRuleNames: [String]? = nil
+        public var configRuleNames: [String]? = nil
 
         public init() {}
 
@@ -1128,9 +1254,11 @@ extension Config {
 
     }
 
-    public struct StartConfigurationRecorderRequest: Serializable, Initializable {
+    public struct StartConfigurationRecorderRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the recorder object that records each configuration change made to the resources.
-        var configurationRecorderName: String = ""
+        public var configurationRecorderName: String = ""
 
         public init() {}
 
@@ -1140,9 +1268,11 @@ extension Config {
 
     }
 
-    public struct DeleteDeliveryChannelRequest: Serializable, Initializable {
+    public struct DeleteDeliveryChannelRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the delivery channel to delete.
-        var deliveryChannelName: String = ""
+        public var deliveryChannelName: String = ""
 
         public init() {}
 
@@ -1152,9 +1282,11 @@ extension Config {
 
     }
 
-    public struct DescribeDeliveryChannelStatusRequest: Serializable, Initializable {
+    public struct DescribeDeliveryChannelStatusRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of delivery channel names.
-        var deliveryChannelNames: [String]? = nil
+        public var deliveryChannelNames: [String]? = nil
 
         public init() {}
 
@@ -1164,23 +1296,25 @@ extension Config {
 
     }
 
-    public struct ConfigurationRecorderStatus: Serializable, Initializable {
+    public struct ConfigurationRecorderStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the configuration recorder.
-        var name: String? = nil
+        public var name: String? = nil
         /// The time when the status was last changed.
-        var lastStatusChangeTime: Date? = nil
+        public var lastStatusChangeTime: Date? = nil
         /// The time the recorder was last stopped.
-        var lastStopTime: Date? = nil
+        public var lastStopTime: Date? = nil
         /// Specifies whether the recorder is currently recording or not.
-        var recording: Bool? = nil
+        public var recording: Bool? = nil
         /// The error code indicating that the recording failed.
-        var lastErrorCode: String? = nil
+        public var lastErrorCode: String? = nil
         /// The last (previous) status of the recorder.
-        var lastStatus: String? = nil
+        public var lastStatus: String? = nil
         /// The time the recorder was last started.
-        var lastStartTime: Date? = nil
+        public var lastStartTime: Date? = nil
         /// The message indicating that the recording failed due to an error.
-        var lastErrorMessage: String? = nil
+        public var lastErrorMessage: String? = nil
 
         public init() {}
 
@@ -1197,13 +1331,15 @@ extension Config {
 
     }
 
-    public struct ConfigurationRecorder: Serializable, Initializable {
+    public struct ConfigurationRecorder: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
-        var name: String? = nil
+        public var name: String? = nil
         /// Specifies the types of AWS resource for which AWS Config records configuration changes.
-        var recordingGroup: RecordingGroup? = nil
+        public var recordingGroup: RecordingGroup? = nil
         /// Amazon Resource Name (ARN) of the IAM role used to describe the AWS resources associated with the account.
-        var roleARN: String? = nil
+        public var roleARN: String? = nil
 
         public init() {}
 
@@ -1215,13 +1351,15 @@ extension Config {
 
     }
 
-    public struct PutEvaluationsRequest: Serializable, Initializable {
+    public struct PutEvaluationsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
-        var evaluations: [Evaluation]? = nil
+        public var evaluations: [Evaluation]? = nil
         /// An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation
-        var resultToken: String = ""
+        public var resultToken: String = ""
         /// Use this parameter to specify a test run for PutEvaluations. You can verify whether your AWS Lambda function will deliver evaluation results to AWS Config. No updates occur to your existing evaluations, and evaluation results are not sent to AWS Config.  When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null. 
-        var testMode: Bool? = nil
+        public var testMode: Bool? = nil
 
         public init() {}
 

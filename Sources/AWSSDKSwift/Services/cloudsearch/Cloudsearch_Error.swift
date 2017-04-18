@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cloudsearch
-public enum CloudsearchError: Error {
+public enum CloudsearchError: AWSErrorType {
     case baseException(message: String?)
     case internalException(message: String?)
     case limitExceededException(message: String?)

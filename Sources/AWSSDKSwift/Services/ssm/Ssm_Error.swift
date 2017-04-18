@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Ssm
-public enum SsmError: Error {
+public enum SsmError: AWSErrorType {
     case internalServerError(message: String?)
     case invalidNextToken(message: String?)
     case invalidDocument(message: String?)

@@ -32,35 +32,35 @@ AWS Marketplace Metering Service This reference provides descriptions of the low
 */
 public struct Meteringmarketplace {
 
-    let request: AWSRequest
+    let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
-        self.request = AWSRequest(
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+        self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AWSMPMeteringService",
             service: "metering.marketplace",
-            endpoint: endpoint
+            serviceProtocol: .json,
+            endpoint: endpoint,
+            middlewares: [],
+            possibleErrorTypes: [MeteringmarketplaceError.self]
         )
     }
 
     ///  API to emit metering records. For identical requests, the API is idempotent. It simply returns the metering record ID. MeterUsage is authenticated on the buyer's AWS account, generally when running from an EC2 instance on the AWS Marketplace.
     public func meterUsage(_ input: MeterUsageRequest) throws -> MeterUsageResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "MeterUsage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try MeteringmarketplaceResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "MeterUsage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier and product code.
     public func resolveCustomer(_ input: ResolveCustomerRequest) throws -> ResolveCustomerResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "ResolveCustomer", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try MeteringmarketplaceResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "ResolveCustomer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  BatchMeterUsage is called from a SaaS application listed on the AWS Marketplace to post metering records for a set of customers. For identical requests, the API is idempotent; requests can be retried with the same records or a subset of the input records. Every request to BatchMeterUsage is for one product. If you need to meter usage for multiple products, you must make multiple calls to BatchMeterUsage. BatchMeterUsage can process up to 25 UsageRecords at a time.
     public func batchMeterUsage(_ input: BatchMeterUsageRequest) throws -> BatchMeterUsageResult {
-        let (bodyData, urlResponse) = try request.invoke(operation: "BatchMeterUsage", path: "/", httpMethod: "POST", httpHeaders: [:], input: input)
-        return try MeteringmarketplaceResponseBuilder(bodyData: bodyData, urlResponse: urlResponse).build()
+        return try client.send(operation: "BatchMeterUsage", path: "/", httpMethod: "POST", input: input)
     }
 
 

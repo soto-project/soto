@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for S3
-public enum S3Error: Error {
+public enum S3Error: AWSErrorType {
     case noSuchUpload(message: String?)
     case objectAlreadyInActiveTierError(message: String?)
     case noSuchKey(message: String?)

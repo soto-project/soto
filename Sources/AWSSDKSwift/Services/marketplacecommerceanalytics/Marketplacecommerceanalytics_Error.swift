@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Marketplacecommerceanalytics
-public enum MarketplacecommerceanalyticsError: Error {
+public enum MarketplacecommerceanalyticsError: AWSErrorType {
     case marketplaceCommerceAnalyticsException(message: String?)
 }
 

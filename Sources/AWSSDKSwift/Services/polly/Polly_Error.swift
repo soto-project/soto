@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Polly
-public enum PollyError: Error {
+public enum PollyError: AWSErrorType {
     case lexiconNotFoundException(message: String?)
     case serviceFailureException(message: String?)
     case invalidNextTokenException(message: String?)

@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Rekognition
-public enum RekognitionError: Error {
+public enum RekognitionError: AWSErrorType {
     case invalidS3ObjectException(message: String?)
     case invalidParameterException(message: String?)
     case imageTooLargeException(message: String?)

@@ -29,11 +29,13 @@ import Core
 
 extension Codebuild {
 
-    public struct ListProjectsOutput: Serializable, Initializable {
+    public struct ListProjectsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The list of build project names, with each build project name representing a single build project.
-        var projects: [String]? = nil
+        public var projects: [String]? = nil
 
         public init() {}
 
@@ -44,9 +46,11 @@ extension Codebuild {
 
     }
 
-    public struct StopBuildOutput: Serializable, Initializable {
+    public struct StopBuildOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the build.
-        var build: Build? = nil
+        public var build: Build? = nil
 
         public init() {}
 
@@ -56,9 +60,11 @@ extension Codebuild {
 
     }
 
-    public struct StopBuildInput: Serializable, Initializable {
+    public struct StopBuildInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The ID of the build.
-        var id: String = ""
+        public var id: String = ""
 
         public init() {}
 
@@ -68,11 +74,13 @@ extension Codebuild {
 
     }
 
-    public struct BatchGetProjectsOutput: Serializable, Initializable {
+    public struct BatchGetProjectsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the requested build projects.
-        var projects: [Project]? = nil
+        public var projects: [Project]? = nil
         /// The names of build projects for which information could not be found.
-        var projectsNotFound: [String]? = nil
+        public var projectsNotFound: [String]? = nil
 
         public init() {}
 
@@ -83,31 +91,33 @@ extension Codebuild {
 
     }
 
-    public struct Project: Serializable, Initializable {
+    public struct Project: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the build project.
-        var name: String? = nil
+        public var name: String? = nil
         /// Information about the build input source code for this build project.
-        var source: ProjectSource? = nil
+        public var source: ProjectSource? = nil
         /// When the build project's settings were last modified, expressed in Unix time format.
-        var lastModified: Date? = nil
+        public var lastModified: Date? = nil
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
-        var timeoutInMinutes: Int32? = nil
+        public var timeoutInMinutes: Int32? = nil
         /// When the build project was created, expressed in Unix time format.
-        var created: Date? = nil
+        public var created: Date? = nil
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the CMK's Amazon Resource Name (ARN) or, if specified, the CMK's alias (using the format alias/alias-name ).
-        var encryptionKey: String? = nil
+        public var encryptionKey: String? = nil
         /// A description that makes the build project easy to identify.
-        var description: String? = nil
+        public var description: String? = nil
         /// Information about the build output artifacts for the build project.
-        var artifacts: ProjectArtifacts? = nil
+        public var artifacts: ProjectArtifacts? = nil
         /// Information about the build environment for this build project.
-        var environment: ProjectEnvironment? = nil
+        public var environment: ProjectEnvironment? = nil
         /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
         /// The Amazon Resource Name (ARN) of the build project.
-        var arn: String? = nil
+        public var arn: String? = nil
 
         public init() {}
 
@@ -128,13 +138,15 @@ extension Codebuild {
 
     }
 
-    public struct BuildArtifacts: Serializable, Initializable {
+    public struct BuildArtifacts: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
-        var md5sum: String? = nil
+        public var md5sum: String? = nil
         /// Information about the location of the build artifacts.
-        var location: String? = nil
+        public var location: String? = nil
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
-        var sha256sum: String? = nil
+        public var sha256sum: String? = nil
 
         public init() {}
 
@@ -146,19 +158,21 @@ extension Codebuild {
 
     }
 
-    public struct BuildPhase: Serializable, Initializable {
+    public struct BuildPhase: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// How long, in seconds, between the starting and ending times of the build's phase.
-        var durationInSeconds: Int64? = nil
+        public var durationInSeconds: Int64? = nil
         /// When the build phase ended, expressed in Unix time format.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// When the build phase started, expressed in Unix time format.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
-        var contexts: [PhaseContext]? = nil
+        public var contexts: [PhaseContext]? = nil
         /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
-        var phaseStatus: String? = nil
+        public var phaseStatus: String? = nil
         /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
-        var phaseType: String? = nil
+        public var phaseType: String? = nil
 
         public init() {}
 
@@ -173,13 +187,15 @@ extension Codebuild {
 
     }
 
-    public struct LogsLocation: Serializable, Initializable {
+    public struct LogsLocation: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The URL to an individual build log in Amazon CloudWatch Logs.
-        var deepLink: String? = nil
+        public var deepLink: String? = nil
         /// The name of the Amazon CloudWatch Logs group for the build logs.
-        var groupName: String? = nil
+        public var groupName: String? = nil
         /// The name of the Amazon CloudWatch Logs stream for the build logs.
-        var streamName: String? = nil
+        public var streamName: String? = nil
 
         public init() {}
 
@@ -191,11 +207,13 @@ extension Codebuild {
 
     }
 
-    public struct SourceAuth: Serializable, Initializable {
+    public struct SourceAuth: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
-        var type: String = ""
+        public var type: String = ""
         /// The resource value that applies to the specified authorization type.
-        var resource: String? = nil
+        public var resource: String? = nil
 
         public init() {}
 
@@ -206,11 +224,13 @@ extension Codebuild {
 
     }
 
-    public struct EnvironmentPlatform: Serializable, Initializable {
+    public struct EnvironmentPlatform: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The list of programming languages that are available for the specified platform.
-        var languages: [EnvironmentLanguage]? = nil
+        public var languages: [EnvironmentLanguage]? = nil
         /// The platform's name.
-        var platform: String? = nil
+        public var platform: String? = nil
 
         public init() {}
 
@@ -221,39 +241,41 @@ extension Codebuild {
 
     }
 
-    public struct Build: Serializable, Initializable {
+    public struct Build: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about all previous build phases that are completed and information about any current build phase that is not yet complete.
-        var phases: [BuildPhase]? = nil
+        public var phases: [BuildPhase]? = nil
         /// Information about the source code to be built.
-        var source: ProjectSource? = nil
+        public var source: ProjectSource? = nil
         /// How long, in minutes, for AWS CodeBuild to wait before timing out this build if it does not get marked as completed.
-        var timeoutInMinutes: Int32? = nil
+        public var timeoutInMinutes: Int32? = nil
         /// Any version identifier for the version of the source code to be built.
-        var sourceVersion: String? = nil
+        public var sourceVersion: String? = nil
         /// The current build phase.
-        var currentPhase: String? = nil
+        public var currentPhase: String? = nil
         /// Information about the output artifacts for the build.
-        var artifacts: BuildArtifacts? = nil
+        public var artifacts: BuildArtifacts? = nil
         /// The current status of the build. Valid values include:    FAILED: The build failed.    FAULT: The build faulted.    IN_PROGRESS: The build is still in progress.    STOPPED: The build stopped.    SUCCEEDED: The build succeeded.    TIMED_OUT: The build timed out.  
-        var buildStatus: String? = nil
+        public var buildStatus: String? = nil
         /// The Amazon Resource Name (ARN) of the build.
-        var arn: String? = nil
+        public var arn: String? = nil
         /// The entity that started the build. Valid values include:   If AWS CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an AWS Identity and Access Management (IAM) user started the build, the user's name (for example MyUserName).   If the Jenkins plugin for AWS CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.  
-        var initiator: String? = nil
+        public var initiator: String? = nil
         /// Information about the build environment for this build.
-        var environment: ProjectEnvironment? = nil
+        public var environment: ProjectEnvironment? = nil
         /// The unique ID for the build.
-        var id: String? = nil
+        public var id: String? = nil
         /// The name of the build project.
-        var projectName: String? = nil
+        public var projectName: String? = nil
         /// Whether the build has finished. True if completed; otherwise, false.
-        var buildComplete: Bool? = nil
+        public var buildComplete: Bool? = nil
         /// When the build process ended, expressed in Unix time format.
-        var endTime: Date? = nil
+        public var endTime: Date? = nil
         /// Information about the build's logs in Amazon CloudWatch Logs.
-        var logs: LogsLocation? = nil
+        public var logs: LogsLocation? = nil
         /// When the build process started, expressed in Unix time format.
-        var startTime: Date? = nil
+        public var startTime: Date? = nil
 
         public init() {}
 
@@ -278,9 +300,11 @@ extension Codebuild {
 
     }
 
-    public struct DeleteProjectInput: Serializable, Initializable {
+    public struct DeleteProjectInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the build project.
-        var name: String = ""
+        public var name: String = ""
 
         public init() {}
 
@@ -290,15 +314,19 @@ extension Codebuild {
 
     }
 
-    public struct DeleteProjectOutput: Serializable, Initializable {
+    public struct DeleteProjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct UpdateProjectOutput: Serializable, Initializable {
+    public struct UpdateProjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the build project that was changed.
-        var project: Project? = nil
+        public var project: Project? = nil
 
         public init() {}
 
@@ -308,19 +336,21 @@ extension Codebuild {
 
     }
 
-    public struct ProjectArtifacts: Serializable, Initializable {
+    public struct ProjectArtifacts: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Along with path and namespaceType, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output artifact object.   For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
-        var name: String? = nil
+        public var name: String? = nil
         /// Information about the build output artifact location, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output bucket.  
-        var location: String? = nil
+        public var location: String? = nil
         /// Along with namespaceType and name, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the path to the output artifact. If path is not specified, then path will not be used.   For example, if path is set to MyArtifacts, namespaceType is set to NONE, and name is set to MyArtifact.zip, then the output artifact would be stored in the output bucket at MyArtifacts/MyArtifact.zip.
-        var path: String? = nil
+        public var path: String? = nil
         /// Along with path and name, the pattern that AWS CodeBuild will use to determine the name and location to store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, then valid values include:    BUILD_ID: Include the build ID in the location of the build output artifact.    NONE: Do not include the build ID. This is the default if namespaceType is not specified.     For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
-        var namespaceType: String? = nil
+        public var namespaceType: String? = nil
         /// The type of build output artifact to create, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output artifacts instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, valid values include:    NONE: AWS CodeBuild will create in the output bucket a folder containing the build output. This is the default if packaging is not specified.    ZIP: AWS CodeBuild will create in the output bucket a ZIP file containing the build output.    
-        var packaging: String? = nil
+        public var packaging: String? = nil
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project will have build output generated through AWS CodePipeline.    NO_ARTIFACTS: The build project will not produce any build output.    S3: The build project will store build output in Amazon Simple Storage Service (Amazon S3).  
-        var type: String = ""
+        public var type: String = ""
 
         public init() {}
 
@@ -335,17 +365,21 @@ extension Codebuild {
 
     }
 
-    public struct ListCuratedEnvironmentImagesInput: Serializable, Initializable {
+    public struct ListCuratedEnvironmentImagesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
 
         public init() {}
 
     }
 
-    public struct BatchGetBuildsOutput: Serializable, Initializable {
+    public struct BatchGetBuildsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the requested builds.
-        var builds: [Build]? = nil
+        public var builds: [Build]? = nil
         /// The IDs of builds for which information could not be found.
-        var buildsNotFound: [String]? = nil
+        public var buildsNotFound: [String]? = nil
 
         public init() {}
 
@@ -356,11 +390,13 @@ extension Codebuild {
 
     }
 
-    public struct EnvironmentLanguage: Serializable, Initializable {
+    public struct EnvironmentLanguage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The programming language for the Docker images.
-        var language: String? = nil
+        public var language: String? = nil
         /// The list of Docker images that are related by the specified programming language.
-        var images: [EnvironmentImage]? = nil
+        public var images: [EnvironmentImage]? = nil
 
         public init() {}
 
@@ -371,9 +407,11 @@ extension Codebuild {
 
     }
 
-    public struct StartBuildOutput: Serializable, Initializable {
+    public struct StartBuildOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the build to be run.
-        var build: Build? = nil
+        public var build: Build? = nil
 
         public init() {}
 
@@ -383,11 +421,13 @@ extension Codebuild {
 
     }
 
-    public struct Tag: Serializable, Initializable {
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The tag's key.
-        var key: String? = nil
+        public var key: String? = nil
         /// The tag's value.
-        var value: String? = nil
+        public var value: String? = nil
 
         public init() {}
 
@@ -398,11 +438,13 @@ extension Codebuild {
 
     }
 
-    public struct ListBuildsOutput: Serializable, Initializable {
+    public struct ListBuildsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of build IDs, with each build ID representing a single build.
-        var ids: [String]? = nil
+        public var ids: [String]? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -413,11 +455,13 @@ extension Codebuild {
 
     }
 
-    public struct ListBuildsForProjectOutput: Serializable, Initializable {
+    public struct ListBuildsForProjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
-        var ids: [String]? = nil
+        public var ids: [String]? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
 
         public init() {}
 
@@ -428,15 +472,17 @@ extension Codebuild {
 
     }
 
-    public struct ProjectEnvironment: Serializable, Initializable {
+    public struct ProjectEnvironment: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
-        var computeType: String = ""
+        public var computeType: String = ""
         /// A set of environment variables to make available to builds for this build project.
-        var environmentVariables: [EnvironmentVariable]? = nil
+        public var environmentVariables: [EnvironmentVariable]? = nil
         /// The type of build environment to use for related builds.
-        var type: String = ""
+        public var type: String = ""
         /// The ID of the Docker image to use for this build project.
-        var image: String = ""
+        public var image: String = ""
 
         public init() {}
 
@@ -449,11 +495,13 @@ extension Codebuild {
 
     }
 
-    public struct ListBuildsInput: Serializable, Initializable {
+    public struct ListBuildsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
 
         public init() {}
 
@@ -464,9 +512,11 @@ extension Codebuild {
 
     }
 
-    public struct BatchGetProjectsInput: Serializable, Initializable {
+    public struct BatchGetProjectsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The names of the build projects.
-        var names: [String] = []
+        public var names: [String] = []
 
         public init() {}
 
@@ -476,13 +526,15 @@ extension Codebuild {
 
     }
 
-    public struct ListBuildsForProjectInput: Serializable, Initializable {
+    public struct ListBuildsForProjectInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the build project.
-        var projectName: String = ""
+        public var projectName: String = ""
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
 
         public init() {}
 
@@ -494,25 +546,27 @@ extension Codebuild {
 
     }
 
-    public struct UpdateProjectInput: Serializable, Initializable {
+    public struct UpdateProjectInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the build project.  You cannot change a build project's name. 
-        var name: String = ""
+        public var name: String = ""
         /// Information to be changed about the build input source code for the build project.
-        var source: ProjectSource? = nil
+        public var source: ProjectSource? = nil
         /// Information to be changed about the build environment for the build project.
-        var environment: ProjectEnvironment? = nil
+        public var environment: ProjectEnvironment? = nil
         /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
-        var timeoutInMinutes: Int32? = nil
+        public var timeoutInMinutes: Int32? = nil
         /// The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format alias/alias-name ).
-        var encryptionKey: String? = nil
+        public var encryptionKey: String? = nil
         /// A new or replacement description of the build project.
-        var description: String? = nil
+        public var description: String? = nil
         /// Information to be changed about the build output artifacts for the build project.
-        var artifacts: ProjectArtifacts? = nil
+        public var artifacts: ProjectArtifacts? = nil
         /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
 
         public init() {}
 
@@ -530,19 +584,21 @@ extension Codebuild {
 
     }
 
-    public struct StartBuildInput: Serializable, Initializable {
+    public struct StartBuildInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// A version of the build input to be built, for this build only. If not specified, the latest version will be used. If specified, must be one of:   For AWS CodeCommit or GitHub: the commit ID to use.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object representing the build input ZIP file to use.  
-        var sourceVersion: String? = nil
+        public var sourceVersion: String? = nil
         /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
-        var environmentVariablesOverride: [EnvironmentVariable]? = nil
+        public var environmentVariablesOverride: [EnvironmentVariable]? = nil
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
-        var artifactsOverride: ProjectArtifacts? = nil
+        public var artifactsOverride: ProjectArtifacts? = nil
         /// The name of the build project to start running a build.
-        var projectName: String = ""
+        public var projectName: String = ""
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
-        var timeoutInMinutesOverride: Int32? = nil
+        public var timeoutInMinutesOverride: Int32? = nil
         /// A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
-        var buildspecOverride: String? = nil
+        public var buildspecOverride: String? = nil
 
         public init() {}
 
@@ -557,11 +613,13 @@ extension Codebuild {
 
     }
 
-    public struct EnvironmentImage: Serializable, Initializable {
+    public struct EnvironmentImage: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The description of the Docker image.
-        var description: String? = nil
+        public var description: String? = nil
         /// The name of the Docker image.
-        var name: String? = nil
+        public var name: String? = nil
 
         public init() {}
 
@@ -572,11 +630,13 @@ extension Codebuild {
 
     }
 
-    public struct EnvironmentVariable: Serializable, Initializable {
+    public struct EnvironmentVariable: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name or key of the environment variable.
-        var name: String = ""
+        public var name: String = ""
         /// The value of the environment variable.
-        var value: String = ""
+        public var value: String = ""
 
         public init() {}
 
@@ -587,9 +647,11 @@ extension Codebuild {
 
     }
 
-    public struct BatchGetBuildsInput: Serializable, Initializable {
+    public struct BatchGetBuildsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The IDs of the builds.
-        var ids: [String] = []
+        public var ids: [String] = []
 
         public init() {}
 
@@ -599,11 +661,13 @@ extension Codebuild {
 
     }
 
-    public struct PhaseContext: Serializable, Initializable {
+    public struct PhaseContext: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// An explanation of the build phase's context. This explanation might include a command ID and an exit code.
-        var message: String? = nil
+        public var message: String? = nil
         /// The status code for the context of the build phase.
-        var statusCode: String? = nil
+        public var statusCode: String? = nil
 
         public init() {}
 
@@ -614,25 +678,27 @@ extension Codebuild {
 
     }
 
-    public struct CreateProjectInput: Serializable, Initializable {
+    public struct CreateProjectInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The name of the build project.
-        var name: String = ""
+        public var name: String = ""
         /// Information about the build input source code for the build project.
-        var source: ProjectSource = ProjectSource()
+        public var source: ProjectSource = ProjectSource()
         /// Information about the build environment for the build project.
-        var environment: ProjectEnvironment = ProjectEnvironment()
+        public var environment: ProjectEnvironment = ProjectEnvironment()
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any build that has not been marked as completed. The default is 60 minutes.
-        var timeoutInMinutes: Int32? = nil
+        public var timeoutInMinutes: Int32? = nil
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format alias/alias-name ).
-        var encryptionKey: String? = nil
+        public var encryptionKey: String? = nil
         /// A description that makes the build project easy to identify.
-        var description: String? = nil
+        public var description: String? = nil
         /// Information about the build output artifacts for the build project.
-        var artifacts: ProjectArtifacts = ProjectArtifacts()
+        public var artifacts: ProjectArtifacts = ProjectArtifacts()
         /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        var tags: [Tag]? = nil
+        public var tags: [Tag]? = nil
         /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        var serviceRole: String? = nil
+        public var serviceRole: String? = nil
 
         public init() {}
 
@@ -650,9 +716,11 @@ extension Codebuild {
 
     }
 
-    public struct CreateProjectOutput: Serializable, Initializable {
+    public struct CreateProjectOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about the build project that was created.
-        var project: Project? = nil
+        public var project: Project? = nil
 
         public init() {}
 
@@ -662,15 +730,17 @@ extension Codebuild {
 
     }
 
-    public struct ProjectSource: Serializable, Initializable {
+    public struct ProjectSource: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
-        var buildspec: String? = nil
+        public var buildspec: String? = nil
         /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip)   For source code in a GitHub repository, instead of specifying a value here, you connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH.  
-        var location: String? = nil
+        public var location: String? = nil
         /// The type of repository that contains the source code to be built. Valid values include:    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
-        var type: String = ""
+        public var type: String = ""
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB).
-        var auth: SourceAuth? = nil
+        public var auth: SourceAuth? = nil
 
         public init() {}
 
@@ -683,13 +753,15 @@ extension Codebuild {
 
     }
 
-    public struct ListProjectsInput: Serializable, Initializable {
+    public struct ListProjectsInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List the build project names based on when each build project was created.    LAST_MODIFIED_TIME: List the build project names based on when information about each build project was last changed.    NAME: List the build project names based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
-        var sortBy: String? = nil
+        public var sortBy: String? = nil
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        var nextToken: String? = nil
+        public var nextToken: String? = nil
         /// The order in which to list build projects. Valid values include:    ASCENDING: List the build project names in ascending order.    DESCENDING: List the build project names in descending order.   Use sortBy to specify the criterion to be used to list build project names.
-        var sortOrder: String? = nil
+        public var sortOrder: String? = nil
 
         public init() {}
 
@@ -701,9 +773,11 @@ extension Codebuild {
 
     }
 
-    public struct ListCuratedEnvironmentImagesOutput: Serializable, Initializable {
+    public struct ListCuratedEnvironmentImagesOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
-        var platforms: [EnvironmentPlatform]? = nil
+        public var platforms: [EnvironmentPlatform]? = nil
 
         public init() {}
 

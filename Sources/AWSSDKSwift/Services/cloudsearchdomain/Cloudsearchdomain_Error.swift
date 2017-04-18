@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Cloudsearchdomain
-public enum CloudsearchdomainError: Error {
+public enum CloudsearchdomainError: AWSErrorType {
     case searchException(message: String?)
     case documentServiceException(message: String?)
 }

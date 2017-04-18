@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-
+import Core
 
 /// Error enum for Elastictranscoder
-public enum ElastictranscoderError: Error {
+public enum ElastictranscoderError: AWSErrorType {
     case validationException(message: String?)
     case incompatibleVersionException(message: String?)
     case accessDeniedException(message: String?)
