@@ -9,6 +9,6 @@ let package = Package(
     ],
     dependencies: [
         .Package(url: "https://github.com/vapor/clibressl.git", majorVersion: 1),
-        .Package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", majorVersion: 3)
+        .Package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", majorVersion: 16)
     ]
 )
