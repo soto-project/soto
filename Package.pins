@@ -17,7 +17,7 @@
       "package": "Prorsum",
       "reason": null,
       "repositoryURL": "https://github.com/noppoMan/Prorsum.git",
-      "version": "0.1.12"
+      "version": "0.1.13"
     },
     {
       "package": "SwiftyJSON",
