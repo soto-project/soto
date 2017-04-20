@@ -52,7 +52,7 @@ extension Signers {
         
         public func signedURL(url: URL, date: Date = Date(), expires: Int = 86400) -> URL {
             let datetime = V4.timestamp(date)
-            let headers = ["Host": url.host!]
+            let headers = ["Host": url.hostWithPort!]
             let bodyDigest = hexEncodedBodyHash(Data())
             
             var queries = [
@@ -92,7 +92,7 @@ extension Signers {
             var headersForSign = [
                 "x-amz-content-sha256": hexEncodedBodyHash(bodyData),
                 "x-amz-date": datetime,
-                "Host": url.host!,
+                "Host": url.hostWithPort!,
             ]
             
             for header in headers {

@@ -9,6 +9,19 @@
 import Foundation
 import Dispatch
 import SwiftyJSON
+import Prorsum
+
+extension Prorsum.Body {
+    func asData() -> Data {
+        switch self {
+        case .buffer(let data):
+            return data
+        default:
+            return Data()
+        }
+    }
+}
+
 
 public struct AWSClient {
     
@@ -65,63 +78,73 @@ public struct AWSClient {
     
     public func send<Output: AWSShape>(operation operationName: String, path: String, httpMethod: String) throws -> Output {
         let request = try createRequest(operation: operationName, path: path, httpMethod: httpMethod)
-        let (data, urlResponse) = try self.request(request)
-        return try validateResponse(bodyData: data, urlResponse: urlResponse)
+        return try validate(response: try self.request(request))
     }
     
     public func send<Output: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: AWSShape) throws -> Output {
         let request = try createRequest(operation: operationName, path: path, httpMethod: httpMethod, input: input)
-        let (data, urlResponse) = try self.request(request)
-        return try validateResponse(bodyData: data, urlResponse: urlResponse)
+        return try validate(response: try self.request(request))
     }
     
-    public func request(_ request: AWSRequest) throws -> (Data, HTTPURLResponse) {
-        var urlRequest: URLRequest
+    public func request(_ request: AWSRequest) throws -> Prorsum.Response {
+        var prosumRequest = try request.toProrsumRequest()
         switch request.httpMethod {
         case "GET":
-            var request = request
             // http://docs.aws.amazon.com/ja_jp/AmazonS3/latest/API/sigv4-query-string-auth.html
-            request.addValue(request.url.host!, forHTTPHeaderField: "Host")
-            request.url = signer.signedURL(url: request.url)
-            urlRequest = try request.toURLRequest()
+            prosumRequest.url = signer.signedURL(url: prosumRequest.url)
+            prosumRequest.headers["Host"] = prosumRequest.url.hostWithPort!
             
         default:
-            urlRequest = try request.toURLRequest()
+            // TODO avoid copying
+            var headers: [String: String] = [:]
+            for (key, value) in prosumRequest.headers {
+                headers[key.description] = value
+            }
+            
             let signedHeaders = signer.signedHeaders(
-                url: urlRequest.url!,
-                headers: urlRequest.allHTTPHeaderFields ?? [:],
-                method: request.httpMethod,
-                bodyData: urlRequest.httpBody ?? Data()
+                url: prosumRequest.url,
+                headers: headers,
+                method: prosumRequest.method.rawValue,
+                bodyData: prosumRequest.body.asData()
             )
-            urlRequest.allHTTPHeaderFields = signedHeaders
+            
+            for (key, value) in signedHeaders {
+                prosumRequest.headers[key] = value
+            }
         }
         
-        return try URLSession.shared.resumeSync(urlRequest, cond: cond)
+        // TODO implement Keep-alive
+        let client = try HTTPClient(url: prosumRequest.url)
+        try client.open()
+        let response = try client.request(prosumRequest)
+        client.close()
+        return response
     }
     
-    private func validateResponse<Output: AWSShape>(bodyData data: Data, urlResponse: HTTPURLResponse) throws -> Output {
+    private func validate<Output: AWSShape>(response: Prorsum.Response) throws -> Output {
         var responseBody: Body = .empty
-        if !data.isEmpty, let contentType = urlResponse.contentType() {
+        let data = response.body.asData()
+        if !data.isEmpty, let contentType = response.contentType?.subtype {
             switch contentType {
-            case .json:
+            case "json":
                 if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                     responseBody = .json(dictionary)
                 }
-            case .xml:
+            case "xml", "html":
                 let xmlNode = try XML2Parser(data: data).parse()
                 responseBody = .xml(xmlNode)
                 
-            case .octetStream:
+            default:
                 responseBody = .buffer(data)
             }
         }
         
         var responseHeaders: [String: String] = [:]
-        for (key, value) in urlResponse.allHeaderFields {
-            responseHeaders[key.description] = "\(value)"
+        for (key, value) in response.headers {
+            responseHeaders[key.description] = value
         }
         
-        guard (200..<300).contains(urlResponse.statusCode) else {
+        guard (200..<300).contains(response.statusCode) else {
             var bodyDict = try responseBody.asDictionary() ?? [:]
             var code: String?
             var message: String?
@@ -181,9 +204,9 @@ public struct AWSClient {
             break
         }
         
-        for (key, value) in urlResponse.allHeaderFields {
+        for (key, value) in response.headers {
             if let param = output.headerParams.filter({ $0.key.lowercased() == key.description.lowercased() }).first {
-                outputDict[param.key] = "\(value)"
+                outputDict[param.key] = value
             }
         }
         

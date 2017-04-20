@@ -2,16 +2,28 @@
   "autoPin": true,
   "pins": [
     {
+      "package": "CHTTPParser",
+      "reason": null,
+      "repositoryURL": "https://github.com/Zewo/CHTTPParser.git",
+      "version": "0.14.0"
+    },
+    {
       "package": "CLibreSSL",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/clibressl.git",
       "version": "1.0.0"
     },
     {
+      "package": "Prorsum",
+      "reason": null,
+      "repositoryURL": "https://github.com/noppoMan/Prorsum.git",
+      "version": "0.1.12"
+    },
+    {
       "package": "SwiftyJSON",
       "reason": null,
-      "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
-      "version": "3.1.4"
+      "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
+      "version": "16.0.0"
     }
   ],
   "version": 1

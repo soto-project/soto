@@ -7,9 +7,55 @@
 //
 
 import Foundation
+import Prorsum
 
 public protocol AWSRequestMiddleware {
     func chain(request: AWSRequest) throws -> AWSRequest
+}
+
+extension URL {
+    public var hostWithPort: String? {
+        guard var host = self.host else {
+            return nil
+        }
+        if host.contains("amazonaws.com") {
+            return host
+        }
+        if let port = self.port {
+            host+=":\(port)"
+        }
+        return host
+    }
+}
+
+extension Request.Method {
+    init(rawValue: String) {
+        switch rawValue.lowercased() {
+        case "get":
+            self = .get
+        case "post":
+            self = .post
+        case "put":
+            self = .put
+        case "patch":
+            self = .patch
+        case "delete":
+            self = .delete
+        case "head":
+            self = .head
+        default:
+            self = .other(method: rawValue)
+        }
+    }
+    
+    var rawValue: String {
+        switch self {
+        case .other(method: let method):
+            return method.uppercased()
+        default:
+            return "\(self)".uppercased()
+        }
+    }
 }
 
 public struct AWSRequest {
@@ -39,6 +85,38 @@ public struct AWSRequest {
         httpHeaders[field] = value
     }
     
+    func toProrsumRequest() throws -> Prorsum.Request {
+        var awsRequest = self
+        for middleware in middlewares {
+            awsRequest = try middleware.chain(request: awsRequest)
+        }
+        
+        var headers: Headers = [:]
+        for (key, value) in awsRequest.httpHeaders {
+            guard let value = value else { continue }
+            headers[key] = "\(value)"
+        }
+        
+        if let target = awsRequest.amzTarget {
+            headers["x-amz-target"] = "\(target).\(awsRequest.operation)"
+        }
+        
+        if awsRequest.body.isJSON() {
+            headers["Content-Type"] = "application/x-amz-json-1.1"
+        }
+        
+        if awsRequest.httpMethod.lowercased() != "get" && headers["content-type"] == nil {
+            headers["Content-Type"] = "application/octet-stream"
+        }
+        
+        return Request(
+            method: Request.Method(rawValue: awsRequest.httpMethod),
+            url: awsRequest.url,
+            headers: headers,
+            body: try awsRequest.body.asData() ?? Data()
+        )
+    }
+    
     func toURLRequest() throws -> URLRequest {
         var awsRequest = self
         for middleware in middlewares {
@@ -62,7 +140,7 @@ public struct AWSRequest {
             request.addValue("\(value)", forHTTPHeaderField: key)
         }
         
-        if awsRequest.httpHeaders.filter({ $0.key.lowercased() == "content-type" }).first == nil {
+        if awsRequest.httpMethod.lowercased() != "get" && awsRequest.httpHeaders.filter({ $0.key.lowercased() == "content-type" }).first == nil {
             request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         }
         
