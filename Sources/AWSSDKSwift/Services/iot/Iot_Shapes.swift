@@ -1922,10 +1922,10 @@ extension Iot {
         public let _payload: String? = nil
         /// The date the transfer was rejected.
         public var rejectDate: Date? = nil
-        /// The transfer message.
-        public var transferMessage: String? = nil
         /// The date the transfer was accepted.
         public var acceptDate: Date? = nil
+        /// The transfer message.
+        public var transferMessage: String? = nil
         /// The date the transfer took place.
         public var transferDate: Date? = nil
         /// The reason why the transfer was rejected.
@@ -1933,10 +1933,10 @@ extension Iot {
 
         public init() {}
 
-        public init(rejectDate: Date? = nil, transferMessage: String? = nil, acceptDate: Date? = nil, transferDate: Date? = nil, rejectReason: String? = nil) {
+        public init(rejectDate: Date? = nil, acceptDate: Date? = nil, transferMessage: String? = nil, transferDate: Date? = nil, rejectReason: String? = nil) {
             self.rejectDate = rejectDate
-            self.transferMessage = transferMessage
             self.acceptDate = acceptDate
+            self.transferMessage = transferMessage
             self.transferDate = transferDate
             self.rejectReason = rejectReason
         }
@@ -2502,10 +2502,10 @@ extension Iot {
         public var rangeKeyValue: String? = nil
         /// The hash key value.
         public var hashKeyValue: String = ""
-        /// The action payload. This name can be customized.
-        public var payloadField: String? = nil
         /// The type of operation to be performed. This follows the substitution template, so it can be ${operation}, but the substitution must result in one of the following: INSERT, UPDATE, or DELETE.
         public var operation: String? = nil
+        /// The action payload. This name can be customized.
+        public var payloadField: String? = nil
         /// The range key name.
         public var rangeKeyField: String? = nil
         /// The name of the DynamoDB table.
@@ -2517,13 +2517,13 @@ extension Iot {
 
         public init() {}
 
-        public init(roleArn: String, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, hashKeyValue: String, payloadField: String? = nil, operation: String? = nil, rangeKeyField: String? = nil, tableName: String, hashKeyField: String, hashKeyType: String? = nil) {
+        public init(roleArn: String, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, hashKeyValue: String, operation: String? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, tableName: String, hashKeyField: String, hashKeyType: String? = nil) {
             self.roleArn = roleArn
             self.rangeKeyType = rangeKeyType
             self.rangeKeyValue = rangeKeyValue
             self.hashKeyValue = hashKeyValue
-            self.payloadField = payloadField
             self.operation = operation
+            self.payloadField = payloadField
             self.rangeKeyField = rangeKeyField
             self.tableName = tableName
             self.hashKeyField = hashKeyField

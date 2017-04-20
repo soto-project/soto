@@ -390,10 +390,10 @@ extension Ec2 {
         public let _payload: String? = nil
         /// The details of the operation.
         public var actions: [VolumeStatusAction]? = nil
-        /// A list of events associated with the volume.
-        public var events: [VolumeStatusEvent]? = nil
         /// The volume status.
         public var volumeStatus: VolumeStatusInfo? = nil
+        /// A list of events associated with the volume.
+        public var events: [VolumeStatusEvent]? = nil
         /// The Availability Zone of the volume.
         public var availabilityZone: String? = nil
         /// The volume ID.
@@ -401,10 +401,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(actions: [VolumeStatusAction]? = nil, events: [VolumeStatusEvent]? = nil, volumeStatus: VolumeStatusInfo? = nil, availabilityZone: String? = nil, volumeId: String? = nil) {
+        public init(actions: [VolumeStatusAction]? = nil, volumeStatus: VolumeStatusInfo? = nil, events: [VolumeStatusEvent]? = nil, availabilityZone: String? = nil, volumeId: String? = nil) {
             self.actions = actions
-            self.events = events
             self.volumeStatus = volumeStatus
+            self.events = events
             self.availabilityZone = availabilityZone
             self.volumeId = volumeId
         }
@@ -557,9 +557,9 @@ extension Ec2 {
         public var userData: String? = nil
         /// Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance. Default: false 
         public var ebsOptimized: Bool? = nil
-        public var securityGroupIds: [String]? = nil
         /// The ID of the kernel.
         public var kernelId: String? = nil
+        public var securityGroupIds: [String]? = nil
         public var monitoring: RunInstancesMonitoringEnabled? = nil
         /// The instance type.
         public var instanceType: String? = nil
@@ -581,13 +581,13 @@ extension Ec2 {
 
         public init() {}
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, securityGroupIds: [String]? = nil, kernelId: String? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, instanceType: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, securityGroupIds: [String]? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, instanceType: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.subnetId = subnetId
             self.userData = userData
             self.ebsOptimized = ebsOptimized
-            self.securityGroupIds = securityGroupIds
             self.kernelId = kernelId
+            self.securityGroupIds = securityGroupIds
             self.monitoring = monitoring
             self.instanceType = instanceType
             self.securityGroups = securityGroups
@@ -676,24 +676,24 @@ extension Ec2 {
         public let _payload: String? = nil
         /// The recurring charge tag assigned to the resource.
         public var recurringCharges: [RecurringCharge]? = nil
+        /// Any tags assigned to the resource.
+        public var tags: [Tag]? = nil
         /// The usage price of the Reserved Instance, per hour.
         public var usagePrice: Float? = nil
         /// The state of the Reserved Instance purchase.
         public var state: String? = nil
         /// The tenancy of the instance.
         public var instanceTenancy: String? = nil
-        /// Any tags assigned to the resource.
-        public var tags: [Tag]? = nil
         /// The instance type on which the Reserved Instance can be used.
         public var instanceType: String? = nil
         /// The Reserved Instance offering type.
         public var offeringType: String? = nil
         /// The Reserved Instance product platform description.
         public var productDescription: String? = nil
-        /// The Availability Zone in which the Reserved Instance can be used.
-        public var availabilityZone: String? = nil
         /// The offering class of the Reserved Instance.
         public var offeringClass: String? = nil
+        /// The Availability Zone in which the Reserved Instance can be used.
+        public var availabilityZone: String? = nil
         /// The date and time the Reserved Instance started.
         public var start: Date? = nil
         /// The time when the Reserved Instance expires.
@@ -713,17 +713,17 @@ extension Ec2 {
 
         public init() {}
 
-        public init(recurringCharges: [RecurringCharge]? = nil, usagePrice: Float? = nil, state: String? = nil, instanceTenancy: String? = nil, tags: [Tag]? = nil, instanceType: String? = nil, offeringType: String? = nil, productDescription: String? = nil, availabilityZone: String? = nil, offeringClass: String? = nil, start: Date? = nil, end: Date? = nil, reservedInstancesId: String? = nil, currencyCode: String? = nil, instanceCount: Int32? = nil, duration: Int64? = nil, scope: String? = nil, fixedPrice: Float? = nil) {
+        public init(recurringCharges: [RecurringCharge]? = nil, tags: [Tag]? = nil, usagePrice: Float? = nil, state: String? = nil, instanceTenancy: String? = nil, instanceType: String? = nil, offeringType: String? = nil, productDescription: String? = nil, offeringClass: String? = nil, availabilityZone: String? = nil, start: Date? = nil, end: Date? = nil, reservedInstancesId: String? = nil, currencyCode: String? = nil, instanceCount: Int32? = nil, duration: Int64? = nil, scope: String? = nil, fixedPrice: Float? = nil) {
             self.recurringCharges = recurringCharges
+            self.tags = tags
             self.usagePrice = usagePrice
             self.state = state
             self.instanceTenancy = instanceTenancy
-            self.tags = tags
             self.instanceType = instanceType
             self.offeringType = offeringType
             self.productDescription = productDescription
-            self.availabilityZone = availabilityZone
             self.offeringClass = offeringClass
+            self.availabilityZone = availabilityZone
             self.start = start
             self.end = end
             self.reservedInstancesId = reservedInstancesId
@@ -789,14 +789,14 @@ extension Ec2 {
         public var interfaceType: String? = nil
         /// Any tags assigned to the network interface.
         public var tagSet: [Tag]? = nil
-        /// The AWS account ID of the owner of the network interface.
-        public var ownerId: String? = nil
-        /// The ID of the entity that launched the instance on your behalf (for example, AWS Management Console or Auto Scaling).
-        public var requesterId: String? = nil
         /// The IPv4 address of the network interface within the subnet.
         public var privateIpAddress: String? = nil
+        /// The ID of the entity that launched the instance on your behalf (for example, AWS Management Console or Auto Scaling).
+        public var requesterId: String? = nil
         /// A description.
         public var description: String? = nil
+        /// The AWS account ID of the owner of the network interface.
+        public var ownerId: String? = nil
         /// The private IPv4 addresses associated with the network interface.
         public var privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil
         /// The ID of the VPC.
@@ -816,7 +816,7 @@ extension Ec2 {
 
         public init() {}
 
-        public init(subnetId: String? = nil, networkInterfaceId: String? = nil, macAddress: String? = nil, sourceDestCheck: Bool? = nil, privateDnsName: String? = nil, attachment: NetworkInterfaceAttachment? = nil, interfaceType: String? = nil, tagSet: [Tag]? = nil, ownerId: String? = nil, requesterId: String? = nil, privateIpAddress: String? = nil, description: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, vpcId: String? = nil, availabilityZone: String? = nil, status: String? = nil, requesterManaged: Bool? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, groups: [GroupIdentifier]? = nil, association: NetworkInterfaceAssociation? = nil) {
+        public init(subnetId: String? = nil, networkInterfaceId: String? = nil, macAddress: String? = nil, sourceDestCheck: Bool? = nil, privateDnsName: String? = nil, attachment: NetworkInterfaceAttachment? = nil, interfaceType: String? = nil, tagSet: [Tag]? = nil, privateIpAddress: String? = nil, requesterId: String? = nil, description: String? = nil, ownerId: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, vpcId: String? = nil, availabilityZone: String? = nil, status: String? = nil, requesterManaged: Bool? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, groups: [GroupIdentifier]? = nil, association: NetworkInterfaceAssociation? = nil) {
             self.subnetId = subnetId
             self.networkInterfaceId = networkInterfaceId
             self.macAddress = macAddress
@@ -825,10 +825,10 @@ extension Ec2 {
             self.attachment = attachment
             self.interfaceType = interfaceType
             self.tagSet = tagSet
-            self.ownerId = ownerId
-            self.requesterId = requesterId
             self.privateIpAddress = privateIpAddress
+            self.requesterId = requesterId
             self.description = description
+            self.ownerId = ownerId
             self.privateIpAddresses = privateIpAddresses
             self.vpcId = vpcId
             self.availabilityZone = availabilityZone
@@ -1808,14 +1808,14 @@ extension Ec2 {
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
-        public var associatePublicIpAddress: Bool? = nil
+        /// The index of the device on the instance for the network interface attachment. If you are specifying a network interface in a RunInstances request, you must provide the device index.
+        public var deviceIndex: Int32? = nil
         /// The ID of the subnet associated with the network string. Applies only if creating a network interface when launching an instance.
         public var subnetId: String? = nil
         /// The ID of the network interface.
         public var networkInterfaceId: String? = nil
-        /// The index of the device on the instance for the network interface attachment. If you are specifying a network interface in a RunInstances request, you must provide the device index.
-        public var deviceIndex: Int32? = nil
+        /// The description of the network interface. Applies only if creating a network interface when launching an instance.
+        public var description: String? = nil
         /// The private IPv4 address of the network interface. Applies only if creating a network interface when launching an instance. You cannot specify this option if you're launching more than one instance in a RunInstances request.
         public var privateIpAddress: String? = nil
         /// The number of secondary private IPv4 addresses. You can't specify this option and specify more than one private IP address using the private IP addresses option. You cannot specify this option if you're launching more than one instance in a RunInstances request.
@@ -1828,26 +1828,26 @@ extension Ec2 {
         public var ipv6Addresses: [InstanceIpv6Address]? = nil
         /// If set to true, the interface is deleted when the instance is terminated. You can specify true only if creating a new network interface when launching an instance.
         public var deleteOnTermination: Bool? = nil
+        /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
+        public var associatePublicIpAddress: Bool? = nil
         /// The IDs of the security groups for the network interface. Applies only if creating a network interface when launching an instance.
         public var groups: [String]? = nil
-        /// The description of the network interface. Applies only if creating a network interface when launching an instance.
-        public var description: String? = nil
 
         public init() {}
 
-        public init(associatePublicIpAddress: Bool? = nil, subnetId: String? = nil, networkInterfaceId: String? = nil, deviceIndex: Int32? = nil, privateIpAddress: String? = nil, secondaryPrivateIpAddressCount: Int32? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, deleteOnTermination: Bool? = nil, groups: [String]? = nil, description: String? = nil) {
-            self.associatePublicIpAddress = associatePublicIpAddress
+        public init(deviceIndex: Int32? = nil, subnetId: String? = nil, networkInterfaceId: String? = nil, description: String? = nil, privateIpAddress: String? = nil, secondaryPrivateIpAddressCount: Int32? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, deleteOnTermination: Bool? = nil, associatePublicIpAddress: Bool? = nil, groups: [String]? = nil) {
+            self.deviceIndex = deviceIndex
             self.subnetId = subnetId
             self.networkInterfaceId = networkInterfaceId
-            self.deviceIndex = deviceIndex
+            self.description = description
             self.privateIpAddress = privateIpAddress
             self.secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCount
             self.privateIpAddresses = privateIpAddresses
             self.ipv6AddressCount = ipv6AddressCount
             self.ipv6Addresses = ipv6Addresses
             self.deleteOnTermination = deleteOnTermination
+            self.associatePublicIpAddress = associatePublicIpAddress
             self.groups = groups
-            self.description = description
         }
 
     }
@@ -1937,10 +1937,10 @@ extension Ec2 {
         public let _payload: String? = nil
         /// Token to enable idempotency for VM import requests.
         public var clientToken: String? = nil
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
         /// The name of the role to use when not using the default role, 'vmimport'.
         public var roleName: String? = nil
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public var dryRun: Bool? = nil
         /// The client-specific data.
         public var clientData: ClientData? = nil
         /// Information about the disk container.
@@ -1950,10 +1950,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, roleName: String? = nil, clientData: ClientData? = nil, diskContainer: SnapshotDiskContainer? = nil, description: String? = nil) {
+        public init(clientToken: String? = nil, roleName: String? = nil, dryRun: Bool? = nil, clientData: ClientData? = nil, diskContainer: SnapshotDiskContainer? = nil, description: String? = nil) {
             self.clientToken = clientToken
-            self.dryRun = dryRun
             self.roleName = roleName
+            self.dryRun = dryRun
             self.clientData = clientData
             self.diskContainer = diskContainer
             self.description = description
@@ -2203,10 +2203,10 @@ extension Ec2 {
         public var description: AttributeValue? = nil
         /// One or more AWS account IDs. This is only valid when modifying the launchPermission attribute.
         public var userIds: [String]? = nil
-        /// One or more user groups. This is only valid when modifying the launchPermission attribute.
-        public var userGroups: [String]? = nil
         /// The ID of the AMI.
         public var imageId: String = ""
+        /// One or more user groups. This is only valid when modifying the launchPermission attribute.
+        public var userGroups: [String]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The name of the attribute to modify.
@@ -2220,12 +2220,12 @@ extension Ec2 {
 
         public init() {}
 
-        public init(productCodes: [String]? = nil, description: AttributeValue? = nil, userIds: [String]? = nil, userGroups: [String]? = nil, imageId: String, dryRun: Bool? = nil, attribute: String? = nil, value: String? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: String? = nil) {
+        public init(productCodes: [String]? = nil, description: AttributeValue? = nil, userIds: [String]? = nil, imageId: String, userGroups: [String]? = nil, dryRun: Bool? = nil, attribute: String? = nil, value: String? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: String? = nil) {
             self.productCodes = productCodes
             self.description = description
             self.userIds = userIds
-            self.userGroups = userGroups
             self.imageId = imageId
+            self.userGroups = userGroups
             self.dryRun = dryRun
             self.attribute = attribute
             self.value = value
@@ -4398,10 +4398,10 @@ extension Ec2 {
         public var userData: String? = nil
         /// Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance. Default: false 
         public var ebsOptimized: Bool? = nil
-        /// The IDs of one or more security groups.
-        public var securityGroupIds: [String]? = nil
         /// The ID of the kernel.
         public var kernelId: String? = nil
+        /// The IDs of one or more security groups.
+        public var securityGroupIds: [String]? = nil
         /// Enable or disable monitoring for the instances.
         public var monitoring: ScheduledInstancesMonitoring? = nil
         /// The instance type.
@@ -4421,13 +4421,13 @@ extension Ec2 {
 
         public init() {}
 
-        public init(blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, securityGroupIds: [String]? = nil, kernelId: String? = nil, monitoring: ScheduledInstancesMonitoring? = nil, instanceType: String? = nil, keyName: String? = nil, iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil, imageId: String, networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil, placement: ScheduledInstancesPlacement? = nil, ramdiskId: String? = nil) {
+        public init(blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, securityGroupIds: [String]? = nil, monitoring: ScheduledInstancesMonitoring? = nil, instanceType: String? = nil, keyName: String? = nil, iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil, imageId: String, networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil, placement: ScheduledInstancesPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.subnetId = subnetId
             self.userData = userData
             self.ebsOptimized = ebsOptimized
-            self.securityGroupIds = securityGroupIds
             self.kernelId = kernelId
+            self.securityGroupIds = securityGroupIds
             self.monitoring = monitoring
             self.instanceType = instanceType
             self.keyName = keyName
@@ -4593,10 +4593,10 @@ extension Ec2 {
         public let _payload: String? = nil
         /// The ID of the egress-only Internet gateway.
         public var egressOnlyInternetGatewayId: String? = nil
-        /// The ID of a NAT gateway.
-        public var natGatewayId: String? = nil
         /// The ID of the network interface.
         public var networkInterfaceId: String? = nil
+        /// The ID of a NAT gateway.
+        public var natGatewayId: String? = nil
         /// Describes how the route was created.    CreateRouteTable - The route was automatically created when the route table was created.    CreateRoute - The route was manually added to the route table.    EnableVgwRoutePropagation - The route was propagated by route propagation.  
         public var origin: String? = nil
         /// The state of the route. The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, or the specified NAT instance has been terminated).
@@ -4618,10 +4618,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(egressOnlyInternetGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, vpcPeeringConnectionId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
+        public init(egressOnlyInternetGatewayId: String? = nil, networkInterfaceId: String? = nil, natGatewayId: String? = nil, origin: String? = nil, state: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, vpcPeeringConnectionId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
-            self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.natGatewayId = natGatewayId
             self.origin = origin
             self.state = state
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
@@ -4877,12 +4877,12 @@ extension Ec2 {
         public var stateMessage: String? = nil
         /// The snapshot state.
         public var state: String? = nil
+        /// The ID of the volume that was used to create the snapshot. Snapshots created by the CopySnapshot action have an arbitrary volume ID that should not be used for any purpose.
+        public var volumeId: String? = nil
         /// Indicates whether the snapshot is encrypted.
         public var encrypted: Bool? = nil
         /// Any tags assigned to the snapshot.
         public var tags: [Tag]? = nil
-        /// The ID of the volume that was used to create the snapshot. Snapshots created by the CopySnapshot action have an arbitrary volume ID that should not be used for any purpose.
-        public var volumeId: String? = nil
         /// The AWS account ID of the EBS snapshot owner.
         public var ownerId: String? = nil
         /// The description for the snapshot.
@@ -4904,12 +4904,12 @@ extension Ec2 {
 
         public init() {}
 
-        public init(stateMessage: String? = nil, state: String? = nil, encrypted: Bool? = nil, tags: [Tag]? = nil, volumeId: String? = nil, ownerId: String? = nil, description: String? = nil, startTime: Date? = nil, dataEncryptionKeyId: String? = nil, progress: String? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, ownerAlias: String? = nil, kmsKeyId: String? = nil) {
+        public init(stateMessage: String? = nil, state: String? = nil, volumeId: String? = nil, encrypted: Bool? = nil, tags: [Tag]? = nil, ownerId: String? = nil, description: String? = nil, startTime: Date? = nil, dataEncryptionKeyId: String? = nil, progress: String? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, ownerAlias: String? = nil, kmsKeyId: String? = nil) {
             self.stateMessage = stateMessage
             self.state = state
+            self.volumeId = volumeId
             self.encrypted = encrypted
             self.tags = tags
-            self.volumeId = volumeId
             self.ownerId = ownerId
             self.description = description
             self.startTime = startTime
@@ -5579,14 +5579,14 @@ extension Ec2 {
         public var volumeType: String? = nil
         /// The volume state.
         public var state: String? = nil
-        /// Any tags assigned to the volume.
-        public var tags: [Tag]? = nil
-        /// The size of the volume, in GiBs.
-        public var size: Int32? = nil
         /// The ID of the volume.
         public var volumeId: String? = nil
+        /// Any tags assigned to the volume.
+        public var tags: [Tag]? = nil
         /// The snapshot from which the volume was created, if applicable.
         public var snapshotId: String? = nil
+        /// The size of the volume, in GiBs.
+        public var size: Int32? = nil
         /// Indicates whether the volume will be encrypted.
         public var encrypted: Bool? = nil
         /// The time stamp when volume creation was initiated.
@@ -5602,13 +5602,13 @@ extension Ec2 {
 
         public init() {}
 
-        public init(volumeType: String? = nil, state: String? = nil, tags: [Tag]? = nil, size: Int32? = nil, volumeId: String? = nil, snapshotId: String? = nil, encrypted: Bool? = nil, createTime: Date? = nil, iops: Int32? = nil, availabilityZone: String? = nil, attachments: [VolumeAttachment]? = nil, kmsKeyId: String? = nil) {
+        public init(volumeType: String? = nil, state: String? = nil, volumeId: String? = nil, tags: [Tag]? = nil, snapshotId: String? = nil, size: Int32? = nil, encrypted: Bool? = nil, createTime: Date? = nil, iops: Int32? = nil, availabilityZone: String? = nil, attachments: [VolumeAttachment]? = nil, kmsKeyId: String? = nil) {
             self.volumeType = volumeType
             self.state = state
-            self.tags = tags
-            self.size = size
             self.volumeId = volumeId
+            self.tags = tags
             self.snapshotId = snapshotId
+            self.size = size
             self.encrypted = encrypted
             self.createTime = createTime
             self.iops = iops
@@ -5805,12 +5805,12 @@ extension Ec2 {
         public var upfrontPrice: String? = nil
         /// The state of the reservation.
         public var state: String? = nil
+        /// The payment option selected for this reservation.
+        public var paymentOption: String? = nil
         /// The ID of the reservation. This remains the same regardless of which Dedicated Hosts are associated with it.
         public var offeringId: String? = nil
         /// The number of Dedicated Hosts the reservation is associated with.
         public var count: Int32? = nil
-        /// The payment option selected for this reservation.
-        public var paymentOption: String? = nil
         /// The ID of the reservation that specifies the associated Dedicated Hosts.
         public var hostReservationId: String? = nil
         /// The hourly price of the reservation.
@@ -5830,12 +5830,12 @@ extension Ec2 {
 
         public init() {}
 
-        public init(upfrontPrice: String? = nil, state: String? = nil, offeringId: String? = nil, count: Int32? = nil, paymentOption: String? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, start: Date? = nil, end: Date? = nil, hostIdSet: [String]? = nil, currencyCode: String? = nil, duration: Int32? = nil) {
+        public init(upfrontPrice: String? = nil, state: String? = nil, paymentOption: String? = nil, offeringId: String? = nil, count: Int32? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, start: Date? = nil, end: Date? = nil, hostIdSet: [String]? = nil, currencyCode: String? = nil, duration: Int32? = nil) {
             self.upfrontPrice = upfrontPrice
             self.state = state
+            self.paymentOption = paymentOption
             self.offeringId = offeringId
             self.count = count
-            self.paymentOption = paymentOption
             self.hostReservationId = hostReservationId
             self.hourlyPrice = hourlyPrice
             self.instanceFamily = instanceFamily
@@ -7233,10 +7233,10 @@ extension Ec2 {
         public var rootDeviceName: String? = nil
         /// Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
         public var ebsOptimized: Bool? = nil
-        /// The kernel associated with this instance, if applicable.
-        public var kernelId: String? = nil
         /// Specifies whether to enable an instance launched in a VPC to perform NAT. This controls whether source/destination checking is enabled on the instance. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
         public var sourceDestCheck: Bool? = nil
+        /// The kernel associated with this instance, if applicable.
+        public var kernelId: String? = nil
         /// (IPv4 only) The private DNS hostname name assigned to the instance. This DNS hostname can only be used inside the Amazon EC2 network. This name is not available until the instance enters the running state.  [EC2-VPC] The Amazon-provided DNS server will resolve Amazon-provided private DNS hostnames if you've enabled DNS resolution and DNS hostnames in your VPC. If you are not using the Amazon-provided DNS server in your VPC, your custom domain name servers must resolve the hostname as appropriate.
         public var privateDnsName: String? = nil
         /// The instance type.
@@ -7306,12 +7306,12 @@ extension Ec2 {
 
         public init() {}
 
-        public init(clientToken: String? = nil, rootDeviceName: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, sourceDestCheck: Bool? = nil, privateDnsName: String? = nil, instanceType: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, keyName: String? = nil, instanceId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, publicDnsName: String? = nil, vpcId: String? = nil, rootDeviceType: String? = nil, ramdiskId: String? = nil, instanceLifecycle: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, subnetId: String? = nil, sriovNetSupport: String? = nil, platform: String? = nil, spotInstanceRequestId: String? = nil, tags: [Tag]? = nil, launchTime: Date? = nil, state: InstanceState? = nil, publicIpAddress: String? = nil, monitoring: Monitoring? = nil, stateTransitionReason: String? = nil, stateReason: StateReason? = nil, securityGroups: [GroupIdentifier]? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, enaSupport: Bool? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, amiLaunchIndex: Int32? = nil, placement: Placement? = nil, virtualizationType: String? = nil) {
+        public init(clientToken: String? = nil, rootDeviceName: String? = nil, ebsOptimized: Bool? = nil, sourceDestCheck: Bool? = nil, kernelId: String? = nil, privateDnsName: String? = nil, instanceType: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, keyName: String? = nil, instanceId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, publicDnsName: String? = nil, vpcId: String? = nil, rootDeviceType: String? = nil, ramdiskId: String? = nil, instanceLifecycle: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, subnetId: String? = nil, sriovNetSupport: String? = nil, platform: String? = nil, spotInstanceRequestId: String? = nil, tags: [Tag]? = nil, launchTime: Date? = nil, state: InstanceState? = nil, publicIpAddress: String? = nil, monitoring: Monitoring? = nil, stateTransitionReason: String? = nil, stateReason: StateReason? = nil, securityGroups: [GroupIdentifier]? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, enaSupport: Bool? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, amiLaunchIndex: Int32? = nil, placement: Placement? = nil, virtualizationType: String? = nil) {
             self.clientToken = clientToken
             self.rootDeviceName = rootDeviceName
             self.ebsOptimized = ebsOptimized
-            self.kernelId = kernelId
             self.sourceDestCheck = sourceDestCheck
+            self.kernelId = kernelId
             self.privateDnsName = privateDnsName
             self.instanceType = instanceType
             self.privateIpAddress = privateIpAddress
@@ -7984,10 +7984,10 @@ extension Ec2 {
         public let _payload: String? = nil
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: standard 
         public var volumeType: String? = nil
-        /// The size of the volume, in GiBs. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for st1, 500-16384 for sc1, and 1-1024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
-        public var size: Int32? = nil
         /// Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or vice versa. If your AMI uses encrypted volumes, you can only launch it on supported instance types. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
         public var encrypted: Bool? = nil
+        /// The size of the volume, in GiBs. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for st1, 500-16384 for sc1, and 1-1024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
+        public var size: Int32? = nil
         /// The snapshot from which to create the volume.
         public var snapshotId: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8001,10 +8001,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(volumeType: String? = nil, size: Int32? = nil, encrypted: Bool? = nil, snapshotId: String? = nil, dryRun: Bool? = nil, iops: Int32? = nil, availabilityZone: String, kmsKeyId: String? = nil) {
+        public init(volumeType: String? = nil, encrypted: Bool? = nil, size: Int32? = nil, snapshotId: String? = nil, dryRun: Bool? = nil, iops: Int32? = nil, availabilityZone: String, kmsKeyId: String? = nil) {
             self.volumeType = volumeType
-            self.size = size
             self.encrypted = encrypted
+            self.size = size
             self.snapshotId = snapshotId
             self.dryRun = dryRun
             self.iops = iops
@@ -8426,12 +8426,12 @@ extension Ec2 {
     public struct CreateNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The primary private IPv4 address of the network interface. If you don't specify an IPv4 address, Amazon EC2 selects one for you from the subnet's IPv4 CIDR range. If you specify an IP address, you cannot indicate any IP addresses specified in privateIpAddresses as primary (only one IP address can be designated as primary).
-        public var privateIpAddress: String? = nil
-        /// The ID of the subnet to associate with the network interface.
-        public var subnetId: String = ""
         /// A description for the network interface.
         public var description: String? = nil
+        /// The ID of the subnet to associate with the network interface.
+        public var subnetId: String = ""
+        /// The primary private IPv4 address of the network interface. If you don't specify an IPv4 address, Amazon EC2 selects one for you from the subnet's IPv4 CIDR range. If you specify an IP address, you cannot indicate any IP addresses specified in privateIpAddresses as primary (only one IP address can be designated as primary).
+        public var privateIpAddress: String? = nil
         /// The number of secondary private IPv4 addresses to assign to a network interface. When you specify a number of secondary IPv4 addresses, Amazon EC2 selects these IP addresses within the subnet's IPv4 CIDR range. You can't specify this option and specify more than one private IP address using privateIpAddresses. The number of IP addresses you can assign to a network interface varies by instance type. For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual Private Cloud User Guide.
         public var secondaryPrivateIpAddressCount: Int32? = nil
         /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses. If your subnet has the AssignIpv6AddressOnCreation attribute set to true, you can specify 0 to override this setting.
@@ -8447,10 +8447,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(privateIpAddress: String? = nil, subnetId: String, description: String? = nil, secondaryPrivateIpAddressCount: Int32? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, dryRun: Bool? = nil, groups: [String]? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil) {
-            self.privateIpAddress = privateIpAddress
-            self.subnetId = subnetId
+        public init(description: String? = nil, subnetId: String, privateIpAddress: String? = nil, secondaryPrivateIpAddressCount: Int32? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, dryRun: Bool? = nil, groups: [String]? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil) {
             self.description = description
+            self.subnetId = subnetId
+            self.privateIpAddress = privateIpAddress
             self.secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCount
             self.ipv6AddressCount = ipv6AddressCount
             self.ipv6Addresses = ipv6Addresses
@@ -8680,12 +8680,12 @@ extension Ec2 {
     public struct DescribeVpcEndpointsRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// One or more endpoint IDs.
+        public var vpcEndpointIds: [String]? = nil
         /// One or more filters.    service-name: The name of the AWS service.    vpc-id: The ID of the VPC in which the endpoint resides.    vpc-endpoint-id: The ID of the endpoint.    vpc-endpoint-state: The state of the endpoint. (pending | available | deleting | deleted)  
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
-        /// One or more endpoint IDs.
-        public var vpcEndpointIds: [String]? = nil
         /// The token for the next set of items to return. (You received this token from a prior call.)
         public var nextToken: String? = nil
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1000, we return only 1000 items.
@@ -8693,10 +8693,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(filters: [Filter]? = nil, dryRun: Bool? = nil, vpcEndpointIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(vpcEndpointIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.vpcEndpointIds = vpcEndpointIds
             self.filters = filters
             self.dryRun = dryRun
-            self.vpcEndpointIds = vpcEndpointIds
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
@@ -9663,10 +9663,10 @@ extension Ec2 {
         public var icmpTypeCode: IcmpTypeCode? = nil
         /// The rule number of the entry to replace.
         public var ruleNumber: Int32 = 0
-        /// Indicates whether to allow or deny the traffic that matches the rule.
-        public var ruleAction: String = ""
         /// The IP protocol. You can specify all or -1 to mean all protocols. If you specify all, -1, or a protocol number other than tcp, udp, or icmp, traffic on all ports is allowed, regardless of any ports or ICMP types or codes you specify. If you specify protocol 58 (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol 58 (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
         public var `protocol`: String = ""
+        /// Indicates whether to allow or deny the traffic that matches the rule.
+        public var ruleAction: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the ACL.
@@ -9680,12 +9680,12 @@ extension Ec2 {
 
         public init() {}
 
-        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, ruleAction: String, protocol: String, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
+        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: String, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
             self.icmpTypeCode = icmpTypeCode
             self.ruleNumber = ruleNumber
-            self.ruleAction = ruleAction
             self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
             self.dryRun = dryRun
             self.networkAclId = networkAclId
             self.egress = egress
@@ -9980,10 +9980,10 @@ extension Ec2 {
     public struct NetworkInterfaceAssociation: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The association ID.
-        public var associationId: String? = nil
         /// The address of the Elastic IP address bound to the network interface.
         public var publicIp: String? = nil
+        /// The association ID.
+        public var associationId: String? = nil
         /// The ID of the Elastic IP address owner.
         public var ipOwnerId: String? = nil
         /// The allocation ID.
@@ -9993,9 +9993,9 @@ extension Ec2 {
 
         public init() {}
 
-        public init(associationId: String? = nil, publicIp: String? = nil, ipOwnerId: String? = nil, allocationId: String? = nil, publicDnsName: String? = nil) {
-            self.associationId = associationId
+        public init(publicIp: String? = nil, associationId: String? = nil, ipOwnerId: String? = nil, allocationId: String? = nil, publicDnsName: String? = nil) {
             self.publicIp = publicIp
+            self.associationId = associationId
             self.ipOwnerId = ipOwnerId
             self.allocationId = allocationId
             self.publicDnsName = publicDnsName
@@ -10141,10 +10141,10 @@ extension Ec2 {
         public var icmpTypeCode: IcmpTypeCode? = nil
         /// The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number. Constraints: Positive integer from 1 to 32766. The range 32767 to 65535 is reserved for internal use.
         public var ruleNumber: Int32 = 0
-        /// Indicates whether to allow or deny the traffic that matches the rule.
-        public var ruleAction: String = ""
         /// The protocol. A value of -1 or all means all protocols. If you specify all, -1, or a protocol number other than tcp, udp, or icmp, traffic on all ports is allowed, regardless of any ports or ICMP types or codes you specify. If you specify protocol 58 (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol 58 (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
         public var `protocol`: String = ""
+        /// Indicates whether to allow or deny the traffic that matches the rule.
+        public var ruleAction: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the network ACL.
@@ -10158,12 +10158,12 @@ extension Ec2 {
 
         public init() {}
 
-        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, ruleAction: String, protocol: String, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
+        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: String, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
             self.icmpTypeCode = icmpTypeCode
             self.ruleNumber = ruleNumber
-            self.ruleAction = ruleAction
             self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
             self.dryRun = dryRun
             self.networkAclId = networkAclId
             self.egress = egress
@@ -11367,8 +11367,8 @@ extension Ec2 {
     public struct CopySnapshotRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The ID of the EBS snapshot to copy.
-        public var sourceSnapshotId: String = ""
+        /// A description for the EBS snapshot.
+        public var description: String? = nil
         /// The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when creating the snapshot copy. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. The specified CMK must exist in the region that the snapshot is being copied to. If a KmsKeyId is specified, the Encrypted flag must also be set.
         public var kmsKeyId: String? = nil
         /// The ID of the region that contains the snapshot to be copied.
@@ -11381,20 +11381,20 @@ extension Ec2 {
         public var dryRun: Bool? = nil
         /// The pre-signed URL that facilitates copying an encrypted snapshot. This parameter is only required when copying an encrypted snapshot with the Amazon EC2 Query API; it is available as an optional parameter in all other cases. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests by Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
         public var presignedUrl: String? = nil
-        /// A description for the EBS snapshot.
-        public var description: String? = nil
+        /// The ID of the EBS snapshot to copy.
+        public var sourceSnapshotId: String = ""
 
         public init() {}
 
-        public init(sourceSnapshotId: String, kmsKeyId: String? = nil, sourceRegion: String, encrypted: Bool? = nil, destinationRegion: String? = nil, dryRun: Bool? = nil, presignedUrl: String? = nil, description: String? = nil) {
-            self.sourceSnapshotId = sourceSnapshotId
+        public init(description: String? = nil, kmsKeyId: String? = nil, sourceRegion: String, encrypted: Bool? = nil, destinationRegion: String? = nil, dryRun: Bool? = nil, presignedUrl: String? = nil, sourceSnapshotId: String) {
+            self.description = description
             self.kmsKeyId = kmsKeyId
             self.sourceRegion = sourceRegion
             self.encrypted = encrypted
             self.destinationRegion = destinationRegion
             self.dryRun = dryRun
             self.presignedUrl = presignedUrl
-            self.description = description
+            self.sourceSnapshotId = sourceSnapshotId
         }
 
     }
@@ -11504,10 +11504,10 @@ extension Ec2 {
         public var userData: String? = nil
         /// Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance. Default: false 
         public var ebsOptimized: Bool? = nil
-        /// The bid price per unit hour for the specified instance type. If this value is not specified, the default is the Spot bid price specified for the fleet. To determine the bid price per unit hour, divide the Spot bid price by the value of WeightedCapacity.
-        public var spotPrice: String? = nil
         /// The ID of the kernel.
         public var kernelId: String? = nil
+        /// The bid price per unit hour for the specified instance type. If this value is not specified, the default is the Spot bid price specified for the fleet. To determine the bid price per unit hour, divide the Spot bid price by the value of WeightedCapacity.
+        public var spotPrice: String? = nil
         /// Enable or disable monitoring for the instances.
         public var monitoring: SpotFleetMonitoring? = nil
         /// The instance type. Note that T2 and HS1 instance types are not supported.
@@ -11533,13 +11533,13 @@ extension Ec2 {
 
         public init() {}
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, spotPrice: String? = nil, kernelId: String? = nil, monitoring: SpotFleetMonitoring? = nil, instanceType: String? = nil, weightedCapacity: Double? = nil, securityGroups: [GroupIdentifier]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, spotPrice: String? = nil, monitoring: SpotFleetMonitoring? = nil, instanceType: String? = nil, weightedCapacity: Double? = nil, securityGroups: [GroupIdentifier]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.subnetId = subnetId
             self.userData = userData
             self.ebsOptimized = ebsOptimized
-            self.spotPrice = spotPrice
             self.kernelId = kernelId
+            self.spotPrice = spotPrice
             self.monitoring = monitoring
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
@@ -12981,10 +12981,10 @@ extension Ec2 {
         public let _payload: String? = nil
         /// The state of the Spot fleet request.
         public var spotFleetRequestState: String = ""
-        /// The progress of the Spot fleet request. If there is an error, the status is error. After all bids are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot instances are terminating.
-        public var activityStatus: String? = nil
         /// The creation date and time of the request.
         public var createTime: Date = Date()
+        /// The progress of the Spot fleet request. If there is an error, the status is error. After all bids are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot instances are terminating.
+        public var activityStatus: String? = nil
         /// Information about the configuration of the Spot fleet request.
         public var spotFleetRequestConfig: SpotFleetRequestConfigData = SpotFleetRequestConfigData()
         /// The ID of the Spot fleet request.
@@ -12992,10 +12992,10 @@ extension Ec2 {
 
         public init() {}
 
-        public init(spotFleetRequestState: String, activityStatus: String? = nil, createTime: Date, spotFleetRequestConfig: SpotFleetRequestConfigData, spotFleetRequestId: String) {
+        public init(spotFleetRequestState: String, createTime: Date, activityStatus: String? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData, spotFleetRequestId: String) {
             self.spotFleetRequestState = spotFleetRequestState
-            self.activityStatus = activityStatus
             self.createTime = createTime
+            self.activityStatus = activityStatus
             self.spotFleetRequestConfig = spotFleetRequestConfig
             self.spotFleetRequestId = spotFleetRequestId
         }

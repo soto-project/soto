@@ -53,14 +53,14 @@ public struct Codebuild {
         return try client.send(operation: "ListCuratedEnvironmentImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts running a build.
-    public func startBuild(_ input: StartBuildInput) throws -> StartBuildOutput {
-        return try client.send(operation: "StartBuild", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about builds.
     public func batchGetBuilds(_ input: BatchGetBuildsInput) throws -> BatchGetBuildsOutput {
         return try client.send(operation: "BatchGetBuilds", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts running a build.
+    public func startBuild(_ input: StartBuildInput) throws -> StartBuildOutput {
+        return try client.send(operation: "StartBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build IDs for the specified build project, with each build ID representing a single build.
@@ -68,14 +68,14 @@ public struct Codebuild {
         return try client.send(operation: "ListBuildsForProject", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a list of build IDs, with each build ID representing a single build.
-    public func listBuilds(_ input: ListBuildsInput) throws -> ListBuildsOutput {
-        return try client.send(operation: "ListBuilds", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Attempts to stop running a build.
     public func stopBuild(_ input: StopBuildInput) throws -> StopBuildOutput {
         return try client.send(operation: "StopBuild", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of build IDs, with each build ID representing a single build.
+    public func listBuilds(_ input: ListBuildsInput) throws -> ListBuildsOutput {
+        return try client.send(operation: "ListBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build project names, with each build project name representing a single build project.

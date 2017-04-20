@@ -182,14 +182,14 @@ public struct Workdocs {
         _ = try client.send(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
-    public func getFolderPath(_ input: GetFolderPathRequest) throws -> GetFolderPathResponse {
-        return try client.send(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: "GET", input: input)
-    }
-
     ///  Describes the contents of the specified folder, including its documents and sub-folders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     public func describeFolderContents(_ input: DescribeFolderContentsRequest) throws -> DescribeFolderContentsResponse {
         return try client.send(operation: "DescribeFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
+    public func getFolderPath(_ input: GetFolderPathRequest) throws -> GetFolderPathResponse {
+        return try client.send(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: "GET", input: input)
     }
 
 

@@ -57,6 +57,11 @@ public struct S3 {
         return try client.send(operation: "GetObjectTorrent", path: "/{Bucket}/{Key+}?torrent", httpMethod: "GET", input: input)
     }
 
+    ///  Returns the cors configuration for the bucket.
+    public func getBucketCors(_ input: GetBucketCorsRequest) throws -> GetBucketCorsOutput {
+        return try client.send(operation: "GetBucketCors", path: "/{Bucket}?cors", httpMethod: "GET", input: input)
+    }
+
     ///  Deprecated, see the PutBucketNotificationConfiguraiton operation.
     public func putBucketNotification(_ input: PutBucketNotificationRequest) throws {
         _ = try client.send(operation: "PutBucketNotification", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
@@ -70,11 +75,6 @@ public struct S3 {
     ///  Aborts a multipart upload.To verify that all parts have been removed, so you don't get charged for the part storage, you should call the List Parts operation and ensure the parts list is empty.
     public func abortMultipartUpload(_ input: AbortMultipartUploadRequest) throws -> AbortMultipartUploadOutput {
         return try client.send(operation: "AbortMultipartUpload", path: "/{Bucket}/{Key+}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Returns the cors configuration for the bucket.
-    public func getBucketCors(_ input: GetBucketCorsRequest) throws -> GetBucketCorsOutput {
-        return try client.send(operation: "GetBucketCors", path: "/{Bucket}?cors", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the bucket. All objects (including all object versions and Delete Markers) in the bucket must be deleted before the bucket itself can be deleted.

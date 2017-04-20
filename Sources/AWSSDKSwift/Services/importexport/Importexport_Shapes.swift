@@ -50,19 +50,19 @@ extension Importexport {
         /// The key for the payload
         public let _payload: String? = nil
         public var jobType: String = ""
-        public var validateOnly: Bool = false
+        public var manifestAddendum: String? = nil
         public var manifest: String = ""
         public var aPIVersion: String? = nil
-        public var manifestAddendum: String? = nil
+        public var validateOnly: Bool = false
 
         public init() {}
 
-        public init(jobType: String, validateOnly: Bool, manifest: String, aPIVersion: String? = nil, manifestAddendum: String? = nil) {
+        public init(jobType: String, manifestAddendum: String? = nil, manifest: String, aPIVersion: String? = nil, validateOnly: Bool) {
             self.jobType = jobType
-            self.validateOnly = validateOnly
+            self.manifestAddendum = manifestAddendum
             self.manifest = manifest
             self.aPIVersion = aPIVersion
-            self.manifestAddendum = manifestAddendum
+            self.validateOnly = validateOnly
         }
 
     }

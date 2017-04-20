@@ -62,14 +62,14 @@ public struct Sqs {
         _ = try client.send(operation: "AddPermission", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the messages in a queue specified by the QueueURL parameter.  When you use the PurgeQueue action, you can't retrieve a message deleted from a queue.  When you purge a queue, the message deletion process takes up to 60 seconds. All messages sent to the queue before calling the PurgeQueue action are deleted. Messages sent to the queue while it is being purged might be deleted. While the queue is being purged, messages sent to the queue before PurgeQueue is called might be received, but are deleted within the next minute.
-    public func purgeQueue(_ input: PurgeQueueRequest) throws {
-        _ = try client.send(operation: "PurgeQueue", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes up to ten messages from the specified queue. This is a batch version of  DeleteMessage . The result of the action on each message is reported individually in the response.  Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.   Some actions take lists of parameters. These lists are specified using the param.n notation. Values of n are integers starting from 1. For example, a parameter list with two elements looks like this:  &amp;Attribute.1=this   &amp;Attribute.2=that  
     public func deleteMessageBatch(_ input: DeleteMessageBatchRequest) throws -> DeleteMessageBatchResult {
         return try client.send(operation: "DeleteMessageBatch", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the messages in a queue specified by the QueueURL parameter.  When you use the PurgeQueue action, you can't retrieve a message deleted from a queue.  When you purge a queue, the message deletion process takes up to 60 seconds. All messages sent to the queue before calling the PurgeQueue action are deleted. Messages sent to the queue while it is being purged might be deleted. While the queue is being purged, messages sent to the queue before PurgeQueue is called might be received, but are deleted within the next minute.
+    public func purgeQueue(_ input: PurgeQueueRequest) throws {
+        _ = try client.send(operation: "PurgeQueue", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead letter queue. For more information about using dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.

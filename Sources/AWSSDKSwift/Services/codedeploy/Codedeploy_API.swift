@@ -138,6 +138,11 @@ public struct Codedeploy {
         _ = try client.send(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets information about an on-premises instance.
+    public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput) throws -> GetOnPremisesInstanceOutput {
+        return try client.send(operation: "GetOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Changes the name of an application.
     public func updateApplication(_ input: UpdateApplicationInput) throws {
         _ = try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
@@ -146,11 +151,6 @@ public struct Codedeploy {
     ///  Creates an application.
     public func createApplication(_ input: CreateApplicationInput) throws -> CreateApplicationOutput {
         return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about an on-premises instance.
-    public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput) throws -> GetOnPremisesInstanceOutput {
-        return try client.send(operation: "GetOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deploys an application revision through the specified deployment group.

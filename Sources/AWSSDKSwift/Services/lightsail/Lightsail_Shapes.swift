@@ -500,12 +500,12 @@ extension Lightsail {
         public var instanceType: String? = nil
         /// A Boolean value indicating whether the bundle is active.
         public var isActive: Bool? = nil
-        /// The amount of RAM in GB (e.g., 2.0).
-        public var ramSizeInGb: Float? = nil
-        /// The number of vCPUs included in the bundle (e.g., 2).
-        public var cpuCount: Int32? = nil
         /// The power of the bundle (e.g., 500).
         public var power: Int32? = nil
+        /// The number of vCPUs included in the bundle (e.g., 2).
+        public var cpuCount: Int32? = nil
+        /// The amount of RAM in GB (e.g., 2.0).
+        public var ramSizeInGb: Float? = nil
         /// The bundle ID (e.g., micro_1_0).
         public var bundleId: String? = nil
         /// The data transfer rate per month in GB (e.g., 2000).
@@ -517,13 +517,13 @@ extension Lightsail {
 
         public init() {}
 
-        public init(name: String? = nil, instanceType: String? = nil, isActive: Bool? = nil, ramSizeInGb: Float? = nil, cpuCount: Int32? = nil, power: Int32? = nil, bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, diskSizeInGb: Int32? = nil, price: Float? = nil) {
+        public init(name: String? = nil, instanceType: String? = nil, isActive: Bool? = nil, power: Int32? = nil, cpuCount: Int32? = nil, ramSizeInGb: Float? = nil, bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, diskSizeInGb: Int32? = nil, price: Float? = nil) {
             self.name = name
             self.instanceType = instanceType
             self.isActive = isActive
-            self.ramSizeInGb = ramSizeInGb
-            self.cpuCount = cpuCount
             self.power = power
+            self.cpuCount = cpuCount
+            self.ramSizeInGb = ramSizeInGb
             self.bundleId = bundleId
             self.transferPerMonthInGb = transferPerMonthInGb
             self.diskSizeInGb = diskSizeInGb

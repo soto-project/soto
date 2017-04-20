@@ -58,9 +58,9 @@ public struct Snowball {
         return try client.send(operation: "ListClusterJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Takes an AddressId and returns specific details about that address in the form of an Address object.
-    public func describeAddress(_ input: DescribeAddressRequest) throws -> DescribeAddressResult {
-        return try client.send(operation: "DescribeAddress", path: "/", httpMethod: "POST", input: input)
+    ///  Returns information about a specific cluster including shipping information, cluster status, and other important metadata.
+    public func describeCluster(_ input: DescribeClusterRequest) throws -> DescribeClusterResult {
+        return try client.send(operation: "DescribeCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. .
@@ -68,14 +68,14 @@ public struct Snowball {
         return try client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a specific cluster including shipping information, cluster status, and other important metadata.
-    public func describeCluster(_ input: DescribeClusterRequest) throws -> DescribeClusterResult {
-        return try client.send(operation: "DescribeCluster", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Returns information about the Snowball service limit for your account, and also the number of Snowballs your account has in use. The default service limit for the number of Snowballs that you can have at one time is 1. If you want to increase your service limit, contact AWS Support.
     public func getSnowballUsage(_ input: GetSnowballUsageRequest) throws -> GetSnowballUsageResult {
         return try client.send(operation: "GetSnowballUsage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Takes an AddressId and returns specific details about that address in the form of an Address object.
+    public func describeAddress(_ input: DescribeAddressRequest) throws -> DescribeAddressResult {
+        return try client.send(operation: "DescribeAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a specified number of ADDRESS objects. Calling this API in one of the US regions will return addresses from the list of all addresses associated with this account in all US regions.

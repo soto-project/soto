@@ -206,12 +206,12 @@ extension Events {
         public let _payload: String? = nil
         /// A description of the rule.
         public var description: String? = nil
-        /// The event pattern.
-        public var eventPattern: String? = nil
-        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-        public var roleArn: String? = nil
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
         public var scheduleExpression: String? = nil
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
+        public var roleArn: String? = nil
+        /// The event pattern.
+        public var eventPattern: String? = nil
         /// The name of the rule that you are creating or updating.
         public var name: String = ""
         /// Indicates whether the rule is enabled or disabled.
@@ -219,11 +219,11 @@ extension Events {
 
         public init() {}
 
-        public init(description: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, name: String, state: String? = nil) {
+        public init(description: String? = nil, scheduleExpression: String? = nil, roleArn: String? = nil, eventPattern: String? = nil, name: String, state: String? = nil) {
             self.description = description
-            self.eventPattern = eventPattern
-            self.roleArn = roleArn
             self.scheduleExpression = scheduleExpression
+            self.roleArn = roleArn
+            self.eventPattern = eventPattern
             self.name = name
             self.state = state
         }
@@ -321,6 +321,26 @@ extension Events {
 
     }
 
+    public struct RemoveTargetsResultEntry: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The error message that explains why the target removal failed.
+        public var errorMessage: String? = nil
+        /// The error code that indicates why the target removal failed.
+        public var errorCode: String? = nil
+        /// The ID of the target.
+        public var targetId: String? = nil
+
+        public init() {}
+
+        public init(errorMessage: String? = nil, errorCode: String? = nil, targetId: String? = nil) {
+            self.errorMessage = errorMessage
+            self.errorCode = errorCode
+            self.targetId = targetId
+        }
+
+    }
+
     public struct PutEventsRequestEntry: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -343,26 +363,6 @@ extension Events {
             self.source = source
             self.time = time
             self.resources = resources
-        }
-
-    }
-
-    public struct RemoveTargetsResultEntry: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The error message that explains why the target removal failed.
-        public var errorMessage: String? = nil
-        /// The error code that indicates why the target removal failed.
-        public var errorCode: String? = nil
-        /// The ID of the target.
-        public var targetId: String? = nil
-
-        public init() {}
-
-        public init(errorMessage: String? = nil, errorCode: String? = nil, targetId: String? = nil) {
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-            self.targetId = targetId
         }
 
     }

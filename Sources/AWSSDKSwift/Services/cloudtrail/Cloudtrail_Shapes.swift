@@ -124,6 +124,14 @@ extension Cloudtrail {
 
     }
 
+    public struct StartLoggingResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+
+        public init() {}
+
+    }
+
     public struct ListPublicKeysRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -167,14 +175,6 @@ extension Cloudtrail {
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
-
-    }
-
-    public struct StartLoggingResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-
-        public init() {}
 
     }
 
@@ -350,12 +350,12 @@ extension Cloudtrail {
         public let _payload: String? = nil
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
         public var latestNotificationError: String? = nil
-        /// This field is deprecated.
-        public var timeLoggingStopped: String? = nil
-        /// This field is deprecated.
-        public var timeLoggingStarted: String? = nil
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
         public var latestDeliveryTime: Date? = nil
+        /// This field is deprecated.
+        public var timeLoggingStarted: String? = nil
+        /// This field is deprecated.
+        public var timeLoggingStopped: String? = nil
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
         public var latestDigestDeliveryError: String? = nil
         /// This field is deprecated.
@@ -385,11 +385,11 @@ extension Cloudtrail {
 
         public init() {}
 
-        public init(latestNotificationError: String? = nil, timeLoggingStopped: String? = nil, timeLoggingStarted: String? = nil, latestDeliveryTime: Date? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: Date? = nil, latestNotificationTime: Date? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: Date? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: Date? = nil, startLoggingTime: Date? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
+        public init(latestNotificationError: String? = nil, latestDeliveryTime: Date? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: Date? = nil, latestNotificationTime: Date? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: Date? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: Date? = nil, startLoggingTime: Date? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
             self.latestNotificationError = latestNotificationError
-            self.timeLoggingStopped = timeLoggingStopped
-            self.timeLoggingStarted = timeLoggingStarted
             self.latestDeliveryTime = latestDeliveryTime
+            self.timeLoggingStarted = timeLoggingStarted
+            self.timeLoggingStopped = timeLoggingStopped
             self.latestDigestDeliveryError = latestDigestDeliveryError
             self.latestDeliveryAttemptSucceeded = latestDeliveryAttemptSucceeded
             self.latestCloudWatchLogsDeliveryTime = latestCloudWatchLogsDeliveryTime

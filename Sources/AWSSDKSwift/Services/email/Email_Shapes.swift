@@ -223,10 +223,10 @@ extension Email {
         public let _payload: String? = nil
         /// Message-related DSN fields. If not specified, Amazon SES will choose the values.
         public var messageDsn: MessageDsn? = nil
-        /// The message ID of the message to be bounced.
-        public var originalMessageId: String = ""
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
         public var bouncedRecipientInfoList: [BouncedRecipientInfo] = []
+        /// The message ID of the message to be bounced.
+        public var originalMessageId: String = ""
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide.
         public var bounceSenderArn: String? = nil
         /// The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.
@@ -236,10 +236,10 @@ extension Email {
 
         public init() {}
 
-        public init(messageDsn: MessageDsn? = nil, originalMessageId: String, bouncedRecipientInfoList: [BouncedRecipientInfo], bounceSenderArn: String? = nil, bounceSender: String, explanation: String? = nil) {
+        public init(messageDsn: MessageDsn? = nil, bouncedRecipientInfoList: [BouncedRecipientInfo], originalMessageId: String, bounceSenderArn: String? = nil, bounceSender: String, explanation: String? = nil) {
             self.messageDsn = messageDsn
-            self.originalMessageId = originalMessageId
             self.bouncedRecipientInfoList = bouncedRecipientInfoList
+            self.originalMessageId = originalMessageId
             self.bounceSenderArn = bounceSenderArn
             self.bounceSender = bounceSender
             self.explanation = explanation

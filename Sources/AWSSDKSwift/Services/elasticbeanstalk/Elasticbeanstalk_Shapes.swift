@@ -46,6 +46,23 @@ extension Elasticbeanstalk {
 
     }
 
+    public struct SolutionStackDescription: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The permitted file types allowed for a solution stack.
+        public var permittedFileTypes: [String]? = nil
+        /// The name of the solution stack.
+        public var solutionStackName: String? = nil
+
+        public init() {}
+
+        public init(permittedFileTypes: [String]? = nil, solutionStackName: String? = nil) {
+            self.permittedFileTypes = permittedFileTypes
+            self.solutionStackName = solutionStackName
+        }
+
+    }
+
     public struct RequestEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -62,23 +79,6 @@ extension Elasticbeanstalk {
             self.environmentName = environmentName
             self.infoType = infoType
             self.environmentId = environmentId
-        }
-
-    }
-
-    public struct SolutionStackDescription: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The permitted file types allowed for a solution stack.
-        public var permittedFileTypes: [String]? = nil
-        /// The name of the solution stack.
-        public var solutionStackName: String? = nil
-
-        public init() {}
-
-        public init(permittedFileTypes: [String]? = nil, solutionStackName: String? = nil) {
-            self.permittedFileTypes = permittedFileTypes
-            self.solutionStackName = solutionStackName
         }
 
     }
@@ -1962,6 +1962,8 @@ extension Elasticbeanstalk {
         public var platformVersion: String? = nil
         /// The custom AMIs supported by the platform.
         public var customAmiList: [CustomAmi]? = nil
+        /// The category of the platform.
+        public var platformCategory: String? = nil
         /// Information about the maintainer of the platform.
         public var maintainer: String? = nil
         /// The operating system used by the platform.
@@ -1972,8 +1974,6 @@ extension Elasticbeanstalk {
         public var platformOwner: String? = nil
         /// The description of the platform.
         public var description: String? = nil
-        /// The category of the platform.
-        public var platformCategory: String? = nil
         /// The name of the platform.
         public var platformName: String? = nil
         /// The version of the operating system used by the platform.
@@ -1991,18 +1991,18 @@ extension Elasticbeanstalk {
 
         public init() {}
 
-        public init(dateUpdated: Date? = nil, platformStatus: String? = nil, supportedAddonList: [String]? = nil, platformVersion: String? = nil, customAmiList: [CustomAmi]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, dateCreated: Date? = nil, platformOwner: String? = nil, description: String? = nil, platformCategory: String? = nil, platformName: String? = nil, operatingSystemVersion: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, supportedTierList: [String]? = nil, frameworks: [PlatformFramework]? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil) {
+        public init(dateUpdated: Date? = nil, platformStatus: String? = nil, supportedAddonList: [String]? = nil, platformVersion: String? = nil, customAmiList: [CustomAmi]? = nil, platformCategory: String? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, dateCreated: Date? = nil, platformOwner: String? = nil, description: String? = nil, platformName: String? = nil, operatingSystemVersion: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, supportedTierList: [String]? = nil, frameworks: [PlatformFramework]? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil) {
             self.dateUpdated = dateUpdated
             self.platformStatus = platformStatus
             self.supportedAddonList = supportedAddonList
             self.platformVersion = platformVersion
             self.customAmiList = customAmiList
+            self.platformCategory = platformCategory
             self.maintainer = maintainer
             self.operatingSystemName = operatingSystemName
             self.dateCreated = dateCreated
             self.platformOwner = platformOwner
             self.description = description
-            self.platformCategory = platformCategory
             self.platformName = platformName
             self.operatingSystemVersion = operatingSystemVersion
             self.solutionStackName = solutionStackName
@@ -2441,12 +2441,12 @@ extension Elasticbeanstalk {
         public var color: String? = nil
         /// The ID of the Amazon EC2 instance.
         public var instanceId: String? = nil
+        /// Information about the most recent deployment to an instance.
+        public var deployment: Deployment? = nil
         /// Request metrics from your application.
         public var applicationMetrics: ApplicationMetrics? = nil
         /// The time at which the EC2 instance was launched.
         public var launchedAt: Date? = nil
-        /// Information about the most recent deployment to an instance.
-        public var deployment: Deployment? = nil
         /// Returns the health status of the specified instance. For more information, see Health Colors and Statuses.
         public var healthStatus: String? = nil
         /// The instance's type.
@@ -2460,12 +2460,12 @@ extension Elasticbeanstalk {
 
         public init() {}
 
-        public init(color: String? = nil, instanceId: String? = nil, applicationMetrics: ApplicationMetrics? = nil, launchedAt: Date? = nil, deployment: Deployment? = nil, healthStatus: String? = nil, instanceType: String? = nil, system: SystemStatus? = nil, causes: [String]? = nil, availabilityZone: String? = nil) {
+        public init(color: String? = nil, instanceId: String? = nil, deployment: Deployment? = nil, applicationMetrics: ApplicationMetrics? = nil, launchedAt: Date? = nil, healthStatus: String? = nil, instanceType: String? = nil, system: SystemStatus? = nil, causes: [String]? = nil, availabilityZone: String? = nil) {
             self.color = color
             self.instanceId = instanceId
+            self.deployment = deployment
             self.applicationMetrics = applicationMetrics
             self.launchedAt = launchedAt
-            self.deployment = deployment
             self.healthStatus = healthStatus
             self.instanceType = instanceType
             self.system = system

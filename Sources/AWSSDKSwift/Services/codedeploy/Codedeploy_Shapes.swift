@@ -267,20 +267,6 @@ extension Codedeploy {
 
     }
 
-    public struct BatchGetOnPremisesInstancesInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The names of the on-premises instances about which to get information.
-        public var instanceNames: [String]? = nil
-
-        public init() {}
-
-        public init(instanceNames: [String]? = nil) {
-            self.instanceNames = instanceNames
-        }
-
-    }
-
     public struct Tag: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -294,6 +280,20 @@ extension Codedeploy {
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
             self.key = key
+        }
+
+    }
+
+    public struct BatchGetOnPremisesInstancesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The names of the on-premises instances about which to get information.
+        public var instanceNames: [String]? = nil
+
+        public init() {}
+
+        public init(instanceNames: [String]? = nil) {
+            self.instanceNames = instanceNames
         }
 
     }
@@ -883,6 +883,26 @@ extension Codedeploy {
 
     }
 
+    public struct ListDeploymentGroupsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// A list of corresponding deployment group names.
+        public var deploymentGroups: [String]? = nil
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment groups call to return the next set of deployment groups in the list.
+        public var nextToken: String? = nil
+        /// The application name.
+        public var applicationName: String? = nil
+
+        public init() {}
+
+        public init(deploymentGroups: [String]? = nil, nextToken: String? = nil, applicationName: String? = nil) {
+            self.deploymentGroups = deploymentGroups
+            self.nextToken = nextToken
+            self.applicationName = applicationName
+        }
+
+    }
+
     public struct ListDeploymentConfigsOutput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -896,6 +916,23 @@ extension Codedeploy {
         public init(nextToken: String? = nil, deploymentConfigsList: [String]? = nil) {
             self.nextToken = nextToken
             self.deploymentConfigsList = deploymentConfigsList
+        }
+
+    }
+
+    public struct AddTagsToOnPremisesInstancesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
+        public var tags: [Tag] = []
+        /// The names of the on-premises instances to which to add tags.
+        public var instanceNames: [String] = []
+
+        public init() {}
+
+        public init(tags: [Tag], instanceNames: [String]) {
+            self.tags = tags
+            self.instanceNames = instanceNames
         }
 
     }
@@ -930,43 +967,6 @@ extension Codedeploy {
         public init(deploymentConfigName: String, minimumHealthyHosts: MinimumHealthyHosts? = nil) {
             self.deploymentConfigName = deploymentConfigName
             self.minimumHealthyHosts = minimumHealthyHosts
-        }
-
-    }
-
-    public struct ListDeploymentGroupsOutput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// A list of corresponding deployment group names.
-        public var deploymentGroups: [String]? = nil
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment groups call to return the next set of deployment groups in the list.
-        public var nextToken: String? = nil
-        /// The application name.
-        public var applicationName: String? = nil
-
-        public init() {}
-
-        public init(deploymentGroups: [String]? = nil, nextToken: String? = nil, applicationName: String? = nil) {
-            self.deploymentGroups = deploymentGroups
-            self.nextToken = nextToken
-            self.applicationName = applicationName
-        }
-
-    }
-
-    public struct AddTagsToOnPremisesInstancesInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
-        public var tags: [Tag] = []
-        /// The names of the on-premises instances to which to add tags.
-        public var instanceNames: [String] = []
-
-        public init() {}
-
-        public init(tags: [Tag], instanceNames: [String]) {
-            self.tags = tags
-            self.instanceNames = instanceNames
         }
 
     }

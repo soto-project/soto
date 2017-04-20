@@ -1850,10 +1850,10 @@ extension Devicefarm {
         public let _payload: String? = nil
         /// The number of warned entities.
         public var warned: Int32? = nil
-        /// The number of failed entities.
-        public var failed: Int32? = nil
         /// The number of errored entities.
         public var errored: Int32? = nil
+        /// The number of failed entities.
+        public var failed: Int32? = nil
         /// The number of skipped entities.
         public var skipped: Int32? = nil
         /// The number of passed entities.
@@ -1865,10 +1865,10 @@ extension Devicefarm {
 
         public init() {}
 
-        public init(warned: Int32? = nil, failed: Int32? = nil, errored: Int32? = nil, skipped: Int32? = nil, passed: Int32? = nil, stopped: Int32? = nil, total: Int32? = nil) {
+        public init(warned: Int32? = nil, errored: Int32? = nil, failed: Int32? = nil, skipped: Int32? = nil, passed: Int32? = nil, stopped: Int32? = nil, total: Int32? = nil) {
             self.warned = warned
-            self.failed = failed
             self.errored = errored
+            self.failed = failed
             self.skipped = skipped
             self.passed = passed
             self.stopped = stopped
@@ -2303,10 +2303,10 @@ extension Devicefarm {
         public var model: String? = nil
         /// The device's radio.
         public var radio: String? = nil
-        /// The device's total memory size, expressed in bytes.
-        public var memory: Int64? = nil
         /// The device's ARN.
         public var arn: String? = nil
+        /// The device's total memory size, expressed in bytes.
+        public var memory: Int64? = nil
         /// The resolution of the device.
         public var resolution: Resolution? = nil
         /// The device's operating system type.
@@ -2328,15 +2328,15 @@ extension Devicefarm {
 
         public init() {}
 
-        public init(name: String? = nil, cpu: CPU? = nil, platform: String? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, memory: Int64? = nil, arn: String? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: String? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
+        public init(name: String? = nil, cpu: CPU? = nil, platform: String? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, arn: String? = nil, memory: Int64? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: String? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
             self.name = name
             self.cpu = cpu
             self.platform = platform
             self.heapSize = heapSize
             self.model = model
             self.radio = radio
-            self.memory = memory
             self.arn = arn
+            self.memory = memory
             self.resolution = resolution
             self.os = os
             self.image = image

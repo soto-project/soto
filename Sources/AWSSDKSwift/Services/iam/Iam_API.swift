@@ -47,6 +47,11 @@ public struct Iam {
         )
     }
 
+    ///  Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the action returns a 404 (NoSuchEntity) error.
+    public func getLoginProfile(_ input: GetLoginProfileRequest) throws -> GetLoginProfileResponse {
+        return try client.send(operation: "GetLoginProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists all managed policies that are attached to the specified IAM user. An IAM user can also have inline policies embedded with it. To list the inline policies for a user, use the ListUserPolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the action returns an empty list.
     public func listAttachedUserPolicies(_ input: ListAttachedUserPoliciesRequest) throws -> ListAttachedUserPoliciesResponse {
         return try client.send(operation: "ListAttachedUserPolicies", path: "/", httpMethod: "POST", input: input)
@@ -60,11 +65,6 @@ public struct Iam {
     ///  Removes the specified user from the specified group.
     public func removeUserFromGroup(_ input: RemoveUserFromGroupRequest) throws {
         _ = try client.send(operation: "RemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the action returns a 404 (NoSuchEntity) error.
-    public func getLoginProfile(_ input: GetLoginProfileRequest) throws -> GetLoginProfileResponse {
-        return try client.send(operation: "GetLoginProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Creates a password for the specified user, giving the user the ability to access AWS services through the AWS Management Console. For more information about managing passwords, see Managing Passwords in the IAM User Guide.

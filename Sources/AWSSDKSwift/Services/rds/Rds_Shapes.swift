@@ -195,14 +195,14 @@ extension Rds {
         public let _payload: String? = nil
         /// Specifies whether the option requires a port.
         public var portRequired: Bool? = nil
+        /// The options that conflict with this option.
+        public var optionsConflictsWith: [String]? = nil
+        /// The minimum required engine version for the option to be applied.
+        public var minimumRequiredMinorEngineVersion: String? = nil
         /// Indicates the major engine version that the option is available for.
         public var majorEngineVersion: String? = nil
         /// Persistent options can't be removed from an option group while DB instances are associated with the option group. If you disassociate all DB instances from the option group, your can remove the persistent option from the option group.
         public var persistent: Bool? = nil
-        /// The minimum required engine version for the option to be applied.
-        public var minimumRequiredMinorEngineVersion: String? = nil
-        /// The options that conflict with this option.
-        public var optionsConflictsWith: [String]? = nil
         /// The option settings that are available (and the default value) for each option in an option group.
         public var optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil
         /// Permanent options can never be removed from an option group. An option group containing a permanent option can't be removed from a DB instance.
@@ -222,12 +222,12 @@ extension Rds {
 
         public init() {}
 
-        public init(portRequired: Bool? = nil, majorEngineVersion: String? = nil, persistent: Bool? = nil, minimumRequiredMinorEngineVersion: String? = nil, optionsConflictsWith: [String]? = nil, optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil, permanent: Bool? = nil, optionsDependedOn: [String]? = nil, description: String? = nil, optionGroupOptionVersions: [OptionVersion]? = nil, name: String? = nil, defaultPort: Int32? = nil, engineName: String? = nil) {
+        public init(portRequired: Bool? = nil, optionsConflictsWith: [String]? = nil, minimumRequiredMinorEngineVersion: String? = nil, majorEngineVersion: String? = nil, persistent: Bool? = nil, optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil, permanent: Bool? = nil, optionsDependedOn: [String]? = nil, description: String? = nil, optionGroupOptionVersions: [OptionVersion]? = nil, name: String? = nil, defaultPort: Int32? = nil, engineName: String? = nil) {
             self.portRequired = portRequired
+            self.optionsConflictsWith = optionsConflictsWith
+            self.minimumRequiredMinorEngineVersion = minimumRequiredMinorEngineVersion
             self.majorEngineVersion = majorEngineVersion
             self.persistent = persistent
-            self.minimumRequiredMinorEngineVersion = minimumRequiredMinorEngineVersion
-            self.optionsConflictsWith = optionsConflictsWith
             self.optionGroupOptionSettings = optionGroupOptionSettings
             self.permanent = permanent
             self.optionsDependedOn = optionsDependedOn
@@ -853,8 +853,8 @@ extension Rds {
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        public var dBInstanceClass: String? = nil
+        /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535 
+        public var port: Int32? = nil
         /// Specify the Active Directory Domain to restore the instance in.
         public var domain: String? = nil
         /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. 
@@ -890,15 +890,15 @@ extension Rds {
         public var engine: String? = nil
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public var domainIAMRoleName: String? = nil
-        /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535 
-        public var port: Int32? = nil
         /// The identifier for the DB snapshot to restore from. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
         public var dBSnapshotIdentifier: String = ""
+        /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
+        public var dBInstanceClass: String? = nil
 
         public init() {}
 
-        public init(dBInstanceClass: String? = nil, domain: String? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: [Tag]? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, dBInstanceIdentifier: String, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, port: Int32? = nil, dBSnapshotIdentifier: String) {
-            self.dBInstanceClass = dBInstanceClass
+        public init(port: Int32? = nil, domain: String? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: [Tag]? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, dBInstanceIdentifier: String, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, dBSnapshotIdentifier: String, dBInstanceClass: String? = nil) {
+            self.port = port
             self.domain = domain
             self.dBName = dBName
             self.multiAZ = multiAZ
@@ -917,8 +917,8 @@ extension Rds {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.engine = engine
             self.domainIAMRoleName = domainIAMRoleName
-            self.port = port
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
+            self.dBInstanceClass = dBInstanceClass
         }
 
     }
@@ -1185,10 +1185,10 @@ extension Rds {
         public var allowedValues: String? = nil
         /// Specifies the valid data type for the parameter.
         public var dataType: String? = nil
-        /// Specifies the engine specific parameters type.
-        public var applyType: String? = nil
         /// Specifies the name of the parameter.
         public var parameterName: String? = nil
+        /// Specifies the engine specific parameters type.
+        public var applyType: String? = nil
         /// Indicates the source of the parameter value.
         public var source: String? = nil
         ///  Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. 
@@ -1202,12 +1202,12 @@ extension Rds {
 
         public init() {}
 
-        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, applyType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, applyMethod: String? = nil, description: String? = nil) {
+        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, applyMethod: String? = nil, description: String? = nil) {
             self.parameterValue = parameterValue
             self.allowedValues = allowedValues
             self.dataType = dataType
-            self.applyType = applyType
             self.parameterName = parameterName
+            self.applyType = applyType
             self.source = source
             self.isModifiable = isModifiable
             self.minimumEngineVersion = minimumEngineVersion
@@ -1433,10 +1433,10 @@ extension Rds {
         public let _payload: String? = nil
         /// Specifies the source type for this event.
         public var sourceType: String? = nil
-        /// Provides the identifier for the source of the event.
-        public var sourceIdentifier: String? = nil
         /// Provides the text of this event.
         public var message: String? = nil
+        /// Provides the identifier for the source of the event.
+        public var sourceIdentifier: String? = nil
         /// Specifies the date and time of the event.
         public var date: Date? = nil
         /// Specifies the category for the event.
@@ -1446,10 +1446,10 @@ extension Rds {
 
         public init() {}
 
-        public init(sourceType: String? = nil, sourceIdentifier: String? = nil, message: String? = nil, date: Date? = nil, eventCategories: [String]? = nil, sourceArn: String? = nil) {
+        public init(sourceType: String? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: Date? = nil, eventCategories: [String]? = nil, sourceArn: String? = nil) {
             self.sourceType = sourceType
-            self.sourceIdentifier = sourceIdentifier
             self.message = message
+            self.sourceIdentifier = sourceIdentifier
             self.date = date
             self.eventCategories = eventCategories
             self.sourceArn = sourceArn
@@ -2393,8 +2393,8 @@ extension Rds {
     public struct CreateDBInstanceReadReplicaMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The identifier of the DB instance that will act as the source for the Read Replica. Each DB instance can have up to five Read Replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.   Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.   Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later.   The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.   If the source DB instance is in the same region as the Read Replica, specify a valid DB instance identifier.   If the source DB instance is in a different region than the Read Replica, specify a valid DB instance ARN. For more information, go to  Constructing a Amazon RDS Amazon Resource Name (ARN).  
-        public var sourceDBInstanceIdentifier: String = ""
+        /// The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you create an unencrypted Read Replica and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target Read Replica using the specified KMS encryption key.  If you create an encrypted Read Replica from your AWS account, you can specify a value for KmsKeyId to encrypt the Read Replica with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the Read Replica is encrypted with the same KMS key as the source DB instance.   If you create an encrypted Read Replica in a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
+        public var kmsKeyId: String? = nil
         /// The compute and memory capacity of the Read Replica. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: Inherits from the source DB instance.
         public var dBInstanceClass: String? = nil
         /// The DB instance identifier of the Read Replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
@@ -2424,13 +2424,13 @@ extension Rds {
         public var monitoringInterval: Int32? = nil
         /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
         public var port: Int32? = nil
-        /// The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you create an unencrypted Read Replica and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target Read Replica using the specified KMS encryption key.  If you create an encrypted Read Replica from your AWS account, you can specify a value for KmsKeyId to encrypt the Read Replica with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the Read Replica is encrypted with the same KMS key as the source DB instance.   If you create an encrypted Read Replica in a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        public var kmsKeyId: String? = nil
+        /// The identifier of the DB instance that will act as the source for the Read Replica. Each DB instance can have up to five Read Replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.   Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.   Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later.   The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.   If the source DB instance is in the same region as the Read Replica, specify a valid DB instance identifier.   If the source DB instance is in a different region than the Read Replica, specify a valid DB instance ARN. For more information, go to  Constructing a Amazon RDS Amazon Resource Name (ARN).  
+        public var sourceDBInstanceIdentifier: String = ""
 
         public init() {}
 
-        public init(sourceDBInstanceIdentifier: String, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, tags: [Tag]? = nil, storageType: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, dBSubnetGroupName: String? = nil, monitoringRoleArn: String? = nil, optionGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, preSignedUrl: String? = nil, monitoringInterval: Int32? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
-            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
+        public init(kmsKeyId: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, tags: [Tag]? = nil, storageType: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, dBSubnetGroupName: String? = nil, monitoringRoleArn: String? = nil, optionGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, preSignedUrl: String? = nil, monitoringInterval: Int32? = nil, port: Int32? = nil, sourceDBInstanceIdentifier: String) {
+            self.kmsKeyId = kmsKeyId
             self.dBInstanceClass = dBInstanceClass
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.tags = tags
@@ -2446,7 +2446,7 @@ extension Rds {
             self.preSignedUrl = preSignedUrl
             self.monitoringInterval = monitoringInterval
             self.port = port
-            self.kmsKeyId = kmsKeyId
+            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
         }
 
     }
@@ -2632,18 +2632,18 @@ extension Rds {
         public var tdeCredentialPassword: String? = nil
         /// The password for the master database user. Can be any printable ASCII character except "/", """, or "@". Type: String  MySQL  Constraints: Must contain from 8 to 41 characters.  MariaDB  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  SQL Server  Constraints: Must contain from 8 to 128 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon Aurora  Constraints: Must contain from 8 to 41 characters.
         public var masterUserPassword: String? = nil
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be a multiple between 3 and 10 of the storage amount for the DB instance. Must also be an integer multiple of 1000. For example, if the size of your DB instance is 500 GB, then your Iops value can be 2000, 3000, 4000, or 5000. 
+        public var iops: Int32? = nil
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
         public var dBSecurityGroups: [String]? = nil
+        /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.
+        public var characterSetName: String? = nil
         ///  The EC2 Availability Zone that the database instance will be created in. For information on regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter cannot be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same region as the current endpoint. 
         public var availabilityZone: String? = nil
         /// Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window. Default: true 
         public var autoMinorVersionUpgrade: Bool? = nil
         /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas  
         public var backupRetentionPeriod: Int32? = nil
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be a multiple between 3 and 10 of the storage amount for the DB instance. Must also be an integer multiple of 1000. For example, if the size of your DB instance is 500 GB, then your Iops value can be 2000, 3000, 4000, or 5000. 
-        public var iops: Int32? = nil
-        /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.
-        public var characterSetName: String? = nil
         /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
         public var dBClusterIdentifier: String? = nil
         /// The version number of the database engine to use. The following are the database engines and major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS region.  Amazon Aurora     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-2, eu-west-1, us-east-1, us-east-2, us-west-2):  5.6.10a     MariaDB     Version 10.1 (available in these AWS regions: us-east-2):  10.1.16     Version 10.1 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  10.1.14     Version 10.0 (available in all AWS regions):  10.0.24     Version 10.0 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  10.0.17     Microsoft SQL Server 2016     13.00.2164.0.v1 (supported for all editions, and all AWS regions except sa-east-1)    Microsoft SQL Server 2014     12.00.5000.0.v1 (supported for all editions, and all AWS regions)    12.00.4422.0.v1 (supported for all editions except Enterprise Edition, and all AWS regions except us-east-2)    Microsoft SQL Server 2012     11.00.6020.0.v1 (supported for all editions, and all AWS regions)    11.00.5058.0.v1 (supported for all editions, and all AWS regions except us-east-2)    11.00.2100.60.v1 (supported for all editions, and all AWS regions except us-east-2)    Microsoft SQL Server 2008 R2     10.50.6529.0.v1 (supported for all editions, and all AWS regions except us-east-2)    10.50.6000.34.v1 (supported for all editions, and all AWS regions except us-east-2)    10.50.2789.0.v1 (supported for all editions, and all AWS regions except us-east-2)    MySQL     Version 5.7 (available in all AWS regions):  5.7.11     Version 5.7 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.7.10     Version 5.6 (available in all AWS regions):  5.6.29     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.27     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.23     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.19a | 5.6.19b | 5.6.21 | 5.6.21b | 5.6.22     Version 5.5 (available in all AWS regions):  5.5.46     Version 5.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.1.73a | 5.1.73b     Oracle Database Enterprise Edition (oracle-ee)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 12.1 (available in all AWS regions):  12.1.0.2.v1     Version 12.1 (available in all AWS regions except us-gov-west-1):  12.1.0.2.v2 | 12.1.0.2.v3 | 12.1.0.2.v4     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition (oracle-se)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition One (oracle-se1)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition Two (oracle-se2)     Version 12.1 (available in all AWS regions except us-gov-west-1):  12.1.0.2.v2 | 12.1.0.2.v3 | 12.1.0.2.v4     PostgreSQL     Version 9.6:  9.6.1     Version 9.5: 9.5.4 | 9.5.2     Version 9.4:  9.4.9 | 9.4.7 | 9.4.5 | 9.4.4 | 9.4.1     Version 9.3:  9.3.14 | 9.3.12 | 9.3.10 | 9.3.9 | 9.3.6 | 9.3.5 | 9.3.3 | 9.3.2 | 9.3.1      Oracle 12c     12.1.0.2.v6 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v5 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v4 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v3 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v2 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v1 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)       12.1.0.1.v6 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v5 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v4 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v3 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v2 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v1 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    Oracle 11g     11.2.0.4.v10 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v9 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v8 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v7 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v6 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v5 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v4 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v3 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v1 (supported for EE, SE1, and SE, in all AWS regions)    PostgreSQL     Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.5.4     Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2):  9.5.2     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.4.9     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2):  9.4.7     Version 9.4 (available in all AWS regions):  9.4.5     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.4.4     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-gov-west-1, us-west-1, us-west-2):  9.4.1     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.3.10 | 9.3.3 | 9.3.5 | 9.3.6 | 9.3.9     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.3.1 | 9.3.2     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.3.12 | 9.3.14   
@@ -2656,12 +2656,12 @@ extension Rds {
         public var domainIAMRoleName: String? = nil
         /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
         public var copyTagsToSnapshot: Bool? = nil
+        /// The compute and memory capacity of the DB instance. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
+        public var dBInstanceClass: String = ""
         /// Specify the Active Directory Domain to create the instance in.
         public var domain: String? = nil
         /// The KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public var kmsKeyId: String? = nil
-        /// The compute and memory capacity of the DB instance. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        public var dBInstanceClass: String = ""
         /// Specifies if the DB instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public var multiAZ: Bool? = nil
         public var tags: [Tag]? = nil
@@ -2704,25 +2704,25 @@ extension Rds {
 
         public init() {}
 
-        public init(dBName: String? = nil, tdeCredentialPassword: String? = nil, masterUserPassword: String? = nil, dBSecurityGroups: [String]? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, characterSetName: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, domainIAMRoleName: String? = nil, copyTagsToSnapshot: Bool? = nil, domain: String? = nil, kmsKeyId: String? = nil, dBInstanceClass: String, multiAZ: Bool? = nil, tags: [Tag]? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, monitoringRoleArn: String? = nil, engine: String, monitoringInterval: Int32? = nil, storageEncrypted: Bool? = nil, port: Int32? = nil, dBInstanceIdentifier: String) {
+        public init(dBName: String? = nil, tdeCredentialPassword: String? = nil, masterUserPassword: String? = nil, iops: Int32? = nil, dBSecurityGroups: [String]? = nil, characterSetName: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, domainIAMRoleName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, domain: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, tags: [Tag]? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, monitoringRoleArn: String? = nil, engine: String, monitoringInterval: Int32? = nil, storageEncrypted: Bool? = nil, port: Int32? = nil, dBInstanceIdentifier: String) {
             self.dBName = dBName
             self.tdeCredentialPassword = tdeCredentialPassword
             self.masterUserPassword = masterUserPassword
+            self.iops = iops
             self.dBSecurityGroups = dBSecurityGroups
+            self.characterSetName = characterSetName
             self.availabilityZone = availabilityZone
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.iops = iops
-            self.characterSetName = characterSetName
             self.dBClusterIdentifier = dBClusterIdentifier
             self.engineVersion = engineVersion
             self.promotionTier = promotionTier
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.domainIAMRoleName = domainIAMRoleName
             self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.dBInstanceClass = dBInstanceClass
             self.domain = domain
             self.kmsKeyId = kmsKeyId
-            self.dBInstanceClass = dBInstanceClass
             self.multiAZ = multiAZ
             self.tags = tags
             self.timezone = timezone
@@ -3353,18 +3353,20 @@ extension Rds {
     public struct DBInstance: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// Provides a list of VPC security group elements that the DB instance belongs to.
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// The meaning of this parameter differs according to the database engine you use. For example, this value returns MySQL, MariaDB, or PostgreSQL information when returning values from CreateDBInstanceReadReplica since Read Replicas are only supported for these engines.  MySQL, MariaDB, SQL Server, PostgreSQL, Amazon Aurora  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Type: String  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
         public var dBName: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public var enhancedMonitoringResourceArn: String? = nil
-        /// Provides a list of VPC security group elements that the DB instance belongs to.
-        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// The Active Directory Domain membership records associated with the DB instance.
         public var domainMemberships: [DomainMembership]? = nil
         /// Specifies the current state of this database.
         public var dBInstanceStatus: String? = nil
         /// Provides the list of DB parameter groups applied to this DB instance.
         public var dBParameterGroups: [DBParameterGroupStatus]? = nil
+        /// Specifies the number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Int32? = nil
         ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements. 
         public var dBSecurityGroups: [DBSecurityGroupMembership]? = nil
         /// Specifies the name of the Availability Zone the DB instance is located in.
@@ -3373,8 +3375,6 @@ extension Rds {
         public var optionGroupMemberships: [OptionGroupMembership]? = nil
         /// Indicates that minor version patches are applied automatically.
         public var autoMinorVersionUpgrade: Bool? = nil
-        /// Specifies the number of days for which automatic DB snapshots are retained.
-        public var backupRetentionPeriod: Int32? = nil
         /// The identifier of the CA certificate for this DB instance.
         public var cACertificateIdentifier: String? = nil
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
@@ -3452,18 +3452,18 @@ extension Rds {
 
         public init() {}
 
-        public init(dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, domainMemberships: [DomainMembership]? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, availabilityZone: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, latestRestorableTime: Date? = nil, promotionTier: Int32? = nil, iops: Int32? = nil, copyTagsToSnapshot: Bool? = nil, characterSetName: String? = nil, preferredMaintenanceWindow: String? = nil, dBInstanceArn: String? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, instanceCreateTime: Date? = nil, multiAZ: Bool? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, dbInstancePort: Int32? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, monitoringRoleArn: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, engine: String? = nil, dBInstanceIdentifier: String? = nil) {
+        public init(vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, domainMemberships: [DomainMembership]? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, backupRetentionPeriod: Int32? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, availabilityZone: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, autoMinorVersionUpgrade: Bool? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, latestRestorableTime: Date? = nil, promotionTier: Int32? = nil, iops: Int32? = nil, copyTagsToSnapshot: Bool? = nil, characterSetName: String? = nil, preferredMaintenanceWindow: String? = nil, dBInstanceArn: String? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, instanceCreateTime: Date? = nil, multiAZ: Bool? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, dbInstancePort: Int32? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, monitoringRoleArn: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, engine: String? = nil, dBInstanceIdentifier: String? = nil) {
+            self.vpcSecurityGroups = vpcSecurityGroups
             self.dBName = dBName
             self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
-            self.vpcSecurityGroups = vpcSecurityGroups
             self.domainMemberships = domainMemberships
             self.dBInstanceStatus = dBInstanceStatus
             self.dBParameterGroups = dBParameterGroups
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.dBSecurityGroups = dBSecurityGroups
             self.availabilityZone = availabilityZone
             self.optionGroupMemberships = optionGroupMemberships
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.backupRetentionPeriod = backupRetentionPeriod
             self.cACertificateIdentifier = cACertificateIdentifier
             self.dBClusterIdentifier = dBClusterIdentifier
             self.engineVersion = engineVersion
@@ -3745,10 +3745,10 @@ extension Rds {
         public let _payload: String? = nil
         /// The database engine used by the offering.
         public var productDescription: String? = nil
-        /// Indicates if the offering applies to Multi-AZ deployments.
-        public var multiAZ: Bool? = nil
         /// The recurring price charged to run this reserved DB instance.
         public var recurringCharges: [RecurringCharge]? = nil
+        /// Indicates if the offering applies to Multi-AZ deployments.
+        public var multiAZ: Bool? = nil
         /// The hourly price charged for this offering.
         public var usagePrice: Double? = nil
         /// The currency code for the reserved DB instance offering.
@@ -3766,10 +3766,10 @@ extension Rds {
 
         public init() {}
 
-        public init(productDescription: String? = nil, multiAZ: Bool? = nil, recurringCharges: [RecurringCharge]? = nil, usagePrice: Double? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil, dBInstanceClass: String? = nil) {
+        public init(productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil, dBInstanceClass: String? = nil) {
             self.productDescription = productDescription
-            self.multiAZ = multiAZ
             self.recurringCharges = recurringCharges
+            self.multiAZ = multiAZ
             self.usagePrice = usagePrice
             self.currencyCode = currencyCode
             self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
@@ -4313,25 +4313,25 @@ extension Rds {
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The IP range to authorize.
-        public var cIDRIP: String? = nil
+        ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        public var eC2SecurityGroupName: String? = nil
         /// The name of the DB security group to add authorization to.
         public var dBSecurityGroupName: String = ""
         ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public var eC2SecurityGroupId: String? = nil
         ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public var eC2SecurityGroupOwnerId: String? = nil
-        ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupName: String? = nil
+        /// The IP range to authorize.
+        public var cIDRIP: String? = nil
 
         public init() {}
 
-        public init(cIDRIP: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, eC2SecurityGroupName: String? = nil) {
-            self.cIDRIP = cIDRIP
+        public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cIDRIP: String? = nil) {
+            self.eC2SecurityGroupName = eC2SecurityGroupName
             self.dBSecurityGroupName = dBSecurityGroupName
             self.eC2SecurityGroupId = eC2SecurityGroupId
             self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            self.eC2SecurityGroupName = eC2SecurityGroupName
+            self.cIDRIP = cIDRIP
         }
 
     }
@@ -4496,26 +4496,26 @@ extension Rds {
     public struct CopyDBClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        public var preSignedUrl: String? = nil
+        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
+        public var sourceDBClusterSnapshotIdentifier: String = ""
         public var copyTags: Bool? = nil
         /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
         public var kmsKeyId: String? = nil
         public var tags: [Tag]? = nil
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
         public var targetDBClusterSnapshotIdentifier: String = ""
-        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
-        public var sourceDBClusterSnapshotIdentifier: String = ""
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
+        public var preSignedUrl: String? = nil
 
         public init() {}
 
-        public init(preSignedUrl: String? = nil, copyTags: Bool? = nil, kmsKeyId: String? = nil, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String, sourceDBClusterSnapshotIdentifier: String) {
-            self.preSignedUrl = preSignedUrl
+        public init(sourceDBClusterSnapshotIdentifier: String, copyTags: Bool? = nil, kmsKeyId: String? = nil, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String, preSignedUrl: String? = nil) {
+            self.sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifier
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
             self.tags = tags
             self.targetDBClusterSnapshotIdentifier = targetDBClusterSnapshotIdentifier
-            self.sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifier
+            self.preSignedUrl = preSignedUrl
         }
 
     }
@@ -4595,25 +4595,25 @@ extension Rds {
     public struct RevokeDBSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId cannot be provided. 
-        public var cIDRIP: String? = nil
+        ///  The name of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        public var eC2SecurityGroupName: String? = nil
         /// The name of the DB security group to revoke ingress from.
         public var dBSecurityGroupName: String = ""
         ///  The id of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public var eC2SecurityGroupId: String? = nil
         ///  The AWS Account Number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public var eC2SecurityGroupOwnerId: String? = nil
-        ///  The name of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupName: String? = nil
+        ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId cannot be provided. 
+        public var cIDRIP: String? = nil
 
         public init() {}
 
-        public init(cIDRIP: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, eC2SecurityGroupName: String? = nil) {
-            self.cIDRIP = cIDRIP
+        public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cIDRIP: String? = nil) {
+            self.eC2SecurityGroupName = eC2SecurityGroupName
             self.dBSecurityGroupName = dBSecurityGroupName
             self.eC2SecurityGroupId = eC2SecurityGroupId
             self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            self.eC2SecurityGroupName = eC2SecurityGroupName
+            self.cIDRIP = cIDRIP
         }
 
     }
@@ -4832,12 +4832,12 @@ extension Rds {
         public var dBInstanceClass: String? = nil
         /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
         public var multiAZ: Bool? = nil
-        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is in progress. 
-        public var allocatedStorage: Int32? = nil
-        /// Specifies the storage type to be associated with the DB instance.
-        public var storageType: String? = nil
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
         public var licenseModel: String? = nil
+        /// Specifies the storage type to be associated with the DB instance.
+        public var storageType: String? = nil
+        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is in progress. 
+        public var allocatedStorage: Int32? = nil
         /// Contains the pending or in-progress change of the master credentials for the DB instance.
         public var masterUserPassword: String? = nil
         /// Specifies the pending number of days for which automated backups are retained.
@@ -4857,12 +4857,12 @@ extension Rds {
 
         public init() {}
 
-        public init(dBInstanceClass: String? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, cACertificateIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, port: Int32? = nil, dBInstanceIdentifier: String? = nil) {
+        public init(dBInstanceClass: String? = nil, multiAZ: Bool? = nil, licenseModel: String? = nil, storageType: String? = nil, allocatedStorage: Int32? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, cACertificateIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, port: Int32? = nil, dBInstanceIdentifier: String? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.multiAZ = multiAZ
-            self.allocatedStorage = allocatedStorage
-            self.storageType = storageType
             self.licenseModel = licenseModel
+            self.storageType = storageType
+            self.allocatedStorage = allocatedStorage
             self.masterUserPassword = masterUserPassword
             self.backupRetentionPeriod = backupRetentionPeriod
             self.iops = iops
@@ -4916,6 +4916,8 @@ extension Rds {
         public var dBPortNumber: Int32? = nil
         /// A list of DB security groups to authorize on this DB instance. Changing this setting does not result in an outage and the change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public var dBSecurityGroups: [String]? = nil
+        ///  The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Default: Uses existing setting Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported. Type: Integer If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
+        public var iops: Int32? = nil
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL Read Replica only if the source is running MySQL 5.6   Can be specified for a PostgreSQL Read Replica only if the source is running PostgreSQL 9.3.5   Cannot be set to 0 if the DB instance is a source to Read Replicas  
         public var backupRetentionPeriod: Int32? = nil
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and will be applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance and Using the Apply Immediately Parameter to see the impact that setting ApplyImmediately to true or false has for each modified parameter and to determine when the changes will be applied.  Default: false 
@@ -4924,8 +4926,6 @@ extension Rds {
         public var autoMinorVersionUpgrade: Bool? = nil
         /// The new password for the DB instance master user. Can be any printable ASCII character except "/", """, or "@".  Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Default: Uses existing setting Constraints: Must be 8 to 41 alphanumeric characters (MySQL, MariaDB, and Amazon Aurora), 8 to 30 alphanumeric characters (Oracle), or 8 to 128 alphanumeric characters (SQL Server).  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. 
         public var masterUserPassword: String? = nil
-        ///  The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Default: Uses existing setting Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported. Type: Integer If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        public var iops: Int32? = nil
         /// Indicates the certificate that needs to be associated with the instance.
         public var cACertificateIdentifier: String? = nil
         ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  For major version upgrades, if a non-default DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. For a list of valid engine versions, see CreateDBInstance.
@@ -4975,16 +4975,16 @@ extension Rds {
 
         public init() {}
 
-        public init(allowMajorVersionUpgrade: Bool? = nil, tdeCredentialPassword: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, backupRetentionPeriod: Int32? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, masterUserPassword: String? = nil, iops: Int32? = nil, cACertificateIdentifier: String? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, domainIAMRoleName: String? = nil, dBInstanceClass: String? = nil, domain: String? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, vpcSecurityGroupIds: [String]? = nil, dBParameterGroupName: String? = nil, licenseModel: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, optionGroupName: String? = nil, monitoringRoleArn: String? = nil, dBSubnetGroupName: String? = nil, monitoringInterval: Int32? = nil, newDBInstanceIdentifier: String? = nil, dBInstanceIdentifier: String) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, tdeCredentialPassword: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, iops: Int32? = nil, backupRetentionPeriod: Int32? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, masterUserPassword: String? = nil, cACertificateIdentifier: String? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, domainIAMRoleName: String? = nil, dBInstanceClass: String? = nil, domain: String? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, vpcSecurityGroupIds: [String]? = nil, dBParameterGroupName: String? = nil, licenseModel: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, optionGroupName: String? = nil, monitoringRoleArn: String? = nil, dBSubnetGroupName: String? = nil, monitoringInterval: Int32? = nil, newDBInstanceIdentifier: String? = nil, dBInstanceIdentifier: String) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.tdeCredentialPassword = tdeCredentialPassword
             self.dBPortNumber = dBPortNumber
             self.dBSecurityGroups = dBSecurityGroups
+            self.iops = iops
             self.backupRetentionPeriod = backupRetentionPeriod
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.masterUserPassword = masterUserPassword
-            self.iops = iops
             self.cACertificateIdentifier = cACertificateIdentifier
             self.engineVersion = engineVersion
             self.promotionTier = promotionTier

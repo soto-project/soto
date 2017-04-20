@@ -230,6 +230,23 @@ extension Route53domains {
 
     }
 
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The value of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long. Required: Yes
+        public var value: String? = nil
+        /// The key (name) of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long. Required: Yes
+        public var key: String? = nil
+
+        public init() {}
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
+        }
+
+    }
+
     public struct DomainSummary: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -249,23 +266,6 @@ extension Route53domains {
             self.domainName = domainName
             self.autoRenew = autoRenew
             self.transferLock = transferLock
-        }
-
-    }
-
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The value of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long. Required: Yes
-        public var value: String? = nil
-        /// The key (name) of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long. Required: Yes
-        public var key: String? = nil
-
-        public init() {}
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
         }
 
     }

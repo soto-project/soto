@@ -412,23 +412,6 @@ extension Es {
 
     }
 
-    public struct SnapshotOptionsStatus: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// Specifies the daily snapshot options specified for the Elasticsearch domain.
-        public var options: SnapshotOptions = SnapshotOptions()
-        /// Specifies the status of a daily automated snapshot.
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
-
-        public init(options: SnapshotOptions, status: OptionStatus) {
-            self.options = options
-            self.status = status
-        }
-
-    }
-
     public struct ListElasticsearchInstanceTypesResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -459,6 +442,23 @@ extension Es {
         public init(value: String, key: String) {
             self.value = value
             self.key = key
+        }
+
+    }
+
+    public struct SnapshotOptionsStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// Specifies the daily snapshot options specified for the Elasticsearch domain.
+        public var options: SnapshotOptions = SnapshotOptions()
+        /// Specifies the status of a daily automated snapshot.
+        public var status: OptionStatus = OptionStatus()
+
+        public init() {}
+
+        public init(options: SnapshotOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
         }
 
     }

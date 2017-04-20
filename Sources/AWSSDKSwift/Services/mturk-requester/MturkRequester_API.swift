@@ -68,14 +68,14 @@ public struct MturkRequester {
         return try client.send(operation: "GetQualificationType", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved. 
-    public func getFileUploadURL(_ input: GetFileUploadURLRequest) throws -> GetFileUploadURLResponse {
-        return try client.send(operation: "GetFileUploadURL", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///   The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user.   You can provide a text message explaining why the Qualification was revoked. The user who had the Qualification can see this message. 
     public func disassociateQualificationFromWorker(_ input: DisassociateQualificationFromWorkerRequest) throws -> DisassociateQualificationFromWorkerResponse {
         return try client.send(operation: "DisassociateQualificationFromWorker", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved. 
+    public func getFileUploadURL(_ input: GetFileUploadURLRequest) throws -> GetFileUploadURLResponse {
+        return try client.send(operation: "GetFileUploadURL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   The ListHITsForQualificationType operation returns the HITs that use the given Qualification type for a Qualification requirement. The operation returns HITs of any status, except for HITs that have been deleted with the DeleteHIT operation or that have been auto-deleted. 

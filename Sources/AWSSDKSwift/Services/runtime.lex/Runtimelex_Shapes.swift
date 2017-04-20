@@ -79,10 +79,10 @@ extension Runtimelex {
         public let _payload: String? = nil
         /// If dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public var slotToElicit: String? = nil
-        /// Map of key value pairs representing the session specific context information.
-        public var sessionAttributes: [String: String]? = nil
         ///  Intent slots (name/value pairs) Amazon Lex detected so far from the user input in the conversation. 
         public var slots: [String: String]? = nil
+        /// Map of key value pairs representing the session specific context information.
+        public var sessionAttributes: [String: String]? = nil
         ///  Prompt (or statement) to convey to the user. This is based on the application configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the application. In another example, if the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Suppose the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. In that situation, Amazon Lex sends that message in the response. 
         public var message: String? = nil
         /// Represents the message type to be conveyed to the user. For example:     ElicitIntent – Amazon Lex wants to elicit user intent. For example, Amazon Lex did not understand the first utterances such as "I want to order pizza", which indicates the OrderPizza intent. If Amazon Lex doesn't understand the intent, it returns this dialogState. Another example is when your intent is configured with a follow up prompt. For example, after OrderPizza intent is fulfilled, the intent might have a follow up prompt such as " Do you want to order a drink or desert?" In this case, Amazon Lex returns this dialogState.     ConfirmIntent – Amazon Lex is expecting a yes/no response from the user indicating whether to go ahead and fulfill the intent (for example, OK to go ahead and order the pizza). In addition to a yes/no reply, the user might provide a response with additional slot information (either new slot information or changes to the existing slot values). For example, "Yes, but change to thick crust." Amazon Lex understands the additional information and updates the intent slots accordingly.   Consider another example. Before fulfilling an order, your application might prompt for confirmation such as "Do you want to place this pizza order?" A user might reply with "No, I want to order a drink." Amazon Lex recognizes the new OrderDrink intent.     ElicitSlot – Amazon Lex is expecting a value of a slot for the current intent. For example, suppose Amazon Lex asks, "What size pizza would you like?" A user might reply with "Medium pepperoni pizza." Amazon Lex recognizes the size and the topping as the two separate slot values.     Fulfilled – Conveys that the Lambda function has successfully fulfilled the intent. If Lambda function returns a statement/message to convey the fulfillment result, Amazon Lex passes this string to the client. If not, Amazon Lex looks for conclusionStatement that you configured for the intent.   If both the Lambda function statement and the conclusionStatement are missing, Amazon Lex throws a bad request exception.     ReadyForFulfillment – conveys that the client has to do the fulfillment work for the intent. This is the case when the current intent is configured with ReturnIntent as the fulfillmentActivity , where Amazon Lex returns this state to client.     Failed – Conversation with the user failed. Some of the reasons for this dialogState are: after the configured number of attempts the user didn't provide an appropriate response, or the Lambda function failed to fulfill an intent.   
@@ -94,10 +94,10 @@ extension Runtimelex {
 
         public init() {}
 
-        public init(slotToElicit: String? = nil, sessionAttributes: [String: String]? = nil, slots: [String: String]? = nil, message: String? = nil, dialogState: String? = nil, intentName: String? = nil, responseCard: ResponseCard? = nil) {
+        public init(slotToElicit: String? = nil, slots: [String: String]? = nil, sessionAttributes: [String: String]? = nil, message: String? = nil, dialogState: String? = nil, intentName: String? = nil, responseCard: ResponseCard? = nil) {
             self.slotToElicit = slotToElicit
-            self.sessionAttributes = sessionAttributes
             self.slots = slots
+            self.sessionAttributes = sessionAttributes
             self.message = message
             self.dialogState = dialogState
             self.intentName = intentName

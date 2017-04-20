@@ -29,6 +29,19 @@ import Core
 
 extension Elasticache {
 
+    public struct DescribeEngineDefaultParametersResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        public var engineDefaults: EngineDefaults? = nil
+
+        public init() {}
+
+        public init(engineDefaults: EngineDefaults? = nil) {
+            self.engineDefaults = engineDefaults
+        }
+
+    }
+
     public struct EventsMessage: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -42,19 +55,6 @@ extension Elasticache {
         public init(marker: String? = nil, events: [Event]? = nil) {
             self.marker = marker
             self.events = events
-        }
-
-    }
-
-    public struct DescribeEngineDefaultParametersResult: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        public var engineDefaults: EngineDefaults? = nil
-
-        public init() {}
-
-        public init(engineDefaults: EngineDefaults? = nil) {
-            self.engineDefaults = engineDefaults
         }
 
     }

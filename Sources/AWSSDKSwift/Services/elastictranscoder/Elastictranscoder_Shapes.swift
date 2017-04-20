@@ -295,8 +295,8 @@ extension Elastictranscoder {
     public struct CreatePresetRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// A section of the request body that specifies the video parameters.
-        public var video: VideoParameters? = nil
+        /// A section of the request body that specifies the audio parameters.
+        public var audio: AudioParameters? = nil
         /// The container type for the output file. Valid values include flac, flv, fmp4, gif, mp3, mp4, mpg, mxf, oga, ogg, ts, and webm.
         public var container: String = ""
         /// A description of the preset.
@@ -305,18 +305,18 @@ extension Elastictranscoder {
         public var name: String = ""
         /// A section of the request body that specifies the thumbnail parameters, if any.
         public var thumbnails: Thumbnails? = nil
-        /// A section of the request body that specifies the audio parameters.
-        public var audio: AudioParameters? = nil
+        /// A section of the request body that specifies the video parameters.
+        public var video: VideoParameters? = nil
 
         public init() {}
 
-        public init(video: VideoParameters? = nil, container: String, description: String? = nil, name: String, thumbnails: Thumbnails? = nil, audio: AudioParameters? = nil) {
-            self.video = video
+        public init(audio: AudioParameters? = nil, container: String, description: String? = nil, name: String, thumbnails: Thumbnails? = nil, video: VideoParameters? = nil) {
+            self.audio = audio
             self.container = container
             self.description = description
             self.name = name
             self.thumbnails = thumbnails
-            self.audio = audio
+            self.video = video
         }
 
     }
@@ -937,16 +937,16 @@ extension Elastictranscoder {
         public var watermarks: [JobWatermark]? = nil
         /// Specifies the width of the output file in pixels.
         public var width: Int32? = nil
-        /// Frame rate of the output file, in frames per second.
-        public var frameRate: String? = nil
         /// The album art to be associated with the output file, if any.
         public var albumArt: JobAlbumArt? = nil
-        /// Whether you want Elastic Transcoder to create thumbnails for your videos and, if so, how you want Elastic Transcoder to name the files. If you don't want Elastic Transcoder to create thumbnails, specify "". If you do want Elastic Transcoder to create thumbnails, specify the information that you want to include in the file name for each thumbnail. You can specify the following values in any sequence:     {count} (Required): If you want to create thumbnails, you must include {count} in the ThumbnailPattern object. Wherever you specify {count}, Elastic Transcoder adds a five-digit sequence number (beginning with 00001) to thumbnail file names. The number indicates where a given thumbnail appears in the sequence of thumbnails for a transcoded file.   If you specify a literal value and/or {resolution} but you omit {count}, Elastic Transcoder returns a validation error and does not create the job.     Literal values (Optional): You can specify literal values anywhere in the ThumbnailPattern object. For example, you can include them as a file name prefix or as a delimiter between {resolution} and {count}.      {resolution} (Optional): If you want Elastic Transcoder to include the resolution in the file name, include {resolution} in the ThumbnailPattern object.    When creating thumbnails, Elastic Transcoder automatically saves the files in the format (.jpg or .png) that appears in the preset that you specified in the PresetID value of CreateJobOutput. Elastic Transcoder also appends the applicable file name extension.
-        public var thumbnailPattern: String? = nil
         /// You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:    Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608, first non-empty channel only), CEA-708 (EIA-708, first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.    Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt, scc, smpt, srt, ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc, srt, and webvtt.   If you want ttml or smpte-tt compatible captions, specify dfxp as your output format. Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process. To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain, and pass in a null CaptionSources array. For more information on embedded files, see the Subtitles Wikipedia page. For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
         public var captions: Captions? = nil
+        /// Whether you want Elastic Transcoder to create thumbnails for your videos and, if so, how you want Elastic Transcoder to name the files. If you don't want Elastic Transcoder to create thumbnails, specify "". If you do want Elastic Transcoder to create thumbnails, specify the information that you want to include in the file name for each thumbnail. You can specify the following values in any sequence:     {count} (Required): If you want to create thumbnails, you must include {count} in the ThumbnailPattern object. Wherever you specify {count}, Elastic Transcoder adds a five-digit sequence number (beginning with 00001) to thumbnail file names. The number indicates where a given thumbnail appears in the sequence of thumbnails for a transcoded file.   If you specify a literal value and/or {resolution} but you omit {count}, Elastic Transcoder returns a validation error and does not create the job.     Literal values (Optional): You can specify literal values anywhere in the ThumbnailPattern object. For example, you can include them as a file name prefix or as a delimiter between {resolution} and {count}.      {resolution} (Optional): If you want Elastic Transcoder to include the resolution in the file name, include {resolution} in the ThumbnailPattern object.    When creating thumbnails, Elastic Transcoder automatically saves the files in the format (.jpg or .png) that appears in the preset that you specified in the PresetID value of CreateJobOutput. Elastic Transcoder also appends the applicable file name extension.
+        public var thumbnailPattern: String? = nil
         /// A sequential counter, starting with 1, that identifies an output among the outputs from the current job. In the Output syntax, this value is always 1.
         public var id: String? = nil
+        /// Frame rate of the output file, in frames per second.
+        public var frameRate: String? = nil
         /// The number of degrees clockwise by which you want Elastic Transcoder to rotate the output relative to the input. Enter one of the following values:  auto, 0, 90, 180, 270   The value auto generally works only if the file that you're transcoding contains rotation metadata.
         public var rotate: String? = nil
         /// The encryption settings, if any, that you want Elastic Transcoder to apply to your output files. If you choose to use encryption, you must specify a mode to use. If you choose not to use encryption, Elastic Transcoder writes an unencrypted file to your Amazon S3 bucket.
@@ -970,18 +970,18 @@ extension Elastictranscoder {
 
         public init() {}
 
-        public init(presetId: String? = nil, height: Int32? = nil, durationMillis: Int64? = nil, fileSize: Int64? = nil, watermarks: [JobWatermark]? = nil, width: Int32? = nil, frameRate: String? = nil, albumArt: JobAlbumArt? = nil, thumbnailPattern: String? = nil, captions: Captions? = nil, id: String? = nil, rotate: String? = nil, encryption: Encryption? = nil, thumbnailEncryption: Encryption? = nil, status: String? = nil, key: String? = nil, composition: [Clip]? = nil, appliedColorSpaceConversion: String? = nil, duration: Int64? = nil, statusDetail: String? = nil, segmentDuration: String? = nil) {
+        public init(presetId: String? = nil, height: Int32? = nil, durationMillis: Int64? = nil, fileSize: Int64? = nil, watermarks: [JobWatermark]? = nil, width: Int32? = nil, albumArt: JobAlbumArt? = nil, captions: Captions? = nil, thumbnailPattern: String? = nil, id: String? = nil, frameRate: String? = nil, rotate: String? = nil, encryption: Encryption? = nil, thumbnailEncryption: Encryption? = nil, status: String? = nil, key: String? = nil, composition: [Clip]? = nil, appliedColorSpaceConversion: String? = nil, duration: Int64? = nil, statusDetail: String? = nil, segmentDuration: String? = nil) {
             self.presetId = presetId
             self.height = height
             self.durationMillis = durationMillis
             self.fileSize = fileSize
             self.watermarks = watermarks
             self.width = width
-            self.frameRate = frameRate
             self.albumArt = albumArt
-            self.thumbnailPattern = thumbnailPattern
             self.captions = captions
+            self.thumbnailPattern = thumbnailPattern
             self.id = id
+            self.frameRate = frameRate
             self.rotate = rotate
             self.encryption = encryption
             self.thumbnailEncryption = thumbnailEncryption
@@ -1113,10 +1113,10 @@ extension Elastictranscoder {
         public var target: String? = nil
         /// The amount by which you want the horizontal position of the watermark to be offset from the position specified by HorizontalAlign:    number of pixels (px): The minimum value is 0 pixels, and the maximum value is the value of MaxWidth.   integer percentage (%): The range of valid values is 0 to 100.   For example, if you specify Left for HorizontalAlign and 5px for HorizontalOffset, the left side of the watermark appears 5 pixels from the left border of the output video.  HorizontalOffset is only valid when the value of HorizontalAlign is Left or Right. If you specify an offset that causes the watermark to extend beyond the left or right border and Elastic Transcoder has not added black bars, the watermark is cropped. If Elastic Transcoder has added black bars, the watermark extends into the black bars. If the watermark extends beyond the black bars, it is cropped. Use the value of Target to specify whether you want to include the black bars that are added by Elastic Transcoder, if any, in the offset calculation.
         public var horizontalOffset: String? = nil
-        /// The horizontal position of the watermark unless you specify a non-zero value for HorizontalOffset:     Left: The left edge of the watermark is aligned with the left border of the video.    Right: The right edge of the watermark is aligned with the right border of the video.    Center: The watermark is centered between the left and right borders.  
-        public var horizontalAlign: String? = nil
         /// The vertical position of the watermark unless you specify a non-zero value for VerticalOffset:     Top: The top edge of the watermark is aligned with the top border of the video.    Bottom: The bottom edge of the watermark is aligned with the bottom border of the video.    Center: The watermark is centered between the top and bottom borders.  
         public var verticalAlign: String? = nil
+        /// The horizontal position of the watermark unless you specify a non-zero value for HorizontalOffset:     Left: The left edge of the watermark is aligned with the left border of the video.    Right: The right edge of the watermark is aligned with the right border of the video.    Center: The watermark is centered between the left and right borders.  
+        public var horizontalAlign: String? = nil
         /// A value that controls scaling of the watermark:     Fit: Elastic Transcoder scales the watermark so it matches the value that you specified in either MaxWidth or MaxHeight without exceeding the other value.    Stretch: Elastic Transcoder stretches the watermark to match the values that you specified for MaxWidth and MaxHeight. If the relative proportions of the watermark and the values of MaxWidth and MaxHeight are different, the watermark will be distorted.    ShrinkToFit: Elastic Transcoder scales the watermark down so that its dimensions match the values that you specified for at least one of MaxWidth and MaxHeight without exceeding either value. If you specify this option, Elastic Transcoder does not scale the watermark up.  
         public var sizingPolicy: String? = nil
         /// The maximum height of the watermark in one of the following formats:    number of pixels (px): The minimum value is 16 pixels, and the maximum value is the value of MaxHeight.   integer percentage (%): The range of valid values is 0 to 100. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the calculation.   If you specify the value in pixels, it must be less than or equal to the value of MaxHeight.
@@ -1130,12 +1130,12 @@ extension Elastictranscoder {
 
         public init() {}
 
-        public init(verticalOffset: String? = nil, target: String? = nil, horizontalOffset: String? = nil, horizontalAlign: String? = nil, verticalAlign: String? = nil, sizingPolicy: String? = nil, maxHeight: String? = nil, maxWidth: String? = nil, opacity: String? = nil, id: String? = nil) {
+        public init(verticalOffset: String? = nil, target: String? = nil, horizontalOffset: String? = nil, verticalAlign: String? = nil, horizontalAlign: String? = nil, sizingPolicy: String? = nil, maxHeight: String? = nil, maxWidth: String? = nil, opacity: String? = nil, id: String? = nil) {
             self.verticalOffset = verticalOffset
             self.target = target
             self.horizontalOffset = horizontalOffset
-            self.horizontalAlign = horizontalAlign
             self.verticalAlign = verticalAlign
+            self.horizontalAlign = horizontalAlign
             self.sizingPolicy = sizingPolicy
             self.maxHeight = maxHeight
             self.maxWidth = maxWidth

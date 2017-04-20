@@ -373,10 +373,10 @@ extension Workdocs {
     public struct FolderMetadata: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The resource state of the folder.
-        public var resourceState: String? = nil
         /// The unique identifier created from the subfolders and documents of the folder.
         public var signature: String? = nil
+        /// The resource state of the folder.
+        public var resourceState: String? = nil
         /// The name of the folder.
         public var name: String? = nil
         /// The ID of the creator.
@@ -392,9 +392,9 @@ extension Workdocs {
 
         public init() {}
 
-        public init(resourceState: String? = nil, signature: String? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
-            self.resourceState = resourceState
+        public init(signature: String? = nil, resourceState: String? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
             self.signature = signature
+            self.resourceState = resourceState
             self.name = name
             self.creatorId = creatorId
             self.modifiedTimestamp = modifiedTimestamp

@@ -420,23 +420,6 @@ extension Waf {
 
     }
 
-    public struct CreateXssMatchSetResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public var changeToken: String? = nil
-        /// An XssMatchSet.
-        public var xssMatchSet: XssMatchSet? = nil
-
-        public init() {}
-
-        public init(changeToken: String? = nil, xssMatchSet: XssMatchSet? = nil) {
-            self.changeToken = changeToken
-            self.xssMatchSet = xssMatchSet
-        }
-
-    }
-
     public struct DeleteIPSetRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -459,6 +442,23 @@ extension Waf {
         public let _payload: String? = nil
 
         public init() {}
+
+    }
+
+    public struct CreateXssMatchSetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public var changeToken: String? = nil
+        /// An XssMatchSet.
+        public var xssMatchSet: XssMatchSet? = nil
+
+        public init() {}
+
+        public init(changeToken: String? = nil, xssMatchSet: XssMatchSet? = nil) {
+            self.changeToken = changeToken
+            self.xssMatchSet = xssMatchSet
+        }
 
     }
 

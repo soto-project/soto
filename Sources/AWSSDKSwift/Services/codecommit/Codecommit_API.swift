@@ -93,9 +93,9 @@ public struct Codecommit {
         return try client.send(operation: "DeleteRepository", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Replaces all triggers for a repository. This can be used to create or delete triggers.
-    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput) throws -> PutRepositoryTriggersOutput {
-        return try client.send(operation: "PutRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
+    ///  Gets information about triggers configured for a repository.
+    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput) throws -> GetRepositoryTriggersOutput {
+        return try client.send(operation: "GetRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a commit, including commit message and committer information.
@@ -103,9 +103,9 @@ public struct Codecommit {
         return try client.send(operation: "GetCommit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about triggers configured for a repository.
-    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput) throws -> GetRepositoryTriggersOutput {
-        return try client.send(operation: "GetRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
+    ///  Replaces all triggers for a repository. This can be used to create or delete triggers.
+    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput) throws -> PutRepositoryTriggersOutput {
+        return try client.send(operation: "PutRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a repository branch, including its name and the last commit ID.

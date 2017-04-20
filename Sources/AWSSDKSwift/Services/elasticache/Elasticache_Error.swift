@@ -57,12 +57,12 @@ public enum ElasticacheError: AWSErrorType {
     case cacheSubnetGroupQuotaExceededFault(message: String?)
     case cacheSubnetQuotaExceededFault(message: String?)
     case invalidSubnet(message: String?)
+    case cacheClusterAlreadyExistsFault(message: String?)
     case insufficientCacheClusterCapacityFault(message: String?)
+    case clusterQuotaForCustomerExceededFault(message: String?)
     case nodeQuotaForClusterExceededFault(message: String?)
     case nodeQuotaForCustomerExceededFault(message: String?)
     case invalidVPCNetworkStateFault(message: String?)
-    case cacheClusterAlreadyExistsFault(message: String?)
-    case clusterQuotaForCustomerExceededFault(message: String?)
     case tagQuotaPerResourceExceeded(message: String?)
     case cacheSecurityGroupAlreadyExistsFault(message: String?)
     case cacheSecurityGroupQuotaExceededFault(message: String?)
@@ -134,18 +134,18 @@ extension ElasticacheError {
             self = .cacheSubnetQuotaExceededFault(message: message)
         case "InvalidSubnet":
             self = .invalidSubnet(message: message)
+        case "CacheClusterAlreadyExistsFault":
+            self = .cacheClusterAlreadyExistsFault(message: message)
         case "InsufficientCacheClusterCapacityFault":
             self = .insufficientCacheClusterCapacityFault(message: message)
+        case "ClusterQuotaForCustomerExceededFault":
+            self = .clusterQuotaForCustomerExceededFault(message: message)
         case "NodeQuotaForClusterExceededFault":
             self = .nodeQuotaForClusterExceededFault(message: message)
         case "NodeQuotaForCustomerExceededFault":
             self = .nodeQuotaForCustomerExceededFault(message: message)
         case "InvalidVPCNetworkStateFault":
             self = .invalidVPCNetworkStateFault(message: message)
-        case "CacheClusterAlreadyExistsFault":
-            self = .cacheClusterAlreadyExistsFault(message: message)
-        case "ClusterQuotaForCustomerExceededFault":
-            self = .clusterQuotaForCustomerExceededFault(message: message)
         case "TagQuotaPerResourceExceeded":
             self = .tagQuotaPerResourceExceeded(message: message)
         case "CacheSecurityGroupAlreadyExistsFault":

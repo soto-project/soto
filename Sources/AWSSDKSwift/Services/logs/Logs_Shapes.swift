@@ -128,29 +128,6 @@ extension Logs {
 
     }
 
-    public struct PutLogEventsRequest: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The log events.
-        public var logEvents: [InputLogEvent] = []
-        /// The sequence token.
-        public var sequenceToken: String? = nil
-        /// The name of the log stream.
-        public var logStreamName: String = ""
-        /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
-
-        public init(logEvents: [InputLogEvent], sequenceToken: String? = nil, logStreamName: String, logGroupName: String) {
-            self.logEvents = logEvents
-            self.sequenceToken = sequenceToken
-            self.logStreamName = logStreamName
-            self.logGroupName = logGroupName
-        }
-
-    }
-
     public struct FilteredLogEvent: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -173,6 +150,29 @@ extension Logs {
             self.timestamp = timestamp
             self.logStreamName = logStreamName
             self.ingestionTime = ingestionTime
+        }
+
+    }
+
+    public struct PutLogEventsRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The log events.
+        public var logEvents: [InputLogEvent] = []
+        /// The sequence token.
+        public var sequenceToken: String? = nil
+        /// The name of the log stream.
+        public var logStreamName: String = ""
+        /// The name of the log group.
+        public var logGroupName: String = ""
+
+        public init() {}
+
+        public init(logEvents: [InputLogEvent], sequenceToken: String? = nil, logStreamName: String, logGroupName: String) {
+            self.logEvents = logEvents
+            self.sequenceToken = sequenceToken
+            self.logStreamName = logStreamName
+            self.logGroupName = logGroupName
         }
 
     }
@@ -339,22 +339,6 @@ extension Logs {
 
     }
 
-    public struct DescribeLogGroupsResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The log groups.
-        public var logGroups: [LogGroup]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
-
-        public init(logGroups: [LogGroup]? = nil, nextToken: String? = nil) {
-            self.logGroups = logGroups
-            self.nextToken = nextToken
-        }
-
-    }
-
     public struct PutMetricFilterRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -374,6 +358,22 @@ extension Logs {
             self.metricTransformations = metricTransformations
             self.logGroupName = logGroupName
             self.filterPattern = filterPattern
+        }
+
+    }
+
+    public struct DescribeLogGroupsResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The log groups.
+        public var logGroups: [LogGroup]? = nil
+        public var nextToken: String? = nil
+
+        public init() {}
+
+        public init(logGroups: [LogGroup]? = nil, nextToken: String? = nil) {
+            self.logGroups = logGroups
+            self.nextToken = nextToken
         }
 
     }
@@ -481,12 +481,12 @@ extension Logs {
     public struct DescribeMetricFiltersRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public var limit: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// The prefix to match.
         public var filterNamePrefix: String? = nil
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
         /// The name of the log group.
         public var logGroupName: String? = nil
         /// The name of the CloudWatch metric.
@@ -496,10 +496,10 @@ extension Logs {
 
         public init() {}
 
-        public init(nextToken: String? = nil, filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil) {
+        public init(limit: Int32? = nil, nextToken: String? = nil, filterNamePrefix: String? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil) {
+            self.limit = limit
             self.nextToken = nextToken
             self.filterNamePrefix = filterNamePrefix
-            self.limit = limit
             self.logGroupName = logGroupName
             self.metricName = metricName
             self.metricNamespace = metricNamespace
@@ -550,10 +550,10 @@ extension Logs {
     public struct CreateExportTaskRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
-        public var destination: String = ""
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
         public var destinationPrefix: String? = nil
+        /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
+        public var destination: String = ""
         /// The start time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
         public var from: Int64 = 0
         /// The name of the export task.
@@ -567,9 +567,9 @@ extension Logs {
 
         public init() {}
 
-        public init(destination: String, destinationPrefix: String? = nil, from: Int64, taskName: String? = nil, logGroupName: String, to: Int64, logStreamNamePrefix: String? = nil) {
-            self.destination = destination
+        public init(destinationPrefix: String? = nil, destination: String, from: Int64, taskName: String? = nil, logGroupName: String, to: Int64, logStreamNamePrefix: String? = nil) {
             self.destinationPrefix = destinationPrefix
+            self.destination = destination
             self.from = from
             self.taskName = taskName
             self.logGroupName = logGroupName
@@ -1106,10 +1106,10 @@ extension Logs {
         public let _payload: String? = nil
         /// The status of the export task.
         public var status: ExportTaskStatus? = nil
-        /// The ID of the export task.
-        public var taskId: String? = nil
         /// The name of Amazon S3 bucket to which the log data was exported.
         public var destination: String? = nil
+        /// The ID of the export task.
+        public var taskId: String? = nil
         /// The prefix that was used as the start of Amazon S3 key for every object exported.
         public var destinationPrefix: String? = nil
         /// The start time, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp prior to this time are not exported.
@@ -1125,10 +1125,10 @@ extension Logs {
 
         public init() {}
 
-        public init(status: ExportTaskStatus? = nil, taskId: String? = nil, destination: String? = nil, destinationPrefix: String? = nil, from: Int64? = nil, taskName: String? = nil, executionInfo: ExportTaskExecutionInfo? = nil, logGroupName: String? = nil, to: Int64? = nil) {
+        public init(status: ExportTaskStatus? = nil, destination: String? = nil, taskId: String? = nil, destinationPrefix: String? = nil, from: Int64? = nil, taskName: String? = nil, executionInfo: ExportTaskExecutionInfo? = nil, logGroupName: String? = nil, to: Int64? = nil) {
             self.status = status
-            self.taskId = taskId
             self.destination = destination
+            self.taskId = taskId
             self.destinationPrefix = destinationPrefix
             self.from = from
             self.taskName = taskName

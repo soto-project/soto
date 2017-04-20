@@ -163,12 +163,12 @@ extension Ecr {
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
+        public var maxResults: Int32? = nil
         /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The list of image IDs for the requested repository.
         public var imageIds: [ImageIdentifier]? = nil
-        /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
-        public var maxResults: Int32? = nil
         /// The filter key and value with which to filter your DescribeImages results.
         public var filter: DescribeImagesFilter? = nil
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
@@ -178,10 +178,10 @@ extension Ecr {
 
         public init() {}
 
-        public init(nextToken: String? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int32? = nil, filter: DescribeImagesFilter? = nil, repositoryName: String, registryId: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, imageIds: [ImageIdentifier]? = nil, filter: DescribeImagesFilter? = nil, repositoryName: String, registryId: String? = nil) {
+            self.maxResults = maxResults
             self.nextToken = nextToken
             self.imageIds = imageIds
-            self.maxResults = maxResults
             self.filter = filter
             self.repositoryName = repositoryName
             self.registryId = registryId
@@ -733,10 +733,10 @@ extension Ecr {
     public struct Repository: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The URI for the repository. You can use this URI for Docker push and pull operations.
-        public var repositoryUri: String? = nil
         /// The name of the repository.
         public var repositoryName: String? = nil
+        /// The URI for the repository. You can use this URI for Docker push and pull operations.
+        public var repositoryUri: String? = nil
         /// The AWS account ID associated with the registry that contains the repository.
         public var registryId: String? = nil
         /// The date and time, in JavaScript date/time format, when the repository was created.
@@ -746,9 +746,9 @@ extension Ecr {
 
         public init() {}
 
-        public init(repositoryUri: String? = nil, repositoryName: String? = nil, registryId: String? = nil, createdAt: Date? = nil, repositoryArn: String? = nil) {
-            self.repositoryUri = repositoryUri
+        public init(repositoryName: String? = nil, repositoryUri: String? = nil, registryId: String? = nil, createdAt: Date? = nil, repositoryArn: String? = nil) {
             self.repositoryName = repositoryName
+            self.repositoryUri = repositoryUri
             self.registryId = registryId
             self.createdAt = createdAt
             self.repositoryArn = repositoryArn
@@ -868,12 +868,12 @@ extension Ecr {
     public struct ListImagesRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The filter key and value with which to filter your ListImages results.
+        public var filter: ListImagesFilter? = nil
         /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public var nextToken: String? = nil
         /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
         public var maxResults: Int32? = nil
-        /// The filter key and value with which to filter your ListImages results.
-        public var filter: ListImagesFilter? = nil
         /// The repository whose image IDs are to be listed.
         public var repositoryName: String = ""
         /// The AWS account ID associated with the registry that contains the repository to list images in. If you do not specify a registry, the default registry is assumed.
@@ -881,10 +881,10 @@ extension Ecr {
 
         public init() {}
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filter: ListImagesFilter? = nil, repositoryName: String, registryId: String? = nil) {
+        public init(filter: ListImagesFilter? = nil, nextToken: String? = nil, maxResults: Int32? = nil, repositoryName: String, registryId: String? = nil) {
+            self.filter = filter
             self.nextToken = nextToken
             self.maxResults = maxResults
-            self.filter = filter
             self.repositoryName = repositoryName
             self.registryId = registryId
         }

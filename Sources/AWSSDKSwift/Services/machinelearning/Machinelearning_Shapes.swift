@@ -200,6 +200,40 @@ extension Machinelearning {
 
     }
 
+    public struct DeleteBatchPredictionInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// A user-supplied ID that uniquely identifies the BatchPrediction.
+        public var batchPredictionId: String = ""
+
+        public init() {}
+
+        public init(batchPredictionId: String) {
+            self.batchPredictionId = batchPredictionId
+        }
+
+    }
+
+    public struct UpdateMLModelInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The ID assigned to the MLModel during creation.
+        public var mLModelId: String = ""
+        /// The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
+        public var scoreThreshold: Float? = nil
+        /// A user-supplied name or description of the MLModel.
+        public var mLModelName: String? = nil
+
+        public init() {}
+
+        public init(mLModelId: String, scoreThreshold: Float? = nil, mLModelName: String? = nil) {
+            self.mLModelId = mLModelId
+            self.scoreThreshold = scoreThreshold
+            self.mLModelName = mLModelName
+        }
+
+    }
+
     public struct DescribeMLModelsOutput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -230,40 +264,6 @@ extension Machinelearning {
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
             self.key = key
-        }
-
-    }
-
-    public struct UpdateMLModelInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The ID assigned to the MLModel during creation.
-        public var mLModelId: String = ""
-        /// The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
-        public var scoreThreshold: Float? = nil
-        /// A user-supplied name or description of the MLModel.
-        public var mLModelName: String? = nil
-
-        public init() {}
-
-        public init(mLModelId: String, scoreThreshold: Float? = nil, mLModelName: String? = nil) {
-            self.mLModelId = mLModelId
-            self.scoreThreshold = scoreThreshold
-            self.mLModelName = mLModelName
-        }
-
-    }
-
-    public struct DeleteBatchPredictionInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// A user-supplied ID that uniquely identifies the BatchPrediction.
-        public var batchPredictionId: String = ""
-
-        public init() {}
-
-        public init(batchPredictionId: String) {
-            self.batchPredictionId = batchPredictionId
         }
 
     }
@@ -340,20 +340,20 @@ extension Machinelearning {
         public var message: String? = nil
         /// The number of data files referenced by the DataSource.
         public var numberOfFiles: Int64? = nil
-        /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public var createdByIamUser: String? = nil
+        public var roleARN: String? = nil
         /// The schema used by all of the data files of this DataSource. Note This parameter is provided as part of the verbose format.
         public var dataSourceSchema: String? = nil
-        public var roleARN: String? = nil
+        /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public var createdByIamUser: String? = nil
         public var rDSMetadata: RDSMetadata? = nil
         /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
         public var finishedAt: Date? = nil
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
         public var computeTime: Int64? = nil
-        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
-        public var dataRearrangement: String? = nil
         /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
         public var lastUpdatedAt: Date? = nil
+        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
+        public var dataRearrangement: String? = nil
         /// The ID assigned to the DataSource at creation. This value should be identical to the value of the DataSourceId in the request.
         public var dataSourceId: String? = nil
         /// The time that the DataSource was created. The time is expressed in epoch time.
@@ -374,18 +374,18 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, createdByIamUser: String? = nil, dataSourceSchema: String? = nil, roleARN: String? = nil, rDSMetadata: RDSMetadata? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, dataRearrangement: String? = nil, lastUpdatedAt: Date? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: String? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, logUri: String? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
+        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, dataSourceSchema: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: String? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, logUri: String? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
             self.dataSizeInBytes = dataSizeInBytes
             self.message = message
             self.numberOfFiles = numberOfFiles
-            self.createdByIamUser = createdByIamUser
-            self.dataSourceSchema = dataSourceSchema
             self.roleARN = roleARN
+            self.dataSourceSchema = dataSourceSchema
+            self.createdByIamUser = createdByIamUser
             self.rDSMetadata = rDSMetadata
             self.finishedAt = finishedAt
             self.computeTime = computeTime
-            self.dataRearrangement = dataRearrangement
             self.lastUpdatedAt = lastUpdatedAt
+            self.dataRearrangement = dataRearrangement
             self.dataSourceId = dataSourceId
             self.createdAt = createdAt
             self.dataLocationS3 = dataLocationS3
@@ -669,8 +669,7 @@ extension Machinelearning {
     public struct RDSMetadata: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The SQL query that is supplied during CreateDataSourceFromRDS. Returns only if Verbose is true in GetDataSourceInput. 
-        public var selectSqlQuery: String? = nil
+        public var databaseUserName: String? = nil
         /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
         public var dataPipelineId: String? = nil
         /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance to carry out the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
@@ -679,17 +678,18 @@ extension Machinelearning {
         public var serviceRole: String? = nil
         /// The database details required to connect to an Amazon RDS.
         public var database: RDSDatabase? = nil
-        public var databaseUserName: String? = nil
+        /// The SQL query that is supplied during CreateDataSourceFromRDS. Returns only if Verbose is true in GetDataSourceInput. 
+        public var selectSqlQuery: String? = nil
 
         public init() {}
 
-        public init(selectSqlQuery: String? = nil, dataPipelineId: String? = nil, resourceRole: String? = nil, serviceRole: String? = nil, database: RDSDatabase? = nil, databaseUserName: String? = nil) {
-            self.selectSqlQuery = selectSqlQuery
+        public init(databaseUserName: String? = nil, dataPipelineId: String? = nil, resourceRole: String? = nil, serviceRole: String? = nil, database: RDSDatabase? = nil, selectSqlQuery: String? = nil) {
+            self.databaseUserName = databaseUserName
             self.dataPipelineId = dataPipelineId
             self.resourceRole = resourceRole
             self.serviceRole = serviceRole
             self.database = database
-            self.databaseUserName = databaseUserName
+            self.selectSqlQuery = selectSqlQuery
         }
 
     }
@@ -783,12 +783,12 @@ extension Machinelearning {
         public var message: String? = nil
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
         public var mLModelId: String? = nil
-        /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
-        public var invalidRecordCount: Int64? = nil
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: String? = nil
         /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
         public var totalRecordCount: Int64? = nil
+        /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
+        public var invalidRecordCount: Int64? = nil
         /// An ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
         public var batchPredictionId: String? = nil
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
@@ -816,12 +816,12 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(message: String? = nil, mLModelId: String? = nil, invalidRecordCount: Int64? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, logUri: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
+        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, logUri: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
             self.message = message
             self.mLModelId = mLModelId
-            self.invalidRecordCount = invalidRecordCount
             self.createdByIamUser = createdByIamUser
             self.totalRecordCount = totalRecordCount
+            self.invalidRecordCount = invalidRecordCount
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
             self.finishedAt = finishedAt
@@ -926,10 +926,10 @@ extension Machinelearning {
         public var gT: String? = nil
         /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
         public var filterVariable: String? = nil
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public var prefix: String? = nil
         /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
         public var lT: String? = nil
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public var prefix: String? = nil
         /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
         public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
@@ -943,13 +943,13 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, prefix: String? = nil, lT: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
             self.filterVariable = filterVariable
-            self.prefix = prefix
             self.lT = lT
+            self.prefix = prefix
             self.lE = lE
             self.sortOrder = sortOrder
             self.limit = limit
@@ -1009,10 +1009,10 @@ extension Machinelearning {
         public var message: String? = nil
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
         public var mLModelId: String? = nil
-        public var invalidRecordCount: Int64? = nil
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: String? = nil
         public var totalRecordCount: Int64? = nil
+        public var invalidRecordCount: Int64? = nil
         /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request. 
         public var batchPredictionId: String? = nil
         public var computeTime: Int64? = nil
@@ -1035,12 +1035,12 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(message: String? = nil, mLModelId: String? = nil, invalidRecordCount: Int64? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
+        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
             self.message = message
             self.mLModelId = mLModelId
-            self.invalidRecordCount = invalidRecordCount
             self.createdByIamUser = createdByIamUser
             self.totalRecordCount = totalRecordCount
+            self.invalidRecordCount = invalidRecordCount
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
             self.finishedAt = finishedAt
@@ -1155,10 +1155,10 @@ extension Machinelearning {
         public let _payload: String? = nil
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
         public var scoreThresholdLastUpdatedAt: Date? = nil
-        /// The ID of the training DataSource.
-        public var trainingDataSourceId: String? = nil
         /// A description of the most recent details about accessing the MLModel.
         public var message: String? = nil
+        /// The ID of the training DataSource.
+        public var trainingDataSourceId: String? = nil
         /// The MLModel ID, which is same as the MLModelId in the request.
         public var mLModelId: String? = nil
         /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training. Note This parameter is provided as part of the verbose format.
@@ -1197,10 +1197,10 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(scoreThresholdLastUpdatedAt: Date? = nil, trainingDataSourceId: String? = nil, message: String? = nil, mLModelId: String? = nil, recipe: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, createdByIamUser: String? = nil, schema: String? = nil, mLModelType: String? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, status: String? = nil, createdAt: Date? = nil, inputDataLocationS3: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, logUri: String? = nil, startedAt: Date? = nil, trainingParameters: [String: String]? = nil) {
+        public init(scoreThresholdLastUpdatedAt: Date? = nil, message: String? = nil, trainingDataSourceId: String? = nil, mLModelId: String? = nil, recipe: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, createdByIamUser: String? = nil, schema: String? = nil, mLModelType: String? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, status: String? = nil, createdAt: Date? = nil, inputDataLocationS3: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, logUri: String? = nil, startedAt: Date? = nil, trainingParameters: [String: String]? = nil) {
             self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
-            self.trainingDataSourceId = trainingDataSourceId
             self.message = message
+            self.trainingDataSourceId = trainingDataSourceId
             self.mLModelId = mLModelId
             self.recipe = recipe
             self.endpointInfo = endpointInfo
@@ -1340,16 +1340,16 @@ extension Machinelearning {
         public var message: String? = nil
         /// The number of data files referenced by the DataSource.
         public var numberOfFiles: Int64? = nil
+        public var roleARN: String? = nil
         /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: String? = nil
-        public var roleARN: String? = nil
         public var rDSMetadata: RDSMetadata? = nil
         public var computeTime: Int64? = nil
         public var finishedAt: Date? = nil
-        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
-        public var dataRearrangement: String? = nil
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
         public var lastUpdatedAt: Date? = nil
+        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
+        public var dataRearrangement: String? = nil
         /// The ID that is assigned to the DataSource during creation.
         public var dataSourceId: String? = nil
         /// The time that the DataSource was created. The time is expressed in epoch time.
@@ -1367,17 +1367,17 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, createdByIamUser: String? = nil, roleARN: String? = nil, rDSMetadata: RDSMetadata? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, dataRearrangement: String? = nil, lastUpdatedAt: Date? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: String? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
+        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: String? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
             self.dataSizeInBytes = dataSizeInBytes
             self.message = message
             self.numberOfFiles = numberOfFiles
-            self.createdByIamUser = createdByIamUser
             self.roleARN = roleARN
+            self.createdByIamUser = createdByIamUser
             self.rDSMetadata = rDSMetadata
             self.computeTime = computeTime
             self.finishedAt = finishedAt
-            self.dataRearrangement = dataRearrangement
             self.lastUpdatedAt = lastUpdatedAt
+            self.dataRearrangement = dataRearrangement
             self.dataSourceId = dataSourceId
             self.createdAt = createdAt
             self.dataLocationS3 = dataLocationS3
@@ -1427,10 +1427,10 @@ extension Machinelearning {
         public var gT: String? = nil
         /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory. 
         public var filterVariable: String? = nil
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public var prefix: String? = nil
         /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
         public var lT: String? = nil
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public var prefix: String? = nil
         /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
         public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
@@ -1444,13 +1444,13 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, prefix: String? = nil, lT: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
             self.filterVariable = filterVariable
-            self.prefix = prefix
             self.lT = lT
+            self.prefix = prefix
             self.lE = lE
             self.sortOrder = sortOrder
             self.limit = limit
@@ -1658,10 +1658,10 @@ extension Machinelearning {
         public var gT: String? = nil
         /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
         public var filterVariable: String? = nil
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public var prefix: String? = nil
         /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
         public var lT: String? = nil
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public var prefix: String? = nil
         /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
         public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
@@ -1675,13 +1675,13 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, prefix: String? = nil, lT: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
             self.filterVariable = filterVariable
-            self.prefix = prefix
             self.lT = lT
+            self.prefix = prefix
             self.lE = lE
             self.sortOrder = sortOrder
             self.limit = limit
@@ -1702,10 +1702,10 @@ extension Machinelearning {
         public var gT: String? = nil
         /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation. 
         public var filterVariable: String? = nil
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public var prefix: String? = nil
         /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
         public var lT: String? = nil
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public var prefix: String? = nil
         /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
         public var lE: String? = nil
         /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
@@ -1719,13 +1719,13 @@ extension Machinelearning {
 
         public init() {}
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, prefix: String? = nil, lT: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
             self.filterVariable = filterVariable
-            self.prefix = prefix
             self.lT = lT
+            self.prefix = prefix
             self.lE = lE
             self.sortOrder = sortOrder
             self.limit = limit

@@ -187,12 +187,12 @@ extension Swf {
         public var startTimestamp: Date = Date()
         /// If this workflow execution is a child of another execution then contains the workflow execution that started this execution.
         public var parent: WorkflowExecution? = nil
-        /// The time when the workflow execution was closed. Set only if the execution status is CLOSED.
-        public var closeTimestamp: Date? = nil
         /// The list of tags associated with the workflow execution. Tags can be used to identify and list workflow executions of interest through the visibility APIs. A workflow execution can have a maximum of 5 tags.
         public var tagList: [String]? = nil
         /// Set to true if a cancellation is requested for this workflow execution.
         public var cancelRequested: Bool? = nil
+        /// The time when the workflow execution was closed. Set only if the execution status is CLOSED.
+        public var closeTimestamp: Date? = nil
         /// If the execution status is closed then this specifies how the execution was closed:   COMPLETED: the execution was successfully completed.  CANCELED: the execution was canceled.Cancellation allows the implementation to gracefully clean up before the execution is closed.  TERMINATED: the execution was force terminated.  FAILED: the execution failed to complete.  TIMED_OUT: the execution did not complete in the alloted time and was automatically timed out.  CONTINUED_AS_NEW: the execution is logically continued. This means the current execution was completed and a new execution was started to carry on the workflow. 
         public var closeStatus: String? = nil
         /// The type of the workflow execution.
@@ -202,13 +202,13 @@ extension Swf {
 
         public init() {}
 
-        public init(execution: WorkflowExecution, startTimestamp: Date, parent: WorkflowExecution? = nil, closeTimestamp: Date? = nil, tagList: [String]? = nil, cancelRequested: Bool? = nil, closeStatus: String? = nil, workflowType: WorkflowType, executionStatus: String) {
+        public init(execution: WorkflowExecution, startTimestamp: Date, parent: WorkflowExecution? = nil, tagList: [String]? = nil, cancelRequested: Bool? = nil, closeTimestamp: Date? = nil, closeStatus: String? = nil, workflowType: WorkflowType, executionStatus: String) {
             self.execution = execution
             self.startTimestamp = startTimestamp
             self.parent = parent
-            self.closeTimestamp = closeTimestamp
             self.tagList = tagList
             self.cancelRequested = cancelRequested
+            self.closeTimestamp = closeTimestamp
             self.closeStatus = closeStatus
             self.workflowType = workflowType
             self.executionStatus = executionStatus
@@ -766,12 +766,12 @@ extension Swf {
         public var taskList: TaskList? = nil
         /// Required. The activityId of the activity task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public var activityId: String = ""
+        /// The maximum duration for this activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A schedule-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-close timeout was specified at registration time then a fault will be returned.
+        public var scheduleToCloseTimeout: String? = nil
         /// Optional. If set, specifies the maximum duration the activity task can wait to be assigned to a worker. This overrides the default schedule-to-start timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A schedule-to-start timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-start timeout was specified at registration time then a fault will be returned.
         public var scheduleToStartTimeout: String? = nil
         /// Optional. If set, specifies the priority with which the activity task is to be assigned to a worker. This overrides the defaultTaskPriority specified when registering the activity type using RegisterActivityType. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
         public var taskPriority: String? = nil
-        /// The maximum duration for this activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A schedule-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-close timeout was specified at registration time then a fault will be returned.
-        public var scheduleToCloseTimeout: String? = nil
         /// If set, specifies the maximum duration a worker may take to process this activity task. This overrides the default start-to-close timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A start-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default start-to-close timeout was specified at registration time then a fault will be returned.
         public var startToCloseTimeout: String? = nil
         /// The input provided to the activity task.
@@ -785,12 +785,12 @@ extension Swf {
 
         public init() {}
 
-        public init(taskList: TaskList? = nil, activityId: String, scheduleToStartTimeout: String? = nil, taskPriority: String? = nil, scheduleToCloseTimeout: String? = nil, startToCloseTimeout: String? = nil, input: String? = nil, control: String? = nil, heartbeatTimeout: String? = nil, activityType: ActivityType) {
+        public init(taskList: TaskList? = nil, activityId: String, scheduleToCloseTimeout: String? = nil, scheduleToStartTimeout: String? = nil, taskPriority: String? = nil, startToCloseTimeout: String? = nil, input: String? = nil, control: String? = nil, heartbeatTimeout: String? = nil, activityType: ActivityType) {
             self.taskList = taskList
             self.activityId = activityId
+            self.scheduleToCloseTimeout = scheduleToCloseTimeout
             self.scheduleToStartTimeout = scheduleToStartTimeout
             self.taskPriority = taskPriority
-            self.scheduleToCloseTimeout = scheduleToCloseTimeout
             self.startToCloseTimeout = startToCloseTimeout
             self.input = input
             self.control = control
@@ -834,10 +834,10 @@ extension Swf {
         public var workflowId: String = ""
         /// Optional. A task priority that, if set, specifies the priority for a decision task of this workflow execution. This overrides the defaultTaskPriority specified when registering the workflow type. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
         public var taskPriority: String? = nil
-        /// The list of tags to associate with the child workflow execution. A maximum of 5 tags can be specified. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
-        public var tagList: [String]? = nil
         /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks. This data is not sent to the child workflow execution.
         public var control: String? = nil
+        /// The list of tags to associate with the child workflow execution. A maximum of 5 tags can be specified. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
+        public var tagList: [String]? = nil
         /// The input to be provided to the workflow execution.
         public var input: String? = nil
         /// Required. The type of the workflow execution to be started.
@@ -851,13 +851,13 @@ extension Swf {
 
         public init() {}
 
-        public init(lambdaRole: String? = nil, taskList: TaskList? = nil, workflowId: String, taskPriority: String? = nil, tagList: [String]? = nil, control: String? = nil, input: String? = nil, workflowType: WorkflowType, childPolicy: String? = nil, taskStartToCloseTimeout: String? = nil, executionStartToCloseTimeout: String? = nil) {
+        public init(lambdaRole: String? = nil, taskList: TaskList? = nil, workflowId: String, taskPriority: String? = nil, control: String? = nil, tagList: [String]? = nil, input: String? = nil, workflowType: WorkflowType, childPolicy: String? = nil, taskStartToCloseTimeout: String? = nil, executionStartToCloseTimeout: String? = nil) {
             self.lambdaRole = lambdaRole
             self.taskList = taskList
             self.workflowId = workflowId
             self.taskPriority = taskPriority
-            self.tagList = tagList
             self.control = control
+            self.tagList = tagList
             self.input = input
             self.workflowType = workflowType
             self.childPolicy = childPolicy
@@ -2187,14 +2187,14 @@ extension Swf {
         public var name: String = ""
         /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public var defaultTaskStartToCloseTimeout: String? = nil
-        /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
-        public var defaultTaskHeartbeatTimeout: String? = nil
         /// If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public var defaultTaskScheduleToStartTimeout: String? = nil
-        /// The version of the activity type. The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
-        public var version: String = ""
         /// A textual description of the activity type.
         public var description: String? = nil
+        /// The version of the activity type. The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        public var version: String = ""
+        /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        public var defaultTaskHeartbeatTimeout: String? = nil
         /// The default task priority to assign to the activity type. If not assigned, then "0" will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
         public var defaultTaskPriority: String? = nil
         /// If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list is not provided when a task is scheduled through the ScheduleActivityTask decision.
@@ -2206,13 +2206,13 @@ extension Swf {
 
         public init() {}
 
-        public init(name: String, defaultTaskStartToCloseTimeout: String? = nil, defaultTaskHeartbeatTimeout: String? = nil, defaultTaskScheduleToStartTimeout: String? = nil, version: String, description: String? = nil, defaultTaskPriority: String? = nil, defaultTaskList: TaskList? = nil, domain: String, defaultTaskScheduleToCloseTimeout: String? = nil) {
+        public init(name: String, defaultTaskStartToCloseTimeout: String? = nil, defaultTaskScheduleToStartTimeout: String? = nil, description: String? = nil, version: String, defaultTaskHeartbeatTimeout: String? = nil, defaultTaskPriority: String? = nil, defaultTaskList: TaskList? = nil, domain: String, defaultTaskScheduleToCloseTimeout: String? = nil) {
             self.name = name
             self.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout
-            self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
             self.defaultTaskScheduleToStartTimeout = defaultTaskScheduleToStartTimeout
-            self.version = version
             self.description = description
+            self.version = version
+            self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
             self.defaultTaskPriority = defaultTaskPriority
             self.defaultTaskList = defaultTaskList
             self.domain = domain
@@ -2267,12 +2267,12 @@ extension Swf {
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The unique ID of the activity task.
         public var activityId: String = ""
+        /// The maximum amount of time for this activity task.
+        public var scheduleToCloseTimeout: String? = nil
         /// The maximum amount of time the activity task can wait to be assigned to a worker.
         public var scheduleToStartTimeout: String? = nil
         /// Optional. The priority to assign to the scheduled activity task. If set, this will override any default priority value that was assigned when the activity type was registered. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
         public var taskPriority: String? = nil
-        /// The maximum amount of time for this activity task.
-        public var scheduleToCloseTimeout: String? = nil
         /// The maximum amount of time a worker may take to process the activity task.
         public var startToCloseTimeout: String? = nil
         /// The input provided to the activity task.
@@ -2286,13 +2286,13 @@ extension Swf {
 
         public init() {}
 
-        public init(taskList: TaskList, decisionTaskCompletedEventId: Int64, activityId: String, scheduleToStartTimeout: String? = nil, taskPriority: String? = nil, scheduleToCloseTimeout: String? = nil, startToCloseTimeout: String? = nil, input: String? = nil, control: String? = nil, heartbeatTimeout: String? = nil, activityType: ActivityType) {
+        public init(taskList: TaskList, decisionTaskCompletedEventId: Int64, activityId: String, scheduleToCloseTimeout: String? = nil, scheduleToStartTimeout: String? = nil, taskPriority: String? = nil, startToCloseTimeout: String? = nil, input: String? = nil, control: String? = nil, heartbeatTimeout: String? = nil, activityType: ActivityType) {
             self.taskList = taskList
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.activityId = activityId
+            self.scheduleToCloseTimeout = scheduleToCloseTimeout
             self.scheduleToStartTimeout = scheduleToStartTimeout
             self.taskPriority = taskPriority
-            self.scheduleToCloseTimeout = scheduleToCloseTimeout
             self.startToCloseTimeout = startToCloseTimeout
             self.input = input
             self.control = control

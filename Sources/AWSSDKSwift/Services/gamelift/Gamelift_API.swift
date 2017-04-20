@@ -63,14 +63,14 @@ public struct Gamelift {
         return try client.send(operation: "ResolveAlias", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves all scaling policies applied to a fleet. To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of ScalingPolicy objects is returned for the fleet.
-    public func describeScalingPolicies(_ input: DescribeScalingPoliciesInput) throws -> DescribeScalingPoliciesOutput {
-        return try client.send(operation: "DescribeScalingPolicies", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Retrieves properties for a fleet alias. This operation returns all alias metadata and settings. To get just the fleet ID an alias is currently pointing to, use ResolveAlias.  To get alias properties, specify the alias ID. If successful, an Alias object is returned.
     public func describeAlias(_ input: DescribeAliasInput) throws -> DescribeAliasOutput {
         return try client.send(operation: "DescribeAlias", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves all scaling policies applied to a fleet. To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of ScalingPolicy objects is returned for the fleet.
+    public func describeScalingPolicies(_ input: DescribeScalingPoliciesInput) throws -> DescribeScalingPoliciesOutput {
+        return try client.send(operation: "DescribeScalingPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the current runtime configuration for the specified fleet. The runtime configuration tells Amazon GameLift how to launch server processes on instances in the fleet.

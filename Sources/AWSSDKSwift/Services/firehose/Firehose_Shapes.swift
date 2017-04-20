@@ -29,6 +29,20 @@ import Core
 
 extension Firehose {
 
+    public struct DescribeDeliveryStreamOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// Information about the delivery stream.
+        public var deliveryStreamDescription: DeliveryStreamDescription = DeliveryStreamDescription()
+
+        public init() {}
+
+        public init(deliveryStreamDescription: DeliveryStreamDescription) {
+            self.deliveryStreamDescription = deliveryStreamDescription
+        }
+
+    }
+
     public struct ProcessingConfiguration: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -46,20 +60,6 @@ extension Firehose {
 
     }
 
-    public struct DescribeDeliveryStreamOutput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// Information about the delivery stream.
-        public var deliveryStreamDescription: DeliveryStreamDescription = DeliveryStreamDescription()
-
-        public init() {}
-
-        public init(deliveryStreamDescription: DeliveryStreamDescription) {
-            self.deliveryStreamDescription = deliveryStreamDescription
-        }
-
-    }
-
     public struct RedshiftDestinationConfiguration: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -67,14 +67,14 @@ extension Firehose {
         public var copyCommand: CopyCommand = CopyCommand()
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
-        /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
         /// The name of the user.
         public var username: String = ""
         /// The configuration for backup in Amazon S3.
         public var s3BackupConfiguration: S3DestinationConfiguration? = nil
         /// The database connection string.
         public var clusterJDBCURL: String = ""
+        /// The ARN of the AWS credentials.
+        public var roleARN: String = ""
         /// The data processing configuration.
         public var processingConfiguration: ProcessingConfiguration? = nil
         /// The user password.
@@ -88,13 +88,13 @@ extension Firehose {
 
         public init() {}
 
-        public init(copyCommand: CopyCommand, s3Configuration: S3DestinationConfiguration, roleARN: String, username: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, clusterJDBCURL: String, processingConfiguration: ProcessingConfiguration? = nil, password: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil, s3BackupMode: String? = nil) {
+        public init(copyCommand: CopyCommand, s3Configuration: S3DestinationConfiguration, username: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, clusterJDBCURL: String, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, password: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil, s3BackupMode: String? = nil) {
             self.copyCommand = copyCommand
             self.s3Configuration = s3Configuration
-            self.roleARN = roleARN
             self.username = username
             self.s3BackupConfiguration = s3BackupConfiguration
             self.clusterJDBCURL = clusterJDBCURL
+            self.roleARN = roleARN
             self.processingConfiguration = processingConfiguration
             self.password = password
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -131,14 +131,14 @@ extension Firehose {
         public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public var encryptionConfiguration: EncryptionConfiguration? = nil
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
         public var roleARN: String = ""
         /// The configuration for backup in Amazon S3.
         public var s3BackupConfiguration: S3DestinationConfiguration? = nil
         /// The data processing configuration.
         public var processingConfiguration: ProcessingConfiguration? = nil
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
+        public var prefix: String? = nil
         /// The Amazon S3 backup mode.
         public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
@@ -150,13 +150,13 @@ extension Firehose {
 
         public init() {}
 
-        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
+        public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
             self.encryptionConfiguration = encryptionConfiguration
-            self.prefix = prefix
             self.roleARN = roleARN
             self.s3BackupConfiguration = s3BackupConfiguration
             self.processingConfiguration = processingConfiguration
+            self.prefix = prefix
             self.s3BackupMode = s3BackupMode
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
@@ -275,14 +275,14 @@ extension Firehose {
         public var s3BackupDescription: S3DestinationDescription? = nil
         /// The COPY command.
         public var copyCommand: CopyCommand = CopyCommand()
-        /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
-        /// The Amazon S3 destination.
-        public var s3DestinationDescription: S3DestinationDescription = S3DestinationDescription()
         /// The name of the user.
         public var username: String = ""
+        /// The Amazon S3 destination.
+        public var s3DestinationDescription: S3DestinationDescription = S3DestinationDescription()
         /// The database connection string.
         public var clusterJDBCURL: String = ""
+        /// The ARN of the AWS credentials.
+        public var roleARN: String = ""
         /// The data processing configuration.
         public var processingConfiguration: ProcessingConfiguration? = nil
         /// The Amazon S3 backup mode.
@@ -294,13 +294,13 @@ extension Firehose {
 
         public init() {}
 
-        public init(s3BackupDescription: S3DestinationDescription? = nil, copyCommand: CopyCommand, roleARN: String, s3DestinationDescription: S3DestinationDescription, username: String, clusterJDBCURL: String, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
+        public init(s3BackupDescription: S3DestinationDescription? = nil, copyCommand: CopyCommand, username: String, s3DestinationDescription: S3DestinationDescription, clusterJDBCURL: String, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
             self.s3BackupDescription = s3BackupDescription
             self.copyCommand = copyCommand
-            self.roleARN = roleARN
-            self.s3DestinationDescription = s3DestinationDescription
             self.username = username
+            self.s3DestinationDescription = s3DestinationDescription
             self.clusterJDBCURL = clusterJDBCURL
+            self.roleARN = roleARN
             self.processingConfiguration = processingConfiguration
             self.s3BackupMode = s3BackupMode
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -419,16 +419,16 @@ extension Firehose {
         public var processingConfiguration: ProcessingConfiguration? = nil
         /// The COPY command.
         public var copyCommand: CopyCommand? = nil
-        /// The ARN of the AWS credentials.
-        public var roleARN: String? = nil
         /// The name of the user.
         public var username: String? = nil
         /// The Amazon S3 destination for backup.
         public var s3BackupUpdate: S3DestinationUpdate? = nil
-        /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
         /// The database connection string.
         public var clusterJDBCURL: String? = nil
+        /// The Amazon S3 backup mode.
+        public var s3BackupMode: String? = nil
+        /// The ARN of the AWS credentials.
+        public var roleARN: String? = nil
         /// The Amazon S3 destination. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationUpdate.S3Update because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public var s3Update: S3DestinationUpdate? = nil
         /// The user password.
@@ -440,14 +440,14 @@ extension Firehose {
 
         public init() {}
 
-        public init(processingConfiguration: ProcessingConfiguration? = nil, copyCommand: CopyCommand? = nil, roleARN: String? = nil, username: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, s3BackupMode: String? = nil, clusterJDBCURL: String? = nil, s3Update: S3DestinationUpdate? = nil, password: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
+        public init(processingConfiguration: ProcessingConfiguration? = nil, copyCommand: CopyCommand? = nil, username: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, clusterJDBCURL: String? = nil, s3BackupMode: String? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, password: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
             self.processingConfiguration = processingConfiguration
             self.copyCommand = copyCommand
-            self.roleARN = roleARN
             self.username = username
             self.s3BackupUpdate = s3BackupUpdate
-            self.s3BackupMode = s3BackupMode
             self.clusterJDBCURL = clusterJDBCURL
+            self.s3BackupMode = s3BackupMode
+            self.roleARN = roleARN
             self.s3Update = s3Update
             self.password = password
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -732,12 +732,12 @@ extension Firehose {
         public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
         public var roleARN: String = ""
         /// The data processing configuration.
         public var processingConfiguration: ProcessingConfiguration? = nil
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
+        public var prefix: String? = nil
         /// The Amazon S3 backup mode.
         public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
@@ -749,13 +749,13 @@ extension Firehose {
 
         public init() {}
 
-        public init(s3BackupDescription: S3DestinationDescription? = nil, bucketARN: String, encryptionConfiguration: EncryptionConfiguration, prefix: String? = nil, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String, bufferingHints: BufferingHints) {
+        public init(s3BackupDescription: S3DestinationDescription? = nil, bucketARN: String, encryptionConfiguration: EncryptionConfiguration, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String, bufferingHints: BufferingHints) {
             self.s3BackupDescription = s3BackupDescription
             self.bucketARN = bucketARN
             self.encryptionConfiguration = encryptionConfiguration
-            self.prefix = prefix
             self.roleARN = roleARN
             self.processingConfiguration = processingConfiguration
+            self.prefix = prefix
             self.s3BackupMode = s3BackupMode
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
@@ -813,14 +813,14 @@ extension Firehose {
         public var bucketARN: String? = nil
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public var encryptionConfiguration: EncryptionConfiguration? = nil
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
         /// The ARN of the AWS credentials.
         public var roleARN: String? = nil
         /// The Amazon S3 destination for backup.
         public var s3BackupUpdate: S3DestinationUpdate? = nil
         /// The data processing configuration.
         public var processingConfiguration: ProcessingConfiguration? = nil
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
+        public var prefix: String? = nil
         /// Enables or disables Amazon S3 backup mode.
         public var s3BackupMode: String? = nil
         /// The CloudWatch logging options for your delivery stream.
@@ -832,13 +832,13 @@ extension Firehose {
 
         public init() {}
 
-        public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
+        public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
             self.encryptionConfiguration = encryptionConfiguration
-            self.prefix = prefix
             self.roleARN = roleARN
             self.s3BackupUpdate = s3BackupUpdate
             self.processingConfiguration = processingConfiguration
+            self.prefix = prefix
             self.s3BackupMode = s3BackupMode
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat

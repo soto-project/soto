@@ -66,8 +66,8 @@ extension Iam {
     public struct Policy: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// A friendly description of the policy. This element is included in the response to the GetPolicy operation. It is not included in the response to the ListPolicies operation. 
-        public var description: String? = nil
+        /// The identifier for the version of the policy that is set as the default version.
+        public var defaultVersionId: String? = nil
         /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public var policyId: String? = nil
         public var arn: String? = nil
@@ -83,13 +83,13 @@ extension Iam {
         public var createDate: Date? = nil
         /// The number of entities (users, groups, and roles) that the policy is attached to.
         public var attachmentCount: Int32? = nil
-        /// The identifier for the version of the policy that is set as the default version.
-        public var defaultVersionId: String? = nil
+        /// A friendly description of the policy. This element is included in the response to the GetPolicy operation. It is not included in the response to the ListPolicies operation. 
+        public var description: String? = nil
 
         public init() {}
 
-        public init(description: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, updateDate: Date? = nil, path: String? = nil, createDate: Date? = nil, attachmentCount: Int32? = nil, defaultVersionId: String? = nil) {
-            self.description = description
+        public init(defaultVersionId: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, updateDate: Date? = nil, path: String? = nil, createDate: Date? = nil, attachmentCount: Int32? = nil, description: String? = nil) {
+            self.defaultVersionId = defaultVersionId
             self.policyId = policyId
             self.arn = arn
             self.isAttachable = isAttachable
@@ -98,7 +98,7 @@ extension Iam {
             self.path = path
             self.createDate = createDate
             self.attachmentCount = attachmentCount
-            self.defaultVersionId = defaultVersionId
+            self.description = description
         }
 
     }
@@ -1156,10 +1156,10 @@ extension Iam {
         public var expirePasswords: Bool? = nil
         /// The number of days that an IAM user password is valid.
         public var maxPasswordAge: Int32? = nil
-        /// Specifies whether to require lowercase characters for IAM user passwords.
-        public var requireLowercaseCharacters: Bool? = nil
         /// Minimum length to require for IAM user passwords.
         public var minimumPasswordLength: Int32? = nil
+        /// Specifies whether to require lowercase characters for IAM user passwords.
+        public var requireLowercaseCharacters: Bool? = nil
         /// Specifies the number of previous passwords that IAM users are prevented from reusing.
         public var passwordReusePrevention: Int32? = nil
         /// Specifies whether to require symbols for IAM user passwords.
@@ -1173,12 +1173,12 @@ extension Iam {
 
         public init() {}
 
-        public init(requireNumbers: Bool? = nil, expirePasswords: Bool? = nil, maxPasswordAge: Int32? = nil, requireLowercaseCharacters: Bool? = nil, minimumPasswordLength: Int32? = nil, passwordReusePrevention: Int32? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil, hardExpiry: Bool? = nil, allowUsersToChangePassword: Bool? = nil) {
+        public init(requireNumbers: Bool? = nil, expirePasswords: Bool? = nil, maxPasswordAge: Int32? = nil, minimumPasswordLength: Int32? = nil, requireLowercaseCharacters: Bool? = nil, passwordReusePrevention: Int32? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil, hardExpiry: Bool? = nil, allowUsersToChangePassword: Bool? = nil) {
             self.requireNumbers = requireNumbers
             self.expirePasswords = expirePasswords
             self.maxPasswordAge = maxPasswordAge
-            self.requireLowercaseCharacters = requireLowercaseCharacters
             self.minimumPasswordLength = minimumPasswordLength
+            self.requireLowercaseCharacters = requireLowercaseCharacters
             self.passwordReusePrevention = passwordReusePrevention
             self.requireSymbols = requireSymbols
             self.requireUppercaseCharacters = requireUppercaseCharacters
@@ -2522,15 +2522,15 @@ extension Iam {
     public struct ManagedPolicyDetail: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the Using IAM guide. 
-        public var defaultVersionId: String? = nil
+        /// A friendly description of the policy.
+        public var description: String? = nil
         /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public var policyId: String? = nil
         public var arn: String? = nil
         /// Specifies whether the policy can be attached to an IAM user, group, or role.
         public var isAttachable: Bool? = nil
-        /// A friendly description of the policy.
-        public var description: String? = nil
+        /// The friendly name (not ARN) identifying the policy.
+        public var policyName: String? = nil
         /// A list containing information about the versions of the policy.
         public var policyVersionList: [PolicyVersion]? = nil
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
@@ -2541,23 +2541,23 @@ extension Iam {
         public var createDate: Date? = nil
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
         public var attachmentCount: Int32? = nil
-        /// The friendly name (not ARN) identifying the policy.
-        public var policyName: String? = nil
+        /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the Using IAM guide. 
+        public var defaultVersionId: String? = nil
 
         public init() {}
 
-        public init(defaultVersionId: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, description: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: Date? = nil, path: String? = nil, createDate: Date? = nil, attachmentCount: Int32? = nil, policyName: String? = nil) {
-            self.defaultVersionId = defaultVersionId
+        public init(description: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: Date? = nil, path: String? = nil, createDate: Date? = nil, attachmentCount: Int32? = nil, defaultVersionId: String? = nil) {
+            self.description = description
             self.policyId = policyId
             self.arn = arn
             self.isAttachable = isAttachable
-            self.description = description
+            self.policyName = policyName
             self.policyVersionList = policyVersionList
             self.updateDate = updateDate
             self.path = path
             self.createDate = createDate
             self.attachmentCount = attachmentCount
-            self.policyName = policyName
+            self.defaultVersionId = defaultVersionId
         }
 
     }
@@ -3255,10 +3255,10 @@ extension Iam {
         public var requireNumbers: Bool? = nil
         /// The number of days that an IAM user password is valid. The default value of 0 means IAM user passwords never expire. Default value: 0
         public var maxPasswordAge: Int32? = nil
-        /// Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z). Default value: false
-        public var requireLowercaseCharacters: Bool? = nil
         /// The minimum number of characters allowed in an IAM user password. Default value: 6
         public var minimumPasswordLength: Int32? = nil
+        /// Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z). Default value: false
+        public var requireLowercaseCharacters: Bool? = nil
         /// Specifies the number of previous passwords that IAM users are prevented from reusing. The default value of 0 means IAM users are not prevented from reusing previous passwords. Default value: 0
         public var passwordReusePrevention: Int32? = nil
         /// Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ # $ % ^ &amp;amp; * ( ) _ + - = [ ] { } | ' Default value: false
@@ -3272,11 +3272,11 @@ extension Iam {
 
         public init() {}
 
-        public init(requireNumbers: Bool? = nil, maxPasswordAge: Int32? = nil, requireLowercaseCharacters: Bool? = nil, minimumPasswordLength: Int32? = nil, passwordReusePrevention: Int32? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil, hardExpiry: Bool? = nil, allowUsersToChangePassword: Bool? = nil) {
+        public init(requireNumbers: Bool? = nil, maxPasswordAge: Int32? = nil, minimumPasswordLength: Int32? = nil, requireLowercaseCharacters: Bool? = nil, passwordReusePrevention: Int32? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil, hardExpiry: Bool? = nil, allowUsersToChangePassword: Bool? = nil) {
             self.requireNumbers = requireNumbers
             self.maxPasswordAge = maxPasswordAge
-            self.requireLowercaseCharacters = requireLowercaseCharacters
             self.minimumPasswordLength = minimumPasswordLength
+            self.requireLowercaseCharacters = requireLowercaseCharacters
             self.passwordReusePrevention = passwordReusePrevention
             self.requireSymbols = requireSymbols
             self.requireUppercaseCharacters = requireUppercaseCharacters

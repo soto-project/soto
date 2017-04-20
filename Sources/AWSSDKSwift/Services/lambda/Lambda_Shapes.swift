@@ -145,12 +145,12 @@ extension Lambda {
         public var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
+        /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        public var functionName: String = ""
         /// By default, the Invoke API assumes RequestResponse invocation type. You can optionally request asynchronous execution by specifying Event as the InvocationType. You can also use this parameter to request AWS Lambda to not execute the function but do some verification, such as if the caller is authorized to invoke the function and if the inputs are valid. You request this by specifying DryRun as the InvocationType. This is useful in a cross-account scenario when you want to verify access to a function without running it. 
         public var invocationType: String? = nil
         /// JSON that you want to provide to your Lambda function as input.
         public var payload: Data? = nil
-        /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
-        public var functionName: String = ""
         /// Using the ClientContext you can pass client-specific information to the Lambda function you are invoking. You can then process the client information in your Lambda function as you choose through the context variable. For an example of a ClientContext JSON, see PutEvents in the Amazon Mobile Analytics API Reference and User Guide. The ClientContext JSON must be base64-encoded.
         public var clientContext: String? = nil
         /// You can set this optional parameter to Tail in the request only if you specify the InvocationType parameter with value RequestResponse. In this case, AWS Lambda returns the base64-encoded last 4 KB of log data produced by your Lambda function in the x-amz-log-result header. 
@@ -160,10 +160,10 @@ extension Lambda {
 
         public init() {}
 
-        public init(invocationType: String? = nil, payload: Data? = nil, functionName: String, clientContext: String? = nil, logType: String? = nil, qualifier: String? = nil) {
+        public init(functionName: String, invocationType: String? = nil, payload: Data? = nil, clientContext: String? = nil, logType: String? = nil, qualifier: String? = nil) {
+            self.functionName = functionName
             self.invocationType = invocationType
             self.payload = payload
-            self.functionName = functionName
             self.clientContext = clientContext
             self.logType = logType
             self.qualifier = qualifier

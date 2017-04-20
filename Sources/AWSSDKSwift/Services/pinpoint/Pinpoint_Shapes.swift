@@ -86,9 +86,9 @@ extension Pinpoint {
         public let _payload: String? = nil
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
         public var endpointStatus: String? = nil
-        public var metrics: [String: Double]? = nil
         /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
         public var optOut: String? = nil
+        public var metrics: [String: Double]? = nil
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
         public var effectiveDate: String? = nil
         /// The address or token of the endpoint.
@@ -106,10 +106,10 @@ extension Pinpoint {
 
         public init() {}
 
-        public init(endpointStatus: String? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, effectiveDate: String? = nil, address: String? = nil, location: EndpointLocation? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, user: EndpointUser? = nil, channelType: String? = nil) {
+        public init(endpointStatus: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, effectiveDate: String? = nil, address: String? = nil, location: EndpointLocation? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, user: EndpointUser? = nil, channelType: String? = nil) {
             self.endpointStatus = endpointStatus
-            self.metrics = metrics
             self.optOut = optOut
+            self.metrics = metrics
             self.effectiveDate = effectiveDate
             self.address = address
             self.location = location
@@ -566,10 +566,10 @@ extension Pinpoint {
         public var metrics: [String: Double]? = nil
         /// The last time the endpoint was created. Provided in ISO 8601 format.
         public var creationDate: String? = nil
-        /// The unique ID that you assigned to the endpoint. The ID should be a globally unique identifier (GUID) to ensure that it is unique compared to all other endpoints for the application.
-        public var id: String? = nil
         /// A number from 0 - 99 that represents the cohort the endpoint is assigned to. Endpoints are grouped into cohorts randomly, and each cohort contains approximately 1 percent of the endpoints for an app. Amazon Pinpoint assigns cohorts to the holdout or treatment allocations for a campaign.
         public var cohortId: String? = nil
+        /// The unique ID that you assigned to the endpoint. The ID should be a globally unique identifier (GUID) to ensure that it is unique compared to all other endpoints for the application.
+        public var id: String? = nil
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
         public var effectiveDate: String? = nil
         /// The endpoint location attributes.
@@ -583,20 +583,20 @@ extension Pinpoint {
         public var applicationId: String? = nil
         /// The unique ID for the most recent request to update the endpoint.
         public var requestId: String? = nil
+        public var channelType: String? = nil
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
         public var endpointStatus: String? = nil
-        public var channelType: String? = nil
 
         public init() {}
 
-        public init(user: EndpointUser? = nil, shardId: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, creationDate: String? = nil, id: String? = nil, cohortId: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, endpointStatus: String? = nil, channelType: String? = nil) {
+        public init(user: EndpointUser? = nil, shardId: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, creationDate: String? = nil, cohortId: String? = nil, id: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, channelType: String? = nil, endpointStatus: String? = nil) {
             self.user = user
             self.shardId = shardId
             self.optOut = optOut
             self.metrics = metrics
             self.creationDate = creationDate
-            self.id = id
             self.cohortId = cohortId
+            self.id = id
             self.effectiveDate = effectiveDate
             self.location = location
             self.address = address
@@ -604,8 +604,8 @@ extension Pinpoint {
             self.attributes = attributes
             self.applicationId = applicationId
             self.requestId = requestId
-            self.endpointStatus = endpointStatus
             self.channelType = channelType
+            self.endpointStatus = endpointStatus
         }
 
     }
@@ -631,12 +631,12 @@ extension Pinpoint {
     public struct CampaignResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The campaign limits settings.
+        public var limits: CampaignLimits? = nil
         /// The custom name of a variation of the campaign used for A/B testing.
         public var treatmentName: String? = nil
         /// The version of the segment to which the campaign sends messages.
         public var segmentVersion: Int32? = nil
-        /// The campaign limits settings.
-        public var limits: CampaignLimits? = nil
         /// The campaign status.  An A/B test campaign will have a status of COMPLETED only when all treatments have a status of COMPLETED.
         public var state: CampaignState? = nil
         /// The date the campaign was created in ISO 8601 format.
@@ -647,10 +647,10 @@ extension Pinpoint {
         public var messageConfiguration: MessageConfiguration? = nil
         /// The ID of the segment to which the campaign sends messages.
         public var segmentId: String? = nil
-        /// A description of the campaign.
-        public var description: String? = nil
         /// The unique campaign ID.
         public var id: String? = nil
+        /// A description of the campaign.
+        public var description: String? = nil
         /// A custom description for the treatment.
         public var treatmentDescription: String? = nil
         /// Treatments that are defined in addition to the default treatment.
@@ -672,17 +672,17 @@ extension Pinpoint {
 
         public init() {}
 
-        public init(treatmentName: String? = nil, segmentVersion: Int32? = nil, limits: CampaignLimits? = nil, state: CampaignState? = nil, creationDate: String? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, description: String? = nil, id: String? = nil, treatmentDescription: String? = nil, additionalTreatments: [TreatmentResource]? = nil, name: String? = nil, holdoutPercent: Int32? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, isPaused: Bool? = nil, defaultState: CampaignState? = nil) {
+        public init(limits: CampaignLimits? = nil, treatmentName: String? = nil, segmentVersion: Int32? = nil, state: CampaignState? = nil, creationDate: String? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, id: String? = nil, description: String? = nil, treatmentDescription: String? = nil, additionalTreatments: [TreatmentResource]? = nil, name: String? = nil, holdoutPercent: Int32? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, isPaused: Bool? = nil, defaultState: CampaignState? = nil) {
+            self.limits = limits
             self.treatmentName = treatmentName
             self.segmentVersion = segmentVersion
-            self.limits = limits
             self.state = state
             self.creationDate = creationDate
             self.schedule = schedule
             self.messageConfiguration = messageConfiguration
             self.segmentId = segmentId
-            self.description = description
             self.id = id
+            self.description = description
             self.treatmentDescription = treatmentDescription
             self.additionalTreatments = additionalTreatments
             self.name = name

@@ -29,11 +29,11 @@ import Core
 /// Error enum for Redshift
 public enum RedshiftError: AWSErrorType {
     case clusterParameterGroupNotFoundFault(message: String?)
-    case clusterNotFoundFault(message: String?)
-    case resizeNotFoundFault(message: String?)
     case clusterSecurityGroupNotFoundFault(message: String?)
     case authorizationNotFoundFault(message: String?)
     case invalidClusterSecurityGroupStateFault(message: String?)
+    case clusterNotFoundFault(message: String?)
+    case resizeNotFoundFault(message: String?)
     case snapshotCopyAlreadyDisabledFault(message: String?)
     case invalidClusterStateFault(message: String?)
     case unauthorizedOperation(message: String?)
@@ -118,16 +118,16 @@ extension RedshiftError {
         switch errorCode {
         case "ClusterParameterGroupNotFoundFault":
             self = .clusterParameterGroupNotFoundFault(message: message)
-        case "ClusterNotFoundFault":
-            self = .clusterNotFoundFault(message: message)
-        case "ResizeNotFoundFault":
-            self = .resizeNotFoundFault(message: message)
         case "ClusterSecurityGroupNotFoundFault":
             self = .clusterSecurityGroupNotFoundFault(message: message)
         case "AuthorizationNotFoundFault":
             self = .authorizationNotFoundFault(message: message)
         case "InvalidClusterSecurityGroupStateFault":
             self = .invalidClusterSecurityGroupStateFault(message: message)
+        case "ClusterNotFoundFault":
+            self = .clusterNotFoundFault(message: message)
+        case "ResizeNotFoundFault":
+            self = .resizeNotFoundFault(message: message)
         case "SnapshotCopyAlreadyDisabledFault":
             self = .snapshotCopyAlreadyDisabledFault(message: message)
         case "InvalidClusterStateFault":

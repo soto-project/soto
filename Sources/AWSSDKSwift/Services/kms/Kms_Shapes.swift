@@ -231,22 +231,22 @@ extension Kms {
 
     }
 
-    public struct ListKeyPoliciesRequest: AWSShape {
+    public struct ListAliasesResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
-        public var marker: String? = nil
-        /// A unique identifier for the customer master key (CMK). You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
-        public var keyId: String = ""
-        /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Currently only 1 policy can be attached to a key.
-        public var limit: Int32? = nil
+        /// A list of key aliases in the user's account.
+        public var aliases: [AliasListEntry]? = nil
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
+        public var truncated: Bool? = nil
+        /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
+        public var nextMarker: String? = nil
 
         public init() {}
 
-        public init(marker: String? = nil, keyId: String, limit: Int32? = nil) {
-            self.marker = marker
-            self.keyId = keyId
-            self.limit = limit
+        public init(aliases: [AliasListEntry]? = nil, truncated: Bool? = nil, nextMarker: String? = nil) {
+            self.aliases = aliases
+            self.truncated = truncated
+            self.nextMarker = nextMarker
         }
 
     }
@@ -268,22 +268,39 @@ extension Kms {
 
     }
 
-    public struct ListAliasesResponse: AWSShape {
+    public struct GetKeyRotationStatusResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// A list of key aliases in the user's account.
-        public var aliases: [AliasListEntry]? = nil
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
-        public var truncated: Bool? = nil
-        /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
-        public var nextMarker: String? = nil
+        /// A Boolean value that specifies whether key rotation is enabled.
+        public var keyRotationEnabled: Bool? = nil
 
         public init() {}
 
-        public init(aliases: [AliasListEntry]? = nil, truncated: Bool? = nil, nextMarker: String? = nil) {
-            self.aliases = aliases
-            self.truncated = truncated
-            self.nextMarker = nextMarker
+        public init(keyRotationEnabled: Bool? = nil) {
+            self.keyRotationEnabled = keyRotationEnabled
+        }
+
+    }
+
+    public struct PutKeyPolicyRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
+        public var bypassPolicyLockoutSafetyCheck: Bool? = nil
+        /// A unique identifier for the CMK. Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:   Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab  
+        public var keyId: String = ""
+        /// The key policy to attach to the CMK. If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   The policy size limit is 32 KiB (32768 bytes).
+        public var policy: String = ""
+        /// The name of the key policy. This value must be default.
+        public var policyName: String = ""
+
+        public init() {}
+
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyId: String, policy: String, policyName: String) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.keyId = keyId
+            self.policy = policy
+            self.policyName = policyName
         }
 
     }
@@ -349,39 +366,22 @@ extension Kms {
 
     }
 
-    public struct GetKeyRotationStatusResponse: AWSShape {
+    public struct ListKeyPoliciesRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// A Boolean value that specifies whether key rotation is enabled.
-        public var keyRotationEnabled: Bool? = nil
-
-        public init() {}
-
-        public init(keyRotationEnabled: Bool? = nil) {
-            self.keyRotationEnabled = keyRotationEnabled
-        }
-
-    }
-
-    public struct PutKeyPolicyRequest: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
-        public var bypassPolicyLockoutSafetyCheck: Bool? = nil
-        /// A unique identifier for the CMK. Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:   Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab  
+        /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
+        public var marker: String? = nil
+        /// A unique identifier for the customer master key (CMK). You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public var keyId: String = ""
-        /// The key policy to attach to the CMK. If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   The policy size limit is 32 KiB (32768 bytes).
-        public var policy: String = ""
-        /// The name of the key policy. This value must be default.
-        public var policyName: String = ""
+        /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Currently only 1 policy can be attached to a key.
+        public var limit: Int32? = nil
 
         public init() {}
 
-        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyId: String, policy: String, policyName: String) {
-            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+        public init(marker: String? = nil, keyId: String, limit: Int32? = nil) {
+            self.marker = marker
             self.keyId = keyId
-            self.policy = policy
-            self.policyName = policyName
+            self.limit = limit
         }
 
     }

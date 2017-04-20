@@ -82,19 +82,19 @@ public struct Elastictranscoder {
         return try client.send(operation: "CreateJob", path: "/2012-09-25/jobs", httpMethod: "POST", input: input)
     }
 
-    ///  With the UpdatePipelineNotifications operation, you can update Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline. When you update notifications for a pipeline, Elastic Transcoder returns the values that you specified in the request.
-    public func updatePipelineNotifications(_ input: UpdatePipelineNotificationsRequest) throws -> UpdatePipelineNotificationsResponse {
-        return try client.send(operation: "UpdatePipelineNotifications", path: "/2012-09-25/pipelines/{Id}/notifications", httpMethod: "POST", input: input)
-    }
-
-    ///  The ReadPreset operation gets detailed information about a preset.
-    public func readPreset(_ input: ReadPresetRequest) throws -> ReadPresetResponse {
-        return try client.send(operation: "ReadPreset", path: "/2012-09-25/presets/{Id}", httpMethod: "GET", input: input)
-    }
-
     ///  The ListJobsByStatus operation gets a list of jobs that have a specified status. The response body contains one element for each job that satisfies the search criteria.
     public func listJobsByStatus(_ input: ListJobsByStatusRequest) throws -> ListJobsByStatusResponse {
         return try client.send(operation: "ListJobsByStatus", path: "/2012-09-25/jobsByStatus/{Status}", httpMethod: "GET", input: input)
+    }
+
+    ///  The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
+    public func listJobsByPipeline(_ input: ListJobsByPipelineRequest) throws -> ListJobsByPipelineResponse {
+        return try client.send(operation: "ListJobsByPipeline", path: "/2012-09-25/jobsByPipeline/{PipelineId}", httpMethod: "GET", input: input)
+    }
+
+    ///  With the UpdatePipelineNotifications operation, you can update Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline. When you update notifications for a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    public func updatePipelineNotifications(_ input: UpdatePipelineNotificationsRequest) throws -> UpdatePipelineNotificationsResponse {
+        return try client.send(operation: "UpdatePipelineNotifications", path: "/2012-09-25/pipelines/{Id}/notifications", httpMethod: "POST", input: input)
     }
 
     ///  The TestRole operation tests the IAM role used to create the pipeline. The TestRole action lets you determine whether the IAM role you are using has sufficient permissions to let Elastic Transcoder perform tasks associated with the transcoding process. The action attempts to assume the specified IAM role, checks read access to the input and output buckets, and tries to send a test notification to Amazon SNS topics that you specify.
@@ -102,9 +102,9 @@ public struct Elastictranscoder {
         return try client.send(operation: "TestRole", path: "/2012-09-25/roleTests", httpMethod: "POST", input: input)
     }
 
-    ///  The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
-    public func listJobsByPipeline(_ input: ListJobsByPipelineRequest) throws -> ListJobsByPipelineResponse {
-        return try client.send(operation: "ListJobsByPipeline", path: "/2012-09-25/jobsByPipeline/{PipelineId}", httpMethod: "GET", input: input)
+    ///  The ReadPreset operation gets detailed information about a preset.
+    public func readPreset(_ input: ReadPresetRequest) throws -> ReadPresetResponse {
+        return try client.send(operation: "ReadPreset", path: "/2012-09-25/presets/{Id}", httpMethod: "GET", input: input)
     }
 
     ///  The ReadJob operation returns detailed information about a job.

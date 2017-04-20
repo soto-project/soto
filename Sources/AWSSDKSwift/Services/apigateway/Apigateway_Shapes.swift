@@ -195,10 +195,10 @@ extension Apigateway {
         }
         /// The RestApi identifier for the MethodResponse resource.
         public var restApiId: String = ""
-        /// The status code for the MethodResponse resource.
-        public var statusCode: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public var patchOperations: [PatchOperation]? = nil
+        /// The status code for the MethodResponse resource.
+        public var statusCode: String = ""
         /// The Resource identifier for the MethodResponse resource.
         public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
@@ -206,10 +206,10 @@ extension Apigateway {
 
         public init() {}
 
-        public init(restApiId: String, statusCode: String, patchOperations: [PatchOperation]? = nil, resourceId: String, httpMethod: String) {
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
-            self.statusCode = statusCode
             self.patchOperations = patchOperations
+            self.statusCode = statusCode
             self.resourceId = resourceId
             self.httpMethod = httpMethod
         }
@@ -1293,10 +1293,10 @@ extension Apigateway {
         public var dataTraceEnabled: Bool? = nil
         /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
         public var metricsEnabled: Bool? = nil
-        /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
-        public var cachingEnabled: Bool? = nil
         /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
         public var cacheDataEncrypted: Bool? = nil
+        /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
+        public var cachingEnabled: Bool? = nil
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
         public var cacheTtlInSeconds: Int32? = nil
         /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
@@ -1312,11 +1312,11 @@ extension Apigateway {
 
         public init() {}
 
-        public init(dataTraceEnabled: Bool? = nil, metricsEnabled: Bool? = nil, cachingEnabled: Bool? = nil, cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int32? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, loggingLevel: String? = nil, unauthorizedCacheControlHeaderStrategy: String? = nil, requireAuthorizationForCacheControl: Bool? = nil) {
+        public init(dataTraceEnabled: Bool? = nil, metricsEnabled: Bool? = nil, cacheDataEncrypted: Bool? = nil, cachingEnabled: Bool? = nil, cacheTtlInSeconds: Int32? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, loggingLevel: String? = nil, unauthorizedCacheControlHeaderStrategy: String? = nil, requireAuthorizationForCacheControl: Bool? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
             self.metricsEnabled = metricsEnabled
-            self.cachingEnabled = cachingEnabled
             self.cacheDataEncrypted = cacheDataEncrypted
+            self.cachingEnabled = cachingEnabled
             self.cacheTtlInSeconds = cacheTtlInSeconds
             self.throttlingBurstLimit = throttlingBurstLimit
             self.throttlingRateLimit = throttlingRateLimit
@@ -1373,10 +1373,10 @@ extension Apigateway {
         }
         /// Specifies an update integration response request's API identifier.
         public var restApiId: String = ""
-        /// Specifies an update integration response request's status code.
-        public var statusCode: String = ""
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public var patchOperations: [PatchOperation]? = nil
+        /// Specifies an update integration response request's status code.
+        public var statusCode: String = ""
         /// Specifies an update integration response request's resource identifier.
         public var resourceId: String = ""
         /// Specifies an update integration response request's HTTP method.
@@ -1384,10 +1384,10 @@ extension Apigateway {
 
         public init() {}
 
-        public init(restApiId: String, statusCode: String, patchOperations: [PatchOperation]? = nil, resourceId: String, httpMethod: String) {
+        public init(restApiId: String, patchOperations: [PatchOperation]? = nil, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
-            self.statusCode = statusCode
             self.patchOperations = patchOperations
+            self.statusCode = statusCode
             self.resourceId = resourceId
             self.httpMethod = httpMethod
         }
@@ -2479,10 +2479,10 @@ extension Apigateway {
         }
         /// The RestApi identifier for the Method resource.
         public var restApiId: String = ""
-        /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        public var responseModels: [String: String]? = nil
         /// The method response's status code.
         public var statusCode: String = ""
+        /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
+        public var responseModels: [String: String]? = nil
         /// The Resource identifier for the Method resource.
         public var resourceId: String = ""
         /// The HTTP verb of the Method resource.
@@ -2492,10 +2492,10 @@ extension Apigateway {
 
         public init() {}
 
-        public init(restApiId: String, responseModels: [String: String]? = nil, statusCode: String, resourceId: String, httpMethod: String, responseParameters: [String: Bool]? = nil) {
+        public init(restApiId: String, statusCode: String, responseModels: [String: String]? = nil, resourceId: String, httpMethod: String, responseParameters: [String: Bool]? = nil) {
             self.restApiId = restApiId
-            self.responseModels = responseModels
             self.statusCode = statusCode
+            self.responseModels = responseModels
             self.resourceId = resourceId
             self.httpMethod = httpMethod
             self.responseParameters = responseParameters
@@ -2598,10 +2598,10 @@ extension Apigateway {
         public let _payload: String? = nil
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
         public var responseTemplates: [String: String]? = nil
-        /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        public var statusCode: String? = nil
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public var contentHandling: String? = nil
+        /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
+        public var statusCode: String? = nil
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
         public var responseParameters: [String: String]? = nil
         /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
@@ -2609,10 +2609,10 @@ extension Apigateway {
 
         public init() {}
 
-        public init(responseTemplates: [String: String]? = nil, statusCode: String? = nil, contentHandling: String? = nil, responseParameters: [String: String]? = nil, selectionPattern: String? = nil) {
+        public init(responseTemplates: [String: String]? = nil, contentHandling: String? = nil, statusCode: String? = nil, responseParameters: [String: String]? = nil, selectionPattern: String? = nil) {
             self.responseTemplates = responseTemplates
-            self.statusCode = statusCode
             self.contentHandling = contentHandling
+            self.statusCode = statusCode
             self.responseParameters = responseParameters
             self.selectionPattern = selectionPattern
         }
@@ -2781,8 +2781,7 @@ extension Apigateway {
     public struct TestInvokeAuthorizerResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
-        public var claims: [String: String]? = nil
+        public var authorization: [String: [String]]? = nil
         /// The principal identity returned by the Authorizer
         public var principalId: String? = nil
         /// The Amazon API Gateway execution log for the test authorizer request.
@@ -2793,18 +2792,19 @@ extension Apigateway {
         public var policy: String? = nil
         /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
         public var clientStatus: Int32? = nil
-        public var authorization: [String: [String]]? = nil
+        /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
+        public var claims: [String: String]? = nil
 
         public init() {}
 
-        public init(claims: [String: String]? = nil, principalId: String? = nil, log: String? = nil, latency: Int64? = nil, policy: String? = nil, clientStatus: Int32? = nil, authorization: [String: [String]]? = nil) {
-            self.claims = claims
+        public init(authorization: [String: [String]]? = nil, principalId: String? = nil, log: String? = nil, latency: Int64? = nil, policy: String? = nil, clientStatus: Int32? = nil, claims: [String: String]? = nil) {
+            self.authorization = authorization
             self.principalId = principalId
             self.log = log
             self.latency = latency
             self.policy = policy
             self.clientStatus = clientStatus
-            self.authorization = authorization
+            self.claims = claims
         }
 
     }
@@ -3037,10 +3037,10 @@ extension Apigateway {
         }
         /// Enables a cache cluster for the Stage resource specified in the input.
         public var cacheClusterEnabled: Bool? = nil
-        /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public var variables: [String: String]? = nil
         /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
         public var cacheClusterSize: String? = nil
+        /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
+        public var variables: [String: String]? = nil
         /// The description for the Deployment resource to create.
         public var description: String? = nil
         /// The RestApi resource identifier for the Deployment resource to create.
@@ -3052,10 +3052,10 @@ extension Apigateway {
 
         public init() {}
 
-        public init(cacheClusterEnabled: Bool? = nil, variables: [String: String]? = nil, cacheClusterSize: String? = nil, description: String? = nil, restApiId: String, stageName: String? = nil, stageDescription: String? = nil) {
+        public init(cacheClusterEnabled: Bool? = nil, cacheClusterSize: String? = nil, variables: [String: String]? = nil, description: String? = nil, restApiId: String, stageName: String? = nil, stageDescription: String? = nil) {
             self.cacheClusterEnabled = cacheClusterEnabled
-            self.variables = variables
             self.cacheClusterSize = cacheClusterSize
+            self.variables = variables
             self.description = description
             self.restApiId = restApiId
             self.stageName = stageName
@@ -3513,10 +3513,10 @@ extension Apigateway {
         public var requestModels: [String: String]? = nil
         /// A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key is a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or templates.
         public var requestParameters: [String: Bool]? = nil
-        /// The method's HTTP verb.
-        public var httpMethod: String? = nil
         /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.   Example:  Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T213210Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true } ], "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:responses": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestTemplates": { "application/json": "{\n \"a\": \"$input.params('operand1')\",\n \"b\": \"$input.params('operand2')\", \n \"op\": \"$input.params('operator')\" \n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.operator": "integration.response.body.op", "method.response.header.operand_2": "integration.response.body.b", "method.response.header.operand_1": "integration.response.body.a" }, "responseTemplates": { "application/json": "#set($res = $input.path('$'))\n{\n \"result\": \"$res.a, $res.b, $res.op => $res.c\",\n \"a\" : \"$res.a\",\n \"b\" : \"$res.b\",\n \"op\" : \"$res.op\",\n \"c\" : \"$res.c\"\n}" }, "selectionPattern": "", "statusCode": "200" } } }    AWS CLI 
         public var methodIntegration: Integration? = nil
+        /// The method's HTTP verb.
+        public var httpMethod: String? = nil
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
         public var apiKeyRequired: Bool? = nil
         /// The method's authorization type.
@@ -3526,13 +3526,13 @@ extension Apigateway {
 
         public init() {}
 
-        public init(authorizerId: String? = nil, methodResponses: [String: MethodResponse]? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, httpMethod: String? = nil, methodIntegration: Integration? = nil, apiKeyRequired: Bool? = nil, authorizationType: String? = nil, operationName: String? = nil) {
+        public init(authorizerId: String? = nil, methodResponses: [String: MethodResponse]? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, methodIntegration: Integration? = nil, httpMethod: String? = nil, apiKeyRequired: Bool? = nil, authorizationType: String? = nil, operationName: String? = nil) {
             self.authorizerId = authorizerId
             self.methodResponses = methodResponses
             self.requestModels = requestModels
             self.requestParameters = requestParameters
-            self.httpMethod = httpMethod
             self.methodIntegration = methodIntegration
+            self.httpMethod = httpMethod
             self.apiKeyRequired = apiKeyRequired
             self.authorizationType = authorizationType
             self.operationName = operationName

@@ -185,10 +185,10 @@ extension Discovery {
         public let _payload: String? = nil
         /// Number of servers mapped to tags.
         public var serversMappedtoTags: Int64? = nil
-        /// Details about discovered connectors, including connector status and health.
-        public var connectorSummary: CustomerConnectorInfo? = nil
         /// Number of applications discovered.
         public var applications: Int64? = nil
+        /// Details about discovered connectors, including connector status and health.
+        public var connectorSummary: CustomerConnectorInfo? = nil
         /// Details about discovered agents, including agent status and health.
         public var agentSummary: CustomerAgentInfo? = nil
         /// Number of servers discovered.
@@ -198,10 +198,10 @@ extension Discovery {
 
         public init() {}
 
-        public init(serversMappedtoTags: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, applications: Int64? = nil, agentSummary: CustomerAgentInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil) {
+        public init(serversMappedtoTags: Int64? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, agentSummary: CustomerAgentInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil) {
             self.serversMappedtoTags = serversMappedtoTags
-            self.connectorSummary = connectorSummary
             self.applications = applications
+            self.connectorSummary = connectorSummary
             self.agentSummary = agentSummary
             self.servers = servers
             self.serversMappedToApplications = serversMappedToApplications
@@ -753,10 +753,10 @@ extension Discovery {
         public let _payload: String? = nil
         /// Maximum number of results to return in a single page of output.
         public var maxResults: Int32? = nil
-        /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-        public var nextToken: String? = nil
         /// Flag to indicate if port and protocol information is needed as part of the response.
         public var portInformationNeeded: Bool? = nil
+        /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+        public var nextToken: String? = nil
         /// List of configuration IDs to test for one-hop-away.
         public var neighborConfigurationIds: [String]? = nil
         /// Configuration ID of the server for which neighbors are being listed.
@@ -764,10 +764,10 @@ extension Discovery {
 
         public init() {}
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, portInformationNeeded: Bool? = nil, neighborConfigurationIds: [String]? = nil, configurationId: String) {
+        public init(maxResults: Int32? = nil, portInformationNeeded: Bool? = nil, nextToken: String? = nil, neighborConfigurationIds: [String]? = nil, configurationId: String) {
             self.maxResults = maxResults
-            self.nextToken = nextToken
             self.portInformationNeeded = portInformationNeeded
+            self.nextToken = nextToken
             self.neighborConfigurationIds = neighborConfigurationIds
             self.configurationId = configurationId
         }

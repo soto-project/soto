@@ -145,10 +145,10 @@ extension Batch {
         public let _payload: String? = nil
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
         public var user: String? = nil
-        /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
-        public var mountPoints: [MountPoint]? = nil
         /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the Create a container section of the Docker Remote API and the --read-only option to docker run.
         public var readonlyRootFilesystem: Bool? = nil
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
+        public var mountPoints: [MountPoint]? = nil
         /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
         public var image: String = ""
         /// A list of data volumes used in a job.
@@ -170,10 +170,10 @@ extension Batch {
 
         public init() {}
 
-        public init(user: String? = nil, mountPoints: [MountPoint]? = nil, readonlyRootFilesystem: Bool? = nil, image: String, volumes: [Volume]? = nil, vcpus: Int32, privileged: Bool? = nil, environment: [KeyValuePair]? = nil, command: [String]? = nil, jobRoleArn: String? = nil, ulimits: [Ulimit]? = nil, memory: Int32) {
+        public init(user: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, image: String, volumes: [Volume]? = nil, vcpus: Int32, privileged: Bool? = nil, environment: [KeyValuePair]? = nil, command: [String]? = nil, jobRoleArn: String? = nil, ulimits: [Ulimit]? = nil, memory: Int32) {
             self.user = user
-            self.mountPoints = mountPoints
             self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.mountPoints = mountPoints
             self.image = image
             self.volumes = volumes
             self.vcpus = vcpus
@@ -432,10 +432,10 @@ extension Batch {
         public let _payload: String? = nil
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public var reason: String? = nil
-        /// The mount points for data volumes in your container.
-        public var mountPoints: [MountPoint]? = nil
         /// When this parameter is true, the container is given read-only access to its root file system.
         public var readonlyRootFilesystem: Bool? = nil
+        /// The mount points for data volumes in your container.
+        public var mountPoints: [MountPoint]? = nil
         /// The user name to use inside the container.
         public var user: String? = nil
         /// The number of VCPUs allocated for the job. 
@@ -463,10 +463,10 @@ extension Batch {
 
         public init() {}
 
-        public init(reason: String? = nil, mountPoints: [MountPoint]? = nil, readonlyRootFilesystem: Bool? = nil, user: String? = nil, vcpus: Int32? = nil, ulimits: [Ulimit]? = nil, memory: Int32? = nil, environment: [KeyValuePair]? = nil, containerInstanceArn: String? = nil, image: String? = nil, volumes: [Volume]? = nil, privileged: Bool? = nil, exitCode: Int32? = nil, command: [String]? = nil, jobRoleArn: String? = nil) {
+        public init(reason: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, user: String? = nil, vcpus: Int32? = nil, ulimits: [Ulimit]? = nil, memory: Int32? = nil, environment: [KeyValuePair]? = nil, containerInstanceArn: String? = nil, image: String? = nil, volumes: [Volume]? = nil, privileged: Bool? = nil, exitCode: Int32? = nil, command: [String]? = nil, jobRoleArn: String? = nil) {
             self.reason = reason
-            self.mountPoints = mountPoints
             self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.mountPoints = mountPoints
             self.user = user
             self.vcpus = vcpus
             self.ulimits = ulimits
@@ -605,10 +605,10 @@ extension Batch {
         public var jobName: String = ""
         /// The Unix timestamp for when the job was created (when the task entered the PENDING state). 
         public var createdAt: Int64? = nil
-        /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
-        public var parameters: [String: String]? = nil
         /// The Unix timestamp for when the job was stopped (when the task transitioned from the RUNNING state to the STOPPED state).
         public var stoppedAt: Int64? = nil
+        /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
+        public var parameters: [String: String]? = nil
         /// The Unix timestamp for when the job was started (when the task transitioned from the PENDING state to the RUNNING state). 
         public var startedAt: Int64 = 0
         /// An object representing the details of the container that is associated with the job.
@@ -624,13 +624,13 @@ extension Batch {
 
         public init() {}
 
-        public init(jobQueue: String, status: String, jobName: String, createdAt: Int64? = nil, parameters: [String: String]? = nil, stoppedAt: Int64? = nil, startedAt: Int64, container: ContainerDetail? = nil, statusReason: String? = nil, jobDefinition: String, dependsOn: [JobDependency]? = nil, jobId: String) {
+        public init(jobQueue: String, status: String, jobName: String, createdAt: Int64? = nil, stoppedAt: Int64? = nil, parameters: [String: String]? = nil, startedAt: Int64, container: ContainerDetail? = nil, statusReason: String? = nil, jobDefinition: String, dependsOn: [JobDependency]? = nil, jobId: String) {
             self.jobQueue = jobQueue
             self.status = status
             self.jobName = jobName
             self.createdAt = createdAt
-            self.parameters = parameters
             self.stoppedAt = stoppedAt
+            self.parameters = parameters
             self.startedAt = startedAt
             self.container = container
             self.statusReason = statusReason

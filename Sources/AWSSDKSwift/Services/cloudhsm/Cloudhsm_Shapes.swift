@@ -437,10 +437,10 @@ extension Cloudhsm {
         public var subscriptionEndDate: String? = nil
         /// The date and time that the SSH key was last updated.
         public var sshKeyLastUpdated: String? = nil
-        /// The Availability Zone that the HSM is in.
-        public var availabilityZone: String? = nil
         /// The serial number of the HSM.
         public var serialNumber: String? = nil
+        /// The Availability Zone that the HSM is in.
+        public var availabilityZone: String? = nil
         /// The status of the HSM.
         public var status: String? = nil
         /// The ARN of the IAM role assigned to the HSM.
@@ -465,7 +465,7 @@ extension Cloudhsm {
 
         public init() {}
 
-        public init(statusDetails: String? = nil, subnetId: String? = nil, eniIp: String? = nil, eniId: String? = nil, hsmArn: String? = nil, sshPublicKey: String? = nil, subscriptionEndDate: String? = nil, sshKeyLastUpdated: String? = nil, availabilityZone: String? = nil, serialNumber: String? = nil, status: String? = nil, iamRoleArn: String? = nil, serverCertLastUpdated: String? = nil, vpcId: String? = nil, subscriptionType: String? = nil, serverCertUri: String? = nil, partitions: [String]? = nil, softwareVersion: String? = nil, hsmType: String? = nil, subscriptionStartDate: String? = nil, vendorName: String? = nil) {
+        public init(statusDetails: String? = nil, subnetId: String? = nil, eniIp: String? = nil, eniId: String? = nil, hsmArn: String? = nil, sshPublicKey: String? = nil, subscriptionEndDate: String? = nil, sshKeyLastUpdated: String? = nil, serialNumber: String? = nil, availabilityZone: String? = nil, status: String? = nil, iamRoleArn: String? = nil, serverCertLastUpdated: String? = nil, vpcId: String? = nil, subscriptionType: String? = nil, serverCertUri: String? = nil, partitions: [String]? = nil, softwareVersion: String? = nil, hsmType: String? = nil, subscriptionStartDate: String? = nil, vendorName: String? = nil) {
             self.statusDetails = statusDetails
             self.subnetId = subnetId
             self.eniIp = eniIp
@@ -474,8 +474,8 @@ extension Cloudhsm {
             self.sshPublicKey = sshPublicKey
             self.subscriptionEndDate = subscriptionEndDate
             self.sshKeyLastUpdated = sshKeyLastUpdated
-            self.availabilityZone = availabilityZone
             self.serialNumber = serialNumber
+            self.availabilityZone = availabilityZone
             self.status = status
             self.iamRoleArn = iamRoleArn
             self.serverCertLastUpdated = serverCertLastUpdated

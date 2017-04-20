@@ -29,8 +29,8 @@ import Core
 /// Error enum for Iam
 public enum IamError: AWSErrorType {
     case noSuchEntityException(message: String?)
-    case invalidInputException(message: String?)
     case serviceFailureException(message: String?)
+    case invalidInputException(message: String?)
     case limitExceededException(message: String?)
     case entityAlreadyExistsException(message: String?)
     case passwordPolicyViolationException(message: String?)
@@ -58,10 +58,10 @@ extension IamError {
         switch errorCode {
         case "NoSuchEntityException":
             self = .noSuchEntityException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
         case "ServiceFailureException":
             self = .serviceFailureException(message: message)
+        case "InvalidInputException":
+            self = .invalidInputException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "EntityAlreadyExistsException":

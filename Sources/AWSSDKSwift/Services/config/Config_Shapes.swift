@@ -120,26 +120,6 @@ extension Config {
 
     }
 
-    public struct SourceDetail: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification. 
-        public var messageType: String? = nil
-        /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
-        public var eventSource: String? = nil
-        /// The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.
-        public var maximumExecutionFrequency: String? = nil
-
-        public init() {}
-
-        public init(messageType: String? = nil, eventSource: String? = nil, maximumExecutionFrequency: String? = nil) {
-            self.messageType = messageType
-            self.eventSource = eventSource
-            self.maximumExecutionFrequency = maximumExecutionFrequency
-        }
-
-    }
-
     public struct ConfigExportDeliveryInfo: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -165,6 +145,26 @@ extension Config {
             self.lastErrorCode = lastErrorCode
             self.lastStatus = lastStatus
             self.nextDeliveryTime = nextDeliveryTime
+        }
+
+    }
+
+    public struct SourceDetail: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification. 
+        public var messageType: String? = nil
+        /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
+        public var eventSource: String? = nil
+        /// The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.
+        public var maximumExecutionFrequency: String? = nil
+
+        public init() {}
+
+        public init(messageType: String? = nil, eventSource: String? = nil, maximumExecutionFrequency: String? = nil) {
+            self.messageType = messageType
+            self.eventSource = eventSource
+            self.maximumExecutionFrequency = maximumExecutionFrequency
         }
 
     }
@@ -439,14 +439,14 @@ extension Config {
         public var resourceId: String? = nil
         /// The description of the resource configuration.
         public var configuration: String? = nil
-        /// The configuration item status.
-        public var configurationItemStatus: String? = nil
-        /// The Availability Zone associated with the resource.
-        public var availabilityZone: String? = nil
         /// A list of related AWS resources.
         public var relationships: [Relationship]? = nil
+        /// The Availability Zone associated with the resource.
+        public var availabilityZone: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: String? = nil
+        /// The configuration item status.
+        public var configurationItemStatus: String? = nil
         /// The time when the configuration recording was initiated.
         public var configurationItemCaptureTime: Date? = nil
         /// The version number of the resource configuration.
@@ -464,7 +464,7 @@ extension Config {
 
         public init() {}
 
-        public init(configurationStateId: String? = nil, resourceType: String? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, configurationItemStatus: String? = nil, availabilityZone: String? = nil, relationships: [Relationship]? = nil, arn: String? = nil, configurationItemCaptureTime: Date? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Date? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
+        public init(configurationStateId: String? = nil, resourceType: String? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: String? = nil, configurationItemCaptureTime: Date? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Date? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
             self.configurationStateId = configurationStateId
             self.resourceType = resourceType
             self.resourceName = resourceName
@@ -472,10 +472,10 @@ extension Config {
             self.tags = tags
             self.resourceId = resourceId
             self.configuration = configuration
-            self.configurationItemStatus = configurationItemStatus
-            self.availabilityZone = availabilityZone
             self.relationships = relationships
+            self.availabilityZone = availabilityZone
             self.arn = arn
+            self.configurationItemStatus = configurationItemStatus
             self.configurationItemCaptureTime = configurationItemCaptureTime
             self.version = version
             self.accountId = accountId
@@ -597,10 +597,10 @@ extension Config {
         public let _payload: String? = nil
         /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
         public var complianceType: String = ""
-        /// The ID of the AWS resource that was evaluated.
-        public var complianceResourceId: String = ""
         /// The type of AWS resource that was evaluated.
         public var complianceResourceType: String = ""
+        /// The ID of the AWS resource that was evaluated.
+        public var complianceResourceId: String = ""
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
         public var orderingTimestamp: Date = Date()
         /// Supplementary information about how the evaluation determined the compliance.
@@ -608,10 +608,10 @@ extension Config {
 
         public init() {}
 
-        public init(complianceType: String, complianceResourceId: String, complianceResourceType: String, orderingTimestamp: Date, annotation: String? = nil) {
+        public init(complianceType: String, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: Date, annotation: String? = nil) {
             self.complianceType = complianceType
-            self.complianceResourceId = complianceResourceId
             self.complianceResourceType = complianceResourceType
+            self.complianceResourceId = complianceResourceId
             self.orderingTimestamp = orderingTimestamp
             self.annotation = annotation
         }
@@ -635,14 +635,14 @@ extension Config {
     public struct ConfigRule: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
-        public var configRuleName: String? = nil
         /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the Config rule. AWS Config sets the state of a rule to DELETING temporarily after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
         public var configRuleState: String? = nil
-        /// The ID of the AWS Config rule.
-        public var configRuleId: String? = nil
+        /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
+        public var configRuleName: String? = nil
         /// A string in JSON format that is passed to the AWS Config rule Lambda function.
         public var inputParameters: String? = nil
+        /// The ID of the AWS Config rule.
+        public var configRuleId: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public var configRuleArn: String? = nil
         /// Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
@@ -656,11 +656,11 @@ extension Config {
 
         public init() {}
 
-        public init(configRuleName: String? = nil, configRuleState: String? = nil, configRuleId: String? = nil, inputParameters: String? = nil, configRuleArn: String? = nil, source: Source, scope: Scope? = nil, maximumExecutionFrequency: String? = nil, description: String? = nil) {
-            self.configRuleName = configRuleName
+        public init(configRuleState: String? = nil, configRuleName: String? = nil, inputParameters: String? = nil, configRuleId: String? = nil, configRuleArn: String? = nil, source: Source, scope: Scope? = nil, maximumExecutionFrequency: String? = nil, description: String? = nil) {
             self.configRuleState = configRuleState
-            self.configRuleId = configRuleId
+            self.configRuleName = configRuleName
             self.inputParameters = inputParameters
+            self.configRuleId = configRuleId
             self.configRuleArn = configRuleArn
             self.source = source
             self.scope = scope

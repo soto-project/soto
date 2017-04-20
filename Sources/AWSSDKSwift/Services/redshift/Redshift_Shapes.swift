@@ -901,26 +901,26 @@ extension Redshift {
         public var clusterSecurityGroups: [String]? = nil
         /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public var snapshotClusterIdentifier: String? = nil
-        /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds2.xlarge into ds1.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide 
-        public var nodeType: String? = nil
         /// The AWS customer account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public var ownerAccount: String? = nil
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
         public var vpcSecurityGroupIds: [String]? = nil
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public var enhancedVpcRouting: Bool? = nil
+        /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds2.xlarge into ds1.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide 
+        public var nodeType: String? = nil
         /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public var clusterIdentifier: String = ""
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public var clusterParameterGroupName: String? = nil
+        /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-1a 
+        public var availabilityZone: String? = nil
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public var automatedSnapshotRetentionPeriod: Int32? = nil
         /// If true, the cluster can be accessed from a public network. 
         public var publiclyAccessible: Bool? = nil
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public var hsmConfigurationIdentifier: String? = nil
-        /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-1a 
-        public var availabilityZone: String? = nil
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated at any time.
         public var iamRoles: [String]? = nil
         /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. Example: my-snapshot-id 
@@ -944,19 +944,19 @@ extension Redshift {
 
         public init() {}
 
-        public init(clusterSecurityGroups: [String]? = nil, snapshotClusterIdentifier: String? = nil, nodeType: String? = nil, ownerAccount: String? = nil, vpcSecurityGroupIds: [String]? = nil, enhancedVpcRouting: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, publiclyAccessible: Bool? = nil, hsmConfigurationIdentifier: String? = nil, availabilityZone: String? = nil, iamRoles: [String]? = nil, snapshotIdentifier: String, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
+        public init(clusterSecurityGroups: [String]? = nil, snapshotClusterIdentifier: String? = nil, ownerAccount: String? = nil, vpcSecurityGroupIds: [String]? = nil, enhancedVpcRouting: Bool? = nil, nodeType: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, availabilityZone: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, publiclyAccessible: Bool? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, snapshotIdentifier: String, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
-            self.nodeType = nodeType
             self.ownerAccount = ownerAccount
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.nodeType = nodeType
             self.clusterIdentifier = clusterIdentifier
             self.clusterParameterGroupName = clusterParameterGroupName
+            self.availabilityZone = availabilityZone
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.publiclyAccessible = publiclyAccessible
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
-            self.availabilityZone = availabilityZone
             self.iamRoles = iamRoles
             self.snapshotIdentifier = snapshotIdentifier
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
@@ -1161,10 +1161,10 @@ extension Redshift {
         public var allowedValues: String? = nil
         /// The data type of the parameter.
         public var dataType: String? = nil
-        /// Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the configuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
-        public var applyType: String? = nil
         /// The name of the parameter.
         public var parameterName: String? = nil
+        /// Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the configuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
+        public var applyType: String? = nil
         /// The source of the parameter value, such as "engine-default" or "user".
         public var source: String? = nil
         /// If true, the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. 
@@ -1176,12 +1176,12 @@ extension Redshift {
 
         public init() {}
 
-        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, applyType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, description: String? = nil) {
+        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, description: String? = nil) {
             self.parameterValue = parameterValue
             self.allowedValues = allowedValues
             self.dataType = dataType
-            self.applyType = applyType
             self.parameterName = parameterName
+            self.applyType = applyType
             self.source = source
             self.isModifiable = isModifiable
             self.minimumEngineVersion = minimumEngineVersion
@@ -1385,10 +1385,10 @@ extension Redshift {
         public let _payload: String? = nil
         /// A description of the status of the table restore request. Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
         public var message: String? = nil
-        /// The name of the source schema that contains the table being restored.
-        public var sourceSchemaName: String? = nil
         /// The amount of data restored to the new table so far, in megabytes (MB).
         public var progressInMegaBytes: Int64? = nil
+        /// The name of the source schema that contains the table being restored.
+        public var sourceSchemaName: String? = nil
         /// The identifier of the Amazon Redshift cluster that the table is being restored to.
         public var clusterIdentifier: String? = nil
         /// The name of the database to restore the table to.
@@ -1414,10 +1414,10 @@ extension Redshift {
 
         public init() {}
 
-        public init(message: String? = nil, sourceSchemaName: String? = nil, progressInMegaBytes: Int64? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: Date? = nil, tableRestoreRequestId: String? = nil, status: String? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
+        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: Date? = nil, tableRestoreRequestId: String? = nil, status: String? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
             self.message = message
-            self.sourceSchemaName = sourceSchemaName
             self.progressInMegaBytes = progressInMegaBytes
+            self.sourceSchemaName = sourceSchemaName
             self.clusterIdentifier = clusterIdentifier
             self.targetDatabaseName = targetDatabaseName
             self.totalDataInMegaBytes = totalDataInMegaBytes
@@ -2008,12 +2008,12 @@ extension Redshift {
         public var dBName: String? = nil
         /// The version ID of the Amazon Redshift engine that is running on the cluster.
         public var clusterVersion: String? = nil
+        /// If true, the data in the snapshot is encrypted at rest.
+        public var encrypted: Bool? = nil
         /// The number of megabytes per second being transferred to the snapshot backup. Returns 0 for a completed backup. 
         public var currentBackupRateInMegaBytesPerSecond: Double? = nil
         /// For manual snapshots, the AWS customer account used to create or copy the snapshot. For automatic snapshots, the owner of the cluster. The owner can perform all snapshot actions, such as sharing a manual snapshot.
         public var ownerAccount: String? = nil
-        /// If true, the data in the snapshot is encrypted at rest.
-        public var encrypted: Bool? = nil
         /// The number of megabytes that have been transferred to the snapshot backup.
         public var backupProgressInMegaBytes: Double? = nil
         /// The list of node types that this cluster snapshot is able to restore into.
@@ -2063,13 +2063,13 @@ extension Redshift {
 
         public init() {}
 
-        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, encrypted: Bool? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: [String]? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: Date? = nil, accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: [Tag]? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: Date? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
+        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: [String]? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: Date? = nil, accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: [Tag]? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: Date? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.dBName = dBName
             self.clusterVersion = clusterVersion
+            self.encrypted = encrypted
             self.currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecond
             self.ownerAccount = ownerAccount
-            self.encrypted = encrypted
             self.backupProgressInMegaBytes = backupProgressInMegaBytes
             self.restorableNodeTypes = restorableNodeTypes
             self.enhancedVpcRouting = enhancedVpcRouting
@@ -2308,10 +2308,10 @@ extension Redshift {
         public var clusterVersion: String? = nil
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
         public var newClusterIdentifier: String? = nil
-        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values:  ds1.xlarge | ds1.8xlarge |  ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge.
-        public var nodeType: String? = nil
         /// A list of virtual private cloud (VPC) security groups to be associated with the cluster.
         public var vpcSecurityGroupIds: [String]? = nil
+        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values:  ds1.xlarge | ds1.8xlarge |  ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge.
+        public var nodeType: String? = nil
         /// The new cluster type. When you submit your cluster resize request, your existing cluster goes into a read-only mode. After Amazon Redshift provisions a new cluster based on your resize requirements, there will be outage for a period while the old cluster is deleted and your connection is switched to the new cluster. You can use DescribeResize to track the progress of the resize request.  Valid Values:  multi-node | single-node  
         public var clusterType: String? = nil
         /// The unique identifier of the cluster to be modified. Example: examplecluster 
@@ -2341,12 +2341,12 @@ extension Redshift {
 
         public init() {}
 
-        public init(clusterSecurityGroups: [String]? = nil, clusterVersion: String? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, vpcSecurityGroupIds: [String]? = nil, clusterType: String? = nil, clusterIdentifier: String, enhancedVpcRouting: Bool? = nil, masterUserPassword: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, hsmConfigurationIdentifier: String? = nil, publiclyAccessible: Bool? = nil, clusterParameterGroupName: String? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, allowVersionUpgrade: Bool? = nil, numberOfNodes: Int32? = nil) {
+        public init(clusterSecurityGroups: [String]? = nil, clusterVersion: String? = nil, newClusterIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil, nodeType: String? = nil, clusterType: String? = nil, clusterIdentifier: String, enhancedVpcRouting: Bool? = nil, masterUserPassword: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, hsmConfigurationIdentifier: String? = nil, publiclyAccessible: Bool? = nil, clusterParameterGroupName: String? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, allowVersionUpgrade: Bool? = nil, numberOfNodes: Int32? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.clusterVersion = clusterVersion
             self.newClusterIdentifier = newClusterIdentifier
-            self.nodeType = nodeType
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.nodeType = nodeType
             self.clusterType = clusterType
             self.clusterIdentifier = clusterIdentifier
             self.enhancedVpcRouting = enhancedVpcRouting
@@ -2593,12 +2593,12 @@ extension Redshift {
     public struct Cluster: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// The nodes in the cluster.
         public var clusterNodes: [ClusterNode]? = nil
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default. 
         public var dBName: String? = nil
-        /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
-        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// The version ID of the Amazon Redshift engine that is running on the cluster.
         public var clusterVersion: String? = nil
         /// A Boolean value that, if true, indicates that data in the cluster is encrypted at rest.
@@ -2662,10 +2662,10 @@ extension Redshift {
 
         public init() {}
 
-        public init(clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: [ClusterIamRole]? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, tags: [Tag]? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: Date? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
+        public init(vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: [ClusterIamRole]? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, tags: [Tag]? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: Date? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
+            self.vpcSecurityGroups = vpcSecurityGroups
             self.clusterNodes = clusterNodes
             self.dBName = dBName
-            self.vpcSecurityGroups = vpcSecurityGroups
             self.clusterVersion = clusterVersion
             self.encrypted = encrypted
             self.clusterIdentifier = clusterIdentifier

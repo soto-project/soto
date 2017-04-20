@@ -57,14 +57,14 @@ public struct Lambda {
         return try client.send(operation: "GetEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes the specified Lambda function code and configuration. If you are using the versioning feature and you don't specify a function version in your DeleteFunction request, AWS Lambda will delete the function, including all its versions, and any aliases pointing to the function versions. To delete a specific function version, you must provide the function version via the Qualifier parameter. For information about function versioning, see AWS Lambda Function Versioning and Aliases.  When you delete a function the associated resource policy is also deleted. You will need to delete the event source mappings explicitly. This operation requires permission for the lambda:DeleteFunction action.
-    public func deleteFunction(_ input: DeleteFunctionRequest) throws {
-        _ = try client.send(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "DELETE", input: input)
-    }
-
     ///  Updates the configuration parameters for the specified Lambda function by using the values provided in the request. You provide only the parameters you want to change. This operation must only be used on an existing Lambda function and cannot be used to update the function's code. If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:UpdateFunctionConfiguration action.
     public func updateFunctionConfiguration(_ input: UpdateFunctionConfigurationRequest) throws -> FunctionConfiguration {
         return try client.send(operation: "UpdateFunctionConfiguration", path: "/2015-03-31/functions/{FunctionName}/configuration", httpMethod: "PUT", input: input)
+    }
+
+    ///  Deletes the specified Lambda function code and configuration. If you are using the versioning feature and you don't specify a function version in your DeleteFunction request, AWS Lambda will delete the function, including all its versions, and any aliases pointing to the function versions. To delete a specific function version, you must provide the function version via the Qualifier parameter. For information about function versioning, see AWS Lambda Function Versioning and Aliases.  When you delete a function the associated resource policy is also deleted. You will need to delete the event source mappings explicitly. This operation requires permission for the lambda:DeleteFunction action.
+    public func deleteFunction(_ input: DeleteFunctionRequest) throws {
+        _ = try client.send(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes an event source mapping. This means AWS Lambda will no longer invoke the function for events in the associated source. This operation requires permission for the lambda:DeleteEventSourceMapping action.

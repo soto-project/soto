@@ -72,14 +72,14 @@ public struct Apigateway {
         return try client.send(operation: "GetAccount", path: "/account", httpMethod: "GET", input: input)
     }
 
-    ///  
-    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
-        return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
-    }
-
     ///  Gets information about the current ApiKeys resource.
     public func getApiKeys(_ input: GetApiKeysRequest) throws -> ApiKeys {
         return try client.send(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", input: input)
+    }
+
+    ///  
+    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
+        return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
     }
 
     ///  Changes information about a Resource resource.
@@ -87,14 +87,14 @@ public struct Apigateway {
         return try client.send(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "PATCH", input: input)
     }
 
-    ///  
-    public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
-        _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
-    }
-
     ///  Changes information about the BasePathMapping resource.
     public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest) throws -> BasePathMapping {
         return try client.send(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Updates an existing Authorizer resource. AWS CLI
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) throws -> Authorizer {
+        return try client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Represents a delete integration.
@@ -122,14 +122,14 @@ public struct Apigateway {
         return try client.send(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates an existing Authorizer resource. AWS CLI
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) throws -> Authorizer {
-        return try client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input)
-    }
-
     ///  Describe an existing Method resource.
     public func getMethod(_ input: GetMethodRequest) throws -> Method {
         return try client.send(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", input: input)
+    }
+
+    ///  
+    public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
+        _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
     }
 
     ///  

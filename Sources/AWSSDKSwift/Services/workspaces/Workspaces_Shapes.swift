@@ -575,9 +575,9 @@ extension Workspaces {
         public var state: String? = nil
         /// Specifies whether the data stored on the root volume, or C: drive, is encrypted.
         public var rootVolumeEncryptionEnabled: Bool? = nil
-        public var workspaceProperties: WorkspaceProperties? = nil
         /// The identifier of the AWS Directory Service directory that the WorkSpace belongs to.
         public var directoryId: String? = nil
+        public var workspaceProperties: WorkspaceProperties? = nil
         /// The name of the WorkSpace as seen by the operating system.
         public var computerName: String? = nil
         /// If the WorkSpace could not be created, this contains a textual error message that describes the failure.
@@ -597,13 +597,13 @@ extension Workspaces {
 
         public init() {}
 
-        public init(subnetId: String? = nil, userName: String? = nil, state: String? = nil, rootVolumeEncryptionEnabled: Bool? = nil, workspaceProperties: WorkspaceProperties? = nil, directoryId: String? = nil, computerName: String? = nil, errorMessage: String? = nil, errorCode: String? = nil, bundleId: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, workspaceId: String? = nil, volumeEncryptionKey: String? = nil, ipAddress: String? = nil) {
+        public init(subnetId: String? = nil, userName: String? = nil, state: String? = nil, rootVolumeEncryptionEnabled: Bool? = nil, directoryId: String? = nil, workspaceProperties: WorkspaceProperties? = nil, computerName: String? = nil, errorMessage: String? = nil, errorCode: String? = nil, bundleId: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, workspaceId: String? = nil, volumeEncryptionKey: String? = nil, ipAddress: String? = nil) {
             self.subnetId = subnetId
             self.userName = userName
             self.state = state
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
-            self.workspaceProperties = workspaceProperties
             self.directoryId = directoryId
+            self.workspaceProperties = workspaceProperties
             self.computerName = computerName
             self.errorMessage = errorMessage
             self.errorCode = errorCode

@@ -73,14 +73,14 @@ public struct Organizations {
         return try client.send(operation: "DescribeHandshake", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Moves an account from its current source parent root or OU to the specified destination parent root or OU. This operation can be called only from the organization's master account.
-    public func moveAccount(_ input: MoveAccountRequest) throws {
-        _ = try client.send(operation: "MoveAccount", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Lists the account creation requests that match the specified status that is currently being tracked for the organization. This operation can be called only from the organization's master account.
     public func listCreateAccountStatus(_ input: ListCreateAccountStatusRequest) throws -> ListCreateAccountStatusResponse {
         return try client.send(operation: "ListCreateAccountStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Moves an account from its current source parent root or OU to the specified destination parent root or OU. This operation can be called only from the organization's master account.
+    public func moveAccount(_ input: MoveAccountRequest) throws {
+        _ = try client.send(operation: "MoveAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. This operation can be called only from the organization's master account.
@@ -118,9 +118,39 @@ public struct Organizations {
         return try client.send(operation: "EnableAllFeatures", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the current handshakes that are associated with the account of the requesting user. This operation can be called from any account in the organization.
+    public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest) throws -> ListHandshakesForAccountResponse {
+        return try client.send(operation: "ListHandshakesForAccount", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the organization. You can delete an organization only by using credentials from the master account. The organization must be empty of member accounts, OUs, and policies.  If you create any accounts using Organizations operations or the Organizations console, you can't remove those accounts from the organization, which means that you can't delete the organization. 
+    public func deleteOrganization() throws {
+        _ = try client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST")
+    }
+
+    ///  Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response. This operation can be called only from the organization's master account.
+    public func inviteAccountToOrganization(_ input: InviteAccountToOrganizationRequest) throws -> InviteAccountToOrganizationResponse {
+        return try client.send(operation: "InviteAccountToOrganization", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates an existing policy with a new name, description, or content. If any parameter is not supplied, that value remains unchanged. Note that you cannot change a policy's type. This operation can be called only from the organization's master account.
     public func updatePolicy(_ input: UpdatePolicyRequest) throws -> UpdatePolicyResponse {
         return try client.send(operation: "UpdatePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disables an organizational control policy type in a root. A poicy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any OU or account in that root. You can undo this by using the EnablePolicyType operation. This operation can be called only from the organization's master account.
+    public func disablePolicyType(_ input: DisablePolicyTypeRequest) throws -> DisablePolicyTypeResponse {
+        return try client.send(operation: "DisablePolicyType", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves information about an organizational unit (OU). This operation can be called only from the organization's master account.
+    public func describeOrganizationalUnit(_ input: DescribeOrganizationalUnitRequest) throws -> DescribeOrganizationalUnitResponse {
+        return try client.send(operation: "DescribeOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified account from the organization. The removed account becomes a stand-alone account that is not a member of any organization. It is no longer subject to any policies and is responsible for its own bill payments. The organization's master account is no longer charged for any expenses accrued by the member account after it is removed from the organization. This operation can be called only from the organization's master account. Member accounts can remove themselves with LeaveOrganization instead.  You can remove only existing accounts that were invited to join the organization. You cannot remove accounts that were created by AWS Organizations. 
+    public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) throws {
+        _ = try client.send(operation: "RemoveAccountFromOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Renames the specified organizational unit (OU). The ID and ARN do not change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached.  This operation can be called only from the organization's master account.
@@ -136,36 +166,6 @@ public struct Organizations {
     ///  Retrieves the list of all policies in an organization of a specified type. This operation can be called only from the organization's master account.
     public func listPolicies(_ input: ListPoliciesRequest) throws -> ListPoliciesResponse {
         return try client.send(operation: "ListPolicies", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the current handshakes that are associated with the account of the requesting user. This operation can be called from any account in the organization.
-    public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest) throws -> ListHandshakesForAccountResponse {
-        return try client.send(operation: "ListHandshakesForAccount", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the organization. You can delete an organization only by using credentials from the master account. The organization must be empty of member accounts, OUs, and policies.  If you create any accounts using Organizations operations or the Organizations console, you can't remove those accounts from the organization, which means that you can't delete the organization. 
-    public func deleteOrganization() throws {
-        _ = try client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST")
-    }
-
-    ///  Removes the specified account from the organization. The removed account becomes a stand-alone account that is not a member of any organization. It is no longer subject to any policies and is responsible for its own bill payments. The organization's master account is no longer charged for any expenses accrued by the member account after it is removed from the organization. This operation can be called only from the organization's master account. Member accounts can remove themselves with LeaveOrganization instead.  You can remove only existing accounts that were invited to join the organization. You cannot remove accounts that were created by AWS Organizations. 
-    public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) throws {
-        _ = try client.send(operation: "RemoveAccountFromOrganization", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disables an organizational control policy type in a root. A poicy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any OU or account in that root. You can undo this by using the EnablePolicyType operation. This operation can be called only from the organization's master account.
-    public func disablePolicyType(_ input: DisablePolicyTypeRequest) throws -> DisablePolicyTypeResponse {
-        return try client.send(operation: "DisablePolicyType", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response. This operation can be called only from the organization's master account.
-    public func inviteAccountToOrganization(_ input: InviteAccountToOrganizationRequest) throws -> InviteAccountToOrganizationResponse {
-        return try client.send(operation: "InviteAccountToOrganization", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves information about an organizational unit (OU). This operation can be called only from the organization's master account.
-    public func describeOrganizationalUnit(_ input: DescribeOrganizationalUnitRequest) throws -> DescribeOrganizationalUnitResponse {
-        return try client.send(operation: "DescribeOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS organization. The account whose user is calling the CreateOrganization operation automatically becomes the master account of the new organization. This operation must be called using credentials from the account that is to become the new organization's master account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING", then no policy types are enabled by default and you cannot use organization policies.

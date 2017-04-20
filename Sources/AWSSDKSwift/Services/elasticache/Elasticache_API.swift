@@ -137,11 +137,6 @@ public struct Elasticache {
         return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the settings for a cache cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
-    public func modifyCacheCluster(_ input: ModifyCacheClusterMessage) throws -> ModifyCacheClusterResult {
-        return try client.send(operation: "ModifyCacheCluster", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates a cache cluster. All nodes in the cache cluster run the same protocol-compliant cache engine software, either Memcached or Redis.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
     public func createCacheCluster(_ input: CreateCacheClusterMessage) throws -> CreateCacheClusterResult {
         return try client.send(operation: "CreateCacheCluster", path: "/", httpMethod: "POST", input: input)
@@ -150,6 +145,11 @@ public struct Elasticache {
     ///  Modifies the settings for a replication group.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups.   This operation is valid for Redis only. 
     public func modifyReplicationGroup(_ input: ModifyReplicationGroupMessage) throws -> ModifyReplicationGroupResult {
         return try client.send(operation: "ModifyReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the settings for a cache cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
+    public func modifyCacheCluster(_ input: ModifyCacheClusterMessage) throws -> ModifyCacheClusterResult {
+        return try client.send(operation: "ModifyCacheCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new cache security group. Use a cache security group to control access to one or more cache clusters. Cache security groups are only used when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cache cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.

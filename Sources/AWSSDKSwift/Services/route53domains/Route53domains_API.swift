@@ -68,6 +68,11 @@ public struct Route53domains {
         return try client.send(operation: "DisableDomainAutoRenew", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name.
+    public func checkDomainAvailability(_ input: CheckDomainAvailabilityRequest) throws -> CheckDomainAvailabilityResponse {
+        return try client.send(operation: "CheckDomainAvailability", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations may not immediately represent all issued operations.
     public func updateTagsForDomain(_ input: UpdateTagsForDomainRequest) throws -> UpdateTagsForDomainResponse {
         return try client.send(operation: "UpdateTagsForDomain", path: "/", httpMethod: "POST", input: input)
@@ -101,11 +106,6 @@ public struct Route53domains {
     ///  For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact. 
     public func resendContactReachabilityEmail(_ input: ResendContactReachabilityEmailRequest) throws -> ResendContactReachabilityEmailResponse {
         return try client.send(operation: "ResendContactReachabilityEmail", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name.
-    public func checkDomainAvailability(_ input: CheckDomainAvailabilityRequest) throws -> CheckDomainAvailabilityResponse {
-        return try client.send(operation: "CheckDomainAvailability", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  This operation returns the operation IDs of operations that are not yet complete.

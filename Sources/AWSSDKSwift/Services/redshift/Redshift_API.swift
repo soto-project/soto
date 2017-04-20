@@ -52,14 +52,14 @@ public struct Redshift {
         return try client.send(operation: "DescribeClusterParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize.  A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. 
-    public func describeResize(_ input: DescribeResizeMessage) throws -> ResizeProgressMessage {
-        return try client.send(operation: "DescribeResize", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see AuthorizeClusterSecurityGroupIngress. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide. 
     public func revokeClusterSecurityGroupIngress(_ input: RevokeClusterSecurityGroupIngressMessage) throws -> RevokeClusterSecurityGroupIngressResult {
         return try client.send(operation: "RevokeClusterSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize.  A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. 
+    public func describeResize(_ input: DescribeResizeMessage) throws -> ResizeProgressMessage {
+        return try client.send(operation: "DescribeResize", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the automatic copying of snapshots from one region to another region for a specified cluster. If your cluster and its snapshots are encrypted using a customer master key (CMK) from AWS KMS, use DeleteSnapshotCopyGrant to delete the grant that grants Amazon Redshift permission to the CMK in the destination region. 

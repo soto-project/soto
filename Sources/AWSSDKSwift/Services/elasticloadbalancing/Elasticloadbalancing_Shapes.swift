@@ -106,14 +106,6 @@ extension Elasticloadbalancing {
 
     }
 
-    public struct DeleteLoadBalancerOutput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-
-        public init() {}
-
-    }
-
     public struct DeleteListenerInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -124,6 +116,28 @@ extension Elasticloadbalancing {
 
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
+        }
+
+    }
+
+    public struct DeleteLoadBalancerOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+
+        public init() {}
+
+    }
+
+    public struct DescribeTargetGroupAttributesInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The Amazon Resource Name (ARN) of the target group.
+        public var targetGroupArn: String = ""
+
+        public init() {}
+
+        public init(targetGroupArn: String) {
+            self.targetGroupArn = targetGroupArn
         }
 
     }
@@ -140,20 +154,6 @@ extension Elasticloadbalancing {
 
         public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
             self.attributes = attributes
-            self.targetGroupArn = targetGroupArn
-        }
-
-    }
-
-    public struct DescribeTargetGroupAttributesInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
-
-        public init(targetGroupArn: String) {
             self.targetGroupArn = targetGroupArn
         }
 
@@ -356,10 +356,10 @@ extension Elasticloadbalancing {
         public let _payload: String? = nil
         /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
         public var certificates: [Certificate]? = nil
-        /// The protocol for connections from clients to the load balancer.
-        public var `protocol`: String? = nil
         /// The Amazon Resource Name (ARN) of the listener.
         public var listenerArn: String? = nil
+        /// The protocol for connections from clients to the load balancer.
+        public var `protocol`: String? = nil
         /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public var sslPolicy: String? = nil
         /// The default actions for the listener.
@@ -371,10 +371,10 @@ extension Elasticloadbalancing {
 
         public init() {}
 
-        public init(certificates: [Certificate]? = nil, protocol: String? = nil, listenerArn: String? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, port: Int32? = nil) {
+        public init(certificates: [Certificate]? = nil, listenerArn: String? = nil, protocol: String? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, port: Int32? = nil) {
             self.certificates = certificates
-            self.`protocol` = `protocol`
             self.listenerArn = listenerArn
+            self.`protocol` = `protocol`
             self.sslPolicy = sslPolicy
             self.defaultActions = defaultActions
             self.loadBalancerArn = loadBalancerArn
@@ -414,10 +414,10 @@ extension Elasticloadbalancing {
     public struct ModifyTargetGroupInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public var healthyThresholdCount: Int32? = nil
         /// The protocol to use to connect with the target.
         public var healthCheckProtocol: String? = nil
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
+        public var healthyThresholdCount: Int32? = nil
         /// The Amazon Resource Name (ARN) of the target group.
         public var targetGroupArn: String = ""
         /// The HTTP codes to use when checking for a successful response from a target.
@@ -435,9 +435,9 @@ extension Elasticloadbalancing {
 
         public init() {}
 
-        public init(healthyThresholdCount: Int32? = nil, healthCheckProtocol: String? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
-            self.healthyThresholdCount = healthyThresholdCount
+        public init(healthCheckProtocol: String? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
             self.healthCheckProtocol = healthCheckProtocol
+            self.healthyThresholdCount = healthyThresholdCount
             self.targetGroupArn = targetGroupArn
             self.matcher = matcher
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -1343,16 +1343,16 @@ extension Elasticloadbalancing {
         public let _payload: String? = nil
         /// The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
         public var unhealthyThresholdCount: Int32? = nil
-        /// The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
-        public var healthCheckProtocol: String? = nil
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
         public var healthyThresholdCount: Int32? = nil
+        /// The identifier of the virtual private cloud (VPC).
+        public var vpcId: String = ""
+        /// The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
+        public var healthCheckProtocol: String? = nil
         /// The name of the target group.
         public var name: String = ""
         /// The protocol to use for routing traffic to the targets.
         public var `protocol`: String = ""
-        /// The identifier of the virtual private cloud (VPC).
-        public var vpcId: String = ""
         /// The HTTP codes to use when checking for a successful response from a target. The default is 200.
         public var matcher: Matcher? = nil
         /// The approximate amount of time, in seconds, between health checks of an individual target. The default is 30 seconds.
@@ -1368,13 +1368,13 @@ extension Elasticloadbalancing {
 
         public init() {}
 
-        public init(unhealthyThresholdCount: Int32? = nil, healthCheckProtocol: String? = nil, healthyThresholdCount: Int32? = nil, name: String, protocol: String, vpcId: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckTimeoutSeconds: Int32? = nil, port: Int32) {
+        public init(unhealthyThresholdCount: Int32? = nil, healthyThresholdCount: Int32? = nil, vpcId: String, healthCheckProtocol: String? = nil, name: String, protocol: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckTimeoutSeconds: Int32? = nil, port: Int32) {
             self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.healthCheckProtocol = healthCheckProtocol
             self.healthyThresholdCount = healthyThresholdCount
+            self.vpcId = vpcId
+            self.healthCheckProtocol = healthCheckProtocol
             self.name = name
             self.`protocol` = `protocol`
-            self.vpcId = vpcId
             self.matcher = matcher
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath

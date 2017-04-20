@@ -668,6 +668,23 @@ extension Storagegateway {
 
     }
 
+    public struct UpdateChapCredentialsOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
+        public var targetARN: String? = nil
+        /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
+        public var initiatorName: String? = nil
+
+        public init() {}
+
+        public init(targetARN: String? = nil, initiatorName: String? = nil) {
+            self.targetARN = targetARN
+            self.initiatorName = initiatorName
+        }
+
+    }
+
     public struct ActivateGatewayInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -707,10 +724,10 @@ extension Storagegateway {
         public var kMSEncrypted: Bool? = nil
         public var fileShareStatus: String? = nil
         public var gatewayARN: String? = nil
-        public var path: String? = nil
+        public var kMSKey: String? = nil
         public var fileShareId: String? = nil
         public var role: String? = nil
-        public var kMSKey: String? = nil
+        public var path: String? = nil
         public var nFSFileShareDefaults: NFSFileShareDefaults? = nil
         public var clientList: [String]? = nil
         public var fileShareARN: String? = nil
@@ -720,14 +737,14 @@ extension Storagegateway {
 
         public init() {}
 
-        public init(kMSEncrypted: Bool? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, path: String? = nil, fileShareId: String? = nil, role: String? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, fileShareARN: String? = nil, locationARN: String? = nil, defaultStorageClass: String? = nil) {
+        public init(kMSEncrypted: Bool? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, kMSKey: String? = nil, fileShareId: String? = nil, role: String? = nil, path: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, fileShareARN: String? = nil, locationARN: String? = nil, defaultStorageClass: String? = nil) {
             self.kMSEncrypted = kMSEncrypted
             self.fileShareStatus = fileShareStatus
             self.gatewayARN = gatewayARN
-            self.path = path
+            self.kMSKey = kMSKey
             self.fileShareId = fileShareId
             self.role = role
-            self.kMSKey = kMSKey
+            self.path = path
             self.nFSFileShareDefaults = nFSFileShareDefaults
             self.clientList = clientList
             self.fileShareARN = fileShareARN
@@ -750,23 +767,6 @@ extension Storagegateway {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
-        }
-
-    }
-
-    public struct UpdateChapCredentialsOutput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
-        public var targetARN: String? = nil
-        /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
-        public var initiatorName: String? = nil
-
-        public init() {}
-
-        public init(targetARN: String? = nil, initiatorName: String? = nil) {
-            self.targetARN = targetARN
-            self.initiatorName = initiatorName
         }
 
     }
@@ -1214,10 +1214,10 @@ extension Storagegateway {
         public let _payload: String? = nil
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional. 
         public var kMSKey: String? = nil
-        /// The Amazon Resource Name (ARN) of the file share to be updated. 
-        public var fileShareARN: String = ""
         /// The default values for the file share. Optional.
         public var nFSFileShareDefaults: NFSFileShareDefaults? = nil
+        /// The Amazon Resource Name (ARN) of the file share to be updated. 
+        public var fileShareARN: String = ""
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public var clientList: [String]? = nil
         /// The default storage class for objects put into an Amazon S3 bucket by a file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
@@ -1227,10 +1227,10 @@ extension Storagegateway {
 
         public init() {}
 
-        public init(kMSKey: String? = nil, fileShareARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
+        public init(kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, fileShareARN: String, clientList: [String]? = nil, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
             self.kMSKey = kMSKey
-            self.fileShareARN = fileShareARN
             self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.fileShareARN = fileShareARN
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
             self.kMSEncrypted = kMSEncrypted

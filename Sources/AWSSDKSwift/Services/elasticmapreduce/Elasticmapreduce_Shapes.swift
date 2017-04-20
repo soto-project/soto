@@ -704,10 +704,10 @@ extension Elasticmapreduce {
         public let _payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
         public var targetOnDemandCapacity: Int32? = nil
-        /// The launch specification for the instance fleet.
-        public var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
         /// The instance type configurations that define the EC2 instances in the instance fleet.
         public var instanceTypeConfigs: [InstanceTypeConfig]? = nil
+        /// The launch specification for the instance fleet.
+        public var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
         /// The friendly name of the instance fleet.
         public var name: String? = nil
         /// The node type that the instance fleet hosts. Valid values are MASTER,CORE,and TASK.
@@ -717,10 +717,10 @@ extension Elasticmapreduce {
 
         public init() {}
 
-        public init(targetOnDemandCapacity: Int32? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, name: String? = nil, instanceFleetType: String, targetSpotCapacity: Int32? = nil) {
+        public init(targetOnDemandCapacity: Int32? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, instanceFleetType: String, targetSpotCapacity: Int32? = nil) {
             self.targetOnDemandCapacity = targetOnDemandCapacity
-            self.launchSpecifications = launchSpecifications
             self.instanceTypeConfigs = instanceTypeConfigs
+            self.launchSpecifications = launchSpecifications
             self.name = name
             self.instanceFleetType = instanceFleetType
             self.targetSpotCapacity = targetSpotCapacity
@@ -932,16 +932,16 @@ extension Elasticmapreduce {
         public let _payload: String? = nil
         /// The identifier of the Amazon EC2 security group for the slave nodes.
         public var emrManagedSlaveSecurityGroup: String? = nil
+        /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
+        public var iamInstanceProfile: String? = nil
+        /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
+        public var ec2SubnetId: String? = nil
+        /// The identifier of the Amazon EC2 security group for the master node.
+        public var emrManagedMasterSecurityGroup: String? = nil
         /// Applies to clusters configured with the The list of availability zones to choose from. The service will choose the availability zone with the best mix of available capacity and lowest cost to launch the cluster. If you do not specify this value, the cluster is launched in any availability zone that the customer account has access to.
         public var requestedEc2AvailabilityZones: [String]? = nil
         /// A list of additional Amazon EC2 security group IDs for the master node.
         public var additionalMasterSecurityGroups: [String]? = nil
-        /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
-        public var iamInstanceProfile: String? = nil
-        /// The identifier of the Amazon EC2 security group for the master node.
-        public var emrManagedMasterSecurityGroup: String? = nil
-        /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
-        public var ec2SubnetId: String? = nil
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
         public var serviceAccessSecurityGroup: String? = nil
         /// A list of additional Amazon EC2 security group IDs for the slave nodes.
@@ -955,13 +955,13 @@ extension Elasticmapreduce {
 
         public init() {}
 
-        public init(emrManagedSlaveSecurityGroup: String? = nil, requestedEc2AvailabilityZones: [String]? = nil, additionalMasterSecurityGroups: [String]? = nil, iamInstanceProfile: String? = nil, emrManagedMasterSecurityGroup: String? = nil, ec2SubnetId: String? = nil, serviceAccessSecurityGroup: String? = nil, additionalSlaveSecurityGroups: [String]? = nil, requestedEc2SubnetIds: [String]? = nil, ec2AvailabilityZone: String? = nil, ec2KeyName: String? = nil) {
+        public init(emrManagedSlaveSecurityGroup: String? = nil, iamInstanceProfile: String? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil, requestedEc2AvailabilityZones: [String]? = nil, additionalMasterSecurityGroups: [String]? = nil, serviceAccessSecurityGroup: String? = nil, additionalSlaveSecurityGroups: [String]? = nil, requestedEc2SubnetIds: [String]? = nil, ec2AvailabilityZone: String? = nil, ec2KeyName: String? = nil) {
             self.emrManagedSlaveSecurityGroup = emrManagedSlaveSecurityGroup
+            self.iamInstanceProfile = iamInstanceProfile
+            self.ec2SubnetId = ec2SubnetId
+            self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
             self.requestedEc2AvailabilityZones = requestedEc2AvailabilityZones
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
-            self.iamInstanceProfile = iamInstanceProfile
-            self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
-            self.ec2SubnetId = ec2SubnetId
             self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
             self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
             self.requestedEc2SubnetIds = requestedEc2SubnetIds
@@ -1575,10 +1575,10 @@ extension Elasticmapreduce {
     public struct JobFlowInstancesConfig: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
-        public var hadoopVersion: String? = nil
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
         public var instanceFleets: [InstanceFleetConfig]? = nil
+        /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
+        public var hadoopVersion: String? = nil
         /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
         public var ec2SubnetId: String? = nil
         /// The identifier of the Amazon EC2 security group for the master node.
@@ -1612,9 +1612,9 @@ extension Elasticmapreduce {
 
         public init() {}
 
-        public init(hadoopVersion: String? = nil, instanceFleets: [InstanceFleetConfig]? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, ec2KeyName: String? = nil, instanceGroups: [InstanceGroupConfig]? = nil, masterInstanceType: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, additionalMasterSecurityGroups: [String]? = nil, placement: PlacementType? = nil, slaveInstanceType: String? = nil, ec2SubnetIds: [String]? = nil, serviceAccessSecurityGroup: String? = nil, additionalSlaveSecurityGroups: [String]? = nil, instanceCount: Int32? = nil, terminationProtected: Bool? = nil) {
-            self.hadoopVersion = hadoopVersion
+        public init(instanceFleets: [InstanceFleetConfig]? = nil, hadoopVersion: String? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, ec2KeyName: String? = nil, instanceGroups: [InstanceGroupConfig]? = nil, masterInstanceType: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, additionalMasterSecurityGroups: [String]? = nil, placement: PlacementType? = nil, slaveInstanceType: String? = nil, ec2SubnetIds: [String]? = nil, serviceAccessSecurityGroup: String? = nil, additionalSlaveSecurityGroups: [String]? = nil, instanceCount: Int32? = nil, terminationProtected: Bool? = nil) {
             self.instanceFleets = instanceFleets
+            self.hadoopVersion = hadoopVersion
             self.ec2SubnetId = ec2SubnetId
             self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
             self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
@@ -1964,6 +1964,8 @@ extension Elasticmapreduce {
         public let _payload: String? = nil
         /// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
         public var releaseLabel: String? = nil
+        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
+        public var autoScalingRole: String? = nil
         /// The name of the security configuration applied to the cluster.
         public var securityConfiguration: String? = nil
         /// A list of tags associated with a cluster.
@@ -1972,8 +1974,6 @@ extension Elasticmapreduce {
         public var visibleToAllUsers: Bool? = nil
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public var normalizedInstanceHours: Int32? = nil
-        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public var autoScalingRole: String? = nil
         /// The applications installed on this cluster.
         public var applications: [Application]? = nil
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
@@ -2007,13 +2007,13 @@ extension Elasticmapreduce {
 
         public init() {}
 
-        public init(releaseLabel: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil, normalizedInstanceHours: Int32? = nil, autoScalingRole: String? = nil, applications: [Application]? = nil, serviceRole: String? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, instanceCollectionType: String? = nil, id: String? = nil, status: ClusterStatus? = nil, scaleDownBehavior: String? = nil, name: String? = nil, runningAmiVersion: String? = nil, requestedAmiVersion: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, terminationProtected: Bool? = nil, configurations: [Configuration]? = nil, autoTerminate: Bool? = nil) {
+        public init(releaseLabel: String? = nil, autoScalingRole: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil, normalizedInstanceHours: Int32? = nil, applications: [Application]? = nil, serviceRole: String? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, instanceCollectionType: String? = nil, id: String? = nil, status: ClusterStatus? = nil, scaleDownBehavior: String? = nil, name: String? = nil, runningAmiVersion: String? = nil, requestedAmiVersion: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, terminationProtected: Bool? = nil, configurations: [Configuration]? = nil, autoTerminate: Bool? = nil) {
             self.releaseLabel = releaseLabel
+            self.autoScalingRole = autoScalingRole
             self.securityConfiguration = securityConfiguration
             self.tags = tags
             self.visibleToAllUsers = visibleToAllUsers
             self.normalizedInstanceHours = normalizedInstanceHours
-            self.autoScalingRole = autoScalingRole
             self.applications = applications
             self.serviceRole = serviceRole
             self.ec2InstanceAttributes = ec2InstanceAttributes

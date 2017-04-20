@@ -650,17 +650,17 @@ extension S3 {
         /// The key for the payload
         public let _payload: String? = nil
         public var cloudFunction: String? = nil
-        public var events: [String]? = nil
         public var invocationRole: String? = nil
+        public var events: [String]? = nil
         public var event: String? = nil
         public var id: String? = nil
 
         public init() {}
 
-        public init(cloudFunction: String? = nil, events: [String]? = nil, invocationRole: String? = nil, event: String? = nil, id: String? = nil) {
+        public init(cloudFunction: String? = nil, invocationRole: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
             self.cloudFunction = cloudFunction
-            self.events = events
             self.invocationRole = invocationRole
+            self.events = events
             self.event = event
             self.id = id
         }
@@ -1862,16 +1862,16 @@ extension S3 {
         /// The key for the payload
         public let _payload: String? = nil
         public var queryParams: [String: String] {
-            return ["prefix": "Prefix", "upload-id-marker": "UploadIdMarker", "max-uploads": "MaxUploads", "delimiter": "Delimiter", "encoding-type": "EncodingType", "key-marker": "KeyMarker"]
+            return ["upload-id-marker": "UploadIdMarker", "prefix": "Prefix", "max-uploads": "MaxUploads", "delimiter": "Delimiter", "encoding-type": "EncodingType", "key-marker": "KeyMarker"]
         }
         public var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
         public var bucket: String = ""
-        /// Lists in-progress uploads only for those keys that begin with the specified prefix.
-        public var prefix: String? = nil
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
         public var uploadIdMarker: String? = nil
+        /// Lists in-progress uploads only for those keys that begin with the specified prefix.
+        public var prefix: String? = nil
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
         public var maxUploads: Int32? = nil
         /// Character you use to group keys.
@@ -1882,10 +1882,10 @@ extension S3 {
 
         public init() {}
 
-        public init(bucket: String, prefix: String? = nil, uploadIdMarker: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: String? = nil, keyMarker: String? = nil) {
+        public init(bucket: String, uploadIdMarker: String? = nil, prefix: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: String? = nil, keyMarker: String? = nil) {
             self.bucket = bucket
-            self.prefix = prefix
             self.uploadIdMarker = uploadIdMarker
+            self.prefix = prefix
             self.maxUploads = maxUploads
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -1999,10 +1999,10 @@ extension S3 {
         public var isTruncated: Bool? = nil
         /// The key at or after which the listing began.
         public var keyMarker: String? = nil
-        /// Upload ID after which listing began.
-        public var uploadIdMarker: String? = nil
         /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
         public var prefix: String? = nil
+        /// Upload ID after which listing began.
+        public var uploadIdMarker: String? = nil
         public var commonPrefixes: [CommonPrefix]? = nil
         /// Maximum number of multipart uploads that could have been included in the response.
         public var maxUploads: Int32? = nil
@@ -2017,12 +2017,12 @@ extension S3 {
 
         public init() {}
 
-        public init(bucket: String? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, uploadIdMarker: String? = nil, prefix: String? = nil, commonPrefixes: [CommonPrefix]? = nil, maxUploads: Int32? = nil, uploads: [MultipartUpload]? = nil, delimiter: String? = nil, encodingType: String? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil) {
+        public init(bucket: String? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, maxUploads: Int32? = nil, uploads: [MultipartUpload]? = nil, delimiter: String? = nil, encodingType: String? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil) {
             self.bucket = bucket
             self.isTruncated = isTruncated
             self.keyMarker = keyMarker
-            self.uploadIdMarker = uploadIdMarker
             self.prefix = prefix
+            self.uploadIdMarker = uploadIdMarker
             self.commonPrefixes = commonPrefixes
             self.maxUploads = maxUploads
             self.uploads = uploads
@@ -2251,23 +2251,23 @@ extension S3 {
         public let _payload: String? = nil
         /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
         public var exposeHeaders: [String]? = nil
-        /// One or more origins you want customers to be able to access the bucket from.
-        public var allowedOrigins: [String] = []
+        /// Identifies HTTP methods that the domain/origin specified in the rule is allowed to execute.
+        public var allowedMethods: [String] = []
         /// The time in seconds that your browser is to cache the preflight response for the specified resource.
         public var maxAgeSeconds: Int32? = nil
         /// Specifies which headers are allowed in a pre-flight OPTIONS request.
         public var allowedHeaders: [String]? = nil
-        /// Identifies HTTP methods that the domain/origin specified in the rule is allowed to execute.
-        public var allowedMethods: [String] = []
+        /// One or more origins you want customers to be able to access the bucket from.
+        public var allowedOrigins: [String] = []
 
         public init() {}
 
-        public init(exposeHeaders: [String]? = nil, allowedOrigins: [String], maxAgeSeconds: Int32? = nil, allowedHeaders: [String]? = nil, allowedMethods: [String]) {
+        public init(exposeHeaders: [String]? = nil, allowedMethods: [String], maxAgeSeconds: Int32? = nil, allowedHeaders: [String]? = nil, allowedOrigins: [String]) {
             self.exposeHeaders = exposeHeaders
-            self.allowedOrigins = allowedOrigins
+            self.allowedMethods = allowedMethods
             self.maxAgeSeconds = maxAgeSeconds
             self.allowedHeaders = allowedHeaders
-            self.allowedMethods = allowedMethods
+            self.allowedOrigins = allowedOrigins
         }
 
     }
@@ -2889,22 +2889,22 @@ extension S3 {
         public var status: String = ""
         public var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
         public var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
+        public var expiration: LifecycleExpiration? = nil
         /// Prefix identifying one or more objects to which the rule applies. This is deprecated; use Filter instead.
         public var prefix: String? = nil
-        public var expiration: LifecycleExpiration? = nil
         public var transitions: [Transition]? = nil
         public var filter: LifecycleRuleFilter? = nil
         public var noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil
 
         public init() {}
 
-        public init(iD: String? = nil, status: String, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, prefix: String? = nil, expiration: LifecycleExpiration? = nil, transitions: [Transition]? = nil, filter: LifecycleRuleFilter? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil) {
+        public init(iD: String? = nil, status: String, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, prefix: String? = nil, transitions: [Transition]? = nil, filter: LifecycleRuleFilter? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil) {
             self.iD = iD
             self.status = status
             self.noncurrentVersionExpiration = noncurrentVersionExpiration
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
-            self.prefix = prefix
             self.expiration = expiration
+            self.prefix = prefix
             self.transitions = transitions
             self.filter = filter
             self.noncurrentVersionTransitions = noncurrentVersionTransitions
@@ -4604,12 +4604,12 @@ extension S3 {
         public var headerParams: [String: String] {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "ETag": "ETag", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
         }
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
-        /// Version of the object.
-        public var versionId: String? = nil
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
         public var expiration: String? = nil
+        /// Version of the object.
+        public var versionId: String? = nil
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public var sSECustomerKeyMD5: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public var sSEKMSKeyId: String? = nil
         /// Entity tag for the uploaded object.
@@ -4622,10 +4622,10 @@ extension S3 {
 
         public init() {}
 
-        public init(sSECustomerKeyMD5: String? = nil, versionId: String? = nil, expiration: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.versionId = versionId
+        public init(expiration: String? = nil, versionId: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
             self.expiration = expiration
+            self.versionId = versionId
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
             self.sSEKMSKeyId = sSEKMSKeyId
             self.eTag = eTag
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
@@ -4642,15 +4642,15 @@ extension S3 {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
         }
         public var copyObjectResult: CopyObjectResult? = nil
-        /// If the object expiration is configured, the response includes this header.
-        public var expiration: String? = nil
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public var sSECustomerKeyMD5: String? = nil
         /// Version ID of the newly created copy.
         public var versionId: String? = nil
         public var copySourceVersionId: String? = nil
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public var sSEKMSKeyId: String? = nil
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
+        /// If the object expiration is configured, the response includes this header.
+        public var expiration: String? = nil
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public var sSECustomerAlgorithm: String? = nil
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -4659,13 +4659,13 @@ extension S3 {
 
         public init() {}
 
-        public init(copyObjectResult: CopyObjectResult? = nil, expiration: String? = nil, versionId: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerKeyMD5: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
+        public init(copyObjectResult: CopyObjectResult? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, expiration: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
             self.copyObjectResult = copyObjectResult
-            self.expiration = expiration
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
             self.versionId = versionId
             self.copySourceVersionId = copySourceVersionId
             self.sSEKMSKeyId = sSEKMSKeyId
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.expiration = expiration
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.serverSideEncryption = serverSideEncryption
             self.requestCharged = requestCharged

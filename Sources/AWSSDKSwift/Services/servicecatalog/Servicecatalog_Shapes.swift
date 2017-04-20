@@ -294,23 +294,6 @@ extension Servicecatalog {
 
     }
 
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The esired value for this key.
-        public var value: String = ""
-        /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
-        public var key: String = ""
-
-        public init() {}
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-    }
-
     public struct UpdatePortfolioOutput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -324,6 +307,23 @@ extension Servicecatalog {
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The esired value for this key.
+        public var value: String = ""
+        /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
+        public var key: String = ""
+
+        public init() {}
+
+        public init(value: String, key: String) {
+            self.value = value
+            self.key = key
         }
 
     }
@@ -2171,10 +2171,10 @@ extension Servicecatalog {
         public var name: String = ""
         /// The distributor of the product.
         public var distributor: String? = nil
-        /// The type of the product to create.
-        public var productType: String = ""
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public var idempotencyToken: String = ""
+        /// The type of the product to create.
+        public var productType: String = ""
         /// Tags to associate with the new product.
         public var tags: [Tag]? = nil
         /// Parameters for the provisioning artifact.
@@ -2190,13 +2190,13 @@ extension Servicecatalog {
 
         public init() {}
 
-        public init(acceptLanguage: String? = nil, supportEmail: String? = nil, name: String, distributor: String? = nil, productType: String, idempotencyToken: String, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, owner: String, supportDescription: String? = nil, description: String? = nil) {
+        public init(acceptLanguage: String? = nil, supportEmail: String? = nil, name: String, distributor: String? = nil, idempotencyToken: String, productType: String, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, owner: String, supportDescription: String? = nil, description: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.supportEmail = supportEmail
             self.name = name
             self.distributor = distributor
-            self.productType = productType
             self.idempotencyToken = idempotencyToken
+            self.productType = productType
             self.tags = tags
             self.provisioningArtifactParameters = provisioningArtifactParameters
             self.supportUrl = supportUrl

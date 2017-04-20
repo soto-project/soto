@@ -1543,10 +1543,10 @@ extension Dms {
         public var replicationInstancePrivateIpAddress: String? = nil
         /// The Availability Zone for the instance.
         public var availabilityZone: String? = nil
-        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        public var publiclyAccessible: Bool? = nil
         /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
         public var autoMinorVersionUpgrade: Bool? = nil
+        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
+        public var publiclyAccessible: Bool? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public var replicationInstanceIdentifier: String? = nil
         /// The private IP address of the replication instance.
@@ -1568,7 +1568,7 @@ extension Dms {
 
         public init() {}
 
-        public init(instanceCreateTime: Date? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
+        public init(instanceCreateTime: Date? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationInstanceStatus = replicationInstanceStatus
@@ -1579,8 +1579,8 @@ extension Dms {
             self.replicationSubnetGroup = replicationSubnetGroup
             self.replicationInstancePrivateIpAddress = replicationInstancePrivateIpAddress
             self.availabilityZone = availabilityZone
-            self.publiclyAccessible = publiclyAccessible
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
             self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
             self.engineVersion = engineVersion
@@ -1634,10 +1634,10 @@ extension Dms {
         public var serverName: String? = nil
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public var endpointIdentifier: String? = nil
-        /// The user name to be used to login to the endpoint database.
-        public var username: String? = nil
         /// The name of the endpoint database.
         public var databaseName: String? = nil
+        /// The user name to be used to login to the endpoint database.
+        public var username: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public var endpointArn: String = ""
         /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
@@ -1655,12 +1655,12 @@ extension Dms {
 
         public init() {}
 
-        public init(endpointType: String? = nil, serverName: String? = nil, endpointIdentifier: String? = nil, username: String? = nil, databaseName: String? = nil, endpointArn: String, sslMode: String? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+        public init(endpointType: String? = nil, serverName: String? = nil, endpointIdentifier: String? = nil, databaseName: String? = nil, username: String? = nil, endpointArn: String, sslMode: String? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.endpointType = endpointType
             self.serverName = serverName
             self.endpointIdentifier = endpointIdentifier
-            self.username = username
             self.databaseName = databaseName
+            self.username = username
             self.endpointArn = endpointArn
             self.sslMode = sslMode
             self.certificateArn = certificateArn

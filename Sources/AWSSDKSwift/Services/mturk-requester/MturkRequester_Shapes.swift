@@ -32,12 +32,12 @@ extension MturkRequester {
     public struct HIT: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        ///  The number of assignments for this HIT that have been approved or rejected.
-        public var numberOfAssignmentsCompleted: Int32? = nil
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
         public var autoApprovalDelayInSeconds: Int64? = nil
         ///  The ID of the HIT Layout of this HIT.
         public var hITLayoutId: String? = nil
+        ///  The number of assignments for this HIT that have been approved or rejected.
+        public var numberOfAssignmentsCompleted: Int32? = nil
         ///  The number of assignments for this HIT that are available for Workers to accept.
         public var numberOfAssignmentsAvailable: Int32? = nil
         ///  The title of the HIT.
@@ -76,10 +76,10 @@ extension MturkRequester {
 
         public init() {}
 
-        public init(numberOfAssignmentsCompleted: Int32? = nil, autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Date? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: String? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: String? = nil, expiration: Date? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
-            self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
+        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Date? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: String? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: String? = nil, expiration: Date? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.hITLayoutId = hITLayoutId
+            self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
             self.numberOfAssignmentsAvailable = numberOfAssignmentsAvailable
             self.title = title
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
@@ -500,12 +500,12 @@ extension MturkRequester {
     public struct CreateHITRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        public var hITLayoutId: String? = nil
-        ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        public var hITLayoutParameters: [HITLayoutParameter]? = nil
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
         public var autoApprovalDelayInSeconds: Int64? = nil
+        ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
+        public var hITLayoutParameters: [HITLayoutParameter]? = nil
+        ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
+        public var hITLayoutId: String? = nil
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
         public var title: String = ""
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
@@ -535,10 +535,10 @@ extension MturkRequester {
 
         public init() {}
 
-        public init(hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, autoApprovalDelayInSeconds: Int64? = nil, title: String, hITReviewPolicy: ReviewPolicy? = nil, assignmentDurationInSeconds: Int64, reward: String, uniqueRequestToken: String? = nil, description: String, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, lifetimeInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, requesterAnnotation: String? = nil) {
-            self.hITLayoutId = hITLayoutId
-            self.hITLayoutParameters = hITLayoutParameters
+        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITLayoutId: String? = nil, title: String, hITReviewPolicy: ReviewPolicy? = nil, assignmentDurationInSeconds: Int64, reward: String, uniqueRequestToken: String? = nil, description: String, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, lifetimeInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, requesterAnnotation: String? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
+            self.hITLayoutParameters = hITLayoutParameters
+            self.hITLayoutId = hITLayoutId
             self.title = title
             self.hITReviewPolicy = hITReviewPolicy
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
@@ -1468,8 +1468,8 @@ extension MturkRequester {
     public struct QualificationRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
-        public var qualificationRequestId: String? = nil
+        /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
+        public var submitTime: Date? = nil
         ///  The ID of the Worker requesting the Qualification.
         public var workerId: String? = nil
         ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
@@ -1478,18 +1478,18 @@ extension MturkRequester {
         public var test: String? = nil
         ///  The ID of the Qualification type the Worker is requesting, as returned by the CreateQualificationType operation. 
         public var qualificationTypeId: String? = nil
-        /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
-        public var submitTime: Date? = nil
+        /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
+        public var qualificationRequestId: String? = nil
 
         public init() {}
 
-        public init(qualificationRequestId: String? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, submitTime: Date? = nil) {
-            self.qualificationRequestId = qualificationRequestId
+        public init(submitTime: Date? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, qualificationRequestId: String? = nil) {
+            self.submitTime = submitTime
             self.workerId = workerId
             self.answer = answer
             self.test = test
             self.qualificationTypeId = qualificationTypeId
-            self.submitTime = submitTime
+            self.qualificationRequestId = qualificationRequestId
         }
 
     }
@@ -1531,12 +1531,12 @@ extension MturkRequester {
     public struct ReviewResultDetail: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        ///  Key identifies the particular piece of reviewed information. 
+        public var key: String? = nil
         ///  The type of the object from the SubjectId field.
         public var subjectType: String? = nil
         /// The HITID or AssignmentId about which this result was taken. Note that HIT-level Review Policies will often emit results about both the HIT itself and its Assignments, while Assignment-level review policies generally only emit results about the Assignment itself. 
         public var subjectId: String? = nil
-        ///  Key identifies the particular piece of reviewed information. 
-        public var key: String? = nil
         ///  A unique identifier of the Review action result. 
         public var actionId: String? = nil
         ///  The values of Key provided by the review policies you have selected. 
@@ -1546,10 +1546,10 @@ extension MturkRequester {
 
         public init() {}
 
-        public init(subjectType: String? = nil, subjectId: String? = nil, key: String? = nil, actionId: String? = nil, value: String? = nil, questionId: String? = nil) {
+        public init(key: String? = nil, subjectType: String? = nil, subjectId: String? = nil, actionId: String? = nil, value: String? = nil, questionId: String? = nil) {
+            self.key = key
             self.subjectType = subjectType
             self.subjectId = subjectId
-            self.key = key
             self.actionId = actionId
             self.value = value
             self.questionId = questionId

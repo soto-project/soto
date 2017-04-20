@@ -323,14 +323,14 @@ extension Snowball {
         public var shippingOption: String = ""
         /// The ID for the address that you want the cluster shipped to.&gt;
         public var addressId: String = ""
-        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
-        public var roleARN: String = ""
+        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
+        public var kmsKeyARN: String? = nil
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
         public var jobType: String = ""
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public var notification: Notification? = nil
-        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
-        public var kmsKeyARN: String? = nil
+        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
+        public var roleARN: String = ""
         /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
         public var snowballType: String? = nil
         /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. 
@@ -340,13 +340,13 @@ extension Snowball {
 
         public init() {}
 
-        public init(shippingOption: String, addressId: String, roleARN: String, jobType: String, notification: Notification? = nil, kmsKeyARN: String? = nil, snowballType: String? = nil, resources: JobResource, description: String? = nil) {
+        public init(shippingOption: String, addressId: String, kmsKeyARN: String? = nil, jobType: String, notification: Notification? = nil, roleARN: String, snowballType: String? = nil, resources: JobResource, description: String? = nil) {
             self.shippingOption = shippingOption
             self.addressId = addressId
-            self.roleARN = roleARN
+            self.kmsKeyARN = kmsKeyARN
             self.jobType = jobType
             self.notification = notification
-            self.kmsKeyARN = kmsKeyARN
+            self.roleARN = roleARN
             self.snowballType = snowballType
             self.resources = resources
             self.description = description
@@ -416,6 +416,28 @@ extension Snowball {
 
     }
 
+    public struct UpdateClusterResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+
+        public init() {}
+
+    }
+
+    public struct GetJobUnlockCodeResult: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
+        public var unlockCode: String? = nil
+
+        public init() {}
+
+        public init(unlockCode: String? = nil) {
+            self.unlockCode = unlockCode
+        }
+
+    }
+
     public struct DataTransfer: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -478,28 +500,6 @@ extension Snowball {
         public init(jobId: String) {
             self.jobId = jobId
         }
-
-    }
-
-    public struct GetJobUnlockCodeResult: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
-        public var unlockCode: String? = nil
-
-        public init() {}
-
-        public init(unlockCode: String? = nil) {
-            self.unlockCode = unlockCode
-        }
-
-    }
-
-    public struct UpdateClusterResult: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-
-        public init() {}
 
     }
 
@@ -582,12 +582,12 @@ extension Snowball {
         public var shippingOption: String? = nil
         /// The automatically generated ID for a specific address.
         public var addressId: String? = nil
-        /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
-        public var kmsKeyARN: String? = nil
         /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public var roleARN: String? = nil
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
         public var jobType: String? = nil
+        /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
+        public var kmsKeyARN: String? = nil
         /// The creation date for this cluster.
         public var creationDate: Date? = nil
         /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
@@ -603,13 +603,13 @@ extension Snowball {
 
         public init() {}
 
-        public init(clusterState: String? = nil, shippingOption: String? = nil, addressId: String? = nil, kmsKeyARN: String? = nil, roleARN: String? = nil, jobType: String? = nil, creationDate: Date? = nil, snowballType: String? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
+        public init(clusterState: String? = nil, shippingOption: String? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: String? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, snowballType: String? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
             self.clusterState = clusterState
             self.shippingOption = shippingOption
             self.addressId = addressId
-            self.kmsKeyARN = kmsKeyARN
             self.roleARN = roleARN
             self.jobType = jobType
+            self.kmsKeyARN = kmsKeyARN
             self.creationDate = creationDate
             self.snowballType = snowballType
             self.notification = notification
@@ -847,12 +847,12 @@ extension Snowball {
         public var dataTransferProgress: DataTransfer? = nil
         /// The Snowball capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.
         public var snowballCapacityPreference: String? = nil
-        /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
-        public var kmsKeyARN: String? = nil
         /// The role ARN associated with this job. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public var roleARN: String? = nil
         /// The current status of the jobs.
         public var jobState: String? = nil
+        /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
+        public var kmsKeyARN: String? = nil
         /// The creation date for this job.
         public var creationDate: Date? = nil
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -878,12 +878,12 @@ extension Snowball {
 
         public init() {}
 
-        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: String? = nil, kmsKeyARN: String? = nil, roleARN: String? = nil, jobState: String? = nil, creationDate: Date? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: String? = nil, snowballType: String? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
+        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: String? = nil, roleARN: String? = nil, jobState: String? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: String? = nil, snowballType: String? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
             self.dataTransferProgress = dataTransferProgress
             self.snowballCapacityPreference = snowballCapacityPreference
-            self.kmsKeyARN = kmsKeyARN
             self.roleARN = roleARN
             self.jobState = jobState
+            self.kmsKeyARN = kmsKeyARN
             self.creationDate = creationDate
             self.jobId = jobId
             self.description = description

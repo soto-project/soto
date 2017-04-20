@@ -34,10 +34,10 @@ extension Dynamodb {
         public let _payload: String? = nil
         /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
         public var attributeDefinitions: [AttributeDefinition]? = nil
-        /// The name of the table to be updated.
-        public var tableName: String = ""
         /// The new provisioned throughput settings for the specified table or index.
         public var provisionedThroughput: ProvisionedThroughput? = nil
+        /// The name of the table to be updated.
+        public var tableName: String = ""
         /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide. 
         public var globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil
         /// Represents the DynamoDB Streams configuration for the table.  You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream. 
@@ -45,10 +45,10 @@ extension Dynamodb {
 
         public init() {}
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, tableName: String, provisionedThroughput: ProvisionedThroughput? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, streamSpecification: StreamSpecification? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, tableName: String, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, streamSpecification: StreamSpecification? = nil) {
             self.attributeDefinitions = attributeDefinitions
-            self.tableName = tableName
             self.provisionedThroughput = provisionedThroughput
+            self.tableName = tableName
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
             self.streamSpecification = streamSpecification
         }
@@ -283,23 +283,6 @@ extension Dynamodb {
 
     }
 
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The value of the tag. Tag values are case-sensitive and can be null.
-        public var value: String = ""
-        /// The key of the tag.Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. 
-        public var key: String = ""
-
-        public init() {}
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-    }
-
     public struct PutItemOutput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -316,6 +299,23 @@ extension Dynamodb {
             self.consumedCapacity = consumedCapacity
             self.attributes = attributes
             self.itemCollectionMetrics = itemCollectionMetrics
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The value of the tag. Tag values are case-sensitive and can be null.
+        public var value: String = ""
+        /// The key of the tag.Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. 
+        public var key: String = ""
+
+        public init() {}
+
+        public init(value: String, key: String) {
+            self.value = value
+            self.key = key
         }
 
     }
@@ -597,10 +597,10 @@ extension Dynamodb {
         public let _payload: String? = nil
         /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
         public var latestStreamArn: String? = nil
-        /// The primary key structure for the table. Each KeySchemaElement consists of:    AttributeName - The name of the attribute.    KeyType - The role of the attribute:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.    For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide.
-        public var keySchema: [KeySchemaElement]? = nil
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public var provisionedThroughput: ProvisionedThroughputDescription? = nil
+        /// The primary key structure for the table. Each KeySchemaElement consists of:    AttributeName - The name of the attribute.    KeyType - The role of the attribute:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.    For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide.
+        public var keySchema: [KeySchemaElement]? = nil
         /// The Amazon Resource Name (ARN) that uniquely identifies the table.
         public var tableArn: String? = nil
         /// The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
@@ -626,10 +626,10 @@ extension Dynamodb {
 
         public init() {}
 
-        public init(latestStreamArn: String? = nil, keySchema: [KeySchemaElement]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: Date? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: String? = nil, latestStreamLabel: String? = nil) {
+        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: Date? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: String? = nil, latestStreamLabel: String? = nil) {
             self.latestStreamArn = latestStreamArn
-            self.keySchema = keySchema
             self.provisionedThroughput = provisionedThroughput
+            self.keySchema = keySchema
             self.tableArn = tableArn
             self.itemCount = itemCount
             self.streamSpecification = streamSpecification
@@ -924,10 +924,10 @@ extension Dynamodb {
         public let _payload: String? = nil
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public var writeCapacityUnits: Int64? = nil
-        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
-        public var readCapacityUnits: Int64? = nil
         /// The date and time of the last provisioned throughput increase for this table.
         public var lastIncreaseDateTime: Date? = nil
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
+        public var readCapacityUnits: Int64? = nil
         /// The date and time of the last provisioned throughput decrease for this table.
         public var lastDecreaseDateTime: Date? = nil
         /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide.
@@ -935,10 +935,10 @@ extension Dynamodb {
 
         public init() {}
 
-        public init(writeCapacityUnits: Int64? = nil, readCapacityUnits: Int64? = nil, lastIncreaseDateTime: Date? = nil, lastDecreaseDateTime: Date? = nil, numberOfDecreasesToday: Int64? = nil) {
+        public init(writeCapacityUnits: Int64? = nil, lastIncreaseDateTime: Date? = nil, readCapacityUnits: Int64? = nil, lastDecreaseDateTime: Date? = nil, numberOfDecreasesToday: Int64? = nil) {
             self.writeCapacityUnits = writeCapacityUnits
-            self.readCapacityUnits = readCapacityUnits
             self.lastIncreaseDateTime = lastIncreaseDateTime
+            self.readCapacityUnits = readCapacityUnits
             self.lastDecreaseDateTime = lastDecreaseDateTime
             self.numberOfDecreasesToday = numberOfDecreasesToday
         }

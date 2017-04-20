@@ -143,10 +143,10 @@ extension Health {
         public var lastUpdatedTime: Date? = nil
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public var statusCode: String? = nil
-        /// The AWS region name of the event.
-        public var region: String? = nil
         /// The 
         public var eventTypeCategory: String? = nil
+        /// The AWS region name of the event.
+        public var region: String? = nil
         /// The date and time that the event ended.
         public var endTime: Date? = nil
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -158,13 +158,13 @@ extension Health {
 
         public init() {}
 
-        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Date? = nil, statusCode: String? = nil, region: String? = nil, eventTypeCategory: String? = nil, endTime: Date? = nil, eventTypeCode: String? = nil, startTime: Date? = nil, arn: String? = nil) {
+        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Date? = nil, statusCode: String? = nil, eventTypeCategory: String? = nil, region: String? = nil, endTime: Date? = nil, eventTypeCode: String? = nil, startTime: Date? = nil, arn: String? = nil) {
             self.service = service
             self.availabilityZone = availabilityZone
             self.lastUpdatedTime = lastUpdatedTime
             self.statusCode = statusCode
-            self.region = region
             self.eventTypeCategory = eventTypeCategory
+            self.region = region
             self.endTime = endTime
             self.eventTypeCode = eventTypeCode
             self.startTime = startTime

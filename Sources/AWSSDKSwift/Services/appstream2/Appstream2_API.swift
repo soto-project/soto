@@ -63,9 +63,9 @@ public struct Appstream2 {
         return try client.send(operation: "ListAssociatedFleets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associate a fleet to a stack.
-    public func associateFleet(_ input: AssociateFleetRequest) throws -> AssociateFleetResult {
-        return try client.send(operation: "AssociateFleet", path: "/", httpMethod: "POST", input: input)
+    ///  Stops a fleet.
+    public func stopFleet(_ input: StopFleetRequest) throws -> StopFleetResult {
+        return try client.send(operation: "StopFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a fleet.
@@ -73,9 +73,9 @@ public struct Appstream2 {
         return try client.send(operation: "StartFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a fleet.
-    public func stopFleet(_ input: StopFleetRequest) throws -> StopFleetResult {
-        return try client.send(operation: "StopFleet", path: "/", httpMethod: "POST", input: input)
+    ///  Associate a fleet to a stack.
+    public func associateFleet(_ input: AssociateFleetRequest) throws -> AssociateFleetResult {
+        return try client.send(operation: "AssociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a fleet from a stack.

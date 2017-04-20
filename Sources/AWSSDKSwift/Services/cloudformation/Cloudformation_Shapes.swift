@@ -147,6 +147,23 @@ extension Cloudformation {
 
     }
 
+    public struct CreateChangeSetOutput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The unique ID of the stack.
+        public var stackId: String? = nil
+        /// The Amazon Resource Name (ARN) of the change set.
+        public var id: String? = nil
+
+        public init() {}
+
+        public init(stackId: String? = nil, id: String? = nil) {
+            self.stackId = stackId
+            self.id = id
+        }
+
+    }
+
     public struct Stack: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -213,10 +230,10 @@ extension Cloudformation {
         public var stackPolicyBody: String? = nil
         /// Key-value pairs to associate with this stack. AWS CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 10 tags. If you don't specify this parameter, AWS CloudFormation doesn't modify the stack's tags. If you specify an empty value, AWS CloudFormation removes all associated tags.
         public var tags: [Tag]? = nil
-        /// Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack will be used.
-        public var stackPolicyDuringUpdateBody: String? = nil
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to update the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
         public var roleARN: String? = nil
+        /// Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack will be used.
+        public var stackPolicyDuringUpdateBody: String? = nil
         /// Reuse the existing template that is associated with the stack that you are updating.
         public var usePreviousTemplate: Bool? = nil
         /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same region as the stack. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack will be used.
@@ -240,11 +257,11 @@ extension Cloudformation {
 
         public init() {}
 
-        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, stackPolicyDuringUpdateBody: String? = nil, roleARN: String? = nil, usePreviousTemplate: Bool? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [String]? = nil) {
+        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [String]? = nil) {
             self.stackPolicyBody = stackPolicyBody
             self.tags = tags
-            self.stackPolicyDuringUpdateBody = stackPolicyDuringUpdateBody
             self.roleARN = roleARN
+            self.stackPolicyDuringUpdateBody = stackPolicyDuringUpdateBody
             self.usePreviousTemplate = usePreviousTemplate
             self.stackPolicyDuringUpdateURL = stackPolicyDuringUpdateURL
             self.stackPolicyURL = stackPolicyURL
@@ -313,10 +330,10 @@ extension Cloudformation {
         public var stackId: String? = nil
         /// Type of resource. ((For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
         public var resourceType: String = ""
-        /// The logical name of the resource specified in the template.
-        public var logicalResourceId: String = ""
         /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation.
         public var physicalResourceId: String? = nil
+        /// The logical name of the resource specified in the template.
+        public var logicalResourceId: String = ""
         /// Time the status was updated.
         public var lastUpdatedTimestamp: Date = Date()
         /// Success/failure message associated with the resource.
@@ -328,51 +345,17 @@ extension Cloudformation {
 
         public init() {}
 
-        public init(metadata: String? = nil, resourceStatus: String, stackId: String? = nil, resourceType: String, logicalResourceId: String, physicalResourceId: String? = nil, lastUpdatedTimestamp: Date, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(metadata: String? = nil, resourceStatus: String, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: Date, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.metadata = metadata
             self.resourceStatus = resourceStatus
             self.stackId = stackId
             self.resourceType = resourceType
-            self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
+            self.logicalResourceId = logicalResourceId
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.resourceStatusReason = resourceStatusReason
             self.stackName = stackName
             self.description = description
-        }
-
-    }
-
-    public struct ExecuteChangeSetInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// If you specified the name of a change set, specify the stack name or ID (ARN) that is associated with the change set you want to execute.
-        public var stackName: String? = nil
-        /// The name or ARN of the change set that you want use to update the specified stack.
-        public var changeSetName: String = ""
-
-        public init() {}
-
-        public init(stackName: String? = nil, changeSetName: String) {
-            self.stackName = stackName
-            self.changeSetName = changeSetName
-        }
-
-    }
-
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
-        public var value: String? = nil
-        ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
-        public var key: String? = nil
-
-        public init() {}
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
         }
 
     }
@@ -428,19 +411,36 @@ extension Cloudformation {
 
     }
 
-    public struct CreateChangeSetOutput: AWSShape {
+    public struct ExecuteChangeSetInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The unique ID of the stack.
-        public var stackId: String? = nil
-        /// The Amazon Resource Name (ARN) of the change set.
-        public var id: String? = nil
+        /// If you specified the name of a change set, specify the stack name or ID (ARN) that is associated with the change set you want to execute.
+        public var stackName: String? = nil
+        /// The name or ARN of the change set that you want use to update the specified stack.
+        public var changeSetName: String = ""
 
         public init() {}
 
-        public init(stackId: String? = nil, id: String? = nil) {
-            self.stackId = stackId
-            self.id = id
+        public init(stackName: String? = nil, changeSetName: String) {
+            self.stackName = stackName
+            self.changeSetName = changeSetName
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
+        public var value: String? = nil
+        ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
+        public var key: String? = nil
+
+        public init() {}
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
         }
 
     }
@@ -638,26 +638,6 @@ extension Cloudformation {
 
     }
 
-    public struct DescribeChangeSetInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
-        public var stackName: String? = nil
-        /// A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
-        public var nextToken: String? = nil
-        /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
-        public var changeSetName: String = ""
-
-        public init() {}
-
-        public init(stackName: String? = nil, nextToken: String? = nil, changeSetName: String) {
-            self.stackName = stackName
-            self.nextToken = nextToken
-            self.changeSetName = changeSetName
-        }
-
-    }
-
     public struct GetTemplateSummaryInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -694,6 +674,26 @@ extension Cloudformation {
             self.parameters = parameters
             self.templateURL = templateURL
             self.templateBody = templateBody
+        }
+
+    }
+
+    public struct DescribeChangeSetInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
+        public var stackName: String? = nil
+        /// A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
+        public var nextToken: String? = nil
+        /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
+        public var changeSetName: String = ""
+
+        public init() {}
+
+        public init(stackName: String? = nil, nextToken: String? = nil, changeSetName: String) {
+            self.stackName = stackName
+            self.nextToken = nextToken
+            self.changeSetName = changeSetName
         }
 
     }
@@ -1035,10 +1035,10 @@ extension Cloudformation {
         public var tags: [Tag]? = nil
         /// The start time when the change set was created, in UTC.
         public var creationTime: Date? = nil
-        /// Information about the change set.
-        public var description: String? = nil
         /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
         public var notificationARNs: [String]? = nil
+        /// Information about the change set.
+        public var description: String? = nil
         /// A description of the change set's status. For example, if your attempt to create a change set failed, AWS CloudFormation shows the error message.
         public var statusReason: String? = nil
         /// The current status of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
@@ -1060,13 +1060,13 @@ extension Cloudformation {
 
         public init() {}
 
-        public init(executionStatus: String? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Date? = nil, description: String? = nil, notificationARNs: [String]? = nil, statusReason: String? = nil, status: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [String]? = nil) {
+        public init(executionStatus: String? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Date? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [String]? = nil) {
             self.executionStatus = executionStatus
             self.changes = changes
             self.tags = tags
             self.creationTime = creationTime
-            self.description = description
             self.notificationARNs = notificationARNs
+            self.description = description
             self.statusReason = statusReason
             self.status = status
             self.parameters = parameters
@@ -1433,10 +1433,10 @@ extension Cloudformation {
         public var stackId: String? = nil
         /// Type of resource. (For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
         public var resourceType: String = ""
-        /// The logical name of the resource specified in the template.
-        public var logicalResourceId: String = ""
         /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation.
         public var physicalResourceId: String? = nil
+        /// The logical name of the resource specified in the template.
+        public var logicalResourceId: String = ""
         /// Success/failure message associated with the resource.
         public var resourceStatusReason: String? = nil
         /// The name associated with the stack.
@@ -1446,13 +1446,13 @@ extension Cloudformation {
 
         public init() {}
 
-        public init(timestamp: Date, resourceStatus: String, stackId: String? = nil, resourceType: String, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(timestamp: Date, resourceStatus: String, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
             self.resourceType = resourceType
-            self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
+            self.logicalResourceId = logicalResourceId
             self.resourceStatusReason = resourceStatusReason
             self.stackName = stackName
             self.description = description

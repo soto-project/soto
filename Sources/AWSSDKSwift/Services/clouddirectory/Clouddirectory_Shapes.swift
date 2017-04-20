@@ -83,23 +83,6 @@ extension Clouddirectory {
 
     }
 
-    public struct ListObjectChildrenResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The pagination token.
-        public var nextToken: String? = nil
-        /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
-        public var children: [String: String]? = nil
-
-        public init() {}
-
-        public init(nextToken: String? = nil, children: [String: String]? = nil) {
-            self.nextToken = nextToken
-            self.children = children
-        }
-
-    }
-
     public struct Rule: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -130,6 +113,23 @@ extension Clouddirectory {
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
+        }
+
+    }
+
+    public struct ListObjectChildrenResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The pagination token.
+        public var nextToken: String? = nil
+        /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
+        public var children: [String: String]? = nil
+
+        public init() {}
+
+        public init(nextToken: String? = nil, children: [String: String]? = nil) {
+            self.nextToken = nextToken
+            self.children = children
         }
 
     }
@@ -327,6 +327,23 @@ extension Clouddirectory {
 
     }
 
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// Value associated with the tag.
+        public var value: String? = nil
+        /// Key associated with the tag.
+        public var key: String? = nil
+
+        public init() {}
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
+        }
+
+    }
+
     public struct BatchWriteOperationResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -355,23 +372,6 @@ extension Clouddirectory {
             self.createObject = createObject
             self.deleteObject = deleteObject
             self.removeFacetFromObject = removeFacetFromObject
-        }
-
-    }
-
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// Value associated with the tag.
-        public var value: String? = nil
-        /// Key associated with the tag.
-        public var key: String? = nil
-
-        public init() {}
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
         }
 
     }
@@ -2577,10 +2577,10 @@ extension Clouddirectory {
         public var headerParams: [String: String] {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
-        /// ARN associated with the Directory where objects reside. For more information, see arns.
-        public var directoryArn: String = ""
         /// Reference that identifies the policy object.
         public var policyReference: ObjectReference = ObjectReference()
+        /// ARN associated with the Directory where objects reside. For more information, see arns.
+        public var directoryArn: String = ""
         /// The pagination token.
         public var nextToken: String? = nil
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -2590,9 +2590,9 @@ extension Clouddirectory {
 
         public init() {}
 
-        public init(directoryArn: String, policyReference: ObjectReference, nextToken: String? = nil, consistencyLevel: String? = nil, maxResults: Int32? = nil) {
-            self.directoryArn = directoryArn
+        public init(policyReference: ObjectReference, directoryArn: String, nextToken: String? = nil, consistencyLevel: String? = nil, maxResults: Int32? = nil) {
             self.policyReference = policyReference
+            self.directoryArn = directoryArn
             self.nextToken = nextToken
             self.consistencyLevel = consistencyLevel
             self.maxResults = maxResults

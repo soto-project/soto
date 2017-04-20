@@ -178,22 +178,19 @@ extension Glacier {
 
     }
 
-    public struct GetVaultLockInput: AWSShape {
+    public struct PartListElement: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        public var pathParams: [String: String] {
-            return ["accountId": "accountId", "vaultName": "vaultName"]
-        }
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public var accountId: String = ""
-        /// The name of the vault.
-        public var vaultName: String = ""
+        /// The SHA256 tree hash value that Amazon Glacier calculated for the part. This field is never null.
+        public var sHA256TreeHash: String? = nil
+        /// The byte range of a part, inclusive of the upper value of the range.
+        public var rangeInBytes: String? = nil
 
         public init() {}
 
-        public init(accountId: String, vaultName: String) {
-            self.accountId = accountId
-            self.vaultName = vaultName
+        public init(sHA256TreeHash: String? = nil, rangeInBytes: String? = nil) {
+            self.sHA256TreeHash = sHA256TreeHash
+            self.rangeInBytes = rangeInBytes
         }
 
     }
@@ -227,19 +224,22 @@ extension Glacier {
 
     }
 
-    public struct PartListElement: AWSShape {
+    public struct GetVaultLockInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The SHA256 tree hash value that Amazon Glacier calculated for the part. This field is never null.
-        public var sHA256TreeHash: String? = nil
-        /// The byte range of a part, inclusive of the upper value of the range.
-        public var rangeInBytes: String? = nil
+        public var pathParams: [String: String] {
+            return ["accountId": "accountId", "vaultName": "vaultName"]
+        }
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public var accountId: String = ""
+        /// The name of the vault.
+        public var vaultName: String = ""
 
         public init() {}
 
-        public init(sHA256TreeHash: String? = nil, rangeInBytes: String? = nil) {
-            self.sHA256TreeHash = sHA256TreeHash
-            self.rangeInBytes = rangeInBytes
+        public init(accountId: String, vaultName: String) {
+            self.accountId = accountId
+            self.vaultName = vaultName
         }
 
     }

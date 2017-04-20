@@ -142,6 +142,34 @@ extension Ecs {
 
     }
 
+    public struct SubmitContainerStateChangeResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// Acknowledgement of the state change.
+        public var acknowledgment: String? = nil
+
+        public init() {}
+
+        public init(acknowledgment: String? = nil) {
+            self.acknowledgment = acknowledgment
+        }
+
+    }
+
+    public struct DeleteAttributesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// A list of attribute objects that were successfully deleted from your resource.
+        public var attributes: [Attribute]? = nil
+
+        public init() {}
+
+        public init(attributes: [Attribute]? = nil) {
+            self.attributes = attributes
+        }
+
+    }
+
     public struct ContainerInstance: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -185,34 +213,6 @@ extension Ecs {
             self.version = version
             self.status = status
             self.runningTasksCount = runningTasksCount
-        }
-
-    }
-
-    public struct DeleteAttributesResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// A list of attribute objects that were successfully deleted from your resource.
-        public var attributes: [Attribute]? = nil
-
-        public init() {}
-
-        public init(attributes: [Attribute]? = nil) {
-            self.attributes = attributes
-        }
-
-    }
-
-    public struct SubmitContainerStateChangeResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// Acknowledgement of the state change.
-        public var acknowledgment: String? = nil
-
-        public init() {}
-
-        public init(acknowledgment: String? = nil) {
-            self.acknowledgment = acknowledgment
         }
 
     }
@@ -1194,12 +1194,12 @@ extension Ecs {
         public let _payload: String? = nil
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public var overrides: TaskOverride? = nil
-        /// An optional tag specified when a task is started. For example if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
-        public var startedBy: String? = nil
-        /// The container instance IDs or full Amazon Resource Name (ARN) entries for the container instances on which you would like to place your task. You can specify up to 10 container instances.
-        public var containerInstances: [String] = []
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to start. If a revision is not specified, the latest ACTIVE revision is used.
         public var taskDefinition: String = ""
+        /// The container instance IDs or full Amazon Resource Name (ARN) entries for the container instances on which you would like to place your task. You can specify up to 10 container instances.
+        public var containerInstances: [String] = []
+        /// An optional tag specified when a task is started. For example if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
+        public var startedBy: String? = nil
         /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
         public var group: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed.
@@ -1207,11 +1207,11 @@ extension Ecs {
 
         public init() {}
 
-        public init(overrides: TaskOverride? = nil, startedBy: String? = nil, containerInstances: [String], taskDefinition: String, group: String? = nil, cluster: String? = nil) {
+        public init(overrides: TaskOverride? = nil, taskDefinition: String, containerInstances: [String], startedBy: String? = nil, group: String? = nil, cluster: String? = nil) {
             self.overrides = overrides
-            self.startedBy = startedBy
-            self.containerInstances = containerInstances
             self.taskDefinition = taskDefinition
+            self.containerInstances = containerInstances
+            self.startedBy = startedBy
             self.group = group
             self.cluster = cluster
         }

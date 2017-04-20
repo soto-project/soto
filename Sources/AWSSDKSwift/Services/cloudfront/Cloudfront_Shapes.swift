@@ -49,6 +49,26 @@ extension Cloudfront {
 
     }
 
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = "Tags"
+        public var queryParams: [String: String] {
+            return ["Resource": "Resource"]
+        }
+        ///  An ARN of a CloudFront resource.
+        public var resource: String = ""
+        ///  A complex type that contains zero or more Tag elements.
+        public var tags: Tags = Tags()
+
+        public init() {}
+
+        public init(resource: String, tags: Tags) {
+            self.resource = resource
+            self.tags = tags
+        }
+
+    }
+
     public struct Signer: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -84,26 +104,6 @@ extension Cloudfront {
             self.eTag = eTag
             self.location = location
             self.streamingDistribution = streamingDistribution
-        }
-
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = "Tags"
-        public var queryParams: [String: String] {
-            return ["Resource": "Resource"]
-        }
-        ///  An ARN of a CloudFront resource.
-        public var resource: String = ""
-        ///  A complex type that contains zero or more Tag elements.
-        public var tags: Tags = Tags()
-
-        public init() {}
-
-        public init(resource: String, tags: Tags) {
-            self.resource = resource
-            self.tags = tags
         }
 
     }
@@ -320,23 +320,6 @@ extension Cloudfront {
 
     }
 
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public var value: String? = nil
-        ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public var key: String = ""
-
-        public init() {}
-
-        public init(value: String? = nil, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-    }
-
     public struct Invalidation: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -356,6 +339,23 @@ extension Cloudfront {
             self.status = status
             self.createTime = createTime
             self.id = id
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public var value: String? = nil
+        ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public var key: String = ""
+
+        public init() {}
+
+        public init(value: String? = nil, key: String) {
+            self.value = value
+            self.key = key
         }
 
     }
@@ -1169,10 +1169,10 @@ extension Cloudfront {
         public var callerReference: String = ""
         /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public var customErrorResponses: CustomErrorResponses? = nil
-        /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
-        public var webACLId: String? = nil
         /// A complex type that contains information about origins for this distribution. 
         public var origins: Origins = Origins()
+        /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
+        public var webACLId: String? = nil
         /// Any comments you want to include about the distribution. If you don't want to specify a comment, include an empty Comment element. To delete an existing comment, update the distribution configuration and include an empty Comment element. To add or change a comment, update the distribution configuration and specify the new comment.
         public var comment: String = ""
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution, or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
@@ -1194,13 +1194,13 @@ extension Cloudfront {
 
         public init() {}
 
-        public init(httpVersion: String? = nil, defaultRootObject: String? = nil, callerReference: String, customErrorResponses: CustomErrorResponses? = nil, webACLId: String? = nil, origins: Origins, comment: String, enabled: Bool, isIPV6Enabled: Bool? = nil, priceClass: String? = nil, viewerCertificate: ViewerCertificate? = nil, restrictions: Restrictions? = nil, aliases: Aliases? = nil, logging: LoggingConfig? = nil, cacheBehaviors: CacheBehaviors? = nil, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: String? = nil, defaultRootObject: String? = nil, callerReference: String, customErrorResponses: CustomErrorResponses? = nil, origins: Origins, webACLId: String? = nil, comment: String, enabled: Bool, isIPV6Enabled: Bool? = nil, priceClass: String? = nil, viewerCertificate: ViewerCertificate? = nil, restrictions: Restrictions? = nil, aliases: Aliases? = nil, logging: LoggingConfig? = nil, cacheBehaviors: CacheBehaviors? = nil, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.defaultRootObject = defaultRootObject
             self.callerReference = callerReference
             self.customErrorResponses = customErrorResponses
-            self.webACLId = webACLId
             self.origins = origins
+            self.webACLId = webACLId
             self.comment = comment
             self.enabled = enabled
             self.isIPV6Enabled = isIPV6Enabled
@@ -1366,24 +1366,24 @@ extension Cloudfront {
         public var httpVersion: String = ""
         /// A complex type that contains zero or more CustomErrorResponses elements.
         public var customErrorResponses: CustomErrorResponses = CustomErrorResponses()
-        /// The Web ACL Id (if any) associated with the distribution.
-        public var webACLId: String = ""
         /// A complex type that contains information about origins for this distribution.
         public var origins: Origins = Origins()
         /// The comment originally specified when this distribution was created.
         public var comment: String = ""
         /// Whether the distribution is enabled to accept user requests for content.
         public var enabled: Bool = false
+        /// The Web ACL Id (if any) associated with the distribution.
+        public var webACLId: String = ""
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public var aRN: String = ""
         /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
         public var isIPV6Enabled: Bool = false
-        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
-        public var id: String = ""
+        public var restrictions: Restrictions = Restrictions()
         /// The date and time the distribution was last modified.
         public var lastModifiedTime: Date = Date()
         public var viewerCertificate: ViewerCertificate = ViewerCertificate()
-        public var restrictions: Restrictions = Restrictions()
+        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
+        public var id: String = ""
         /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public var status: String = ""
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
@@ -1398,19 +1398,19 @@ extension Cloudfront {
 
         public init() {}
 
-        public init(httpVersion: String, customErrorResponses: CustomErrorResponses, webACLId: String, origins: Origins, comment: String, enabled: Bool, aRN: String, isIPV6Enabled: Bool, id: String, lastModifiedTime: Date, viewerCertificate: ViewerCertificate, restrictions: Restrictions, status: String, aliases: Aliases, priceClass: String, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: String, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Date, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: String, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.customErrorResponses = customErrorResponses
-            self.webACLId = webACLId
             self.origins = origins
             self.comment = comment
             self.enabled = enabled
+            self.webACLId = webACLId
             self.aRN = aRN
             self.isIPV6Enabled = isIPV6Enabled
-            self.id = id
+            self.restrictions = restrictions
             self.lastModifiedTime = lastModifiedTime
             self.viewerCertificate = viewerCertificate
-            self.restrictions = restrictions
+            self.id = id
             self.status = status
             self.aliases = aliases
             self.priceClass = priceClass

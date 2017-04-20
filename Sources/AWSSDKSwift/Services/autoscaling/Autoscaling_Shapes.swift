@@ -272,10 +272,10 @@ extension Autoscaling {
         public let _payload: String? = nil
         /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Auto Scaling returns an error message.
         public var startTime: Date? = nil
-        /// This parameter is deprecated.
-        public var time: Date? = nil
         /// The minimum size for the Auto Scaling group.
         public var minSize: Int32? = nil
+        /// This parameter is deprecated.
+        public var time: Date? = nil
         /// The maximum size for the Auto Scaling group.
         public var maxSize: Int32? = nil
         /// The number of EC2 instances that should be running in the group.
@@ -291,10 +291,10 @@ extension Autoscaling {
 
         public init() {}
 
-        public init(startTime: Date? = nil, time: Date? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: Date? = nil, scheduledActionName: String, autoScalingGroupName: String, recurrence: String? = nil) {
+        public init(startTime: Date? = nil, minSize: Int32? = nil, time: Date? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: Date? = nil, scheduledActionName: String, autoScalingGroupName: String, recurrence: String? = nil) {
             self.startTime = startTime
-            self.time = time
             self.minSize = minSize
+            self.time = time
             self.maxSize = maxSize
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
@@ -374,25 +374,25 @@ extension Autoscaling {
     public struct ExecutePolicyType: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. This parameter is required if the policy type is StepScaling and not supported otherwise.
-        public var metricValue: Double? = nil
+        /// The name or ARN of the policy.
+        public var policyName: String = ""
         /// The breach threshold for the alarm. This parameter is required if the policy type is StepScaling and not supported otherwise.
         public var breachThreshold: Double? = nil
         /// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
         public var autoScalingGroupName: String? = nil
         /// If this parameter is true, Auto Scaling waits for the cooldown period to complete before executing the policy. Otherwise, Auto Scaling executes the policy without waiting for the cooldown period to complete. This parameter is not supported if the policy type is StepScaling. For more information, see Auto Scaling Cooldowns in the Auto Scaling User Guide.
         public var honorCooldown: Bool? = nil
-        /// The name or ARN of the policy.
-        public var policyName: String = ""
+        /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. This parameter is required if the policy type is StepScaling and not supported otherwise.
+        public var metricValue: Double? = nil
 
         public init() {}
 
-        public init(metricValue: Double? = nil, breachThreshold: Double? = nil, autoScalingGroupName: String? = nil, honorCooldown: Bool? = nil, policyName: String) {
-            self.metricValue = metricValue
+        public init(policyName: String, breachThreshold: Double? = nil, autoScalingGroupName: String? = nil, honorCooldown: Bool? = nil, metricValue: Double? = nil) {
+            self.policyName = policyName
             self.breachThreshold = breachThreshold
             self.autoScalingGroupName = autoScalingGroupName
             self.honorCooldown = honorCooldown
-            self.policyName = policyName
+            self.metricValue = metricValue
         }
 
     }
@@ -1839,10 +1839,10 @@ extension Autoscaling {
         public var notificationTargetARN: String? = nil
         /// Additional information that you want to include any time Auto Scaling sends a message to the notification target.
         public var notificationMetadata: String? = nil
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
-        public var roleARN: String? = nil
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON. The default value is CONTINUE.
         public var defaultResult: String? = nil
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
+        public var roleARN: String? = nil
         /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. The default is 3600 seconds (1 hour). When the lifecycle hook times out, Auto Scaling performs the default action. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
         public var heartbeatTimeout: Int32? = nil
         /// The name of the Auto Scaling group for the lifecycle hook.
@@ -1856,11 +1856,11 @@ extension Autoscaling {
 
         public init() {}
 
-        public init(notificationTargetARN: String? = nil, notificationMetadata: String? = nil, roleARN: String? = nil, defaultResult: String? = nil, heartbeatTimeout: Int32? = nil, autoScalingGroupName: String? = nil, lifecycleTransition: String? = nil, lifecycleHookName: String? = nil, globalTimeout: Int32? = nil) {
+        public init(notificationTargetARN: String? = nil, notificationMetadata: String? = nil, defaultResult: String? = nil, roleARN: String? = nil, heartbeatTimeout: Int32? = nil, autoScalingGroupName: String? = nil, lifecycleTransition: String? = nil, lifecycleHookName: String? = nil, globalTimeout: Int32? = nil) {
             self.notificationTargetARN = notificationTargetARN
             self.notificationMetadata = notificationMetadata
-            self.roleARN = roleARN
             self.defaultResult = defaultResult
+            self.roleARN = roleARN
             self.heartbeatTimeout = heartbeatTimeout
             self.autoScalingGroupName = autoScalingGroupName
             self.lifecycleTransition = lifecycleTransition

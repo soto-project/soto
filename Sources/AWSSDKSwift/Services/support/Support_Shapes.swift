@@ -407,12 +407,12 @@ extension Support {
         public var status: String? = nil
         /// The code for the AWS service returned by the call to DescribeServices.
         public var serviceCode: String? = nil
-        /// The code for the severity level returned by the call to DescribeSeverityLevels.
-        public var severityCode: String? = nil
-        /// The email addresses that receive copies of communication about the case.
-        public var ccEmailAddresses: [String]? = nil
         /// The ID displayed for the case in the AWS Support Center. This is a numeric string.
         public var displayId: String? = nil
+        /// The email addresses that receive copies of communication about the case.
+        public var ccEmailAddresses: [String]? = nil
+        /// The code for the severity level returned by the call to DescribeSeverityLevels.
+        public var severityCode: String? = nil
         /// The time that the case was case created in the AWS Support Center.
         public var timeCreated: String? = nil
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
@@ -428,13 +428,13 @@ extension Support {
 
         public init() {}
 
-        public init(submittedBy: String? = nil, status: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, ccEmailAddresses: [String]? = nil, displayId: String? = nil, timeCreated: String? = nil, language: String? = nil, categoryCode: String? = nil, caseId: String? = nil, recentCommunications: RecentCaseCommunications? = nil, subject: String? = nil) {
+        public init(submittedBy: String? = nil, status: String? = nil, serviceCode: String? = nil, displayId: String? = nil, ccEmailAddresses: [String]? = nil, severityCode: String? = nil, timeCreated: String? = nil, language: String? = nil, categoryCode: String? = nil, caseId: String? = nil, recentCommunications: RecentCaseCommunications? = nil, subject: String? = nil) {
             self.submittedBy = submittedBy
             self.status = status
             self.serviceCode = serviceCode
-            self.severityCode = severityCode
-            self.ccEmailAddresses = ccEmailAddresses
             self.displayId = displayId
+            self.ccEmailAddresses = ccEmailAddresses
+            self.severityCode = severityCode
             self.timeCreated = timeCreated
             self.language = language
             self.categoryCode = categoryCode

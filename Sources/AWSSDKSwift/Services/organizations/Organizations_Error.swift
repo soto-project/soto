@@ -50,14 +50,14 @@ public enum OrganizationsError: AWSErrorType {
     case handshakeAlreadyInStateException(message: String?)
     case organizationalUnitNotEmptyException(message: String?)
     case organizationalUnitNotFoundException(message: String?)
+    case organizationNotEmptyException(message: String?)
+    case duplicateHandshakeException(message: String?)
     case duplicatePolicyException(message: String?)
     case malformedPolicyDocumentException(message: String?)
-    case duplicateOrganizationalUnitException(message: String?)
-    case masterCannotLeaveOrganizationException(message: String?)
-    case organizationNotEmptyException(message: String?)
     case policyTypeNotEnabledException(message: String?)
     case rootNotFoundException(message: String?)
-    case duplicateHandshakeException(message: String?)
+    case masterCannotLeaveOrganizationException(message: String?)
+    case duplicateOrganizationalUnitException(message: String?)
     case alreadyInOrganizationException(message: String?)
     case targetNotFoundException(message: String?)
     case policyTypeAlreadyEnabledException(message: String?)
@@ -114,22 +114,22 @@ extension OrganizationsError {
             self = .organizationalUnitNotEmptyException(message: message)
         case "OrganizationalUnitNotFoundException":
             self = .organizationalUnitNotFoundException(message: message)
+        case "OrganizationNotEmptyException":
+            self = .organizationNotEmptyException(message: message)
+        case "DuplicateHandshakeException":
+            self = .duplicateHandshakeException(message: message)
         case "DuplicatePolicyException":
             self = .duplicatePolicyException(message: message)
         case "MalformedPolicyDocumentException":
             self = .malformedPolicyDocumentException(message: message)
-        case "DuplicateOrganizationalUnitException":
-            self = .duplicateOrganizationalUnitException(message: message)
-        case "MasterCannotLeaveOrganizationException":
-            self = .masterCannotLeaveOrganizationException(message: message)
-        case "OrganizationNotEmptyException":
-            self = .organizationNotEmptyException(message: message)
         case "PolicyTypeNotEnabledException":
             self = .policyTypeNotEnabledException(message: message)
         case "RootNotFoundException":
             self = .rootNotFoundException(message: message)
-        case "DuplicateHandshakeException":
-            self = .duplicateHandshakeException(message: message)
+        case "MasterCannotLeaveOrganizationException":
+            self = .masterCannotLeaveOrganizationException(message: message)
+        case "DuplicateOrganizationalUnitException":
+            self = .duplicateOrganizationalUnitException(message: message)
         case "AlreadyInOrganizationException":
             self = .alreadyInOrganizationException(message: message)
         case "TargetNotFoundException":

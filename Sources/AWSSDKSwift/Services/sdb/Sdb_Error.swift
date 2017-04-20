@@ -37,13 +37,13 @@ public enum SdbError: AWSErrorType {
     case numberDomainBytesExceeded(message: String?)
     case numberSubmittedItemsExceeded(message: String?)
     case numberSubmittedAttributesExceeded(message: String?)
+    case attributeDoesNotExist(message: String?)
     case invalidNextToken(message: String?)
     case invalidNumberPredicates(message: String?)
     case invalidNumberValueTests(message: String?)
     case invalidQueryExpression(message: String?)
     case requestTimeout(message: String?)
     case tooManyRequestedAttributes(message: String?)
-    case attributeDoesNotExist(message: String?)
     case numberDomainsExceeded(message: String?)
 }
 
@@ -68,6 +68,8 @@ extension SdbError {
             self = .numberSubmittedItemsExceeded(message: message)
         case "NumberSubmittedAttributesExceeded":
             self = .numberSubmittedAttributesExceeded(message: message)
+        case "AttributeDoesNotExist":
+            self = .attributeDoesNotExist(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
         case "InvalidNumberPredicates":
@@ -80,8 +82,6 @@ extension SdbError {
             self = .requestTimeout(message: message)
         case "TooManyRequestedAttributes":
             self = .tooManyRequestedAttributes(message: message)
-        case "AttributeDoesNotExist":
-            self = .attributeDoesNotExist(message: message)
         case "NumberDomainsExceeded":
             self = .numberDomainsExceeded(message: message)
         default:

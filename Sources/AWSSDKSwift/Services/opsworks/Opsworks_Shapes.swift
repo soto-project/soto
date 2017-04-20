@@ -368,14 +368,14 @@ extension Opsworks {
         public var appId: String = ""
         /// The app name.
         public var name: String? = nil
-        /// An SslConfiguration object with the SSL configuration.
-        public var sslConfiguration: SslConfiguration? = nil
-        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
-        public var environment: [EnvironmentVariable]? = nil
         /// The app's data sources.
         public var dataSources: [DataSource]? = nil
+        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
+        public var environment: [EnvironmentVariable]? = nil
         /// A Source object that specifies the app repository.
         public var appSource: Source? = nil
+        /// An SslConfiguration object with the SSL configuration.
+        public var sslConfiguration: SslConfiguration? = nil
         /// One or more user-defined key/value pairs to be added to the stack attributes.
         public var attributes: [String: String]? = nil
         /// Whether SSL is enabled for the app.
@@ -389,13 +389,13 @@ extension Opsworks {
 
         public init() {}
 
-        public init(appId: String, name: String? = nil, sslConfiguration: SslConfiguration? = nil, environment: [EnvironmentVariable]? = nil, dataSources: [DataSource]? = nil, appSource: Source? = nil, attributes: [String: String]? = nil, enableSsl: Bool? = nil, type: String? = nil, domains: [String]? = nil, description: String? = nil) {
+        public init(appId: String, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, appSource: Source? = nil, sslConfiguration: SslConfiguration? = nil, attributes: [String: String]? = nil, enableSsl: Bool? = nil, type: String? = nil, domains: [String]? = nil, description: String? = nil) {
             self.appId = appId
             self.name = name
-            self.sslConfiguration = sslConfiguration
-            self.environment = environment
             self.dataSources = dataSources
+            self.environment = environment
             self.appSource = appSource
+            self.sslConfiguration = sslConfiguration
             self.attributes = attributes
             self.enableSsl = enableSsl
             self.type = type
@@ -1130,10 +1130,10 @@ extension Opsworks {
         public var stackId: String = ""
         /// The app name.
         public var name: String = ""
-        /// An SslConfiguration object with the SSL configuration.
-        public var sslConfiguration: SslConfiguration? = nil
         /// The app's data source.
         public var dataSources: [DataSource]? = nil
+        /// An SslConfiguration object with the SSL configuration.
+        public var sslConfiguration: SslConfiguration? = nil
         /// A Source object that specifies the app repository.
         public var appSource: Source? = nil
         /// One or more user-defined key/value pairs to be added to the stack attributes.
@@ -1151,12 +1151,12 @@ extension Opsworks {
 
         public init() {}
 
-        public init(shortname: String? = nil, stackId: String, name: String, sslConfiguration: SslConfiguration? = nil, dataSources: [DataSource]? = nil, appSource: Source? = nil, attributes: [String: String]? = nil, environment: [EnvironmentVariable]? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, type: String, description: String? = nil) {
+        public init(shortname: String? = nil, stackId: String, name: String, dataSources: [DataSource]? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, attributes: [String: String]? = nil, environment: [EnvironmentVariable]? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, type: String, description: String? = nil) {
             self.shortname = shortname
             self.stackId = stackId
             self.name = name
-            self.sslConfiguration = sslConfiguration
             self.dataSources = dataSources
+            self.sslConfiguration = sslConfiguration
             self.appSource = appSource
             self.attributes = attributes
             self.environment = environment
@@ -1629,23 +1629,6 @@ extension Opsworks {
 
     }
 
-    public struct DeploymentCommand: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
-        public var name: String = ""
-        /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2014.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2014.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2014.09"], "allow_reboot":["true"] }  
-        public var args: [String: [String]]? = nil
-
-        public init() {}
-
-        public init(name: String, args: [String: [String]]? = nil) {
-            self.name = name
-            self.args = args
-        }
-
-    }
-
     public struct DescribeInstancesRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -1676,6 +1659,23 @@ extension Opsworks {
 
         public init(loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil) {
             self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
+        }
+
+    }
+
+    public struct DeploymentCommand: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
+        public var name: String = ""
+        /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2014.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2014.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2014.09"], "allow_reboot":["true"] }  
+        public var args: [String: [String]]? = nil
+
+        public init() {}
+
+        public init(name: String, args: [String: [String]]? = nil) {
+            self.name = name
+            self.args = args
         }
 
     }
@@ -1915,12 +1915,12 @@ extension Opsworks {
     public struct AutoScalingThresholds: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
+        public var memoryThreshold: Double? = nil
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
         public var cpuThreshold: Double? = nil
         /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks to suppress scaling events long enough to get the new instances online.
         public var ignoreMetricsTime: Int32? = nil
-        /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
-        public var memoryThreshold: Double? = nil
         /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
         public var loadThreshold: Double? = nil
         /// The number of instances to add or remove when the load exceeds a threshold.
@@ -1932,10 +1932,10 @@ extension Opsworks {
 
         public init() {}
 
-        public init(cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, memoryThreshold: Double? = nil, loadThreshold: Double? = nil, instanceCount: Int32? = nil, alarms: [String]? = nil, thresholdsWaitTime: Int32? = nil) {
+        public init(memoryThreshold: Double? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, loadThreshold: Double? = nil, instanceCount: Int32? = nil, alarms: [String]? = nil, thresholdsWaitTime: Int32? = nil) {
+            self.memoryThreshold = memoryThreshold
             self.cpuThreshold = cpuThreshold
             self.ignoreMetricsTime = ignoreMetricsTime
-            self.memoryThreshold = memoryThreshold
             self.loadThreshold = loadThreshold
             self.instanceCount = instanceCount
             self.alarms = alarms
@@ -2171,10 +2171,10 @@ extension Opsworks {
         public let _payload: String? = nil
         /// An array of custom recipe names to be run following a undeploy event.
         public var undeploy: [String]? = nil
-        /// An array of custom recipe names to be run following a setup event.
-        public var setup: [String]? = nil
         /// An array of custom recipe names to be run following a configure event.
         public var configure: [String]? = nil
+        /// An array of custom recipe names to be run following a setup event.
+        public var setup: [String]? = nil
         /// An array of custom recipe names to be run following a shutdown event.
         public var shutdown: [String]? = nil
         /// An array of custom recipe names to be run following a deploy event.
@@ -2182,10 +2182,10 @@ extension Opsworks {
 
         public init() {}
 
-        public init(undeploy: [String]? = nil, setup: [String]? = nil, configure: [String]? = nil, shutdown: [String]? = nil, deploy: [String]? = nil) {
+        public init(undeploy: [String]? = nil, configure: [String]? = nil, setup: [String]? = nil, shutdown: [String]? = nil, deploy: [String]? = nil) {
             self.undeploy = undeploy
-            self.setup = setup
             self.configure = configure
+            self.setup = setup
             self.shutdown = shutdown
             self.deploy = deploy
         }
@@ -2605,10 +2605,10 @@ extension Opsworks {
         public let _payload: String? = nil
         /// The device name.
         public var device: String? = nil
-        /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
-        public var region: String? = nil
         /// The volume ID.
         public var volumeId: String? = nil
+        /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
+        public var region: String? = nil
         /// The Amazon EC2 volume ID.
         public var ec2VolumeId: String? = nil
         /// For PIOPS volumes, the IOPS per disk.
@@ -2632,10 +2632,10 @@ extension Opsworks {
 
         public init() {}
 
-        public init(device: String? = nil, region: String? = nil, volumeId: String? = nil, ec2VolumeId: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, raidArrayId: String? = nil, status: String? = nil, volumeType: String? = nil, mountPoint: String? = nil, name: String? = nil, instanceId: String? = nil, size: Int32? = nil) {
+        public init(device: String? = nil, volumeId: String? = nil, region: String? = nil, ec2VolumeId: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, raidArrayId: String? = nil, status: String? = nil, volumeType: String? = nil, mountPoint: String? = nil, name: String? = nil, instanceId: String? = nil, size: Int32? = nil) {
             self.device = device
-            self.region = region
             self.volumeId = volumeId
+            self.region = region
             self.ec2VolumeId = ec2VolumeId
             self.iops = iops
             self.availabilityZone = availabilityZone

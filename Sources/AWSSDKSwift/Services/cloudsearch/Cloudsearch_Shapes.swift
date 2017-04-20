@@ -42,22 +42,6 @@ extension Cloudsearch {
 
     }
 
-    public struct ExpressionStatus: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The expression that is evaluated for sorting while processing a search request.
-        public var options: Expression = Expression()
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
-
-        public init(options: Expression, status: OptionStatus) {
-            self.options = options
-            self.status = status
-        }
-
-    }
-
     public struct IntOptions: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -83,6 +67,22 @@ extension Cloudsearch {
             self.searchEnabled = searchEnabled
             self.sortEnabled = sortEnabled
             self.defaultValue = defaultValue
+        }
+
+    }
+
+    public struct ExpressionStatus: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The expression that is evaluated for sorting while processing a search request.
+        public var options: Expression = Expression()
+        public var status: OptionStatus = OptionStatus()
+
+        public init() {}
+
+        public init(options: Expression, status: OptionStatus) {
+            self.options = options
+            self.status = status
         }
 
     }
@@ -133,6 +133,20 @@ extension Cloudsearch {
 
     }
 
+    public struct DeleteExpressionResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The status of the expression being deleted.
+        public var expression: ExpressionStatus = ExpressionStatus()
+
+        public init() {}
+
+        public init(expression: ExpressionStatus) {
+            self.expression = expression
+        }
+
+    }
+
     public struct LiteralOptions: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -157,20 +171,6 @@ extension Cloudsearch {
             self.searchEnabled = searchEnabled
             self.sortEnabled = sortEnabled
             self.defaultValue = defaultValue
-        }
-
-    }
-
-    public struct DeleteExpressionResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The status of the expression being deleted.
-        public var expression: ExpressionStatus = ExpressionStatus()
-
-        public init() {}
-
-        public init(expression: ExpressionStatus) {
-            self.expression = expression
         }
 
     }
@@ -231,6 +231,20 @@ extension Cloudsearch {
 
         public init(domainNames: [String]? = nil) {
             self.domainNames = domainNames
+        }
+
+    }
+
+    public struct UpdateServiceAccessPoliciesResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The access rules configured for the domain.
+        public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
+
+        public init() {}
+
+        public init(accessPolicies: AccessPoliciesStatus) {
+            self.accessPolicies = accessPolicies
         }
 
     }
@@ -303,20 +317,6 @@ extension Cloudsearch {
             self.searchInstanceCount = searchInstanceCount
             self.deleted = deleted
             self.domainId = domainId
-        }
-
-    }
-
-    public struct UpdateServiceAccessPoliciesResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The access rules configured for the domain.
-        public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
-
-        public init() {}
-
-        public init(accessPolicies: AccessPoliciesStatus) {
-            self.accessPolicies = accessPolicies
         }
 
     }

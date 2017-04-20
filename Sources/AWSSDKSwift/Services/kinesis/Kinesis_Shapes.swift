@@ -296,6 +296,23 @@ extension Kinesis {
 
     }
 
+    public struct SequenceNumberRange: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
+        public var endingSequenceNumber: String? = nil
+        /// The starting sequence number for the range.
+        public var startingSequenceNumber: String = ""
+
+        public init() {}
+
+        public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String) {
+            self.endingSequenceNumber = endingSequenceNumber
+            self.startingSequenceNumber = startingSequenceNumber
+        }
+
+    }
+
     public struct DescribeLimitsOutput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -373,60 +390,6 @@ extension Kinesis {
 
     }
 
-    public struct UpdateShardCountInput: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The new number of shards.
-        public var targetShardCount: Int32 = 0
-        /// The name of the stream.
-        public var streamName: String = ""
-        /// The scaling type. Uniform scaling creates shards of equal size.
-        public var scalingType: String = ""
-
-        public init() {}
-
-        public init(targetShardCount: Int32, streamName: String, scalingType: String) {
-            self.targetShardCount = targetShardCount
-            self.streamName = streamName
-            self.scalingType = scalingType
-        }
-
-    }
-
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
-        public var value: String? = nil
-        /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
-        public var key: String = ""
-
-        public init() {}
-
-        public init(value: String? = nil, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-    }
-
-    public struct SequenceNumberRange: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
-        public var endingSequenceNumber: String? = nil
-        /// The starting sequence number for the range.
-        public var startingSequenceNumber: String = ""
-
-        public init() {}
-
-        public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String) {
-            self.endingSequenceNumber = endingSequenceNumber
-            self.startingSequenceNumber = startingSequenceNumber
-        }
-
-    }
-
     public struct PutRecordsRequestEntry: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -464,6 +427,43 @@ extension Kinesis {
 
     }
 
+    public struct UpdateShardCountInput: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// The new number of shards.
+        public var targetShardCount: Int32 = 0
+        /// The name of the stream.
+        public var streamName: String = ""
+        /// The scaling type. Uniform scaling creates shards of equal size.
+        public var scalingType: String = ""
+
+        public init() {}
+
+        public init(targetShardCount: Int32, streamName: String, scalingType: String) {
+            self.targetShardCount = targetShardCount
+            self.streamName = streamName
+            self.scalingType = scalingType
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+        public var value: String? = nil
+        /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+        public var key: String = ""
+
+        public init() {}
+
+        public init(value: String? = nil, key: String) {
+            self.value = value
+            self.key = key
+        }
+
+    }
+
     public struct DeleteStreamInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -495,12 +495,12 @@ extension Kinesis {
     public struct PutRecordInput: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The name of the stream to put the data record into.
-        public var streamName: String = ""
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         public var partitionKey: String = ""
         /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
         public var explicitHashKey: String? = nil
+        /// The name of the stream to put the data record into.
+        public var streamName: String = ""
         /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records will be coarsely ordered based on arrival time.
         public var sequenceNumberForOrdering: String? = nil
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
@@ -508,10 +508,10 @@ extension Kinesis {
 
         public init() {}
 
-        public init(streamName: String, partitionKey: String, explicitHashKey: String? = nil, sequenceNumberForOrdering: String? = nil, data: Data) {
-            self.streamName = streamName
+        public init(partitionKey: String, explicitHashKey: String? = nil, streamName: String, sequenceNumberForOrdering: String? = nil, data: Data) {
             self.partitionKey = partitionKey
             self.explicitHashKey = explicitHashKey
+            self.streamName = streamName
             self.sequenceNumberForOrdering = sequenceNumberForOrdering
             self.data = data
         }

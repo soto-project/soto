@@ -495,14 +495,14 @@ extension Ssm {
         public var status: String? = nil
         /// The time the plugin started executing. 
         public var responseStartDateTime: Date? = nil
+        /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
+        public var responseFinishDateTime: Date? = nil
         /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript   test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-1234567876543 is the instance ID;  awsrunShellScript is the name of the plugin.
         public var outputS3BucketName: String? = nil
         /// The name of the plugin. Must be one of the following: aws:updateAgent, aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule, aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent. 
         public var name: String? = nil
         /// Output of the plugin execution.
         public var output: String? = nil
-        /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
-        public var responseFinishDateTime: Date? = nil
         /// The URL for the complete text written by the plugin to stderr. If execution is not yet complete, then this string is empty.
         public var standardErrorUrl: String? = nil
         /// The URL for the complete text written by the plugin to stdout in Amazon S3. If the Amazon S3 bucket for the command was not specified, then this string is empty.
@@ -518,13 +518,13 @@ extension Ssm {
 
         public init() {}
 
-        public init(status: String? = nil, responseStartDateTime: Date? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, responseFinishDateTime: Date? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
+        public init(status: String? = nil, responseStartDateTime: Date? = nil, responseFinishDateTime: Date? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
             self.status = status
             self.responseStartDateTime = responseStartDateTime
+            self.responseFinishDateTime = responseFinishDateTime
             self.outputS3BucketName = outputS3BucketName
             self.name = name
             self.output = output
-            self.responseFinishDateTime = responseFinishDateTime
             self.standardErrorUrl = standardErrorUrl
             self.standardOutputUrl = standardOutputUrl
             self.outputS3Region = outputS3Region
@@ -665,18 +665,18 @@ extension Ssm {
     public struct Command: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command.
+        public var outputS3BucketName: String? = nil
         /// Configurations for sending notifications about command status changes. 
         public var notificationConfig: NotificationConfig? = nil
         /// The number of targets for which the command invocation reached a terminal state. Terminal states include the following: Success, Failed, Execution Timed Out, Delivery Timed Out, Canceled, Terminated, or Undeliverable.
         public var completedCount: Int32? = nil
-        /// User-specified information about the command, such as a brief description of what the command should do.
-        public var comment: String? = nil
         /// An array of search criteria that targets instances using a Key;Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
         public var targets: [Target]? = nil
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command.
-        public var outputS3BucketName: String? = nil
         /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command.
         public var outputS3KeyPrefix: String? = nil
+        /// User-specified information about the command, such as a brief description of what the command should do.
+        public var comment: String? = nil
         /// The IAM service role that Run Command uses to act on your behalf when sending notifications about command status changes. 
         public var serviceRole: String? = nil
         /// The region where the Amazon Simple Storage Service (Amazon S3) output bucket is located. The default value is the region where Run Command is being called.
@@ -708,13 +708,13 @@ extension Ssm {
 
         public init() {}
 
-        public init(notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, comment: String? = nil, targets: [Target]? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: String? = nil, maxErrors: String? = nil, requestedDateTime: Date? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: Date? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: String? = nil, maxErrors: String? = nil, requestedDateTime: Date? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: Date? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+            self.outputS3BucketName = outputS3BucketName
             self.notificationConfig = notificationConfig
             self.completedCount = completedCount
-            self.comment = comment
             self.targets = targets
-            self.outputS3BucketName = outputS3BucketName
             self.outputS3KeyPrefix = outputS3KeyPrefix
+            self.comment = comment
             self.serviceRole = serviceRole
             self.outputS3Region = outputS3Region
             self.instanceIds = instanceIds
@@ -1024,12 +1024,12 @@ extension Ssm {
         public let _payload: String? = nil
         /// The IAM role ARN of the user who executed the Automation.
         public var executedBy: String? = nil
+        /// The status of the execution. Valid values include: Running, Succeeded, Failed, Timed out, or Cancelled.
+        public var automationExecutionStatus: String? = nil
         /// The name of the Automation document used during execution.
         public var documentName: String? = nil
         /// The document version used during the execution.
         public var documentVersion: String? = nil
-        /// The status of the execution. Valid values include: Running, Succeeded, Failed, Timed out, or Cancelled.
-        public var automationExecutionStatus: String? = nil
         /// The time the execution started.&gt;
         public var executionStartTime: Date? = nil
         /// The list of execution outputs as defined in the Automation document.
@@ -1043,11 +1043,11 @@ extension Ssm {
 
         public init() {}
 
-        public init(executedBy: String? = nil, documentName: String? = nil, documentVersion: String? = nil, automationExecutionStatus: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: Date? = nil) {
+        public init(executedBy: String? = nil, automationExecutionStatus: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: Date? = nil) {
             self.executedBy = executedBy
+            self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
             self.documentVersion = documentVersion
-            self.automationExecutionStatus = automationExecutionStatus
             self.executionStartTime = executionStartTime
             self.outputs = outputs
             self.logFile = logFile
@@ -1367,8 +1367,8 @@ extension Ssm {
     public struct DocumentIdentifier: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The document version.
-        public var documentVersion: String? = nil
+        /// The schema version.
+        public var schemaVersion: String? = nil
         /// The document type.
         public var documentType: String? = nil
         /// The AWS user account of the person who created the document.
@@ -1377,18 +1377,18 @@ extension Ssm {
         public var name: String? = nil
         /// The operating system platform. 
         public var platformTypes: [String]? = nil
-        /// The schema version.
-        public var schemaVersion: String? = nil
+        /// The document version.
+        public var documentVersion: String? = nil
 
         public init() {}
 
-        public init(documentVersion: String? = nil, documentType: String? = nil, owner: String? = nil, name: String? = nil, platformTypes: [String]? = nil, schemaVersion: String? = nil) {
-            self.documentVersion = documentVersion
+        public init(schemaVersion: String? = nil, documentType: String? = nil, owner: String? = nil, name: String? = nil, platformTypes: [String]? = nil, documentVersion: String? = nil) {
+            self.schemaVersion = schemaVersion
             self.documentType = documentType
             self.owner = owner
             self.name = name
             self.platformTypes = platformTypes
-            self.schemaVersion = schemaVersion
+            self.documentVersion = documentVersion
         }
 
     }
@@ -1835,12 +1835,12 @@ extension Ssm {
         public let _payload: String? = nil
         /// The key-value map of execution parameters, which were supplied when calling StartAutomationExecution.
         public var parameters: [String: [String]]? = nil
+        /// The execution status of the Automation.
+        public var automationExecutionStatus: String? = nil
         /// The name of the Automation document used during the execution.
         public var documentName: String? = nil
         /// The version of the document to use during execution.
         public var documentVersion: String? = nil
-        /// The execution status of the Automation.
-        public var automationExecutionStatus: String? = nil
         /// The time the execution started.
         public var executionStartTime: Date? = nil
         /// The list of execution outputs as defined in the automation document.
@@ -1856,11 +1856,11 @@ extension Ssm {
 
         public init() {}
 
-        public init(parameters: [String: [String]]? = nil, documentName: String? = nil, documentVersion: String? = nil, automationExecutionStatus: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: Date? = nil) {
+        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: Date? = nil) {
             self.parameters = parameters
+            self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
             self.documentVersion = documentVersion
-            self.automationExecutionStatus = automationExecutionStatus
             self.executionStartTime = executionStartTime
             self.outputs = outputs
             self.failureMessage = failureMessage
@@ -2149,10 +2149,10 @@ extension Ssm {
         public var createdDate: Date? = nil
         /// The AWS user account of the person who created the document.
         public var owner: String? = nil
-        ///  A description of the document. 
-        public var description: String? = nil
         /// The type of document. 
         public var documentType: String? = nil
+        ///  A description of the document. 
+        public var description: String? = nil
         /// The status of the SSM document.
         public var status: String? = nil
         /// A description of the parameters for a document.
@@ -2174,13 +2174,13 @@ extension Ssm {
 
         public init() {}
 
-        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Date? = nil, owner: String? = nil, description: String? = nil, documentType: String? = nil, status: String? = nil, parameters: [DocumentParameter]? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: [String]? = nil, hash: String? = nil, hashType: String? = nil) {
+        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Date? = nil, owner: String? = nil, documentType: String? = nil, description: String? = nil, status: String? = nil, parameters: [DocumentParameter]? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: [String]? = nil, hash: String? = nil, hashType: String? = nil) {
             self.sha1 = sha1
             self.defaultVersion = defaultVersion
             self.createdDate = createdDate
             self.owner = owner
-            self.description = description
             self.documentType = documentType
+            self.description = description
             self.status = status
             self.parameters = parameters
             self.name = name
@@ -2540,10 +2540,10 @@ extension Ssm {
         public let _payload: String? = nil
         /// The ID of the deleted patch baseline.
         public var baselineId: String? = nil
-        /// The date when the patch baseline was last modified.
-        public var modifiedDate: Date? = nil
         /// A list of explicitly approved patches for the baseline.
         public var approvedPatches: [String]? = nil
+        /// The date when the patch baseline was last modified.
+        public var modifiedDate: Date? = nil
         /// The name of the patch baseline.
         public var name: String? = nil
         /// A list of explicitly rejected patches for the baseline.
@@ -2559,10 +2559,10 @@ extension Ssm {
 
         public init() {}
 
-        public init(baselineId: String? = nil, modifiedDate: Date? = nil, approvedPatches: [String]? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Date? = nil, description: String? = nil) {
+        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: Date? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Date? = nil, description: String? = nil) {
             self.baselineId = baselineId
-            self.modifiedDate = modifiedDate
             self.approvedPatches = approvedPatches
+            self.modifiedDate = modifiedDate
             self.name = name
             self.rejectedPatches = rejectedPatches
             self.approvalRules = approvalRules
@@ -3011,25 +3011,25 @@ extension Ssm {
     public struct CreateActivationRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The date by which this activation request should expire. The default value is 24 hours.
-        public var expirationDate: Date? = nil
+        /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
+        public var iamRole: String = ""
         /// A user-defined description of the resource that you want to register with Amazon EC2. 
         public var description: String? = nil
         /// Specify the maximum number of managed instances you want to register. The default value is 1 instance.
         public var registrationLimit: Int32? = nil
         /// The name of the registered, managed instance as it will appear in the Amazon EC2 console or when you use the AWS command line tools to list EC2 resources.
         public var defaultInstanceName: String? = nil
-        /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
-        public var iamRole: String = ""
+        /// The date by which this activation request should expire. The default value is 24 hours.
+        public var expirationDate: Date? = nil
 
         public init() {}
 
-        public init(expirationDate: Date? = nil, description: String? = nil, registrationLimit: Int32? = nil, defaultInstanceName: String? = nil, iamRole: String) {
-            self.expirationDate = expirationDate
+        public init(iamRole: String, description: String? = nil, registrationLimit: Int32? = nil, defaultInstanceName: String? = nil, expirationDate: Date? = nil) {
+            self.iamRole = iamRole
             self.description = description
             self.registrationLimit = registrationLimit
             self.defaultInstanceName = defaultInstanceName
-            self.iamRole = iamRole
+            self.expirationDate = expirationDate
         }
 
     }
@@ -3867,10 +3867,10 @@ extension Ssm {
         public let _payload: String? = nil
         /// The ID of the retrieved patch baseline.
         public var baselineId: String? = nil
-        /// The date the patch baseline was last modified.
-        public var modifiedDate: Date? = nil
         /// A list of explicitly approved patches for the baseline.
         public var approvedPatches: [String]? = nil
+        /// The date the patch baseline was last modified.
+        public var modifiedDate: Date? = nil
         /// The name of the patch baseline.
         public var name: String? = nil
         /// A list of explicitly rejected patches for the baseline.
@@ -3888,10 +3888,10 @@ extension Ssm {
 
         public init() {}
 
-        public init(baselineId: String? = nil, modifiedDate: Date? = nil, approvedPatches: [String]? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Date? = nil, patchGroups: [String]? = nil, description: String? = nil) {
+        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: Date? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Date? = nil, patchGroups: [String]? = nil, description: String? = nil) {
             self.baselineId = baselineId
-            self.modifiedDate = modifiedDate
             self.approvedPatches = approvedPatches
+            self.modifiedDate = modifiedDate
             self.name = name
             self.rejectedPatches = rejectedPatches
             self.approvalRules = approvalRules
@@ -4184,10 +4184,10 @@ extension Ssm {
         public var instanceId: String? = nil
         /// The name of the association.
         public var name: String? = nil
-        /// The date the instance association executed. 
-        public var executionDate: Date? = nil
         /// The association document verions.
         public var documentVersion: String? = nil
+        /// The date the instance association executed. 
+        public var executionDate: Date? = nil
         /// Summary information about association execution.
         public var executionSummary: String? = nil
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
@@ -4199,13 +4199,13 @@ extension Ssm {
 
         public init() {}
 
-        public init(status: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, executionDate: Date? = nil, documentVersion: String? = nil, executionSummary: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, errorCode: String? = nil, detailedStatus: String? = nil) {
+        public init(status: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, executionDate: Date? = nil, executionSummary: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, errorCode: String? = nil, detailedStatus: String? = nil) {
             self.status = status
             self.associationId = associationId
             self.instanceId = instanceId
             self.name = name
-            self.executionDate = executionDate
             self.documentVersion = documentVersion
+            self.executionDate = executionDate
             self.executionSummary = executionSummary
             self.outputUrl = outputUrl
             self.errorCode = errorCode

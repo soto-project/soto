@@ -30,9 +30,9 @@ import Core
 public enum MonitoringError: AWSErrorType {
     case invalidNextToken(message: String?)
     case limitExceededFault(message: String?)
-    case resourceNotFound(message: String?)
     case internalServiceFault(message: String?)
     case invalidParameterValueException(message: String?)
+    case resourceNotFound(message: String?)
     case missingRequiredParameterException(message: String?)
     case invalidParameterCombinationException(message: String?)
     case invalidFormatFault(message: String?)
@@ -45,12 +45,12 @@ extension MonitoringError {
             self = .invalidNextToken(message: message)
         case "LimitExceededFault":
             self = .limitExceededFault(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
         case "InternalServiceFault":
             self = .internalServiceFault(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
+        case "ResourceNotFound":
+            self = .resourceNotFound(message: message)
         case "MissingRequiredParameterException":
             self = .missingRequiredParameterException(message: message)
         case "InvalidParameterCombinationException":

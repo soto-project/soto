@@ -57,9 +57,9 @@ public struct Autoscaling {
         _ = try client.send(operation: "PutNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the target groups for the specified Auto Scaling group.
-    public func describeLoadBalancerTargetGroups(_ input: DescribeLoadBalancerTargetGroupsRequest) throws -> DescribeLoadBalancerTargetGroupsResponse {
-        return try client.send(operation: "DescribeLoadBalancerTargetGroups", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the load balancers for the specified Auto Scaling group. Note that this operation describes only Classic load balancers. If you have Application load balancers, use DescribeLoadBalancerTargetGroups instead.
+    public func describeLoadBalancers(_ input: DescribeLoadBalancersRequest) throws -> DescribeLoadBalancersResponse {
+        return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, which by default is 20 per region, the call fails. For information about viewing and updating this limit, see DescribeAccountLimits. For more information, see Auto Scaling Groups in the Auto Scaling User Guide.
@@ -67,9 +67,9 @@ public struct Autoscaling {
         _ = try client.send(operation: "CreateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the load balancers for the specified Auto Scaling group. Note that this operation describes only Classic load balancers. If you have Application load balancers, use DescribeLoadBalancerTargetGroups instead.
-    public func describeLoadBalancers(_ input: DescribeLoadBalancersRequest) throws -> DescribeLoadBalancersResponse {
-        return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the target groups for the specified Auto Scaling group.
+    public func describeLoadBalancerTargetGroups(_ input: DescribeLoadBalancerTargetGroupsRequest) throws -> DescribeLoadBalancerTargetGroupsResponse {
+        return try client.send(operation: "DescribeLoadBalancerTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Executes the specified policy.

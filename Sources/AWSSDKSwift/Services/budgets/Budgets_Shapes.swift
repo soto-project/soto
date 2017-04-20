@@ -209,6 +209,14 @@ extension Budgets {
 
     }
 
+    public struct CreateBudgetResponse: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+
+        public init() {}
+
+    }
+
     public struct CostTypes: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -223,14 +231,6 @@ extension Budgets {
             self.useBlended = useBlended
             self.includeTax = includeTax
         }
-
-    }
-
-    public struct CreateBudgetResponse: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-
-        public init() {}
 
     }
 

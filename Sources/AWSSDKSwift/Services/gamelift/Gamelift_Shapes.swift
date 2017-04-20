@@ -71,12 +71,12 @@ extension Gamelift {
         public let _payload: String? = nil
         /// Unique identifier for a player to retrieve player sessions for.
         public var playerId: String? = nil
-        /// Player session status to filter results on. Possible player session statuses include the following:    RESERVED – The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE – The player has been validated by the server process and is currently connected.    COMPLETED – The player connection has been dropped.    TIMEDOUT – A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).  
-        public var playerSessionStatusFilter: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
         public var limit: Int32? = nil
         /// Unique identifier for the game session to retrieve player sessions for.
         public var gameSessionId: String? = nil
+        /// Player session status to filter results on. Possible player session statuses include the following:    RESERVED – The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE – The player has been validated by the server process and is currently connected.    COMPLETED – The player connection has been dropped.    TIMEDOUT – A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).  
+        public var playerSessionStatusFilter: String? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
         public var nextToken: String? = nil
         /// Unique identifier for a player session to retrieve.
@@ -84,11 +84,11 @@ extension Gamelift {
 
         public init() {}
 
-        public init(playerId: String? = nil, playerSessionStatusFilter: String? = nil, limit: Int32? = nil, gameSessionId: String? = nil, nextToken: String? = nil, playerSessionId: String? = nil) {
+        public init(playerId: String? = nil, limit: Int32? = nil, gameSessionId: String? = nil, playerSessionStatusFilter: String? = nil, nextToken: String? = nil, playerSessionId: String? = nil) {
             self.playerId = playerId
-            self.playerSessionStatusFilter = playerSessionStatusFilter
             self.limit = limit
             self.gameSessionId = gameSessionId
+            self.playerSessionStatusFilter = playerSessionStatusFilter
             self.nextToken = nextToken
             self.playerSessionId = playerSessionId
         }
@@ -1621,14 +1621,14 @@ extension Gamelift {
         public var status: String? = nil
         /// Unique identifier for a player session.
         public var playerSessionId: String? = nil
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public var terminationTime: Date? = nil
+        /// Game session IP address. All player sessions reference the game session location.
+        public var ipAddress: String? = nil
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. 
         public var playerData: String? = nil
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: Date? = nil
-        /// Game session IP address. All player sessions reference the game session location.
-        public var ipAddress: String? = nil
+        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public var terminationTime: Date? = nil
         /// Unique identifier for a player that is associated with this player session.
         public var playerId: String? = nil
         /// Unique identifier for the game session that the player session is connected to.
@@ -1640,13 +1640,13 @@ extension Gamelift {
 
         public init() {}
 
-        public init(status: String? = nil, playerSessionId: String? = nil, terminationTime: Date? = nil, playerData: String? = nil, creationTime: Date? = nil, ipAddress: String? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
+        public init(status: String? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: Date? = nil, terminationTime: Date? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
             self.status = status
             self.playerSessionId = playerSessionId
-            self.terminationTime = terminationTime
+            self.ipAddress = ipAddress
             self.playerData = playerData
             self.creationTime = creationTime
-            self.ipAddress = ipAddress
+            self.terminationTime = terminationTime
             self.playerId = playerId
             self.gameSessionId = gameSessionId
             self.fleetId = fleetId
@@ -1844,12 +1844,12 @@ extension Gamelift {
         public let _payload: String? = nil
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var terminationTime: Date? = nil
-        /// Type of game session protection to set for all new instances started in the fleet.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public var newGameSessionProtectionPolicy: String? = nil
         /// Identifier for a fleet that is unique across all regions.
         public var fleetArn: String? = nil
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: Date? = nil
+        /// Type of game session protection to set for all new instances started in the fleet.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
+        public var newGameSessionProtectionPolicy: String? = nil
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift will automatically upload logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
         public var logPaths: [String]? = nil
         /// Path to a game server executable in the fleet's build, specified for fleets created prior to 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
@@ -1873,11 +1873,11 @@ extension Gamelift {
 
         public init() {}
 
-        public init(terminationTime: Date? = nil, newGameSessionProtectionPolicy: String? = nil, fleetArn: String? = nil, creationTime: Date? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, status: String? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: String? = nil, fleetId: String? = nil) {
+        public init(terminationTime: Date? = nil, fleetArn: String? = nil, creationTime: Date? = nil, newGameSessionProtectionPolicy: String? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, status: String? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: String? = nil, fleetId: String? = nil) {
             self.terminationTime = terminationTime
-            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.fleetArn = fleetArn
             self.creationTime = creationTime
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.logPaths = logPaths
             self.serverLaunchPath = serverLaunchPath
             self.description = description

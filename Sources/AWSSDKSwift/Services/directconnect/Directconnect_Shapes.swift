@@ -784,9 +784,9 @@ extension Directconnect {
     public struct BGPPeer: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        public var bgpPeerState: String? = nil
         public var customerAddress: String? = nil
         public var bgpStatus: String? = nil
-        public var bgpPeerState: String? = nil
         public var authKey: String? = nil
         public var amazonAddress: String? = nil
         public var asn: Int32? = nil
@@ -794,10 +794,10 @@ extension Directconnect {
 
         public init() {}
 
-        public init(customerAddress: String? = nil, bgpStatus: String? = nil, bgpPeerState: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: String? = nil) {
+        public init(bgpPeerState: String? = nil, customerAddress: String? = nil, bgpStatus: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: String? = nil) {
+            self.bgpPeerState = bgpPeerState
             self.customerAddress = customerAddress
             self.bgpStatus = bgpStatus
-            self.bgpPeerState = bgpPeerState
             self.authKey = authKey
             self.amazonAddress = amazonAddress
             self.asn = asn

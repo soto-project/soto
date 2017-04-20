@@ -302,14 +302,14 @@ extension Ds {
         public var shortName: String? = nil
         /// Specifies when the directory was created.
         public var launchTime: Date? = nil
-        /// The current stage of the directory.
-        public var stage: String? = nil
         /// The directory identifier.
         public var directoryId: String? = nil
-        /// The date and time that the stage was last updated.
-        public var stageLastUpdatedDateTime: Date? = nil
+        /// The current stage of the directory.
+        public var stage: String? = nil
         /// The textual description for the directory.
         public var description: String? = nil
+        /// The date and time that the stage was last updated.
+        public var stageLastUpdatedDateTime: Date? = nil
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public var vpcSettings: DirectoryVpcSettingsDescription? = nil
         /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
@@ -337,13 +337,13 @@ extension Ds {
 
         public init() {}
 
-        public init(shortName: String? = nil, launchTime: Date? = nil, stage: String? = nil, directoryId: String? = nil, stageLastUpdatedDateTime: Date? = nil, description: String? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: String? = nil, alias: String? = nil, radiusStatus: String? = nil, type: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
+        public init(shortName: String? = nil, launchTime: Date? = nil, directoryId: String? = nil, stage: String? = nil, description: String? = nil, stageLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: String? = nil, alias: String? = nil, radiusStatus: String? = nil, type: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
             self.shortName = shortName
             self.launchTime = launchTime
-            self.stage = stage
             self.directoryId = directoryId
-            self.stageLastUpdatedDateTime = stageLastUpdatedDateTime
+            self.stage = stage
             self.description = description
+            self.stageLastUpdatedDateTime = stageLastUpdatedDateTime
             self.vpcSettings = vpcSettings
             self.ssoEnabled = ssoEnabled
             self.radiusSettings = radiusSettings
@@ -571,12 +571,12 @@ extension Ds {
         public var cloudOnlyDirectoriesLimitReached: Bool? = nil
         /// The current number of connected directories in the region.
         public var connectedDirectoriesCurrentCount: Int32? = nil
+        /// The current number of Microsoft AD directories in the region.
+        public var cloudOnlyMicrosoftADCurrentCount: Int32? = nil
         /// The current number of cloud directories in the region.
         public var cloudOnlyDirectoriesCurrentCount: Int32? = nil
         /// The maximum number of Microsoft AD directories allowed in the region.
         public var cloudOnlyMicrosoftADLimit: Int32? = nil
-        /// The current number of Microsoft AD directories in the region.
-        public var cloudOnlyMicrosoftADCurrentCount: Int32? = nil
         /// Indicates if the Microsoft AD directory limit has been reached.
         public var cloudOnlyMicrosoftADLimitReached: Bool? = nil
         /// Indicates if the connected directory limit has been reached.
@@ -586,13 +586,13 @@ extension Ds {
 
         public init() {}
 
-        public init(cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesLimitReached: Bool? = nil, connectedDirectoriesLimit: Int32? = nil) {
+        public init(cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesLimitReached: Bool? = nil, connectedDirectoriesLimit: Int32? = nil) {
             self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
             self.cloudOnlyDirectoriesLimitReached = cloudOnlyDirectoriesLimitReached
             self.connectedDirectoriesCurrentCount = connectedDirectoriesCurrentCount
+            self.cloudOnlyMicrosoftADCurrentCount = cloudOnlyMicrosoftADCurrentCount
             self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
             self.cloudOnlyMicrosoftADLimit = cloudOnlyMicrosoftADLimit
-            self.cloudOnlyMicrosoftADCurrentCount = cloudOnlyMicrosoftADCurrentCount
             self.cloudOnlyMicrosoftADLimitReached = cloudOnlyMicrosoftADLimitReached
             self.connectedDirectoriesLimitReached = connectedDirectoriesLimitReached
             self.connectedDirectoriesLimit = connectedDirectoriesLimit
@@ -1292,8 +1292,8 @@ extension Ds {
     public struct CreateTrustRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// The Directory ID of the Microsoft AD in the AWS cloud for which to establish the trust relationship.
-        public var directoryId: String = ""
+        /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
+        public var remoteDomainName: String = ""
         /// The direction of the trust relationship.
         public var trustDirection: String = ""
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
@@ -1302,18 +1302,18 @@ extension Ds {
         public var trustType: String? = nil
         /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
         public var trustPassword: String = ""
-        /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
-        public var remoteDomainName: String = ""
+        /// The Directory ID of the Microsoft AD in the AWS cloud for which to establish the trust relationship.
+        public var directoryId: String = ""
 
         public init() {}
 
-        public init(directoryId: String, trustDirection: String, conditionalForwarderIpAddrs: [String]? = nil, trustType: String? = nil, trustPassword: String, remoteDomainName: String) {
-            self.directoryId = directoryId
+        public init(remoteDomainName: String, trustDirection: String, conditionalForwarderIpAddrs: [String]? = nil, trustType: String? = nil, trustPassword: String, directoryId: String) {
+            self.remoteDomainName = remoteDomainName
             self.trustDirection = trustDirection
             self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
             self.trustType = trustType
             self.trustPassword = trustPassword
-            self.remoteDomainName = remoteDomainName
+            self.directoryId = directoryId
         }
 
     }

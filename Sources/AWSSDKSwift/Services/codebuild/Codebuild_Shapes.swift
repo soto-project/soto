@@ -96,10 +96,10 @@ extension Codebuild {
         public let _payload: String? = nil
         /// The name of the build project.
         public var name: String? = nil
-        /// Information about the build input source code for this build project.
-        public var source: ProjectSource? = nil
         /// When the build project's settings were last modified, expressed in Unix time format.
         public var lastModified: Date? = nil
+        /// Information about the build input source code for this build project.
+        public var source: ProjectSource? = nil
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
         public var timeoutInMinutes: Int32? = nil
         /// When the build project was created, expressed in Unix time format.
@@ -121,10 +121,10 @@ extension Codebuild {
 
         public init() {}
 
-        public init(name: String? = nil, source: ProjectSource? = nil, lastModified: Date? = nil, timeoutInMinutes: Int32? = nil, created: Date? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, lastModified: Date? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, created: Date? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
             self.name = name
-            self.source = source
             self.lastModified = lastModified
+            self.source = source
             self.timeoutInMinutes = timeoutInMinutes
             self.created = created
             self.encryptionKey = encryptionKey
@@ -551,10 +551,10 @@ extension Codebuild {
         public let _payload: String? = nil
         /// The name of the build project.  You cannot change a build project's name. 
         public var name: String = ""
-        /// Information to be changed about the build input source code for the build project.
-        public var source: ProjectSource? = nil
         /// Information to be changed about the build environment for the build project.
         public var environment: ProjectEnvironment? = nil
+        /// Information to be changed about the build input source code for the build project.
+        public var source: ProjectSource? = nil
         /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
         public var timeoutInMinutes: Int32? = nil
         /// The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format alias/alias-name ).
@@ -570,10 +570,10 @@ extension Codebuild {
 
         public init() {}
 
-        public init(name: String, source: ProjectSource? = nil, environment: ProjectEnvironment? = nil, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, tags: [Tag]? = nil, serviceRole: String? = nil) {
+        public init(name: String, environment: ProjectEnvironment? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, tags: [Tag]? = nil, serviceRole: String? = nil) {
             self.name = name
-            self.source = source
             self.environment = environment
+            self.source = source
             self.timeoutInMinutes = timeoutInMinutes
             self.encryptionKey = encryptionKey
             self.description = description
@@ -683,10 +683,10 @@ extension Codebuild {
         public let _payload: String? = nil
         /// The name of the build project.
         public var name: String = ""
-        /// Information about the build input source code for the build project.
-        public var source: ProjectSource = ProjectSource()
         /// Information about the build environment for the build project.
         public var environment: ProjectEnvironment = ProjectEnvironment()
+        /// Information about the build input source code for the build project.
+        public var source: ProjectSource = ProjectSource()
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any build that has not been marked as completed. The default is 60 minutes.
         public var timeoutInMinutes: Int32? = nil
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format alias/alias-name ).
@@ -702,10 +702,10 @@ extension Codebuild {
 
         public init() {}
 
-        public init(name: String, source: ProjectSource, environment: ProjectEnvironment, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts, tags: [Tag]? = nil, serviceRole: String? = nil) {
+        public init(name: String, environment: ProjectEnvironment, source: ProjectSource, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts, tags: [Tag]? = nil, serviceRole: String? = nil) {
             self.name = name
-            self.source = source
             self.environment = environment
+            self.source = source
             self.timeoutInMinutes = timeoutInMinutes
             self.encryptionKey = encryptionKey
             self.description = description

@@ -68,14 +68,14 @@ public struct Rekognition {
         return try client.send(operation: "SearchFaces", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns list of collection IDs in your account. If the result is truncated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see example1. This operation requires permissions to perform the rekognition:ListCollections action.
-    public func listCollections(_ input: ListCollectionsRequest) throws -> ListCollectionsResponse {
-        return try client.send(operation: "ListCollections", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see example1. This operation requires permissions to perform the rekognition:DeleteCollection action.
     public func deleteCollection(_ input: DeleteCollectionRequest) throws -> DeleteCollectionResponse {
         return try client.send(operation: "DeleteCollection", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns list of collection IDs in your account. If the result is truncated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see example1. This operation requires permissions to perform the rekognition:ListCollections action.
+    public func listCollections(_ input: ListCollectionsRequest) throws -> ListCollectionsResponse {
+        return try client.send(operation: "ListCollections", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a collection in an AWS Region. You can add faces to the collection using the operation.  For example, you might create collections, one for each of your application users. A user can then index faces using the IndexFaces operation and persist results in a specific collection. Then, a user can search the collection for faces in the user-specific container.  For an example, see example1.  This operation requires permissions to perform the rekognition:CreateCollection action.

@@ -68,14 +68,14 @@ public struct Lightsail {
         return try client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attempts to unpeer the Lightsail VPC from the user's default VPC.
-    public func unpeerVpc(_ input: UnpeerVpcRequest) throws -> UnpeerVpcResult {
-        return try client.send(operation: "UnpeerVpc", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes a specific domain entry.
     public func deleteDomainEntry(_ input: DeleteDomainEntryRequest) throws -> DeleteDomainEntryResult {
         return try client.send(operation: "DeleteDomainEntry", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attempts to unpeer the Lightsail VPC from the user's default VPC.
+    public func unpeerVpc(_ input: UnpeerVpcRequest) throws -> UnpeerVpcResult {
+        return try client.send(operation: "UnpeerVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the state of a specific instance. Works on one instance at a time.
@@ -143,14 +143,14 @@ public struct Lightsail {
         return try client.send(operation: "GetInstanceAccessDetails", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified domain recordset and all of its domain records.
-    public func deleteDomain(_ input: DeleteDomainRequest) throws -> DeleteDomainResult {
-        return try client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates one of the following entry records associated with the domain: A record, CNAME record, TXT record, or MX record.
     public func createDomainEntry(_ input: CreateDomainEntryRequest) throws -> CreateDomainEntryResult {
         return try client.send(operation: "CreateDomainEntry", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified domain recordset and all of its domain records.
+    public func deleteDomain(_ input: DeleteDomainRequest) throws -> DeleteDomainResult {
+        return try client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Imports a public SSH key from a specific key pair.

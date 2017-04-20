@@ -97,14 +97,14 @@ public struct Clouddirectory {
         return try client.send(operation: "DeleteObject", path: "/amazonclouddirectory/2017-01-11/object/delete", httpMethod: "PUT", input: input)
     }
 
-    ///  Retrieves the ARNs of schemas in the development state.
-    public func listDevelopmentSchemaArns(_ input: ListDevelopmentSchemaArnsRequest) throws -> ListDevelopmentSchemaArnsResponse {
-        return try client.send(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: "POST", input: input)
-    }
-
     ///  Lists indices attached to an object.
     public func listAttachedIndices(_ input: ListAttachedIndicesRequest) throws -> ListAttachedIndicesResponse {
         return try client.send(operation: "ListAttachedIndices", path: "/amazonclouddirectory/2017-01-11/object/indices", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the ARNs of schemas in the development state.
+    public func listDevelopmentSchemaArns(_ input: ListDevelopmentSchemaArnsRequest) throws -> ListDevelopmentSchemaArnsResponse {
+        return try client.send(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: "POST", input: input)
     }
 
     ///  Returns policies attached to an object in pagination fashion.

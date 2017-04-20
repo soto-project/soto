@@ -465,12 +465,12 @@ extension Appstream2 {
         public var vpcConfig: VpcConfig? = nil
         /// The current state for the fleet.
         public var state: String = ""
+        /// The capacity information for the fleet.
+        public var computeCapacityStatus: ComputeCapacityStatus = ComputeCapacityStatus()
         /// The name displayed to end users on the AppStream 2.0 portal.
         public var displayName: String? = nil
         /// The list of fleet errors is appended to this list.
         public var fleetErrors: [FleetError]? = nil
-        /// The capacity information for the fleet.
-        public var computeCapacityStatus: ComputeCapacityStatus = ComputeCapacityStatus()
         /// The image used by the fleet.
         public var imageName: String = ""
         /// The instance type of compute resources for the fleet. The fleet instances are launched from this instance type. 
@@ -488,13 +488,13 @@ extension Appstream2 {
 
         public init() {}
 
-        public init(arn: String, vpcConfig: VpcConfig? = nil, state: String, displayName: String? = nil, fleetErrors: [FleetError]? = nil, computeCapacityStatus: ComputeCapacityStatus, imageName: String, instanceType: String, createdTime: Date? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
+        public init(arn: String, vpcConfig: VpcConfig? = nil, state: String, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, instanceType: String, createdTime: Date? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
             self.arn = arn
             self.vpcConfig = vpcConfig
             self.state = state
+            self.computeCapacityStatus = computeCapacityStatus
             self.displayName = displayName
             self.fleetErrors = fleetErrors
-            self.computeCapacityStatus = computeCapacityStatus
             self.imageName = imageName
             self.instanceType = instanceType
             self.createdTime = createdTime

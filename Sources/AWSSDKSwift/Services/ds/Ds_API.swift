@@ -73,6 +73,11 @@ public struct Ds {
         return try client.send(operation: "EnableSso", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists all tags on a directory.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector directory.
     public func disableRadius(_ input: DisableRadiusRequest) throws -> DisableRadiusResult {
         return try client.send(operation: "DisableRadius", path: "/", httpMethod: "POST", input: input)
@@ -91,11 +96,6 @@ public struct Ds {
     ///  Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the DescribeDirectories operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active, the restore operation is complete.
     public func restoreFromSnapshot(_ input: RestoreFromSnapshotRequest) throws -> RestoreFromSnapshotResult {
         return try client.send(operation: "RestoreFromSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all tags on a directory.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
-        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables single-sign on for a directory.

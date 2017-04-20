@@ -29,11 +29,18 @@ import Core
 
 extension Cur {
 
-    public struct PutReportDefinitionResponse: AWSShape {
+    public struct DescribeReportDefinitionsResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        public var nextToken: String? = nil
+        public var reportDefinitions: [ReportDefinition]? = nil
 
         public init() {}
+
+        public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
+            self.nextToken = nextToken
+            self.reportDefinitions = reportDefinitions
+        }
 
     }
 
@@ -50,18 +57,11 @@ extension Cur {
 
     }
 
-    public struct DescribeReportDefinitionsResponse: AWSShape {
+    public struct PutReportDefinitionResponse: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        public var nextToken: String? = nil
-        public var reportDefinitions: [ReportDefinition]? = nil
 
         public init() {}
-
-        public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
-            self.nextToken = nextToken
-            self.reportDefinitions = reportDefinitions
-        }
 
     }
 

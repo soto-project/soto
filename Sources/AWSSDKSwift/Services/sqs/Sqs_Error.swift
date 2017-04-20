@@ -33,12 +33,12 @@ public enum SqsError: AWSErrorType {
     case invalidIdFormat(message: String?)
     case receiptHandleIsInvalid(message: String?)
     case overLimit(message: String?)
-    case queueDoesNotExist(message: String?)
-    case purgeQueueInProgress(message: String?)
     case tooManyEntriesInBatchRequest(message: String?)
     case emptyBatchRequest(message: String?)
     case batchEntryIdsNotDistinct(message: String?)
     case invalidBatchEntryId(message: String?)
+    case queueDoesNotExist(message: String?)
+    case purgeQueueInProgress(message: String?)
     case messageNotInflight(message: String?)
     case queueDeletedRecently(message: String?)
     case queueNameExists(message: String?)
@@ -59,10 +59,6 @@ extension SqsError {
             self = .receiptHandleIsInvalid(message: message)
         case "OverLimit":
             self = .overLimit(message: message)
-        case "QueueDoesNotExist":
-            self = .queueDoesNotExist(message: message)
-        case "PurgeQueueInProgress":
-            self = .purgeQueueInProgress(message: message)
         case "TooManyEntriesInBatchRequest":
             self = .tooManyEntriesInBatchRequest(message: message)
         case "EmptyBatchRequest":
@@ -71,6 +67,10 @@ extension SqsError {
             self = .batchEntryIdsNotDistinct(message: message)
         case "InvalidBatchEntryId":
             self = .invalidBatchEntryId(message: message)
+        case "QueueDoesNotExist":
+            self = .queueDoesNotExist(message: message)
+        case "PurgeQueueInProgress":
+            self = .purgeQueueInProgress(message: message)
         case "MessageNotInflight":
             self = .messageNotInflight(message: message)
         case "QueueDeletedRecently":

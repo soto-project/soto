@@ -1207,10 +1207,10 @@ extension CognitoIdp {
         public let _payload: String? = nil
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
         public var userStatus: String? = nil
-        /// The user name of the user about whom you are receiving information.
-        public var username: String = ""
         /// Indicates that the status is enabled.
         public var enabled: Bool? = nil
+        /// The user name of the user about whom you are receiving information.
+        public var username: String = ""
         /// The date the user was created.
         public var userCreateDate: Date? = nil
         /// Specifies the options for MFA (e.g., email or phone number).
@@ -1222,10 +1222,10 @@ extension CognitoIdp {
 
         public init() {}
 
-        public init(userStatus: String? = nil, username: String, enabled: Bool? = nil, userCreateDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: Date? = nil, userAttributes: [AttributeType]? = nil) {
+        public init(userStatus: String? = nil, enabled: Bool? = nil, username: String, userCreateDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: Date? = nil, userAttributes: [AttributeType]? = nil) {
             self.userStatus = userStatus
-            self.username = username
             self.enabled = enabled
+            self.username = username
             self.userCreateDate = userCreateDate
             self.mFAOptions = mFAOptions
             self.userLastModifiedDate = userLastModifiedDate
@@ -1657,12 +1657,12 @@ extension CognitoIdp {
     public struct UserPoolType: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
+        /// The reason why the email configuration cannot send the messages to your users.
+        public var emailConfigurationFailure: String? = nil
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
         public var userPoolTags: [String: String]? = nil
         /// The subject of the email verification message.
         public var emailVerificationSubject: String? = nil
-        /// The reason why the email configuration cannot send the messages to your users.
-        public var emailConfigurationFailure: String? = nil
         /// The configuration for AdminCreateUser requests.
         public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
         /// A number estimating the size of the user pool.
@@ -1706,10 +1706,10 @@ extension CognitoIdp {
 
         public init() {}
 
-        public init(userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, emailConfigurationFailure: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [String]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: String? = nil, creationDate: Date? = nil, id: String? = nil, status: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: Date? = nil, autoVerifiedAttributes: [String]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
+        public init(emailConfigurationFailure: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [String]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: String? = nil, creationDate: Date? = nil, id: String? = nil, status: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: Date? = nil, autoVerifiedAttributes: [String]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
+            self.emailConfigurationFailure = emailConfigurationFailure
             self.userPoolTags = userPoolTags
             self.emailVerificationSubject = emailVerificationSubject
-            self.emailConfigurationFailure = emailConfigurationFailure
             self.adminCreateUserConfig = adminCreateUserConfig
             self.estimatedNumberOfUsers = estimatedNumberOfUsers
             self.aliasAttributes = aliasAttributes
@@ -2418,8 +2418,8 @@ extension CognitoIdp {
     public struct AdminCreateUserRequest: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (in CreateUserPool or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You cannot do this by calling other operations such as AdminUpdateUserAttributes.)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if "EMAIL" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.  
-        public var userAttributes: [AttributeType]? = nil
+        /// This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
+        public var forceAliasCreation: Bool? = nil
         /// The user pool ID for the user pool where the user will be created.
         public var userPoolId: String = ""
         /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". More than one value can be specified.
@@ -2432,20 +2432,20 @@ extension CognitoIdp {
         public var username: String = ""
         /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page along with a new password to be used in all future sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
         public var temporaryPassword: String? = nil
-        /// This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-        public var forceAliasCreation: Bool? = nil
+        /// An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (in CreateUserPool or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You cannot do this by calling other operations such as AdminUpdateUserAttributes.)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if "EMAIL" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.  
+        public var userAttributes: [AttributeType]? = nil
 
         public init() {}
 
-        public init(userAttributes: [AttributeType]? = nil, userPoolId: String, desiredDeliveryMediums: [String]? = nil, messageAction: String? = nil, validationData: [AttributeType]? = nil, username: String, temporaryPassword: String? = nil, forceAliasCreation: Bool? = nil) {
-            self.userAttributes = userAttributes
+        public init(forceAliasCreation: Bool? = nil, userPoolId: String, desiredDeliveryMediums: [String]? = nil, messageAction: String? = nil, validationData: [AttributeType]? = nil, username: String, temporaryPassword: String? = nil, userAttributes: [AttributeType]? = nil) {
+            self.forceAliasCreation = forceAliasCreation
             self.userPoolId = userPoolId
             self.desiredDeliveryMediums = desiredDeliveryMediums
             self.messageAction = messageAction
             self.validationData = validationData
             self.username = username
             self.temporaryPassword = temporaryPassword
-            self.forceAliasCreation = forceAliasCreation
+            self.userAttributes = userAttributes
         }
 
     }
@@ -2515,10 +2515,10 @@ extension CognitoIdp {
         public let _payload: String? = nil
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
         public var userStatus: String? = nil
-        /// The user name of the user you wish to describe.
-        public var username: String? = nil
         /// Specifies whether the user is enabled.
         public var enabled: Bool? = nil
+        /// The user name of the user you wish to describe.
+        public var username: String? = nil
         /// The creation date of the user.
         public var userCreateDate: Date? = nil
         /// A container with information about the user type attributes.
@@ -2530,10 +2530,10 @@ extension CognitoIdp {
 
         public init() {}
 
-        public init(userStatus: String? = nil, username: String? = nil, enabled: Bool? = nil, userCreateDate: Date? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil) {
+        public init(userStatus: String? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: Date? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil) {
             self.userStatus = userStatus
-            self.username = username
             self.enabled = enabled
+            self.username = username
             self.userCreateDate = userCreateDate
             self.attributes = attributes
             self.userLastModifiedDate = userLastModifiedDate

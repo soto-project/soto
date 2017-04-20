@@ -292,32 +292,6 @@ extension Xray {
 
     }
 
-    public struct ServiceStatistics: AWSShape {
-        /// The key for the payload
-        public let _payload: String? = nil
-        /// The aggregate response time of completed requests.
-        public var totalResponseTime: Double? = nil
-        /// Information about requests that failed with a 5xx Server Error status code.
-        public var faultStatistics: FaultStatistics? = nil
-        /// The number of requests that completed with a 2xx Success status code.
-        public var okCount: Int64? = nil
-        /// Information about requests that failed with a 4xx Client Error status code.
-        public var errorStatistics: ErrorStatistics? = nil
-        /// The total number of completed requests.
-        public var totalCount: Int64? = nil
-
-        public init() {}
-
-        public init(totalResponseTime: Double? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil, totalCount: Int64? = nil) {
-            self.totalResponseTime = totalResponseTime
-            self.faultStatistics = faultStatistics
-            self.okCount = okCount
-            self.errorStatistics = errorStatistics
-            self.totalCount = totalCount
-        }
-
-    }
-
     public struct GetServiceGraphResult: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
@@ -337,6 +311,23 @@ extension Xray {
             self.endTime = endTime
             self.services = services
             self.nextToken = nextToken
+        }
+
+    }
+
+    public struct TraceUser: AWSShape {
+        /// The key for the payload
+        public let _payload: String? = nil
+        /// Services that the user's request hit.
+        public var serviceIds: [ServiceId]? = nil
+        /// The user's name.
+        public var userName: String? = nil
+
+        public init() {}
+
+        public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
+            self.serviceIds = serviceIds
+            self.userName = userName
         }
 
     }
@@ -384,19 +375,28 @@ extension Xray {
 
     }
 
-    public struct TraceUser: AWSShape {
+    public struct ServiceStatistics: AWSShape {
         /// The key for the payload
         public let _payload: String? = nil
-        /// Services that the user's request hit.
-        public var serviceIds: [ServiceId]? = nil
-        /// The user's name.
-        public var userName: String? = nil
+        /// The aggregate response time of completed requests.
+        public var totalResponseTime: Double? = nil
+        /// Information about requests that failed with a 5xx Server Error status code.
+        public var faultStatistics: FaultStatistics? = nil
+        /// The number of requests that completed with a 2xx Success status code.
+        public var okCount: Int64? = nil
+        /// Information about requests that failed with a 4xx Client Error status code.
+        public var errorStatistics: ErrorStatistics? = nil
+        /// The total number of completed requests.
+        public var totalCount: Int64? = nil
 
         public init() {}
 
-        public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
-            self.serviceIds = serviceIds
-            self.userName = userName
+        public init(totalResponseTime: Double? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil, totalCount: Int64? = nil) {
+            self.totalResponseTime = totalResponseTime
+            self.faultStatistics = faultStatistics
+            self.okCount = okCount
+            self.errorStatistics = errorStatistics
+            self.totalCount = totalCount
         }
 
     }
