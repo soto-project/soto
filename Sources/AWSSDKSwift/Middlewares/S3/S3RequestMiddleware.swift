@@ -15,9 +15,10 @@ struct S3RequestMiddleware: AWSRequestMiddleware {
         if let host = request.url.host, host.contains("amazonaws.com") {
             domain = "s3-\(request.region.rawValue).amazonaws.com"
         } else {
-            domain = request.url.host!
+            let port = request.url.port == nil ? "" : ":\(request.url.port!)"
+            domain = request.url.host!+port
         }
-        request.url = URL(string: "https://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
+        request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
 
         switch request.operation {
         case "CreateBucket":
