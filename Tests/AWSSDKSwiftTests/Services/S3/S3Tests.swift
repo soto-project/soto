@@ -35,18 +35,14 @@ class S3Tests: XCTestCase {
         do {
             let bucketRequest = S3.CreateBucketRequest(bucket: bucket)
             let response = try client.createBucket(bucketRequest)
-        } catch {
-            print(error)
-        }
+        } catch {}
         
         do {
             let bodyData = "hello world".data(using: .utf8)!
             let putRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: "public-read")
             
             _ = try client.putObject(putRequest)
-        } catch {
-            print(error)
-        }
+        } catch {}
     }
     
     func testGetObject() {
