@@ -3,11 +3,11 @@
 AWS SDK for the Swift programming language.
 
 ## ⚠️ A Work In Progress
-aws-sdk-swift is currently under developing. This may have serisous bugs and not so much tested, So do not use in production.
+aws-sdk-swift is currently pretty experimental and not well tested. So Don't use this in production.
 
 ## Documentation
 
-Visit the aws-sdk-swift [documentation]() for instructions and browsing api references.
+Visit the aws-sdk-swift [documentation](http://htmlpreview.github.io/?https://github.com/noppoMan/aws-sdk-swift-doc/blob/master/docs/index.html) for instructions and browsing api references.
 
 ## Installation
 
@@ -20,7 +20,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .Package(url: "https://github.com/noppoMan/aws-sdk-swift", majorVersion: 0, minor: 1)
+        .Package(url: "https://github.com/noppoMan/aws-sdk-swift.git", majorVersion: 0, minor: 1)
     ]
 )
 ```
@@ -41,13 +41,64 @@ If you find a bug, please submit a pull request with a failing test case display
 
 If you find a security vulnerability, please contact yuki@miketokyo.com as soon as possible. We take these matters seriously.
 
+## Configuring Credentials
+
+Before using the SDK, ensure that you've configured credentials.
+
+### Load Credentials from shared credential file.
+
+Not supported yet
+
+### Load Credentials from Environment Variable
+
+Alternatively, you can set the following environment variables:
+
+```sh
+AWS_ACCESS_KEY_ID=bar
+AWS_SECRET_ACCESS_KEY=foo
+```
+
+### Pass the Credentials to the AWS Service struct directly
+
+All of the AWS Services's initializer accept `accessKeyId` and `secretAccessKey`
+
+```swift
+let ec2 = EC2(
+    accessKeyId: "Your-Access-Key",
+    secretAccessKey: "Your-Secret-Key"
+)
+```
 
 ## Using the aws-sdk-swift
 
 ```swift
 import AWSSDKSwift
 
+do {
+    let bucket = "my-bucket"
 
+    let s3 = S3(
+        accessKeyId: "Your-Access-Key",
+        secretAccessKey: "Your-Secret-Key",
+        region: .apnortheast1
+    )
+
+    // Create Bucket
+    let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
+    _ try s3.createBucket(createBucketRequest)
+
+    // Upload text file to the s3
+    let bodyData = "hello world".data(using: .utf8)!
+    let putObjectRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: "public-read")
+    _ = try s3.putObject(putObjectRequest)
+
+    let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
+    let getObjectOutput = try s3.getObject(getObjectRequest)
+    print(getObjectOutput)
+
+} catch {
+    print(error)
+}
 ```
 
 ## Lisence
