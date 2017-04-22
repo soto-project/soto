@@ -31,7 +31,7 @@ public class XML2Parser: NSObject, XMLParserDelegate {
     }
     
     public func parse() throws -> XMLNode {
-        parser.parse()
+        _ = parser.parse()
         if let nodeTree = nodeTree {
             return nodeTree
         }
@@ -40,7 +40,8 @@ public class XML2Parser: NSObject, XMLParserDelegate {
     
     public func parser(_ parser: XMLParser, foundCharacters string: String) {
         let string = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !string.isEmpty {
+        
+        if !string.isEmpty && string != "\"" {
             currentNode?.values.append(string)
         }
     }

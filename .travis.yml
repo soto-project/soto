@@ -1,15 +1,18 @@
 os:
   - linux
   - osx
-language: generic
 sudo: required
 dist: trusty
 osx_image: xcode8
 
+addons:
+  hosts:
+    - aws-sdk-swift-test-bucket.localhost
+
 install:
+  - if [[ $OS != "macos" ]]; then docker run -d -p 4567-4578:4567-4578 atlassianlabs/localstack; fi
   - source scripts/install-swift.sh
-  - 'if [[ $OS != "macos" ]]; then docker run -d -p 4567-4578:4567-4578 atlassianlabs/localstack; fi'
 
 script:
   - travis_wait swift build
-  - 'if [[ $OS != "macos" ]]; then swift test; fi'
+  - if [[ $OS != "macos" ]]; then swift test; fi

@@ -10,15 +10,20 @@ struct S3RequestMiddleware: AWSRequestMiddleware {
             return request
         }
 
-        let query = request.url.query != nil ? "?\(request.url.query!)" : ""
-        let domain: String
-        if let host = request.url.host, host.contains("amazonaws.com") {
-            domain = "s3-\(request.region.rawValue).amazonaws.com"
-        } else {
-            let port = request.url.port == nil ? "" : ":\(request.url.port!)"
-            domain = request.url.host!+port
+        switch request.httpMethod.lowercased() {
+        case "get":
+            let query = request.url.query != nil ? "?\(request.url.query!)" : ""
+            let domain: String
+            if let host = request.url.host, host.contains("amazonaws.com") {
+                domain = "s3-\(request.region.rawValue).amazonaws.com"
+            } else {
+                let port = request.url.port == nil ? "" : ":\(request.url.port!)"
+                domain = request.url.host!+port
+            }
+            request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
+        default:
+            break
         }
-        request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
 
         switch request.operation {
         case "CreateBucket":

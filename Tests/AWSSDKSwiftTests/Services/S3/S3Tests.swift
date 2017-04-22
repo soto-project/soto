@@ -14,7 +14,7 @@ import XCTest
 class S3Tests: XCTestCase {
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
-            ("testGetObject", testGetObject),
+            ("testPutObject", testPutObject),
         ]
     }
     
@@ -34,22 +34,18 @@ class S3Tests: XCTestCase {
     override func setUp() {
         do {
             let bucketRequest = S3.CreateBucketRequest(bucket: bucket)
-            let response = try client.createBucket(bucketRequest)
-        } catch {}
-        
+            _ = try client.createBucket(bucketRequest)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func testPutObject() {
         do {
             let bodyData = "hello world".data(using: .utf8)!
             let putRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: "public-read")
-            
-            _ = try client.putObject(putRequest)
-        } catch {}
-    }
-    
-    func testGetObject() {
-        let request = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-        do {
-            let response = try client.getObject(request)
-            XCTAssertEqual(String(data: response.body!, encoding: .utf8), "hello world")
+            let output = try client.putObject(putRequest)
+            XCTAssert(output.eTag != nil)
         } catch {
             XCTFail("\(error)")
         }
