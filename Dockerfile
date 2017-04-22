@@ -18,6 +18,8 @@ RUN wget https://swift.org/builds/swift-$SWIFT_VERSION-release/ubuntu1404/swift-
 RUN tar -zxf $SWIFTFILE.tar.gz
 ENV PATH $PWD/$SWIFTFILE/usr/bin:"${PATH}"
 
-RUN swift --version
+COPY . aws-sdk-swift
 
-CMD swift
+WORKDIR aws-sdk-swift
+
+CMD swift test
