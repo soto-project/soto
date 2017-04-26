@@ -47,6 +47,13 @@ extension Sdb {
             self.replace = replace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.replace = dictionary["Replace"] as? Bool
+        }
     }
 
     public struct GetAttributesRequest: AWSShape {
@@ -70,6 +77,16 @@ extension Sdb {
             self.attributeNames = attributeNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistentRead = dictionary["ConsistentRead"] as? Bool
+            guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
+            self.itemName = itemName
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            if let attributeNames = dictionary["AttributeNames"] as? [String] {
+                self.attributeNames = attributeNames
+            }
+        }
     }
 
     public struct ListDomainsRequest: AWSShape {
@@ -87,6 +104,10 @@ extension Sdb {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxNumberOfDomains = dictionary["MaxNumberOfDomains"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetAttributesResult: AWSShape {
@@ -101,6 +122,11 @@ extension Sdb {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct SelectRequest: AWSShape {
@@ -121,6 +147,12 @@ extension Sdb {
             self.selectExpression = selectExpression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistentRead = dictionary["ConsistentRead"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let selectExpression = dictionary["SelectExpression"] as? String else { throw InitializableError.missingRequiredParam("SelectExpression") }
+            self.selectExpression = selectExpression
+        }
     }
 
     public struct BatchDeleteAttributesRequest: AWSShape {
@@ -138,6 +170,12 @@ extension Sdb {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let items = dictionary["Items"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try items.map({ try DeletableItem(dictionary: $0) })
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DomainMetadataResult: AWSShape {
@@ -170,6 +208,15 @@ extension Sdb {
             self.itemNamesSizeBytes = itemNamesSizeBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["Timestamp"] as? Int32
+            self.attributeNamesSizeBytes = dictionary["AttributeNamesSizeBytes"] as? Int64
+            self.attributeValuesSizeBytes = dictionary["AttributeValuesSizeBytes"] as? Int64
+            self.itemCount = dictionary["ItemCount"] as? Int32
+            self.attributeValueCount = dictionary["AttributeValueCount"] as? Int32
+            self.attributeNameCount = dictionary["AttributeNameCount"] as? Int32
+            self.itemNamesSizeBytes = dictionary["ItemNamesSizeBytes"] as? Int64
+        }
     }
 
     public struct Item: AWSShape {
@@ -189,6 +236,13 @@ extension Sdb {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.alternateNameEncoding = dictionary["AlternateNameEncoding"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+        }
     }
 
     public struct Attribute: AWSShape {
@@ -210,6 +264,14 @@ extension Sdb {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.alternateNameEncoding = dictionary["AlternateNameEncoding"] as? String
+            self.alternateValueEncoding = dictionary["AlternateValueEncoding"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+        }
     }
 
     public struct DomainMetadataRequest: AWSShape {
@@ -224,6 +286,10 @@ extension Sdb {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteDomainRequest: AWSShape {
@@ -238,6 +304,10 @@ extension Sdb {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct BatchPutAttributesRequest: AWSShape {
@@ -255,6 +325,12 @@ extension Sdb {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let items = dictionary["Items"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try items.map({ try ReplaceableItem(dictionary: $0) })
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct ReplaceableItem: AWSShape {
@@ -272,6 +348,12 @@ extension Sdb {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try ReplaceableAttribute(dictionary: $0) })
+        }
     }
 
     public struct DeletableItem: AWSShape {
@@ -287,6 +369,13 @@ extension Sdb {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try DeletableAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateCondition: AWSShape {
@@ -307,6 +396,11 @@ extension Sdb {
             self.exists = exists
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+            self.exists = dictionary["Exists"] as? Bool
+        }
     }
 
     public struct PutAttributesRequest: AWSShape {
@@ -330,6 +424,15 @@ extension Sdb {
             self.expected = expected
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
+            self.itemName = itemName
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try ReplaceableAttribute(dictionary: $0) })
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) }
+        }
     }
 
     public struct DeletableAttribute: AWSShape {
@@ -347,6 +450,11 @@ extension Sdb {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DeleteAttributesRequest: AWSShape {
@@ -370,6 +478,16 @@ extension Sdb {
             self.expected = expected
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
+            self.itemName = itemName
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try DeletableAttribute(dictionary: $0) })
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) }
+        }
     }
 
     public struct ListDomainsResult: AWSShape {
@@ -387,6 +505,12 @@ extension Sdb {
             self.domainNames = domainNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let domainNames = dictionary["DomainNames"] as? [String] {
+                self.domainNames = domainNames
+            }
+        }
     }
 
     public struct SelectResult: AWSShape {
@@ -404,6 +528,12 @@ extension Sdb {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try Item(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateDomainRequest: AWSShape {
@@ -418,6 +548,10 @@ extension Sdb {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
 }

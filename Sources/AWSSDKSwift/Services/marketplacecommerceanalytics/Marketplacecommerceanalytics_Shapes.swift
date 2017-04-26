@@ -59,6 +59,22 @@ extension Marketplacecommerceanalytics {
             self.dataSetPublicationDate = dataSetPublicationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snsTopicArn = dictionary["snsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("snsTopicArn") }
+            self.snsTopicArn = snsTopicArn
+            guard let dataSetType = dictionary["dataSetType"] as? String else { throw InitializableError.missingRequiredParam("dataSetType") }
+            self.dataSetType = dataSetType
+            self.destinationS3Prefix = dictionary["destinationS3Prefix"] as? String
+            if let customerDefinedValues = dictionary["customerDefinedValues"] as? [String: String] {
+                self.customerDefinedValues = customerDefinedValues
+            }
+            guard let destinationS3BucketName = dictionary["destinationS3BucketName"] as? String else { throw InitializableError.missingRequiredParam("destinationS3BucketName") }
+            self.destinationS3BucketName = destinationS3BucketName
+            guard let roleNameArn = dictionary["roleNameArn"] as? String else { throw InitializableError.missingRequiredParam("roleNameArn") }
+            self.roleNameArn = roleNameArn
+            guard let dataSetPublicationDate = dictionary["dataSetPublicationDate"] as? Date else { throw InitializableError.missingRequiredParam("dataSetPublicationDate") }
+            self.dataSetPublicationDate = dataSetPublicationDate
+        }
     }
 
     public struct StartSupportDataExportResult: AWSShape {
@@ -73,6 +89,9 @@ extension Marketplacecommerceanalytics {
             self.dataSetRequestId = dataSetRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSetRequestId = dictionary["dataSetRequestId"] as? String
+        }
     }
 
     public struct StartSupportDataExportRequest: AWSShape {
@@ -105,6 +124,22 @@ extension Marketplacecommerceanalytics {
             self.roleNameArn = roleNameArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snsTopicArn = dictionary["snsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("snsTopicArn") }
+            self.snsTopicArn = snsTopicArn
+            guard let dataSetType = dictionary["dataSetType"] as? String else { throw InitializableError.missingRequiredParam("dataSetType") }
+            self.dataSetType = dataSetType
+            self.destinationS3Prefix = dictionary["destinationS3Prefix"] as? String
+            if let customerDefinedValues = dictionary["customerDefinedValues"] as? [String: String] {
+                self.customerDefinedValues = customerDefinedValues
+            }
+            guard let destinationS3BucketName = dictionary["destinationS3BucketName"] as? String else { throw InitializableError.missingRequiredParam("destinationS3BucketName") }
+            self.destinationS3BucketName = destinationS3BucketName
+            guard let fromDate = dictionary["fromDate"] as? Date else { throw InitializableError.missingRequiredParam("fromDate") }
+            self.fromDate = fromDate
+            guard let roleNameArn = dictionary["roleNameArn"] as? String else { throw InitializableError.missingRequiredParam("roleNameArn") }
+            self.roleNameArn = roleNameArn
+        }
     }
 
     public struct GenerateDataSetResult: AWSShape {
@@ -119,6 +154,9 @@ extension Marketplacecommerceanalytics {
             self.dataSetRequestId = dataSetRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSetRequestId = dictionary["dataSetRequestId"] as? String
+        }
     }
 
 }

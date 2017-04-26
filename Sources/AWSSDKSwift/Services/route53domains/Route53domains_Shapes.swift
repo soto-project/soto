@@ -41,6 +41,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct ResendContactReachabilityEmailRequest: AWSShape {
@@ -55,6 +59,9 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domainName = dictionary["domainName"] as? String
+        }
     }
 
     public struct ListOperationsRequest: AWSShape {
@@ -72,6 +79,10 @@ extension Route53domains {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct RenewDomainRequest: AWSShape {
@@ -91,6 +102,13 @@ extension Route53domains {
             self.durationInYears = durationInYears
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentExpiryYear = dictionary["CurrentExpiryYear"] as? Int32 else { throw InitializableError.missingRequiredParam("CurrentExpiryYear") }
+            self.currentExpiryYear = currentExpiryYear
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.durationInYears = dictionary["DurationInYears"] as? Int32
+        }
     }
 
     public struct GetDomainSuggestionsResponse: AWSShape {
@@ -104,6 +122,11 @@ extension Route53domains {
             self.suggestionsList = suggestionsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let suggestionsList = dictionary["SuggestionsList"] as? [[String: Any]] {
+                self.suggestionsList = try suggestionsList.map({ try DomainSuggestion(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListDomainsResponse: AWSShape {
@@ -121,6 +144,11 @@ extension Route53domains {
             self.nextPageMarker = nextPageMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domains = dictionary["Domains"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Domains") }
+            self.domains = try domains.map({ try DomainSummary(dictionary: $0) })
+            self.nextPageMarker = dictionary["NextPageMarker"] as? String
+        }
     }
 
     public struct RegisterDomainResponse: AWSShape {
@@ -135,6 +163,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct UpdateDomainContactPrivacyRequest: AWSShape {
@@ -158,6 +190,13 @@ extension Route53domains {
             self.adminPrivacy = adminPrivacy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.techPrivacy = dictionary["TechPrivacy"] as? Bool
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.registrantPrivacy = dictionary["RegistrantPrivacy"] as? Bool
+            self.adminPrivacy = dictionary["AdminPrivacy"] as? Bool
+        }
     }
 
     public struct ListDomainsRequest: AWSShape {
@@ -175,6 +214,10 @@ extension Route53domains {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct EnableDomainTransferLockResponse: AWSShape {
@@ -189,6 +232,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct GetDomainSuggestionsRequest: AWSShape {
@@ -206,6 +253,14 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let onlyAvailable = dictionary["OnlyAvailable"] as? Bool else { throw InitializableError.missingRequiredParam("OnlyAvailable") }
+            self.onlyAvailable = onlyAvailable
+            guard let suggestionCount = dictionary["SuggestionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("SuggestionCount") }
+            self.suggestionCount = suggestionCount
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteTagsForDomainResponse: AWSShape {
@@ -214,6 +269,8 @@ extension Route53domains {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RetrieveDomainAuthCodeResponse: AWSShape {
@@ -228,6 +285,10 @@ extension Route53domains {
             self.authCode = authCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let authCode = dictionary["AuthCode"] as? String else { throw InitializableError.missingRequiredParam("AuthCode") }
+            self.authCode = authCode
+        }
     }
 
     public struct Tag: AWSShape {
@@ -245,6 +306,10 @@ extension Route53domains {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DomainSummary: AWSShape {
@@ -268,6 +333,13 @@ extension Route53domains {
             self.transferLock = transferLock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expiry = dictionary["Expiry"] as? Date
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.autoRenew = dictionary["AutoRenew"] as? Bool
+            self.transferLock = dictionary["TransferLock"] as? Bool
+        }
     }
 
     public struct CheckDomainAvailabilityResponse: AWSShape {
@@ -282,6 +354,10 @@ extension Route53domains {
             self.availability = availability
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let availability = dictionary["Availability"] as? String else { throw InitializableError.missingRequiredParam("Availability") }
+            self.availability = availability
+        }
     }
 
     public struct TransferDomainResponse: AWSShape {
@@ -296,6 +372,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct DomainSuggestion: AWSShape {
@@ -311,6 +391,10 @@ extension Route53domains {
             self.availability = availability
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domainName = dictionary["DomainName"] as? String
+            self.availability = dictionary["Availability"] as? String
+        }
     }
 
     public struct ListOperationsResponse: AWSShape {
@@ -328,6 +412,11 @@ extension Route53domains {
             self.nextPageMarker = nextPageMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
+            self.operations = try operations.map({ try OperationSummary(dictionary: $0) })
+            self.nextPageMarker = dictionary["NextPageMarker"] as? String
+        }
     }
 
     public struct ContactDetail: AWSShape {
@@ -381,6 +470,24 @@ extension Route53domains {
             self.addressLine2 = addressLine2
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.addressLine1 = dictionary["AddressLine1"] as? String
+            self.email = dictionary["Email"] as? String
+            self.phoneNumber = dictionary["PhoneNumber"] as? String
+            self.organizationName = dictionary["OrganizationName"] as? String
+            self.state = dictionary["State"] as? String
+            self.lastName = dictionary["LastName"] as? String
+            self.contactType = dictionary["ContactType"] as? String
+            self.zipCode = dictionary["ZipCode"] as? String
+            self.fax = dictionary["Fax"] as? String
+            if let extraParams = dictionary["ExtraParams"] as? [[String: Any]] {
+                self.extraParams = try extraParams.map({ try ExtraParam(dictionary: $0) })
+            }
+            self.firstName = dictionary["FirstName"] as? String
+            self.city = dictionary["City"] as? String
+            self.countryCode = dictionary["CountryCode"] as? String
+            self.addressLine2 = dictionary["AddressLine2"] as? String
+        }
     }
 
     public struct EnableDomainAutoRenewResponse: AWSShape {
@@ -389,6 +496,8 @@ extension Route53domains {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ViewBillingResponse: AWSShape {
@@ -406,6 +515,12 @@ extension Route53domains {
             self.nextPageMarker = nextPageMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let billingRecords = dictionary["BillingRecords"] as? [[String: Any]] {
+                self.billingRecords = try billingRecords.map({ try BillingRecord(dictionary: $0) })
+            }
+            self.nextPageMarker = dictionary["NextPageMarker"] as? String
+        }
     }
 
     public struct UpdateDomainNameserversResponse: AWSShape {
@@ -420,6 +535,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct ListTagsForDomainRequest: AWSShape {
@@ -434,6 +553,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct ListTagsForDomainResponse: AWSShape {
@@ -448,6 +571,10 @@ extension Route53domains {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
+            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct UpdateTagsForDomainResponse: AWSShape {
@@ -456,6 +583,8 @@ extension Route53domains {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetDomainDetailRequest: AWSShape {
@@ -470,6 +599,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct TransferDomainRequest: AWSShape {
@@ -517,6 +650,27 @@ extension Route53domains {
             self.authCode = authCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.idnLangCode = dictionary["IdnLangCode"] as? String
+            guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
+            self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
+            guard let durationInYears = dictionary["DurationInYears"] as? Int32 else { throw InitializableError.missingRequiredParam("DurationInYears") }
+            self.durationInYears = durationInYears
+            guard let registrantContact = dictionary["RegistrantContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RegistrantContact") }
+            self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact)
+            if let nameservers = dictionary["Nameservers"] as? [[String: Any]] {
+                self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
+            }
+            guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
+            self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
+            self.privacyProtectTechContact = dictionary["PrivacyProtectTechContact"] as? Bool
+            self.privacyProtectRegistrantContact = dictionary["PrivacyProtectRegistrantContact"] as? Bool
+            self.privacyProtectAdminContact = dictionary["PrivacyProtectAdminContact"] as? Bool
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.autoRenew = dictionary["AutoRenew"] as? Bool
+            self.authCode = dictionary["AuthCode"] as? String
+        }
     }
 
     public struct EnableDomainTransferLockRequest: AWSShape {
@@ -531,6 +685,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct UpdateTagsForDomainRequest: AWSShape {
@@ -548,6 +706,13 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagsToUpdate = dictionary["TagsToUpdate"] as? [[String: Any]] {
+                self.tagsToUpdate = try tagsToUpdate.map({ try Tag(dictionary: $0) })
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetContactReachabilityStatusResponse: AWSShape {
@@ -565,6 +730,10 @@ extension Route53domains {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domainName = dictionary["domainName"] as? String
+            self.status = dictionary["status"] as? String
+        }
     }
 
     public struct DeleteTagsForDomainRequest: AWSShape {
@@ -582,6 +751,12 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagsToDelete = dictionary["TagsToDelete"] as? [String] else { throw InitializableError.missingRequiredParam("TagsToDelete") }
+            self.tagsToDelete = tagsToDelete
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetContactReachabilityStatusRequest: AWSShape {
@@ -596,6 +771,9 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domainName = dictionary["domainName"] as? String
+        }
     }
 
     public struct ExtraParam: AWSShape {
@@ -613,6 +791,12 @@ extension Route53domains {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetOperationDetailResponse: AWSShape {
@@ -642,6 +826,14 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.operationId = dictionary["OperationId"] as? String
+            self.message = dictionary["Message"] as? String
+            self.submittedDate = dictionary["SubmittedDate"] as? Date
+            self.type = dictionary["Type"] as? String
+            self.domainName = dictionary["DomainName"] as? String
+        }
     }
 
     public struct EnableDomainAutoRenewRequest: AWSShape {
@@ -655,6 +847,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct Nameserver: AWSShape {
@@ -672,6 +868,13 @@ extension Route53domains {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let glueIps = dictionary["GlueIps"] as? [String] {
+                self.glueIps = glueIps
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct RetrieveDomainAuthCodeRequest: AWSShape {
@@ -686,6 +889,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct BillingRecord: AWSShape {
@@ -712,6 +919,13 @@ extension Route53domains {
             self.price = price
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.billDate = dictionary["BillDate"] as? Date
+            self.invoiceId = dictionary["InvoiceId"] as? String
+            self.domainName = dictionary["DomainName"] as? String
+            self.operation = dictionary["Operation"] as? String
+            self.price = dictionary["Price"] as? Double
+        }
     }
 
     public struct RegisterDomainRequest: AWSShape {
@@ -753,6 +967,23 @@ extension Route53domains {
             self.autoRenew = autoRenew
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.idnLangCode = dictionary["IdnLangCode"] as? String
+            guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
+            self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
+            guard let durationInYears = dictionary["DurationInYears"] as? Int32 else { throw InitializableError.missingRequiredParam("DurationInYears") }
+            self.durationInYears = durationInYears
+            guard let registrantContact = dictionary["RegistrantContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RegistrantContact") }
+            self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact)
+            guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
+            self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
+            self.privacyProtectTechContact = dictionary["PrivacyProtectTechContact"] as? Bool
+            self.privacyProtectRegistrantContact = dictionary["PrivacyProtectRegistrantContact"] as? Bool
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.privacyProtectAdminContact = dictionary["PrivacyProtectAdminContact"] as? Bool
+            self.autoRenew = dictionary["AutoRenew"] as? Bool
+        }
     }
 
     public struct ResendContactReachabilityEmailResponse: AWSShape {
@@ -773,6 +1004,11 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isAlreadyVerified = dictionary["isAlreadyVerified"] as? Bool
+            self.emailAddress = dictionary["emailAddress"] as? String
+            self.domainName = dictionary["domainName"] as? String
+        }
     }
 
     public struct DisableDomainAutoRenewRequest: AWSShape {
@@ -786,6 +1022,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetDomainDetailResponse: AWSShape {
@@ -860,6 +1100,36 @@ extension Route53domains {
             self.autoRenew = autoRenew
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.registryDomainId = dictionary["RegistryDomainId"] as? String
+            self.reseller = dictionary["Reseller"] as? String
+            guard let registrantContact = dictionary["RegistrantContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RegistrantContact") }
+            self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact)
+            if let statusList = dictionary["StatusList"] as? [String] {
+                self.statusList = statusList
+            }
+            guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
+            self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
+            self.expirationDate = dictionary["ExpirationDate"] as? Date
+            self.registrarName = dictionary["RegistrarName"] as? String
+            self.techPrivacy = dictionary["TechPrivacy"] as? Bool
+            self.registrarUrl = dictionary["RegistrarUrl"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.abuseContactEmail = dictionary["AbuseContactEmail"] as? String
+            self.adminPrivacy = dictionary["AdminPrivacy"] as? Bool
+            self.abuseContactPhone = dictionary["AbuseContactPhone"] as? String
+            guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
+            self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
+            self.updatedDate = dictionary["UpdatedDate"] as? Date
+            self.whoIsServer = dictionary["WhoIsServer"] as? String
+            guard let nameservers = dictionary["Nameservers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Nameservers") }
+            self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
+            self.dnsSec = dictionary["DnsSec"] as? String
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.registrantPrivacy = dictionary["RegistrantPrivacy"] as? Bool
+            self.autoRenew = dictionary["AutoRenew"] as? Bool
+        }
     }
 
     public struct DisableDomainTransferLockRequest: AWSShape {
@@ -874,6 +1144,10 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct RenewDomainResponse: AWSShape {
@@ -887,6 +1161,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct OperationSummary: AWSShape {
@@ -910,6 +1188,16 @@ extension Route53domains {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+            guard let submittedDate = dictionary["SubmittedDate"] as? Date else { throw InitializableError.missingRequiredParam("SubmittedDate") }
+            self.submittedDate = submittedDate
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+        }
     }
 
     public struct UpdateDomainContactPrivacyResponse: AWSShape {
@@ -924,6 +1212,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct DisableDomainAutoRenewResponse: AWSShape {
@@ -932,6 +1224,8 @@ extension Route53domains {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CheckDomainAvailabilityRequest: AWSShape {
@@ -949,6 +1243,11 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.idnLangCode = dictionary["IdnLangCode"] as? String
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct UpdateDomainContactResponse: AWSShape {
@@ -963,6 +1262,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct ViewBillingRequest: AWSShape {
@@ -986,6 +1289,12 @@ extension Route53domains {
             self.end = end
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.start = dictionary["Start"] as? Date
+            self.marker = dictionary["Marker"] as? String
+            self.end = dictionary["End"] as? Date
+        }
     }
 
     public struct UpdateDomainContactRequest: AWSShape {
@@ -1009,6 +1318,13 @@ extension Route53domains {
             self.techContact = techContact
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let adminContact = dictionary["AdminContact"] as? [String: Any] { self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact) }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            if let registrantContact = dictionary["RegistrantContact"] as? [String: Any] { self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact) }
+            if let techContact = dictionary["TechContact"] as? [String: Any] { self.techContact = try Route53domains.ContactDetail(dictionary: techContact) }
+        }
     }
 
     public struct UpdateDomainNameserversRequest: AWSShape {
@@ -1029,6 +1345,13 @@ extension Route53domains {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fIAuthKey = dictionary["FIAuthKey"] as? String
+            guard let nameservers = dictionary["Nameservers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Nameservers") }
+            self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DisableDomainTransferLockResponse: AWSShape {
@@ -1043,6 +1366,10 @@ extension Route53domains {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
+            self.operationId = operationId
+        }
     }
 
 }

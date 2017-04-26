@@ -41,6 +41,11 @@ extension Elasticloadbalancing {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct Rule: AWSShape {
@@ -67,6 +72,17 @@ extension Elasticloadbalancing {
             self.conditions = conditions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.priority = dictionary["Priority"] as? String
+            self.isDefault = dictionary["IsDefault"] as? Bool
+            self.ruleArn = dictionary["RuleArn"] as? String
+            if let actions = dictionary["Actions"] as? [[String: Any]] {
+                self.actions = try actions.map({ try Action(dictionary: $0) })
+            }
+            if let conditions = dictionary["Conditions"] as? [[String: Any]] {
+                self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            }
+        }
     }
 
     public struct TargetHealthDescription: AWSShape {
@@ -87,6 +103,11 @@ extension Elasticloadbalancing {
             self.healthCheckPort = healthCheckPort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetHealth = dictionary["TargetHealth"] as? [String: Any] { self.targetHealth = try Elasticloadbalancing.TargetHealth(dictionary: targetHealth) }
+            if let target = dictionary["Target"] as? [String: Any] { self.target = try Elasticloadbalancing.TargetDescription(dictionary: target) }
+            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+        }
     }
 
     public struct Action: AWSShape {
@@ -104,6 +125,12 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct DeleteListenerInput: AWSShape {
@@ -118,6 +145,10 @@ extension Elasticloadbalancing {
             self.listenerArn = listenerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
+            self.listenerArn = listenerArn
+        }
     }
 
     public struct DeleteLoadBalancerOutput: AWSShape {
@@ -126,6 +157,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeTargetGroupAttributesInput: AWSShape {
@@ -140,6 +173,10 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct ModifyTargetGroupAttributesInput: AWSShape {
@@ -157,6 +194,12 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
@@ -174,6 +217,12 @@ extension Elasticloadbalancing {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+        }
     }
 
     public struct RegisterTargetsOutput: AWSShape {
@@ -182,6 +231,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateListenerInput: AWSShape {
@@ -211,6 +262,20 @@ extension Elasticloadbalancing {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            self.sslPolicy = dictionary["SslPolicy"] as? String
+            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+            guard let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DefaultActions") }
+            self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+            guard let port = dictionary["Port"] as? Int32 else { throw InitializableError.missingRequiredParam("Port") }
+            self.port = port
+        }
     }
 
     public struct DescribeLoadBalancersOutput: AWSShape {
@@ -228,6 +293,12 @@ extension Elasticloadbalancing {
             self.loadBalancers = loadBalancers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextMarker = dictionary["NextMarker"] as? String
+            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
+                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            }
+        }
     }
 
     public struct LoadBalancerState: AWSShape {
@@ -245,6 +316,10 @@ extension Elasticloadbalancing {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            self.code = dictionary["Code"] as? String
+        }
     }
 
     public struct TargetGroup: AWSShape {
@@ -298,6 +373,24 @@ extension Elasticloadbalancing {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetGroupArn = dictionary["TargetGroupArn"] as? String
+            if let loadBalancerArns = dictionary["LoadBalancerArns"] as? [String] {
+                self.loadBalancerArns = loadBalancerArns
+            }
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) }
+            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
+            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
+            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
+            self.targetGroupName = dictionary["TargetGroupName"] as? String
+            self.healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
+            self.`protocol` = dictionary["Protocol"] as? String
+            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
+            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct Tag: AWSShape {
@@ -315,6 +408,11 @@ extension Elasticloadbalancing {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct TagDescription: AWSShape {
@@ -332,6 +430,12 @@ extension Elasticloadbalancing {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceArn = dictionary["ResourceArn"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct RuleCondition: AWSShape {
@@ -349,6 +453,12 @@ extension Elasticloadbalancing {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.field = dictionary["Field"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct Listener: AWSShape {
@@ -381,6 +491,19 @@ extension Elasticloadbalancing {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+            self.listenerArn = dictionary["ListenerArn"] as? String
+            self.`protocol` = dictionary["Protocol"] as? String
+            self.sslPolicy = dictionary["SslPolicy"] as? String
+            if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
+                self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
+            }
+            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct CreateListenerOutput: AWSShape {
@@ -395,6 +518,11 @@ extension Elasticloadbalancing {
             self.listeners = listeners
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
+                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetIpAddressTypeOutput: AWSShape {
@@ -409,6 +537,9 @@ extension Elasticloadbalancing {
             self.ipAddressType = ipAddressType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipAddressType = dictionary["IpAddressType"] as? String
+        }
     }
 
     public struct ModifyTargetGroupInput: AWSShape {
@@ -447,6 +578,18 @@ extension Elasticloadbalancing {
             self.unhealthyThresholdCount = unhealthyThresholdCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String
+            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) }
+            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
+            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
+            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
+            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
+        }
     }
 
     public struct CreateLoadBalancerInput: AWSShape {
@@ -476,6 +619,20 @@ extension Elasticloadbalancing {
             self.ipAddressType = ipAddressType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
+            self.subnets = subnets
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            self.scheme = dictionary["Scheme"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.ipAddressType = dictionary["IpAddressType"] as? String
+        }
     }
 
     public struct DeregisterTargetsInput: AWSShape {
@@ -493,6 +650,12 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
+            self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct SetSecurityGroupsInput: AWSShape {
@@ -510,6 +673,12 @@ extension Elasticloadbalancing {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
+            self.securityGroups = securityGroups
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
     }
 
     public struct DescribeRulesOutput: AWSShape {
@@ -524,6 +693,11 @@ extension Elasticloadbalancing {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateRuleOutput: AWSShape {
@@ -538,6 +712,11 @@ extension Elasticloadbalancing {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+        }
     }
 
     public struct LoadBalancerAttribute: AWSShape {
@@ -555,6 +734,10 @@ extension Elasticloadbalancing {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
@@ -569,6 +752,10 @@ extension Elasticloadbalancing {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
     }
 
     public struct DescribeTagsOutput: AWSShape {
@@ -583,6 +770,11 @@ extension Elasticloadbalancing {
             self.tagDescriptions = tagDescriptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagDescriptions = dictionary["TagDescriptions"] as? [[String: Any]] {
+                self.tagDescriptions = try tagDescriptions.map({ try TagDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeListenersInput: AWSShape {
@@ -606,6 +798,14 @@ extension Elasticloadbalancing {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            if let listenerArns = dictionary["ListenerArns"] as? [String] {
+                self.listenerArns = listenerArns
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+        }
     }
 
     public struct DeleteListenerOutput: AWSShape {
@@ -614,6 +814,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AddTagsOutput: AWSShape {
@@ -622,6 +824,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RulePriorityPair: AWSShape {
@@ -639,6 +843,10 @@ extension Elasticloadbalancing {
             self.ruleArn = ruleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.priority = dictionary["Priority"] as? Int32
+            self.ruleArn = dictionary["RuleArn"] as? String
+        }
     }
 
     public struct ModifyRuleOutput: AWSShape {
@@ -653,6 +861,11 @@ extension Elasticloadbalancing {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeSSLPoliciesOutput: AWSShape {
@@ -670,6 +883,12 @@ extension Elasticloadbalancing {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sslPolicies = dictionary["SslPolicies"] as? [[String: Any]] {
+                self.sslPolicies = try sslPolicies.map({ try SslPolicy(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct SslPolicy: AWSShape {
@@ -690,6 +909,15 @@ extension Elasticloadbalancing {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sslProtocols = dictionary["SslProtocols"] as? [String] {
+                self.sslProtocols = sslProtocols
+            }
+            if let ciphers = dictionary["Ciphers"] as? [[String: Any]] {
+                self.ciphers = try ciphers.map({ try Cipher(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct CreateTargetGroupOutput: AWSShape {
@@ -704,6 +932,11 @@ extension Elasticloadbalancing {
             self.targetGroups = targetGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
+                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
@@ -718,6 +951,11 @@ extension Elasticloadbalancing {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct LoadBalancer: AWSShape {
@@ -765,6 +1003,24 @@ extension Elasticloadbalancing {
             self.createdTime = createdTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            }
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Elasticloadbalancing.LoadBalancerState(dictionary: state) }
+            self.ipAddressType = dictionary["IpAddressType"] as? String
+            self.canonicalHostedZoneId = dictionary["CanonicalHostedZoneId"] as? String
+            self.dNSName = dictionary["DNSName"] as? String
+            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
+            self.scheme = dictionary["Scheme"] as? String
+            self.type = dictionary["Type"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+        }
     }
 
     public struct SetSecurityGroupsOutput: AWSShape {
@@ -779,6 +1035,11 @@ extension Elasticloadbalancing {
             self.securityGroupIds = securityGroupIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+        }
     }
 
     public struct DescribeTargetGroupsInput: AWSShape {
@@ -805,6 +1066,17 @@ extension Elasticloadbalancing {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            if let targetGroupArns = dictionary["TargetGroupArns"] as? [String] {
+                self.targetGroupArns = targetGroupArns
+            }
+            self.marker = dictionary["Marker"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+        }
     }
 
     public struct DescribeTargetGroupsOutput: AWSShape {
@@ -822,6 +1094,12 @@ extension Elasticloadbalancing {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
+                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct Certificate: AWSShape {
@@ -836,6 +1114,9 @@ extension Elasticloadbalancing {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateArn = dictionary["CertificateArn"] as? String
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -853,6 +1134,10 @@ extension Elasticloadbalancing {
             self.subnetId = subnetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.zoneName = dictionary["ZoneName"] as? String
+            self.subnetId = dictionary["SubnetId"] as? String
+        }
     }
 
     public struct RegisterTargetsInput: AWSShape {
@@ -870,6 +1155,12 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
+            self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct DeleteTargetGroupInput: AWSShape {
@@ -884,6 +1175,10 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct CreateRuleInput: AWSShape {
@@ -907,6 +1202,16 @@ extension Elasticloadbalancing {
             self.listenerArn = listenerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let priority = dictionary["Priority"] as? Int32 else { throw InitializableError.missingRequiredParam("Priority") }
+            self.priority = priority
+            guard let actions = dictionary["Actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Actions") }
+            self.actions = try actions.map({ try Action(dictionary: $0) })
+            guard let conditions = dictionary["Conditions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Conditions") }
+            self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
+            self.listenerArn = listenerArn
+        }
     }
 
     public struct TargetHealth: AWSShape {
@@ -927,6 +1232,11 @@ extension Elasticloadbalancing {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            self.state = dictionary["State"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ModifyListenerInput: AWSShape {
@@ -956,6 +1266,19 @@ extension Elasticloadbalancing {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`protocol` = dictionary["Protocol"] as? String
+            self.sslPolicy = dictionary["SslPolicy"] as? String
+            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+            if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
+                self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
+            }
+            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
+            self.listenerArn = listenerArn
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct SetSubnetsInput: AWSShape {
@@ -973,6 +1296,12 @@ extension Elasticloadbalancing {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
+            self.subnets = subnets
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
     }
 
     public struct DeleteRuleOutput: AWSShape {
@@ -981,6 +1310,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeTargetHealthInput: AWSShape {
@@ -998,6 +1329,13 @@ extension Elasticloadbalancing {
             self.targetGroupArn = targetGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
+            }
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
     }
 
     public struct Cipher: AWSShape {
@@ -1015,6 +1353,10 @@ extension Elasticloadbalancing {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.priority = dictionary["Priority"] as? Int32
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct TargetGroupAttribute: AWSShape {
@@ -1032,6 +1374,10 @@ extension Elasticloadbalancing {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct SetRulePrioritiesInput: AWSShape {
@@ -1046,6 +1392,10 @@ extension Elasticloadbalancing {
             self.rulePriorities = rulePriorities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rulePriorities = dictionary["RulePriorities"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RulePriorities") }
+            self.rulePriorities = try rulePriorities.map({ try RulePriorityPair(dictionary: $0) })
+        }
     }
 
     public struct Matcher: AWSShape {
@@ -1060,6 +1410,10 @@ extension Elasticloadbalancing {
             self.httpCode = httpCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let httpCode = dictionary["HttpCode"] as? String else { throw InitializableError.missingRequiredParam("HttpCode") }
+            self.httpCode = httpCode
+        }
     }
 
     public struct DeleteRuleInput: AWSShape {
@@ -1074,6 +1428,10 @@ extension Elasticloadbalancing {
             self.ruleArn = ruleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
+            self.ruleArn = ruleArn
+        }
     }
 
     public struct DescribeSSLPoliciesInput: AWSShape {
@@ -1094,6 +1452,13 @@ extension Elasticloadbalancing {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct DescribeTagsInput: AWSShape {
@@ -1108,6 +1473,10 @@ extension Elasticloadbalancing {
             self.resourceArns = resourceArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
+            self.resourceArns = resourceArns
+        }
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
@@ -1122,6 +1491,11 @@ extension Elasticloadbalancing {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
@@ -1136,6 +1510,11 @@ extension Elasticloadbalancing {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeLoadBalancersInput: AWSShape {
@@ -1159,6 +1538,16 @@ extension Elasticloadbalancing {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            if let loadBalancerArns = dictionary["LoadBalancerArns"] as? [String] {
+                self.loadBalancerArns = loadBalancerArns
+            }
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct RemoveTagsOutput: AWSShape {
@@ -1167,6 +1556,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SetRulePrioritiesOutput: AWSShape {
@@ -1181,6 +1572,11 @@ extension Elasticloadbalancing {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyRuleInput: AWSShape {
@@ -1201,6 +1597,16 @@ extension Elasticloadbalancing {
             self.ruleArn = ruleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let actions = dictionary["Actions"] as? [[String: Any]] {
+                self.actions = try actions.map({ try Action(dictionary: $0) })
+            }
+            if let conditions = dictionary["Conditions"] as? [[String: Any]] {
+                self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            }
+            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
+            self.ruleArn = ruleArn
+        }
     }
 
     public struct DeregisterTargetsOutput: AWSShape {
@@ -1209,6 +1615,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct TargetDescription: AWSShape {
@@ -1226,6 +1634,11 @@ extension Elasticloadbalancing {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.port = dictionary["Port"] as? Int32
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DescribeListenersOutput: AWSShape {
@@ -1243,6 +1656,12 @@ extension Elasticloadbalancing {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
+                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct AddTagsInput: AWSShape {
@@ -1260,6 +1679,12 @@ extension Elasticloadbalancing {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
+            self.resourceArns = resourceArns
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct DescribeRulesInput: AWSShape {
@@ -1277,6 +1702,12 @@ extension Elasticloadbalancing {
             self.listenerArn = listenerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ruleArns = dictionary["RuleArns"] as? [String] {
+                self.ruleArns = ruleArns
+            }
+            self.listenerArn = dictionary["ListenerArn"] as? String
+        }
     }
 
     public struct DescribeTargetHealthOutput: AWSShape {
@@ -1291,6 +1722,11 @@ extension Elasticloadbalancing {
             self.targetHealthDescriptions = targetHealthDescriptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetHealthDescriptions = dictionary["TargetHealthDescriptions"] as? [[String: Any]] {
+                self.targetHealthDescriptions = try targetHealthDescriptions.map({ try TargetHealthDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyListenerOutput: AWSShape {
@@ -1305,6 +1741,11 @@ extension Elasticloadbalancing {
             self.listeners = listeners
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
+                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetSubnetsOutput: AWSShape {
@@ -1319,6 +1760,11 @@ extension Elasticloadbalancing {
             self.availabilityZones = availabilityZones
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetIpAddressTypeInput: AWSShape {
@@ -1336,6 +1782,12 @@ extension Elasticloadbalancing {
             self.ipAddressType = ipAddressType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+            guard let ipAddressType = dictionary["IpAddressType"] as? String else { throw InitializableError.missingRequiredParam("IpAddressType") }
+            self.ipAddressType = ipAddressType
+        }
     }
 
     public struct CreateTargetGroupInput: AWSShape {
@@ -1383,6 +1835,24 @@ extension Elasticloadbalancing {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
+            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) }
+            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
+            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
+            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
+            guard let port = dictionary["Port"] as? Int32 else { throw InitializableError.missingRequiredParam("Port") }
+            self.port = port
+        }
     }
 
     public struct DeleteTargetGroupOutput: AWSShape {
@@ -1391,6 +1861,8 @@ extension Elasticloadbalancing {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteLoadBalancerInput: AWSShape {
@@ -1405,6 +1877,10 @@ extension Elasticloadbalancing {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
     }
 
     public struct ModifyTargetGroupOutput: AWSShape {
@@ -1419,6 +1895,11 @@ extension Elasticloadbalancing {
             self.targetGroups = targetGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
+                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateLoadBalancerOutput: AWSShape {
@@ -1433,6 +1914,11 @@ extension Elasticloadbalancing {
             self.loadBalancers = loadBalancers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
+                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveTagsInput: AWSShape {
@@ -1450,6 +1936,12 @@ extension Elasticloadbalancing {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
+            self.resourceArns = resourceArns
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
 }

@@ -47,6 +47,11 @@ extension Ecs {
             self.agentVersion = agentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.agentHash = dictionary["agentHash"] as? String
+            self.dockerVersion = dictionary["dockerVersion"] as? String
+            self.agentVersion = dictionary["agentVersion"] as? String
+        }
     }
 
     public struct CreateServiceRequest: AWSShape {
@@ -88,6 +93,27 @@ extension Ecs {
             self.role = role
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let desiredCount = dictionary["desiredCount"] as? Int32 else { throw InitializableError.missingRequiredParam("desiredCount") }
+            self.desiredCount = desiredCount
+            self.clientToken = dictionary["clientToken"] as? String
+            if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
+                self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
+            }
+            self.cluster = dictionary["cluster"] as? String
+            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
+                self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
+            }
+            guard let serviceName = dictionary["serviceName"] as? String else { throw InitializableError.missingRequiredParam("serviceName") }
+            self.serviceName = serviceName
+            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) }
+            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
+            self.taskDefinition = taskDefinition
+            if let loadBalancers = dictionary["loadBalancers"] as? [[String: Any]] {
+                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            }
+            self.role = dictionary["role"] as? String
+        }
     }
 
     public struct DescribeContainerInstancesResponse: AWSShape {
@@ -105,6 +131,14 @@ extension Ecs {
             self.failures = failures
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let containerInstances = dictionary["containerInstances"] as? [[String: Any]] {
+                self.containerInstances = try containerInstances.map({ try ContainerInstance(dictionary: $0) })
+            }
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+        }
     }
 
     public struct Deployment: AWSShape {
@@ -140,6 +174,16 @@ extension Ecs {
             self.runningCount = runningCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.desiredCount = dictionary["desiredCount"] as? Int32
+            self.status = dictionary["status"] as? String
+            self.id = dictionary["id"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.updatedAt = dictionary["updatedAt"] as? Date
+            self.pendingCount = dictionary["pendingCount"] as? Int32
+            self.taskDefinition = dictionary["taskDefinition"] as? String
+            self.runningCount = dictionary["runningCount"] as? Int32
+        }
     }
 
     public struct SubmitContainerStateChangeResponse: AWSShape {
@@ -154,6 +198,9 @@ extension Ecs {
             self.acknowledgment = acknowledgment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acknowledgment = dictionary["acknowledgment"] as? String
+        }
     }
 
     public struct DeleteAttributesResponse: AWSShape {
@@ -168,6 +215,11 @@ extension Ecs {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct ContainerInstance: AWSShape {
@@ -215,6 +267,26 @@ extension Ecs {
             self.runningTasksCount = runningTasksCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pendingTasksCount = dictionary["pendingTasksCount"] as? Int32
+            if let remainingResources = dictionary["remainingResources"] as? [[String: Any]] {
+                self.remainingResources = try remainingResources.map({ try Resource(dictionary: $0) })
+            }
+            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) }
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+            self.ec2InstanceId = dictionary["ec2InstanceId"] as? String
+            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
+            if let registeredResources = dictionary["registeredResources"] as? [[String: Any]] {
+                self.registeredResources = try registeredResources.map({ try Resource(dictionary: $0) })
+            }
+            self.agentConnected = dictionary["agentConnected"] as? Bool
+            self.agentUpdateStatus = dictionary["agentUpdateStatus"] as? String
+            self.version = dictionary["version"] as? Int64
+            self.status = dictionary["status"] as? String
+            self.runningTasksCount = dictionary["runningTasksCount"] as? Int32
+        }
     }
 
     public struct StopTaskResponse: AWSShape {
@@ -229,6 +301,9 @@ extension Ecs {
             self.task = task
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let task = dictionary["task"] as? [String: Any] { self.task = try Ecs.Task(dictionary: task) }
+        }
     }
 
     public struct ListTaskDefinitionsResponse: AWSShape {
@@ -246,6 +321,12 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let taskDefinitionArns = dictionary["taskDefinitionArns"] as? [String] {
+                self.taskDefinitionArns = taskDefinitionArns
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeploymentConfiguration: AWSShape {
@@ -263,6 +344,10 @@ extension Ecs {
             self.minimumHealthyPercent = minimumHealthyPercent
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maximumPercent = dictionary["maximumPercent"] as? Int32
+            self.minimumHealthyPercent = dictionary["minimumHealthyPercent"] as? Int32
+        }
     }
 
     public struct UpdateContainerInstancesStateRequest: AWSShape {
@@ -283,6 +368,13 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
+            self.containerInstances = containerInstances
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct UpdateContainerAgentResponse: AWSShape {
@@ -297,6 +389,9 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) }
+        }
     }
 
     public struct VolumeFrom: AWSShape {
@@ -314,6 +409,10 @@ extension Ecs {
             self.readOnly = readOnly
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceContainer = dictionary["sourceContainer"] as? String
+            self.readOnly = dictionary["readOnly"] as? Bool
+        }
     }
 
     public struct CreateClusterResponse: AWSShape {
@@ -328,6 +427,9 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct DeleteServiceResponse: AWSShape {
@@ -342,6 +444,9 @@ extension Ecs {
             self.service = service
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) }
+        }
     }
 
     public struct HostVolumeProperties: AWSShape {
@@ -356,6 +461,9 @@ extension Ecs {
             self.sourcePath = sourcePath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourcePath = dictionary["sourcePath"] as? String
+        }
     }
 
     public struct TaskDefinitionPlacementConstraint: AWSShape {
@@ -373,6 +481,10 @@ extension Ecs {
             self.expression = expression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.expression = dictionary["expression"] as? String
+        }
     }
 
     public struct DescribeTasksResponse: AWSShape {
@@ -390,6 +502,14 @@ extension Ecs {
             self.tasks = tasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+            if let tasks = dictionary["tasks"] as? [[String: Any]] {
+                self.tasks = try tasks.map({ try Task(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListClustersRequest: AWSShape {
@@ -407,6 +527,10 @@ extension Ecs {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct LogConfiguration: AWSShape {
@@ -424,6 +548,13 @@ extension Ecs {
             self.logDriver = logDriver
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let options = dictionary["options"] as? [String: String] {
+                self.options = options
+            }
+            guard let logDriver = dictionary["logDriver"] as? String else { throw InitializableError.missingRequiredParam("logDriver") }
+            self.logDriver = logDriver
+        }
     }
 
     public struct DiscoverPollEndpointResponse: AWSShape {
@@ -441,6 +572,10 @@ extension Ecs {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.telemetryEndpoint = dictionary["telemetryEndpoint"] as? String
+            self.endpoint = dictionary["endpoint"] as? String
+        }
     }
 
     public struct MountPoint: AWSShape {
@@ -461,6 +596,11 @@ extension Ecs {
             self.containerPath = containerPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readOnly = dictionary["readOnly"] as? Bool
+            self.sourceVolume = dictionary["sourceVolume"] as? String
+            self.containerPath = dictionary["containerPath"] as? String
+        }
     }
 
     public struct ListContainerInstancesResponse: AWSShape {
@@ -478,6 +618,12 @@ extension Ecs {
             self.containerInstanceArns = containerInstanceArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let containerInstanceArns = dictionary["containerInstanceArns"] as? [String] {
+                self.containerInstanceArns = containerInstanceArns
+            }
+        }
     }
 
     public struct DeleteClusterRequest: AWSShape {
@@ -492,6 +638,10 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cluster = dictionary["cluster"] as? String else { throw InitializableError.missingRequiredParam("cluster") }
+            self.cluster = cluster
+        }
     }
 
     public struct ContainerDefinition: AWSShape {
@@ -581,6 +731,60 @@ extension Ecs {
             self.extraHosts = extraHosts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.memoryReservation = dictionary["memoryReservation"] as? Int32
+            if let portMappings = dictionary["portMappings"] as? [[String: Any]] {
+                self.portMappings = try portMappings.map({ try PortMapping(dictionary: $0) })
+            }
+            self.cpu = dictionary["cpu"] as? Int32
+            self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
+            if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
+                self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
+            }
+            self.memory = dictionary["memory"] as? Int32
+            self.disableNetworking = dictionary["disableNetworking"] as? Bool
+            if let dockerLabels = dictionary["dockerLabels"] as? [String: String] {
+                self.dockerLabels = dockerLabels
+            }
+            self.image = dictionary["image"] as? String
+            if let command = dictionary["command"] as? [String] {
+                self.command = command
+            }
+            self.hostname = dictionary["hostname"] as? String
+            if let volumesFrom = dictionary["volumesFrom"] as? [[String: Any]] {
+                self.volumesFrom = try volumesFrom.map({ try VolumeFrom(dictionary: $0) })
+            }
+            self.name = dictionary["name"] as? String
+            self.user = dictionary["user"] as? String
+            self.essential = dictionary["essential"] as? Bool
+            self.workingDirectory = dictionary["workingDirectory"] as? String
+            if let dnsServers = dictionary["dnsServers"] as? [String] {
+                self.dnsServers = dnsServers
+            }
+            if let logConfiguration = dictionary["logConfiguration"] as? [String: Any] { self.logConfiguration = try Ecs.LogConfiguration(dictionary: logConfiguration) }
+            if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
+                self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
+            }
+            if let dockerSecurityOptions = dictionary["dockerSecurityOptions"] as? [String] {
+                self.dockerSecurityOptions = dockerSecurityOptions
+            }
+            if let environment = dictionary["environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            }
+            if let entryPoint = dictionary["entryPoint"] as? [String] {
+                self.entryPoint = entryPoint
+            }
+            self.privileged = dictionary["privileged"] as? Bool
+            if let dnsSearchDomains = dictionary["dnsSearchDomains"] as? [String] {
+                self.dnsSearchDomains = dnsSearchDomains
+            }
+            if let links = dictionary["links"] as? [String] {
+                self.links = links
+            }
+            if let extraHosts = dictionary["extraHosts"] as? [[String: Any]] {
+                self.extraHosts = try extraHosts.map({ try HostEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteServiceRequest: AWSShape {
@@ -598,6 +802,11 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let service = dictionary["service"] as? String else { throw InitializableError.missingRequiredParam("service") }
+            self.service = service
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct Attribute: AWSShape {
@@ -621,6 +830,13 @@ extension Ecs {
             self.targetType = targetType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.value = dictionary["value"] as? String
+            self.targetId = dictionary["targetId"] as? String
+            self.targetType = dictionary["targetType"] as? String
+        }
     }
 
     public struct StopTaskRequest: AWSShape {
@@ -641,6 +857,12 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let task = dictionary["task"] as? String else { throw InitializableError.missingRequiredParam("task") }
+            self.task = task
+            self.reason = dictionary["reason"] as? String
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct DescribeClustersResponse: AWSShape {
@@ -658,6 +880,14 @@ extension Ecs {
             self.failures = failures
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusters = dictionary["clusters"] as? [[String: Any]] {
+                self.clusters = try clusters.map({ try Cluster(dictionary: $0) })
+            }
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+        }
     }
 
     public struct Resource: AWSShape {
@@ -687,6 +917,16 @@ extension Ecs {
             self.stringSetValue = stringSetValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.longValue = dictionary["longValue"] as? Int64
+            self.name = dictionary["name"] as? String
+            self.doubleValue = dictionary["doubleValue"] as? Double
+            self.type = dictionary["type"] as? String
+            self.integerValue = dictionary["integerValue"] as? Int32
+            if let stringSetValue = dictionary["stringSetValue"] as? [String] {
+                self.stringSetValue = stringSetValue
+            }
+        }
     }
 
     public struct RegisterTaskDefinitionRequest: AWSShape {
@@ -716,6 +956,20 @@ extension Ecs {
             self.volumes = volumes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
+                self.placementConstraints = try placementConstraints.map({ try TaskDefinitionPlacementConstraint(dictionary: $0) })
+            }
+            guard let containerDefinitions = dictionary["containerDefinitions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("containerDefinitions") }
+            self.containerDefinitions = try containerDefinitions.map({ try ContainerDefinition(dictionary: $0) })
+            guard let family = dictionary["family"] as? String else { throw InitializableError.missingRequiredParam("family") }
+            self.family = family
+            self.networkMode = dictionary["networkMode"] as? String
+            self.taskRoleArn = dictionary["taskRoleArn"] as? String
+            if let volumes = dictionary["volumes"] as? [[String: Any]] {
+                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListTaskDefinitionFamiliesResponse: AWSShape {
@@ -733,6 +987,12 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let families = dictionary["families"] as? [String] {
+                self.families = families
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ContainerOverride: AWSShape {
@@ -753,6 +1013,15 @@ extension Ecs {
             self.environment = environment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let command = dictionary["command"] as? [String] {
+                self.command = command
+            }
+            self.name = dictionary["name"] as? String
+            if let environment = dictionary["environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeregisterTaskDefinitionRequest: AWSShape {
@@ -767,6 +1036,10 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
+            self.taskDefinition = taskDefinition
+        }
     }
 
     public struct ListTasksRequest: AWSShape {
@@ -802,6 +1075,16 @@ extension Ecs {
             self.startedBy = startedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.containerInstance = dictionary["containerInstance"] as? String
+            self.family = dictionary["family"] as? String
+            self.cluster = dictionary["cluster"] as? String
+            self.serviceName = dictionary["serviceName"] as? String
+            self.desiredStatus = dictionary["desiredStatus"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.startedBy = dictionary["startedBy"] as? String
+        }
     }
 
     public struct PutAttributesRequest: AWSShape {
@@ -819,6 +1102,11 @@ extension Ecs {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cluster = dictionary["cluster"] as? String
+            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
+            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+        }
     }
 
     public struct Service: AWSShape {
@@ -878,6 +1166,34 @@ extension Ecs {
             self.runningCount = runningCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["roleArn"] as? String
+            self.clusterArn = dictionary["clusterArn"] as? String
+            if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
+                self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
+            }
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.serviceName = dictionary["serviceName"] as? String
+            self.pendingCount = dictionary["pendingCount"] as? Int32
+            if let deployments = dictionary["deployments"] as? [[String: Any]] {
+                self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
+            }
+            if let loadBalancers = dictionary["loadBalancers"] as? [[String: Any]] {
+                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            }
+            if let events = dictionary["events"] as? [[String: Any]] {
+                self.events = try events.map({ try ServiceEvent(dictionary: $0) })
+            }
+            self.serviceArn = dictionary["serviceArn"] as? String
+            self.desiredCount = dictionary["desiredCount"] as? Int32
+            self.status = dictionary["status"] as? String
+            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
+                self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
+            }
+            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) }
+            self.taskDefinition = dictionary["taskDefinition"] as? String
+            self.runningCount = dictionary["runningCount"] as? Int32
+        }
     }
 
     public struct UpdateServiceRequest: AWSShape {
@@ -904,6 +1220,14 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let service = dictionary["service"] as? String else { throw InitializableError.missingRequiredParam("service") }
+            self.service = service
+            self.desiredCount = dictionary["desiredCount"] as? Int32
+            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) }
+            self.taskDefinition = dictionary["taskDefinition"] as? String
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct DescribeTaskDefinitionResponse: AWSShape {
@@ -918,6 +1242,9 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) }
+        }
     }
 
     public struct DiscoverPollEndpointRequest: AWSShape {
@@ -935,6 +1262,10 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cluster = dictionary["cluster"] as? String
+            self.containerInstance = dictionary["containerInstance"] as? String
+        }
     }
 
     public struct StartTaskResponse: AWSShape {
@@ -952,6 +1283,14 @@ extension Ecs {
             self.tasks = tasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+            if let tasks = dictionary["tasks"] as? [[String: Any]] {
+                self.tasks = try tasks.map({ try Task(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteAttributesRequest: AWSShape {
@@ -969,6 +1308,11 @@ extension Ecs {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cluster = dictionary["cluster"] as? String
+            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
+            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+        }
     }
 
     public struct ListContainerInstancesRequest: AWSShape {
@@ -995,6 +1339,13 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.filter = dictionary["filter"] as? String
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct Volume: AWSShape {
@@ -1012,6 +1363,10 @@ extension Ecs {
             self.host = host
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let host = dictionary["host"] as? [String: Any] { self.host = try Ecs.HostVolumeProperties(dictionary: host) }
+        }
     }
 
     public struct PortMapping: AWSShape {
@@ -1032,6 +1387,11 @@ extension Ecs {
             self.hostPort = hostPort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`protocol` = dictionary["protocol"] as? String
+            self.containerPort = dictionary["containerPort"] as? Int32
+            self.hostPort = dictionary["hostPort"] as? Int32
+        }
     }
 
     public struct Ulimit: AWSShape {
@@ -1052,6 +1412,14 @@ extension Ecs {
             self.hardLimit = hardLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let softLimit = dictionary["softLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("softLimit") }
+            self.softLimit = softLimit
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let hardLimit = dictionary["hardLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("hardLimit") }
+            self.hardLimit = hardLimit
+        }
     }
 
     public struct DescribeServicesResponse: AWSShape {
@@ -1069,6 +1437,14 @@ extension Ecs {
             self.failures = failures
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let services = dictionary["services"] as? [[String: Any]] {
+                self.services = try services.map({ try Service(dictionary: $0) })
+            }
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+        }
     }
 
     public struct Container: AWSShape {
@@ -1101,6 +1477,17 @@ extension Ecs {
             self.lastStatus = lastStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.reason = dictionary["reason"] as? String
+            if let networkBindings = dictionary["networkBindings"] as? [[String: Any]] {
+                self.networkBindings = try networkBindings.map({ try NetworkBinding(dictionary: $0) })
+            }
+            self.containerArn = dictionary["containerArn"] as? String
+            self.exitCode = dictionary["exitCode"] as? Int32
+            self.taskArn = dictionary["taskArn"] as? String
+            self.lastStatus = dictionary["lastStatus"] as? String
+        }
     }
 
     public struct DescribeTaskDefinitionRequest: AWSShape {
@@ -1115,6 +1502,10 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
+            self.taskDefinition = taskDefinition
+        }
     }
 
     public struct LoadBalancer: AWSShape {
@@ -1138,6 +1529,12 @@ extension Ecs {
             self.containerName = containerName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetGroupArn = dictionary["targetGroupArn"] as? String
+            self.loadBalancerName = dictionary["loadBalancerName"] as? String
+            self.containerPort = dictionary["containerPort"] as? Int32
+            self.containerName = dictionary["containerName"] as? String
+        }
     }
 
     public struct UpdateContainerInstancesStateResponse: AWSShape {
@@ -1155,6 +1552,14 @@ extension Ecs {
             self.failures = failures
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let containerInstances = dictionary["containerInstances"] as? [[String: Any]] {
+                self.containerInstances = try containerInstances.map({ try ContainerInstance(dictionary: $0) })
+            }
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+        }
     }
 
     public struct Cluster: AWSShape {
@@ -1187,6 +1592,15 @@ extension Ecs {
             self.activeServicesCount = activeServicesCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pendingTasksCount = dictionary["pendingTasksCount"] as? Int32
+            self.status = dictionary["status"] as? String
+            self.clusterArn = dictionary["clusterArn"] as? String
+            self.clusterName = dictionary["clusterName"] as? String
+            self.registeredContainerInstancesCount = dictionary["registeredContainerInstancesCount"] as? Int32
+            self.runningTasksCount = dictionary["runningTasksCount"] as? Int32
+            self.activeServicesCount = dictionary["activeServicesCount"] as? Int32
+        }
     }
 
     public struct StartTaskRequest: AWSShape {
@@ -1216,6 +1630,16 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) }
+            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
+            self.taskDefinition = taskDefinition
+            guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
+            self.containerInstances = containerInstances
+            self.startedBy = dictionary["startedBy"] as? String
+            self.group = dictionary["group"] as? String
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct TaskDefinition: AWSShape {
@@ -1257,6 +1681,26 @@ extension Ecs {
             self.taskDefinitionArn = taskDefinitionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.revision = dictionary["revision"] as? Int32
+            self.status = dictionary["status"] as? String
+            if let requiresAttributes = dictionary["requiresAttributes"] as? [[String: Any]] {
+                self.requiresAttributes = try requiresAttributes.map({ try Attribute(dictionary: $0) })
+            }
+            self.family = dictionary["family"] as? String
+            if let volumes = dictionary["volumes"] as? [[String: Any]] {
+                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            }
+            self.taskRoleArn = dictionary["taskRoleArn"] as? String
+            self.networkMode = dictionary["networkMode"] as? String
+            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
+                self.placementConstraints = try placementConstraints.map({ try TaskDefinitionPlacementConstraint(dictionary: $0) })
+            }
+            if let containerDefinitions = dictionary["containerDefinitions"] as? [[String: Any]] {
+                self.containerDefinitions = try containerDefinitions.map({ try ContainerDefinition(dictionary: $0) })
+            }
+            self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
+        }
     }
 
     public struct HostEntry: AWSShape {
@@ -1274,6 +1718,12 @@ extension Ecs {
             self.ipAddress = ipAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostname = dictionary["hostname"] as? String else { throw InitializableError.missingRequiredParam("hostname") }
+            self.hostname = hostname
+            guard let ipAddress = dictionary["ipAddress"] as? String else { throw InitializableError.missingRequiredParam("ipAddress") }
+            self.ipAddress = ipAddress
+        }
     }
 
     public struct PlacementStrategy: AWSShape {
@@ -1291,6 +1741,10 @@ extension Ecs {
             self.field = field
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.field = dictionary["field"] as? String
+        }
     }
 
     public struct ServiceEvent: AWSShape {
@@ -1311,6 +1765,11 @@ extension Ecs {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct SubmitTaskStateChangeResponse: AWSShape {
@@ -1325,6 +1784,9 @@ extension Ecs {
             self.acknowledgment = acknowledgment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acknowledgment = dictionary["acknowledgment"] as? String
+        }
     }
 
     public struct UpdateServiceResponse: AWSShape {
@@ -1339,6 +1801,9 @@ extension Ecs {
             self.service = service
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) }
+        }
     }
 
     public struct CreateClusterRequest: AWSShape {
@@ -1353,6 +1818,9 @@ extension Ecs {
             self.clusterName = clusterName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterName = dictionary["clusterName"] as? String
+        }
     }
 
     public struct SubmitTaskStateChangeRequest: AWSShape {
@@ -1376,6 +1844,12 @@ extension Ecs {
             self.task = task
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.reason = dictionary["reason"] as? String
+            self.cluster = dictionary["cluster"] as? String
+            self.task = dictionary["task"] as? String
+        }
     }
 
     public struct RegisterTaskDefinitionResponse: AWSShape {
@@ -1390,6 +1864,9 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) }
+        }
     }
 
     public struct CreateServiceResponse: AWSShape {
@@ -1404,6 +1881,9 @@ extension Ecs {
             self.service = service
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) }
+        }
     }
 
     public struct DeregisterContainerInstanceRequest: AWSShape {
@@ -1424,6 +1904,12 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.force = dictionary["force"] as? Bool
+            self.cluster = dictionary["cluster"] as? String
+            guard let containerInstance = dictionary["containerInstance"] as? String else { throw InitializableError.missingRequiredParam("containerInstance") }
+            self.containerInstance = containerInstance
+        }
     }
 
     public struct DeregisterContainerInstanceResponse: AWSShape {
@@ -1438,6 +1924,9 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) }
+        }
     }
 
     public struct DescribeTasksRequest: AWSShape {
@@ -1455,6 +1944,11 @@ extension Ecs {
             self.tasks = tasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cluster = dictionary["cluster"] as? String
+            guard let tasks = dictionary["tasks"] as? [String] else { throw InitializableError.missingRequiredParam("tasks") }
+            self.tasks = tasks
+        }
     }
 
     public struct DeleteClusterResponse: AWSShape {
@@ -1469,6 +1963,9 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct DeregisterTaskDefinitionResponse: AWSShape {
@@ -1483,6 +1980,9 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) }
+        }
     }
 
     public struct ListTaskDefinitionsRequest: AWSShape {
@@ -1509,6 +2009,13 @@ extension Ecs {
             self.sort = sort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.familyPrefix = dictionary["familyPrefix"] as? String
+            self.status = dictionary["status"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.sort = dictionary["sort"] as? String
+        }
     }
 
     public struct RegisterContainerInstanceResponse: AWSShape {
@@ -1523,6 +2030,9 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) }
+        }
     }
 
     public struct DescribeServicesRequest: AWSShape {
@@ -1540,6 +2050,11 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let services = dictionary["services"] as? [String] else { throw InitializableError.missingRequiredParam("services") }
+            self.services = services
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct RunTaskRequest: AWSShape {
@@ -1575,6 +2090,21 @@ extension Ecs {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) }
+            if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
+                self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
+            }
+            self.cluster = dictionary["cluster"] as? String
+            self.count = dictionary["count"] as? Int32
+            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
+                self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
+            }
+            self.startedBy = dictionary["startedBy"] as? String
+            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
+            self.taskDefinition = taskDefinition
+            self.group = dictionary["group"] as? String
+        }
     }
 
     public struct ListAttributesRequest: AWSShape {
@@ -1604,6 +2134,15 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeValue = dictionary["attributeValue"] as? String
+            guard let targetType = dictionary["targetType"] as? String else { throw InitializableError.missingRequiredParam("targetType") }
+            self.targetType = targetType
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.attributeName = dictionary["attributeName"] as? String
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct PlacementConstraint: AWSShape {
@@ -1621,6 +2160,10 @@ extension Ecs {
             self.expression = expression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.expression = dictionary["expression"] as? String
+        }
     }
 
     public struct TaskOverride: AWSShape {
@@ -1638,6 +2181,12 @@ extension Ecs {
             self.taskRoleArn = taskRoleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let containerOverrides = dictionary["containerOverrides"] as? [[String: Any]] {
+                self.containerOverrides = try containerOverrides.map({ try ContainerOverride(dictionary: $0) })
+            }
+            self.taskRoleArn = dictionary["taskRoleArn"] as? String
+        }
     }
 
     public struct ListTasksResponse: AWSShape {
@@ -1655,6 +2204,12 @@ extension Ecs {
             self.taskArns = taskArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let taskArns = dictionary["taskArns"] as? [String] {
+                self.taskArns = taskArns
+            }
+        }
     }
 
     public struct ListAttributesResponse: AWSShape {
@@ -1672,6 +2227,12 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListServicesRequest: AWSShape {
@@ -1692,6 +2253,11 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
     public struct PutAttributesResponse: AWSShape {
@@ -1706,6 +2272,11 @@ extension Ecs {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct RegisterContainerInstanceRequest: AWSShape {
@@ -1738,6 +2309,19 @@ extension Ecs {
             self.instanceIdentityDocument = instanceIdentityDocument
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) }
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
+            self.cluster = dictionary["cluster"] as? String
+            if let totalResources = dictionary["totalResources"] as? [[String: Any]] {
+                self.totalResources = try totalResources.map({ try Resource(dictionary: $0) })
+            }
+            self.instanceIdentityDocumentSignature = dictionary["instanceIdentityDocumentSignature"] as? String
+            self.instanceIdentityDocument = dictionary["instanceIdentityDocument"] as? String
+        }
     }
 
     public struct Task: AWSShape {
@@ -1794,6 +2378,25 @@ extension Ecs {
             self.lastStatus = lastStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterArn = dictionary["clusterArn"] as? String
+            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) }
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.startedAt = dictionary["startedAt"] as? Date
+            self.desiredStatus = dictionary["desiredStatus"] as? String
+            self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
+            if let containers = dictionary["containers"] as? [[String: Any]] {
+                self.containers = try containers.map({ try Container(dictionary: $0) })
+            }
+            self.stoppedReason = dictionary["stoppedReason"] as? String
+            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
+            self.stoppedAt = dictionary["stoppedAt"] as? Date
+            self.version = dictionary["version"] as? Int64
+            self.taskArn = dictionary["taskArn"] as? String
+            self.startedBy = dictionary["startedBy"] as? String
+            self.group = dictionary["group"] as? String
+            self.lastStatus = dictionary["lastStatus"] as? String
+        }
     }
 
     public struct UpdateContainerAgentRequest: AWSShape {
@@ -1811,6 +2414,11 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cluster = dictionary["cluster"] as? String
+            guard let containerInstance = dictionary["containerInstance"] as? String else { throw InitializableError.missingRequiredParam("containerInstance") }
+            self.containerInstance = containerInstance
+        }
     }
 
     public struct ListClustersResponse: AWSShape {
@@ -1828,6 +2436,12 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterArns = dictionary["clusterArns"] as? [String] {
+                self.clusterArns = clusterArns
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeClustersRequest: AWSShape {
@@ -1842,6 +2456,11 @@ extension Ecs {
             self.clusters = clusters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusters = dictionary["clusters"] as? [String] {
+                self.clusters = clusters
+            }
+        }
     }
 
     public struct RunTaskResponse: AWSShape {
@@ -1859,6 +2478,14 @@ extension Ecs {
             self.tasks = tasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try Failure(dictionary: $0) })
+            }
+            if let tasks = dictionary["tasks"] as? [[String: Any]] {
+                self.tasks = try tasks.map({ try Task(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListServicesResponse: AWSShape {
@@ -1876,6 +2503,12 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceArns = dictionary["serviceArns"] as? [String] {
+                self.serviceArns = serviceArns
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct KeyValuePair: AWSShape {
@@ -1893,6 +2526,10 @@ extension Ecs {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct SubmitContainerStateChangeRequest: AWSShape {
@@ -1925,6 +2562,17 @@ extension Ecs {
             self.containerName = containerName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.reason = dictionary["reason"] as? String
+            if let networkBindings = dictionary["networkBindings"] as? [[String: Any]] {
+                self.networkBindings = try networkBindings.map({ try NetworkBinding(dictionary: $0) })
+            }
+            self.cluster = dictionary["cluster"] as? String
+            self.exitCode = dictionary["exitCode"] as? Int32
+            self.task = dictionary["task"] as? String
+            self.containerName = dictionary["containerName"] as? String
+        }
     }
 
     public struct ListTaskDefinitionFamiliesRequest: AWSShape {
@@ -1948,6 +2596,12 @@ extension Ecs {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.familyPrefix = dictionary["familyPrefix"] as? String
+            self.status = dictionary["status"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct NetworkBinding: AWSShape {
@@ -1971,6 +2625,12 @@ extension Ecs {
             self.bindIP = bindIP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hostPort = dictionary["hostPort"] as? Int32
+            self.`protocol` = dictionary["protocol"] as? String
+            self.containerPort = dictionary["containerPort"] as? Int32
+            self.bindIP = dictionary["bindIP"] as? String
+        }
     }
 
     public struct Failure: AWSShape {
@@ -1988,6 +2648,10 @@ extension Ecs {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["reason"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct DescribeContainerInstancesRequest: AWSShape {
@@ -2005,6 +2669,11 @@ extension Ecs {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
+            self.containerInstances = containerInstances
+            self.cluster = dictionary["cluster"] as? String
+        }
     }
 
 }

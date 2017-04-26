@@ -41,6 +41,10 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+        }
     }
 
     public struct CreateUserProfileRequest: AWSShape {
@@ -64,6 +68,13 @@ extension Opsworks {
             self.allowSelfManagement = allowSelfManagement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
+            self.iamUserArn = iamUserArn
+            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+            self.sshUsername = dictionary["SshUsername"] as? String
+            self.allowSelfManagement = dictionary["AllowSelfManagement"] as? Bool
+        }
     }
 
     public struct DescribeRdsDbInstancesRequest: AWSShape {
@@ -81,6 +92,13 @@ extension Opsworks {
             self.rdsDbInstanceArns = rdsDbInstanceArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            if let rdsDbInstanceArns = dictionary["RdsDbInstanceArns"] as? [String] {
+                self.rdsDbInstanceArns = rdsDbInstanceArns
+            }
+        }
     }
 
     public struct Layer: AWSShape {
@@ -154,6 +172,39 @@ extension Opsworks {
             self.customInstanceProfileArn = customInstanceProfileArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shortname = dictionary["Shortname"] as? String
+            if let packages = dictionary["Packages"] as? [String] {
+                self.packages = packages
+            }
+            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) }
+            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) }
+            self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
+            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
+            self.customJson = dictionary["CustomJson"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            if let customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String] {
+                self.customSecurityGroupIds = customSecurityGroupIds
+            }
+            self.stackId = dictionary["StackId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.layerId = dictionary["LayerId"] as? String
+            self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
+            if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
+                self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
+            }
+            if let defaultSecurityGroupNames = dictionary["DefaultSecurityGroupNames"] as? [String] {
+                self.defaultSecurityGroupNames = defaultSecurityGroupNames
+            }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
+            if let defaultRecipes = dictionary["DefaultRecipes"] as? [String: Any] { self.defaultRecipes = try Opsworks.Recipes(dictionary: defaultRecipes) }
+            self.type = dictionary["Type"] as? String
+            self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
+            self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
+        }
     }
 
     public struct SetTimeBasedAutoScalingRequest: AWSShape {
@@ -171,6 +222,11 @@ extension Opsworks {
             self.autoScalingSchedule = autoScalingSchedule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) }
+        }
     }
 
     public struct DescribeRaidArraysRequest: AWSShape {
@@ -191,6 +247,13 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let raidArrayIds = dictionary["RaidArrayIds"] as? [String] {
+                self.raidArrayIds = raidArrayIds
+            }
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct StackSummary: AWSShape {
@@ -220,6 +283,14 @@ extension Opsworks {
             self.appsCount = appsCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instancesCount = dictionary["InstancesCount"] as? [String: Any] { self.instancesCount = try Opsworks.InstancesCount(dictionary: instancesCount) }
+            self.layersCount = dictionary["LayersCount"] as? Int32
+            self.arn = dictionary["Arn"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.appsCount = dictionary["AppsCount"] as? Int32
+        }
     }
 
     public struct DescribeCommandsResult: AWSShape {
@@ -234,6 +305,11 @@ extension Opsworks {
             self.commands = commands
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let commands = dictionary["Commands"] as? [[String: Any]] {
+                self.commands = try commands.map({ try Command(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeregisterEcsClusterRequest: AWSShape {
@@ -248,6 +324,10 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ecsClusterArn = dictionary["EcsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("EcsClusterArn") }
+            self.ecsClusterArn = ecsClusterArn
+        }
     }
 
     public struct DescribeEcsClustersResult: AWSShape {
@@ -265,6 +345,12 @@ extension Opsworks {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ecsClusters = dictionary["EcsClusters"] as? [[String: Any]] {
+                self.ecsClusters = try ecsClusters.map({ try EcsCluster(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct UpdateUserProfileRequest: AWSShape {
@@ -288,6 +374,13 @@ extension Opsworks {
             self.allowSelfManagement = allowSelfManagement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
+            self.iamUserArn = iamUserArn
+            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+            self.sshUsername = dictionary["SshUsername"] as? String
+            self.allowSelfManagement = dictionary["AllowSelfManagement"] as? Bool
+        }
     }
 
     public struct DescribeStacksRequest: AWSShape {
@@ -302,6 +395,11 @@ extension Opsworks {
             self.stackIds = stackIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stackIds = dictionary["StackIds"] as? [String] {
+                self.stackIds = stackIds
+            }
+        }
     }
 
     public struct SslConfiguration: AWSShape {
@@ -322,6 +420,13 @@ extension Opsworks {
             self.privateKey = privateKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificate = dictionary["Certificate"] as? String else { throw InitializableError.missingRequiredParam("Certificate") }
+            self.certificate = certificate
+            self.chain = dictionary["Chain"] as? String
+            guard let privateKey = dictionary["PrivateKey"] as? String else { throw InitializableError.missingRequiredParam("PrivateKey") }
+            self.privateKey = privateKey
+        }
     }
 
     public struct DescribeElasticIpsRequest: AWSShape {
@@ -342,6 +447,13 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let ips = dictionary["Ips"] as? [String] {
+                self.ips = ips
+            }
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct StackConfigurationManager: AWSShape {
@@ -359,6 +471,10 @@ extension Opsworks {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct UpdateAppRequest: AWSShape {
@@ -403,6 +519,28 @@ extension Opsworks {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let appId = dictionary["AppId"] as? String else { throw InitializableError.missingRequiredParam("AppId") }
+            self.appId = appId
+            self.name = dictionary["Name"] as? String
+            if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
+                self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
+            }
+            if let environment = dictionary["Environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
+            }
+            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) }
+            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.enableSsl = dictionary["EnableSsl"] as? Bool
+            self.type = dictionary["Type"] as? String
+            if let domains = dictionary["Domains"] as? [String] {
+                self.domains = domains
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Instance: AWSShape {
@@ -534,6 +672,54 @@ extension Opsworks {
             self.virtualizationType = virtualizationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ecsContainerInstanceArn = dictionary["EcsContainerInstanceArn"] as? String
+            self.hostname = dictionary["Hostname"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.ec2InstanceId = dictionary["Ec2InstanceId"] as? String
+            self.status = dictionary["Status"] as? String
+            self.reportedAgentVersion = dictionary["ReportedAgentVersion"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.elasticIp = dictionary["ElasticIp"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.sshKeyName = dictionary["SshKeyName"] as? String
+            self.rootDeviceType = dictionary["RootDeviceType"] as? String
+            self.lastServiceErrorId = dictionary["LastServiceErrorId"] as? String
+            self.publicDns = dictionary["PublicDns"] as? String
+            if let layerIds = dictionary["LayerIds"] as? [String] {
+                self.layerIds = layerIds
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.platform = dictionary["Platform"] as? String
+            self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
+            self.privateIp = dictionary["PrivateIp"] as? String
+            self.infrastructureClass = dictionary["InfrastructureClass"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.amiId = dictionary["AmiId"] as? String
+            self.privateDns = dictionary["PrivateDns"] as? String
+            self.rootDeviceVolumeId = dictionary["RootDeviceVolumeId"] as? String
+            self.tenancy = dictionary["Tenancy"] as? String
+            self.sshHostRsaKeyFingerprint = dictionary["SshHostRsaKeyFingerprint"] as? String
+            self.registeredBy = dictionary["RegisteredBy"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            if let reportedOs = dictionary["ReportedOs"] as? [String: Any] { self.reportedOs = try Opsworks.ReportedOs(dictionary: reportedOs) }
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            self.sshHostDsaKeyFingerprint = dictionary["SshHostDsaKeyFingerprint"] as? String
+            self.architecture = dictionary["Architecture"] as? String
+            self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
+            self.os = dictionary["Os"] as? String
+            self.autoScalingType = dictionary["AutoScalingType"] as? String
+            self.virtualizationType = dictionary["VirtualizationType"] as? String
+        }
     }
 
     public struct DescribeUserProfilesRequest: AWSShape {
@@ -548,6 +734,11 @@ extension Opsworks {
             self.iamUserArns = iamUserArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let iamUserArns = dictionary["IamUserArns"] as? [String] {
+                self.iamUserArns = iamUserArns
+            }
+        }
     }
 
     public struct DeleteInstanceRequest: AWSShape {
@@ -568,6 +759,12 @@ extension Opsworks {
             self.deleteElasticIp = deleteElasticIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deleteVolumes = dictionary["DeleteVolumes"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.deleteElasticIp = dictionary["DeleteElasticIp"] as? Bool
+        }
     }
 
     public struct InstancesCount: AWSShape {
@@ -636,6 +833,27 @@ extension Opsworks {
             self.requested = requested
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pending = dictionary["Pending"] as? Int32
+            self.stopping = dictionary["Stopping"] as? Int32
+            self.booting = dictionary["Booting"] as? Int32
+            self.online = dictionary["Online"] as? Int32
+            self.runningSetup = dictionary["RunningSetup"] as? Int32
+            self.terminated = dictionary["Terminated"] as? Int32
+            self.setupFailed = dictionary["SetupFailed"] as? Int32
+            self.assigning = dictionary["Assigning"] as? Int32
+            self.connectionLost = dictionary["ConnectionLost"] as? Int32
+            self.terminating = dictionary["Terminating"] as? Int32
+            self.shuttingDown = dictionary["ShuttingDown"] as? Int32
+            self.registering = dictionary["Registering"] as? Int32
+            self.rebooting = dictionary["Rebooting"] as? Int32
+            self.unassigning = dictionary["Unassigning"] as? Int32
+            self.stopped = dictionary["Stopped"] as? Int32
+            self.startFailed = dictionary["StartFailed"] as? Int32
+            self.registered = dictionary["Registered"] as? Int32
+            self.deregistering = dictionary["Deregistering"] as? Int32
+            self.requested = dictionary["Requested"] as? Int32
+        }
     }
 
     public struct CreateLayerRequest: AWSShape {
@@ -698,6 +916,37 @@ extension Opsworks {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shortname = dictionary["Shortname"] as? String else { throw InitializableError.missingRequiredParam("Shortname") }
+            self.shortname = shortname
+            if let packages = dictionary["Packages"] as? [String] {
+                self.packages = packages
+            }
+            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) }
+            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) }
+            self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
+            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
+            self.customJson = dictionary["CustomJson"] as? String
+            if let customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String] {
+                self.customSecurityGroupIds = customSecurityGroupIds
+            }
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
+            self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
+            if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
+                self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
+            }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
+            self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+        }
     }
 
     public struct UpdateInstanceRequest: AWSShape {
@@ -745,6 +994,23 @@ extension Opsworks {
             self.sshKeyName = sshKeyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let layerIds = dictionary["LayerIds"] as? [String] {
+                self.layerIds = layerIds
+            }
+            self.hostname = dictionary["Hostname"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.architecture = dictionary["Architecture"] as? String
+            self.amiId = dictionary["AmiId"] as? String
+            self.autoScalingType = dictionary["AutoScalingType"] as? String
+            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.os = dictionary["Os"] as? String
+            self.sshKeyName = dictionary["SshKeyName"] as? String
+        }
     }
 
     public struct RaidArray: AWSShape {
@@ -795,6 +1061,21 @@ extension Opsworks {
             self.numberOfDisks = numberOfDisks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.device = dictionary["Device"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.raidLevel = dictionary["RaidLevel"] as? Int32
+            self.raidArrayId = dictionary["RaidArrayId"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.mountPoint = dictionary["MountPoint"] as? String
+            self.name = dictionary["Name"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.size = dictionary["Size"] as? Int32
+            self.numberOfDisks = dictionary["NumberOfDisks"] as? Int32
+        }
     }
 
     public struct CloneStackResult: AWSShape {
@@ -809,6 +1090,9 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+        }
     }
 
     public struct CreateStackResult: AWSShape {
@@ -823,6 +1107,9 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+        }
     }
 
     public struct LoadBasedAutoScalingConfiguration: AWSShape {
@@ -846,6 +1133,12 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) }
+            self.enable = dictionary["Enable"] as? Bool
+            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) }
+            self.layerId = dictionary["LayerId"] as? String
+        }
     }
 
     public struct App: AWSShape {
@@ -899,6 +1192,30 @@ extension Opsworks {
             self.appId = appId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shortname = dictionary["Shortname"] as? String
+            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) }
+            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) }
+            self.enableSsl = dictionary["EnableSsl"] as? Bool
+            if let domains = dictionary["Domains"] as? [String] {
+                self.domains = domains
+            }
+            self.description = dictionary["Description"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.name = dictionary["Name"] as? String
+            if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
+                self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
+            }
+            if let environment = dictionary["Environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
+            }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.type = dictionary["Type"] as? String
+            self.appId = dictionary["AppId"] as? String
+        }
     }
 
     public struct Command: AWSShape {
@@ -940,6 +1257,18 @@ extension Opsworks {
             self.completedAt = completedAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.logUrl = dictionary["LogUrl"] as? String
+            self.acknowledgedAt = dictionary["AcknowledgedAt"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            self.status = dictionary["Status"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.deploymentId = dictionary["DeploymentId"] as? String
+            self.exitCode = dictionary["ExitCode"] as? Int32
+            self.commandId = dictionary["CommandId"] as? String
+            self.type = dictionary["Type"] as? String
+            self.completedAt = dictionary["CompletedAt"] as? String
+        }
     }
 
     public struct UserProfile: AWSShape {
@@ -966,6 +1295,13 @@ extension Opsworks {
             self.allowSelfManagement = allowSelfManagement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamUserArn = dictionary["IamUserArn"] as? String
+            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+            self.sshUsername = dictionary["SshUsername"] as? String
+            self.name = dictionary["Name"] as? String
+            self.allowSelfManagement = dictionary["AllowSelfManagement"] as? Bool
+        }
     }
 
     public struct WeeklyAutoScalingSchedule: AWSShape {
@@ -998,6 +1334,29 @@ extension Opsworks {
             self.wednesday = wednesday
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let saturday = dictionary["Saturday"] as? [String: String] {
+                self.saturday = saturday
+            }
+            if let tuesday = dictionary["Tuesday"] as? [String: String] {
+                self.tuesday = tuesday
+            }
+            if let sunday = dictionary["Sunday"] as? [String: String] {
+                self.sunday = sunday
+            }
+            if let friday = dictionary["Friday"] as? [String: String] {
+                self.friday = friday
+            }
+            if let monday = dictionary["Monday"] as? [String: String] {
+                self.monday = monday
+            }
+            if let thursday = dictionary["Thursday"] as? [String: String] {
+                self.thursday = thursday
+            }
+            if let wednesday = dictionary["Wednesday"] as? [String: String] {
+                self.wednesday = wednesday
+            }
+        }
     }
 
     public struct RegisterEcsClusterResult: AWSShape {
@@ -1012,6 +1371,9 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
+        }
     }
 
     public struct RegisterElasticIpResult: AWSShape {
@@ -1026,6 +1388,9 @@ extension Opsworks {
             self.elasticIp = elasticIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.elasticIp = dictionary["ElasticIp"] as? String
+        }
     }
 
     public struct GetHostnameSuggestionRequest: AWSShape {
@@ -1040,6 +1405,10 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
+            self.layerId = layerId
+        }
     }
 
     public struct DeregisterInstanceRequest: AWSShape {
@@ -1054,6 +1423,10 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct CreateInstanceRequest: AWSShape {
@@ -1119,6 +1492,31 @@ extension Opsworks {
             self.virtualizationType = virtualizationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
+            self.layerIds = layerIds
+            self.hostname = dictionary["Hostname"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.tenancy = dictionary["Tenancy"] as? String
+            self.amiId = dictionary["AmiId"] as? String
+            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            self.architecture = dictionary["Architecture"] as? String
+            self.rootDeviceType = dictionary["RootDeviceType"] as? String
+            self.autoScalingType = dictionary["AutoScalingType"] as? String
+            self.os = dictionary["Os"] as? String
+            self.sshKeyName = dictionary["SshKeyName"] as? String
+            self.virtualizationType = dictionary["VirtualizationType"] as? String
+        }
     }
 
     public struct CreateAppRequest: AWSShape {
@@ -1166,6 +1564,31 @@ extension Opsworks {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shortname = dictionary["Shortname"] as? String
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
+                self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
+            }
+            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) }
+            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            if let environment = dictionary["Environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
+            }
+            self.enableSsl = dictionary["EnableSsl"] as? Bool
+            if let domains = dictionary["Domains"] as? [String] {
+                self.domains = domains
+            }
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ShutdownEventConfiguration: AWSShape {
@@ -1183,6 +1606,10 @@ extension Opsworks {
             self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.executionTimeout = dictionary["ExecutionTimeout"] as? Int32
+            self.delayUntilElbConnectionsDrained = dictionary["DelayUntilElbConnectionsDrained"] as? Bool
+        }
     }
 
     public struct CreateUserProfileResult: AWSShape {
@@ -1197,6 +1624,9 @@ extension Opsworks {
             self.iamUserArn = iamUserArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamUserArn = dictionary["IamUserArn"] as? String
+        }
     }
 
     public struct CloneStackRequest: AWSShape {
@@ -1273,6 +1703,36 @@ extension Opsworks {
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultOs = dictionary["DefaultOs"] as? String
+            self.clonePermissions = dictionary["ClonePermissions"] as? Bool
+            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
+            self.serviceRoleArn = serviceRoleArn
+            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            self.region = dictionary["Region"] as? String
+            guard let sourceStackId = dictionary["SourceStackId"] as? String else { throw InitializableError.missingRequiredParam("SourceStackId") }
+            self.sourceStackId = sourceStackId
+            self.customJson = dictionary["CustomJson"] as? String
+            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.name = dictionary["Name"] as? String
+            if let cloneAppIds = dictionary["CloneAppIds"] as? [String] {
+                self.cloneAppIds = cloneAppIds
+            }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
+            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
+            self.hostnameTheme = dictionary["HostnameTheme"] as? String
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+        }
     }
 
     public struct DescribeLayersRequest: AWSShape {
@@ -1290,6 +1750,12 @@ extension Opsworks {
             self.layerIds = layerIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let layerIds = dictionary["LayerIds"] as? [String] {
+                self.layerIds = layerIds
+            }
+        }
     }
 
     public struct DescribeAgentVersionsRequest: AWSShape {
@@ -1307,6 +1773,10 @@ extension Opsworks {
             self.configurationManager = configurationManager
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+        }
     }
 
     public struct DescribeDeploymentsRequest: AWSShape {
@@ -1327,6 +1797,13 @@ extension Opsworks {
             self.appId = appId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let deploymentIds = dictionary["DeploymentIds"] as? [String] {
+                self.deploymentIds = deploymentIds
+            }
+            self.appId = dictionary["AppId"] as? String
+        }
     }
 
     public struct DescribeAppsResult: AWSShape {
@@ -1341,6 +1818,11 @@ extension Opsworks {
             self.apps = apps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let apps = dictionary["Apps"] as? [[String: Any]] {
+                self.apps = try apps.map({ try App(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeVolumesResult: AWSShape {
@@ -1355,6 +1837,11 @@ extension Opsworks {
             self.volumes = volumes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumes = dictionary["Volumes"] as? [[String: Any]] {
+                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            }
+        }
     }
 
     public struct GrantAccessRequest: AWSShape {
@@ -1372,6 +1859,11 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.validForInMinutes = dictionary["ValidForInMinutes"] as? Int32
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct DescribeLayersResult: AWSShape {
@@ -1386,6 +1878,11 @@ extension Opsworks {
             self.layers = layers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let layers = dictionary["Layers"] as? [[String: Any]] {
+                self.layers = try layers.map({ try Layer(dictionary: $0) })
+            }
+        }
     }
 
     public struct DetachElasticLoadBalancerRequest: AWSShape {
@@ -1403,6 +1900,12 @@ extension Opsworks {
             self.elasticLoadBalancerName = elasticLoadBalancerName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
+            self.layerId = layerId
+            guard let elasticLoadBalancerName = dictionary["ElasticLoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("ElasticLoadBalancerName") }
+            self.elasticLoadBalancerName = elasticLoadBalancerName
+        }
     }
 
     public struct RegisterInstanceResult: AWSShape {
@@ -1417,6 +1920,9 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct ElasticIp: AWSShape {
@@ -1443,6 +1949,13 @@ extension Opsworks {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domain = dictionary["Domain"] as? String
+            self.ip = dictionary["Ip"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.region = dictionary["Region"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct GrantAccessResult: AWSShape {
@@ -1457,6 +1970,9 @@ extension Opsworks {
             self.temporaryCredential = temporaryCredential
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let temporaryCredential = dictionary["TemporaryCredential"] as? [String: Any] { self.temporaryCredential = try Opsworks.TemporaryCredential(dictionary: temporaryCredential) }
+        }
     }
 
     public struct AssignInstanceRequest: AWSShape {
@@ -1474,6 +1990,12 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
+            self.layerIds = layerIds
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct AssociateElasticIpRequest: AWSShape {
@@ -1491,6 +2013,11 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
+            self.elasticIp = elasticIp
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct UnassignVolumeRequest: AWSShape {
@@ -1505,6 +2032,10 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+        }
     }
 
     public struct VolumeConfiguration: AWSShape {
@@ -1534,6 +2065,17 @@ extension Opsworks {
             self.raidLevel = raidLevel
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let numberOfDisks = dictionary["NumberOfDisks"] as? Int32 else { throw InitializableError.missingRequiredParam("NumberOfDisks") }
+            self.numberOfDisks = numberOfDisks
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+            guard let mountPoint = dictionary["MountPoint"] as? String else { throw InitializableError.missingRequiredParam("MountPoint") }
+            self.mountPoint = mountPoint
+            guard let size = dictionary["Size"] as? Int32 else { throw InitializableError.missingRequiredParam("Size") }
+            self.size = size
+            self.raidLevel = dictionary["RaidLevel"] as? Int32
+        }
     }
 
     public struct CreateAppResult: AWSShape {
@@ -1548,6 +2090,9 @@ extension Opsworks {
             self.appId = appId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.appId = dictionary["AppId"] as? String
+        }
     }
 
     public struct DescribeUserProfilesResult: AWSShape {
@@ -1562,6 +2107,11 @@ extension Opsworks {
             self.userProfiles = userProfiles
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userProfiles = dictionary["UserProfiles"] as? [[String: Any]] {
+                self.userProfiles = try userProfiles.map({ try UserProfile(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetLoadBasedAutoScalingRequest: AWSShape {
@@ -1585,6 +2135,13 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) }
+            self.enable = dictionary["Enable"] as? Bool
+            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) }
+            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
+            self.layerId = layerId
+        }
     }
 
     public struct DeleteStackRequest: AWSShape {
@@ -1599,6 +2156,10 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+        }
     }
 
     public struct UpdateMyUserProfileRequest: AWSShape {
@@ -1613,6 +2174,9 @@ extension Opsworks {
             self.sshPublicKey = sshPublicKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+        }
     }
 
     public struct StopInstanceRequest: AWSShape {
@@ -1627,6 +2191,10 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct DescribeInstancesRequest: AWSShape {
@@ -1647,6 +2215,13 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.layerId = dictionary["LayerId"] as? String
+        }
     }
 
     public struct DescribeLoadBasedAutoScalingResult: AWSShape {
@@ -1661,6 +2236,11 @@ extension Opsworks {
             self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loadBasedAutoScalingConfigurations = dictionary["LoadBasedAutoScalingConfigurations"] as? [[String: Any]] {
+                self.loadBasedAutoScalingConfigurations = try loadBasedAutoScalingConfigurations.map({ try LoadBasedAutoScalingConfiguration(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeploymentCommand: AWSShape {
@@ -1678,6 +2258,18 @@ extension Opsworks {
             self.args = args
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let args = dictionary["Args"] as? [String: Any] {
+                var argsDict: [String: [String]] = [:]
+                for (key, value) in args {
+                    guard let strings = value as? [String] else { throw InitializableError.convertingError }
+                    argsDict[key] = strings
+                }
+                self.args = argsDict
+            }
+        }
     }
 
     public struct RegisterRdsDbInstanceRequest: AWSShape {
@@ -1701,6 +2293,16 @@ extension Opsworks {
             self.dbUser = dbUser
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            guard let rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("RdsDbInstanceArn") }
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+            guard let dbPassword = dictionary["DbPassword"] as? String else { throw InitializableError.missingRequiredParam("DbPassword") }
+            self.dbPassword = dbPassword
+            guard let dbUser = dictionary["DbUser"] as? String else { throw InitializableError.missingRequiredParam("DbUser") }
+            self.dbUser = dbUser
+        }
     }
 
     public struct CreateInstanceResult: AWSShape {
@@ -1715,6 +2317,9 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct Deployment: AWSShape {
@@ -1761,6 +2366,22 @@ extension Opsworks {
             self.appId = appId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.completedAt = dictionary["CompletedAt"] as? String
+            self.status = dictionary["Status"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.comment = dictionary["Comment"] as? String
+            self.deploymentId = dictionary["DeploymentId"] as? String
+            self.iamUserArn = dictionary["IamUserArn"] as? String
+            self.customJson = dictionary["CustomJson"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            if let command = dictionary["Command"] as? [String: Any] { self.command = try Opsworks.DeploymentCommand(dictionary: command) }
+            self.appId = dictionary["AppId"] as? String
+        }
     }
 
     public struct RegisterInstanceRequest: AWSShape {
@@ -1793,6 +2414,16 @@ extension Opsworks {
             self.rsaPublicKey = rsaPublicKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceIdentity = dictionary["InstanceIdentity"] as? [String: Any] { self.instanceIdentity = try Opsworks.InstanceIdentity(dictionary: instanceIdentity) }
+            self.hostname = dictionary["Hostname"] as? String
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            self.privateIp = dictionary["PrivateIp"] as? String
+            self.rsaPublicKeyFingerprint = dictionary["RsaPublicKeyFingerprint"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.rsaPublicKey = dictionary["RsaPublicKey"] as? String
+        }
     }
 
     public struct DescribeAppsRequest: AWSShape {
@@ -1810,6 +2441,12 @@ extension Opsworks {
             self.appIds = appIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let appIds = dictionary["AppIds"] as? [String] {
+                self.appIds = appIds
+            }
+        }
     }
 
     public struct Source: AWSShape {
@@ -1839,6 +2476,14 @@ extension Opsworks {
             self.revision = revision
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sshKey = dictionary["SshKey"] as? String
+            self.username = dictionary["Username"] as? String
+            self.password = dictionary["Password"] as? String
+            self.type = dictionary["Type"] as? String
+            self.url = dictionary["Url"] as? String
+            self.revision = dictionary["Revision"] as? String
+        }
     }
 
     public struct DescribeRaidArraysResult: AWSShape {
@@ -1853,6 +2498,11 @@ extension Opsworks {
             self.raidArrays = raidArrays
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let raidArrays = dictionary["RaidArrays"] as? [[String: Any]] {
+                self.raidArrays = try raidArrays.map({ try RaidArray(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeStacksResult: AWSShape {
@@ -1867,6 +2517,11 @@ extension Opsworks {
             self.stacks = stacks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stacks = dictionary["Stacks"] as? [[String: Any]] {
+                self.stacks = try stacks.map({ try Stack(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeServiceErrorsRequest: AWSShape {
@@ -1887,6 +2542,13 @@ extension Opsworks {
             self.serviceErrorIds = serviceErrorIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let serviceErrorIds = dictionary["ServiceErrorIds"] as? [String] {
+                self.serviceErrorIds = serviceErrorIds
+            }
+        }
     }
 
     public struct DescribeVolumesRequest: AWSShape {
@@ -1910,6 +2572,14 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.raidArrayId = dictionary["RaidArrayId"] as? String
+            if let volumeIds = dictionary["VolumeIds"] as? [String] {
+                self.volumeIds = volumeIds
+            }
+            self.stackId = dictionary["StackId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct AutoScalingThresholds: AWSShape {
@@ -1942,6 +2612,17 @@ extension Opsworks {
             self.thresholdsWaitTime = thresholdsWaitTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.memoryThreshold = dictionary["MemoryThreshold"] as? Double
+            self.cpuThreshold = dictionary["CpuThreshold"] as? Double
+            self.ignoreMetricsTime = dictionary["IgnoreMetricsTime"] as? Int32
+            self.loadThreshold = dictionary["LoadThreshold"] as? Double
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            if let alarms = dictionary["Alarms"] as? [String] {
+                self.alarms = alarms
+            }
+            self.thresholdsWaitTime = dictionary["ThresholdsWaitTime"] as? Int32
+        }
     }
 
     public struct DescribeEcsClustersRequest: AWSShape {
@@ -1965,6 +2646,14 @@ extension Opsworks {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ecsClusterArns = dictionary["EcsClusterArns"] as? [String] {
+                self.ecsClusterArns = ecsClusterArns
+            }
+            self.stackId = dictionary["StackId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UpdateLayerRequest: AWSShape {
@@ -2023,6 +2712,33 @@ extension Opsworks {
             self.autoAssignPublicIps = autoAssignPublicIps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shortname = dictionary["Shortname"] as? String
+            if let packages = dictionary["Packages"] as? [String] {
+                self.packages = packages
+            }
+            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) }
+            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) }
+            self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
+            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
+            self.customJson = dictionary["CustomJson"] as? String
+            if let customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String] {
+                self.customSecurityGroupIds = customSecurityGroupIds
+            }
+            self.name = dictionary["Name"] as? String
+            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
+            self.layerId = layerId
+            self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
+            self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
+            if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
+                self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
+            }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
+            self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
+        }
     }
 
     public struct DescribeStackProvisioningParametersResult: AWSShape {
@@ -2040,6 +2756,12 @@ extension Opsworks {
             self.agentInstallerUrl = agentInstallerUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+            self.agentInstallerUrl = dictionary["AgentInstallerUrl"] as? String
+        }
     }
 
     public struct UnassignInstanceRequest: AWSShape {
@@ -2054,6 +2776,10 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct Stack: AWSShape {
@@ -2130,6 +2856,32 @@ extension Opsworks {
             self.chefConfiguration = chefConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultOs = dictionary["DefaultOs"] as? String
+            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+            self.arn = dictionary["Arn"] as? String
+            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
+            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
+            self.region = dictionary["Region"] as? String
+            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
+            self.customJson = dictionary["CustomJson"] as? String
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
+            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
+            self.hostnameTheme = dictionary["HostnameTheme"] as? String
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+        }
     }
 
     public struct StartStackRequest: AWSShape {
@@ -2144,6 +2896,10 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+        }
     }
 
     public struct ReportedOs: AWSShape {
@@ -2164,6 +2920,11 @@ extension Opsworks {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.family = dictionary["Family"] as? String
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct Recipes: AWSShape {
@@ -2190,6 +2951,23 @@ extension Opsworks {
             self.deploy = deploy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let undeploy = dictionary["Undeploy"] as? [String] {
+                self.undeploy = undeploy
+            }
+            if let configure = dictionary["Configure"] as? [String] {
+                self.configure = configure
+            }
+            if let setup = dictionary["Setup"] as? [String] {
+                self.setup = setup
+            }
+            if let shutdown = dictionary["Shutdown"] as? [String] {
+                self.shutdown = shutdown
+            }
+            if let deploy = dictionary["Deploy"] as? [String] {
+                self.deploy = deploy
+            }
+        }
     }
 
     public struct SetPermissionRequest: AWSShape {
@@ -2216,6 +2994,15 @@ extension Opsworks {
             self.allowSudo = allowSudo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.level = dictionary["Level"] as? String
+            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
+            self.iamUserArn = iamUserArn
+            self.allowSsh = dictionary["AllowSsh"] as? Bool
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            self.allowSudo = dictionary["AllowSudo"] as? Bool
+        }
     }
 
     public struct DescribeTimeBasedAutoScalingResult: AWSShape {
@@ -2230,6 +3017,11 @@ extension Opsworks {
             self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let timeBasedAutoScalingConfigurations = dictionary["TimeBasedAutoScalingConfigurations"] as? [[String: Any]] {
+                self.timeBasedAutoScalingConfigurations = try timeBasedAutoScalingConfigurations.map({ try TimeBasedAutoScalingConfiguration(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeElasticLoadBalancersRequest: AWSShape {
@@ -2247,6 +3039,12 @@ extension Opsworks {
             self.layerIds = layerIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            if let layerIds = dictionary["LayerIds"] as? [String] {
+                self.layerIds = layerIds
+            }
+        }
     }
 
     public struct UpdateVolumeRequest: AWSShape {
@@ -2267,6 +3065,12 @@ extension Opsworks {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mountPoint = dictionary["MountPoint"] as? String
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct RegisterVolumeResult: AWSShape {
@@ -2281,6 +3085,9 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeId = dictionary["VolumeId"] as? String
+        }
     }
 
     public struct DescribeMyUserProfileResult: AWSShape {
@@ -2295,6 +3102,9 @@ extension Opsworks {
             self.userProfile = userProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userProfile = dictionary["UserProfile"] as? [String: Any] { self.userProfile = try Opsworks.SelfUserProfile(dictionary: userProfile) }
+        }
     }
 
     public struct RegisterElasticIpRequest: AWSShape {
@@ -2312,6 +3122,12 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
+            self.elasticIp = elasticIp
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+        }
     }
 
     public struct DescribeCommandsRequest: AWSShape {
@@ -2332,6 +3148,13 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let commandIds = dictionary["CommandIds"] as? [String] {
+                self.commandIds = commandIds
+            }
+            self.deploymentId = dictionary["DeploymentId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct DescribeAgentVersionsResult: AWSShape {
@@ -2346,6 +3169,11 @@ extension Opsworks {
             self.agentVersions = agentVersions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let agentVersions = dictionary["AgentVersions"] as? [[String: Any]] {
+                self.agentVersions = try agentVersions.map({ try AgentVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateStackRequest: AWSShape {
@@ -2413,6 +3241,33 @@ extension Opsworks {
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultOs = dictionary["DefaultOs"] as? String
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
+            self.serviceRoleArn = serviceRoleArn
+            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            guard let defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String else { throw InitializableError.missingRequiredParam("DefaultInstanceProfileArn") }
+            self.defaultInstanceProfileArn = defaultInstanceProfileArn
+            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
+            self.region = region
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            self.customJson = dictionary["CustomJson"] as? String
+            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
+            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.vpcId = dictionary["VpcId"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
+            self.hostnameTheme = dictionary["HostnameTheme"] as? String
+            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+        }
     }
 
     public struct DeleteLayerRequest: AWSShape {
@@ -2427,6 +3282,10 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
+            self.layerId = layerId
+        }
     }
 
     public struct RegisterEcsClusterRequest: AWSShape {
@@ -2444,6 +3303,12 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            guard let ecsClusterArn = dictionary["EcsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("EcsClusterArn") }
+            self.ecsClusterArn = ecsClusterArn
+        }
     }
 
     public struct UpdateRdsDbInstanceRequest: AWSShape {
@@ -2464,6 +3329,12 @@ extension Opsworks {
             self.rdsDbInstanceArn = rdsDbInstanceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dbPassword = dictionary["DbPassword"] as? String
+            self.dbUser = dictionary["DbUser"] as? String
+            guard let rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("RdsDbInstanceArn") }
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+        }
     }
 
     public struct ChefConfiguration: AWSShape {
@@ -2481,6 +3352,10 @@ extension Opsworks {
             self.berkshelfVersion = berkshelfVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.manageBerkshelf = dictionary["ManageBerkshelf"] as? Bool
+            self.berkshelfVersion = dictionary["BerkshelfVersion"] as? String
+        }
     }
 
     public struct DisassociateElasticIpRequest: AWSShape {
@@ -2495,6 +3370,10 @@ extension Opsworks {
             self.elasticIp = elasticIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
+            self.elasticIp = elasticIp
+        }
     }
 
     public struct AttachElasticLoadBalancerRequest: AWSShape {
@@ -2512,6 +3391,12 @@ extension Opsworks {
             self.elasticLoadBalancerName = elasticLoadBalancerName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
+            self.layerId = layerId
+            guard let elasticLoadBalancerName = dictionary["ElasticLoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("ElasticLoadBalancerName") }
+            self.elasticLoadBalancerName = elasticLoadBalancerName
+        }
     }
 
     public struct EnvironmentVariable: AWSShape {
@@ -2532,6 +3417,13 @@ extension Opsworks {
             self.secure = secure
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.secure = dictionary["Secure"] as? Bool
+        }
     }
 
     public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
@@ -2546,6 +3438,10 @@ extension Opsworks {
             self.layerIds = layerIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
+            self.layerIds = layerIds
+        }
     }
 
     public struct RdsDbInstance: AWSShape {
@@ -2584,6 +3480,17 @@ extension Opsworks {
             self.dbInstanceIdentifier = dbInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            self.address = dictionary["Address"] as? String
+            self.dbUser = dictionary["DbUser"] as? String
+            self.region = dictionary["Region"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.missingOnRds = dictionary["MissingOnRds"] as? Bool
+            self.rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String
+            self.dbPassword = dictionary["DbPassword"] as? String
+            self.dbInstanceIdentifier = dictionary["DbInstanceIdentifier"] as? String
+        }
     }
 
     public struct DescribeStackSummaryResult: AWSShape {
@@ -2598,6 +3505,9 @@ extension Opsworks {
             self.stackSummary = stackSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stackSummary = dictionary["StackSummary"] as? [String: Any] { self.stackSummary = try Opsworks.StackSummary(dictionary: stackSummary) }
+        }
     }
 
     public struct Volume: AWSShape {
@@ -2648,6 +3558,21 @@ extension Opsworks {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.device = dictionary["Device"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.region = dictionary["Region"] as? String
+            self.ec2VolumeId = dictionary["Ec2VolumeId"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.raidArrayId = dictionary["RaidArrayId"] as? String
+            self.status = dictionary["Status"] as? String
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.mountPoint = dictionary["MountPoint"] as? String
+            self.name = dictionary["Name"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.size = dictionary["Size"] as? Int32
+        }
     }
 
     public struct SelfUserProfile: AWSShape {
@@ -2671,6 +3596,12 @@ extension Opsworks {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamUserArn = dictionary["IamUserArn"] as? String
+            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+            self.sshUsername = dictionary["SshUsername"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct EcsCluster: AWSShape {
@@ -2694,6 +3625,12 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ecsClusterName = dictionary["EcsClusterName"] as? String
+            self.registeredAt = dictionary["RegisteredAt"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
+        }
     }
 
     public struct DescribeStackSummaryRequest: AWSShape {
@@ -2708,6 +3645,10 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+        }
     }
 
     public struct CreateLayerResult: AWSShape {
@@ -2722,6 +3663,9 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.layerId = dictionary["LayerId"] as? String
+        }
     }
 
     public struct TemporaryCredential: AWSShape {
@@ -2745,6 +3689,12 @@ extension Opsworks {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.validForInMinutes = dictionary["ValidForInMinutes"] as? Int32
+            self.password = dictionary["Password"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.username = dictionary["Username"] as? String
+        }
     }
 
     public struct DeregisterElasticIpRequest: AWSShape {
@@ -2759,6 +3709,10 @@ extension Opsworks {
             self.elasticIp = elasticIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
+            self.elasticIp = elasticIp
+        }
     }
 
     public struct CreateDeploymentRequest: AWSShape {
@@ -2791,6 +3745,21 @@ extension Opsworks {
             self.appId = appId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let layerIds = dictionary["LayerIds"] as? [String] {
+                self.layerIds = layerIds
+            }
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            self.comment = dictionary["Comment"] as? String
+            self.customJson = dictionary["CustomJson"] as? String
+            guard let command = dictionary["Command"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Command") }
+            self.command = try Opsworks.DeploymentCommand(dictionary: command)
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.appId = dictionary["AppId"] as? String
+        }
     }
 
     public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
@@ -2805,6 +3774,10 @@ extension Opsworks {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+        }
     }
 
     public struct StopStackRequest: AWSShape {
@@ -2819,6 +3792,10 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+        }
     }
 
     public struct DescribeRdsDbInstancesResult: AWSShape {
@@ -2833,6 +3810,11 @@ extension Opsworks {
             self.rdsDbInstances = rdsDbInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rdsDbInstances = dictionary["RdsDbInstances"] as? [[String: Any]] {
+                self.rdsDbInstances = try rdsDbInstances.map({ try RdsDbInstance(dictionary: $0) })
+            }
+        }
     }
 
     public struct ServiceError: AWSShape {
@@ -2862,6 +3844,14 @@ extension Opsworks {
             self.serviceErrorId = serviceErrorId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createdAt = dictionary["CreatedAt"] as? String
+            self.message = dictionary["Message"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.type = dictionary["Type"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.serviceErrorId = dictionary["ServiceErrorId"] as? String
+        }
     }
 
     public struct RebootInstanceRequest: AWSShape {
@@ -2876,6 +3866,10 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct CreateDeploymentResult: AWSShape {
@@ -2890,6 +3884,9 @@ extension Opsworks {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["DeploymentId"] as? String
+        }
     }
 
     public struct DescribeServiceErrorsResult: AWSShape {
@@ -2904,6 +3901,11 @@ extension Opsworks {
             self.serviceErrors = serviceErrors
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceErrors = dictionary["ServiceErrors"] as? [[String: Any]] {
+                self.serviceErrors = try serviceErrors.map({ try ServiceError(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribePermissionsRequest: AWSShape {
@@ -2921,6 +3923,10 @@ extension Opsworks {
             self.iamUserArn = iamUserArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            self.iamUserArn = dictionary["IamUserArn"] as? String
+        }
     }
 
     public struct AgentVersion: AWSShape {
@@ -2938,6 +3944,10 @@ extension Opsworks {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct DataSource: AWSShape {
@@ -2958,6 +3968,11 @@ extension Opsworks {
             self.databaseName = databaseName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.databaseName = dictionary["DatabaseName"] as? String
+        }
     }
 
     public struct DescribeElasticLoadBalancersResult: AWSShape {
@@ -2972,6 +3987,11 @@ extension Opsworks {
             self.elasticLoadBalancers = elasticLoadBalancers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elasticLoadBalancers = dictionary["ElasticLoadBalancers"] as? [[String: Any]] {
+                self.elasticLoadBalancers = try elasticLoadBalancers.map({ try ElasticLoadBalancer(dictionary: $0) })
+            }
+        }
     }
 
     public struct TimeBasedAutoScalingConfiguration: AWSShape {
@@ -2989,6 +4009,10 @@ extension Opsworks {
             self.autoScalingSchedule = autoScalingSchedule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) }
+        }
     }
 
     public struct GetHostnameSuggestionResult: AWSShape {
@@ -3006,6 +4030,10 @@ extension Opsworks {
             self.layerId = layerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hostname = dictionary["Hostname"] as? String
+            self.layerId = dictionary["LayerId"] as? String
+        }
     }
 
     public struct EbsBlockDevice: AWSShape {
@@ -3032,6 +4060,13 @@ extension Opsworks {
             self.iops = iops
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+        }
     }
 
     public struct BlockDeviceMapping: AWSShape {
@@ -3055,6 +4090,12 @@ extension Opsworks {
             self.ebs = ebs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noDevice = dictionary["NoDevice"] as? String
+            self.virtualName = dictionary["VirtualName"] as? String
+            self.deviceName = dictionary["DeviceName"] as? String
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Opsworks.EbsBlockDevice(dictionary: ebs) }
+        }
     }
 
     public struct DeregisterRdsDbInstanceRequest: AWSShape {
@@ -3069,6 +4110,10 @@ extension Opsworks {
             self.rdsDbInstanceArn = rdsDbInstanceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("RdsDbInstanceArn") }
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+        }
     }
 
     public struct UpdateStackRequest: AWSShape {
@@ -3133,6 +4178,29 @@ extension Opsworks {
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultOs = dictionary["DefaultOs"] as? String
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
+            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            self.customJson = dictionary["CustomJson"] as? String
+            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
+            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            self.name = dictionary["Name"] as? String
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
+            self.hostnameTheme = dictionary["HostnameTheme"] as? String
+            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
+            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+        }
     }
 
     public struct UpdateElasticIpRequest: AWSShape {
@@ -3150,6 +4218,11 @@ extension Opsworks {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
+            self.elasticIp = elasticIp
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct InstanceIdentity: AWSShape {
@@ -3167,6 +4240,10 @@ extension Opsworks {
             self.signature = signature
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.document = dictionary["Document"] as? String
+            self.signature = dictionary["Signature"] as? String
+        }
     }
 
     public struct DescribeInstancesResult: AWSShape {
@@ -3181,6 +4258,11 @@ extension Opsworks {
             self.instances = instances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+        }
     }
 
     public struct LifecycleEventConfiguration: AWSShape {
@@ -3195,6 +4277,9 @@ extension Opsworks {
             self.shutdown = shutdown
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let shutdown = dictionary["Shutdown"] as? [String: Any] { self.shutdown = try Opsworks.ShutdownEventConfiguration(dictionary: shutdown) }
+        }
     }
 
     public struct DescribeStackProvisioningParametersRequest: AWSShape {
@@ -3209,6 +4294,10 @@ extension Opsworks {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+        }
     }
 
     public struct DeleteAppRequest: AWSShape {
@@ -3223,6 +4312,10 @@ extension Opsworks {
             self.appId = appId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let appId = dictionary["AppId"] as? String else { throw InitializableError.missingRequiredParam("AppId") }
+            self.appId = appId
+        }
     }
 
     public struct DescribeDeploymentsResult: AWSShape {
@@ -3237,6 +4330,11 @@ extension Opsworks {
             self.deployments = deployments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deployments = dictionary["Deployments"] as? [[String: Any]] {
+                self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribePermissionsResult: AWSShape {
@@ -3251,6 +4349,11 @@ extension Opsworks {
             self.permissions = permissions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let permissions = dictionary["Permissions"] as? [[String: Any]] {
+                self.permissions = try permissions.map({ try Permission(dictionary: $0) })
+            }
+        }
     }
 
     public struct RegisterVolumeRequest: AWSShape {
@@ -3268,6 +4371,11 @@ extension Opsworks {
             self.ec2VolumeId = ec2VolumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            self.ec2VolumeId = dictionary["Ec2VolumeId"] as? String
+        }
     }
 
     public struct StartInstanceRequest: AWSShape {
@@ -3282,6 +4390,10 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct Permission: AWSShape {
@@ -3308,6 +4420,13 @@ extension Opsworks {
             self.allowSudo = allowSudo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.level = dictionary["Level"] as? String
+            self.iamUserArn = dictionary["IamUserArn"] as? String
+            self.allowSsh = dictionary["AllowSsh"] as? Bool
+            self.stackId = dictionary["StackId"] as? String
+            self.allowSudo = dictionary["AllowSudo"] as? Bool
+        }
     }
 
     public struct AssignVolumeRequest: AWSShape {
@@ -3325,6 +4444,11 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+        }
     }
 
     public struct DeleteUserProfileRequest: AWSShape {
@@ -3339,6 +4463,10 @@ extension Opsworks {
             self.iamUserArn = iamUserArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
+            self.iamUserArn = iamUserArn
+        }
     }
 
     public struct ElasticLoadBalancer: AWSShape {
@@ -3377,6 +4505,23 @@ extension Opsworks {
             self.dnsName = dnsName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.stackId = dictionary["StackId"] as? String
+            if let ec2InstanceIds = dictionary["Ec2InstanceIds"] as? [String] {
+                self.ec2InstanceIds = ec2InstanceIds
+            }
+            self.region = dictionary["Region"] as? String
+            self.layerId = dictionary["LayerId"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.elasticLoadBalancerName = dictionary["ElasticLoadBalancerName"] as? String
+            self.dnsName = dictionary["DnsName"] as? String
+        }
     }
 
     public struct DescribeElasticIpsResult: AWSShape {
@@ -3391,6 +4536,11 @@ extension Opsworks {
             self.elasticIps = elasticIps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elasticIps = dictionary["ElasticIps"] as? [[String: Any]] {
+                self.elasticIps = try elasticIps.map({ try ElasticIp(dictionary: $0) })
+            }
+        }
     }
 
 }

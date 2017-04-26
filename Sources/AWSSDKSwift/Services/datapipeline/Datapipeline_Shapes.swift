@@ -47,6 +47,14 @@ extension Datapipeline {
             self.fields = fields
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let fields = dictionary["fields"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("fields") }
+            self.fields = try fields.map({ try Field(dictionary: $0) })
+        }
     }
 
     public struct DescribePipelinesInput: AWSShape {
@@ -61,6 +69,10 @@ extension Datapipeline {
             self.pipelineIds = pipelineIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineIds = dictionary["pipelineIds"] as? [String] else { throw InitializableError.missingRequiredParam("pipelineIds") }
+            self.pipelineIds = pipelineIds
+        }
     }
 
     public struct RemoveTagsInput: AWSShape {
@@ -78,6 +90,12 @@ extension Datapipeline {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            guard let tagKeys = dictionary["tagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("tagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct PutPipelineDefinitionOutput: AWSShape {
@@ -98,6 +116,16 @@ extension Datapipeline {
             self.validationWarnings = validationWarnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let errored = dictionary["errored"] as? Bool else { throw InitializableError.missingRequiredParam("errored") }
+            self.errored = errored
+            if let validationErrors = dictionary["validationErrors"] as? [[String: Any]] {
+                self.validationErrors = try validationErrors.map({ try ValidationError(dictionary: $0) })
+            }
+            if let validationWarnings = dictionary["validationWarnings"] as? [[String: Any]] {
+                self.validationWarnings = try validationWarnings.map({ try ValidationWarning(dictionary: $0) })
+            }
+        }
     }
 
     public struct ParameterValue: AWSShape {
@@ -115,6 +143,12 @@ extension Datapipeline {
             self.stringValue = stringValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            guard let stringValue = dictionary["stringValue"] as? String else { throw InitializableError.missingRequiredParam("stringValue") }
+            self.stringValue = stringValue
+        }
     }
 
     public struct TaskObject: AWSShape {
@@ -138,6 +172,19 @@ extension Datapipeline {
             self.attemptId = attemptId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pipelineId = dictionary["pipelineId"] as? String
+            if let objects = dictionary["objects"] as? [String: Any] {
+                var objectsDict: [String: PipelineObject] = [:]
+                for (key, value) in objects {
+                    guard let pipelineObjectDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    objectsDict[key] = try PipelineObject(dictionary: pipelineObjectDict)
+                }
+                self.objects = objectsDict
+            }
+            self.taskId = dictionary["taskId"] as? String
+            self.attemptId = dictionary["attemptId"] as? String
+        }
     }
 
     public struct DescribeObjectsInput: AWSShape {
@@ -161,6 +208,14 @@ extension Datapipeline {
             self.objectIds = objectIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            self.evaluateExpressions = dictionary["evaluateExpressions"] as? Bool
+            guard let objectIds = dictionary["objectIds"] as? [String] else { throw InitializableError.missingRequiredParam("objectIds") }
+            self.objectIds = objectIds
+        }
     }
 
     public struct EvaluateExpressionOutput: AWSShape {
@@ -175,6 +230,10 @@ extension Datapipeline {
             self.evaluatedExpression = evaluatedExpression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let evaluatedExpression = dictionary["evaluatedExpression"] as? String else { throw InitializableError.missingRequiredParam("evaluatedExpression") }
+            self.evaluatedExpression = evaluatedExpression
+        }
     }
 
     public struct PollForTaskOutput: AWSShape {
@@ -189,6 +248,9 @@ extension Datapipeline {
             self.taskObject = taskObject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let taskObject = dictionary["taskObject"] as? [String: Any] { self.taskObject = try Datapipeline.TaskObject(dictionary: taskObject) }
+        }
     }
 
     public struct PipelineDescription: AWSShape {
@@ -215,6 +277,18 @@ extension Datapipeline {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fields = dictionary["fields"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("fields") }
+            self.fields = try fields.map({ try Field(dictionary: $0) })
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            self.description = dictionary["description"] as? String
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct ValidatePipelineDefinitionInput: AWSShape {
@@ -238,6 +312,18 @@ extension Datapipeline {
             self.parameterObjects = parameterObjects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
+                self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            }
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            guard let pipelineObjects = dictionary["pipelineObjects"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("pipelineObjects") }
+            self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
+            if let parameterObjects = dictionary["parameterObjects"] as? [[String: Any]] {
+                self.parameterObjects = try parameterObjects.map({ try ParameterObject(dictionary: $0) })
+            }
+        }
     }
 
     public struct ValidatePipelineDefinitionOutput: AWSShape {
@@ -258,6 +344,16 @@ extension Datapipeline {
             self.validationWarnings = validationWarnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let errored = dictionary["errored"] as? Bool else { throw InitializableError.missingRequiredParam("errored") }
+            self.errored = errored
+            if let validationErrors = dictionary["validationErrors"] as? [[String: Any]] {
+                self.validationErrors = try validationErrors.map({ try ValidationError(dictionary: $0) })
+            }
+            if let validationWarnings = dictionary["validationWarnings"] as? [[String: Any]] {
+                self.validationWarnings = try validationWarnings.map({ try ValidationWarning(dictionary: $0) })
+            }
+        }
     }
 
     public struct ActivatePipelineInput: AWSShape {
@@ -278,6 +374,14 @@ extension Datapipeline {
             self.startTimestamp = startTimestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
+                self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            }
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            self.startTimestamp = dictionary["startTimestamp"] as? Date
+        }
     }
 
     public struct ParameterAttribute: AWSShape {
@@ -295,6 +399,12 @@ extension Datapipeline {
             self.stringValue = stringValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let stringValue = dictionary["stringValue"] as? String else { throw InitializableError.missingRequiredParam("stringValue") }
+            self.stringValue = stringValue
+        }
     }
 
     public struct ReportTaskProgressOutput: AWSShape {
@@ -309,6 +419,10 @@ extension Datapipeline {
             self.canceled = canceled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let canceled = dictionary["canceled"] as? Bool else { throw InitializableError.missingRequiredParam("canceled") }
+            self.canceled = canceled
+        }
     }
 
     public struct Operator: AWSShape {
@@ -326,6 +440,12 @@ extension Datapipeline {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            if let values = dictionary["values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct PollForTaskInput: AWSShape {
@@ -346,6 +466,12 @@ extension Datapipeline {
             self.instanceIdentity = instanceIdentity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hostname = dictionary["hostname"] as? String
+            guard let workerGroup = dictionary["workerGroup"] as? String else { throw InitializableError.missingRequiredParam("workerGroup") }
+            self.workerGroup = workerGroup
+            if let instanceIdentity = dictionary["instanceIdentity"] as? [String: Any] { self.instanceIdentity = try Datapipeline.InstanceIdentity(dictionary: instanceIdentity) }
+        }
     }
 
     public struct SetTaskStatusOutput: AWSShape {
@@ -354,6 +480,8 @@ extension Datapipeline {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreatePipelineOutput: AWSShape {
@@ -368,6 +496,10 @@ extension Datapipeline {
             self.pipelineId = pipelineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+        }
     }
 
     public struct QueryObjectsInput: AWSShape {
@@ -394,6 +526,15 @@ extension Datapipeline {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sphere = dictionary["sphere"] as? String else { throw InitializableError.missingRequiredParam("sphere") }
+            self.sphere = sphere
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            self.limit = dictionary["limit"] as? Int32
+            if let query = dictionary["query"] as? [String: Any] { self.query = try Datapipeline.Query(dictionary: query) }
+            self.marker = dictionary["marker"] as? String
+        }
     }
 
     public struct ValidationWarning: AWSShape {
@@ -411,6 +552,12 @@ extension Datapipeline {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            if let warnings = dictionary["warnings"] as? [String] {
+                self.warnings = warnings
+            }
+        }
     }
 
     public struct GetPipelineDefinitionInput: AWSShape {
@@ -428,6 +575,11 @@ extension Datapipeline {
             self.pipelineId = pipelineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.version = dictionary["version"] as? String
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+        }
     }
 
     public struct DescribeObjectsOutput: AWSShape {
@@ -448,6 +600,12 @@ extension Datapipeline {
             self.pipelineObjects = pipelineObjects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.hasMoreResults = dictionary["hasMoreResults"] as? Bool
+            guard let pipelineObjects = dictionary["pipelineObjects"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("pipelineObjects") }
+            self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
+        }
     }
 
     public struct DeactivatePipelineOutput: AWSShape {
@@ -456,6 +614,8 @@ extension Datapipeline {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetPipelineDefinitionOutput: AWSShape {
@@ -476,6 +636,17 @@ extension Datapipeline {
             self.pipelineObjects = pipelineObjects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
+                self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            }
+            if let parameterObjects = dictionary["parameterObjects"] as? [[String: Any]] {
+                self.parameterObjects = try parameterObjects.map({ try ParameterObject(dictionary: $0) })
+            }
+            if let pipelineObjects = dictionary["pipelineObjects"] as? [[String: Any]] {
+                self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
+            }
+        }
     }
 
     public struct ParameterObject: AWSShape {
@@ -493,6 +664,12 @@ extension Datapipeline {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
+            self.attributes = try attributes.map({ try ParameterAttribute(dictionary: $0) })
+        }
     }
 
     public struct Tag: AWSShape {
@@ -510,6 +687,12 @@ extension Datapipeline {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
     public struct Selector: AWSShape {
@@ -526,6 +709,10 @@ extension Datapipeline {
             self.fieldName = fieldName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let `operator` = dictionary["operator"] as? [String: Any] { self.`operator` = try Datapipeline.Operator(dictionary: `operator`) }
+            self.fieldName = dictionary["fieldName"] as? String
+        }
     }
 
     public struct PipelineIdName: AWSShape {
@@ -543,6 +730,10 @@ extension Datapipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            self.name = dictionary["name"] as? String
+        }
     }
 
     public struct DeletePipelineInput: AWSShape {
@@ -557,6 +748,10 @@ extension Datapipeline {
             self.pipelineId = pipelineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+        }
     }
 
     public struct EvaluateExpressionInput: AWSShape {
@@ -577,6 +772,14 @@ extension Datapipeline {
             self.pipelineId = pipelineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectId = dictionary["objectId"] as? String else { throw InitializableError.missingRequiredParam("objectId") }
+            self.objectId = objectId
+            guard let expression = dictionary["expression"] as? String else { throw InitializableError.missingRequiredParam("expression") }
+            self.expression = expression
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+        }
     }
 
     public struct DescribePipelinesOutput: AWSShape {
@@ -591,6 +794,10 @@ extension Datapipeline {
             self.pipelineDescriptionList = pipelineDescriptionList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineDescriptionList = dictionary["pipelineDescriptionList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("pipelineDescriptionList") }
+            self.pipelineDescriptionList = try pipelineDescriptionList.map({ try PipelineDescription(dictionary: $0) })
+        }
     }
 
     public struct DeactivatePipelineInput: AWSShape {
@@ -608,6 +815,11 @@ extension Datapipeline {
             self.cancelActive = cancelActive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            self.cancelActive = dictionary["cancelActive"] as? Bool
+        }
     }
 
     public struct RemoveTagsOutput: AWSShape {
@@ -616,6 +828,8 @@ extension Datapipeline {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ReportTaskProgressInput: AWSShape {
@@ -633,6 +847,13 @@ extension Datapipeline {
             self.taskId = taskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fields = dictionary["fields"] as? [[String: Any]] {
+                self.fields = try fields.map({ try Field(dictionary: $0) })
+            }
+            guard let taskId = dictionary["taskId"] as? String else { throw InitializableError.missingRequiredParam("taskId") }
+            self.taskId = taskId
+        }
     }
 
     public struct CreatePipelineInput: AWSShape {
@@ -656,6 +877,16 @@ extension Datapipeline {
             self.uniqueId = uniqueId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let uniqueId = dictionary["uniqueId"] as? String else { throw InitializableError.missingRequiredParam("uniqueId") }
+            self.uniqueId = uniqueId
+        }
     }
 
     public struct Query: AWSShape {
@@ -670,6 +901,11 @@ extension Datapipeline {
             self.selectors = selectors
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let selectors = dictionary["selectors"] as? [[String: Any]] {
+                self.selectors = try selectors.map({ try Selector(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListPipelinesInput: AWSShape {
@@ -684,6 +920,9 @@ extension Datapipeline {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+        }
     }
 
     public struct SetStatusInput: AWSShape {
@@ -704,6 +943,14 @@ extension Datapipeline {
             self.pipelineId = pipelineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectIds = dictionary["objectIds"] as? [String] else { throw InitializableError.missingRequiredParam("objectIds") }
+            self.objectIds = objectIds
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+        }
     }
 
     public struct ReportTaskRunnerHeartbeatInput: AWSShape {
@@ -724,6 +971,12 @@ extension Datapipeline {
             self.taskrunnerId = taskrunnerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hostname = dictionary["hostname"] as? String
+            self.workerGroup = dictionary["workerGroup"] as? String
+            guard let taskrunnerId = dictionary["taskrunnerId"] as? String else { throw InitializableError.missingRequiredParam("taskrunnerId") }
+            self.taskrunnerId = taskrunnerId
+        }
     }
 
     public struct ReportTaskRunnerHeartbeatOutput: AWSShape {
@@ -738,6 +991,10 @@ extension Datapipeline {
             self.terminate = terminate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let terminate = dictionary["terminate"] as? Bool else { throw InitializableError.missingRequiredParam("terminate") }
+            self.terminate = terminate
+        }
     }
 
     public struct AddTagsInput: AWSShape {
@@ -755,6 +1012,12 @@ extension Datapipeline {
             self.pipelineId = pipelineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+        }
     }
 
     public struct InstanceIdentity: AWSShape {
@@ -772,6 +1035,10 @@ extension Datapipeline {
             self.signature = signature
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.document = dictionary["document"] as? String
+            self.signature = dictionary["signature"] as? String
+        }
     }
 
     public struct SetTaskStatusInput: AWSShape {
@@ -798,6 +1065,15 @@ extension Datapipeline {
             self.taskStatus = taskStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["errorMessage"] as? String
+            guard let taskId = dictionary["taskId"] as? String else { throw InitializableError.missingRequiredParam("taskId") }
+            self.taskId = taskId
+            self.errorStackTrace = dictionary["errorStackTrace"] as? String
+            self.errorId = dictionary["errorId"] as? String
+            guard let taskStatus = dictionary["taskStatus"] as? String else { throw InitializableError.missingRequiredParam("taskStatus") }
+            self.taskStatus = taskStatus
+        }
     }
 
     public struct ValidationError: AWSShape {
@@ -815,6 +1091,12 @@ extension Datapipeline {
             self.errors = errors
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            if let errors = dictionary["errors"] as? [String] {
+                self.errors = errors
+            }
+        }
     }
 
     public struct ActivatePipelineOutput: AWSShape {
@@ -823,6 +1105,8 @@ extension Datapipeline {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AddTagsOutput: AWSShape {
@@ -831,6 +1115,8 @@ extension Datapipeline {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PutPipelineDefinitionInput: AWSShape {
@@ -854,6 +1140,18 @@ extension Datapipeline {
             self.parameterObjects = parameterObjects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
+                self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            }
+            guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
+            self.pipelineId = pipelineId
+            guard let pipelineObjects = dictionary["pipelineObjects"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("pipelineObjects") }
+            self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
+            if let parameterObjects = dictionary["parameterObjects"] as? [[String: Any]] {
+                self.parameterObjects = try parameterObjects.map({ try ParameterObject(dictionary: $0) })
+            }
+        }
     }
 
     public struct QueryObjectsOutput: AWSShape {
@@ -874,6 +1172,13 @@ extension Datapipeline {
             self.ids = ids
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.hasMoreResults = dictionary["hasMoreResults"] as? Bool
+            if let ids = dictionary["ids"] as? [String] {
+                self.ids = ids
+            }
+        }
     }
 
     public struct ListPipelinesOutput: AWSShape {
@@ -894,6 +1199,12 @@ extension Datapipeline {
             self.pipelineIdList = pipelineIdList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.hasMoreResults = dictionary["hasMoreResults"] as? Bool
+            guard let pipelineIdList = dictionary["pipelineIdList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("pipelineIdList") }
+            self.pipelineIdList = try pipelineIdList.map({ try PipelineIdName(dictionary: $0) })
+        }
     }
 
     public struct Field: AWSShape {
@@ -914,6 +1225,12 @@ extension Datapipeline {
             self.stringValue = stringValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            self.refValue = dictionary["refValue"] as? String
+            self.stringValue = dictionary["stringValue"] as? String
+        }
     }
 
 }

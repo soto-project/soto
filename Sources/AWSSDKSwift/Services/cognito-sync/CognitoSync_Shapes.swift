@@ -47,6 +47,13 @@ extension CognitoSync {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let datasets = dictionary["Datasets"] as? [[String: Any]] {
+                self.datasets = try datasets.map({ try Dataset(dictionary: $0) })
+            }
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct DescribeDatasetRequest: AWSShape {
@@ -70,6 +77,14 @@ extension CognitoSync {
             self.identityId = identityId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let datasetName = dictionary["DatasetName"] as? String else { throw InitializableError.missingRequiredParam("DatasetName") }
+            self.datasetName = datasetName
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+        }
     }
 
     public struct ListIdentityPoolUsageRequest: AWSShape {
@@ -90,6 +105,10 @@ extension CognitoSync {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UpdateRecordsResponse: AWSShape {
@@ -104,6 +123,11 @@ extension CognitoSync {
             self.records = records
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let records = dictionary["Records"] as? [[String: Any]] {
+                self.records = try records.map({ try Record(dictionary: $0) })
+            }
+        }
     }
 
     public struct BulkPublishRequest: AWSShape {
@@ -121,6 +145,10 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+        }
     }
 
     public struct GetBulkPublishDetailsResponse: AWSShape {
@@ -147,6 +175,13 @@ extension CognitoSync {
             self.failureMessage = failureMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bulkPublishStartTime = dictionary["BulkPublishStartTime"] as? Date
+            self.bulkPublishCompleteTime = dictionary["BulkPublishCompleteTime"] as? Date
+            self.bulkPublishStatus = dictionary["BulkPublishStatus"] as? String
+            self.identityPoolId = dictionary["IdentityPoolId"] as? String
+            self.failureMessage = dictionary["FailureMessage"] as? String
+        }
     }
 
     public struct GetBulkPublishDetailsRequest: AWSShape {
@@ -164,6 +199,10 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+        }
     }
 
     public struct RegisterDeviceResponse: AWSShape {
@@ -178,6 +217,9 @@ extension CognitoSync {
             self.deviceId = deviceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceId = dictionary["DeviceId"] as? String
+        }
     }
 
     public struct ListDatasetsRequest: AWSShape {
@@ -207,6 +249,14 @@ extension CognitoSync {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetIdentityPoolConfigurationRequest: AWSShape {
@@ -224,6 +274,10 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+        }
     }
 
     public struct GetCognitoEventsRequest: AWSShape {
@@ -241,6 +295,10 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+        }
     }
 
     public struct SubscribeToDatasetResponse: AWSShape {
@@ -249,6 +307,8 @@ extension CognitoSync {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetCognitoEventsResponse: AWSShape {
@@ -263,6 +323,11 @@ extension CognitoSync {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let events = dictionary["Events"] as? [String: String] {
+                self.events = events
+            }
+        }
     }
 
     public struct RegisterDeviceRequest: AWSShape {
@@ -289,6 +354,16 @@ extension CognitoSync {
             self.identityId = identityId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let platform = dictionary["Platform"] as? String else { throw InitializableError.missingRequiredParam("Platform") }
+            self.platform = platform
+            guard let token = dictionary["Token"] as? String else { throw InitializableError.missingRequiredParam("Token") }
+            self.token = token
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+        }
     }
 
     public struct SetIdentityPoolConfigurationRequest: AWSShape {
@@ -312,6 +387,12 @@ extension CognitoSync {
             self.cognitoStreams = cognitoStreams
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            if let pushSync = dictionary["PushSync"] as? [String: Any] { self.pushSync = try CognitoSync.PushSync(dictionary: pushSync) }
+            if let cognitoStreams = dictionary["CognitoStreams"] as? [String: Any] { self.cognitoStreams = try CognitoSync.CognitoStreams(dictionary: cognitoStreams) }
+        }
     }
 
     public struct CognitoStreams: AWSShape {
@@ -332,6 +413,11 @@ extension CognitoSync {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.streamingStatus = dictionary["StreamingStatus"] as? String
+            self.streamName = dictionary["StreamName"] as? String
+        }
     }
 
     public struct ListRecordsRequest: AWSShape {
@@ -370,6 +456,18 @@ extension CognitoSync {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.syncSessionToken = dictionary["SyncSessionToken"] as? String
+            guard let datasetName = dictionary["DatasetName"] as? String else { throw InitializableError.missingRequiredParam("DatasetName") }
+            self.datasetName = datasetName
+            self.lastSyncCount = dictionary["LastSyncCount"] as? Int64
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeDatasetResponse: AWSShape {
@@ -384,6 +482,9 @@ extension CognitoSync {
             self.dataset = dataset
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dataset = dictionary["Dataset"] as? [String: Any] { self.dataset = try CognitoSync.Dataset(dictionary: dataset) }
+        }
     }
 
     public struct UnsubscribeFromDatasetRequest: AWSShape {
@@ -410,6 +511,16 @@ extension CognitoSync {
             self.datasetName = datasetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceId = dictionary["DeviceId"] as? String else { throw InitializableError.missingRequiredParam("DeviceId") }
+            self.deviceId = deviceId
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let datasetName = dictionary["DatasetName"] as? String else { throw InitializableError.missingRequiredParam("DatasetName") }
+            self.datasetName = datasetName
+        }
     }
 
     public struct PushSync: AWSShape {
@@ -427,6 +538,12 @@ extension CognitoSync {
             self.applicationArns = applicationArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["RoleArn"] as? String
+            if let applicationArns = dictionary["ApplicationArns"] as? [String] {
+                self.applicationArns = applicationArns
+            }
+        }
     }
 
     public struct Record: AWSShape {
@@ -456,6 +573,14 @@ extension CognitoSync {
             self.lastModifiedBy = lastModifiedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? Date
+            self.key = dictionary["Key"] as? String
+            self.syncCount = dictionary["SyncCount"] as? Int64
+            self.value = dictionary["Value"] as? String
+            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        }
     }
 
     public struct IdentityUsage: AWSShape {
@@ -482,6 +607,13 @@ extension CognitoSync {
             self.dataStorage = dataStorage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.datasetCount = dictionary["DatasetCount"] as? Int32
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.identityId = dictionary["IdentityId"] as? String
+            self.identityPoolId = dictionary["IdentityPoolId"] as? String
+            self.dataStorage = dictionary["DataStorage"] as? Int64
+        }
     }
 
     public struct DescribeIdentityPoolUsageRequest: AWSShape {
@@ -499,6 +631,10 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+        }
     }
 
     public struct Dataset: AWSShape {
@@ -531,6 +667,15 @@ extension CognitoSync {
             self.lastModifiedBy = lastModifiedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.numRecords = dictionary["NumRecords"] as? Int64
+            self.datasetName = dictionary["DatasetName"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.identityId = dictionary["IdentityId"] as? String
+            self.dataStorage = dictionary["DataStorage"] as? Int64
+            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        }
     }
 
     public struct SetIdentityPoolConfigurationResponse: AWSShape {
@@ -551,6 +696,11 @@ extension CognitoSync {
             self.cognitoStreams = cognitoStreams
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.identityPoolId = dictionary["IdentityPoolId"] as? String
+            if let pushSync = dictionary["PushSync"] as? [String: Any] { self.pushSync = try CognitoSync.PushSync(dictionary: pushSync) }
+            if let cognitoStreams = dictionary["CognitoStreams"] as? [String: Any] { self.cognitoStreams = try CognitoSync.CognitoStreams(dictionary: cognitoStreams) }
+        }
     }
 
     public struct DescribeIdentityUsageResponse: AWSShape {
@@ -565,6 +715,9 @@ extension CognitoSync {
             self.identityUsage = identityUsage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let identityUsage = dictionary["IdentityUsage"] as? [String: Any] { self.identityUsage = try CognitoSync.IdentityUsage(dictionary: identityUsage) }
+        }
     }
 
     public struct GetIdentityPoolConfigurationResponse: AWSShape {
@@ -585,6 +738,11 @@ extension CognitoSync {
             self.cognitoStreams = cognitoStreams
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.identityPoolId = dictionary["IdentityPoolId"] as? String
+            if let pushSync = dictionary["PushSync"] as? [String: Any] { self.pushSync = try CognitoSync.PushSync(dictionary: pushSync) }
+            if let cognitoStreams = dictionary["CognitoStreams"] as? [String: Any] { self.cognitoStreams = try CognitoSync.CognitoStreams(dictionary: cognitoStreams) }
+        }
     }
 
     public struct ListIdentityPoolUsageResponse: AWSShape {
@@ -608,6 +766,14 @@ extension CognitoSync {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let identityPoolUsages = dictionary["IdentityPoolUsages"] as? [[String: Any]] {
+                self.identityPoolUsages = try identityPoolUsages.map({ try IdentityPoolUsage(dictionary: $0) })
+            }
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct UpdateRecordsRequest: AWSShape {
@@ -646,6 +812,21 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceId = dictionary["DeviceId"] as? String
+            guard let syncSessionToken = dictionary["SyncSessionToken"] as? String else { throw InitializableError.missingRequiredParam("SyncSessionToken") }
+            self.syncSessionToken = syncSessionToken
+            guard let datasetName = dictionary["DatasetName"] as? String else { throw InitializableError.missingRequiredParam("DatasetName") }
+            self.datasetName = datasetName
+            if let recordPatches = dictionary["RecordPatches"] as? [[String: Any]] {
+                self.recordPatches = try recordPatches.map({ try RecordPatch(dictionary: $0) })
+            }
+            self.clientContext = dictionary["ClientContext"] as? String
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+        }
     }
 
     public struct SubscribeToDatasetRequest: AWSShape {
@@ -672,6 +853,16 @@ extension CognitoSync {
             self.datasetName = datasetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceId = dictionary["DeviceId"] as? String else { throw InitializableError.missingRequiredParam("DeviceId") }
+            self.deviceId = deviceId
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let datasetName = dictionary["DatasetName"] as? String else { throw InitializableError.missingRequiredParam("DatasetName") }
+            self.datasetName = datasetName
+        }
     }
 
     public struct IdentityPoolUsage: AWSShape {
@@ -695,6 +886,12 @@ extension CognitoSync {
             self.dataStorage = dataStorage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.syncSessionsCount = dictionary["SyncSessionsCount"] as? Int64
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.identityPoolId = dictionary["IdentityPoolId"] as? String
+            self.dataStorage = dictionary["DataStorage"] as? Int64
+        }
     }
 
     public struct DescribeIdentityPoolUsageResponse: AWSShape {
@@ -709,6 +906,9 @@ extension CognitoSync {
             self.identityPoolUsage = identityPoolUsage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let identityPoolUsage = dictionary["IdentityPoolUsage"] as? [String: Any] { self.identityPoolUsage = try CognitoSync.IdentityPoolUsage(dictionary: identityPoolUsage) }
+        }
     }
 
     public struct ListRecordsResponse: AWSShape {
@@ -747,6 +947,21 @@ extension CognitoSync {
             self.lastModifiedBy = lastModifiedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let records = dictionary["Records"] as? [[String: Any]] {
+                self.records = try records.map({ try Record(dictionary: $0) })
+            }
+            if let mergedDatasetNames = dictionary["MergedDatasetNames"] as? [String] {
+                self.mergedDatasetNames = mergedDatasetNames
+            }
+            self.syncSessionToken = dictionary["SyncSessionToken"] as? String
+            self.datasetSyncCount = dictionary["DatasetSyncCount"] as? Int64
+            self.count = dictionary["Count"] as? Int32
+            self.datasetExists = dictionary["DatasetExists"] as? Bool
+            self.datasetDeletedAfterRequestedSyncCount = dictionary["DatasetDeletedAfterRequestedSyncCount"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        }
     }
 
     public struct DeleteDatasetRequest: AWSShape {
@@ -770,6 +985,14 @@ extension CognitoSync {
             self.identityId = identityId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let datasetName = dictionary["DatasetName"] as? String else { throw InitializableError.missingRequiredParam("DatasetName") }
+            self.datasetName = datasetName
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+        }
     }
 
     public struct DeleteDatasetResponse: AWSShape {
@@ -784,6 +1007,9 @@ extension CognitoSync {
             self.dataset = dataset
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dataset = dictionary["Dataset"] as? [String: Any] { self.dataset = try CognitoSync.Dataset(dictionary: dataset) }
+        }
     }
 
     public struct RecordPatch: AWSShape {
@@ -810,6 +1036,16 @@ extension CognitoSync {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let op = dictionary["Op"] as? String else { throw InitializableError.missingRequiredParam("Op") }
+            self.op = op
+            self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? Date
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let syncCount = dictionary["SyncCount"] as? Int64 else { throw InitializableError.missingRequiredParam("SyncCount") }
+            self.syncCount = syncCount
+            self.value = dictionary["Value"] as? String
+        }
     }
 
     public struct SetCognitoEventsRequest: AWSShape {
@@ -830,6 +1066,12 @@ extension CognitoSync {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let events = dictionary["Events"] as? [String: String] else { throw InitializableError.missingRequiredParam("Events") }
+            self.events = events
+        }
     }
 
     public struct DescribeIdentityUsageRequest: AWSShape {
@@ -850,6 +1092,12 @@ extension CognitoSync {
             self.identityId = identityId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
+            self.identityPoolId = identityPoolId
+            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
+            self.identityId = identityId
+        }
     }
 
     public struct UnsubscribeFromDatasetResponse: AWSShape {
@@ -858,6 +1106,8 @@ extension CognitoSync {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BulkPublishResponse: AWSShape {
@@ -872,6 +1122,9 @@ extension CognitoSync {
             self.identityPoolId = identityPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.identityPoolId = dictionary["IdentityPoolId"] as? String
+        }
     }
 
 }

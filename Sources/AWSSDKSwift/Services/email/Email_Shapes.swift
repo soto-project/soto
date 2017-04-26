@@ -41,6 +41,10 @@ extension Email {
             self.emailAddress = emailAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let emailAddress = dictionary["EmailAddress"] as? String else { throw InitializableError.missingRequiredParam("EmailAddress") }
+            self.emailAddress = emailAddress
+        }
     }
 
     public struct ListReceiptFiltersResponse: AWSShape {
@@ -55,6 +59,11 @@ extension Email {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try ReceiptFilter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeReceiptRuleResponse: AWSShape {
@@ -69,6 +78,9 @@ extension Email {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try Email.ReceiptRule(dictionary: rule) }
+        }
     }
 
     public struct CloneReceiptRuleSetRequest: AWSShape {
@@ -86,6 +98,12 @@ extension Email {
             self.originalRuleSetName = originalRuleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+            guard let originalRuleSetName = dictionary["OriginalRuleSetName"] as? String else { throw InitializableError.missingRequiredParam("OriginalRuleSetName") }
+            self.originalRuleSetName = originalRuleSetName
+        }
     }
 
     public struct GetIdentityNotificationAttributesResponse: AWSShape {
@@ -100,6 +118,15 @@ extension Email {
             self.notificationAttributes = notificationAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let notificationAttributes = dictionary["NotificationAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NotificationAttributes") }
+            var notificationAttributesDict: [String: IdentityNotificationAttributes] = [:]
+            for (key, value) in notificationAttributes {
+                guard let identityNotificationAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                notificationAttributesDict[key] = try IdentityNotificationAttributes(dictionary: identityNotificationAttributesDict)
+            }
+            self.notificationAttributes = notificationAttributesDict
+        }
     }
 
     public struct DeleteConfigurationSetResponse: AWSShape {
@@ -108,6 +135,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct VerifyDomainIdentityRequest: AWSShape {
@@ -122,6 +151,10 @@ extension Email {
             self.domain = domain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domain = dictionary["Domain"] as? String else { throw InitializableError.missingRequiredParam("Domain") }
+            self.domain = domain
+        }
     }
 
     public struct SetIdentityNotificationTopicRequest: AWSShape {
@@ -142,6 +175,13 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let notificationType = dictionary["NotificationType"] as? String else { throw InitializableError.missingRequiredParam("NotificationType") }
+            self.notificationType = notificationType
+            self.snsTopic = dictionary["SnsTopic"] as? String
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
@@ -150,6 +190,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SetReceiptRulePositionResponse: AWSShape {
@@ -158,6 +200,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct EventDestination: AWSShape {
@@ -184,6 +228,15 @@ extension Email {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cloudWatchDestination = dictionary["CloudWatchDestination"] as? [String: Any] { self.cloudWatchDestination = try Email.CloudWatchDestination(dictionary: cloudWatchDestination) }
+            guard let matchingEventTypes = dictionary["MatchingEventTypes"] as? [String] else { throw InitializableError.missingRequiredParam("MatchingEventTypes") }
+            self.matchingEventTypes = matchingEventTypes
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let kinesisFirehoseDestination = dictionary["KinesisFirehoseDestination"] as? [String: Any] { self.kinesisFirehoseDestination = try Email.KinesisFirehoseDestination(dictionary: kinesisFirehoseDestination) }
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct IdentityNotificationAttributes: AWSShape {
@@ -216,6 +269,19 @@ extension Email {
             self.headersInBounceNotificationsEnabled = headersInBounceNotificationsEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let complaintTopic = dictionary["ComplaintTopic"] as? String else { throw InitializableError.missingRequiredParam("ComplaintTopic") }
+            self.complaintTopic = complaintTopic
+            guard let forwardingEnabled = dictionary["ForwardingEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("ForwardingEnabled") }
+            self.forwardingEnabled = forwardingEnabled
+            guard let deliveryTopic = dictionary["DeliveryTopic"] as? String else { throw InitializableError.missingRequiredParam("DeliveryTopic") }
+            self.deliveryTopic = deliveryTopic
+            self.headersInComplaintNotificationsEnabled = dictionary["HeadersInComplaintNotificationsEnabled"] as? Bool
+            self.headersInDeliveryNotificationsEnabled = dictionary["HeadersInDeliveryNotificationsEnabled"] as? Bool
+            guard let bounceTopic = dictionary["BounceTopic"] as? String else { throw InitializableError.missingRequiredParam("BounceTopic") }
+            self.bounceTopic = bounceTopic
+            self.headersInBounceNotificationsEnabled = dictionary["HeadersInBounceNotificationsEnabled"] as? Bool
+        }
     }
 
     public struct SendBounceRequest: AWSShape {
@@ -245,6 +311,17 @@ extension Email {
             self.explanation = explanation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let messageDsn = dictionary["MessageDsn"] as? [String: Any] { self.messageDsn = try Email.MessageDsn(dictionary: messageDsn) }
+            guard let bouncedRecipientInfoList = dictionary["BouncedRecipientInfoList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("BouncedRecipientInfoList") }
+            self.bouncedRecipientInfoList = try bouncedRecipientInfoList.map({ try BouncedRecipientInfo(dictionary: $0) })
+            guard let originalMessageId = dictionary["OriginalMessageId"] as? String else { throw InitializableError.missingRequiredParam("OriginalMessageId") }
+            self.originalMessageId = originalMessageId
+            self.bounceSenderArn = dictionary["BounceSenderArn"] as? String
+            guard let bounceSender = dictionary["BounceSender"] as? String else { throw InitializableError.missingRequiredParam("BounceSender") }
+            self.bounceSender = bounceSender
+            self.explanation = dictionary["Explanation"] as? String
+        }
     }
 
     public struct MessageDsn: AWSShape {
@@ -265,6 +342,14 @@ extension Email {
             self.reportingMta = reportingMta
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arrivalDate = dictionary["ArrivalDate"] as? Date
+            if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
+                self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
+            }
+            guard let reportingMta = dictionary["ReportingMta"] as? String else { throw InitializableError.missingRequiredParam("ReportingMta") }
+            self.reportingMta = reportingMta
+        }
     }
 
     public struct ExtensionField: AWSShape {
@@ -282,6 +367,12 @@ extension Email {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ConfigurationSet: AWSShape {
@@ -296,6 +387,10 @@ extension Email {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListIdentitiesRequest: AWSShape {
@@ -316,6 +411,11 @@ extension Email {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.identityType = dictionary["IdentityType"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledResponse: AWSShape {
@@ -324,6 +424,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct KinesisFirehoseDestination: AWSShape {
@@ -341,6 +443,12 @@ extension Email {
             self.deliveryStreamARN = deliveryStreamARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iAMRoleARN = dictionary["IAMRoleARN"] as? String else { throw InitializableError.missingRequiredParam("IAMRoleARN") }
+            self.iAMRoleARN = iAMRoleARN
+            guard let deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamARN") }
+            self.deliveryStreamARN = deliveryStreamARN
+        }
     }
 
     public struct DescribeReceiptRuleSetRequest: AWSShape {
@@ -355,6 +463,10 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+        }
     }
 
     public struct DescribeConfigurationSetResponse: AWSShape {
@@ -372,6 +484,12 @@ extension Email {
             self.configurationSet = configurationSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventDestinations = dictionary["EventDestinations"] as? [[String: Any]] {
+                self.eventDestinations = try eventDestinations.map({ try EventDestination(dictionary: $0) })
+            }
+            if let configurationSet = dictionary["ConfigurationSet"] as? [String: Any] { self.configurationSet = try Email.ConfigurationSet(dictionary: configurationSet) }
+        }
     }
 
     public struct SetActiveReceiptRuleSetRequest: AWSShape {
@@ -386,6 +504,9 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ruleSetName = dictionary["RuleSetName"] as? String
+        }
     }
 
     public struct IdentityVerificationAttributes: AWSShape {
@@ -403,6 +524,11 @@ extension Email {
             self.verificationToken = verificationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let verificationStatus = dictionary["VerificationStatus"] as? String else { throw InitializableError.missingRequiredParam("VerificationStatus") }
+            self.verificationStatus = verificationStatus
+            self.verificationToken = dictionary["VerificationToken"] as? String
+        }
     }
 
     public struct CloneReceiptRuleSetResponse: AWSShape {
@@ -411,6 +537,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
@@ -419,6 +547,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetIdentityVerificationAttributesRequest: AWSShape {
@@ -433,6 +563,10 @@ extension Email {
             self.identities = identities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
+            self.identities = identities
+        }
     }
 
     public struct RawMessage: AWSShape {
@@ -447,6 +581,10 @@ extension Email {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
+            self.data = data
+        }
     }
 
     public struct DeleteReceiptRuleRequest: AWSShape {
@@ -464,6 +602,12 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
+            self.ruleName = ruleName
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+        }
     }
 
     public struct DeleteReceiptFilterRequest: AWSShape {
@@ -478,6 +622,10 @@ extension Email {
             self.filterName = filterName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filterName = dictionary["FilterName"] as? String else { throw InitializableError.missingRequiredParam("FilterName") }
+            self.filterName = filterName
+        }
     }
 
     public struct ListIdentityPoliciesRequest: AWSShape {
@@ -492,6 +640,10 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct Destination: AWSShape {
@@ -512,6 +664,17 @@ extension Email {
             self.toAddresses = toAddresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ccAddresses = dictionary["CcAddresses"] as? [String] {
+                self.ccAddresses = ccAddresses
+            }
+            if let bccAddresses = dictionary["BccAddresses"] as? [String] {
+                self.bccAddresses = bccAddresses
+            }
+            if let toAddresses = dictionary["ToAddresses"] as? [String] {
+                self.toAddresses = toAddresses
+            }
+        }
     }
 
     public struct ListConfigurationSetsRequest: AWSShape {
@@ -529,6 +692,10 @@ extension Email {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct DescribeReceiptRuleSetResponse: AWSShape {
@@ -546,6 +713,12 @@ extension Email {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) }
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try ReceiptRule(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListReceiptFiltersRequest: AWSShape {
@@ -554,6 +727,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Content: AWSShape {
@@ -571,6 +746,11 @@ extension Email {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.charset = dictionary["Charset"] as? String
+            guard let data = dictionary["Data"] as? String else { throw InitializableError.missingRequiredParam("Data") }
+            self.data = data
+        }
     }
 
     public struct GetIdentityMailFromDomainAttributesResponse: AWSShape {
@@ -585,6 +765,15 @@ extension Email {
             self.mailFromDomainAttributes = mailFromDomainAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mailFromDomainAttributes = dictionary["MailFromDomainAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MailFromDomainAttributes") }
+            var mailFromDomainAttributesDict: [String: IdentityMailFromDomainAttributes] = [:]
+            for (key, value) in mailFromDomainAttributes {
+                guard let identityMailFromDomainAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                mailFromDomainAttributesDict[key] = try IdentityMailFromDomainAttributes(dictionary: identityMailFromDomainAttributesDict)
+            }
+            self.mailFromDomainAttributes = mailFromDomainAttributesDict
+        }
     }
 
     public struct CloudWatchDimensionConfiguration: AWSShape {
@@ -605,6 +794,14 @@ extension Email {
             self.defaultDimensionValue = defaultDimensionValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dimensionValueSource = dictionary["DimensionValueSource"] as? String else { throw InitializableError.missingRequiredParam("DimensionValueSource") }
+            self.dimensionValueSource = dimensionValueSource
+            guard let dimensionName = dictionary["DimensionName"] as? String else { throw InitializableError.missingRequiredParam("DimensionName") }
+            self.dimensionName = dimensionName
+            guard let defaultDimensionValue = dictionary["DefaultDimensionValue"] as? String else { throw InitializableError.missingRequiredParam("DefaultDimensionValue") }
+            self.defaultDimensionValue = defaultDimensionValue
+        }
     }
 
     public struct ReceiptAction: AWSShape {
@@ -637,6 +834,15 @@ extension Email {
             self.lambdaAction = lambdaAction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3Action = dictionary["S3Action"] as? [String: Any] { self.s3Action = try Email.S3Action(dictionary: s3Action) }
+            if let workmailAction = dictionary["WorkmailAction"] as? [String: Any] { self.workmailAction = try Email.WorkmailAction(dictionary: workmailAction) }
+            if let addHeaderAction = dictionary["AddHeaderAction"] as? [String: Any] { self.addHeaderAction = try Email.AddHeaderAction(dictionary: addHeaderAction) }
+            if let sNSAction = dictionary["SNSAction"] as? [String: Any] { self.sNSAction = try Email.SNSAction(dictionary: sNSAction) }
+            if let stopAction = dictionary["StopAction"] as? [String: Any] { self.stopAction = try Email.StopAction(dictionary: stopAction) }
+            if let bounceAction = dictionary["BounceAction"] as? [String: Any] { self.bounceAction = try Email.BounceAction(dictionary: bounceAction) }
+            if let lambdaAction = dictionary["LambdaAction"] as? [String: Any] { self.lambdaAction = try Email.LambdaAction(dictionary: lambdaAction) }
+        }
     }
 
     public struct CreateReceiptRuleSetRequest: AWSShape {
@@ -651,6 +857,10 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+        }
     }
 
     public struct DeleteReceiptRuleSetResponse: AWSShape {
@@ -659,6 +869,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListIdentityPoliciesResponse: AWSShape {
@@ -673,6 +885,10 @@ extension Email {
             self.policyNames = policyNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+        }
     }
 
     public struct CreateConfigurationSetResponse: AWSShape {
@@ -681,6 +897,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BouncedRecipientInfo: AWSShape {
@@ -704,6 +922,13 @@ extension Email {
             self.recipientArn = recipientArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recipient = dictionary["Recipient"] as? String else { throw InitializableError.missingRequiredParam("Recipient") }
+            self.recipient = recipient
+            if let recipientDsnFields = dictionary["RecipientDsnFields"] as? [String: Any] { self.recipientDsnFields = try Email.RecipientDsnFields(dictionary: recipientDsnFields) }
+            self.bounceType = dictionary["BounceType"] as? String
+            self.recipientArn = dictionary["RecipientArn"] as? String
+        }
     }
 
     public struct SetReceiptRulePositionRequest: AWSShape {
@@ -724,6 +949,13 @@ extension Email {
             self.after = after
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
+            self.ruleName = ruleName
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+            self.after = dictionary["After"] as? String
+        }
     }
 
     public struct SNSAction: AWSShape {
@@ -741,6 +973,11 @@ extension Email {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.encoding = dictionary["Encoding"] as? String
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+        }
     }
 
     public struct CreateReceiptFilterResponse: AWSShape {
@@ -749,6 +986,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
@@ -763,6 +1002,10 @@ extension Email {
             self.configurationSetName = configurationSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
+            self.configurationSetName = configurationSetName
+        }
     }
 
     public struct DeleteIdentityPolicyResponse: AWSShape {
@@ -771,6 +1014,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeReceiptRuleRequest: AWSShape {
@@ -788,6 +1033,12 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
+            self.ruleName = ruleName
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+        }
     }
 
     public struct DeleteVerifiedEmailAddressRequest: AWSShape {
@@ -802,6 +1053,10 @@ extension Email {
             self.emailAddress = emailAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let emailAddress = dictionary["EmailAddress"] as? String else { throw InitializableError.missingRequiredParam("EmailAddress") }
+            self.emailAddress = emailAddress
+        }
     }
 
     public struct SetIdentityMailFromDomainResponse: AWSShape {
@@ -810,6 +1065,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateReceiptRuleRequest: AWSShape {
@@ -830,6 +1087,13 @@ extension Email {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.after = dictionary["After"] as? String
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+            guard let rule = dictionary["Rule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Rule") }
+            self.rule = try Email.ReceiptRule(dictionary: rule)
+        }
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
@@ -838,6 +1102,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SendEmailResponse: AWSShape {
@@ -852,6 +1118,10 @@ extension Email {
             self.messageId = messageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let messageId = dictionary["MessageId"] as? String else { throw InitializableError.missingRequiredParam("MessageId") }
+            self.messageId = messageId
+        }
     }
 
     public struct LambdaAction: AWSShape {
@@ -872,6 +1142,12 @@ extension Email {
             self.invocationType = invocationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionArn = dictionary["FunctionArn"] as? String else { throw InitializableError.missingRequiredParam("FunctionArn") }
+            self.functionArn = functionArn
+            self.topicArn = dictionary["TopicArn"] as? String
+            self.invocationType = dictionary["InvocationType"] as? String
+        }
     }
 
     public struct GetSendQuotaResponse: AWSShape {
@@ -892,6 +1168,11 @@ extension Email {
             self.sentLast24Hours = sentLast24Hours
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxSendRate = dictionary["MaxSendRate"] as? Double
+            self.max24HourSend = dictionary["Max24HourSend"] as? Double
+            self.sentLast24Hours = dictionary["SentLast24Hours"] as? Double
+        }
     }
 
     public struct BounceAction: AWSShape {
@@ -918,6 +1199,16 @@ extension Email {
             self.statusCode = statusCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+            guard let smtpReplyCode = dictionary["SmtpReplyCode"] as? String else { throw InitializableError.missingRequiredParam("SmtpReplyCode") }
+            self.smtpReplyCode = smtpReplyCode
+            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = message
+            guard let sender = dictionary["Sender"] as? String else { throw InitializableError.missingRequiredParam("Sender") }
+            self.sender = sender
+            self.statusCode = dictionary["StatusCode"] as? String
+        }
     }
 
     public struct GetSendStatisticsResponse: AWSShape {
@@ -932,6 +1223,11 @@ extension Email {
             self.sendDataPoints = sendDataPoints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sendDataPoints = dictionary["SendDataPoints"] as? [[String: Any]] {
+                self.sendDataPoints = try sendDataPoints.map({ try SendDataPoint(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteReceiptRuleResponse: AWSShape {
@@ -940,6 +1236,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SetIdentityDkimEnabledRequest: AWSShape {
@@ -957,6 +1255,12 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dkimEnabled = dictionary["DkimEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("DkimEnabled") }
+            self.dkimEnabled = dkimEnabled
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct DescribeActiveReceiptRuleSetResponse: AWSShape {
@@ -974,6 +1278,12 @@ extension Email {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) }
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try ReceiptRule(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetIdentityMailFromDomainAttributesRequest: AWSShape {
@@ -988,6 +1298,10 @@ extension Email {
             self.identities = identities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
+            self.identities = identities
+        }
     }
 
     public struct PutIdentityPolicyResponse: AWSShape {
@@ -996,6 +1310,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateConfigurationSetRequest: AWSShape {
@@ -1010,6 +1326,10 @@ extension Email {
             self.configurationSet = configurationSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationSet = dictionary["ConfigurationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConfigurationSet") }
+            self.configurationSet = try Email.ConfigurationSet(dictionary: configurationSet)
+        }
     }
 
     public struct SetActiveReceiptRuleSetResponse: AWSShape {
@@ -1018,6 +1338,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PutIdentityPolicyRequest: AWSShape {
@@ -1038,6 +1360,14 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
+            self.policy = policy
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct Message: AWSShape {
@@ -1055,6 +1385,12 @@ extension Email {
             self.subject = subject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let body = dictionary["Body"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Body") }
+            self.body = try Email.Body(dictionary: body)
+            guard let subject = dictionary["Subject"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Subject") }
+            self.subject = try Email.Content(dictionary: subject)
+        }
     }
 
     public struct DeleteReceiptFilterResponse: AWSShape {
@@ -1063,6 +1399,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetIdentityVerificationAttributesResponse: AWSShape {
@@ -1077,6 +1415,15 @@ extension Email {
             self.verificationAttributes = verificationAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let verificationAttributes = dictionary["VerificationAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VerificationAttributes") }
+            var verificationAttributesDict: [String: IdentityVerificationAttributes] = [:]
+            for (key, value) in verificationAttributes {
+                guard let identityVerificationAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                verificationAttributesDict[key] = try IdentityVerificationAttributes(dictionary: identityVerificationAttributesDict)
+            }
+            self.verificationAttributes = verificationAttributesDict
+        }
     }
 
     public struct SetIdentityFeedbackForwardingEnabledResponse: AWSShape {
@@ -1085,6 +1432,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeConfigurationSetRequest: AWSShape {
@@ -1102,6 +1451,13 @@ extension Email {
             self.configurationSetAttributeNames = configurationSetAttributeNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
+            self.configurationSetName = configurationSetName
+            if let configurationSetAttributeNames = dictionary["ConfigurationSetAttributeNames"] as? [String] {
+                self.configurationSetAttributeNames = configurationSetAttributeNames
+            }
+        }
     }
 
     public struct CreateReceiptRuleResponse: AWSShape {
@@ -1110,6 +1466,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct VerifyDomainIdentityResponse: AWSShape {
@@ -1124,6 +1482,10 @@ extension Email {
             self.verificationToken = verificationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let verificationToken = dictionary["VerificationToken"] as? String else { throw InitializableError.missingRequiredParam("VerificationToken") }
+            self.verificationToken = verificationToken
+        }
     }
 
     public struct SetIdentityNotificationTopicResponse: AWSShape {
@@ -1132,6 +1494,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteIdentityRequest: AWSShape {
@@ -1146,6 +1510,10 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct AddHeaderAction: AWSShape {
@@ -1163,6 +1531,12 @@ extension Email {
             self.headerValue = headerValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let headerName = dictionary["HeaderName"] as? String else { throw InitializableError.missingRequiredParam("HeaderName") }
+            self.headerName = headerName
+            guard let headerValue = dictionary["HeaderValue"] as? String else { throw InitializableError.missingRequiredParam("HeaderValue") }
+            self.headerValue = headerValue
+        }
     }
 
     public struct CreateReceiptFilterRequest: AWSShape {
@@ -1177,6 +1551,10 @@ extension Email {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filter = dictionary["Filter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Filter") }
+            self.filter = try Email.ReceiptFilter(dictionary: filter)
+        }
     }
 
     public struct GetIdentityPoliciesResponse: AWSShape {
@@ -1191,6 +1569,10 @@ extension Email {
             self.policies = policies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policies = dictionary["Policies"] as? [String: String] else { throw InitializableError.missingRequiredParam("Policies") }
+            self.policies = policies
+        }
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
@@ -1208,6 +1590,12 @@ extension Email {
             self.eventDestination = eventDestination
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
+            self.configurationSetName = configurationSetName
+            guard let eventDestination = dictionary["EventDestination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventDestination") }
+            self.eventDestination = try Email.EventDestination(dictionary: eventDestination)
+        }
     }
 
     public struct GetIdentityDkimAttributesRequest: AWSShape {
@@ -1222,6 +1610,10 @@ extension Email {
             self.identities = identities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
+            self.identities = identities
+        }
     }
 
     public struct IdentityDkimAttributes: AWSShape {
@@ -1242,6 +1634,15 @@ extension Email {
             self.dkimEnabled = dkimEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dkimVerificationStatus = dictionary["DkimVerificationStatus"] as? String else { throw InitializableError.missingRequiredParam("DkimVerificationStatus") }
+            self.dkimVerificationStatus = dkimVerificationStatus
+            if let dkimTokens = dictionary["DkimTokens"] as? [String] {
+                self.dkimTokens = dkimTokens
+            }
+            guard let dkimEnabled = dictionary["DkimEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("DkimEnabled") }
+            self.dkimEnabled = dkimEnabled
+        }
     }
 
     public struct IdentityMailFromDomainAttributes: AWSShape {
@@ -1262,6 +1663,14 @@ extension Email {
             self.mailFromDomain = mailFromDomain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let behaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String else { throw InitializableError.missingRequiredParam("BehaviorOnMXFailure") }
+            self.behaviorOnMXFailure = behaviorOnMXFailure
+            guard let mailFromDomainStatus = dictionary["MailFromDomainStatus"] as? String else { throw InitializableError.missingRequiredParam("MailFromDomainStatus") }
+            self.mailFromDomainStatus = mailFromDomainStatus
+            guard let mailFromDomain = dictionary["MailFromDomain"] as? String else { throw InitializableError.missingRequiredParam("MailFromDomain") }
+            self.mailFromDomain = mailFromDomain
+        }
     }
 
     public struct SetIdentityDkimEnabledResponse: AWSShape {
@@ -1270,6 +1679,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct S3Action: AWSShape {
@@ -1293,6 +1704,13 @@ extension Email {
             self.kmsKeyArn = kmsKeyArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+            guard let bucketName = dictionary["BucketName"] as? String else { throw InitializableError.missingRequiredParam("BucketName") }
+            self.bucketName = bucketName
+            self.objectKeyPrefix = dictionary["ObjectKeyPrefix"] as? String
+            self.kmsKeyArn = dictionary["KmsKeyArn"] as? String
+        }
     }
 
     public struct ReceiptFilter: AWSShape {
@@ -1310,6 +1728,12 @@ extension Email {
             self.ipFilter = ipFilter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let ipFilter = dictionary["IpFilter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IpFilter") }
+            self.ipFilter = try Email.ReceiptIpFilter(dictionary: ipFilter)
+        }
     }
 
     public struct UpdateReceiptRuleRequest: AWSShape {
@@ -1327,6 +1751,12 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rule = dictionary["Rule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Rule") }
+            self.rule = try Email.ReceiptRule(dictionary: rule)
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+        }
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
@@ -1344,6 +1774,12 @@ extension Email {
             self.eventDestination = eventDestination
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
+            self.configurationSetName = configurationSetName
+            guard let eventDestination = dictionary["EventDestination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventDestination") }
+            self.eventDestination = try Email.EventDestination(dictionary: eventDestination)
+        }
     }
 
     public struct Body: AWSShape {
@@ -1361,6 +1797,10 @@ extension Email {
             self.text = text
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let html = dictionary["Html"] as? [String: Any] { self.html = try Email.Content(dictionary: html) }
+            if let text = dictionary["Text"] as? [String: Any] { self.text = try Email.Content(dictionary: text) }
+        }
     }
 
     public struct VerifyEmailIdentityRequest: AWSShape {
@@ -1375,6 +1815,10 @@ extension Email {
             self.emailAddress = emailAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let emailAddress = dictionary["EmailAddress"] as? String else { throw InitializableError.missingRequiredParam("EmailAddress") }
+            self.emailAddress = emailAddress
+        }
     }
 
     public struct ListIdentitiesResponse: AWSShape {
@@ -1392,6 +1836,11 @@ extension Email {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
+            self.identities = identities
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListReceiptRuleSetsRequest: AWSShape {
@@ -1406,6 +1855,9 @@ extension Email {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct MessageTag: AWSShape {
@@ -1423,6 +1875,12 @@ extension Email {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct SendBounceResponse: AWSShape {
@@ -1437,6 +1895,9 @@ extension Email {
             self.messageId = messageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.messageId = dictionary["MessageId"] as? String
+        }
     }
 
     public struct CloudWatchDestination: AWSShape {
@@ -1451,6 +1912,10 @@ extension Email {
             self.dimensionConfigurations = dimensionConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dimensionConfigurations = dictionary["DimensionConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DimensionConfigurations") }
+            self.dimensionConfigurations = try dimensionConfigurations.map({ try CloudWatchDimensionConfiguration(dictionary: $0) })
+        }
     }
 
     public struct ReceiptRuleSetMetadata: AWSShape {
@@ -1468,6 +1933,10 @@ extension Email {
             self.createdTimestamp = createdTimestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+        }
     }
 
     public struct DeleteReceiptRuleSetRequest: AWSShape {
@@ -1482,6 +1951,10 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+        }
     }
 
     public struct ReorderReceiptRuleSetResponse: AWSShape {
@@ -1490,6 +1963,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListReceiptRuleSetsResponse: AWSShape {
@@ -1507,6 +1982,12 @@ extension Email {
             self.ruleSets = ruleSets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let ruleSets = dictionary["RuleSets"] as? [[String: Any]] {
+                self.ruleSets = try ruleSets.map({ try ReceiptRuleSetMetadata(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledRequest: AWSShape {
@@ -1527,6 +2008,14 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let notificationType = dictionary["NotificationType"] as? String else { throw InitializableError.missingRequiredParam("NotificationType") }
+            self.notificationType = notificationType
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct SetIdentityFeedbackForwardingEnabledRequest: AWSShape {
@@ -1544,6 +2033,12 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let forwardingEnabled = dictionary["ForwardingEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("ForwardingEnabled") }
+            self.forwardingEnabled = forwardingEnabled
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct GetIdentityDkimAttributesResponse: AWSShape {
@@ -1558,6 +2053,15 @@ extension Email {
             self.dkimAttributes = dkimAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dkimAttributes = dictionary["DkimAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DkimAttributes") }
+            var dkimAttributesDict: [String: IdentityDkimAttributes] = [:]
+            for (key, value) in dkimAttributes {
+                guard let identityDkimAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                dkimAttributesDict[key] = try IdentityDkimAttributes(dictionary: identityDkimAttributesDict)
+            }
+            self.dkimAttributes = dkimAttributesDict
+        }
     }
 
     public struct GetIdentityNotificationAttributesRequest: AWSShape {
@@ -1572,6 +2076,10 @@ extension Email {
             self.identities = identities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
+            self.identities = identities
+        }
     }
 
     public struct WorkmailAction: AWSShape {
@@ -1589,6 +2097,11 @@ extension Email {
             self.organizationArn = organizationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+            guard let organizationArn = dictionary["OrganizationArn"] as? String else { throw InitializableError.missingRequiredParam("OrganizationArn") }
+            self.organizationArn = organizationArn
+        }
     }
 
     public struct StopAction: AWSShape {
@@ -1606,6 +2119,11 @@ extension Email {
             self.scope = scope
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+            guard let scope = dictionary["Scope"] as? String else { throw InitializableError.missingRequiredParam("Scope") }
+            self.scope = scope
+        }
     }
 
     public struct VerifyDomainDkimRequest: AWSShape {
@@ -1620,6 +2138,10 @@ extension Email {
             self.domain = domain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domain = dictionary["Domain"] as? String else { throw InitializableError.missingRequiredParam("Domain") }
+            self.domain = domain
+        }
     }
 
     public struct SendRawEmailRequest: AWSShape {
@@ -1655,6 +2177,21 @@ extension Email {
             self.source = source
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configurationSetName = dictionary["ConfigurationSetName"] as? String
+            guard let rawMessage = dictionary["RawMessage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RawMessage") }
+            self.rawMessage = try Email.RawMessage(dictionary: rawMessage)
+            if let destinations = dictionary["Destinations"] as? [String] {
+                self.destinations = destinations
+            }
+            self.sourceArn = dictionary["SourceArn"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try MessageTag(dictionary: $0) })
+            }
+            self.returnPathArn = dictionary["ReturnPathArn"] as? String
+            self.fromArn = dictionary["FromArn"] as? String
+            self.source = dictionary["Source"] as? String
+        }
     }
 
     public struct VerifyEmailIdentityResponse: AWSShape {
@@ -1663,6 +2200,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteIdentityPolicyRequest: AWSShape {
@@ -1680,6 +2219,12 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct SendRawEmailResponse: AWSShape {
@@ -1694,6 +2239,10 @@ extension Email {
             self.messageId = messageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let messageId = dictionary["MessageId"] as? String else { throw InitializableError.missingRequiredParam("MessageId") }
+            self.messageId = messageId
+        }
     }
 
     public struct SetIdentityMailFromDomainRequest: AWSShape {
@@ -1714,6 +2263,12 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.behaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String
+            self.mailFromDomain = dictionary["MailFromDomain"] as? String
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
@@ -1731,6 +2286,12 @@ extension Email {
             self.eventDestinationName = eventDestinationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
+            self.configurationSetName = configurationSetName
+            guard let eventDestinationName = dictionary["EventDestinationName"] as? String else { throw InitializableError.missingRequiredParam("EventDestinationName") }
+            self.eventDestinationName = eventDestinationName
+        }
     }
 
     public struct DescribeActiveReceiptRuleSetRequest: AWSShape {
@@ -1739,6 +2300,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateReceiptRuleResponse: AWSShape {
@@ -1747,6 +2310,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SendEmailRequest: AWSShape {
@@ -1785,6 +2350,24 @@ extension Email {
             self.returnPath = returnPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configurationSetName = dictionary["ConfigurationSetName"] as? String
+            guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
+            self.destination = try Email.Destination(dictionary: destination)
+            guard let message = dictionary["Message"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = try Email.Message(dictionary: message)
+            if let replyToAddresses = dictionary["ReplyToAddresses"] as? [String] {
+                self.replyToAddresses = replyToAddresses
+            }
+            self.sourceArn = dictionary["SourceArn"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try MessageTag(dictionary: $0) })
+            }
+            self.returnPathArn = dictionary["ReturnPathArn"] as? String
+            guard let source = dictionary["Source"] as? String else { throw InitializableError.missingRequiredParam("Source") }
+            self.source = source
+            self.returnPath = dictionary["ReturnPath"] as? String
+        }
     }
 
     public struct ListVerifiedEmailAddressesResponse: AWSShape {
@@ -1799,6 +2382,11 @@ extension Email {
             self.verifiedEmailAddresses = verifiedEmailAddresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let verifiedEmailAddresses = dictionary["VerifiedEmailAddresses"] as? [String] {
+                self.verifiedEmailAddresses = verifiedEmailAddresses
+            }
+        }
     }
 
     public struct ReceiptRule: AWSShape {
@@ -1828,6 +2416,19 @@ extension Email {
             self.recipients = recipients
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tlsPolicy = dictionary["TlsPolicy"] as? String
+            self.scanEnabled = dictionary["ScanEnabled"] as? Bool
+            if let actions = dictionary["Actions"] as? [[String: Any]] {
+                self.actions = try actions.map({ try ReceiptAction(dictionary: $0) })
+            }
+            self.enabled = dictionary["Enabled"] as? Bool
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let recipients = dictionary["Recipients"] as? [String] {
+                self.recipients = recipients
+            }
+        }
     }
 
     public struct ReorderReceiptRuleSetRequest: AWSShape {
@@ -1845,6 +2446,12 @@ extension Email {
             self.ruleNames = ruleNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
+            self.ruleSetName = ruleSetName
+            guard let ruleNames = dictionary["RuleNames"] as? [String] else { throw InitializableError.missingRequiredParam("RuleNames") }
+            self.ruleNames = ruleNames
+        }
     }
 
     public struct GetIdentityPoliciesRequest: AWSShape {
@@ -1862,6 +2469,12 @@ extension Email {
             self.identity = identity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
+            self.identity = identity
+        }
     }
 
     public struct RecipientDsnFields: AWSShape {
@@ -1894,6 +2507,19 @@ extension Email {
             self.remoteMta = remoteMta
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
+                self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
+            }
+            self.finalRecipient = dictionary["FinalRecipient"] as? String
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            self.diagnosticCode = dictionary["DiagnosticCode"] as? String
+            self.lastAttemptDate = dictionary["LastAttemptDate"] as? Date
+            self.remoteMta = dictionary["RemoteMta"] as? String
+        }
     }
 
     public struct ReceiptIpFilter: AWSShape {
@@ -1911,6 +2537,12 @@ extension Email {
             self.cidr = cidr
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
+            self.policy = policy
+            guard let cidr = dictionary["Cidr"] as? String else { throw InitializableError.missingRequiredParam("Cidr") }
+            self.cidr = cidr
+        }
     }
 
     public struct CreateReceiptRuleSetResponse: AWSShape {
@@ -1919,6 +2551,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SendDataPoint: AWSShape {
@@ -1945,6 +2579,13 @@ extension Email {
             self.complaints = complaints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deliveryAttempts = dictionary["DeliveryAttempts"] as? Int64
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.rejects = dictionary["Rejects"] as? Int64
+            self.bounces = dictionary["Bounces"] as? Int64
+            self.complaints = dictionary["Complaints"] as? Int64
+        }
     }
 
     public struct ListConfigurationSetsResponse: AWSShape {
@@ -1962,6 +2603,12 @@ extension Email {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationSets = dictionary["ConfigurationSets"] as? [[String: Any]] {
+                self.configurationSets = try configurationSets.map({ try ConfigurationSet(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct VerifyDomainDkimResponse: AWSShape {
@@ -1976,6 +2623,10 @@ extension Email {
             self.dkimTokens = dkimTokens
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dkimTokens = dictionary["DkimTokens"] as? [String] else { throw InitializableError.missingRequiredParam("DkimTokens") }
+            self.dkimTokens = dkimTokens
+        }
     }
 
     public struct DeleteIdentityResponse: AWSShape {
@@ -1984,6 +2635,8 @@ extension Email {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
 }

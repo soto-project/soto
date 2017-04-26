@@ -35,6 +35,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Connector: AWSShape {
@@ -66,6 +68,20 @@ extension Sms {
             self.associatedOn = associatedOn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let capabilityList = dictionary["capabilityList"] as? [String] {
+                self.capabilityList = capabilityList
+            }
+            self.status = dictionary["status"] as? String
+            self.ipAddress = dictionary["ipAddress"] as? String
+            self.vmManagerId = dictionary["vmManagerId"] as? String
+            self.version = dictionary["version"] as? String
+            self.vmManagerType = dictionary["vmManagerType"] as? String
+            self.connectorId = dictionary["connectorId"] as? String
+            self.vmManagerName = dictionary["vmManagerName"] as? String
+            self.macAddress = dictionary["macAddress"] as? String
+            self.associatedOn = dictionary["associatedOn"] as? Date
+        }
     }
 
     public struct GetReplicationRunsRequest: AWSShape {
@@ -83,6 +99,12 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
+            self.replicationJobId = replicationJobId
+        }
     }
 
     public struct GetConnectorsRequest: AWSShape {
@@ -98,6 +120,10 @@ extension Sms {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct ImportServerCatalogRequest: AWSShape {
@@ -106,6 +132,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetServersResponse: AWSShape {
@@ -125,6 +153,14 @@ extension Sms {
             self.lastModifiedOn = lastModifiedOn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serverList = dictionary["serverList"] as? [[String: Any]] {
+                self.serverList = try serverList.map({ try Server(dictionary: $0) })
+            }
+            self.serverCatalogStatus = dictionary["serverCatalogStatus"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.lastModifiedOn = dictionary["lastModifiedOn"] as? Date
+        }
     }
 
     public struct GetReplicationJobsRequest: AWSShape {
@@ -142,6 +178,11 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.replicationJobId = dictionary["replicationJobId"] as? String
+        }
     }
 
     public struct UpdateReplicationJobResponse: AWSShape {
@@ -150,6 +191,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct StartOnDemandReplicationRunResponse: AWSShape {
@@ -163,6 +206,9 @@ extension Sms {
             self.replicationRunId = replicationRunId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.replicationRunId = dictionary["replicationRunId"] as? String
+        }
     }
 
     public struct UpdateReplicationJobRequest: AWSShape {
@@ -186,6 +232,15 @@ extension Sms {
             self.licenseType = licenseType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleName = dictionary["roleName"] as? String
+            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? Date
+            self.description = dictionary["description"] as? String
+            self.frequency = dictionary["frequency"] as? Int32
+            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
+            self.replicationJobId = replicationJobId
+            self.licenseType = dictionary["licenseType"] as? String
+        }
     }
 
     public struct ReplicationRun: AWSShape {
@@ -213,6 +268,16 @@ extension Sms {
             self.statusMessage = statusMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            self.replicationRunId = dictionary["replicationRunId"] as? String
+            self.completedTime = dictionary["completedTime"] as? Date
+            self.scheduledStartTime = dictionary["scheduledStartTime"] as? Date
+            self.description = dictionary["description"] as? String
+            self.amiId = dictionary["amiId"] as? String
+            self.type = dictionary["type"] as? String
+            self.statusMessage = dictionary["statusMessage"] as? String
+        }
     }
 
     public struct DeleteServerCatalogResponse: AWSShape {
@@ -221,6 +286,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ReplicationJob: AWSShape {
@@ -260,6 +327,24 @@ extension Sms {
             self.serverType = serverType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            if let replicationRunList = dictionary["replicationRunList"] as? [[String: Any]] {
+                self.replicationRunList = try replicationRunList.map({ try ReplicationRun(dictionary: $0) })
+            }
+            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? Date
+            if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) }
+            self.licenseType = dictionary["licenseType"] as? String
+            self.description = dictionary["description"] as? String
+            self.serverId = dictionary["serverId"] as? String
+            self.latestAmiId = dictionary["latestAmiId"] as? String
+            self.frequency = dictionary["frequency"] as? Int32
+            self.statusMessage = dictionary["statusMessage"] as? String
+            self.replicationJobId = dictionary["replicationJobId"] as? String
+            self.roleName = dictionary["roleName"] as? String
+            self.seedReplicationTime = dictionary["seedReplicationTime"] as? Date
+            self.serverType = dictionary["serverType"] as? String
+        }
     }
 
     public struct ImportServerCatalogResponse: AWSShape {
@@ -268,6 +353,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteReplicationJobResponse: AWSShape {
@@ -276,6 +363,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetConnectorsResponse: AWSShape {
@@ -291,6 +380,12 @@ extension Sms {
             self.connectorList = connectorList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let connectorList = dictionary["connectorList"] as? [[String: Any]] {
+                self.connectorList = try connectorList.map({ try Connector(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateReplicationJobRequest: AWSShape {
@@ -314,6 +409,17 @@ extension Sms {
             self.licenseType = licenseType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let seedReplicationTime = dictionary["seedReplicationTime"] as? Date else { throw InitializableError.missingRequiredParam("seedReplicationTime") }
+            self.seedReplicationTime = seedReplicationTime
+            self.roleName = dictionary["roleName"] as? String
+            guard let serverId = dictionary["serverId"] as? String else { throw InitializableError.missingRequiredParam("serverId") }
+            self.serverId = serverId
+            self.description = dictionary["description"] as? String
+            guard let frequency = dictionary["frequency"] as? Int32 else { throw InitializableError.missingRequiredParam("frequency") }
+            self.frequency = frequency
+            self.licenseType = dictionary["licenseType"] as? String
+        }
     }
 
     public struct VmServerAddress: AWSShape {
@@ -329,6 +435,10 @@ extension Sms {
             self.vmManagerId = vmManagerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vmId = dictionary["vmId"] as? String
+            self.vmManagerId = dictionary["vmManagerId"] as? String
+        }
     }
 
     public struct GetServersRequest: AWSShape {
@@ -344,6 +454,10 @@ extension Sms {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct VmServer: AWSShape {
@@ -365,6 +479,13 @@ extension Sms {
             self.vmPath = vmPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vmManagerName = dictionary["vmManagerName"] as? String
+            self.vmManagerType = dictionary["vmManagerType"] as? String
+            self.vmName = dictionary["vmName"] as? String
+            if let vmServerAddress = dictionary["vmServerAddress"] as? [String: Any] { self.vmServerAddress = try Sms.VmServerAddress(dictionary: vmServerAddress) }
+            self.vmPath = dictionary["vmPath"] as? String
+        }
     }
 
     public struct Server: AWSShape {
@@ -386,6 +507,13 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.serverId = dictionary["serverId"] as? String
+            self.replicationJobTerminated = dictionary["replicationJobTerminated"] as? Bool
+            self.serverType = dictionary["serverType"] as? String
+            if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) }
+            self.replicationJobId = dictionary["replicationJobId"] as? String
+        }
     }
 
     public struct DeleteServerCatalogRequest: AWSShape {
@@ -394,6 +522,8 @@ extension Sms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateReplicationJobResponse: AWSShape {
@@ -407,6 +537,9 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.replicationJobId = dictionary["replicationJobId"] as? String
+        }
     }
 
     public struct StartOnDemandReplicationRunRequest: AWSShape {
@@ -422,6 +555,11 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
+            self.replicationJobId = replicationJobId
+        }
     }
 
     public struct GetReplicationJobsResponse: AWSShape {
@@ -437,6 +575,12 @@ extension Sms {
             self.replicationJobList = replicationJobList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let replicationJobList = dictionary["replicationJobList"] as? [[String: Any]] {
+                self.replicationJobList = try replicationJobList.map({ try ReplicationJob(dictionary: $0) })
+            }
+        }
     }
 
     public struct DisassociateConnectorRequest: AWSShape {
@@ -450,6 +594,10 @@ extension Sms {
             self.connectorId = connectorId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectorId = dictionary["connectorId"] as? String else { throw InitializableError.missingRequiredParam("connectorId") }
+            self.connectorId = connectorId
+        }
     }
 
     public struct GetReplicationRunsResponse: AWSShape {
@@ -467,6 +615,13 @@ extension Sms {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationJob = dictionary["replicationJob"] as? [String: Any] { self.replicationJob = try Sms.ReplicationJob(dictionary: replicationJob) }
+            if let replicationRunList = dictionary["replicationRunList"] as? [[String: Any]] {
+                self.replicationRunList = try replicationRunList.map({ try ReplicationRun(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteReplicationJobRequest: AWSShape {
@@ -480,6 +635,10 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
+            self.replicationJobId = replicationJobId
+        }
     }
 
 }

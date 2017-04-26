@@ -44,6 +44,12 @@ extension Kinesisanalytics {
             self.applicationSummaries = applicationSummaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hasMoreApplications = dictionary["HasMoreApplications"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreApplications") }
+            self.hasMoreApplications = hasMoreApplications
+            guard let applicationSummaries = dictionary["ApplicationSummaries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ApplicationSummaries") }
+            self.applicationSummaries = try applicationSummaries.map({ try ApplicationSummary(dictionary: $0) })
+        }
     }
 
     public struct AddApplicationReferenceDataSourceResponse: AWSShape {
@@ -52,6 +58,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct InputParallelismUpdate: AWSShape {
@@ -66,6 +74,9 @@ extension Kinesisanalytics {
             self.countUpdate = countUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.countUpdate = dictionary["CountUpdate"] as? Int32
+        }
     }
 
     public struct UpdateApplicationResponse: AWSShape {
@@ -74,6 +85,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct KinesisStreamsOutput: AWSShape {
@@ -91,6 +104,12 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
     }
 
     public struct InputUpdate: AWSShape {
@@ -120,6 +139,15 @@ extension Kinesisanalytics {
             self.inputSchemaUpdate = inputSchemaUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namePrefixUpdate = dictionary["NamePrefixUpdate"] as? String
+            if let inputParallelismUpdate = dictionary["InputParallelismUpdate"] as? [String: Any] { self.inputParallelismUpdate = try Kinesisanalytics.InputParallelismUpdate(dictionary: inputParallelismUpdate) }
+            guard let inputId = dictionary["InputId"] as? String else { throw InitializableError.missingRequiredParam("InputId") }
+            self.inputId = inputId
+            if let kinesisStreamsInputUpdate = dictionary["KinesisStreamsInputUpdate"] as? [String: Any] { self.kinesisStreamsInputUpdate = try Kinesisanalytics.KinesisStreamsInputUpdate(dictionary: kinesisStreamsInputUpdate) }
+            if let kinesisFirehoseInputUpdate = dictionary["KinesisFirehoseInputUpdate"] as? [String: Any] { self.kinesisFirehoseInputUpdate = try Kinesisanalytics.KinesisFirehoseInputUpdate(dictionary: kinesisFirehoseInputUpdate) }
+            if let inputSchemaUpdate = dictionary["InputSchemaUpdate"] as? [String: Any] { self.inputSchemaUpdate = try Kinesisanalytics.InputSchemaUpdate(dictionary: inputSchemaUpdate) }
+        }
     }
 
     public struct KinesisFirehoseInputDescription: AWSShape {
@@ -137,6 +165,10 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+        }
     }
 
     public struct KinesisStreamsOutputUpdate: AWSShape {
@@ -154,6 +186,10 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
+            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        }
     }
 
     public struct AddApplicationReferenceDataSourceRequest: AWSShape {
@@ -174,6 +210,14 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let referenceDataSource = dictionary["ReferenceDataSource"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReferenceDataSource") }
+            self.referenceDataSource = try Kinesisanalytics.ReferenceDataSource(dictionary: referenceDataSource)
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct KinesisFirehoseInputUpdate: AWSShape {
@@ -191,6 +235,10 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
+            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        }
     }
 
     public struct AddApplicationOutputResponse: AWSShape {
@@ -199,6 +247,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateApplicationResponse: AWSShape {
@@ -213,6 +263,10 @@ extension Kinesisanalytics {
             self.applicationSummary = applicationSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationSummary = dictionary["ApplicationSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationSummary") }
+            self.applicationSummary = try Kinesisanalytics.ApplicationSummary(dictionary: applicationSummary)
+        }
     }
 
     public struct StartApplicationRequest: AWSShape {
@@ -230,6 +284,12 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let inputConfigurations = dictionary["InputConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InputConfigurations") }
+            self.inputConfigurations = try inputConfigurations.map({ try InputConfiguration(dictionary: $0) })
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct StopApplicationRequest: AWSShape {
@@ -244,6 +304,10 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct S3ReferenceDataSource: AWSShape {
@@ -264,6 +328,14 @@ extension Kinesisanalytics {
             self.fileKey = fileKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let referenceRoleARN = dictionary["ReferenceRoleARN"] as? String else { throw InitializableError.missingRequiredParam("ReferenceRoleARN") }
+            self.referenceRoleARN = referenceRoleARN
+            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
+            self.bucketARN = bucketARN
+            guard let fileKey = dictionary["FileKey"] as? String else { throw InitializableError.missingRequiredParam("FileKey") }
+            self.fileKey = fileKey
+        }
     }
 
     public struct KinesisFirehoseOutputUpdate: AWSShape {
@@ -281,6 +353,10 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
+            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        }
     }
 
     public struct InputStartingPositionConfiguration: AWSShape {
@@ -295,6 +371,9 @@ extension Kinesisanalytics {
             self.inputStartingPosition = inputStartingPosition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.inputStartingPosition = dictionary["InputStartingPosition"] as? String
+        }
     }
 
     public struct S3ReferenceDataSourceUpdate: AWSShape {
@@ -315,6 +394,11 @@ extension Kinesisanalytics {
             self.fileKeyUpdate = fileKeyUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucketARNUpdate = dictionary["BucketARNUpdate"] as? String
+            self.referenceRoleARNUpdate = dictionary["ReferenceRoleARNUpdate"] as? String
+            self.fileKeyUpdate = dictionary["FileKeyUpdate"] as? String
+        }
     }
 
     public struct AddApplicationInputResponse: AWSShape {
@@ -323,6 +407,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RecordFormat: AWSShape {
@@ -339,6 +425,11 @@ extension Kinesisanalytics {
             self.mappingParameters = mappingParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recordFormatType = dictionary["RecordFormatType"] as? String else { throw InitializableError.missingRequiredParam("RecordFormatType") }
+            self.recordFormatType = recordFormatType
+            if let mappingParameters = dictionary["MappingParameters"] as? [String: Any] { self.mappingParameters = try Kinesisanalytics.MappingParameters(dictionary: mappingParameters) }
+        }
     }
 
     public struct CreateApplicationRequest: AWSShape {
@@ -365,6 +456,18 @@ extension Kinesisanalytics {
             self.applicationDescription = applicationDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inputs = dictionary["Inputs"] as? [[String: Any]] {
+                self.inputs = try inputs.map({ try Input(dictionary: $0) })
+            }
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
+                self.outputs = try outputs.map({ try Output(dictionary: $0) })
+            }
+            self.applicationCode = dictionary["ApplicationCode"] as? String
+            self.applicationDescription = dictionary["ApplicationDescription"] as? String
+        }
     }
 
     public struct DestinationSchema: AWSShape {
@@ -379,6 +482,9 @@ extension Kinesisanalytics {
             self.recordFormatType = recordFormatType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.recordFormatType = dictionary["RecordFormatType"] as? String
+        }
     }
 
     public struct DeleteApplicationRequest: AWSShape {
@@ -396,6 +502,12 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let createTimestamp = dictionary["CreateTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("CreateTimestamp") }
+            self.createTimestamp = createTimestamp
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct StopApplicationResponse: AWSShape {
@@ -404,6 +516,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DiscoverInputSchemaRequest: AWSShape {
@@ -424,6 +538,14 @@ extension Kinesisanalytics {
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            guard let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputStartingPositionConfiguration") }
+            self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration)
+        }
     }
 
     public struct DeleteApplicationOutputRequest: AWSShape {
@@ -444,6 +566,14 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let outputId = dictionary["OutputId"] as? String else { throw InitializableError.missingRequiredParam("OutputId") }
+            self.outputId = outputId
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct InputDescription: AWSShape {
@@ -478,6 +608,18 @@ extension Kinesisanalytics {
             self.inputId = inputId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let kinesisFirehoseInputDescription = dictionary["KinesisFirehoseInputDescription"] as? [String: Any] { self.kinesisFirehoseInputDescription = try Kinesisanalytics.KinesisFirehoseInputDescription(dictionary: kinesisFirehoseInputDescription) }
+            if let kinesisStreamsInputDescription = dictionary["KinesisStreamsInputDescription"] as? [String: Any] { self.kinesisStreamsInputDescription = try Kinesisanalytics.KinesisStreamsInputDescription(dictionary: kinesisStreamsInputDescription) }
+            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) }
+            self.namePrefix = dictionary["NamePrefix"] as? String
+            if let inAppStreamNames = dictionary["InAppStreamNames"] as? [String] {
+                self.inAppStreamNames = inAppStreamNames
+            }
+            if let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] { self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration) }
+            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) }
+            self.inputId = dictionary["InputId"] as? String
+        }
     }
 
     public struct ApplicationSummary: AWSShape {
@@ -498,6 +640,14 @@ extension Kinesisanalytics {
             self.applicationStatus = applicationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationARN = dictionary["ApplicationARN"] as? String else { throw InitializableError.missingRequiredParam("ApplicationARN") }
+            self.applicationARN = applicationARN
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            guard let applicationStatus = dictionary["ApplicationStatus"] as? String else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
+            self.applicationStatus = applicationStatus
+        }
     }
 
     public struct JSONMappingParameters: AWSShape {
@@ -512,6 +662,10 @@ extension Kinesisanalytics {
             self.recordRowPath = recordRowPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recordRowPath = dictionary["RecordRowPath"] as? String else { throw InitializableError.missingRequiredParam("RecordRowPath") }
+            self.recordRowPath = recordRowPath
+        }
     }
 
     public struct AddApplicationOutputRequest: AWSShape {
@@ -532,6 +686,14 @@ extension Kinesisanalytics {
             self.output = output
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            guard let output = dictionary["Output"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Output") }
+            self.output = try Kinesisanalytics.Output(dictionary: output)
+        }
     }
 
     public struct CSVMappingParameters: AWSShape {
@@ -549,6 +711,12 @@ extension Kinesisanalytics {
             self.recordColumnDelimiter = recordColumnDelimiter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recordRowDelimiter = dictionary["RecordRowDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordRowDelimiter") }
+            self.recordRowDelimiter = recordRowDelimiter
+            guard let recordColumnDelimiter = dictionary["RecordColumnDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordColumnDelimiter") }
+            self.recordColumnDelimiter = recordColumnDelimiter
+        }
     }
 
     public struct KinesisStreamsInputDescription: AWSShape {
@@ -566,6 +734,10 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+        }
     }
 
     public struct Input: AWSShape {
@@ -592,6 +764,15 @@ extension Kinesisanalytics {
             self.inputParallelism = inputParallelism
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let kinesisFirehoseInput = dictionary["KinesisFirehoseInput"] as? [String: Any] { self.kinesisFirehoseInput = try Kinesisanalytics.KinesisFirehoseInput(dictionary: kinesisFirehoseInput) }
+            guard let inputSchema = dictionary["InputSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputSchema") }
+            self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema)
+            guard let namePrefix = dictionary["NamePrefix"] as? String else { throw InitializableError.missingRequiredParam("NamePrefix") }
+            self.namePrefix = namePrefix
+            if let kinesisStreamsInput = dictionary["KinesisStreamsInput"] as? [String: Any] { self.kinesisStreamsInput = try Kinesisanalytics.KinesisStreamsInput(dictionary: kinesisStreamsInput) }
+            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) }
+        }
     }
 
     public struct KinesisFirehoseOutputDescription: AWSShape {
@@ -609,6 +790,10 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+        }
     }
 
     public struct DeleteApplicationOutputResponse: AWSShape {
@@ -617,6 +802,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SourceSchema: AWSShape {
@@ -637,6 +824,13 @@ extension Kinesisanalytics {
             self.recordColumns = recordColumns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recordFormat = dictionary["RecordFormat"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RecordFormat") }
+            self.recordFormat = try Kinesisanalytics.RecordFormat(dictionary: recordFormat)
+            self.recordEncoding = dictionary["RecordEncoding"] as? String
+            guard let recordColumns = dictionary["RecordColumns"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RecordColumns") }
+            self.recordColumns = try recordColumns.map({ try RecordColumn(dictionary: $0) })
+        }
     }
 
     public struct KinesisFirehoseInput: AWSShape {
@@ -654,6 +848,12 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
     }
 
     public struct InputConfiguration: AWSShape {
@@ -671,6 +871,12 @@ extension Kinesisanalytics {
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputStartingPositionConfiguration") }
+            self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration)
+        }
     }
 
     public struct OutputDescription: AWSShape {
@@ -697,6 +903,13 @@ extension Kinesisanalytics {
             self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let kinesisStreamsOutputDescription = dictionary["KinesisStreamsOutputDescription"] as? [String: Any] { self.kinesisStreamsOutputDescription = try Kinesisanalytics.KinesisStreamsOutputDescription(dictionary: kinesisStreamsOutputDescription) }
+            if let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] { self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema) }
+            self.name = dictionary["Name"] as? String
+            self.outputId = dictionary["OutputId"] as? String
+            if let kinesisFirehoseOutputDescription = dictionary["KinesisFirehoseOutputDescription"] as? [String: Any] { self.kinesisFirehoseOutputDescription = try Kinesisanalytics.KinesisFirehoseOutputDescription(dictionary: kinesisFirehoseOutputDescription) }
+        }
     }
 
     public struct KinesisFirehoseOutput: AWSShape {
@@ -714,6 +927,12 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
     }
 
     public struct KinesisStreamsInputUpdate: AWSShape {
@@ -731,6 +950,10 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
+            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        }
     }
 
     public struct DescribeApplicationRequest: AWSShape {
@@ -745,6 +968,10 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct DiscoverInputSchemaResponse: AWSShape {
@@ -765,6 +992,15 @@ extension Kinesisanalytics {
             self.rawInputRecords = rawInputRecords
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) }
+            if let parsedInputRecords = dictionary["ParsedInputRecords"] as? [[String]] {
+                self.parsedInputRecords = parsedInputRecords
+            }
+            if let rawInputRecords = dictionary["RawInputRecords"] as? [String] {
+                self.rawInputRecords = rawInputRecords
+            }
+        }
     }
 
     public struct ApplicationDetail: AWSShape {
@@ -809,6 +1045,29 @@ extension Kinesisanalytics {
             self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.applicationDescription = dictionary["ApplicationDescription"] as? String
+            guard let applicationStatus = dictionary["ApplicationStatus"] as? String else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
+            self.applicationStatus = applicationStatus
+            if let inputDescriptions = dictionary["InputDescriptions"] as? [[String: Any]] {
+                self.inputDescriptions = try inputDescriptions.map({ try InputDescription(dictionary: $0) })
+            }
+            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? Date
+            self.createTimestamp = dictionary["CreateTimestamp"] as? Date
+            self.applicationCode = dictionary["ApplicationCode"] as? String
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            guard let applicationARN = dictionary["ApplicationARN"] as? String else { throw InitializableError.missingRequiredParam("ApplicationARN") }
+            self.applicationARN = applicationARN
+            guard let applicationVersionId = dictionary["ApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("ApplicationVersionId") }
+            self.applicationVersionId = applicationVersionId
+            if let outputDescriptions = dictionary["OutputDescriptions"] as? [[String: Any]] {
+                self.outputDescriptions = try outputDescriptions.map({ try OutputDescription(dictionary: $0) })
+            }
+            if let referenceDataSourceDescriptions = dictionary["ReferenceDataSourceDescriptions"] as? [[String: Any]] {
+                self.referenceDataSourceDescriptions = try referenceDataSourceDescriptions.map({ try ReferenceDataSourceDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct InputSchemaUpdate: AWSShape {
@@ -829,6 +1088,13 @@ extension Kinesisanalytics {
             self.recordFormatUpdate = recordFormatUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recordColumnUpdates = dictionary["RecordColumnUpdates"] as? [[String: Any]] {
+                self.recordColumnUpdates = try recordColumnUpdates.map({ try RecordColumn(dictionary: $0) })
+            }
+            self.recordEncodingUpdate = dictionary["RecordEncodingUpdate"] as? String
+            if let recordFormatUpdate = dictionary["RecordFormatUpdate"] as? [String: Any] { self.recordFormatUpdate = try Kinesisanalytics.RecordFormat(dictionary: recordFormatUpdate) }
+        }
     }
 
     public struct InputParallelism: AWSShape {
@@ -843,6 +1109,9 @@ extension Kinesisanalytics {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct KinesisStreamsInput: AWSShape {
@@ -860,6 +1129,12 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
     }
 
     public struct DeleteApplicationResponse: AWSShape {
@@ -868,6 +1143,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ReferenceDataSourceDescription: AWSShape {
@@ -890,6 +1167,15 @@ extension Kinesisanalytics {
             self.referenceSchema = referenceSchema
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let s3ReferenceDataSourceDescription = dictionary["S3ReferenceDataSourceDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3ReferenceDataSourceDescription") }
+            self.s3ReferenceDataSourceDescription = try Kinesisanalytics.S3ReferenceDataSourceDescription(dictionary: s3ReferenceDataSourceDescription)
+            guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
+            self.referenceId = referenceId
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            if let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] { self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema) }
+        }
     }
 
     public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
@@ -910,6 +1196,14 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
+            self.referenceId = referenceId
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct ReferenceDataSourceUpdate: AWSShape {
@@ -932,6 +1226,13 @@ extension Kinesisanalytics {
             self.referenceId = referenceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3ReferenceDataSourceUpdate = dictionary["S3ReferenceDataSourceUpdate"] as? [String: Any] { self.s3ReferenceDataSourceUpdate = try Kinesisanalytics.S3ReferenceDataSourceUpdate(dictionary: s3ReferenceDataSourceUpdate) }
+            self.tableNameUpdate = dictionary["TableNameUpdate"] as? String
+            if let referenceSchemaUpdate = dictionary["ReferenceSchemaUpdate"] as? [String: Any] { self.referenceSchemaUpdate = try Kinesisanalytics.SourceSchema(dictionary: referenceSchemaUpdate) }
+            guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
+            self.referenceId = referenceId
+        }
     }
 
     public struct Output: AWSShape {
@@ -954,6 +1255,14 @@ extension Kinesisanalytics {
             self.kinesisStreamsOutput = kinesisStreamsOutput
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let kinesisFirehoseOutput = dictionary["KinesisFirehoseOutput"] as? [String: Any] { self.kinesisFirehoseOutput = try Kinesisanalytics.KinesisFirehoseOutput(dictionary: kinesisFirehoseOutput) }
+            guard let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DestinationSchema") }
+            self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema)
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let kinesisStreamsOutput = dictionary["KinesisStreamsOutput"] as? [String: Any] { self.kinesisStreamsOutput = try Kinesisanalytics.KinesisStreamsOutput(dictionary: kinesisStreamsOutput) }
+        }
     }
 
     public struct StartApplicationResponse: AWSShape {
@@ -962,6 +1271,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct KinesisStreamsOutputDescription: AWSShape {
@@ -979,6 +1290,10 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+        }
     }
 
     public struct S3ReferenceDataSourceDescription: AWSShape {
@@ -999,6 +1314,14 @@ extension Kinesisanalytics {
             self.fileKey = fileKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let referenceRoleARN = dictionary["ReferenceRoleARN"] as? String else { throw InitializableError.missingRequiredParam("ReferenceRoleARN") }
+            self.referenceRoleARN = referenceRoleARN
+            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
+            self.bucketARN = bucketARN
+            guard let fileKey = dictionary["FileKey"] as? String else { throw InitializableError.missingRequiredParam("FileKey") }
+            self.fileKey = fileKey
+        }
     }
 
     public struct ApplicationUpdate: AWSShape {
@@ -1022,6 +1345,18 @@ extension Kinesisanalytics {
             self.inputUpdates = inputUpdates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let outputUpdates = dictionary["OutputUpdates"] as? [[String: Any]] {
+                self.outputUpdates = try outputUpdates.map({ try OutputUpdate(dictionary: $0) })
+            }
+            if let referenceDataSourceUpdates = dictionary["ReferenceDataSourceUpdates"] as? [[String: Any]] {
+                self.referenceDataSourceUpdates = try referenceDataSourceUpdates.map({ try ReferenceDataSourceUpdate(dictionary: $0) })
+            }
+            self.applicationCodeUpdate = dictionary["ApplicationCodeUpdate"] as? String
+            if let inputUpdates = dictionary["InputUpdates"] as? [[String: Any]] {
+                self.inputUpdates = try inputUpdates.map({ try InputUpdate(dictionary: $0) })
+            }
+        }
     }
 
     public struct MappingParameters: AWSShape {
@@ -1039,6 +1374,10 @@ extension Kinesisanalytics {
             self.jSONMappingParameters = jSONMappingParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cSVMappingParameters = dictionary["CSVMappingParameters"] as? [String: Any] { self.cSVMappingParameters = try Kinesisanalytics.CSVMappingParameters(dictionary: cSVMappingParameters) }
+            if let jSONMappingParameters = dictionary["JSONMappingParameters"] as? [String: Any] { self.jSONMappingParameters = try Kinesisanalytics.JSONMappingParameters(dictionary: jSONMappingParameters) }
+        }
     }
 
     public struct OutputUpdate: AWSShape {
@@ -1064,6 +1403,14 @@ extension Kinesisanalytics {
             self.outputId = outputId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nameUpdate = dictionary["NameUpdate"] as? String
+            if let kinesisStreamsOutputUpdate = dictionary["KinesisStreamsOutputUpdate"] as? [String: Any] { self.kinesisStreamsOutputUpdate = try Kinesisanalytics.KinesisStreamsOutputUpdate(dictionary: kinesisStreamsOutputUpdate) }
+            if let kinesisFirehoseOutputUpdate = dictionary["KinesisFirehoseOutputUpdate"] as? [String: Any] { self.kinesisFirehoseOutputUpdate = try Kinesisanalytics.KinesisFirehoseOutputUpdate(dictionary: kinesisFirehoseOutputUpdate) }
+            if let destinationSchemaUpdate = dictionary["DestinationSchemaUpdate"] as? [String: Any] { self.destinationSchemaUpdate = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchemaUpdate) }
+            guard let outputId = dictionary["OutputId"] as? String else { throw InitializableError.missingRequiredParam("OutputId") }
+            self.outputId = outputId
+        }
     }
 
     public struct ListApplicationsRequest: AWSShape {
@@ -1081,6 +1428,10 @@ extension Kinesisanalytics {
             self.exclusiveStartApplicationName = exclusiveStartApplicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.exclusiveStartApplicationName = dictionary["ExclusiveStartApplicationName"] as? String
+        }
     }
 
     public struct RecordColumn: AWSShape {
@@ -1101,6 +1452,13 @@ extension Kinesisanalytics {
             self.sqlType = sqlType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mapping = dictionary["Mapping"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let sqlType = dictionary["SqlType"] as? String else { throw InitializableError.missingRequiredParam("SqlType") }
+            self.sqlType = sqlType
+        }
     }
 
     public struct DescribeApplicationResponse: AWSShape {
@@ -1115,6 +1473,10 @@ extension Kinesisanalytics {
             self.applicationDetail = applicationDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationDetail = dictionary["ApplicationDetail"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationDetail") }
+            self.applicationDetail = try Kinesisanalytics.ApplicationDetail(dictionary: applicationDetail)
+        }
     }
 
     public struct ReferenceDataSource: AWSShape {
@@ -1133,6 +1495,13 @@ extension Kinesisanalytics {
             self.tableName = tableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3ReferenceDataSource = dictionary["S3ReferenceDataSource"] as? [String: Any] { self.s3ReferenceDataSource = try Kinesisanalytics.S3ReferenceDataSource(dictionary: s3ReferenceDataSource) }
+            guard let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReferenceSchema") }
+            self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema)
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+        }
     }
 
     public struct UpdateApplicationRequest: AWSShape {
@@ -1153,6 +1522,14 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let applicationUpdate = dictionary["ApplicationUpdate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationUpdate") }
+            self.applicationUpdate = try Kinesisanalytics.ApplicationUpdate(dictionary: applicationUpdate)
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct DeleteApplicationReferenceDataSourceResponse: AWSShape {
@@ -1161,6 +1538,8 @@ extension Kinesisanalytics {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AddApplicationInputRequest: AWSShape {
@@ -1180,6 +1559,14 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let input = dictionary["Input"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Input") }
+            self.input = try Kinesisanalytics.Input(dictionary: input)
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
 }

@@ -44,6 +44,12 @@ extension Workspaces {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct TerminateWorkspacesRequest: AWSShape {
@@ -58,6 +64,10 @@ extension Workspaces {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let terminateWorkspaceRequests = dictionary["TerminateWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TerminateWorkspaceRequests") }
+            self.terminateWorkspaceRequests = try terminateWorkspaceRequests.map({ try TerminateRequest(dictionary: $0) })
+        }
     }
 
     public struct FailedCreateWorkspaceRequest: AWSShape {
@@ -78,6 +88,11 @@ extension Workspaces {
             self.errorCode = errorCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            if let workspaceRequest = dictionary["WorkspaceRequest"] as? [String: Any] { self.workspaceRequest = try Workspaces.WorkspaceRequest(dictionary: workspaceRequest) }
+            self.errorCode = dictionary["ErrorCode"] as? String
+        }
     }
 
     public struct DescribeWorkspaceBundlesRequest: AWSShape {
@@ -98,6 +113,13 @@ extension Workspaces {
             self.bundleIds = bundleIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.owner = dictionary["Owner"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            if let bundleIds = dictionary["BundleIds"] as? [String] {
+                self.bundleIds = bundleIds
+            }
+        }
     }
 
     public struct UserStorage: AWSShape {
@@ -112,6 +134,9 @@ extension Workspaces {
             self.capacity = capacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.capacity = dictionary["Capacity"] as? String
+        }
     }
 
     public struct WorkspaceBundle: AWSShape {
@@ -141,6 +166,14 @@ extension Workspaces {
             self.bundleId = bundleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            if let computeType = dictionary["ComputeType"] as? [String: Any] { self.computeType = try Workspaces.ComputeType(dictionary: computeType) }
+            if let userStorage = dictionary["UserStorage"] as? [String: Any] { self.userStorage = try Workspaces.UserStorage(dictionary: userStorage) }
+            self.owner = dictionary["Owner"] as? String
+            self.name = dictionary["Name"] as? String
+            self.bundleId = dictionary["BundleId"] as? String
+        }
     }
 
     public struct RebootWorkspacesResult: AWSShape {
@@ -155,6 +188,11 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
+                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeTagsRequest: AWSShape {
@@ -169,6 +207,10 @@ extension Workspaces {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct CreateWorkspacesResult: AWSShape {
@@ -186,6 +228,14 @@ extension Workspaces {
             self.pendingRequests = pendingRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
+                self.failedRequests = try failedRequests.map({ try FailedCreateWorkspaceRequest(dictionary: $0) })
+            }
+            if let pendingRequests = dictionary["PendingRequests"] as? [[String: Any]] {
+                self.pendingRequests = try pendingRequests.map({ try Workspace(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateTagsResult: AWSShape {
@@ -194,6 +244,8 @@ extension Workspaces {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RebootWorkspacesRequest: AWSShape {
@@ -208,6 +260,10 @@ extension Workspaces {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rebootWorkspaceRequests = dictionary["RebootWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RebootWorkspaceRequests") }
+            self.rebootWorkspaceRequests = try rebootWorkspaceRequests.map({ try RebootRequest(dictionary: $0) })
+        }
     }
 
     public struct Tag: AWSShape {
@@ -225,6 +281,11 @@ extension Workspaces {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct ModifyWorkspacePropertiesResult: AWSShape {
@@ -233,6 +294,8 @@ extension Workspaces {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
@@ -250,6 +313,12 @@ extension Workspaces {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let workspacesConnectionStatus = dictionary["WorkspacesConnectionStatus"] as? [[String: Any]] {
+                self.workspacesConnectionStatus = try workspacesConnectionStatus.map({ try WorkspaceConnectionStatus(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct StartWorkspacesRequest: AWSShape {
@@ -264,6 +333,10 @@ extension Workspaces {
             self.startWorkspaceRequests = startWorkspaceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startWorkspaceRequests = dictionary["StartWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("StartWorkspaceRequests") }
+            self.startWorkspaceRequests = try startWorkspaceRequests.map({ try StartRequest(dictionary: $0) })
+        }
     }
 
     public struct ComputeType: AWSShape {
@@ -278,6 +351,9 @@ extension Workspaces {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct FailedWorkspaceChangeRequest: AWSShape {
@@ -298,6 +374,11 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.workspaceId = dictionary["WorkspaceId"] as? String
+        }
     }
 
     public struct StopRequest: AWSShape {
@@ -312,6 +393,9 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.workspaceId = dictionary["WorkspaceId"] as? String
+        }
     }
 
     public struct StartRequest: AWSShape {
@@ -326,6 +410,9 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.workspaceId = dictionary["WorkspaceId"] as? String
+        }
     }
 
     public struct DefaultWorkspaceCreationProperties: AWSShape {
@@ -352,6 +439,13 @@ extension Workspaces {
             self.enableWorkDocs = enableWorkDocs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultOu = dictionary["DefaultOu"] as? String
+            self.customSecurityGroupId = dictionary["CustomSecurityGroupId"] as? String
+            self.enableInternetAccess = dictionary["EnableInternetAccess"] as? Bool
+            self.userEnabledAsLocalAdministrator = dictionary["UserEnabledAsLocalAdministrator"] as? Bool
+            self.enableWorkDocs = dictionary["EnableWorkDocs"] as? Bool
+        }
     }
 
     public struct StopWorkspacesRequest: AWSShape {
@@ -366,6 +460,10 @@ extension Workspaces {
             self.stopWorkspaceRequests = stopWorkspaceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stopWorkspaceRequests = dictionary["StopWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("StopWorkspaceRequests") }
+            self.stopWorkspaceRequests = try stopWorkspaceRequests.map({ try StopRequest(dictionary: $0) })
+        }
     }
 
     public struct DescribeWorkspacesRequest: AWSShape {
@@ -395,6 +493,16 @@ extension Workspaces {
             self.bundleId = bundleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.directoryId = dictionary["DirectoryId"] as? String
+            self.userName = dictionary["UserName"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let workspaceIds = dictionary["WorkspaceIds"] as? [String] {
+                self.workspaceIds = workspaceIds
+            }
+            self.bundleId = dictionary["BundleId"] as? String
+        }
     }
 
     public struct RebuildWorkspacesResult: AWSShape {
@@ -409,6 +517,11 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
+                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct RebootRequest: AWSShape {
@@ -423,6 +536,10 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
+            self.workspaceId = workspaceId
+        }
     }
 
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
@@ -440,6 +557,12 @@ extension Workspaces {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let workspaceIds = dictionary["WorkspaceIds"] as? [String] {
+                self.workspaceIds = workspaceIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct WorkspaceConnectionStatus: AWSShape {
@@ -463,6 +586,12 @@ extension Workspaces {
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.workspaceId = dictionary["WorkspaceId"] as? String
+            self.connectionState = dictionary["ConnectionState"] as? String
+            self.lastKnownUserConnectionTimestamp = dictionary["LastKnownUserConnectionTimestamp"] as? Date
+            self.connectionStateCheckTimestamp = dictionary["ConnectionStateCheckTimestamp"] as? Date
+        }
     }
 
     public struct DescribeTagsResult: AWSShape {
@@ -477,6 +606,11 @@ extension Workspaces {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagList = dictionary["TagList"] as? [[String: Any]] {
+                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeWorkspacesResult: AWSShape {
@@ -494,6 +628,12 @@ extension Workspaces {
             self.workspaces = workspaces
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let workspaces = dictionary["Workspaces"] as? [[String: Any]] {
+                self.workspaces = try workspaces.map({ try Workspace(dictionary: $0) })
+            }
+        }
     }
 
     public struct WorkspaceProperties: AWSShape {
@@ -511,6 +651,10 @@ extension Workspaces {
             self.runningModeAutoStopTimeoutInMinutes = runningModeAutoStopTimeoutInMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.runningMode = dictionary["RunningMode"] as? String
+            self.runningModeAutoStopTimeoutInMinutes = dictionary["RunningModeAutoStopTimeoutInMinutes"] as? Int32
+        }
     }
 
     public struct ModifyWorkspacePropertiesRequest: AWSShape {
@@ -528,6 +672,12 @@ extension Workspaces {
             self.workspaceProperties = workspaceProperties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
+            self.workspaceId = workspaceId
+            guard let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WorkspaceProperties") }
+            self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties)
+        }
     }
 
     public struct DescribeWorkspaceBundlesResult: AWSShape {
@@ -545,6 +695,12 @@ extension Workspaces {
             self.bundles = bundles
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let bundles = dictionary["Bundles"] as? [[String: Any]] {
+                self.bundles = try bundles.map({ try WorkspaceBundle(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteTagsRequest: AWSShape {
@@ -562,6 +718,12 @@ extension Workspaces {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct Workspace: AWSShape {
@@ -614,6 +776,22 @@ extension Workspaces {
             self.ipAddress = ipAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.userName = dictionary["UserName"] as? String
+            self.state = dictionary["State"] as? String
+            self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
+            self.directoryId = dictionary["DirectoryId"] as? String
+            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) }
+            self.computerName = dictionary["ComputerName"] as? String
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.bundleId = dictionary["BundleId"] as? String
+            self.userVolumeEncryptionEnabled = dictionary["UserVolumeEncryptionEnabled"] as? Bool
+            self.workspaceId = dictionary["WorkspaceId"] as? String
+            self.volumeEncryptionKey = dictionary["VolumeEncryptionKey"] as? String
+            self.ipAddress = dictionary["IpAddress"] as? String
+        }
     }
 
     public struct RebuildWorkspacesRequest: AWSShape {
@@ -628,6 +806,10 @@ extension Workspaces {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rebuildWorkspaceRequests = dictionary["RebuildWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RebuildWorkspaceRequests") }
+            self.rebuildWorkspaceRequests = try rebuildWorkspaceRequests.map({ try RebuildRequest(dictionary: $0) })
+        }
     }
 
     public struct DescribeWorkspaceDirectoriesResult: AWSShape {
@@ -645,6 +827,12 @@ extension Workspaces {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let directories = dictionary["Directories"] as? [[String: Any]] {
+                self.directories = try directories.map({ try WorkspaceDirectory(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct TerminateWorkspacesResult: AWSShape {
@@ -659,6 +847,11 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
+                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct StopWorkspacesResult: AWSShape {
@@ -673,6 +866,11 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
+                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct RebuildRequest: AWSShape {
@@ -687,6 +885,10 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
+            self.workspaceId = workspaceId
+        }
     }
 
     public struct CreateWorkspacesRequest: AWSShape {
@@ -701,6 +903,10 @@ extension Workspaces {
             self.workspaces = workspaces
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let workspaces = dictionary["Workspaces"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Workspaces") }
+            self.workspaces = try workspaces.map({ try WorkspaceRequest(dictionary: $0) })
+        }
     }
 
     public struct WorkspaceDirectory: AWSShape {
@@ -748,6 +954,24 @@ extension Workspaces {
             self.directoryName = directoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            if let workspaceCreationProperties = dictionary["WorkspaceCreationProperties"] as? [String: Any] { self.workspaceCreationProperties = try Workspaces.DefaultWorkspaceCreationProperties(dictionary: workspaceCreationProperties) }
+            if let dnsIpAddresses = dictionary["DnsIpAddresses"] as? [String] {
+                self.dnsIpAddresses = dnsIpAddresses
+            }
+            self.registrationCode = dictionary["RegistrationCode"] as? String
+            self.state = dictionary["State"] as? String
+            self.customerUserName = dictionary["CustomerUserName"] as? String
+            self.alias = dictionary["Alias"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+            self.workspaceSecurityGroupId = dictionary["WorkspaceSecurityGroupId"] as? String
+            self.directoryType = dictionary["DirectoryType"] as? String
+            self.iamRoleId = dictionary["IamRoleId"] as? String
+            self.directoryName = dictionary["DirectoryName"] as? String
+        }
     }
 
     public struct WorkspaceRequest: AWSShape {
@@ -782,6 +1006,21 @@ extension Workspaces {
             self.bundleId = bundleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.volumeEncryptionKey = dictionary["VolumeEncryptionKey"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) }
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
+            self.userVolumeEncryptionEnabled = dictionary["UserVolumeEncryptionEnabled"] as? Bool
+            guard let bundleId = dictionary["BundleId"] as? String else { throw InitializableError.missingRequiredParam("BundleId") }
+            self.bundleId = bundleId
+        }
     }
 
     public struct StartWorkspacesResult: AWSShape {
@@ -796,6 +1035,11 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
+                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteTagsResult: AWSShape {
@@ -804,6 +1048,8 @@ extension Workspaces {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
@@ -821,6 +1067,12 @@ extension Workspaces {
             self.directoryIds = directoryIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let directoryIds = dictionary["DirectoryIds"] as? [String] {
+                self.directoryIds = directoryIds
+            }
+        }
     }
 
     public struct TerminateRequest: AWSShape {
@@ -835,6 +1087,10 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
+            self.workspaceId = workspaceId
+        }
     }
 
 }

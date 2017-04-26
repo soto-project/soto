@@ -42,6 +42,12 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct DescribeBudgetsResponse: AWSShape {
@@ -57,6 +63,12 @@ extension Budgets {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let budgets = dictionary["Budgets"] as? [[String: Any]] {
+                self.budgets = try budgets.map({ try Budget(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeBudgetRequest: AWSShape {
@@ -72,6 +84,12 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct DescribeBudgetResponse: AWSShape {
@@ -85,6 +103,9 @@ extension Budgets {
             self.budget = budget
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let budget = dictionary["Budget"] as? [String: Any] { self.budget = try Budgets.Budget(dictionary: budget) }
+        }
     }
 
     public struct DeleteNotificationRequest: AWSShape {
@@ -102,6 +123,14 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct NotificationWithSubscribers: AWSShape {
@@ -117,6 +146,12 @@ extension Budgets {
             self.notification = notification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subscribers = dictionary["Subscribers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Subscribers") }
+            self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+        }
     }
 
     public struct UpdateSubscriberRequest: AWSShape {
@@ -138,6 +173,18 @@ extension Budgets {
             self.newSubscriber = newSubscriber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+            guard let oldSubscriber = dictionary["OldSubscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("OldSubscriber") }
+            self.oldSubscriber = try Budgets.Subscriber(dictionary: oldSubscriber)
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+            guard let newSubscriber = dictionary["NewSubscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NewSubscriber") }
+            self.newSubscriber = try Budgets.Subscriber(dictionary: newSubscriber)
+        }
     }
 
     public struct DeleteNotificationResponse: AWSShape {
@@ -146,6 +193,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateNotificationRequest: AWSShape {
@@ -165,6 +214,16 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+            guard let subscribers = dictionary["Subscribers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Subscribers") }
+            self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct UpdateSubscriberResponse: AWSShape {
@@ -173,6 +232,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeNotificationsForBudgetResponse: AWSShape {
@@ -188,6 +249,12 @@ extension Budgets {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let notifications = dictionary["Notifications"] as? [[String: Any]] {
+                self.notifications = try notifications.map({ try Notification(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteSubscriberRequest: AWSShape {
@@ -207,6 +274,16 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let subscriber = dictionary["Subscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Subscriber") }
+            self.subscriber = try Budgets.Subscriber(dictionary: subscriber)
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct CreateBudgetResponse: AWSShape {
@@ -215,6 +292,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CostTypes: AWSShape {
@@ -232,6 +311,14 @@ extension Budgets {
             self.includeTax = includeTax
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let includeSubscription = dictionary["IncludeSubscription"] as? Bool else { throw InitializableError.missingRequiredParam("IncludeSubscription") }
+            self.includeSubscription = includeSubscription
+            guard let useBlended = dictionary["UseBlended"] as? Bool else { throw InitializableError.missingRequiredParam("UseBlended") }
+            self.useBlended = useBlended
+            guard let includeTax = dictionary["IncludeTax"] as? Bool else { throw InitializableError.missingRequiredParam("IncludeTax") }
+            self.includeTax = includeTax
+        }
     }
 
     public struct CreateNotificationResponse: AWSShape {
@@ -240,6 +327,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeBudgetsRequest: AWSShape {
@@ -257,6 +346,12 @@ extension Budgets {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteBudgetResponse: AWSShape {
@@ -265,6 +360,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateBudgetRequest: AWSShape {
@@ -282,6 +379,15 @@ extension Budgets {
             self.notificationsWithSubscribers = notificationsWithSubscribers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let budget = dictionary["Budget"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Budget") }
+            self.budget = try Budgets.Budget(dictionary: budget)
+            if let notificationsWithSubscribers = dictionary["NotificationsWithSubscribers"] as? [[String: Any]] {
+                self.notificationsWithSubscribers = try notificationsWithSubscribers.map({ try NotificationWithSubscribers(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteSubscriberResponse: AWSShape {
@@ -290,6 +396,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateNotificationRequest: AWSShape {
@@ -309,6 +417,16 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let oldNotification = dictionary["OldNotification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("OldNotification") }
+            self.oldNotification = try Budgets.Notification(dictionary: oldNotification)
+            guard let newNotification = dictionary["NewNotification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NewNotification") }
+            self.newNotification = try Budgets.Notification(dictionary: newNotification)
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct UpdateBudgetResponse: AWSShape {
@@ -317,6 +435,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateNotificationResponse: AWSShape {
@@ -325,6 +445,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
@@ -346,6 +468,16 @@ extension Budgets {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateSubscriberRequest: AWSShape {
@@ -365,6 +497,16 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let subscriber = dictionary["Subscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Subscriber") }
+            self.subscriber = try Budgets.Subscriber(dictionary: subscriber)
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try Budgets.Notification(dictionary: notification)
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+        }
     }
 
     public struct CreateSubscriberResponse: AWSShape {
@@ -373,6 +515,8 @@ extension Budgets {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Notification: AWSShape {
@@ -390,6 +534,14 @@ extension Budgets {
             self.notificationType = notificationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
+            self.threshold = threshold
+            guard let notificationType = dictionary["NotificationType"] as? String else { throw InitializableError.missingRequiredParam("NotificationType") }
+            self.notificationType = notificationType
+        }
     }
 
     public struct Subscriber: AWSShape {
@@ -405,6 +557,12 @@ extension Budgets {
             self.subscriptionType = subscriptionType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let address = dictionary["Address"] as? String else { throw InitializableError.missingRequiredParam("Address") }
+            self.address = address
+            guard let subscriptionType = dictionary["SubscriptionType"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionType") }
+            self.subscriptionType = subscriptionType
+        }
     }
 
     public struct DescribeNotificationsForBudgetRequest: AWSShape {
@@ -424,6 +582,14 @@ extension Budgets {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UpdateBudgetRequest: AWSShape {
@@ -439,6 +605,12 @@ extension Budgets {
             self.newBudget = newBudget
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let newBudget = dictionary["NewBudget"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NewBudget") }
+            self.newBudget = try Budgets.Budget(dictionary: newBudget)
+        }
     }
 
     public struct Budget: AWSShape {
@@ -466,6 +638,29 @@ extension Budgets {
             self.costTypes = costTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timeUnit = dictionary["TimeUnit"] as? String else { throw InitializableError.missingRequiredParam("TimeUnit") }
+            self.timeUnit = timeUnit
+            guard let budgetLimit = dictionary["BudgetLimit"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BudgetLimit") }
+            self.budgetLimit = try Budgets.Spend(dictionary: budgetLimit)
+            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
+            self.budgetName = budgetName
+            guard let timePeriod = dictionary["TimePeriod"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimePeriod") }
+            self.timePeriod = try Budgets.TimePeriod(dictionary: timePeriod)
+            guard let budgetType = dictionary["BudgetType"] as? String else { throw InitializableError.missingRequiredParam("BudgetType") }
+            self.budgetType = budgetType
+            if let costFilters = dictionary["CostFilters"] as? [String: Any] {
+                var costFiltersDict: [String: [String]] = [:]
+                for (key, value) in costFilters {
+                    guard let dimensionValues = value as? [String] else { throw InitializableError.convertingError }
+                    costFiltersDict[key] = dimensionValues
+                }
+                self.costFilters = costFiltersDict
+            }
+            if let calculatedSpend = dictionary["CalculatedSpend"] as? [String: Any] { self.calculatedSpend = try Budgets.CalculatedSpend(dictionary: calculatedSpend) }
+            guard let costTypes = dictionary["CostTypes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CostTypes") }
+            self.costTypes = try Budgets.CostTypes(dictionary: costTypes)
+        }
     }
 
     public struct TimePeriod: AWSShape {
@@ -481,6 +676,12 @@ extension Budgets {
             self.end = end
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let start = dictionary["Start"] as? Date else { throw InitializableError.missingRequiredParam("Start") }
+            self.start = start
+            guard let end = dictionary["End"] as? Date else { throw InitializableError.missingRequiredParam("End") }
+            self.end = end
+        }
     }
 
     public struct CalculatedSpend: AWSShape {
@@ -496,6 +697,11 @@ extension Budgets {
             self.actualSpend = actualSpend
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let forecastedSpend = dictionary["ForecastedSpend"] as? [String: Any] { self.forecastedSpend = try Budgets.Spend(dictionary: forecastedSpend) }
+            guard let actualSpend = dictionary["ActualSpend"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActualSpend") }
+            self.actualSpend = try Budgets.Spend(dictionary: actualSpend)
+        }
     }
 
     public struct Spend: AWSShape {
@@ -511,6 +717,12 @@ extension Budgets {
             self.amount = amount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let unit = dictionary["Unit"] as? String else { throw InitializableError.missingRequiredParam("Unit") }
+            self.unit = unit
+            guard let amount = dictionary["Amount"] as? String else { throw InitializableError.missingRequiredParam("Amount") }
+            self.amount = amount
+        }
     }
 
     public struct DescribeSubscribersForNotificationResponse: AWSShape {
@@ -526,6 +738,12 @@ extension Budgets {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subscribers = dictionary["Subscribers"] as? [[String: Any]] {
+                self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
 }

@@ -42,6 +42,12 @@ extension Cur {
             self.reportDefinitions = reportDefinitions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let reportDefinitions = dictionary["ReportDefinitions"] as? [[String: Any]] {
+                self.reportDefinitions = try reportDefinitions.map({ try ReportDefinition(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteReportDefinitionResponse: AWSShape {
@@ -55,6 +61,9 @@ extension Cur {
             self.responseMessage = responseMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.responseMessage = dictionary["ResponseMessage"] as? String
+        }
     }
 
     public struct PutReportDefinitionResponse: AWSShape {
@@ -63,6 +72,8 @@ extension Cur {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ReportDefinition: AWSShape {
@@ -92,6 +103,27 @@ extension Cur {
             self.s3Prefix = s3Prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timeUnit = dictionary["TimeUnit"] as? String else { throw InitializableError.missingRequiredParam("TimeUnit") }
+            self.timeUnit = timeUnit
+            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            self.format = format
+            guard let compression = dictionary["Compression"] as? String else { throw InitializableError.missingRequiredParam("Compression") }
+            self.compression = compression
+            guard let reportName = dictionary["ReportName"] as? String else { throw InitializableError.missingRequiredParam("ReportName") }
+            self.reportName = reportName
+            guard let s3Region = dictionary["S3Region"] as? String else { throw InitializableError.missingRequiredParam("S3Region") }
+            self.s3Region = s3Region
+            if let additionalArtifacts = dictionary["AdditionalArtifacts"] as? [String] {
+                self.additionalArtifacts = additionalArtifacts
+            }
+            guard let additionalSchemaElements = dictionary["AdditionalSchemaElements"] as? [String] else { throw InitializableError.missingRequiredParam("AdditionalSchemaElements") }
+            self.additionalSchemaElements = additionalSchemaElements
+            guard let s3Bucket = dictionary["S3Bucket"] as? String else { throw InitializableError.missingRequiredParam("S3Bucket") }
+            self.s3Bucket = s3Bucket
+            guard let s3Prefix = dictionary["S3Prefix"] as? String else { throw InitializableError.missingRequiredParam("S3Prefix") }
+            self.s3Prefix = s3Prefix
+        }
     }
 
     public struct PutReportDefinitionRequest: AWSShape {
@@ -105,6 +137,10 @@ extension Cur {
             self.reportDefinition = reportDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reportDefinition = dictionary["ReportDefinition"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReportDefinition") }
+            self.reportDefinition = try Cur.ReportDefinition(dictionary: reportDefinition)
+        }
     }
 
     public struct DescribeReportDefinitionsRequest: AWSShape {
@@ -120,6 +156,10 @@ extension Cur {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteReportDefinitionRequest: AWSShape {
@@ -133,6 +173,9 @@ extension Cur {
             self.reportName = reportName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reportName = dictionary["ReportName"] as? String
+        }
     }
 
 }

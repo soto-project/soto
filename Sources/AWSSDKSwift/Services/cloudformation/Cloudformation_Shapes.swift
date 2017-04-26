@@ -44,6 +44,10 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteStackInput: AWSShape {
@@ -64,6 +68,14 @@ extension Cloudformation {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            if let retainResources = dictionary["RetainResources"] as? [String] {
+                self.retainResources = retainResources
+            }
+            self.roleARN = dictionary["RoleARN"] as? String
+        }
     }
 
     public struct GetStackPolicyOutput: AWSShape {
@@ -78,6 +90,9 @@ extension Cloudformation {
             self.stackPolicyBody = stackPolicyBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+        }
     }
 
     public struct ResourceChange: AWSShape {
@@ -110,6 +125,19 @@ extension Cloudformation {
             self.scope = scope
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let details = dictionary["Details"] as? [[String: Any]] {
+                self.details = try details.map({ try ResourceChangeDetail(dictionary: $0) })
+            }
+            self.action = dictionary["Action"] as? String
+            self.logicalResourceId = dictionary["LogicalResourceId"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.replacement = dictionary["Replacement"] as? String
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+            if let scope = dictionary["Scope"] as? [String] {
+                self.scope = scope
+            }
+        }
     }
 
     public struct StackSummary: AWSShape {
@@ -145,6 +173,19 @@ extension Cloudformation {
             self.templateDescription = templateDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
+            self.deletionTime = dictionary["DeletionTime"] as? Date
+            self.stackId = dictionary["StackId"] as? String
+            guard let stackStatus = dictionary["StackStatus"] as? String else { throw InitializableError.missingRequiredParam("StackStatus") }
+            self.stackStatus = stackStatus
+            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            self.creationTime = creationTime
+            self.stackStatusReason = dictionary["StackStatusReason"] as? String
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.templateDescription = dictionary["TemplateDescription"] as? String
+        }
     }
 
     public struct CreateChangeSetOutput: AWSShape {
@@ -162,6 +203,10 @@ extension Cloudformation {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct Stack: AWSShape {
@@ -221,6 +266,37 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackStatus = dictionary["StackStatus"] as? String else { throw InitializableError.missingRequiredParam("StackStatus") }
+            self.stackStatus = stackStatus
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.disableRollback = dictionary["DisableRollback"] as? Bool
+            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            self.creationTime = creationTime
+            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
+                self.outputs = try outputs.map({ try Output(dictionary: $0) })
+            }
+            self.stackStatusReason = dictionary["StackStatusReason"] as? String
+            if let notificationARNs = dictionary["NotificationARNs"] as? [String] {
+                self.notificationARNs = notificationARNs
+            }
+            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
+            self.description = dictionary["Description"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.stackId = dictionary["StackId"] as? String
+            self.changeSetId = dictionary["ChangeSetId"] as? String
+            self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+        }
     }
 
     public struct UpdateStackInput: AWSShape {
@@ -274,6 +350,33 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.stackPolicyDuringUpdateBody = dictionary["StackPolicyDuringUpdateBody"] as? String
+            self.usePreviousTemplate = dictionary["UsePreviousTemplate"] as? Bool
+            self.stackPolicyDuringUpdateURL = dictionary["StackPolicyDuringUpdateURL"] as? String
+            self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
+            if let notificationARNs = dictionary["NotificationARNs"] as? [String] {
+                self.notificationARNs = notificationARNs
+            }
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            if let resourceTypes = dictionary["ResourceTypes"] as? [String] {
+                self.resourceTypes = resourceTypes
+            }
+            self.templateURL = dictionary["TemplateURL"] as? String
+            self.templateBody = dictionary["TemplateBody"] as? String
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+        }
     }
 
     public struct ListExportsInput: AWSShape {
@@ -288,6 +391,9 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ParameterDeclaration: AWSShape {
@@ -317,6 +423,14 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterType = dictionary["ParameterType"] as? String
+            self.noEcho = dictionary["NoEcho"] as? Bool
+            if let parameterConstraints = dictionary["ParameterConstraints"] as? [String: Any] { self.parameterConstraints = try Cloudformation.ParameterConstraints(dictionary: parameterConstraints) }
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.parameterKey = dictionary["ParameterKey"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct StackResourceDetail: AWSShape {
@@ -358,6 +472,22 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metadata = dictionary["Metadata"] as? String
+            guard let resourceStatus = dictionary["ResourceStatus"] as? String else { throw InitializableError.missingRequiredParam("ResourceStatus") }
+            self.resourceStatus = resourceStatus
+            self.stackId = dictionary["StackId"] as? String
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
+            self.logicalResourceId = logicalResourceId
+            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
+            self.stackName = dictionary["StackName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListImportsInput: AWSShape {
@@ -375,6 +505,11 @@ extension Cloudformation {
             self.exportName = exportName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let exportName = dictionary["ExportName"] as? String else { throw InitializableError.missingRequiredParam("ExportName") }
+            self.exportName = exportName
+        }
     }
 
     public struct ListChangeSetsOutput: AWSShape {
@@ -392,6 +527,12 @@ extension Cloudformation {
             self.summaries = summaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let summaries = dictionary["Summaries"] as? [[String: Any]] {
+                self.summaries = try summaries.map({ try ChangeSetSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeStacksOutput: AWSShape {
@@ -409,6 +550,12 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stacks = dictionary["Stacks"] as? [[String: Any]] {
+                self.stacks = try stacks.map({ try Stack(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ExecuteChangeSetInput: AWSShape {
@@ -426,6 +573,11 @@ extension Cloudformation {
             self.changeSetName = changeSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
+            self.changeSetName = changeSetName
+        }
     }
 
     public struct Tag: AWSShape {
@@ -443,6 +595,10 @@ extension Cloudformation {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ListStackResourcesOutput: AWSShape {
@@ -460,6 +616,12 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stackResourceSummaries = dictionary["StackResourceSummaries"] as? [[String: Any]] {
+                self.stackResourceSummaries = try stackResourceSummaries.map({ try StackResourceSummary(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct TemplateParameter: AWSShape {
@@ -483,6 +645,12 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noEcho = dictionary["NoEcho"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.parameterKey = dictionary["ParameterKey"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeAccountLimitsInput: AWSShape {
@@ -497,6 +665,9 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ValidateTemplateOutput: AWSShape {
@@ -523,6 +694,19 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.capabilitiesReason = dictionary["CapabilitiesReason"] as? String
+            if let declaredTransforms = dictionary["DeclaredTransforms"] as? [String] {
+                self.declaredTransforms = declaredTransforms
+            }
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try TemplateParameter(dictionary: $0) })
+            }
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ResourceChangeDetail: AWSShape {
@@ -546,6 +730,12 @@ extension Cloudformation {
             self.evaluation = evaluation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let target = dictionary["Target"] as? [String: Any] { self.target = try Cloudformation.ResourceTargetDefinition(dictionary: target) }
+            self.causingEntity = dictionary["CausingEntity"] as? String
+            self.changeSource = dictionary["ChangeSource"] as? String
+            self.evaluation = dictionary["Evaluation"] as? String
+        }
     }
 
     public struct ListStacksInput: AWSShape {
@@ -563,6 +753,12 @@ extension Cloudformation {
             self.stackStatusFilter = stackStatusFilter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let stackStatusFilter = dictionary["StackStatusFilter"] as? [String] {
+                self.stackStatusFilter = stackStatusFilter
+            }
+        }
     }
 
     public struct ExecuteChangeSetOutput: AWSShape {
@@ -571,6 +767,8 @@ extension Cloudformation {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SignalResourceInput: AWSShape {
@@ -594,6 +792,16 @@ extension Cloudformation {
             self.logicalResourceId = logicalResourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let uniqueId = dictionary["UniqueId"] as? String else { throw InitializableError.missingRequiredParam("UniqueId") }
+            self.uniqueId = uniqueId
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
+            self.logicalResourceId = logicalResourceId
+        }
     }
 
     public struct DeleteChangeSetOutput: AWSShape {
@@ -602,6 +810,8 @@ extension Cloudformation {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeStackResourceInput: AWSShape {
@@ -619,6 +829,12 @@ extension Cloudformation {
             self.logicalResourceId = logicalResourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
+            self.logicalResourceId = logicalResourceId
+        }
     }
 
     public struct DescribeStackEventsInput: AWSShape {
@@ -636,6 +852,10 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetTemplateSummaryInput: AWSShape {
@@ -656,6 +876,11 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            self.templateURL = dictionary["TemplateURL"] as? String
+            self.templateBody = dictionary["TemplateBody"] as? String
+        }
     }
 
     public struct EstimateTemplateCostInput: AWSShape {
@@ -676,6 +901,13 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.templateURL = dictionary["TemplateURL"] as? String
+            self.templateBody = dictionary["TemplateBody"] as? String
+        }
     }
 
     public struct DescribeChangeSetInput: AWSShape {
@@ -696,6 +928,12 @@ extension Cloudformation {
             self.changeSetName = changeSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
+            self.changeSetName = changeSetName
+        }
     }
 
     public struct ValidateTemplateInput: AWSShape {
@@ -713,6 +951,10 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.templateURL = dictionary["TemplateURL"] as? String
+            self.templateBody = dictionary["TemplateBody"] as? String
+        }
     }
 
     public struct Parameter: AWSShape {
@@ -733,6 +975,11 @@ extension Cloudformation {
             self.parameterKey = parameterKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterValue = dictionary["ParameterValue"] as? String
+            self.usePreviousValue = dictionary["UsePreviousValue"] as? Bool
+            self.parameterKey = dictionary["ParameterKey"] as? String
+        }
     }
 
     public struct ContinueUpdateRollbackOutput: AWSShape {
@@ -741,6 +988,8 @@ extension Cloudformation {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListExportsOutput: AWSShape {
@@ -758,6 +1007,12 @@ extension Cloudformation {
             self.exports = exports
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let exports = dictionary["Exports"] as? [[String: Any]] {
+                self.exports = try exports.map({ try Export(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListImportsOutput: AWSShape {
@@ -775,6 +1030,12 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let imports = dictionary["Imports"] as? [String] {
+                self.imports = imports
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateStackOutput: AWSShape {
@@ -789,6 +1050,9 @@ extension Cloudformation {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+        }
     }
 
     public struct Change: AWSShape {
@@ -806,6 +1070,10 @@ extension Cloudformation {
             self.resourceChange = resourceChange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            if let resourceChange = dictionary["ResourceChange"] as? [String: Any] { self.resourceChange = try Cloudformation.ResourceChange(dictionary: resourceChange) }
+        }
     }
 
     public struct ContinueUpdateRollbackInput: AWSShape {
@@ -826,6 +1094,14 @@ extension Cloudformation {
             self.resourcesToSkip = resourcesToSkip
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let resourcesToSkip = dictionary["ResourcesToSkip"] as? [String] {
+                self.resourcesToSkip = resourcesToSkip
+            }
+        }
     }
 
     public struct CreateStackInput: AWSShape {
@@ -879,6 +1155,33 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.onFailure = dictionary["OnFailure"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.disableRollback = dictionary["DisableRollback"] as? Bool
+            self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
+            if let notificationARNs = dictionary["NotificationARNs"] as? [String] {
+                self.notificationARNs = notificationARNs
+            }
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            if let resourceTypes = dictionary["ResourceTypes"] as? [String] {
+                self.resourceTypes = resourceTypes
+            }
+            self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
+            self.templateURL = dictionary["TemplateURL"] as? String
+            self.templateBody = dictionary["TemplateBody"] as? String
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+        }
     }
 
     public struct SetStackPolicyInput: AWSShape {
@@ -899,6 +1202,12 @@ extension Cloudformation {
             self.stackPolicyURL = stackPolicyURL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+            self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
+        }
     }
 
     public struct DescribeStackResourcesOutput: AWSShape {
@@ -913,6 +1222,11 @@ extension Cloudformation {
             self.stackResources = stackResources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stackResources = dictionary["StackResources"] as? [[String: Any]] {
+                self.stackResources = try stackResources.map({ try StackResource(dictionary: $0) })
+            }
+        }
     }
 
     public struct Export: AWSShape {
@@ -933,6 +1247,11 @@ extension Cloudformation {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exportingStackId = dictionary["ExportingStackId"] as? String
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct GetTemplateSummaryOutput: AWSShape {
@@ -968,6 +1287,24 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metadata = dictionary["Metadata"] as? String
+            self.capabilitiesReason = dictionary["CapabilitiesReason"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try ParameterDeclaration(dictionary: $0) })
+            }
+            if let resourceTypes = dictionary["ResourceTypes"] as? [String] {
+                self.resourceTypes = resourceTypes
+            }
+            self.version = dictionary["Version"] as? String
+            if let declaredTransforms = dictionary["DeclaredTransforms"] as? [String] {
+                self.declaredTransforms = declaredTransforms
+            }
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListStacksOutput: AWSShape {
@@ -985,6 +1322,12 @@ extension Cloudformation {
             self.stackSummaries = stackSummaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let stackSummaries = dictionary["StackSummaries"] as? [[String: Any]] {
+                self.stackSummaries = try stackSummaries.map({ try StackSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct AccountLimit: AWSShape {
@@ -1002,6 +1345,10 @@ extension Cloudformation {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? Int32
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct DescribeStackResourcesInput: AWSShape {
@@ -1022,6 +1369,11 @@ extension Cloudformation {
             self.physicalResourceId = physicalResourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            self.logicalResourceId = dictionary["LogicalResourceId"] as? String
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+        }
     }
 
     public struct DescribeChangeSetOutput: AWSShape {
@@ -1078,6 +1430,33 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.executionStatus = dictionary["ExecutionStatus"] as? String
+            if let changes = dictionary["Changes"] as? [[String: Any]] {
+                self.changes = try changes.map({ try Change(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.creationTime = dictionary["CreationTime"] as? Date
+            if let notificationARNs = dictionary["NotificationARNs"] as? [String] {
+                self.notificationARNs = notificationARNs
+            }
+            self.description = dictionary["Description"] as? String
+            self.statusReason = dictionary["StatusReason"] as? String
+            self.status = dictionary["Status"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.stackId = dictionary["StackId"] as? String
+            self.changeSetName = dictionary["ChangeSetName"] as? String
+            self.changeSetId = dictionary["ChangeSetId"] as? String
+            self.stackName = dictionary["StackName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+        }
     }
 
     public struct ListStackResourcesInput: AWSShape {
@@ -1095,6 +1474,11 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct EstimateTemplateCostOutput: AWSShape {
@@ -1109,6 +1493,9 @@ extension Cloudformation {
             self.url = url
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.url = dictionary["Url"] as? String
+        }
     }
 
     public struct UpdateStackOutput: AWSShape {
@@ -1123,6 +1510,9 @@ extension Cloudformation {
             self.stackId = stackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackId = dictionary["StackId"] as? String
+        }
     }
 
     public struct CreateChangeSetInput: AWSShape {
@@ -1176,6 +1566,34 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.changeSetType = dictionary["ChangeSetType"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.usePreviousTemplate = dictionary["UsePreviousTemplate"] as? Bool
+            self.description = dictionary["Description"] as? String
+            if let notificationARNs = dictionary["NotificationARNs"] as? [String] {
+                self.notificationARNs = notificationARNs
+            }
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
+            self.changeSetName = changeSetName
+            if let resourceTypes = dictionary["ResourceTypes"] as? [String] {
+                self.resourceTypes = resourceTypes
+            }
+            self.templateURL = dictionary["TemplateURL"] as? String
+            self.templateBody = dictionary["TemplateBody"] as? String
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            if let capabilities = dictionary["Capabilities"] as? [String] {
+                self.capabilities = capabilities
+            }
+        }
     }
 
     public struct ListChangeSetsInput: AWSShape {
@@ -1193,6 +1611,11 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetTemplateInput: AWSShape {
@@ -1213,6 +1636,11 @@ extension Cloudformation {
             self.templateStage = templateStage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            self.changeSetName = dictionary["ChangeSetName"] as? String
+            self.templateStage = dictionary["TemplateStage"] as? String
+        }
     }
 
     public struct DescribeStackEventsOutput: AWSShape {
@@ -1230,6 +1658,12 @@ extension Cloudformation {
             self.stackEvents = stackEvents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let stackEvents = dictionary["StackEvents"] as? [[String: Any]] {
+                self.stackEvents = try stackEvents.map({ try StackEvent(dictionary: $0) })
+            }
+        }
     }
 
     public struct StackEvent: AWSShape {
@@ -1271,6 +1705,22 @@ extension Cloudformation {
             self.stackName = stackName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            self.timestamp = timestamp
+            self.resourceStatus = dictionary["ResourceStatus"] as? String
+            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
+            self.stackId = stackId
+            guard let eventId = dictionary["EventId"] as? String else { throw InitializableError.missingRequiredParam("EventId") }
+            self.eventId = eventId
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.logicalResourceId = dictionary["LogicalResourceId"] as? String
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+            self.resourceProperties = dictionary["ResourceProperties"] as? String
+            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+        }
     }
 
     public struct ChangeSetSummary: AWSShape {
@@ -1309,6 +1759,17 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.statusReason = dictionary["StatusReason"] as? String
+            self.executionStatus = dictionary["ExecutionStatus"] as? String
+            self.stackId = dictionary["StackId"] as? String
+            self.changeSetName = dictionary["ChangeSetName"] as? String
+            self.changeSetId = dictionary["ChangeSetId"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.stackName = dictionary["StackName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Output: AWSShape {
@@ -1329,6 +1790,11 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputValue = dictionary["OutputValue"] as? String
+            self.outputKey = dictionary["OutputKey"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ParameterConstraints: AWSShape {
@@ -1343,6 +1809,11 @@ extension Cloudformation {
             self.allowedValues = allowedValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let allowedValues = dictionary["AllowedValues"] as? [String] {
+                self.allowedValues = allowedValues
+            }
+        }
     }
 
     public struct ResourceTargetDefinition: AWSShape {
@@ -1363,6 +1834,11 @@ extension Cloudformation {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requiresRecreation = dictionary["RequiresRecreation"] as? String
+            self.name = dictionary["Name"] as? String
+            self.attribute = dictionary["Attribute"] as? String
+        }
     }
 
     public struct StackResourceSummary: AWSShape {
@@ -1392,6 +1868,18 @@ extension Cloudformation {
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
+            guard let resourceStatus = dictionary["ResourceStatus"] as? String else { throw InitializableError.missingRequiredParam("ResourceStatus") }
+            self.resourceStatus = resourceStatus
+            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
+            self.logicalResourceId = logicalResourceId
+            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        }
     }
 
     public struct CancelUpdateStackInput: AWSShape {
@@ -1406,6 +1894,10 @@ extension Cloudformation {
             self.stackName = stackName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+        }
     }
 
     public struct GetStackPolicyInput: AWSShape {
@@ -1420,6 +1912,10 @@ extension Cloudformation {
             self.stackName = stackName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+        }
     }
 
     public struct StackResource: AWSShape {
@@ -1458,6 +1954,21 @@ extension Cloudformation {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            self.timestamp = timestamp
+            guard let resourceStatus = dictionary["ResourceStatus"] as? String else { throw InitializableError.missingRequiredParam("ResourceStatus") }
+            self.resourceStatus = resourceStatus
+            self.stackId = dictionary["StackId"] as? String
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
+            self.logicalResourceId = logicalResourceId
+            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
+            self.stackName = dictionary["StackName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
@@ -1475,6 +1986,12 @@ extension Cloudformation {
             self.accountLimits = accountLimits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let accountLimits = dictionary["AccountLimits"] as? [[String: Any]] {
+                self.accountLimits = try accountLimits.map({ try AccountLimit(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteChangeSetInput: AWSShape {
@@ -1492,6 +2009,11 @@ extension Cloudformation {
             self.changeSetName = changeSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stackName = dictionary["StackName"] as? String
+            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
+            self.changeSetName = changeSetName
+        }
     }
 
     public struct GetTemplateOutput: AWSShape {
@@ -1509,6 +2031,12 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stagesAvailable = dictionary["StagesAvailable"] as? [String] {
+                self.stagesAvailable = stagesAvailable
+            }
+            self.templateBody = dictionary["TemplateBody"] as? String
+        }
     }
 
     public struct DescribeStackResourceOutput: AWSShape {
@@ -1523,6 +2051,9 @@ extension Cloudformation {
             self.stackResourceDetail = stackResourceDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stackResourceDetail = dictionary["StackResourceDetail"] as? [String: Any] { self.stackResourceDetail = try Cloudformation.StackResourceDetail(dictionary: stackResourceDetail) }
+        }
     }
 
 }

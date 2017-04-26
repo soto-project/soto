@@ -47,6 +47,13 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
@@ -67,6 +74,13 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let principalARN = dictionary["PrincipalARN"] as? String else { throw InitializableError.missingRequiredParam("PrincipalARN") }
+            self.principalARN = principalARN
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct DeletePortfolioInput: AWSShape {
@@ -84,6 +98,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DescribeProvisioningParametersOutput: AWSShape {
@@ -104,6 +123,17 @@ extension Servicecatalog {
             self.constraintSummaries = constraintSummaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let usageInstructions = dictionary["UsageInstructions"] as? [[String: Any]] {
+                self.usageInstructions = try usageInstructions.map({ try UsageInstruction(dictionary: $0) })
+            }
+            if let provisioningArtifactParameters = dictionary["ProvisioningArtifactParameters"] as? [[String: Any]] {
+                self.provisioningArtifactParameters = try provisioningArtifactParameters.map({ try ProvisioningArtifactParameter(dictionary: $0) })
+            }
+            if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
+                self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct ProvisioningArtifactProperties: AWSShape {
@@ -127,6 +157,13 @@ extension Servicecatalog {
             self.info = info
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            guard let info = dictionary["Info"] as? [String: String] else { throw InitializableError.missingRequiredParam("Info") }
+            self.info = info
+        }
     }
 
     public struct DescribeProductAsAdminOutput: AWSShape {
@@ -144,6 +181,12 @@ extension Servicecatalog {
             self.productViewDetail = productViewDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) }
+        }
     }
 
     public struct ListPortfolioAccessOutput: AWSShape {
@@ -161,6 +204,12 @@ extension Servicecatalog {
             self.accountIds = accountIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+            if let accountIds = dictionary["AccountIds"] as? [String] {
+                self.accountIds = accountIds
+            }
+        }
     }
 
     public struct CreateProductOutput: AWSShape {
@@ -181,6 +230,13 @@ extension Servicecatalog {
             self.provisioningArtifactDetail = provisioningArtifactDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) }
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+        }
     }
 
     public struct UsageInstruction: AWSShape {
@@ -198,6 +254,10 @@ extension Servicecatalog {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.value = dictionary["Value"] as? String
+        }
     }
 
     public struct CreatePortfolioShareInput: AWSShape {
@@ -218,6 +278,13 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct DescribeProductViewOutput: AWSShape {
@@ -235,6 +302,12 @@ extension Servicecatalog {
             self.provisioningArtifacts = provisioningArtifacts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) }
+            if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
+                self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
+            }
+        }
     }
 
     public struct ScanProvisionedProductsOutput: AWSShape {
@@ -252,6 +325,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let provisionedProducts = dictionary["ProvisionedProducts"] as? [[String: Any]] {
+                self.provisionedProducts = try provisionedProducts.map({ try ProvisionedProductDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct DescribeConstraintInput: AWSShape {
@@ -269,6 +348,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ConstraintDetail: AWSShape {
@@ -292,6 +376,12 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.constraintId = dictionary["ConstraintId"] as? String
+            self.type = dictionary["Type"] as? String
+            self.owner = dictionary["Owner"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdatePortfolioOutput: AWSShape {
@@ -309,6 +399,12 @@ extension Servicecatalog {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -326,6 +422,12 @@ extension Servicecatalog {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct DescribeProductInput: AWSShape {
@@ -343,6 +445,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListRecordHistoryOutput: AWSShape {
@@ -360,6 +467,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recordDetails = dictionary["RecordDetails"] as? [[String: Any]] {
+                self.recordDetails = try recordDetails.map({ try RecordDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct ScanProvisionedProductsInput: AWSShape {
@@ -383,6 +496,12 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) }
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct CreatePortfolioInput: AWSShape {
@@ -412,6 +531,19 @@ extension Servicecatalog {
             self.idempotencyToken = idempotencyToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            guard let providerName = dictionary["ProviderName"] as? String else { throw InitializableError.missingRequiredParam("ProviderName") }
+            self.providerName = providerName
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let displayName = dictionary["DisplayName"] as? String else { throw InitializableError.missingRequiredParam("DisplayName") }
+            self.displayName = displayName
+            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
+            self.idempotencyToken = idempotencyToken
+        }
     }
 
     public struct ListRecordHistorySearchFilter: AWSShape {
@@ -429,6 +561,10 @@ extension Servicecatalog {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ListPortfoliosInput: AWSShape {
@@ -449,6 +585,11 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct AcceptPortfolioShareOutput: AWSShape {
@@ -457,6 +598,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListLaunchPathsOutput: AWSShape {
@@ -474,6 +617,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let launchPathSummaries = dictionary["LaunchPathSummaries"] as? [[String: Any]] {
+                self.launchPathSummaries = try launchPathSummaries.map({ try LaunchPathSummary(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct ListConstraintsForPortfolioOutput: AWSShape {
@@ -491,6 +640,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let constraintDetails = dictionary["ConstraintDetails"] as? [[String: Any]] {
+                self.constraintDetails = try constraintDetails.map({ try ConstraintDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct UpdateProductOutput: AWSShape {
@@ -508,6 +663,12 @@ extension Servicecatalog {
             self.productViewDetail = productViewDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) }
+        }
     }
 
     public struct SearchProductsAsAdminInput: AWSShape {
@@ -543,6 +704,23 @@ extension Servicecatalog {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sortBy = dictionary["SortBy"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.productSource = dictionary["ProductSource"] as? String
+            self.portfolioId = dictionary["PortfolioId"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+            self.sortOrder = dictionary["SortOrder"] as? String
+            if let filters = dictionary["Filters"] as? [String: Any] {
+                var filtersDict: [String: [String]] = [:]
+                for (key, value) in filters {
+                    guard let productViewFilterValues = value as? [String] else { throw InitializableError.convertingError }
+                    filtersDict[key] = productViewFilterValues
+                }
+                self.filters = filtersDict
+            }
+        }
     }
 
     public struct ProvisionProductInput: AWSShape {
@@ -581,6 +759,27 @@ extension Servicecatalog {
             self.provisionedProductName = provisionedProductName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            if let notificationArns = dictionary["NotificationArns"] as? [String] {
+                self.notificationArns = notificationArns
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let provisionToken = dictionary["ProvisionToken"] as? String else { throw InitializableError.missingRequiredParam("ProvisionToken") }
+            self.provisionToken = provisionToken
+            self.pathId = dictionary["PathId"] as? String
+            if let provisioningParameters = dictionary["ProvisioningParameters"] as? [[String: Any]] {
+                self.provisioningParameters = try provisioningParameters.map({ try ProvisioningParameter(dictionary: $0) })
+            }
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            guard let provisionedProductName = dictionary["ProvisionedProductName"] as? String else { throw InitializableError.missingRequiredParam("ProvisionedProductName") }
+            self.provisionedProductName = provisionedProductName
+        }
     }
 
     public struct UpdateProvisioningParameter: AWSShape {
@@ -601,6 +800,11 @@ extension Servicecatalog {
             self.usePreviousValue = usePreviousValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+            self.usePreviousValue = dictionary["UsePreviousValue"] as? Bool
+        }
     }
 
     public struct CreateConstraintInput: AWSShape {
@@ -633,6 +837,20 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            guard let parameters = dictionary["Parameters"] as? String else { throw InitializableError.missingRequiredParam("Parameters") }
+            self.parameters = parameters
+            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
+            self.idempotencyToken = idempotencyToken
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct LaunchPathSummary: AWSShape {
@@ -656,6 +874,16 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
+                self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
@@ -664,6 +892,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateProvisionedProductInput: AWSShape {
@@ -699,6 +929,19 @@ extension Servicecatalog {
             self.provisionedProductName = provisionedProductName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let updateToken = dictionary["UpdateToken"] as? String else { throw InitializableError.missingRequiredParam("UpdateToken") }
+            self.updateToken = updateToken
+            self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
+            self.pathId = dictionary["PathId"] as? String
+            if let provisioningParameters = dictionary["ProvisioningParameters"] as? [[String: Any]] {
+                self.provisioningParameters = try provisioningParameters.map({ try UpdateProvisioningParameter(dictionary: $0) })
+            }
+            self.productId = dictionary["ProductId"] as? String
+            self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
+        }
     }
 
     public struct CreatePortfolioShareOutput: AWSShape {
@@ -707,6 +950,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DisassociateProductFromPortfolioOutput: AWSShape {
@@ -715,6 +960,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ProvisioningArtifactParameter: AWSShape {
@@ -744,6 +991,14 @@ extension Servicecatalog {
             self.parameterKey = parameterKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterType = dictionary["ParameterType"] as? String
+            self.description = dictionary["Description"] as? String
+            if let parameterConstraints = dictionary["ParameterConstraints"] as? [String: Any] { self.parameterConstraints = try Servicecatalog.ParameterConstraints(dictionary: parameterConstraints) }
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.isNoEcho = dictionary["IsNoEcho"] as? Bool
+            self.parameterKey = dictionary["ParameterKey"] as? String
+        }
     }
 
     public struct ListPrincipalsForPortfolioOutput: AWSShape {
@@ -761,6 +1016,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let principals = dictionary["Principals"] as? [[String: Any]] {
+                self.principals = try principals.map({ try Principal(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct DescribeRecordInput: AWSShape {
@@ -784,6 +1045,13 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.pageToken = dictionary["PageToken"] as? String
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListPortfoliosForProductOutput: AWSShape {
@@ -801,6 +1069,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
+                self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct CreateConstraintOutput: AWSShape {
@@ -821,6 +1095,11 @@ extension Servicecatalog {
             self.constraintParameters = constraintParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) }
+            self.status = dictionary["Status"] as? String
+            self.constraintParameters = dictionary["ConstraintParameters"] as? String
+        }
     }
 
     public struct ProductViewDetail: AWSShape {
@@ -844,6 +1123,12 @@ extension Servicecatalog {
             self.createdTime = createdTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.productARN = dictionary["ProductARN"] as? String
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) }
+            self.createdTime = dictionary["CreatedTime"] as? Date
+        }
     }
 
     public struct CreateProvisioningArtifactInput: AWSShape {
@@ -867,6 +1152,15 @@ extension Servicecatalog {
             self.idempotencyToken = idempotencyToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let parameters = dictionary["Parameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Parameters") }
+            self.parameters = try Servicecatalog.ProvisioningArtifactProperties(dictionary: parameters)
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
+            self.idempotencyToken = idempotencyToken
+        }
     }
 
     public struct DescribeProvisioningArtifactInput: AWSShape {
@@ -887,6 +1181,13 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
+            self.provisioningArtifactId = provisioningArtifactId
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct UpdateConstraintOutput: AWSShape {
@@ -907,6 +1208,11 @@ extension Servicecatalog {
             self.constraintParameters = constraintParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) }
+            self.status = dictionary["Status"] as? String
+            self.constraintParameters = dictionary["ConstraintParameters"] as? String
+        }
     }
 
     public struct DescribeRecordOutput: AWSShape {
@@ -927,6 +1233,13 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+            if let recordOutputs = dictionary["RecordOutputs"] as? [[String: Any]] {
+                self.recordOutputs = try recordOutputs.map({ try RecordOutput(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct UpdateProvisionedProductOutput: AWSShape {
@@ -941,6 +1254,9 @@ extension Servicecatalog {
             self.recordDetail = recordDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+        }
     }
 
     public struct ListProvisioningArtifactsOutput: AWSShape {
@@ -958,6 +1274,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let provisioningArtifactDetails = dictionary["ProvisioningArtifactDetails"] as? [[String: Any]] {
+                self.provisioningArtifactDetails = try provisioningArtifactDetails.map({ try ProvisioningArtifactDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct TerminateProvisionedProductOutput: AWSShape {
@@ -972,6 +1294,9 @@ extension Servicecatalog {
             self.recordDetail = recordDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+        }
     }
 
     public struct ProvisioningParameter: AWSShape {
@@ -989,6 +1314,10 @@ extension Servicecatalog {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct RecordOutput: AWSShape {
@@ -1009,6 +1338,11 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputValue = dictionary["OutputValue"] as? String
+            self.outputKey = dictionary["OutputKey"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ProvisioningArtifact: AWSShape {
@@ -1032,6 +1366,12 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.name = dictionary["Name"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct AssociateProductWithPortfolioOutput: AWSShape {
@@ -1040,6 +1380,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListLaunchPathsInput: AWSShape {
@@ -1063,6 +1405,13 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct DeleteConstraintOutput: AWSShape {
@@ -1071,6 +1420,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SearchProductsOutput: AWSShape {
@@ -1091,6 +1442,21 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let productViewAggregations = dictionary["ProductViewAggregations"] as? [String: Any] {
+                var productViewAggregationsDict: [String: [ProductViewAggregationValue]] = [:]
+                for (key, value) in productViewAggregations {
+                    guard let productViewAggregationValue = value as? [[String: Any]] else { throw InitializableError.convertingError }
+                    let productViewAggregationValueList: [ProductViewAggregationValue] = try productViewAggregationValue.map { try ProductViewAggregationValue(dictionary: $0) }
+                    productViewAggregationsDict[key] = productViewAggregationValueList
+                }
+                self.productViewAggregations = productViewAggregationsDict
+            }
+            if let productViewSummaries = dictionary["ProductViewSummaries"] as? [[String: Any]] {
+                self.productViewSummaries = try productViewSummaries.map({ try ProductViewSummary(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
@@ -1099,6 +1465,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteConstraintInput: AWSShape {
@@ -1116,6 +1484,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DescribeProductViewInput: AWSShape {
@@ -1133,6 +1506,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteProvisioningArtifactInput: AWSShape {
@@ -1153,6 +1531,13 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
+            self.provisioningArtifactId = provisioningArtifactId
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct ParameterConstraints: AWSShape {
@@ -1167,6 +1552,11 @@ extension Servicecatalog {
             self.allowedValues = allowedValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let allowedValues = dictionary["AllowedValues"] as? [String] {
+                self.allowedValues = allowedValues
+            }
+        }
     }
 
     public struct ListPortfoliosForProductInput: AWSShape {
@@ -1190,6 +1580,13 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct PortfolioDetail: AWSShape {
@@ -1219,6 +1616,14 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.displayName = dictionary["DisplayName"] as? String
+            self.providerName = dictionary["ProviderName"] as? String
+            self.aRN = dictionary["ARN"] as? String
+            self.description = dictionary["Description"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeProvisioningParametersInput: AWSShape {
@@ -1242,6 +1647,14 @@ extension Servicecatalog {
             self.pathId = pathId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.pathId = dictionary["PathId"] as? String
+        }
     }
 
     public struct SearchProductsAsAdminOutput: AWSShape {
@@ -1259,6 +1672,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let productViewDetails = dictionary["ProductViewDetails"] as? [[String: Any]] {
+                self.productViewDetails = try productViewDetails.map({ try ProductViewDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct ProductViewAggregationValue: AWSShape {
@@ -1276,6 +1695,10 @@ extension Servicecatalog {
             self.approximateCount = approximateCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.approximateCount = dictionary["ApproximateCount"] as? Int32
+        }
     }
 
     public struct ListAcceptedPortfolioSharesInput: AWSShape {
@@ -1296,6 +1719,11 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct SearchProductsInput: AWSShape {
@@ -1325,6 +1753,21 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.sortBy = dictionary["SortBy"] as? String
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            if let filters = dictionary["Filters"] as? [String: Any] {
+                var filtersDict: [String: [String]] = [:]
+                for (key, value) in filters {
+                    guard let productViewFilterValues = value as? [String] else { throw InitializableError.convertingError }
+                    filtersDict[key] = productViewFilterValues
+                }
+                self.filters = filtersDict
+            }
+            self.sortOrder = dictionary["SortOrder"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct RecordError: AWSShape {
@@ -1342,6 +1785,10 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateConstraintInput: AWSShape {
@@ -1362,6 +1809,12 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ProvisionedProductDetail: AWSShape {
@@ -1400,6 +1853,17 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.lastRecordId = dictionary["LastRecordId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.idempotencyToken = dictionary["IdempotencyToken"] as? String
+            self.type = dictionary["Type"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct ProvisionProductOutput: AWSShape {
@@ -1414,6 +1878,9 @@ extension Servicecatalog {
             self.recordDetail = recordDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+        }
     }
 
     public struct DeleteProductInput: AWSShape {
@@ -1431,6 +1898,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListProvisioningArtifactsInput: AWSShape {
@@ -1448,6 +1920,11 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct ListRecordHistoryInput: AWSShape {
@@ -1474,6 +1951,13 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) }
+            if let searchFilter = dictionary["SearchFilter"] as? [String: Any] { self.searchFilter = try Servicecatalog.ListRecordHistorySearchFilter(dictionary: searchFilter) }
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct AssociateProductWithPortfolioInput: AWSShape {
@@ -1497,6 +1981,14 @@ extension Servicecatalog {
             self.productId = productId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.sourcePortfolioId = dictionary["SourcePortfolioId"] as? String
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+        }
     }
 
     public struct UpdateProductInput: AWSShape {
@@ -1541,6 +2033,24 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            if let removeTags = dictionary["RemoveTags"] as? [String] {
+                self.removeTags = removeTags
+            }
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.supportEmail = dictionary["SupportEmail"] as? String
+            self.name = dictionary["Name"] as? String
+            self.distributor = dictionary["Distributor"] as? String
+            if let addTags = dictionary["AddTags"] as? [[String: Any]] {
+                self.addTags = try addTags.map({ try Tag(dictionary: $0) })
+            }
+            self.supportUrl = dictionary["SupportUrl"] as? String
+            self.owner = dictionary["Owner"] as? String
+            self.supportDescription = dictionary["SupportDescription"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct TerminateProvisionedProductInput: AWSShape {
@@ -1567,6 +2077,14 @@ extension Servicecatalog {
             self.provisionedProductName = provisionedProductName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ignoreErrors = dictionary["IgnoreErrors"] as? Bool
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let terminateToken = dictionary["TerminateToken"] as? String else { throw InitializableError.missingRequiredParam("TerminateToken") }
+            self.terminateToken = terminateToken
+            self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
+            self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
+        }
     }
 
     public struct RejectPortfolioShareOutput: AWSShape {
@@ -1575,6 +2093,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateProvisioningArtifactInput: AWSShape {
@@ -1601,6 +2121,15 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.name = dictionary["Name"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribePortfolioOutput: AWSShape {
@@ -1618,6 +2147,12 @@ extension Servicecatalog {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreatePortfolioOutput: AWSShape {
@@ -1635,6 +2170,12 @@ extension Servicecatalog {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct AccessLevelFilter: AWSShape {
@@ -1652,6 +2193,10 @@ extension Servicecatalog {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ConstraintSummary: AWSShape {
@@ -1669,6 +2214,10 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ProductViewSummary: AWSShape {
@@ -1713,6 +2262,19 @@ extension Servicecatalog {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hasDefaultPath = dictionary["HasDefaultPath"] as? Bool
+            self.shortDescription = dictionary["ShortDescription"] as? String
+            self.id = dictionary["Id"] as? String
+            self.supportEmail = dictionary["SupportEmail"] as? String
+            self.name = dictionary["Name"] as? String
+            self.distributor = dictionary["Distributor"] as? String
+            self.supportUrl = dictionary["SupportUrl"] as? String
+            self.owner = dictionary["Owner"] as? String
+            self.productId = dictionary["ProductId"] as? String
+            self.supportDescription = dictionary["SupportDescription"] as? String
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct RejectPortfolioShareInput: AWSShape {
@@ -1730,6 +2292,11 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct UpdateProvisioningArtifactOutput: AWSShape {
@@ -1750,6 +2317,13 @@ extension Servicecatalog {
             self.info = info
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let info = dictionary["Info"] as? [String: String] {
+                self.info = info
+            }
+        }
     }
 
     public struct DescribeConstraintOutput: AWSShape {
@@ -1770,6 +2344,11 @@ extension Servicecatalog {
             self.constraintParameters = constraintParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) }
+            self.status = dictionary["Status"] as? String
+            self.constraintParameters = dictionary["ConstraintParameters"] as? String
+        }
     }
 
     public struct Principal: AWSShape {
@@ -1787,6 +2366,10 @@ extension Servicecatalog {
             self.principalType = principalType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.principalARN = dictionary["PrincipalARN"] as? String
+            self.principalType = dictionary["PrincipalType"] as? String
+        }
     }
 
     public struct ProvisioningArtifactDetail: AWSShape {
@@ -1813,6 +2396,13 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct ListConstraintsForPortfolioInput: AWSShape {
@@ -1839,6 +2429,14 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.productId = dictionary["ProductId"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct DisassociateProductFromPortfolioInput: AWSShape {
@@ -1859,6 +2457,13 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct ListPortfoliosOutput: AWSShape {
@@ -1876,6 +2481,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
+                self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct DeleteProductOutput: AWSShape {
@@ -1884,6 +2495,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListPrincipalsForPortfolioInput: AWSShape {
@@ -1907,6 +2520,13 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct DeleteProvisioningArtifactOutput: AWSShape {
@@ -1915,6 +2535,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeletePortfolioShareOutput: AWSShape {
@@ -1923,6 +2545,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeProductOutput: AWSShape {
@@ -1940,6 +2564,12 @@ extension Servicecatalog {
             self.provisioningArtifacts = provisioningArtifacts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) }
+            if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
+                self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
+            }
+        }
     }
 
     public struct RecordDetail: AWSShape {
@@ -1990,6 +2620,25 @@ extension Servicecatalog {
             self.recordTags = recordTags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String
+            self.updatedTime = dictionary["UpdatedTime"] as? Date
+            self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
+            self.pathId = dictionary["PathId"] as? String
+            self.productId = dictionary["ProductId"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            if let recordErrors = dictionary["RecordErrors"] as? [[String: Any]] {
+                self.recordErrors = try recordErrors.map({ try RecordError(dictionary: $0) })
+            }
+            self.status = dictionary["Status"] as? String
+            self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
+            self.recordType = dictionary["RecordType"] as? String
+            self.recordId = dictionary["RecordId"] as? String
+            self.provisionedProductType = dictionary["ProvisionedProductType"] as? String
+            if let recordTags = dictionary["RecordTags"] as? [[String: Any]] {
+                self.recordTags = try recordTags.map({ try RecordTag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeProvisioningArtifactOutput: AWSShape {
@@ -2010,6 +2659,13 @@ extension Servicecatalog {
             self.info = info
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let info = dictionary["Info"] as? [String: String] {
+                self.info = info
+            }
+        }
     }
 
     public struct AcceptPortfolioShareInput: AWSShape {
@@ -2027,6 +2683,11 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
     public struct RecordTag: AWSShape {
@@ -2044,6 +2705,10 @@ extension Servicecatalog {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ListAcceptedPortfolioSharesOutput: AWSShape {
@@ -2061,6 +2726,12 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
+                self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct UpdatePortfolioInput: AWSShape {
@@ -2093,6 +2764,20 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            if let removeTags = dictionary["RemoveTags"] as? [String] {
+                self.removeTags = removeTags
+            }
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.displayName = dictionary["DisplayName"] as? String
+            if let addTags = dictionary["AddTags"] as? [[String: Any]] {
+                self.addTags = try addTags.map({ try Tag(dictionary: $0) })
+            }
+            self.providerName = dictionary["ProviderName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeletePortfolioOutput: AWSShape {
@@ -2101,6 +2786,8 @@ extension Servicecatalog {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
@@ -2124,6 +2811,15 @@ extension Servicecatalog {
             self.portfolioId = portfolioId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let principalARN = dictionary["PrincipalARN"] as? String else { throw InitializableError.missingRequiredParam("PrincipalARN") }
+            self.principalARN = principalARN
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let principalType = dictionary["PrincipalType"] as? String else { throw InitializableError.missingRequiredParam("PrincipalType") }
+            self.principalType = principalType
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+        }
     }
 
     public struct DescribeProductAsAdminInput: AWSShape {
@@ -2141,6 +2837,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DescribePortfolioInput: AWSShape {
@@ -2158,6 +2859,11 @@ extension Servicecatalog {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateProductInput: AWSShape {
@@ -2205,6 +2911,27 @@ extension Servicecatalog {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.supportEmail = dictionary["SupportEmail"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.distributor = dictionary["Distributor"] as? String
+            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
+            self.idempotencyToken = idempotencyToken
+            guard let productType = dictionary["ProductType"] as? String else { throw InitializableError.missingRequiredParam("ProductType") }
+            self.productType = productType
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let provisioningArtifactParameters = dictionary["ProvisioningArtifactParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisioningArtifactParameters") }
+            self.provisioningArtifactParameters = try Servicecatalog.ProvisioningArtifactProperties(dictionary: provisioningArtifactParameters)
+            self.supportUrl = dictionary["SupportUrl"] as? String
+            guard let owner = dictionary["Owner"] as? String else { throw InitializableError.missingRequiredParam("Owner") }
+            self.owner = owner
+            self.supportDescription = dictionary["SupportDescription"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateProvisioningArtifactOutput: AWSShape {
@@ -2225,6 +2952,13 @@ extension Servicecatalog {
             self.info = info
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let info = dictionary["Info"] as? [String: String] {
+                self.info = info
+            }
+        }
     }
 
     public struct ListPortfolioAccessInput: AWSShape {
@@ -2242,6 +2976,11 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
     }
 
 }

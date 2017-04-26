@@ -40,6 +40,10 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct IntOptions: AWSShape {
@@ -69,6 +73,14 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.sourceField = dictionary["SourceField"] as? String
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.sortEnabled = dictionary["SortEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? Int64
+        }
     }
 
     public struct ExpressionStatus: AWSShape {
@@ -85,6 +97,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Cloudsearch.Expression(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct DescribeScalingParametersResponse: AWSShape {
@@ -98,6 +116,10 @@ extension Cloudsearch {
             self.scalingParameters = scalingParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let scalingParameters = dictionary["ScalingParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScalingParameters") }
+            self.scalingParameters = try Cloudsearch.ScalingParametersStatus(dictionary: scalingParameters)
+        }
     }
 
     public struct AnalysisScheme: AWSShape {
@@ -115,6 +137,13 @@ extension Cloudsearch {
             self.analysisOptions = analysisOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let analysisSchemeLanguage = dictionary["AnalysisSchemeLanguage"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeLanguage") }
+            self.analysisSchemeLanguage = analysisSchemeLanguage
+            guard let analysisSchemeName = dictionary["AnalysisSchemeName"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeName") }
+            self.analysisSchemeName = analysisSchemeName
+            if let analysisOptions = dictionary["AnalysisOptions"] as? [String: Any] { self.analysisOptions = try Cloudsearch.AnalysisOptions(dictionary: analysisOptions) }
+        }
     }
 
     public struct DeleteIndexFieldRequest: AWSShape {
@@ -131,6 +160,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexFieldName = dictionary["IndexFieldName"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldName") }
+            self.indexFieldName = indexFieldName
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteExpressionResponse: AWSShape {
@@ -145,6 +180,10 @@ extension Cloudsearch {
             self.expression = expression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let expression = dictionary["Expression"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Expression") }
+            self.expression = try Cloudsearch.ExpressionStatus(dictionary: expression)
+        }
     }
 
     public struct LiteralOptions: AWSShape {
@@ -173,6 +212,14 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.sourceField = dictionary["SourceField"] as? String
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.sortEnabled = dictionary["SortEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
@@ -193,6 +240,14 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let analysisSchemeNames = dictionary["AnalysisSchemeNames"] as? [String] {
+                self.analysisSchemeNames = analysisSchemeNames
+            }
+            self.deployed = dictionary["Deployed"] as? Bool
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct OptionStatus: AWSShape {
@@ -219,6 +274,16 @@ extension Cloudsearch {
             self.updateDate = updateDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.updateVersion = dictionary["UpdateVersion"] as? Int32
+            self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
+            guard let creationDate = dictionary["CreationDate"] as? Date else { throw InitializableError.missingRequiredParam("CreationDate") }
+            self.creationDate = creationDate
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let updateDate = dictionary["UpdateDate"] as? Date else { throw InitializableError.missingRequiredParam("UpdateDate") }
+            self.updateDate = updateDate
+        }
     }
 
     public struct DescribeDomainsRequest: AWSShape {
@@ -233,6 +298,11 @@ extension Cloudsearch {
             self.domainNames = domainNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainNames = dictionary["DomainNames"] as? [String] {
+                self.domainNames = domainNames
+            }
+        }
     }
 
     public struct UpdateServiceAccessPoliciesResponse: AWSShape {
@@ -247,6 +317,10 @@ extension Cloudsearch {
             self.accessPolicies = accessPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccessPolicies") }
+            self.accessPolicies = try Cloudsearch.AccessPoliciesStatus(dictionary: accessPolicies)
+        }
     }
 
     public struct DoubleArrayOptions: AWSShape {
@@ -273,6 +347,13 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.sourceFields = dictionary["SourceFields"] as? String
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? Double
+        }
     }
 
     public struct DomainStatus: AWSShape {
@@ -319,6 +400,24 @@ extension Cloudsearch {
             self.domainId = domainId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Cloudsearch.Limits(dictionary: limits) }
+            self.processing = dictionary["Processing"] as? Bool
+            self.created = dictionary["Created"] as? Bool
+            self.aRN = dictionary["ARN"] as? String
+            if let docService = dictionary["DocService"] as? [String: Any] { self.docService = try Cloudsearch.ServiceEndpoint(dictionary: docService) }
+            guard let requiresIndexDocuments = dictionary["RequiresIndexDocuments"] as? Bool else { throw InitializableError.missingRequiredParam("RequiresIndexDocuments") }
+            self.requiresIndexDocuments = requiresIndexDocuments
+            if let searchService = dictionary["SearchService"] as? [String: Any] { self.searchService = try Cloudsearch.ServiceEndpoint(dictionary: searchService) }
+            self.searchPartitionCount = dictionary["SearchPartitionCount"] as? Int32
+            self.searchInstanceType = dictionary["SearchInstanceType"] as? String
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.searchInstanceCount = dictionary["SearchInstanceCount"] as? Int32
+            self.deleted = dictionary["Deleted"] as? Bool
+            guard let domainId = dictionary["DomainId"] as? String else { throw InitializableError.missingRequiredParam("DomainId") }
+            self.domainId = domainId
+        }
     }
 
     public struct UpdateScalingParametersResponse: AWSShape {
@@ -332,6 +431,10 @@ extension Cloudsearch {
             self.scalingParameters = scalingParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let scalingParameters = dictionary["ScalingParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScalingParameters") }
+            self.scalingParameters = try Cloudsearch.ScalingParametersStatus(dictionary: scalingParameters)
+        }
     }
 
     public struct ListDomainNamesResponse: AWSShape {
@@ -346,6 +449,11 @@ extension Cloudsearch {
             self.domainNames = domainNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainNames = dictionary["DomainNames"] as? [String: String] {
+                self.domainNames = domainNames
+            }
+        }
     }
 
     public struct DescribeAvailabilityOptionsRequest: AWSShape {
@@ -363,6 +471,11 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deployed = dictionary["Deployed"] as? Bool
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteIndexFieldResponse: AWSShape {
@@ -377,6 +490,10 @@ extension Cloudsearch {
             self.indexField = indexField
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexField = dictionary["IndexField"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexField") }
+            self.indexField = try Cloudsearch.IndexFieldStatus(dictionary: indexField)
+        }
     }
 
     public struct DefineSuggesterRequest: AWSShape {
@@ -392,6 +509,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggester = dictionary["Suggester"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Suggester") }
+            self.suggester = try Cloudsearch.Suggester(dictionary: suggester)
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DescribeIndexFieldsRequest: AWSShape {
@@ -412,6 +535,14 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deployed = dictionary["Deployed"] as? Bool
+            if let fieldNames = dictionary["FieldNames"] as? [String] {
+                self.fieldNames = fieldNames
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteDomainResponse: AWSShape {
@@ -425,6 +556,9 @@ extension Cloudsearch {
             self.domainStatus = domainStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) }
+        }
     }
 
     public struct Suggester: AWSShape {
@@ -440,6 +574,12 @@ extension Cloudsearch {
             self.documentSuggesterOptions = documentSuggesterOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggesterName = dictionary["SuggesterName"] as? String else { throw InitializableError.missingRequiredParam("SuggesterName") }
+            self.suggesterName = suggesterName
+            guard let documentSuggesterOptions = dictionary["DocumentSuggesterOptions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DocumentSuggesterOptions") }
+            self.documentSuggesterOptions = try Cloudsearch.DocumentSuggesterOptions(dictionary: documentSuggesterOptions)
+        }
     }
 
     public struct ScalingParameters: AWSShape {
@@ -460,6 +600,11 @@ extension Cloudsearch {
             self.desiredPartitionCount = desiredPartitionCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.desiredReplicationCount = dictionary["DesiredReplicationCount"] as? Int32
+            self.desiredInstanceType = dictionary["DesiredInstanceType"] as? String
+            self.desiredPartitionCount = dictionary["DesiredPartitionCount"] as? Int32
+        }
     }
 
     public struct DescribeServiceAccessPoliciesRequest: AWSShape {
@@ -477,6 +622,11 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deployed = dictionary["Deployed"] as? Bool
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct CreateDomainResponse: AWSShape {
@@ -490,6 +640,9 @@ extension Cloudsearch {
             self.domainStatus = domainStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) }
+        }
     }
 
     public struct DocumentSuggesterOptions: AWSShape {
@@ -510,6 +663,12 @@ extension Cloudsearch {
             self.sourceField = sourceField
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sortExpression = dictionary["SortExpression"] as? String
+            self.fuzzyMatching = dictionary["FuzzyMatching"] as? String
+            guard let sourceField = dictionary["SourceField"] as? String else { throw InitializableError.missingRequiredParam("SourceField") }
+            self.sourceField = sourceField
+        }
     }
 
     public struct DefineExpressionRequest: AWSShape {
@@ -525,6 +684,12 @@ extension Cloudsearch {
             self.expression = expression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            guard let expression = dictionary["Expression"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Expression") }
+            self.expression = try Cloudsearch.Expression(dictionary: expression)
+        }
     }
 
     public struct TextArrayOptions: AWSShape {
@@ -551,6 +716,13 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.analysisScheme = dictionary["AnalysisScheme"] as? String
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.sourceFields = dictionary["SourceFields"] as? String
+            self.highlightEnabled = dictionary["HighlightEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct DescribeDomainsResponse: AWSShape {
@@ -564,6 +736,10 @@ extension Cloudsearch {
             self.domainStatusList = domainStatusList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainStatusList = dictionary["DomainStatusList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainStatusList") }
+            self.domainStatusList = try domainStatusList.map({ try DomainStatus(dictionary: $0) })
+        }
     }
 
     public struct DeleteSuggesterResponse: AWSShape {
@@ -578,6 +754,10 @@ extension Cloudsearch {
             self.suggester = suggester
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggester = dictionary["Suggester"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Suggester") }
+            self.suggester = try Cloudsearch.SuggesterStatus(dictionary: suggester)
+        }
     }
 
     public struct DefineIndexFieldRequest: AWSShape {
@@ -594,6 +774,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexField = dictionary["IndexField"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexField") }
+            self.indexField = try Cloudsearch.IndexField(dictionary: indexField)
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DefineAnalysisSchemeRequest: AWSShape {
@@ -609,6 +795,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let analysisScheme = dictionary["AnalysisScheme"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalysisScheme") }
+            self.analysisScheme = try Cloudsearch.AnalysisScheme(dictionary: analysisScheme)
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteDomainRequest: AWSShape {
@@ -623,6 +815,10 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct IndexDocumentsRequest: AWSShape {
@@ -636,6 +832,10 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DeleteExpressionRequest: AWSShape {
@@ -652,6 +852,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let expressionName = dictionary["ExpressionName"] as? String else { throw InitializableError.missingRequiredParam("ExpressionName") }
+            self.expressionName = expressionName
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct IndexFieldStatus: AWSShape {
@@ -667,6 +873,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Cloudsearch.IndexField(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct DeleteAnalysisSchemeRequest: AWSShape {
@@ -683,6 +895,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let analysisSchemeName = dictionary["AnalysisSchemeName"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeName") }
+            self.analysisSchemeName = analysisSchemeName
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct ScalingParametersStatus: AWSShape {
@@ -698,6 +916,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Cloudsearch.ScalingParameters(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct AnalysisOptions: AWSShape {
@@ -724,6 +948,13 @@ extension Cloudsearch {
             self.synonyms = synonyms
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stemmingDictionary = dictionary["StemmingDictionary"] as? String
+            self.japaneseTokenizationDictionary = dictionary["JapaneseTokenizationDictionary"] as? String
+            self.stopwords = dictionary["Stopwords"] as? String
+            self.algorithmicStemming = dictionary["AlgorithmicStemming"] as? String
+            self.synonyms = dictionary["Synonyms"] as? String
+        }
     }
 
     public struct UpdateServiceAccessPoliciesRequest: AWSShape {
@@ -740,6 +971,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accessPolicies = dictionary["AccessPolicies"] as? String else { throw InitializableError.missingRequiredParam("AccessPolicies") }
+            self.accessPolicies = accessPolicies
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DateArrayOptions: AWSShape {
@@ -766,6 +1003,13 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.sourceFields = dictionary["SourceFields"] as? String
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct DeleteAnalysisSchemeResponse: AWSShape {
@@ -780,6 +1024,10 @@ extension Cloudsearch {
             self.analysisScheme = analysisScheme
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let analysisScheme = dictionary["AnalysisScheme"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalysisScheme") }
+            self.analysisScheme = try Cloudsearch.AnalysisSchemeStatus(dictionary: analysisScheme)
+        }
     }
 
     public struct BuildSuggestersResponse: AWSShape {
@@ -793,6 +1041,11 @@ extension Cloudsearch {
             self.fieldNames = fieldNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fieldNames = dictionary["FieldNames"] as? [String] {
+                self.fieldNames = fieldNames
+            }
+        }
     }
 
     public struct AnalysisSchemeStatus: AWSShape {
@@ -808,6 +1061,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Cloudsearch.AnalysisScheme(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct AccessPoliciesStatus: AWSShape {
@@ -823,6 +1082,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? String else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = options
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct TextOptions: AWSShape {
@@ -851,6 +1116,14 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.analysisScheme = dictionary["AnalysisScheme"] as? String
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.sourceField = dictionary["SourceField"] as? String
+            self.highlightEnabled = dictionary["HighlightEnabled"] as? Bool
+            self.sortEnabled = dictionary["SortEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct IndexDocumentsResponse: AWSShape {
@@ -865,6 +1138,11 @@ extension Cloudsearch {
             self.fieldNames = fieldNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fieldNames = dictionary["FieldNames"] as? [String] {
+                self.fieldNames = fieldNames
+            }
+        }
     }
 
     public struct DefineExpressionResponse: AWSShape {
@@ -878,6 +1156,10 @@ extension Cloudsearch {
             self.expression = expression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let expression = dictionary["Expression"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Expression") }
+            self.expression = try Cloudsearch.ExpressionStatus(dictionary: expression)
+        }
     }
 
     public struct UpdateAvailabilityOptionsResponse: AWSShape {
@@ -892,6 +1174,9 @@ extension Cloudsearch {
             self.availabilityOptions = availabilityOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) }
+        }
     }
 
     public struct LiteralArrayOptions: AWSShape {
@@ -918,6 +1203,13 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.sourceFields = dictionary["SourceFields"] as? String
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct IntArrayOptions: AWSShape {
@@ -944,6 +1236,13 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.sourceFields = dictionary["SourceFields"] as? String
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? Int64
+        }
     }
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
@@ -958,6 +1257,10 @@ extension Cloudsearch {
             self.analysisSchemes = analysisSchemes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let analysisSchemes = dictionary["AnalysisSchemes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AnalysisSchemes") }
+            self.analysisSchemes = try analysisSchemes.map({ try AnalysisSchemeStatus(dictionary: $0) })
+        }
     }
 
     public struct DescribeExpressionsResponse: AWSShape {
@@ -972,6 +1275,10 @@ extension Cloudsearch {
             self.expressions = expressions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let expressions = dictionary["Expressions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Expressions") }
+            self.expressions = try expressions.map({ try ExpressionStatus(dictionary: $0) })
+        }
     }
 
     public struct Expression: AWSShape {
@@ -987,6 +1294,12 @@ extension Cloudsearch {
             self.expressionName = expressionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let expressionValue = dictionary["ExpressionValue"] as? String else { throw InitializableError.missingRequiredParam("ExpressionValue") }
+            self.expressionValue = expressionValue
+            guard let expressionName = dictionary["ExpressionName"] as? String else { throw InitializableError.missingRequiredParam("ExpressionName") }
+            self.expressionName = expressionName
+        }
     }
 
     public struct SuggesterStatus: AWSShape {
@@ -1002,6 +1315,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Cloudsearch.Suggester(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct DescribeSuggestersRequest: AWSShape {
@@ -1022,6 +1341,14 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deployed = dictionary["Deployed"] as? Bool
+            if let suggesterNames = dictionary["SuggesterNames"] as? [String] {
+                self.suggesterNames = suggesterNames
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct IndexField: AWSShape {
@@ -1060,6 +1387,23 @@ extension Cloudsearch {
             self.doubleArrayOptions = doubleArrayOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let intOptions = dictionary["IntOptions"] as? [String: Any] { self.intOptions = try Cloudsearch.IntOptions(dictionary: intOptions) }
+            if let dateOptions = dictionary["DateOptions"] as? [String: Any] { self.dateOptions = try Cloudsearch.DateOptions(dictionary: dateOptions) }
+            if let textArrayOptions = dictionary["TextArrayOptions"] as? [String: Any] { self.textArrayOptions = try Cloudsearch.TextArrayOptions(dictionary: textArrayOptions) }
+            if let doubleOptions = dictionary["DoubleOptions"] as? [String: Any] { self.doubleOptions = try Cloudsearch.DoubleOptions(dictionary: doubleOptions) }
+            if let literalArrayOptions = dictionary["LiteralArrayOptions"] as? [String: Any] { self.literalArrayOptions = try Cloudsearch.LiteralArrayOptions(dictionary: literalArrayOptions) }
+            if let intArrayOptions = dictionary["IntArrayOptions"] as? [String: Any] { self.intArrayOptions = try Cloudsearch.IntArrayOptions(dictionary: intArrayOptions) }
+            guard let indexFieldType = dictionary["IndexFieldType"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldType") }
+            self.indexFieldType = indexFieldType
+            guard let indexFieldName = dictionary["IndexFieldName"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldName") }
+            self.indexFieldName = indexFieldName
+            if let dateArrayOptions = dictionary["DateArrayOptions"] as? [String: Any] { self.dateArrayOptions = try Cloudsearch.DateArrayOptions(dictionary: dateArrayOptions) }
+            if let literalOptions = dictionary["LiteralOptions"] as? [String: Any] { self.literalOptions = try Cloudsearch.LiteralOptions(dictionary: literalOptions) }
+            if let latLonOptions = dictionary["LatLonOptions"] as? [String: Any] { self.latLonOptions = try Cloudsearch.LatLonOptions(dictionary: latLonOptions) }
+            if let textOptions = dictionary["TextOptions"] as? [String: Any] { self.textOptions = try Cloudsearch.TextOptions(dictionary: textOptions) }
+            if let doubleArrayOptions = dictionary["DoubleArrayOptions"] as? [String: Any] { self.doubleArrayOptions = try Cloudsearch.DoubleArrayOptions(dictionary: doubleArrayOptions) }
+        }
     }
 
     public struct LatLonOptions: AWSShape {
@@ -1088,6 +1432,14 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.sourceField = dictionary["SourceField"] as? String
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.sortEnabled = dictionary["SortEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct DescribeExpressionsRequest: AWSShape {
@@ -1108,6 +1460,14 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deployed = dictionary["Deployed"] as? Bool
+            if let expressionNames = dictionary["ExpressionNames"] as? [String] {
+                self.expressionNames = expressionNames
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DoubleOptions: AWSShape {
@@ -1137,6 +1497,14 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.sourceField = dictionary["SourceField"] as? String
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.sortEnabled = dictionary["SortEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? Double
+        }
     }
 
     public struct DateOptions: AWSShape {
@@ -1165,6 +1533,14 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
+            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
+            self.sourceField = dictionary["SourceField"] as? String
+            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
+            self.sortEnabled = dictionary["SortEnabled"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct UpdateAvailabilityOptionsRequest: AWSShape {
@@ -1181,6 +1557,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let multiAZ = dictionary["MultiAZ"] as? Bool else { throw InitializableError.missingRequiredParam("MultiAZ") }
+            self.multiAZ = multiAZ
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DescribeServiceAccessPoliciesResponse: AWSShape {
@@ -1195,6 +1577,10 @@ extension Cloudsearch {
             self.accessPolicies = accessPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccessPolicies") }
+            self.accessPolicies = try Cloudsearch.AccessPoliciesStatus(dictionary: accessPolicies)
+        }
     }
 
     public struct BuildSuggestersRequest: AWSShape {
@@ -1208,6 +1594,10 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct AvailabilityOptionsStatus: AWSShape {
@@ -1224,6 +1614,12 @@ extension Cloudsearch {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? Bool else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = options
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        }
     }
 
     public struct ServiceEndpoint: AWSShape {
@@ -1237,6 +1633,9 @@ extension Cloudsearch {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpoint = dictionary["Endpoint"] as? String
+        }
     }
 
     public struct DeleteSuggesterRequest: AWSShape {
@@ -1253,6 +1652,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggesterName = dictionary["SuggesterName"] as? String else { throw InitializableError.missingRequiredParam("SuggesterName") }
+            self.suggesterName = suggesterName
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct Limits: AWSShape {
@@ -1268,6 +1673,12 @@ extension Cloudsearch {
             self.maximumPartitionCount = maximumPartitionCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maximumReplicationCount = dictionary["MaximumReplicationCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumReplicationCount") }
+            self.maximumReplicationCount = maximumReplicationCount
+            guard let maximumPartitionCount = dictionary["MaximumPartitionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumPartitionCount") }
+            self.maximumPartitionCount = maximumPartitionCount
+        }
     }
 
     public struct DescribeIndexFieldsResponse: AWSShape {
@@ -1282,6 +1693,10 @@ extension Cloudsearch {
             self.indexFields = indexFields
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexFields = dictionary["IndexFields"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IndexFields") }
+            self.indexFields = try indexFields.map({ try IndexFieldStatus(dictionary: $0) })
+        }
     }
 
     public struct UpdateScalingParametersRequest: AWSShape {
@@ -1297,6 +1712,12 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let scalingParameters = dictionary["ScalingParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScalingParameters") }
+            self.scalingParameters = try Cloudsearch.ScalingParameters(dictionary: scalingParameters)
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DefineAnalysisSchemeResponse: AWSShape {
@@ -1310,6 +1731,10 @@ extension Cloudsearch {
             self.analysisScheme = analysisScheme
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let analysisScheme = dictionary["AnalysisScheme"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalysisScheme") }
+            self.analysisScheme = try Cloudsearch.AnalysisSchemeStatus(dictionary: analysisScheme)
+        }
     }
 
     public struct DefineSuggesterResponse: AWSShape {
@@ -1323,6 +1748,10 @@ extension Cloudsearch {
             self.suggester = suggester
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggester = dictionary["Suggester"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Suggester") }
+            self.suggester = try Cloudsearch.SuggesterStatus(dictionary: suggester)
+        }
     }
 
     public struct DefineIndexFieldResponse: AWSShape {
@@ -1336,6 +1765,10 @@ extension Cloudsearch {
             self.indexField = indexField
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexField = dictionary["IndexField"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexField") }
+            self.indexField = try Cloudsearch.IndexFieldStatus(dictionary: indexField)
+        }
     }
 
     public struct DescribeSuggestersResponse: AWSShape {
@@ -1350,6 +1783,10 @@ extension Cloudsearch {
             self.suggesters = suggesters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggesters = dictionary["Suggesters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Suggesters") }
+            self.suggesters = try suggesters.map({ try SuggesterStatus(dictionary: $0) })
+        }
     }
 
     public struct DescribeAvailabilityOptionsResponse: AWSShape {
@@ -1364,6 +1801,9 @@ extension Cloudsearch {
             self.availabilityOptions = availabilityOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) }
+        }
     }
 
     public struct CreateDomainRequest: AWSShape {
@@ -1378,6 +1818,10 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
 }

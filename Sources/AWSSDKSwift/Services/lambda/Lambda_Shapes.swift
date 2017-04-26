@@ -47,6 +47,10 @@ extension Lambda {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct EventSourceMappingConfiguration: AWSShape {
@@ -82,6 +86,16 @@ extension Lambda {
             self.stateTransitionReason = stateTransitionReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModified = dictionary["LastModified"] as? Date
+            self.uUID = dictionary["UUID"] as? String
+            self.batchSize = dictionary["BatchSize"] as? Int32
+            self.eventSourceArn = dictionary["EventSourceArn"] as? String
+            self.functionArn = dictionary["FunctionArn"] as? String
+            self.state = dictionary["State"] as? String
+            self.lastProcessingResult = dictionary["LastProcessingResult"] as? String
+            self.stateTransitionReason = dictionary["StateTransitionReason"] as? String
+        }
     }
 
     public struct DeleteFunctionRequest: AWSShape {
@@ -105,6 +119,11 @@ extension Lambda {
             self.qualifier = qualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.qualifier = dictionary["Qualifier"] as? String
+        }
     }
 
     public struct UpdateAliasRequest: AWSShape {
@@ -131,6 +150,14 @@ extension Lambda {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.functionVersion = dictionary["FunctionVersion"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct InvocationRequest: AWSShape {
@@ -169,6 +196,15 @@ extension Lambda {
             self.qualifier = qualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.invocationType = dictionary["InvocationType"] as? String
+            self.payload = dictionary["Payload"] as? Data
+            self.clientContext = dictionary["ClientContext"] as? String
+            self.logType = dictionary["LogType"] as? String
+            self.qualifier = dictionary["Qualifier"] as? String
+        }
     }
 
     public struct DeadLetterConfig: AWSShape {
@@ -183,6 +219,9 @@ extension Lambda {
             self.targetArn = targetArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetArn = dictionary["TargetArn"] as? String
+        }
     }
 
     public struct AddPermissionRequest: AWSShape {
@@ -224,6 +263,20 @@ extension Lambda {
             self.qualifier = qualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
+            self.statementId = statementId
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            self.sourceArn = dictionary["SourceArn"] as? String
+            self.sourceAccount = dictionary["SourceAccount"] as? String
+            guard let principal = dictionary["Principal"] as? String else { throw InitializableError.missingRequiredParam("Principal") }
+            self.principal = principal
+            self.eventSourceToken = dictionary["EventSourceToken"] as? String
+            self.qualifier = dictionary["Qualifier"] as? String
+        }
     }
 
     public struct CreateEventSourceMappingRequest: AWSShape {
@@ -253,6 +306,17 @@ extension Lambda {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.batchSize = dictionary["BatchSize"] as? Int32
+            self.startingPositionTimestamp = dictionary["StartingPositionTimestamp"] as? Date
+            guard let eventSourceArn = dictionary["EventSourceArn"] as? String else { throw InitializableError.missingRequiredParam("EventSourceArn") }
+            self.eventSourceArn = eventSourceArn
+            guard let startingPosition = dictionary["StartingPosition"] as? String else { throw InitializableError.missingRequiredParam("StartingPosition") }
+            self.startingPosition = startingPosition
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct EnvironmentError: AWSShape {
@@ -270,6 +334,10 @@ extension Lambda {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct InvokeAsyncRequest: AWSShape {
@@ -290,6 +358,12 @@ extension Lambda {
             self.invokeArgs = invokeArgs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            guard let invokeArgs = dictionary["InvokeArgs"] as? Data else { throw InitializableError.missingRequiredParam("InvokeArgs") }
+            self.invokeArgs = invokeArgs
+        }
     }
 
     public struct Environment: AWSShape {
@@ -304,6 +378,11 @@ extension Lambda {
             self.variables = variables
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let variables = dictionary["Variables"] as? [String: String] {
+                self.variables = variables
+            }
+        }
     }
 
     public struct ListVersionsByFunctionRequest: AWSShape {
@@ -330,6 +409,12 @@ extension Lambda {
             self.functionName = functionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+        }
     }
 
     public struct ListAliasesResponse: AWSShape {
@@ -347,6 +432,12 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
+                self.aliases = try aliases.map({ try AliasConfiguration(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct FunctionCode: AWSShape {
@@ -370,6 +461,12 @@ extension Lambda {
             self.zipFile = zipFile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3ObjectVersion = dictionary["S3ObjectVersion"] as? String
+            self.s3Key = dictionary["S3Key"] as? String
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+            self.zipFile = dictionary["ZipFile"] as? Data
+        }
     }
 
     public struct FunctionCodeLocation: AWSShape {
@@ -387,6 +484,10 @@ extension Lambda {
             self.repositoryType = repositoryType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.location = dictionary["Location"] as? String
+            self.repositoryType = dictionary["RepositoryType"] as? String
+        }
     }
 
     public struct UpdateFunctionCodeRequest: AWSShape {
@@ -419,6 +520,15 @@ extension Lambda {
             self.zipFile = zipFile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3ObjectVersion = dictionary["S3ObjectVersion"] as? String
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+            self.publish = dictionary["Publish"] as? Bool
+            self.s3Key = dictionary["S3Key"] as? String
+            self.zipFile = dictionary["ZipFile"] as? Data
+        }
     }
 
     public struct RemovePermissionRequest: AWSShape {
@@ -445,6 +555,13 @@ extension Lambda {
             self.statementId = statementId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.qualifier = dictionary["Qualifier"] as? String
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
+            self.statementId = statementId
+        }
     }
 
     public struct ListEventSourceMappingsRequest: AWSShape {
@@ -471,6 +588,12 @@ extension Lambda {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.functionName = dictionary["FunctionName"] as? String
+            self.eventSourceArn = dictionary["EventSourceArn"] as? String
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct CreateAliasRequest: AWSShape {
@@ -497,6 +620,15 @@ extension Lambda {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            guard let functionVersion = dictionary["FunctionVersion"] as? String else { throw InitializableError.missingRequiredParam("FunctionVersion") }
+            self.functionVersion = functionVersion
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateEventSourceMappingRequest: AWSShape {
@@ -523,6 +655,13 @@ extension Lambda {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let uUID = dictionary["UUID"] as? String else { throw InitializableError.missingRequiredParam("UUID") }
+            self.uUID = uUID
+            self.functionName = dictionary["FunctionName"] as? String
+            self.batchSize = dictionary["BatchSize"] as? Int32
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct GetFunctionConfigurationRequest: AWSShape {
@@ -546,6 +685,11 @@ extension Lambda {
             self.qualifier = qualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.qualifier = dictionary["Qualifier"] as? String
+        }
     }
 
     public struct InvokeAsyncResponse: AWSShape {
@@ -560,6 +704,9 @@ extension Lambda {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? Int32
+        }
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
@@ -568,6 +715,8 @@ extension Lambda {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetAliasRequest: AWSShape {
@@ -588,6 +737,12 @@ extension Lambda {
             self.functionName = functionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+        }
     }
 
     public struct InvocationResponse: AWSShape {
@@ -614,6 +769,12 @@ extension Lambda {
             self.functionError = functionError
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusCode = dictionary["StatusCode"] as? Int32
+            self.logResult = dictionary["LogResult"] as? String
+            self.payload = dictionary["Payload"] as? Data
+            self.functionError = dictionary["FunctionError"] as? String
+        }
     }
 
     public struct AddPermissionResponse: AWSShape {
@@ -628,6 +789,9 @@ extension Lambda {
             self.statement = statement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statement = dictionary["Statement"] as? String
+        }
     }
 
     public struct UpdateFunctionConfigurationRequest: AWSShape {
@@ -674,6 +838,20 @@ extension Lambda {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kMSKeyArn = dictionary["KMSKeyArn"] as? String
+            self.handler = dictionary["Handler"] as? String
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfig(dictionary: vpcConfig) }
+            self.memorySize = dictionary["MemorySize"] as? Int32
+            self.role = dictionary["Role"] as? String
+            if let environment = dictionary["Environment"] as? [String: Any] { self.environment = try Lambda.Environment(dictionary: environment) }
+            self.runtime = dictionary["Runtime"] as? String
+            if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) }
+            self.timeout = dictionary["Timeout"] as? Int32
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListFunctionsResponse: AWSShape {
@@ -691,6 +869,12 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let functions = dictionary["Functions"] as? [[String: Any]] {
+                self.functions = try functions.map({ try FunctionConfiguration(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct CreateFunctionRequest: AWSShape {
@@ -740,6 +924,26 @@ extension Lambda {
             self.handler = handler
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfig(dictionary: vpcConfig) }
+            if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) }
+            self.timeout = dictionary["Timeout"] as? Int32
+            guard let runtime = dictionary["Runtime"] as? String else { throw InitializableError.missingRequiredParam("Runtime") }
+            self.runtime = runtime
+            self.publish = dictionary["Publish"] as? Bool
+            self.description = dictionary["Description"] as? String
+            self.kMSKeyArn = dictionary["KMSKeyArn"] as? String
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            guard let code = dictionary["Code"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Code") }
+            self.code = try Lambda.FunctionCode(dictionary: code)
+            self.memorySize = dictionary["MemorySize"] as? Int32
+            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = role
+            if let environment = dictionary["Environment"] as? [String: Any] { self.environment = try Lambda.Environment(dictionary: environment) }
+            guard let handler = dictionary["Handler"] as? String else { throw InitializableError.missingRequiredParam("Handler") }
+            self.handler = handler
+        }
     }
 
     public struct VpcConfigResponse: AWSShape {
@@ -760,6 +964,15 @@ extension Lambda {
             self.securityGroupIds = securityGroupIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+        }
     }
 
     public struct GetPolicyRequest: AWSShape {
@@ -783,6 +996,11 @@ extension Lambda {
             self.qualifier = qualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.qualifier = dictionary["Qualifier"] as? String
+        }
     }
 
     public struct FunctionConfiguration: AWSShape {
@@ -842,6 +1060,24 @@ extension Lambda {
             self.handler = handler
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfigResponse(dictionary: vpcConfig) }
+            if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) }
+            self.timeout = dictionary["Timeout"] as? Int32
+            self.runtime = dictionary["Runtime"] as? String
+            self.codeSha256 = dictionary["CodeSha256"] as? String
+            self.description = dictionary["Description"] as? String
+            self.lastModified = dictionary["LastModified"] as? String
+            self.kMSKeyArn = dictionary["KMSKeyArn"] as? String
+            self.functionName = dictionary["FunctionName"] as? String
+            self.memorySize = dictionary["MemorySize"] as? Int32
+            self.functionArn = dictionary["FunctionArn"] as? String
+            self.version = dictionary["Version"] as? String
+            self.role = dictionary["Role"] as? String
+            self.codeSize = dictionary["CodeSize"] as? Int64
+            if let environment = dictionary["Environment"] as? [String: Any] { self.environment = try Lambda.EnvironmentResponse(dictionary: environment) }
+            self.handler = dictionary["Handler"] as? String
+        }
     }
 
     public struct GetPolicyResponse: AWSShape {
@@ -856,6 +1092,9 @@ extension Lambda {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+        }
     }
 
     public struct ListVersionsByFunctionResponse: AWSShape {
@@ -873,6 +1112,12 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let versions = dictionary["Versions"] as? [[String: Any]] {
+                self.versions = try versions.map({ try FunctionConfiguration(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct AccountLimit: AWSShape {
@@ -896,6 +1141,12 @@ extension Lambda {
             self.totalCodeSize = totalCodeSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.codeSizeZipped = dictionary["CodeSizeZipped"] as? Int64
+            self.codeSizeUnzipped = dictionary["CodeSizeUnzipped"] as? Int64
+            self.concurrentExecutions = dictionary["ConcurrentExecutions"] as? Int32
+            self.totalCodeSize = dictionary["TotalCodeSize"] as? Int64
+        }
     }
 
     public struct AliasConfiguration: AWSShape {
@@ -919,6 +1170,12 @@ extension Lambda {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.functionVersion = dictionary["FunctionVersion"] as? String
+            self.aliasArn = dictionary["AliasArn"] as? String
+            self.name = dictionary["Name"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteAliasRequest: AWSShape {
@@ -939,6 +1196,12 @@ extension Lambda {
             self.functionName = functionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+        }
     }
 
     public struct ListAliasesRequest: AWSShape {
@@ -968,6 +1231,13 @@ extension Lambda {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.functionVersion = dictionary["FunctionVersion"] as? String
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct EnvironmentResponse: AWSShape {
@@ -984,6 +1254,12 @@ extension Lambda {
             self.variables = variables
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let error = dictionary["Error"] as? [String: Any] { self.error = try Lambda.EnvironmentError(dictionary: error) }
+            if let variables = dictionary["Variables"] as? [String: String] {
+                self.variables = variables
+            }
+        }
     }
 
     public struct AccountUsage: AWSShape {
@@ -1001,6 +1277,10 @@ extension Lambda {
             self.totalCodeSize = totalCodeSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.functionCount = dictionary["FunctionCount"] as? Int64
+            self.totalCodeSize = dictionary["TotalCodeSize"] as? Int64
+        }
     }
 
     public struct VpcConfig: AWSShape {
@@ -1018,6 +1298,14 @@ extension Lambda {
             self.securityGroupIds = securityGroupIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+        }
     }
 
     public struct DeleteEventSourceMappingRequest: AWSShape {
@@ -1035,6 +1323,10 @@ extension Lambda {
             self.uUID = uUID
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let uUID = dictionary["UUID"] as? String else { throw InitializableError.missingRequiredParam("UUID") }
+            self.uUID = uUID
+        }
     }
 
     public struct GetEventSourceMappingRequest: AWSShape {
@@ -1052,6 +1344,10 @@ extension Lambda {
             self.uUID = uUID
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let uUID = dictionary["UUID"] as? String else { throw InitializableError.missingRequiredParam("UUID") }
+            self.uUID = uUID
+        }
     }
 
     public struct PublishVersionRequest: AWSShape {
@@ -1075,6 +1371,12 @@ extension Lambda {
             self.functionName = functionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.codeSha256 = dictionary["CodeSha256"] as? String
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+        }
     }
 
     public struct GetFunctionResponse: AWSShape {
@@ -1090,6 +1392,10 @@ extension Lambda {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configuration = dictionary["Configuration"] as? [String: Any] { self.configuration = try Lambda.FunctionConfiguration(dictionary: configuration) }
+            if let code = dictionary["Code"] as? [String: Any] { self.code = try Lambda.FunctionCodeLocation(dictionary: code) }
+        }
     }
 
     public struct GetFunctionRequest: AWSShape {
@@ -1113,6 +1419,11 @@ extension Lambda {
             self.qualifier = qualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.qualifier = dictionary["Qualifier"] as? String
+        }
     }
 
     public struct ListEventSourceMappingsResponse: AWSShape {
@@ -1130,6 +1441,12 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSourceMappings = dictionary["EventSourceMappings"] as? [[String: Any]] {
+                self.eventSourceMappings = try eventSourceMappings.map({ try EventSourceMappingConfiguration(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct GetAccountSettingsResponse: AWSShape {
@@ -1145,6 +1462,10 @@ extension Lambda {
             self.accountLimit = accountLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accountUsage = dictionary["AccountUsage"] as? [String: Any] { self.accountUsage = try Lambda.AccountUsage(dictionary: accountUsage) }
+            if let accountLimit = dictionary["AccountLimit"] as? [String: Any] { self.accountLimit = try Lambda.AccountLimit(dictionary: accountLimit) }
+        }
     }
 
 }

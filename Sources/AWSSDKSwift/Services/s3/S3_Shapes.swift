@@ -43,6 +43,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct MetricsAndOperator: AWSShape {
@@ -60,6 +64,12 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct LifecycleExpiration: AWSShape {
@@ -80,6 +90,11 @@ extension S3 {
             self.days = days
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expiredObjectDeleteMarker = dictionary["ExpiredObjectDeleteMarker"] as? Bool
+            self.date = dictionary["Date"] as? Date
+            self.days = dictionary["Days"] as? Int32
+        }
     }
 
     public struct PutBucketCorsRequest: AWSShape {
@@ -103,6 +118,13 @@ extension S3 {
             self.contentMD5 = contentMD5
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let cORSConfiguration = dictionary["CORSConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CORSConfiguration") }
+            self.cORSConfiguration = try S3.CORSConfiguration(dictionary: cORSConfiguration)
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+        }
     }
 
     public struct DeleteBucketCorsRequest: AWSShape {
@@ -119,6 +141,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct Rule: AWSShape {
@@ -149,6 +175,18 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iD = dictionary["ID"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) }
+            if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) }
+            if let transition = dictionary["Transition"] as? [String: Any] { self.transition = try S3.Transition(dictionary: transition) }
+            if let noncurrentVersionTransition = dictionary["NoncurrentVersionTransition"] as? [String: Any] { self.noncurrentVersionTransition = try S3.NoncurrentVersionTransition(dictionary: noncurrentVersionTransition) }
+            if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) }
+            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
+            self.prefix = prefix
+        }
     }
 
     public struct GetBucketReplicationRequest: AWSShape {
@@ -165,6 +203,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct GetBucketLifecycleConfigurationRequest: AWSShape {
@@ -181,6 +223,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct LifecycleRuleAndOperator: AWSShape {
@@ -197,6 +243,12 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct GetBucketPolicyRequest: AWSShape {
@@ -213,6 +265,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct CopyObjectResult: AWSShape {
@@ -228,6 +284,10 @@ extension S3 {
             self.lastModified = lastModified
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.lastModified = dictionary["LastModified"] as? Date
+        }
     }
 
     public struct PutBucketAccelerateConfigurationRequest: AWSShape {
@@ -248,6 +308,12 @@ extension S3 {
             self.accelerateConfiguration = accelerateConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let accelerateConfiguration = dictionary["AccelerateConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccelerateConfiguration") }
+            self.accelerateConfiguration = try S3.AccelerateConfiguration(dictionary: accelerateConfiguration)
+        }
     }
 
     public struct GetBucketLocationOutput: AWSShape {
@@ -261,6 +327,9 @@ extension S3 {
             self.locationConstraint = locationConstraint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.locationConstraint = dictionary["LocationConstraint"] as? String
+        }
     }
 
     public struct RedirectAllRequestsTo: AWSShape {
@@ -278,6 +347,11 @@ extension S3 {
             self.`protocol` = `protocol`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostName = dictionary["HostName"] as? String else { throw InitializableError.missingRequiredParam("HostName") }
+            self.hostName = hostName
+            self.`protocol` = dictionary["Protocol"] as? String
+        }
     }
 
     public struct UploadPartCopyOutput: AWSShape {
@@ -311,6 +385,15 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let copyPartResult = dictionary["CopyPartResult"] as? [String: Any] { self.copyPartResult = try S3.CopyPartResult(dictionary: copyPartResult) }
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.copySourceVersionId = dictionary["CopySourceVersionId"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct Tagging: AWSShape {
@@ -324,6 +407,10 @@ extension S3 {
             self.tagSet = tagSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagSet = dictionary["TagSet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagSet") }
+            self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
@@ -338,6 +425,9 @@ extension S3 {
             self.analyticsConfiguration = analyticsConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let analyticsConfiguration = dictionary["AnalyticsConfiguration"] as? [String: Any] { self.analyticsConfiguration = try S3.AnalyticsConfiguration(dictionary: analyticsConfiguration) }
+        }
     }
 
     public struct Owner: AWSShape {
@@ -353,6 +443,10 @@ extension S3 {
             self.displayName = displayName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iD = dictionary["ID"] as? String
+            self.displayName = dictionary["DisplayName"] as? String
+        }
     }
 
     public struct CreateMultipartUploadOutput: AWSShape {
@@ -396,6 +490,18 @@ extension S3 {
             self.serverSideEncryption = serverSideEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.abortDate = dictionary["AbortDate"] as? Date
+            self.abortRuleId = dictionary["AbortRuleId"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.key = dictionary["Key"] as? String
+            self.uploadId = dictionary["UploadId"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+        }
     }
 
     public struct Object: AWSShape {
@@ -420,6 +526,14 @@ extension S3 {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModified = dictionary["LastModified"] as? Date
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.key = dictionary["Key"] as? String
+            self.eTag = dictionary["ETag"] as? String
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            self.size = dictionary["Size"] as? Int32
+        }
     }
 
     public struct CopyObjectRequest: AWSShape {
@@ -533,6 +647,46 @@ extension S3 {
             self.serverSideEncryption = serverSideEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.tagging = dictionary["Tagging"] as? String
+            self.contentDisposition = dictionary["ContentDisposition"] as? String
+            self.copySourceIfModifiedSince = dictionary["CopySourceIfModifiedSince"] as? Date
+            self.copySourceIfNoneMatch = dictionary["CopySourceIfNoneMatch"] as? String
+            self.copySourceIfMatch = dictionary["CopySourceIfMatch"] as? String
+            self.copySourceSSECustomerKey = dictionary["CopySourceSSECustomerKey"] as? String
+            self.contentLanguage = dictionary["ContentLanguage"] as? String
+            self.grantReadACP = dictionary["GrantReadACP"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.contentEncoding = dictionary["ContentEncoding"] as? String
+            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.copySourceSSECustomerKeyMD5 = dictionary["CopySourceSSECustomerKeyMD5"] as? String
+            self.copySourceIfUnmodifiedSince = dictionary["CopySourceIfUnmodifiedSince"] as? Date
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.cacheControl = dictionary["CacheControl"] as? String
+            self.taggingDirective = dictionary["TaggingDirective"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.metadataDirective = dictionary["MetadataDirective"] as? String
+            guard let copySource = dictionary["CopySource"] as? String else { throw InitializableError.missingRequiredParam("CopySource") }
+            self.copySource = copySource
+            self.aCL = dictionary["ACL"] as? String
+            if let metadata = dictionary["Metadata"] as? [String: String] {
+                self.metadata = metadata
+            }
+            self.expires = dictionary["Expires"] as? Date
+            self.contentType = dictionary["ContentType"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.copySourceSSECustomerAlgorithm = dictionary["CopySourceSSECustomerAlgorithm"] as? String
+            self.grantRead = dictionary["GrantRead"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+        }
     }
 
     public struct GetBucketLocationRequest: AWSShape {
@@ -549,6 +703,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct Grant: AWSShape {
@@ -565,6 +723,10 @@ extension S3 {
             self.grantee = grantee
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.permission = dictionary["Permission"] as? String
+            if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) }
+        }
     }
 
     public struct InventoryDestination: AWSShape {
@@ -579,6 +741,10 @@ extension S3 {
             self.s3BucketDestination = s3BucketDestination
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let s3BucketDestination = dictionary["S3BucketDestination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3BucketDestination") }
+            self.s3BucketDestination = try S3.InventoryS3BucketDestination(dictionary: s3BucketDestination)
+        }
     }
 
     public struct ListObjectsRequest: AWSShape {
@@ -618,6 +784,16 @@ extension S3 {
             self.encodingType = encodingType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+        }
     }
 
     public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
@@ -644,6 +820,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let analyticsConfiguration = dictionary["AnalyticsConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalyticsConfiguration") }
+            self.analyticsConfiguration = try S3.AnalyticsConfiguration(dictionary: analyticsConfiguration)
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CloudFunctionConfiguration: AWSShape {
@@ -665,6 +849,15 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cloudFunction = dictionary["CloudFunction"] as? String
+            self.invocationRole = dictionary["InvocationRole"] as? String
+            if let events = dictionary["Events"] as? [String] {
+                self.events = events
+            }
+            self.event = dictionary["Event"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct HeadObjectRequest: AWSShape {
@@ -721,6 +914,23 @@ extension S3 {
             self.ifMatch = ifMatch
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.ifUnmodifiedSince = dictionary["IfUnmodifiedSince"] as? Date
+            self.partNumber = dictionary["PartNumber"] as? Int32
+            self.range = dictionary["Range"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.ifNoneMatch = dictionary["IfNoneMatch"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.ifModifiedSince = dictionary["IfModifiedSince"] as? Date
+            self.ifMatch = dictionary["IfMatch"] as? String
+        }
     }
 
     public struct GetBucketRequestPaymentOutput: AWSShape {
@@ -735,6 +945,9 @@ extension S3 {
             self.payer = payer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.payer = dictionary["Payer"] as? String
+        }
     }
 
     public struct AbortMultipartUploadOutput: AWSShape {
@@ -751,6 +964,9 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct PutObjectTaggingRequest: AWSShape {
@@ -781,6 +997,16 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let tagging = dictionary["Tagging"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tagging") }
+            self.tagging = try S3.Tagging(dictionary: tagging)
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.versionId = dictionary["VersionId"] as? String
+        }
     }
 
     public struct CompletedMultipartUpload: AWSShape {
@@ -794,6 +1020,11 @@ extension S3 {
             self.parts = parts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parts = dictionary["Parts"] as? [[String: Any]] {
+                self.parts = try parts.map({ try CompletedPart(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetObjectOutput: AWSShape {
@@ -888,6 +1119,38 @@ extension S3 {
             self.deleteMarker = deleteMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.partsCount = dictionary["PartsCount"] as? Int32
+            self.contentDisposition = dictionary["ContentDisposition"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.replicationStatus = dictionary["ReplicationStatus"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.contentLanguage = dictionary["ContentLanguage"] as? String
+            self.tagCount = dictionary["TagCount"] as? Int32
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.restore = dictionary["Restore"] as? String
+            self.contentEncoding = dictionary["ContentEncoding"] as? String
+            self.contentLength = dictionary["ContentLength"] as? Int64
+            self.expiration = dictionary["Expiration"] as? String
+            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.eTag = dictionary["ETag"] as? String
+            self.body = dictionary["Body"] as? Data
+            self.missingMeta = dictionary["MissingMeta"] as? Int32
+            self.cacheControl = dictionary["CacheControl"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.acceptRanges = dictionary["AcceptRanges"] as? String
+            self.lastModified = dictionary["LastModified"] as? Date
+            if let metadata = dictionary["Metadata"] as? [String: String] {
+                self.metadata = metadata
+            }
+            self.expires = dictionary["Expires"] as? Date
+            self.contentRange = dictionary["ContentRange"] as? String
+            self.contentType = dictionary["ContentType"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+        }
     }
 
     public struct NotificationConfigurationDeprecated: AWSShape {
@@ -905,6 +1168,11 @@ extension S3 {
             self.cloudFunctionConfiguration = cloudFunctionConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let queueConfiguration = dictionary["QueueConfiguration"] as? [String: Any] { self.queueConfiguration = try S3.QueueConfigurationDeprecated(dictionary: queueConfiguration) }
+            if let topicConfiguration = dictionary["TopicConfiguration"] as? [String: Any] { self.topicConfiguration = try S3.TopicConfigurationDeprecated(dictionary: topicConfiguration) }
+            if let cloudFunctionConfiguration = dictionary["CloudFunctionConfiguration"] as? [String: Any] { self.cloudFunctionConfiguration = try S3.CloudFunctionConfiguration(dictionary: cloudFunctionConfiguration) }
+        }
     }
 
     public struct Transition: AWSShape {
@@ -925,6 +1193,11 @@ extension S3 {
             self.days = days
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.date = dictionary["Date"] as? Date
+            self.days = dictionary["Days"] as? Int32
+        }
     }
 
     public struct MetricsConfiguration: AWSShape {
@@ -942,6 +1215,11 @@ extension S3 {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.MetricsFilter(dictionary: filter) }
+        }
     }
 
     public struct Condition: AWSShape {
@@ -959,6 +1237,10 @@ extension S3 {
             self.keyPrefixEquals = keyPrefixEquals
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.httpErrorCodeReturnedEquals = dictionary["HttpErrorCodeReturnedEquals"] as? String
+            self.keyPrefixEquals = dictionary["KeyPrefixEquals"] as? String
+        }
     }
 
     public struct VersioningConfiguration: AWSShape {
@@ -976,6 +1258,10 @@ extension S3 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mFADelete = dictionary["MFADelete"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct AccelerateConfiguration: AWSShape {
@@ -990,6 +1276,9 @@ extension S3 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct PutBucketLoggingRequest: AWSShape {
@@ -1013,6 +1302,13 @@ extension S3 {
             self.bucketLoggingStatus = bucketLoggingStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let bucketLoggingStatus = dictionary["BucketLoggingStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BucketLoggingStatus") }
+            self.bucketLoggingStatus = try S3.BucketLoggingStatus(dictionary: bucketLoggingStatus)
+        }
     }
 
     public struct GetBucketPolicyOutput: AWSShape {
@@ -1027,6 +1323,9 @@ extension S3 {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+        }
     }
 
     public struct ReplicationConfiguration: AWSShape {
@@ -1044,6 +1343,12 @@ extension S3 {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = role
+            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            self.rules = try rules.map({ try ReplicationRule(dictionary: $0) })
+        }
     }
 
     public struct ObjectVersion: AWSShape {
@@ -1077,6 +1382,16 @@ extension S3 {
             self.owner = owner
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModified = dictionary["LastModified"] as? Date
+            self.size = dictionary["Size"] as? Int32
+            self.versionId = dictionary["VersionId"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.key = dictionary["Key"] as? String
+            self.isLatest = dictionary["IsLatest"] as? Bool
+            self.eTag = dictionary["ETag"] as? String
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+        }
     }
 
     public struct GetBucketReplicationOutput: AWSShape {
@@ -1090,6 +1405,9 @@ extension S3 {
             self.replicationConfiguration = replicationConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationConfiguration = dictionary["ReplicationConfiguration"] as? [String: Any] { self.replicationConfiguration = try S3.ReplicationConfiguration(dictionary: replicationConfiguration) }
+        }
     }
 
     public struct PutBucketInventoryConfigurationRequest: AWSShape {
@@ -1116,6 +1434,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let inventoryConfiguration = dictionary["InventoryConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InventoryConfiguration") }
+            self.inventoryConfiguration = try S3.InventoryConfiguration(dictionary: inventoryConfiguration)
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListObjectsOutput: AWSShape {
@@ -1150,6 +1476,22 @@ extension S3 {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.name = dictionary["Name"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
+                self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            }
+            if let contents = dictionary["Contents"] as? [[String: Any]] {
+                self.contents = try contents.map({ try Object(dictionary: $0) })
+            }
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct CompleteMultipartUploadOutput: AWSShape {
@@ -1187,6 +1529,17 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.location = dictionary["Location"] as? String
+            self.expiration = dictionary["Expiration"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.key = dictionary["Key"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.eTag = dictionary["ETag"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct NotificationConfigurationFilter: AWSShape {
@@ -1200,6 +1553,9 @@ extension S3 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let key = dictionary["Key"] as? [String: Any] { self.key = try S3.S3KeyFilter(dictionary: key) }
+        }
     }
 
     public struct PutObjectAclRequest: AWSShape {
@@ -1251,6 +1607,22 @@ extension S3 {
             self.aCL = aCL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) }
+            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.grantWrite = dictionary["GrantWrite"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.grantReadACP = dictionary["GrantReadACP"] as? String
+            self.grantRead = dictionary["GrantRead"] as? String
+            self.aCL = dictionary["ACL"] as? String
+        }
     }
 
     public struct TopicConfiguration: AWSShape {
@@ -1271,6 +1643,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) }
+            guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
+            self.events = events
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct RoutingRule: AWSShape {
@@ -1288,6 +1668,11 @@ extension S3 {
             self.condition = condition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let redirect = dictionary["Redirect"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Redirect") }
+            self.redirect = try S3.Redirect(dictionary: redirect)
+            if let condition = dictionary["Condition"] as? [String: Any] { self.condition = try S3.Condition(dictionary: condition) }
+        }
     }
 
     public struct LifecycleRuleFilter: AWSShape {
@@ -1307,6 +1692,11 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) }
+            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.LifecycleRuleAndOperator(dictionary: and) }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct IndexDocument: AWSShape {
@@ -1321,6 +1711,10 @@ extension S3 {
             self.suffix = suffix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suffix = dictionary["Suffix"] as? String else { throw InitializableError.missingRequiredParam("Suffix") }
+            self.suffix = suffix
+        }
     }
 
     public struct HeadObjectOutput: AWSShape {
@@ -1406,6 +1800,35 @@ extension S3 {
             self.deleteMarker = deleteMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.partsCount = dictionary["PartsCount"] as? Int32
+            self.contentDisposition = dictionary["ContentDisposition"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.replicationStatus = dictionary["ReplicationStatus"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.contentLanguage = dictionary["ContentLanguage"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.restore = dictionary["Restore"] as? String
+            self.contentEncoding = dictionary["ContentEncoding"] as? String
+            self.contentLength = dictionary["ContentLength"] as? Int64
+            self.expiration = dictionary["Expiration"] as? String
+            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.eTag = dictionary["ETag"] as? String
+            self.missingMeta = dictionary["MissingMeta"] as? Int32
+            self.cacheControl = dictionary["CacheControl"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.acceptRanges = dictionary["AcceptRanges"] as? String
+            self.lastModified = dictionary["LastModified"] as? Date
+            if let metadata = dictionary["Metadata"] as? [String: String] {
+                self.metadata = metadata
+            }
+            self.expires = dictionary["Expires"] as? Date
+            self.contentType = dictionary["ContentType"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+        }
     }
 
     public struct CompletedPart: AWSShape {
@@ -1423,6 +1846,10 @@ extension S3 {
             self.partNumber = partNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.partNumber = dictionary["PartNumber"] as? Int32
+        }
     }
 
     public struct GetBucketTaggingRequest: AWSShape {
@@ -1439,6 +1866,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct ListObjectsV2Output: AWSShape {
@@ -1486,6 +1917,24 @@ extension S3 {
             self.keyCount = keyCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.startAfter = dictionary["StartAfter"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.name = dictionary["Name"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
+            if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
+                self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            }
+            if let contents = dictionary["Contents"] as? [[String: Any]] {
+                self.contents = try contents.map({ try Object(dictionary: $0) })
+            }
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+            self.keyCount = dictionary["KeyCount"] as? Int32
+        }
     }
 
     public struct TargetGrant: AWSShape {
@@ -1502,6 +1951,10 @@ extension S3 {
             self.grantee = grantee
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.permission = dictionary["Permission"] as? String
+            if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) }
+        }
     }
 
     public struct BucketLoggingStatus: AWSShape {
@@ -1515,6 +1968,9 @@ extension S3 {
             self.loggingEnabled = loggingEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loggingEnabled = dictionary["LoggingEnabled"] as? [String: Any] { self.loggingEnabled = try S3.LoggingEnabled(dictionary: loggingEnabled) }
+        }
     }
 
     public struct AnalyticsS3BucketDestination: AWSShape {
@@ -1538,6 +1994,14 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            self.format = format
+            self.bucketAccountId = dictionary["BucketAccountId"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct PutBucketLifecycleRequest: AWSShape {
@@ -1561,6 +2025,12 @@ extension S3 {
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.LifecycleConfiguration(dictionary: lifecycleConfiguration) }
+        }
     }
 
     public struct WebsiteConfiguration: AWSShape {
@@ -1580,6 +2050,14 @@ extension S3 {
             self.redirectAllRequestsTo = redirectAllRequestsTo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let routingRules = dictionary["RoutingRules"] as? [[String: Any]] {
+                self.routingRules = try routingRules.map({ try RoutingRule(dictionary: $0) })
+            }
+            if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) }
+            if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) }
+            if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) }
+        }
     }
 
     public struct NotificationConfiguration: AWSShape {
@@ -1597,6 +2075,17 @@ extension S3 {
             self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let topicConfigurations = dictionary["TopicConfigurations"] as? [[String: Any]] {
+                self.topicConfigurations = try topicConfigurations.map({ try TopicConfiguration(dictionary: $0) })
+            }
+            if let queueConfigurations = dictionary["QueueConfigurations"] as? [[String: Any]] {
+                self.queueConfigurations = try queueConfigurations.map({ try QueueConfiguration(dictionary: $0) })
+            }
+            if let lambdaFunctionConfigurations = dictionary["LambdaFunctionConfigurations"] as? [[String: Any]] {
+                self.lambdaFunctionConfigurations = try lambdaFunctionConfigurations.map({ try LambdaFunctionConfiguration(dictionary: $0) })
+            }
+        }
     }
 
     public struct AnalyticsFilter: AWSShape {
@@ -1617,6 +2106,11 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) }
+            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.AnalyticsAndOperator(dictionary: and) }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct GetBucketAclRequest: AWSShape {
@@ -1633,6 +2127,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct GetObjectTaggingRequest: AWSShape {
@@ -1656,6 +2154,13 @@ extension S3 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.versionId = dictionary["VersionId"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct PutBucketLifecycleConfigurationRequest: AWSShape {
@@ -1674,6 +2179,11 @@ extension S3 {
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.BucketLifecycleConfiguration(dictionary: lifecycleConfiguration) }
+        }
     }
 
     public struct ListObjectVersionsOutput: AWSShape {
@@ -1716,6 +2226,27 @@ extension S3 {
             self.versions = versions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.versionIdMarker = dictionary["VersionIdMarker"] as? String
+            self.nextVersionIdMarker = dictionary["NextVersionIdMarker"] as? String
+            if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
+                self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            }
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.keyMarker = dictionary["KeyMarker"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+            self.name = dictionary["Name"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            if let deleteMarkers = dictionary["DeleteMarkers"] as? [[String: Any]] {
+                self.deleteMarkers = try deleteMarkers.map({ try DeleteMarkerEntry(dictionary: $0) })
+            }
+            self.nextKeyMarker = dictionary["NextKeyMarker"] as? String
+            if let versions = dictionary["Versions"] as? [[String: Any]] {
+                self.versions = try versions.map({ try ObjectVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct AnalyticsConfiguration: AWSShape {
@@ -1736,6 +2267,13 @@ extension S3 {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let storageClassAnalysis = dictionary["StorageClassAnalysis"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StorageClassAnalysis") }
+            self.storageClassAnalysis = try S3.StorageClassAnalysis(dictionary: storageClassAnalysis)
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.AnalyticsFilter(dictionary: filter) }
+        }
     }
 
     public struct GetBucketVersioningOutput: AWSShape {
@@ -1753,6 +2291,10 @@ extension S3 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mFADelete = dictionary["MFADelete"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct InventoryFilter: AWSShape {
@@ -1767,6 +2309,10 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
+            self.prefix = prefix
+        }
     }
 
     public struct DeleteObjectsRequest: AWSShape {
@@ -1793,6 +2339,14 @@ extension S3 {
             self.delete = delete
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.mFA = dictionary["MFA"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            guard let delete = dictionary["Delete"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Delete") }
+            self.delete = try S3.Delete(dictionary: delete)
+        }
     }
 
     public struct PutBucketVersioningRequest: AWSShape {
@@ -1819,6 +2373,14 @@ extension S3 {
             self.versioningConfiguration = versioningConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.mFA = dictionary["MFA"] as? String
+            guard let versioningConfiguration = dictionary["VersioningConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VersioningConfiguration") }
+            self.versioningConfiguration = try S3.VersioningConfiguration(dictionary: versioningConfiguration)
+        }
     }
 
     public struct GetObjectAclOutput: AWSShape {
@@ -1840,6 +2402,13 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let grants = dictionary["Grants"] as? [[String: Any]] {
+                self.grants = try grants.map({ try Grant(dictionary: $0) })
+            }
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct Delete: AWSShape {
@@ -1856,6 +2425,11 @@ extension S3 {
             self.quiet = quiet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objects = dictionary["Objects"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Objects") }
+            self.objects = try objects.map({ try ObjectIdentifier(dictionary: $0) })
+            self.quiet = dictionary["Quiet"] as? Bool
+        }
     }
 
     public struct ListMultipartUploadsRequest: AWSShape {
@@ -1892,6 +2466,16 @@ extension S3 {
             self.keyMarker = keyMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.uploadIdMarker = dictionary["UploadIdMarker"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.maxUploads = dictionary["MaxUploads"] as? Int32
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+            self.keyMarker = dictionary["KeyMarker"] as? String
+        }
     }
 
     public struct DeleteObjectsOutput: AWSShape {
@@ -1912,6 +2496,15 @@ extension S3 {
             self.deleted = deleted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            if let errors = dictionary["Errors"] as? [[String: Any]] {
+                self.errors = try errors.map({ try Error(dictionary: $0) })
+            }
+            if let deleted = dictionary["Deleted"] as? [[String: Any]] {
+                self.deleted = try deleted.map({ try DeletedObject(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
@@ -1935,6 +2528,12 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteBucketReplicationRequest: AWSShape {
@@ -1951,6 +2550,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
@@ -1974,6 +2577,14 @@ extension S3 {
             self.analyticsConfigurationList = analyticsConfigurationList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
+            if let analyticsConfigurationList = dictionary["AnalyticsConfigurationList"] as? [[String: Any]] {
+                self.analyticsConfigurationList = try analyticsConfigurationList.map({ try AnalyticsConfiguration(dictionary: $0) })
+            }
+        }
     }
 
     public struct InventorySchedule: AWSShape {
@@ -1988,6 +2599,10 @@ extension S3 {
             self.frequency = frequency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let frequency = dictionary["Frequency"] as? String else { throw InitializableError.missingRequiredParam("Frequency") }
+            self.frequency = frequency
+        }
     }
 
     public struct ListMultipartUploadsOutput: AWSShape {
@@ -2032,6 +2647,24 @@ extension S3 {
             self.nextUploadIdMarker = nextUploadIdMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.keyMarker = dictionary["KeyMarker"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.uploadIdMarker = dictionary["UploadIdMarker"] as? String
+            if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
+                self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            }
+            self.maxUploads = dictionary["MaxUploads"] as? Int32
+            if let uploads = dictionary["Uploads"] as? [[String: Any]] {
+                self.uploads = try uploads.map({ try MultipartUpload(dictionary: $0) })
+            }
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+            self.nextKeyMarker = dictionary["NextKeyMarker"] as? String
+            self.nextUploadIdMarker = dictionary["NextUploadIdMarker"] as? String
+        }
     }
 
     public struct GetBucketMetricsConfigurationOutput: AWSShape {
@@ -2046,6 +2679,9 @@ extension S3 {
             self.metricsConfiguration = metricsConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metricsConfiguration = dictionary["MetricsConfiguration"] as? [String: Any] { self.metricsConfiguration = try S3.MetricsConfiguration(dictionary: metricsConfiguration) }
+        }
     }
 
     public struct ListBucketMetricsConfigurationsOutput: AWSShape {
@@ -2069,6 +2705,14 @@ extension S3 {
             self.nextContinuationToken = nextContinuationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let metricsConfigurationList = dictionary["MetricsConfigurationList"] as? [[String: Any]] {
+                self.metricsConfigurationList = try metricsConfigurationList.map({ try MetricsConfiguration(dictionary: $0) })
+            }
+            self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
+        }
     }
 
     public struct GetBucketAclOutput: AWSShape {
@@ -2085,6 +2729,12 @@ extension S3 {
             self.grants = grants
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let grants = dictionary["Grants"] as? [[String: Any]] {
+                self.grants = try grants.map({ try Grant(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListObjectsV2Request: AWSShape {
@@ -2132,6 +2782,18 @@ extension S3 {
             self.encodingType = encodingType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.startAfter = dictionary["StartAfter"] as? String
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.fetchOwner = dictionary["FetchOwner"] as? Bool
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+        }
     }
 
     public struct HeadBucketRequest: AWSShape {
@@ -2148,6 +2810,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct CreateBucketRequest: AWSShape {
@@ -2187,6 +2853,17 @@ extension S3 {
             self.grantReadACP = grantReadACP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            if let createBucketConfiguration = dictionary["CreateBucketConfiguration"] as? [String: Any] { self.createBucketConfiguration = try S3.CreateBucketConfiguration(dictionary: createBucketConfiguration) }
+            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.grantWrite = dictionary["GrantWrite"] as? String
+            self.grantRead = dictionary["GrantRead"] as? String
+            self.aCL = dictionary["ACL"] as? String
+            self.grantReadACP = dictionary["GrantReadACP"] as? String
+        }
     }
 
     public struct Initiator: AWSShape {
@@ -2204,6 +2881,10 @@ extension S3 {
             self.displayName = displayName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iD = dictionary["ID"] as? String
+            self.displayName = dictionary["DisplayName"] as? String
+        }
     }
 
     public struct DeleteObjectTaggingOutput: AWSShape {
@@ -2221,6 +2902,9 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+        }
     }
 
     public struct PutBucketReplicationRequest: AWSShape {
@@ -2244,6 +2928,13 @@ extension S3 {
             self.replicationConfiguration = replicationConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let replicationConfiguration = dictionary["ReplicationConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReplicationConfiguration") }
+            self.replicationConfiguration = try S3.ReplicationConfiguration(dictionary: replicationConfiguration)
+        }
     }
 
     public struct CORSRule: AWSShape {
@@ -2270,6 +2961,19 @@ extension S3 {
             self.allowedOrigins = allowedOrigins
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let exposeHeaders = dictionary["ExposeHeaders"] as? [String] {
+                self.exposeHeaders = exposeHeaders
+            }
+            guard let allowedMethods = dictionary["AllowedMethods"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedMethods") }
+            self.allowedMethods = allowedMethods
+            self.maxAgeSeconds = dictionary["MaxAgeSeconds"] as? Int32
+            if let allowedHeaders = dictionary["AllowedHeaders"] as? [String] {
+                self.allowedHeaders = allowedHeaders
+            }
+            guard let allowedOrigins = dictionary["AllowedOrigins"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedOrigins") }
+            self.allowedOrigins = allowedOrigins
+        }
     }
 
     public struct CreateMultipartUploadRequest: AWSShape {
@@ -2350,6 +3054,34 @@ extension S3 {
             self.serverSideEncryption = serverSideEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.cacheControl = dictionary["CacheControl"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.contentDisposition = dictionary["ContentDisposition"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.grantReadACP = dictionary["GrantReadACP"] as? String
+            self.aCL = dictionary["ACL"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.contentLanguage = dictionary["ContentLanguage"] as? String
+            if let metadata = dictionary["Metadata"] as? [String: String] {
+                self.metadata = metadata
+            }
+            self.contentEncoding = dictionary["ContentEncoding"] as? String
+            self.expires = dictionary["Expires"] as? Date
+            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            self.contentType = dictionary["ContentType"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.grantRead = dictionary["GrantRead"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+        }
     }
 
     public struct DeleteObjectRequest: AWSShape {
@@ -2382,6 +3114,15 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.mFA = dictionary["MFA"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct PutObjectAclOutput: AWSShape {
@@ -2398,6 +3139,9 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct ListPartsOutput: AWSShape {
@@ -2451,6 +3195,24 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.partNumberMarker = dictionary["PartNumberMarker"] as? Int32
+            self.bucket = dictionary["Bucket"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.abortDate = dictionary["AbortDate"] as? Date
+            self.uploadId = dictionary["UploadId"] as? String
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let parts = dictionary["Parts"] as? [[String: Any]] {
+                self.parts = try parts.map({ try Part(dictionary: $0) })
+            }
+            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) }
+            self.abortRuleId = dictionary["AbortRuleId"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.key = dictionary["Key"] as? String
+            self.maxParts = dictionary["MaxParts"] as? Int32
+            self.nextPartNumberMarker = dictionary["NextPartNumberMarker"] as? Int32
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct ListBucketInventoryConfigurationsOutput: AWSShape {
@@ -2474,6 +3236,14 @@ extension S3 {
             self.inventoryConfigurationList = inventoryConfigurationList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
+            if let inventoryConfigurationList = dictionary["InventoryConfigurationList"] as? [[String: Any]] {
+                self.inventoryConfigurationList = try inventoryConfigurationList.map({ try InventoryConfiguration(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListBucketMetricsConfigurationsRequest: AWSShape {
@@ -2497,6 +3267,11 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+        }
     }
 
     public struct TopicConfigurationDeprecated: AWSShape {
@@ -2518,6 +3293,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topic = dictionary["Topic"] as? String
+            if let events = dictionary["Events"] as? [String] {
+                self.events = events
+            }
+            self.event = dictionary["Event"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DeleteBucketRequest: AWSShape {
@@ -2534,6 +3317,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct StorageClassAnalysis: AWSShape {
@@ -2548,6 +3335,9 @@ extension S3 {
             self.dataExport = dataExport
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dataExport = dictionary["DataExport"] as? [String: Any] { self.dataExport = try S3.StorageClassAnalysisDataExport(dictionary: dataExport) }
+        }
     }
 
     public struct GetBucketNotificationConfigurationRequest: AWSShape {
@@ -2565,6 +3355,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct CommonPrefix: AWSShape {
@@ -2578,6 +3372,9 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct GetObjectTorrentRequest: AWSShape {
@@ -2601,6 +3398,13 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct InventoryS3BucketDestination: AWSShape {
@@ -2624,6 +3428,14 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            self.format = format
+            self.accountId = dictionary["AccountId"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct GetObjectAclRequest: AWSShape {
@@ -2653,6 +3465,14 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.versionId = dictionary["VersionId"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct AccessControlPolicy: AWSShape {
@@ -2669,6 +3489,12 @@ extension S3 {
             self.grants = grants
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let grants = dictionary["Grants"] as? [[String: Any]] {
+                self.grants = try grants.map({ try Grant(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteBucketLifecycleRequest: AWSShape {
@@ -2685,6 +3511,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct CreateBucketOutput: AWSShape {
@@ -2701,6 +3531,9 @@ extension S3 {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.location = dictionary["Location"] as? String
+        }
     }
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
@@ -2724,6 +3557,12 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetBucketWebsiteOutput: AWSShape {
@@ -2743,6 +3582,14 @@ extension S3 {
             self.redirectAllRequestsTo = redirectAllRequestsTo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let routingRules = dictionary["RoutingRules"] as? [[String: Any]] {
+                self.routingRules = try routingRules.map({ try RoutingRule(dictionary: $0) })
+            }
+            if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) }
+            if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) }
+            if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) }
+        }
     }
 
     public struct LoggingEnabled: AWSShape {
@@ -2762,6 +3609,13 @@ extension S3 {
             self.targetBucket = targetBucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetGrants = dictionary["TargetGrants"] as? [[String: Any]] {
+                self.targetGrants = try targetGrants.map({ try TargetGrant(dictionary: $0) })
+            }
+            self.targetPrefix = dictionary["TargetPrefix"] as? String
+            self.targetBucket = dictionary["TargetBucket"] as? String
+        }
     }
 
     public struct CORSConfiguration: AWSShape {
@@ -2775,6 +3629,10 @@ extension S3 {
             self.cORSRules = cORSRules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cORSRules = dictionary["CORSRules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("CORSRules") }
+            self.cORSRules = try cORSRules.map({ try CORSRule(dictionary: $0) })
+        }
     }
 
     public struct ObjectIdentifier: AWSShape {
@@ -2792,6 +3650,11 @@ extension S3 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct StorageClassAnalysisDataExport: AWSShape {
@@ -2809,6 +3672,12 @@ extension S3 {
             self.outputSchemaVersion = outputSchemaVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
+            self.destination = try S3.AnalyticsExportDestination(dictionary: destination)
+            guard let outputSchemaVersion = dictionary["OutputSchemaVersion"] as? String else { throw InitializableError.missingRequiredParam("OutputSchemaVersion") }
+            self.outputSchemaVersion = outputSchemaVersion
+        }
     }
 
     public struct Tag: AWSShape {
@@ -2826,6 +3695,12 @@ extension S3 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct RestoreObjectOutput: AWSShape {
@@ -2842,6 +3717,9 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct BucketLifecycleConfiguration: AWSShape {
@@ -2855,6 +3733,10 @@ extension S3 {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            self.rules = try rules.map({ try LifecycleRule(dictionary: $0) })
+        }
     }
 
     public struct GetBucketMetricsConfigurationRequest: AWSShape {
@@ -2878,6 +3760,12 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct LifecycleRule: AWSShape {
@@ -2910,6 +3798,22 @@ extension S3 {
             self.noncurrentVersionTransitions = noncurrentVersionTransitions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iD = dictionary["ID"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) }
+            if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) }
+            if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) }
+            self.prefix = dictionary["Prefix"] as? String
+            if let transitions = dictionary["Transitions"] as? [[String: Any]] {
+                self.transitions = try transitions.map({ try Transition(dictionary: $0) })
+            }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.LifecycleRuleFilter(dictionary: filter) }
+            if let noncurrentVersionTransitions = dictionary["NoncurrentVersionTransitions"] as? [[String: Any]] {
+                self.noncurrentVersionTransitions = try noncurrentVersionTransitions.map({ try NoncurrentVersionTransition(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetBucketCorsRequest: AWSShape {
@@ -2926,6 +3830,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct Bucket: AWSShape {
@@ -2943,6 +3851,10 @@ extension S3 {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+        }
     }
 
     public struct Destination: AWSShape {
@@ -2960,6 +3872,11 @@ extension S3 {
             self.storageClass = storageClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.storageClass = dictionary["StorageClass"] as? String
+        }
     }
 
     public struct GlacierJobParameters: AWSShape {
@@ -2974,6 +3891,10 @@ extension S3 {
             self.tier = tier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tier = dictionary["Tier"] as? String else { throw InitializableError.missingRequiredParam("Tier") }
+            self.tier = tier
+        }
     }
 
     public struct PutBucketNotificationRequest: AWSShape {
@@ -2997,6 +3918,13 @@ extension S3 {
             self.notificationConfiguration = notificationConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NotificationConfiguration") }
+            self.notificationConfiguration = try S3.NotificationConfigurationDeprecated(dictionary: notificationConfiguration)
+        }
     }
 
     public struct CompleteMultipartUploadRequest: AWSShape {
@@ -3027,6 +3955,16 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            if let multipartUpload = dictionary["MultipartUpload"] as? [String: Any] { self.multipartUpload = try S3.CompletedMultipartUpload(dictionary: multipartUpload) }
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            self.uploadId = uploadId
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct PutBucketMetricsConfigurationRequest: AWSShape {
@@ -3053,6 +3991,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let metricsConfiguration = dictionary["MetricsConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MetricsConfiguration") }
+            self.metricsConfiguration = try S3.MetricsConfiguration(dictionary: metricsConfiguration)
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Part: AWSShape {
@@ -3076,6 +4022,12 @@ extension S3 {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModified = dictionary["LastModified"] as? Date
+            self.partNumber = dictionary["PartNumber"] as? Int32
+            self.eTag = dictionary["ETag"] as? String
+            self.size = dictionary["Size"] as? Int32
+        }
     }
 
     public struct ListBucketsOutput: AWSShape {
@@ -3091,6 +4043,12 @@ extension S3 {
             self.owner = owner
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let buckets = dictionary["Buckets"] as? [[String: Any]] {
+                self.buckets = try buckets.map({ try Bucket(dictionary: $0) })
+            }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+        }
     }
 
     public struct GetBucketAccelerateConfigurationOutput: AWSShape {
@@ -3105,6 +4063,9 @@ extension S3 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct CopyPartResult: AWSShape {
@@ -3122,6 +4083,10 @@ extension S3 {
             self.lastModified = lastModified
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.lastModified = dictionary["LastModified"] as? Date
+        }
     }
 
     public struct NoncurrentVersionExpiration: AWSShape {
@@ -3136,6 +4101,9 @@ extension S3 {
             self.noncurrentDays = noncurrentDays
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noncurrentDays = dictionary["NoncurrentDays"] as? Int32
+        }
     }
 
     public struct AnalyticsExportDestination: AWSShape {
@@ -3150,6 +4118,10 @@ extension S3 {
             self.s3BucketDestination = s3BucketDestination
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let s3BucketDestination = dictionary["S3BucketDestination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3BucketDestination") }
+            self.s3BucketDestination = try S3.AnalyticsS3BucketDestination(dictionary: s3BucketDestination)
+        }
     }
 
     public struct FilterRule: AWSShape {
@@ -3166,6 +4138,10 @@ extension S3 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct ListBucketInventoryConfigurationsRequest: AWSShape {
@@ -3189,6 +4165,11 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+        }
     }
 
     public struct PutBucketPolicyRequest: AWSShape {
@@ -3213,6 +4194,13 @@ extension S3 {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
+            self.policy = policy
+        }
     }
 
     public struct GetObjectRequest: AWSShape {
@@ -3287,6 +4275,29 @@ extension S3 {
             self.ifMatch = ifMatch
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.ifUnmodifiedSince = dictionary["IfUnmodifiedSince"] as? Date
+            self.partNumber = dictionary["PartNumber"] as? Int32
+            self.range = dictionary["Range"] as? String
+            self.responseContentEncoding = dictionary["ResponseContentEncoding"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.responseContentLanguage = dictionary["ResponseContentLanguage"] as? String
+            self.responseExpires = dictionary["ResponseExpires"] as? Date
+            self.versionId = dictionary["VersionId"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.ifNoneMatch = dictionary["IfNoneMatch"] as? String
+            self.responseContentDisposition = dictionary["ResponseContentDisposition"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.responseCacheControl = dictionary["ResponseCacheControl"] as? String
+            self.responseContentType = dictionary["ResponseContentType"] as? String
+            self.ifModifiedSince = dictionary["IfModifiedSince"] as? Date
+            self.ifMatch = dictionary["IfMatch"] as? String
+        }
     }
 
     public struct AbortMultipartUploadRequest: AWSShape {
@@ -3315,6 +4326,15 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            self.uploadId = uploadId
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct GetObjectTorrentOutput: AWSShape {
@@ -3333,6 +4353,10 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.body = dictionary["Body"] as? Data
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
     public struct NoncurrentVersionTransition: AWSShape {
@@ -3350,6 +4374,10 @@ extension S3 {
             self.storageClass = storageClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noncurrentDays = dictionary["NoncurrentDays"] as? Int32
+            self.storageClass = dictionary["StorageClass"] as? String
+        }
     }
 
     public struct UploadPartCopyRequest: AWSShape {
@@ -3418,6 +4446,30 @@ extension S3 {
             self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
+            self.partNumber = partNumber
+            self.copySourceIfModifiedSince = dictionary["CopySourceIfModifiedSince"] as? Date
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.copySourceSSECustomerKey = dictionary["CopySourceSSECustomerKey"] as? String
+            guard let copySource = dictionary["CopySource"] as? String else { throw InitializableError.missingRequiredParam("CopySource") }
+            self.copySource = copySource
+            self.copySourceIfNoneMatch = dictionary["CopySourceIfNoneMatch"] as? String
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            self.uploadId = uploadId
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.copySourceIfMatch = dictionary["CopySourceIfMatch"] as? String
+            self.copySourceRange = dictionary["CopySourceRange"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.copySourceSSECustomerKeyMD5 = dictionary["CopySourceSSECustomerKeyMD5"] as? String
+            self.copySourceSSECustomerAlgorithm = dictionary["CopySourceSSECustomerAlgorithm"] as? String
+            self.copySourceIfUnmodifiedSince = dictionary["CopySourceIfUnmodifiedSince"] as? Date
+        }
     }
 
     public struct PutBucketAclRequest: AWSShape {
@@ -3459,6 +4511,18 @@ extension S3 {
             self.grantReadACP = grantReadACP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) }
+            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.grantWrite = dictionary["GrantWrite"] as? String
+            self.grantRead = dictionary["GrantRead"] as? String
+            self.aCL = dictionary["ACL"] as? String
+            self.grantReadACP = dictionary["GrantReadACP"] as? String
+        }
     }
 
     public struct Redirect: AWSShape {
@@ -3485,6 +4549,13 @@ extension S3 {
             self.replaceKeyWith = replaceKeyWith
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.replaceKeyPrefixWith = dictionary["ReplaceKeyPrefixWith"] as? String
+            self.httpRedirectCode = dictionary["HttpRedirectCode"] as? String
+            self.hostName = dictionary["HostName"] as? String
+            self.`protocol` = dictionary["Protocol"] as? String
+            self.replaceKeyWith = dictionary["ReplaceKeyWith"] as? String
+        }
     }
 
     public struct MultipartUpload: AWSShape {
@@ -3513,6 +4584,14 @@ extension S3 {
             self.initiator = initiator
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.key = dictionary["Key"] as? String
+            self.uploadId = dictionary["UploadId"] as? String
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            self.initiated = dictionary["Initiated"] as? Date
+            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) }
+        }
     }
 
     public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
@@ -3536,6 +4615,11 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.continuationToken = dictionary["ContinuationToken"] as? String
+        }
     }
 
     public struct GetBucketLifecycleConfigurationOutput: AWSShape {
@@ -3549,6 +4633,11 @@ extension S3 {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try LifecycleRule(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetBucketLifecycleRequest: AWSShape {
@@ -3565,6 +4654,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct RequestPaymentConfiguration: AWSShape {
@@ -3579,6 +4672,10 @@ extension S3 {
             self.payer = payer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let payer = dictionary["Payer"] as? String else { throw InitializableError.missingRequiredParam("Payer") }
+            self.payer = payer
+        }
     }
 
     public struct DeleteObjectOutput: AWSShape {
@@ -3601,6 +4698,11 @@ extension S3 {
             self.deleteMarker = deleteMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+        }
     }
 
     public struct QueueConfiguration: AWSShape {
@@ -3621,6 +4723,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) }
+            guard let queueArn = dictionary["QueueArn"] as? String else { throw InitializableError.missingRequiredParam("QueueArn") }
+            self.queueArn = queueArn
+            guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
+            self.events = events
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct GetBucketTaggingOutput: AWSShape {
@@ -3634,6 +4744,10 @@ extension S3 {
             self.tagSet = tagSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagSet = dictionary["TagSet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagSet") }
+            self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct ErrorDocument: AWSShape {
@@ -3648,6 +4762,10 @@ extension S3 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct InventoryConfiguration: AWSShape {
@@ -3680,6 +4798,22 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionalFields = dictionary["OptionalFields"] as? [String] {
+                self.optionalFields = optionalFields
+            }
+            guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
+            self.destination = try S3.InventoryDestination(dictionary: destination)
+            guard let isEnabled = dictionary["IsEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("IsEnabled") }
+            self.isEnabled = isEnabled
+            guard let schedule = dictionary["Schedule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Schedule") }
+            self.schedule = try S3.InventorySchedule(dictionary: schedule)
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.InventoryFilter(dictionary: filter) }
+            guard let includedObjectVersions = dictionary["IncludedObjectVersions"] as? String else { throw InitializableError.missingRequiredParam("IncludedObjectVersions") }
+            self.includedObjectVersions = includedObjectVersions
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct MetricsFilter: AWSShape {
@@ -3700,6 +4834,11 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) }
+            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.MetricsAndOperator(dictionary: and) }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct PutBucketTaggingRequest: AWSShape {
@@ -3723,6 +4862,13 @@ extension S3 {
             self.tagging = tagging
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let tagging = dictionary["Tagging"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tagging") }
+            self.tagging = try S3.Tagging(dictionary: tagging)
+        }
     }
 
     public struct AnalyticsAndOperator: AWSShape {
@@ -3740,6 +4886,12 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct ListObjectVersionsRequest: AWSShape {
@@ -3776,6 +4928,16 @@ extension S3 {
             self.versionIdMarker = versionIdMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.prefix = dictionary["Prefix"] as? String
+            self.delimiter = dictionary["Delimiter"] as? String
+            self.encodingType = dictionary["EncodingType"] as? String
+            self.keyMarker = dictionary["KeyMarker"] as? String
+            self.versionIdMarker = dictionary["VersionIdMarker"] as? String
+        }
     }
 
     public struct GetBucketLifecycleOutput: AWSShape {
@@ -3789,6 +4951,11 @@ extension S3 {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteMarkerEntry: AWSShape {
@@ -3814,6 +4981,13 @@ extension S3 {
             self.owner = owner
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isLatest = dictionary["IsLatest"] as? Bool
+            self.lastModified = dictionary["LastModified"] as? Date
+            self.key = dictionary["Key"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+        }
     }
 
     public struct DeleteBucketTaggingRequest: AWSShape {
@@ -3830,6 +5004,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct ReplicationRule: AWSShape {
@@ -3852,6 +5030,15 @@ extension S3 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iD = dictionary["ID"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
+            self.destination = try S3.Destination(dictionary: destination)
+            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
+            self.prefix = prefix
+        }
     }
 
     public struct DeleteObjectTaggingRequest: AWSShape {
@@ -3876,6 +5063,13 @@ extension S3 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.versionId = dictionary["VersionId"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct LambdaFunctionConfiguration: AWSShape {
@@ -3896,6 +5090,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lambdaFunctionArn = dictionary["LambdaFunctionArn"] as? String else { throw InitializableError.missingRequiredParam("LambdaFunctionArn") }
+            self.lambdaFunctionArn = lambdaFunctionArn
+            guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
+            self.events = events
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct GetBucketLoggingOutput: AWSShape {
@@ -3909,6 +5111,9 @@ extension S3 {
             self.loggingEnabled = loggingEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loggingEnabled = dictionary["LoggingEnabled"] as? [String: Any] { self.loggingEnabled = try S3.LoggingEnabled(dictionary: loggingEnabled) }
+        }
     }
 
     public struct UploadPartOutput: AWSShape {
@@ -3940,6 +5145,14 @@ extension S3 {
             self.serverSideEncryption = serverSideEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.eTag = dictionary["ETag"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+        }
     }
 
     public struct GetObjectTaggingOutput: AWSShape {
@@ -3958,6 +5171,11 @@ extension S3 {
             self.tagSet = tagSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+            guard let tagSet = dictionary["TagSet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagSet") }
+            self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct GetBucketCorsOutput: AWSShape {
@@ -3971,6 +5189,11 @@ extension S3 {
             self.cORSRules = cORSRules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cORSRules = dictionary["CORSRules"] as? [[String: Any]] {
+                self.cORSRules = try cORSRules.map({ try CORSRule(dictionary: $0) })
+            }
+        }
     }
 
     public struct Error: AWSShape {
@@ -3990,6 +5213,12 @@ extension S3 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+            self.key = dictionary["Key"] as? String
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct PutObjectRequest: AWSShape {
@@ -4084,6 +5313,38 @@ extension S3 {
             self.serverSideEncryption = serverSideEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.tagging = dictionary["Tagging"] as? String
+            self.contentDisposition = dictionary["ContentDisposition"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.grantReadACP = dictionary["GrantReadACP"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.contentLanguage = dictionary["ContentLanguage"] as? String
+            self.contentEncoding = dictionary["ContentEncoding"] as? String
+            self.contentLength = dictionary["ContentLength"] as? Int64
+            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.body = dictionary["Body"] as? Data
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.cacheControl = dictionary["CacheControl"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.aCL = dictionary["ACL"] as? String
+            if let metadata = dictionary["Metadata"] as? [String: String] {
+                self.metadata = metadata
+            }
+            self.expires = dictionary["Expires"] as? Date
+            self.contentType = dictionary["ContentType"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+            self.grantRead = dictionary["GrantRead"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+        }
     }
 
     public struct CreateBucketConfiguration: AWSShape {
@@ -4098,6 +5359,9 @@ extension S3 {
             self.locationConstraint = locationConstraint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.locationConstraint = dictionary["LocationConstraint"] as? String
+        }
     }
 
     public struct GetBucketWebsiteRequest: AWSShape {
@@ -4114,6 +5378,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct UploadPartRequest: AWSShape {
@@ -4166,6 +5434,23 @@ extension S3 {
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
+            self.partNumber = partNumber
+            self.contentLength = dictionary["ContentLength"] as? Int64
+            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            self.uploadId = uploadId
+            self.body = dictionary["Body"] as? Data
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+        }
     }
 
     public struct DeletedObject: AWSShape {
@@ -4185,6 +5470,12 @@ extension S3 {
             self.deleteMarker = deleteMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deleteMarkerVersionId = dictionary["DeleteMarkerVersionId"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.key = dictionary["Key"] as? String
+            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+        }
     }
 
     public struct PutObjectTaggingOutput: AWSShape {
@@ -4201,6 +5492,9 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionId = dictionary["VersionId"] as? String
+        }
     }
 
     public struct GetBucketRequestPaymentRequest: AWSShape {
@@ -4217,6 +5511,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct DeleteBucketPolicyRequest: AWSShape {
@@ -4233,6 +5531,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct S3KeyFilter: AWSShape {
@@ -4246,6 +5548,11 @@ extension S3 {
             self.filterRules = filterRules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filterRules = dictionary["FilterRules"] as? [[String: Any]] {
+                self.filterRules = try filterRules.map({ try FilterRule(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutBucketWebsiteRequest: AWSShape {
@@ -4269,6 +5576,13 @@ extension S3 {
             self.websiteConfiguration = websiteConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let websiteConfiguration = dictionary["WebsiteConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WebsiteConfiguration") }
+            self.websiteConfiguration = try S3.WebsiteConfiguration(dictionary: websiteConfiguration)
+        }
     }
 
     public struct PutBucketNotificationConfigurationRequest: AWSShape {
@@ -4287,6 +5601,12 @@ extension S3 {
             self.notificationConfiguration = notificationConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NotificationConfiguration") }
+            self.notificationConfiguration = try S3.NotificationConfiguration(dictionary: notificationConfiguration)
+        }
     }
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
@@ -4310,6 +5630,12 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct AbortIncompleteMultipartUpload: AWSShape {
@@ -4324,6 +5650,9 @@ extension S3 {
             self.daysAfterInitiation = daysAfterInitiation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.daysAfterInitiation = dictionary["DaysAfterInitiation"] as? Int32
+        }
     }
 
     public struct RestoreRequest: AWSShape {
@@ -4341,6 +5670,11 @@ extension S3 {
             self.days = days
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let glacierJobParameters = dictionary["GlacierJobParameters"] as? [String: Any] { self.glacierJobParameters = try S3.GlacierJobParameters(dictionary: glacierJobParameters) }
+            guard let days = dictionary["Days"] as? Int32 else { throw InitializableError.missingRequiredParam("Days") }
+            self.days = days
+        }
     }
 
     public struct GetBucketInventoryConfigurationRequest: AWSShape {
@@ -4364,6 +5698,12 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct LifecycleConfiguration: AWSShape {
@@ -4377,6 +5717,10 @@ extension S3 {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            self.rules = try rules.map({ try Rule(dictionary: $0) })
+        }
     }
 
     public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
@@ -4400,6 +5744,12 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetBucketAccelerateConfigurationRequest: AWSShape {
@@ -4417,6 +5767,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct GetBucketInventoryConfigurationOutput: AWSShape {
@@ -4431,6 +5785,9 @@ extension S3 {
             self.inventoryConfiguration = inventoryConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inventoryConfiguration = dictionary["InventoryConfiguration"] as? [String: Any] { self.inventoryConfiguration = try S3.InventoryConfiguration(dictionary: inventoryConfiguration) }
+        }
     }
 
     public struct ListPartsRequest: AWSShape {
@@ -4466,6 +5823,17 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.partNumberMarker = dictionary["PartNumberMarker"] as? Int32
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            self.uploadId = uploadId
+            self.maxParts = dictionary["MaxParts"] as? Int32
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct RestoreObjectRequest: AWSShape {
@@ -4496,6 +5864,15 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            if let restoreRequest = dictionary["RestoreRequest"] as? [String: Any] { self.restoreRequest = try S3.RestoreRequest(dictionary: restoreRequest) }
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.versionId = dictionary["VersionId"] as? String
+            self.requestPayer = dictionary["RequestPayer"] as? String
+        }
     }
 
     public struct Grantee: AWSShape {
@@ -4522,6 +5899,14 @@ extension S3 {
             self.uRI = uRI
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iD = dictionary["ID"] as? String
+            self.emailAddress = dictionary["EmailAddress"] as? String
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            self.displayName = dictionary["DisplayName"] as? String
+            self.uRI = dictionary["URI"] as? String
+        }
     }
 
     public struct QueueConfigurationDeprecated: AWSShape {
@@ -4541,6 +5926,14 @@ extension S3 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.queue = dictionary["Queue"] as? String
+            if let events = dictionary["Events"] as? [String] {
+                self.events = events
+            }
+            self.event = dictionary["Event"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct GetBucketVersioningRequest: AWSShape {
@@ -4557,6 +5950,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct GetBucketLoggingRequest: AWSShape {
@@ -4573,6 +5970,10 @@ extension S3 {
             self.bucket = bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+        }
     }
 
     public struct PutBucketRequestPaymentRequest: AWSShape {
@@ -4596,6 +5997,13 @@ extension S3 {
             self.requestPaymentConfiguration = requestPaymentConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentMD5 = dictionary["ContentMD5"] as? String
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let requestPaymentConfiguration = dictionary["RequestPaymentConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestPaymentConfiguration") }
+            self.requestPaymentConfiguration = try S3.RequestPaymentConfiguration(dictionary: requestPaymentConfiguration)
+        }
     }
 
     public struct PutObjectOutput: AWSShape {
@@ -4633,6 +6041,16 @@ extension S3 {
             self.serverSideEncryption = serverSideEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expiration = dictionary["Expiration"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.eTag = dictionary["ETag"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+        }
     }
 
     public struct CopyObjectOutput: AWSShape {
@@ -4671,6 +6089,17 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let copyObjectResult = dictionary["CopyObjectResult"] as? [String: Any] { self.copyObjectResult = try S3.CopyObjectResult(dictionary: copyObjectResult) }
+            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.versionId = dictionary["VersionId"] as? String
+            self.copySourceVersionId = dictionary["CopySourceVersionId"] as? String
+            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.expiration = dictionary["Expiration"] as? String
+            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.requestCharged = dictionary["RequestCharged"] as? String
+        }
     }
 
 }

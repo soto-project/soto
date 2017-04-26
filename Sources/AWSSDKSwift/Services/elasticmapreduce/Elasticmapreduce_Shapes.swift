@@ -47,6 +47,11 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceFleetTimeline(dictionary: timeline) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceFleetStateChangeReason(dictionary: stateChangeReason) }
+        }
     }
 
     public struct JobFlowInstancesDetail: AWSShape {
@@ -97,6 +102,26 @@ extension Elasticmapreduce {
             self.terminationProtected = terminationProtected
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.masterInstanceId = dictionary["MasterInstanceId"] as? String
+            self.hadoopVersion = dictionary["HadoopVersion"] as? String
+            self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
+            self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
+            self.ec2KeyName = dictionary["Ec2KeyName"] as? String
+            self.keepJobFlowAliveWhenNoSteps = dictionary["KeepJobFlowAliveWhenNoSteps"] as? Bool
+            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
+                self.instanceGroups = try instanceGroups.map({ try InstanceGroupDetail(dictionary: $0) })
+            }
+            guard let masterInstanceType = dictionary["MasterInstanceType"] as? String else { throw InitializableError.missingRequiredParam("MasterInstanceType") }
+            self.masterInstanceType = masterInstanceType
+            self.masterPublicDnsName = dictionary["MasterPublicDnsName"] as? String
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) }
+            guard let slaveInstanceType = dictionary["SlaveInstanceType"] as? String else { throw InitializableError.missingRequiredParam("SlaveInstanceType") }
+            self.slaveInstanceType = slaveInstanceType
+            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
+            self.instanceCount = instanceCount
+            self.terminationProtected = dictionary["TerminationProtected"] as? Bool
+        }
     }
 
     public struct PutAutoScalingPolicyOutput: AWSShape {
@@ -117,6 +142,11 @@ extension Elasticmapreduce {
             self.autoScalingPolicy = autoScalingPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
+            self.clusterId = dictionary["ClusterId"] as? String
+            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) }
+        }
     }
 
     public struct ListStepsInput: AWSShape {
@@ -140,6 +170,17 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let stepIds = dictionary["StepIds"] as? [String] {
+                self.stepIds = stepIds
+            }
+            if let stepStates = dictionary["StepStates"] as? [String] {
+                self.stepStates = stepStates
+            }
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct SimpleScalingPolicyConfiguration: AWSShape {
@@ -160,6 +201,12 @@ extension Elasticmapreduce {
             self.adjustmentType = adjustmentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
+            self.scalingAdjustment = scalingAdjustment
+            self.coolDown = dictionary["CoolDown"] as? Int32
+            self.adjustmentType = dictionary["AdjustmentType"] as? String
+        }
     }
 
     public struct InstanceFleet: AWSShape {
@@ -201,6 +248,20 @@ extension Elasticmapreduce {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceFleetStatus(dictionary: status) }
+            if let instanceTypeSpecifications = dictionary["InstanceTypeSpecifications"] as? [[String: Any]] {
+                self.instanceTypeSpecifications = try instanceTypeSpecifications.map({ try InstanceTypeSpecification(dictionary: $0) })
+            }
+            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) }
+            self.provisionedOnDemandCapacity = dictionary["ProvisionedOnDemandCapacity"] as? Int32
+            self.name = dictionary["Name"] as? String
+            self.instanceFleetType = dictionary["InstanceFleetType"] as? String
+            self.provisionedSpotCapacity = dictionary["ProvisionedSpotCapacity"] as? Int32
+            self.targetSpotCapacity = dictionary["TargetSpotCapacity"] as? Int32
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct InstanceGroupStatus: AWSShape {
@@ -221,6 +282,11 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceGroupTimeline(dictionary: timeline) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceGroupStateChangeReason(dictionary: stateChangeReason) }
+        }
     }
 
     public struct CreateSecurityConfigurationOutput: AWSShape {
@@ -238,6 +304,12 @@ extension Elasticmapreduce {
             self.creationDateTime = creationDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            self.creationDateTime = creationDateTime
+        }
     }
 
     public struct FailureDetails: AWSShape {
@@ -258,6 +330,11 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            self.logFile = dictionary["LogFile"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct ListClustersInput: AWSShape {
@@ -281,6 +358,14 @@ extension Elasticmapreduce {
             self.createdAfter = createdAfter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterStates = dictionary["ClusterStates"] as? [String] {
+                self.clusterStates = clusterStates
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.createdBefore = dictionary["CreatedBefore"] as? Date
+            self.createdAfter = dictionary["CreatedAfter"] as? Date
+        }
     }
 
     public struct ClusterStateChangeReason: AWSShape {
@@ -298,6 +383,10 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct VolumeSpecification: AWSShape {
@@ -318,6 +407,13 @@ extension Elasticmapreduce {
             self.sizeInGB = sizeInGB
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iops = dictionary["Iops"] as? Int32
+            guard let volumeType = dictionary["VolumeType"] as? String else { throw InitializableError.missingRequiredParam("VolumeType") }
+            self.volumeType = volumeType
+            guard let sizeInGB = dictionary["SizeInGB"] as? Int32 else { throw InitializableError.missingRequiredParam("SizeInGB") }
+            self.sizeInGB = sizeInGB
+        }
     }
 
     public struct Application: AWSShape {
@@ -341,6 +437,16 @@ extension Elasticmapreduce {
             self.additionalInfo = additionalInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.version = dictionary["Version"] as? String
+            self.name = dictionary["Name"] as? String
+            if let args = dictionary["Args"] as? [String] {
+                self.args = args
+            }
+            if let additionalInfo = dictionary["AdditionalInfo"] as? [String: String] {
+                self.additionalInfo = additionalInfo
+            }
+        }
     }
 
     public struct DescribeJobFlowsOutput: AWSShape {
@@ -355,6 +461,11 @@ extension Elasticmapreduce {
             self.jobFlows = jobFlows
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobFlows = dictionary["JobFlows"] as? [[String: Any]] {
+                self.jobFlows = try jobFlows.map({ try JobFlowDetail(dictionary: $0) })
+            }
+        }
     }
 
     public struct CloudWatchAlarmDefinition: AWSShape {
@@ -393,6 +504,23 @@ extension Elasticmapreduce {
             self.namespace = namespace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
+            self.threshold = threshold
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
+            self.period = period
+            self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            self.statistic = dictionary["Statistic"] as? String
+            self.unit = dictionary["Unit"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try MetricDimension(dictionary: $0) })
+            }
+            self.namespace = dictionary["Namespace"] as? String
+        }
     }
 
     public struct Tag: AWSShape {
@@ -410,6 +538,10 @@ extension Elasticmapreduce {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DescribeSecurityConfigurationOutput: AWSShape {
@@ -430,6 +562,11 @@ extension Elasticmapreduce {
             self.creationDateTime = creationDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
+            self.name = dictionary["Name"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+        }
     }
 
     public struct CancelStepsOutput: AWSShape {
@@ -444,6 +581,11 @@ extension Elasticmapreduce {
             self.cancelStepsInfoList = cancelStepsInfoList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cancelStepsInfoList = dictionary["CancelStepsInfoList"] as? [[String: Any]] {
+                self.cancelStepsInfoList = try cancelStepsInfoList.map({ try CancelStepsInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceFleetProvisioningSpecifications: AWSShape {
@@ -458,6 +600,10 @@ extension Elasticmapreduce {
             self.spotSpecification = spotSpecification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let spotSpecification = dictionary["SpotSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SpotSpecification") }
+            self.spotSpecification = try Elasticmapreduce.SpotProvisioningSpecification(dictionary: spotSpecification)
+        }
     }
 
     public struct PutAutoScalingPolicyInput: AWSShape {
@@ -478,6 +624,14 @@ extension Elasticmapreduce {
             self.autoScalingPolicy = autoScalingPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
+            self.instanceGroupId = instanceGroupId
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            guard let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AutoScalingPolicy") }
+            self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicy(dictionary: autoScalingPolicy)
+        }
     }
 
     public struct ClusterTimeline: AWSShape {
@@ -498,6 +652,11 @@ extension Elasticmapreduce {
             self.endDateTime = endDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+        }
     }
 
     public struct AddJobFlowStepsOutput: AWSShape {
@@ -512,6 +671,11 @@ extension Elasticmapreduce {
             self.stepIds = stepIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stepIds = dictionary["StepIds"] as? [String] {
+                self.stepIds = stepIds
+            }
+        }
     }
 
     public struct Instance: AWSShape {
@@ -559,6 +723,22 @@ extension Elasticmapreduce {
             self.privateIpAddress = privateIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ebsVolumes = dictionary["EbsVolumes"] as? [[String: Any]] {
+                self.ebsVolumes = try ebsVolumes.map({ try EbsVolume(dictionary: $0) })
+            }
+            self.instanceFleetId = dictionary["InstanceFleetId"] as? String
+            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceStatus(dictionary: status) }
+            self.market = dictionary["Market"] as? String
+            self.id = dictionary["Id"] as? String
+            self.publicIpAddress = dictionary["PublicIpAddress"] as? String
+            self.publicDnsName = dictionary["PublicDnsName"] as? String
+            self.privateDnsName = dictionary["PrivateDnsName"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.ec2InstanceId = dictionary["Ec2InstanceId"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+        }
     }
 
     public struct ScalingAction: AWSShape {
@@ -576,6 +756,11 @@ extension Elasticmapreduce {
             self.simpleScalingPolicyConfiguration = simpleScalingPolicyConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.market = dictionary["Market"] as? String
+            guard let simpleScalingPolicyConfiguration = dictionary["SimpleScalingPolicyConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SimpleScalingPolicyConfiguration") }
+            self.simpleScalingPolicyConfiguration = try Elasticmapreduce.SimpleScalingPolicyConfiguration(dictionary: simpleScalingPolicyConfiguration)
+        }
     }
 
     public struct Step: AWSShape {
@@ -602,6 +787,13 @@ extension Elasticmapreduce {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionOnFailure = dictionary["ActionOnFailure"] as? String
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) }
+            self.name = dictionary["Name"] as? String
+            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct CreateSecurityConfigurationInput: AWSShape {
@@ -619,6 +811,12 @@ extension Elasticmapreduce {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let securityConfiguration = dictionary["SecurityConfiguration"] as? String else { throw InitializableError.missingRequiredParam("SecurityConfiguration") }
+            self.securityConfiguration = securityConfiguration
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListInstanceGroupsInput: AWSShape {
@@ -636,6 +834,11 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct InstanceGroup: AWSShape {
@@ -689,6 +892,26 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bidPrice = dictionary["BidPrice"] as? String
+            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) }
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) }
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.id = dictionary["Id"] as? String
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceGroupStatus(dictionary: status) }
+            self.requestedInstanceCount = dictionary["RequestedInstanceCount"] as? Int32
+            self.instanceGroupType = dictionary["InstanceGroupType"] as? String
+            if let ebsBlockDevices = dictionary["EbsBlockDevices"] as? [[String: Any]] {
+                self.ebsBlockDevices = try ebsBlockDevices.map({ try EbsBlockDevice(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.runningInstanceCount = dictionary["RunningInstanceCount"] as? Int32
+            self.market = dictionary["Market"] as? String
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddTagsOutput: AWSShape {
@@ -697,6 +920,8 @@ extension Elasticmapreduce {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct InstanceFleetConfig: AWSShape {
@@ -726,6 +951,17 @@ extension Elasticmapreduce {
             self.targetSpotCapacity = targetSpotCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
+            if let instanceTypeConfigs = dictionary["InstanceTypeConfigs"] as? [[String: Any]] {
+                self.instanceTypeConfigs = try instanceTypeConfigs.map({ try InstanceTypeConfig(dictionary: $0) })
+            }
+            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) }
+            self.name = dictionary["Name"] as? String
+            guard let instanceFleetType = dictionary["InstanceFleetType"] as? String else { throw InitializableError.missingRequiredParam("InstanceFleetType") }
+            self.instanceFleetType = instanceFleetType
+            self.targetSpotCapacity = dictionary["TargetSpotCapacity"] as? Int32
+        }
     }
 
     public struct ListInstanceFleetsInput: AWSShape {
@@ -743,6 +979,11 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct Command: AWSShape {
@@ -763,6 +1004,13 @@ extension Elasticmapreduce {
             self.scriptPath = scriptPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            if let args = dictionary["Args"] as? [String] {
+                self.args = args
+            }
+            self.scriptPath = dictionary["ScriptPath"] as? String
+        }
     }
 
     public struct AutoScalingPolicyStatus: AWSShape {
@@ -780,6 +1028,10 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.AutoScalingPolicyStateChangeReason(dictionary: stateChangeReason) }
+        }
     }
 
     public struct ListInstanceFleetsOutput: AWSShape {
@@ -797,6 +1049,12 @@ extension Elasticmapreduce {
             self.instanceFleets = instanceFleets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let instanceFleets = dictionary["InstanceFleets"] as? [[String: Any]] {
+                self.instanceFleets = try instanceFleets.map({ try InstanceFleet(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeStepOutput: AWSShape {
@@ -811,6 +1069,9 @@ extension Elasticmapreduce {
             self.step = step
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let step = dictionary["Step"] as? [String: Any] { self.step = try Elasticmapreduce.Step(dictionary: step) }
+        }
     }
 
     public struct PlacementType: AWSShape {
@@ -828,6 +1089,12 @@ extension Elasticmapreduce {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+        }
     }
 
     public struct MetricDimension: AWSShape {
@@ -845,6 +1112,10 @@ extension Elasticmapreduce {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DeleteSecurityConfigurationInput: AWSShape {
@@ -859,6 +1130,10 @@ extension Elasticmapreduce {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct StepConfig: AWSShape {
@@ -879,6 +1154,13 @@ extension Elasticmapreduce {
             self.actionOnFailure = actionOnFailure
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hadoopJarStep = dictionary["HadoopJarStep"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HadoopJarStep") }
+            self.hadoopJarStep = try Elasticmapreduce.HadoopJarStepConfig(dictionary: hadoopJarStep)
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.actionOnFailure = dictionary["ActionOnFailure"] as? String
+        }
     }
 
     public struct DescribeClusterOutput: AWSShape {
@@ -893,6 +1175,9 @@ extension Elasticmapreduce {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Elasticmapreduce.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct ListInstancesInput: AWSShape {
@@ -925,6 +1210,20 @@ extension Elasticmapreduce {
             self.instanceStates = instanceStates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
+            self.instanceFleetId = dictionary["InstanceFleetId"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.instanceFleetType = dictionary["InstanceFleetType"] as? String
+            if let instanceGroupTypes = dictionary["InstanceGroupTypes"] as? [String] {
+                self.instanceGroupTypes = instanceGroupTypes
+            }
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            if let instanceStates = dictionary["InstanceStates"] as? [String] {
+                self.instanceStates = instanceStates
+            }
+        }
     }
 
     public struct Ec2InstanceAttributes: AWSShape {
@@ -969,6 +1268,27 @@ extension Elasticmapreduce {
             self.ec2KeyName = ec2KeyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.emrManagedSlaveSecurityGroup = dictionary["EmrManagedSlaveSecurityGroup"] as? String
+            self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
+            self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
+            self.emrManagedMasterSecurityGroup = dictionary["EmrManagedMasterSecurityGroup"] as? String
+            if let requestedEc2AvailabilityZones = dictionary["RequestedEc2AvailabilityZones"] as? [String] {
+                self.requestedEc2AvailabilityZones = requestedEc2AvailabilityZones
+            }
+            if let additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String] {
+                self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
+            }
+            self.serviceAccessSecurityGroup = dictionary["ServiceAccessSecurityGroup"] as? String
+            if let additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String] {
+                self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
+            }
+            if let requestedEc2SubnetIds = dictionary["RequestedEc2SubnetIds"] as? [String] {
+                self.requestedEc2SubnetIds = requestedEc2SubnetIds
+            }
+            self.ec2AvailabilityZone = dictionary["Ec2AvailabilityZone"] as? String
+            self.ec2KeyName = dictionary["Ec2KeyName"] as? String
+        }
     }
 
     public struct EbsVolume: AWSShape {
@@ -986,6 +1306,10 @@ extension Elasticmapreduce {
             self.device = device
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.device = dictionary["Device"] as? String
+        }
     }
 
     public struct ListSecurityConfigurationsOutput: AWSShape {
@@ -1003,6 +1327,12 @@ extension Elasticmapreduce {
             self.securityConfigurations = securityConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let securityConfigurations = dictionary["SecurityConfigurations"] as? [[String: Any]] {
+                self.securityConfigurations = try securityConfigurations.map({ try SecurityConfigurationSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct StepTimeline: AWSShape {
@@ -1023,6 +1353,11 @@ extension Elasticmapreduce {
             self.endDateTime = endDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+        }
     }
 
     public struct InstanceStateChangeReason: AWSShape {
@@ -1040,6 +1375,10 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct AutoScalingPolicy: AWSShape {
@@ -1057,6 +1396,12 @@ extension Elasticmapreduce {
             self.constraints = constraints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            self.rules = try rules.map({ try ScalingRule(dictionary: $0) })
+            guard let constraints = dictionary["Constraints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Constraints") }
+            self.constraints = try Elasticmapreduce.ScalingConstraints(dictionary: constraints)
+        }
     }
 
     public struct Configuration: AWSShape {
@@ -1077,6 +1422,15 @@ extension Elasticmapreduce {
             self.properties = properties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.classification = dictionary["Classification"] as? String
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+            if let properties = dictionary["Properties"] as? [String: String] {
+                self.properties = properties
+            }
+        }
     }
 
     public struct CancelStepsInfo: AWSShape {
@@ -1097,6 +1451,11 @@ extension Elasticmapreduce {
             self.stepId = stepId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            self.status = dictionary["Status"] as? String
+            self.stepId = dictionary["StepId"] as? String
+        }
     }
 
     public struct RemoveTagsOutput: AWSShape {
@@ -1105,6 +1464,8 @@ extension Elasticmapreduce {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AutoScalingPolicyStateChangeReason: AWSShape {
@@ -1122,6 +1483,10 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct InstanceFleetStateChangeReason: AWSShape {
@@ -1139,6 +1504,10 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct ScalingRule: AWSShape {
@@ -1162,6 +1531,15 @@ extension Elasticmapreduce {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let action = dictionary["Action"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = try Elasticmapreduce.ScalingAction(dictionary: action)
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let trigger = dictionary["Trigger"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Trigger") }
+            self.trigger = try Elasticmapreduce.ScalingTrigger(dictionary: trigger)
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListSecurityConfigurationsInput: AWSShape {
@@ -1176,6 +1554,9 @@ extension Elasticmapreduce {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct JobFlowDetail: AWSShape {
@@ -1229,6 +1610,32 @@ extension Elasticmapreduce {
             self.executionStatusDetail = executionStatusDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let steps = dictionary["Steps"] as? [[String: Any]] {
+                self.steps = try steps.map({ try StepDetail(dictionary: $0) })
+            }
+            if let supportedProducts = dictionary["SupportedProducts"] as? [String] {
+                self.supportedProducts = supportedProducts
+            }
+            self.autoScalingRole = dictionary["AutoScalingRole"] as? String
+            self.amiVersion = dictionary["AmiVersion"] as? String
+            self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
+            guard let jobFlowId = dictionary["JobFlowId"] as? String else { throw InitializableError.missingRequiredParam("JobFlowId") }
+            self.jobFlowId = jobFlowId
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            self.jobFlowRole = dictionary["JobFlowRole"] as? String
+            if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
+                self.bootstrapActions = try bootstrapActions.map({ try BootstrapActionDetail(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String
+            self.logUri = dictionary["LogUri"] as? String
+            guard let instances = dictionary["Instances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Instances") }
+            self.instances = try Elasticmapreduce.JobFlowInstancesDetail(dictionary: instances)
+            guard let executionStatusDetail = dictionary["ExecutionStatusDetail"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ExecutionStatusDetail") }
+            self.executionStatusDetail = try Elasticmapreduce.JobFlowExecutionStatusDetail(dictionary: executionStatusDetail)
+        }
     }
 
     public struct InstanceGroupTimeline: AWSShape {
@@ -1249,6 +1656,11 @@ extension Elasticmapreduce {
             self.endDateTime = endDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+        }
     }
 
     public struct ScalingTrigger: AWSShape {
@@ -1263,6 +1675,10 @@ extension Elasticmapreduce {
             self.cloudWatchAlarmDefinition = cloudWatchAlarmDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cloudWatchAlarmDefinition = dictionary["CloudWatchAlarmDefinition"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudWatchAlarmDefinition") }
+            self.cloudWatchAlarmDefinition = try Elasticmapreduce.CloudWatchAlarmDefinition(dictionary: cloudWatchAlarmDefinition)
+        }
     }
 
     public struct BootstrapActionDetail: AWSShape {
@@ -1277,6 +1693,9 @@ extension Elasticmapreduce {
             self.bootstrapActionConfig = bootstrapActionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let bootstrapActionConfig = dictionary["BootstrapActionConfig"] as? [String: Any] { self.bootstrapActionConfig = try Elasticmapreduce.BootstrapActionConfig(dictionary: bootstrapActionConfig) }
+        }
     }
 
     public struct DescribeJobFlowsInput: AWSShape {
@@ -1300,6 +1719,16 @@ extension Elasticmapreduce {
             self.createdAfter = createdAfter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobFlowStates = dictionary["JobFlowStates"] as? [String] {
+                self.jobFlowStates = jobFlowStates
+            }
+            if let jobFlowIds = dictionary["JobFlowIds"] as? [String] {
+                self.jobFlowIds = jobFlowIds
+            }
+            self.createdBefore = dictionary["CreatedBefore"] as? Date
+            self.createdAfter = dictionary["CreatedAfter"] as? Date
+        }
     }
 
     public struct EbsBlockDeviceConfig: AWSShape {
@@ -1317,6 +1746,11 @@ extension Elasticmapreduce {
             self.volumesPerInstance = volumesPerInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeSpecification = dictionary["VolumeSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VolumeSpecification") }
+            self.volumeSpecification = try Elasticmapreduce.VolumeSpecification(dictionary: volumeSpecification)
+            self.volumesPerInstance = dictionary["VolumesPerInstance"] as? Int32
+        }
     }
 
     public struct SetTerminationProtectionInput: AWSShape {
@@ -1334,6 +1768,12 @@ extension Elasticmapreduce {
             self.terminationProtected = terminationProtected
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobFlowIds = dictionary["JobFlowIds"] as? [String] else { throw InitializableError.missingRequiredParam("JobFlowIds") }
+            self.jobFlowIds = jobFlowIds
+            guard let terminationProtected = dictionary["TerminationProtected"] as? Bool else { throw InitializableError.missingRequiredParam("TerminationProtected") }
+            self.terminationProtected = terminationProtected
+        }
     }
 
     public struct RemoveTagsInput: AWSShape {
@@ -1351,6 +1791,12 @@ extension Elasticmapreduce {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct InstanceStatus: AWSShape {
@@ -1371,6 +1817,11 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceTimeline(dictionary: timeline) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceStateChangeReason(dictionary: stateChangeReason) }
+        }
     }
 
     public struct StepSummary: AWSShape {
@@ -1397,6 +1848,13 @@ extension Elasticmapreduce {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionOnFailure = dictionary["ActionOnFailure"] as? String
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) }
+            self.name = dictionary["Name"] as? String
+            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct BootstrapActionConfig: AWSShape {
@@ -1414,6 +1872,12 @@ extension Elasticmapreduce {
             self.scriptBootstrapAction = scriptBootstrapAction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let scriptBootstrapAction = dictionary["ScriptBootstrapAction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScriptBootstrapAction") }
+            self.scriptBootstrapAction = try Elasticmapreduce.ScriptBootstrapActionConfig(dictionary: scriptBootstrapAction)
+        }
     }
 
     public struct AddInstanceGroupsOutput: AWSShape {
@@ -1431,6 +1895,12 @@ extension Elasticmapreduce {
             self.instanceGroupIds = instanceGroupIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobFlowId = dictionary["JobFlowId"] as? String
+            if let instanceGroupIds = dictionary["InstanceGroupIds"] as? [String] {
+                self.instanceGroupIds = instanceGroupIds
+            }
+        }
     }
 
     public struct ListInstancesOutput: AWSShape {
@@ -1448,6 +1918,12 @@ extension Elasticmapreduce {
             self.instances = instances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceFleetModifyConfig: AWSShape {
@@ -1468,6 +1944,12 @@ extension Elasticmapreduce {
             self.targetSpotCapacity = targetSpotCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
+            guard let instanceFleetId = dictionary["InstanceFleetId"] as? String else { throw InitializableError.missingRequiredParam("InstanceFleetId") }
+            self.instanceFleetId = instanceFleetId
+            self.targetSpotCapacity = dictionary["TargetSpotCapacity"] as? Int32
+        }
     }
 
     public struct ListInstanceGroupsOutput: AWSShape {
@@ -1485,6 +1967,12 @@ extension Elasticmapreduce {
             self.instanceGroups = instanceGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
+                self.instanceGroups = try instanceGroups.map({ try InstanceGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct SecurityConfigurationSummary: AWSShape {
@@ -1502,6 +1990,10 @@ extension Elasticmapreduce {
             self.creationDateTime = creationDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+        }
     }
 
     public struct AddInstanceFleetOutput: AWSShape {
@@ -1519,6 +2011,10 @@ extension Elasticmapreduce {
             self.instanceFleetId = instanceFleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterId = dictionary["ClusterId"] as? String
+            self.instanceFleetId = dictionary["InstanceFleetId"] as? String
+        }
     }
 
     public struct ListBootstrapActionsOutput: AWSShape {
@@ -1536,6 +2032,12 @@ extension Elasticmapreduce {
             self.bootstrapActions = bootstrapActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
+                self.bootstrapActions = try bootstrapActions.map({ try Command(dictionary: $0) })
+            }
+        }
     }
 
     public struct CancelStepsInput: AWSShape {
@@ -1553,6 +2055,12 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stepIds = dictionary["StepIds"] as? [String] {
+                self.stepIds = stepIds
+            }
+            self.clusterId = dictionary["ClusterId"] as? String
+        }
     }
 
     public struct ModifyInstanceFleetInput: AWSShape {
@@ -1570,6 +2078,12 @@ extension Elasticmapreduce {
             self.instanceFleet = instanceFleet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            guard let instanceFleet = dictionary["InstanceFleet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceFleet") }
+            self.instanceFleet = try Elasticmapreduce.InstanceFleetModifyConfig(dictionary: instanceFleet)
+        }
     }
 
     public struct JobFlowInstancesConfig: AWSShape {
@@ -1632,6 +2146,35 @@ extension Elasticmapreduce {
             self.terminationProtected = terminationProtected
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceFleets = dictionary["InstanceFleets"] as? [[String: Any]] {
+                self.instanceFleets = try instanceFleets.map({ try InstanceFleetConfig(dictionary: $0) })
+            }
+            self.hadoopVersion = dictionary["HadoopVersion"] as? String
+            self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
+            self.emrManagedMasterSecurityGroup = dictionary["EmrManagedMasterSecurityGroup"] as? String
+            self.keepJobFlowAliveWhenNoSteps = dictionary["KeepJobFlowAliveWhenNoSteps"] as? Bool
+            self.ec2KeyName = dictionary["Ec2KeyName"] as? String
+            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
+                self.instanceGroups = try instanceGroups.map({ try InstanceGroupConfig(dictionary: $0) })
+            }
+            self.masterInstanceType = dictionary["MasterInstanceType"] as? String
+            self.emrManagedSlaveSecurityGroup = dictionary["EmrManagedSlaveSecurityGroup"] as? String
+            if let additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String] {
+                self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
+            }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) }
+            self.slaveInstanceType = dictionary["SlaveInstanceType"] as? String
+            if let ec2SubnetIds = dictionary["Ec2SubnetIds"] as? [String] {
+                self.ec2SubnetIds = ec2SubnetIds
+            }
+            self.serviceAccessSecurityGroup = dictionary["ServiceAccessSecurityGroup"] as? String
+            if let additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String] {
+                self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
+            }
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            self.terminationProtected = dictionary["TerminationProtected"] as? Bool
+        }
     }
 
     public struct InstanceTypeConfig: AWSShape {
@@ -1661,6 +2204,17 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.weightedCapacity = dictionary["WeightedCapacity"] as? Int32
+            self.bidPrice = dictionary["BidPrice"] as? String
+            self.bidPriceAsPercentageOfOnDemandPrice = dictionary["BidPriceAsPercentageOfOnDemandPrice"] as? Double
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) }
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+        }
     }
 
     public struct TerminateJobFlowsInput: AWSShape {
@@ -1675,6 +2229,10 @@ extension Elasticmapreduce {
             self.jobFlowIds = jobFlowIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobFlowIds = dictionary["JobFlowIds"] as? [String] else { throw InitializableError.missingRequiredParam("JobFlowIds") }
+            self.jobFlowIds = jobFlowIds
+        }
     }
 
     public struct HadoopJarStepConfig: AWSShape {
@@ -1698,6 +2256,17 @@ extension Elasticmapreduce {
             self.args = args
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mainClass = dictionary["MainClass"] as? String
+            guard let jar = dictionary["Jar"] as? String else { throw InitializableError.missingRequiredParam("Jar") }
+            self.jar = jar
+            if let properties = dictionary["Properties"] as? [[String: Any]] {
+                self.properties = try properties.map({ try KeyValue(dictionary: $0) })
+            }
+            if let args = dictionary["Args"] as? [String] {
+                self.args = args
+            }
+        }
     }
 
     public struct ShrinkPolicy: AWSShape {
@@ -1715,6 +2284,10 @@ extension Elasticmapreduce {
             self.decommissionTimeout = decommissionTimeout
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceResizePolicy = dictionary["InstanceResizePolicy"] as? [String: Any] { self.instanceResizePolicy = try Elasticmapreduce.InstanceResizePolicy(dictionary: instanceResizePolicy) }
+            self.decommissionTimeout = dictionary["DecommissionTimeout"] as? Int32
+        }
     }
 
     public struct ListBootstrapActionsInput: AWSShape {
@@ -1732,6 +2305,11 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct InstanceFleetTimeline: AWSShape {
@@ -1752,6 +2330,11 @@ extension Elasticmapreduce {
             self.endDateTime = endDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+        }
     }
 
     public struct ScalingConstraints: AWSShape {
@@ -1769,6 +2352,12 @@ extension Elasticmapreduce {
             self.minCapacity = minCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maxCapacity = dictionary["MaxCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxCapacity") }
+            self.maxCapacity = maxCapacity
+            guard let minCapacity = dictionary["MinCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("MinCapacity") }
+            self.minCapacity = minCapacity
+        }
     }
 
     public struct AutoScalingPolicyDescription: AWSShape {
@@ -1789,6 +2378,13 @@ extension Elasticmapreduce {
             self.constraints = constraints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.AutoScalingPolicyStatus(dictionary: status) }
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try ScalingRule(dictionary: $0) })
+            }
+            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Elasticmapreduce.ScalingConstraints(dictionary: constraints) }
+        }
     }
 
     public struct SupportedProductConfig: AWSShape {
@@ -1806,6 +2402,12 @@ extension Elasticmapreduce {
             self.args = args
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            if let args = dictionary["Args"] as? [String] {
+                self.args = args
+            }
+        }
     }
 
     public struct InstanceTypeSpecification: AWSShape {
@@ -1838,6 +2440,19 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.weightedCapacity = dictionary["WeightedCapacity"] as? Int32
+            self.bidPrice = dictionary["BidPrice"] as? String
+            if let ebsBlockDevices = dictionary["EbsBlockDevices"] as? [[String: Any]] {
+                self.ebsBlockDevices = try ebsBlockDevices.map({ try EbsBlockDevice(dictionary: $0) })
+            }
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.bidPriceAsPercentageOfOnDemandPrice = dictionary["BidPriceAsPercentageOfOnDemandPrice"] as? Double
+            self.instanceType = dictionary["InstanceType"] as? String
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+        }
     }
 
     public struct StepExecutionStatusDetail: AWSShape {
@@ -1864,6 +2479,15 @@ extension Elasticmapreduce {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
+            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            self.creationDateTime = creationDateTime
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+        }
     }
 
     public struct RunJobFlowInput: AWSShape {
@@ -1932,6 +2556,43 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let steps = dictionary["Steps"] as? [[String: Any]] {
+                self.steps = try steps.map({ try StepConfig(dictionary: $0) })
+            }
+            self.releaseLabel = dictionary["ReleaseLabel"] as? String
+            if let supportedProducts = dictionary["SupportedProducts"] as? [String] {
+                self.supportedProducts = supportedProducts
+            }
+            self.autoScalingRole = dictionary["AutoScalingRole"] as? String
+            self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.amiVersion = dictionary["AmiVersion"] as? String
+            self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
+            if let applications = dictionary["Applications"] as? [[String: Any]] {
+                self.applications = try applications.map({ try Application(dictionary: $0) })
+            }
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            if let newSupportedProducts = dictionary["NewSupportedProducts"] as? [[String: Any]] {
+                self.newSupportedProducts = try newSupportedProducts.map({ try SupportedProductConfig(dictionary: $0) })
+            }
+            self.jobFlowRole = dictionary["JobFlowRole"] as? String
+            if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
+                self.bootstrapActions = try bootstrapActions.map({ try BootstrapActionConfig(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+            self.logUri = dictionary["LogUri"] as? String
+            guard let instances = dictionary["Instances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Instances") }
+            self.instances = try Elasticmapreduce.JobFlowInstancesConfig(dictionary: instances)
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveAutoScalingPolicyOutput: AWSShape {
@@ -1940,6 +2601,8 @@ extension Elasticmapreduce {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AddJobFlowStepsInput: AWSShape {
@@ -1957,6 +2620,12 @@ extension Elasticmapreduce {
             self.jobFlowId = jobFlowId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let steps = dictionary["Steps"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Steps") }
+            self.steps = try steps.map({ try StepConfig(dictionary: $0) })
+            guard let jobFlowId = dictionary["JobFlowId"] as? String else { throw InitializableError.missingRequiredParam("JobFlowId") }
+            self.jobFlowId = jobFlowId
+        }
     }
 
     public struct Cluster: AWSShape {
@@ -2031,6 +2700,35 @@ extension Elasticmapreduce {
             self.autoTerminate = autoTerminate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.releaseLabel = dictionary["ReleaseLabel"] as? String
+            self.autoScalingRole = dictionary["AutoScalingRole"] as? String
+            self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
+            self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
+            if let applications = dictionary["Applications"] as? [[String: Any]] {
+                self.applications = try applications.map({ try Application(dictionary: $0) })
+            }
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            if let ec2InstanceAttributes = dictionary["Ec2InstanceAttributes"] as? [String: Any] { self.ec2InstanceAttributes = try Elasticmapreduce.Ec2InstanceAttributes(dictionary: ec2InstanceAttributes) }
+            self.instanceCollectionType = dictionary["InstanceCollectionType"] as? String
+            self.id = dictionary["Id"] as? String
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) }
+            self.scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String
+            self.name = dictionary["Name"] as? String
+            self.runningAmiVersion = dictionary["RunningAmiVersion"] as? String
+            self.requestedAmiVersion = dictionary["RequestedAmiVersion"] as? String
+            self.logUri = dictionary["LogUri"] as? String
+            self.masterPublicDnsName = dictionary["MasterPublicDnsName"] as? String
+            self.terminationProtected = dictionary["TerminationProtected"] as? Bool
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+            self.autoTerminate = dictionary["AutoTerminate"] as? Bool
+        }
     }
 
     public struct StepDetail: AWSShape {
@@ -2048,6 +2746,12 @@ extension Elasticmapreduce {
             self.stepConfig = stepConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let executionStatusDetail = dictionary["ExecutionStatusDetail"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ExecutionStatusDetail") }
+            self.executionStatusDetail = try Elasticmapreduce.StepExecutionStatusDetail(dictionary: executionStatusDetail)
+            guard let stepConfig = dictionary["StepConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StepConfig") }
+            self.stepConfig = try Elasticmapreduce.StepConfig(dictionary: stepConfig)
+        }
     }
 
     public struct KeyValue: AWSShape {
@@ -2065,6 +2769,10 @@ extension Elasticmapreduce {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DescribeClusterInput: AWSShape {
@@ -2079,6 +2787,10 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct DescribeStepInput: AWSShape {
@@ -2096,6 +2808,12 @@ extension Elasticmapreduce {
             self.stepId = stepId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            guard let stepId = dictionary["StepId"] as? String else { throw InitializableError.missingRequiredParam("StepId") }
+            self.stepId = stepId
+        }
     }
 
     public struct DescribeSecurityConfigurationInput: AWSShape {
@@ -2110,6 +2828,10 @@ extension Elasticmapreduce {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct RunJobFlowOutput: AWSShape {
@@ -2124,6 +2846,9 @@ extension Elasticmapreduce {
             self.jobFlowId = jobFlowId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobFlowId = dictionary["JobFlowId"] as? String
+        }
     }
 
     public struct AddInstanceGroupsInput: AWSShape {
@@ -2141,6 +2866,12 @@ extension Elasticmapreduce {
             self.instanceGroups = instanceGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobFlowId = dictionary["JobFlowId"] as? String else { throw InitializableError.missingRequiredParam("JobFlowId") }
+            self.jobFlowId = jobFlowId
+            guard let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InstanceGroups") }
+            self.instanceGroups = try instanceGroups.map({ try InstanceGroupConfig(dictionary: $0) })
+        }
     }
 
     public struct ClusterSummary: AWSShape {
@@ -2164,6 +2895,12 @@ extension Elasticmapreduce {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) }
+            self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct SetVisibleToAllUsersInput: AWSShape {
@@ -2181,6 +2918,12 @@ extension Elasticmapreduce {
             self.visibleToAllUsers = visibleToAllUsers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobFlowIds = dictionary["JobFlowIds"] as? [String] else { throw InitializableError.missingRequiredParam("JobFlowIds") }
+            self.jobFlowIds = jobFlowIds
+            guard let visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool else { throw InitializableError.missingRequiredParam("VisibleToAllUsers") }
+            self.visibleToAllUsers = visibleToAllUsers
+        }
     }
 
     public struct InstanceGroupModifyConfig: AWSShape {
@@ -2204,6 +2947,15 @@ extension Elasticmapreduce {
             self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
+            self.instanceGroupId = instanceGroupId
+            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) }
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            if let eC2InstanceIdsToTerminate = dictionary["EC2InstanceIdsToTerminate"] as? [String] {
+                self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
+            }
+        }
     }
 
     public struct InstanceGroupStateChangeReason: AWSShape {
@@ -2221,6 +2973,10 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct StepStatus: AWSShape {
@@ -2244,6 +3000,12 @@ extension Elasticmapreduce {
             self.timeline = timeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.StepStateChangeReason(dictionary: stateChangeReason) }
+            if let failureDetails = dictionary["FailureDetails"] as? [String: Any] { self.failureDetails = try Elasticmapreduce.FailureDetails(dictionary: failureDetails) }
+            self.state = dictionary["State"] as? String
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.StepTimeline(dictionary: timeline) }
+        }
     }
 
     public struct EbsBlockDevice: AWSShape {
@@ -2261,6 +3023,10 @@ extension Elasticmapreduce {
             self.device = device
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumeSpecification = dictionary["VolumeSpecification"] as? [String: Any] { self.volumeSpecification = try Elasticmapreduce.VolumeSpecification(dictionary: volumeSpecification) }
+            self.device = dictionary["Device"] as? String
+        }
     }
 
     public struct StepStateChangeReason: AWSShape {
@@ -2278,6 +3044,10 @@ extension Elasticmapreduce {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct ClusterStatus: AWSShape {
@@ -2298,6 +3068,11 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.ClusterTimeline(dictionary: timeline) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.ClusterStateChangeReason(dictionary: stateChangeReason) }
+        }
     }
 
     public struct ModifyInstanceGroupsInput: AWSShape {
@@ -2315,6 +3090,12 @@ extension Elasticmapreduce {
             self.instanceGroups = instanceGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterId = dictionary["ClusterId"] as? String
+            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
+                self.instanceGroups = try instanceGroups.map({ try InstanceGroupModifyConfig(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteSecurityConfigurationOutput: AWSShape {
@@ -2323,6 +3104,8 @@ extension Elasticmapreduce {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListClustersOutput: AWSShape {
@@ -2340,6 +3123,12 @@ extension Elasticmapreduce {
             self.clusters = clusters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let clusters = dictionary["Clusters"] as? [[String: Any]] {
+                self.clusters = try clusters.map({ try ClusterSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceGroupConfig: AWSShape {
@@ -2378,6 +3167,22 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bidPrice = dictionary["BidPrice"] as? String
+            self.market = dictionary["Market"] as? String
+            guard let instanceRole = dictionary["InstanceRole"] as? String else { throw InitializableError.missingRequiredParam("InstanceRole") }
+            self.instanceRole = instanceRole
+            self.name = dictionary["Name"] as? String
+            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicy(dictionary: autoScalingPolicy) }
+            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
+            self.instanceCount = instanceCount
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) }
+            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
+                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceGroupDetail: AWSShape {
@@ -2431,6 +3236,29 @@ extension Elasticmapreduce {
             self.startDateTime = startDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
+            self.bidPrice = dictionary["BidPrice"] as? String
+            guard let instanceRunningCount = dictionary["InstanceRunningCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceRunningCount") }
+            self.instanceRunningCount = instanceRunningCount
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
+            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            self.creationDateTime = creationDateTime
+            guard let instanceRequestCount = dictionary["InstanceRequestCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceRequestCount") }
+            self.instanceRequestCount = instanceRequestCount
+            self.name = dictionary["Name"] as? String
+            guard let instanceRole = dictionary["InstanceRole"] as? String else { throw InitializableError.missingRequiredParam("InstanceRole") }
+            self.instanceRole = instanceRole
+            guard let market = dictionary["Market"] as? String else { throw InitializableError.missingRequiredParam("Market") }
+            self.market = market
+            self.startDateTime = dictionary["StartDateTime"] as? Date
+        }
     }
 
     public struct ListStepsOutput: AWSShape {
@@ -2448,6 +3276,12 @@ extension Elasticmapreduce {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let steps = dictionary["Steps"] as? [[String: Any]] {
+                self.steps = try steps.map({ try StepSummary(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct HadoopStepConfig: AWSShape {
@@ -2471,6 +3305,16 @@ extension Elasticmapreduce {
             self.args = args
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mainClass = dictionary["MainClass"] as? String
+            self.jar = dictionary["Jar"] as? String
+            if let properties = dictionary["Properties"] as? [String: String] {
+                self.properties = properties
+            }
+            if let args = dictionary["Args"] as? [String] {
+                self.args = args
+            }
+        }
     }
 
     public struct EbsConfiguration: AWSShape {
@@ -2488,6 +3332,12 @@ extension Elasticmapreduce {
             self.ebsBlockDeviceConfigs = ebsBlockDeviceConfigs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            if let ebsBlockDeviceConfigs = dictionary["EbsBlockDeviceConfigs"] as? [[String: Any]] {
+                self.ebsBlockDeviceConfigs = try ebsBlockDeviceConfigs.map({ try EbsBlockDeviceConfig(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceTimeline: AWSShape {
@@ -2508,6 +3358,11 @@ extension Elasticmapreduce {
             self.endDateTime = endDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+        }
     }
 
     public struct InstanceResizePolicy: AWSShape {
@@ -2528,6 +3383,15 @@ extension Elasticmapreduce {
             self.instancesToProtect = instancesToProtect
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instancesToTerminate = dictionary["InstancesToTerminate"] as? [String] {
+                self.instancesToTerminate = instancesToTerminate
+            }
+            self.instanceTerminationTimeout = dictionary["InstanceTerminationTimeout"] as? Int32
+            if let instancesToProtect = dictionary["InstancesToProtect"] as? [String] {
+                self.instancesToProtect = instancesToProtect
+            }
+        }
     }
 
     public struct AddTagsInput: AWSShape {
@@ -2545,6 +3409,12 @@ extension Elasticmapreduce {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct ScriptBootstrapActionConfig: AWSShape {
@@ -2562,6 +3432,13 @@ extension Elasticmapreduce {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let args = dictionary["Args"] as? [String] {
+                self.args = args
+            }
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+        }
     }
 
     public struct AddInstanceFleetInput: AWSShape {
@@ -2579,6 +3456,12 @@ extension Elasticmapreduce {
             self.instanceFleet = instanceFleet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            guard let instanceFleet = dictionary["InstanceFleet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceFleet") }
+            self.instanceFleet = try Elasticmapreduce.InstanceFleetConfig(dictionary: instanceFleet)
+        }
     }
 
     public struct SpotProvisioningSpecification: AWSShape {
@@ -2599,6 +3482,13 @@ extension Elasticmapreduce {
             self.blockDurationMinutes = blockDurationMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timeoutDurationMinutes = dictionary["TimeoutDurationMinutes"] as? Int32 else { throw InitializableError.missingRequiredParam("TimeoutDurationMinutes") }
+            self.timeoutDurationMinutes = timeoutDurationMinutes
+            guard let timeoutAction = dictionary["TimeoutAction"] as? String else { throw InitializableError.missingRequiredParam("TimeoutAction") }
+            self.timeoutAction = timeoutAction
+            self.blockDurationMinutes = dictionary["BlockDurationMinutes"] as? Int32
+        }
     }
 
     public struct JobFlowExecutionStatusDetail: AWSShape {
@@ -2628,6 +3518,16 @@ extension Elasticmapreduce {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
+            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
+            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            self.creationDateTime = creationDateTime
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+        }
     }
 
     public struct RemoveAutoScalingPolicyInput: AWSShape {
@@ -2645,6 +3545,12 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
+            self.instanceGroupId = instanceGroupId
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
 }

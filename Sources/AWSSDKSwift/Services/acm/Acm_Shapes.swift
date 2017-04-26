@@ -44,6 +44,12 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct ListCertificatesResponse: AWSShape {
@@ -61,6 +67,12 @@ extension Acm {
             self.certificateSummaryList = certificateSummaryList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let certificateSummaryList = dictionary["CertificateSummaryList"] as? [[String: Any]] {
+                self.certificateSummaryList = try certificateSummaryList.map({ try CertificateSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct RequestCertificateResponse: AWSShape {
@@ -75,6 +87,9 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateArn = dictionary["CertificateArn"] as? String
+        }
     }
 
     public struct ImportCertificateRequest: AWSShape {
@@ -98,6 +113,14 @@ extension Acm {
             self.certificateChain = certificateChain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificate = dictionary["Certificate"] as? Data else { throw InitializableError.missingRequiredParam("Certificate") }
+            self.certificate = certificate
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            guard let privateKey = dictionary["PrivateKey"] as? Data else { throw InitializableError.missingRequiredParam("PrivateKey") }
+            self.privateKey = privateKey
+            self.certificateChain = dictionary["CertificateChain"] as? Data
+        }
     }
 
     public struct ListTagsForCertificateResponse: AWSShape {
@@ -112,6 +135,11 @@ extension Acm {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -129,6 +157,11 @@ extension Acm {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct GetCertificateRequest: AWSShape {
@@ -143,6 +176,10 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct DomainValidation: AWSShape {
@@ -166,6 +203,15 @@ extension Acm {
             self.validationEmails = validationEmails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.validationDomain = dictionary["ValidationDomain"] as? String
+            self.validationStatus = dictionary["ValidationStatus"] as? String
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            if let validationEmails = dictionary["ValidationEmails"] as? [String] {
+                self.validationEmails = validationEmails
+            }
+        }
     }
 
     public struct AddTagsToCertificateRequest: AWSShape {
@@ -183,6 +229,12 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct GetCertificateResponse: AWSShape {
@@ -200,6 +252,10 @@ extension Acm {
             self.certificateChain = certificateChain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificate = dictionary["Certificate"] as? String
+            self.certificateChain = dictionary["CertificateChain"] as? String
+        }
     }
 
     public struct ResendValidationEmailRequest: AWSShape {
@@ -220,6 +276,14 @@ extension Acm {
             self.domain = domain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let validationDomain = dictionary["ValidationDomain"] as? String else { throw InitializableError.missingRequiredParam("ValidationDomain") }
+            self.validationDomain = validationDomain
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+            guard let domain = dictionary["Domain"] as? String else { throw InitializableError.missingRequiredParam("Domain") }
+            self.domain = domain
+        }
     }
 
     public struct RenewalSummary: AWSShape {
@@ -237,6 +301,12 @@ extension Acm {
             self.renewalStatus = renewalStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainValidationOptions") }
+            self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidation(dictionary: $0) })
+            guard let renewalStatus = dictionary["RenewalStatus"] as? String else { throw InitializableError.missingRequiredParam("RenewalStatus") }
+            self.renewalStatus = renewalStatus
+        }
     }
 
     public struct DomainValidationOption: AWSShape {
@@ -254,6 +324,12 @@ extension Acm {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let validationDomain = dictionary["ValidationDomain"] as? String else { throw InitializableError.missingRequiredParam("ValidationDomain") }
+            self.validationDomain = validationDomain
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct CertificateSummary: AWSShape {
@@ -271,6 +347,10 @@ extension Acm {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            self.domainName = dictionary["DomainName"] as? String
+        }
     }
 
     public struct DescribeCertificateRequest: AWSShape {
@@ -285,6 +365,10 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct ListCertificatesRequest: AWSShape {
@@ -305,6 +389,13 @@ extension Acm {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificateStatuses = dictionary["CertificateStatuses"] as? [String] {
+                self.certificateStatuses = certificateStatuses
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct DescribeCertificateResponse: AWSShape {
@@ -319,6 +410,9 @@ extension Acm {
             self.certificate = certificate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Acm.CertificateDetail(dictionary: certificate) }
+        }
     }
 
     public struct RequestCertificateRequest: AWSShape {
@@ -342,6 +436,17 @@ extension Acm {
             self.idempotencyToken = idempotencyToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] {
+                self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidationOption(dictionary: $0) })
+            }
+            if let subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String] {
+                self.subjectAlternativeNames = subjectAlternativeNames
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.idempotencyToken = dictionary["IdempotencyToken"] as? String
+        }
     }
 
     public struct ImportCertificateResponse: AWSShape {
@@ -356,6 +461,9 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateArn = dictionary["CertificateArn"] as? String
+        }
     }
 
     public struct ListTagsForCertificateRequest: AWSShape {
@@ -370,6 +478,10 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct DeleteCertificateRequest: AWSShape {
@@ -384,6 +496,10 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct CertificateDetail: AWSShape {
@@ -458,6 +574,35 @@ extension Acm {
             self.subject = subject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failureReason = dictionary["FailureReason"] as? String
+            self.issuedAt = dictionary["IssuedAt"] as? Date
+            self.importedAt = dictionary["ImportedAt"] as? Date
+            self.revokedAt = dictionary["RevokedAt"] as? Date
+            if let renewalSummary = dictionary["RenewalSummary"] as? [String: Any] { self.renewalSummary = try Acm.RenewalSummary(dictionary: renewalSummary) }
+            self.signatureAlgorithm = dictionary["SignatureAlgorithm"] as? String
+            self.serial = dictionary["Serial"] as? String
+            self.revocationReason = dictionary["RevocationReason"] as? String
+            self.notAfter = dictionary["NotAfter"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.notBefore = dictionary["NotBefore"] as? Date
+            if let subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String] {
+                self.subjectAlternativeNames = subjectAlternativeNames
+            }
+            if let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] {
+                self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidation(dictionary: $0) })
+            }
+            self.keyAlgorithm = dictionary["KeyAlgorithm"] as? String
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            self.domainName = dictionary["DomainName"] as? String
+            self.type = dictionary["Type"] as? String
+            if let inUseBy = dictionary["InUseBy"] as? [String] {
+                self.inUseBy = inUseBy
+            }
+            self.issuer = dictionary["Issuer"] as? String
+            self.subject = dictionary["Subject"] as? String
+        }
     }
 
 }

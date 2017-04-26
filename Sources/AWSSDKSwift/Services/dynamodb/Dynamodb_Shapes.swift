@@ -53,6 +53,18 @@ extension Dynamodb {
             self.streamSpecification = streamSpecification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributeDefinitions = dictionary["AttributeDefinitions"] as? [[String: Any]] {
+                self.attributeDefinitions = try attributeDefinitions.map({ try AttributeDefinition(dictionary: $0) })
+            }
+            if let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] { self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput) }
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            if let globalSecondaryIndexUpdates = dictionary["GlobalSecondaryIndexUpdates"] as? [[String: Any]] {
+                self.globalSecondaryIndexUpdates = try globalSecondaryIndexUpdates.map({ try GlobalSecondaryIndexUpdate(dictionary: $0) })
+            }
+            if let streamSpecification = dictionary["StreamSpecification"] as? [String: Any] { self.streamSpecification = try Dynamodb.StreamSpecification(dictionary: streamSpecification) }
+        }
     }
 
     public struct DeleteRequest: AWSShape {
@@ -67,6 +79,15 @@ extension Dynamodb {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
+            var keyDict: [String: AttributeValue] = [:]
+            for (key, value) in key {
+                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+            }
+            self.key = keyDict
+        }
     }
 
     public struct CreateGlobalSecondaryIndexAction: AWSShape {
@@ -90,6 +111,16 @@ extension Dynamodb {
             self.provisionedThroughput = provisionedThroughput
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let projection = dictionary["Projection"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Projection") }
+            self.projection = try Dynamodb.Projection(dictionary: projection)
+            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
+            self.indexName = indexName
+            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
+            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
+            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+        }
     }
 
     public struct Projection: AWSShape {
@@ -107,6 +138,12 @@ extension Dynamodb {
             self.projectionType = projectionType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nonKeyAttributes = dictionary["NonKeyAttributes"] as? [String] {
+                self.nonKeyAttributes = nonKeyAttributes
+            }
+            self.projectionType = dictionary["ProjectionType"] as? String
+        }
     }
 
     public struct KeySchemaElement: AWSShape {
@@ -124,6 +161,12 @@ extension Dynamodb {
             self.keyType = keyType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            guard let keyType = dictionary["KeyType"] as? String else { throw InitializableError.missingRequiredParam("KeyType") }
+            self.keyType = keyType
+        }
     }
 
     public struct TagResourceInput: AWSShape {
@@ -141,6 +184,12 @@ extension Dynamodb {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct ProvisionedThroughput: AWSShape {
@@ -158,6 +207,12 @@ extension Dynamodb {
             self.readCapacityUnits = readCapacityUnits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let writeCapacityUnits = dictionary["WriteCapacityUnits"] as? Int64 else { throw InitializableError.missingRequiredParam("WriteCapacityUnits") }
+            self.writeCapacityUnits = writeCapacityUnits
+            guard let readCapacityUnits = dictionary["ReadCapacityUnits"] as? Int64 else { throw InitializableError.missingRequiredParam("ReadCapacityUnits") }
+            self.readCapacityUnits = readCapacityUnits
+        }
     }
 
     public struct DescribeTimeToLiveOutput: AWSShape {
@@ -171,6 +226,9 @@ extension Dynamodb {
             self.timeToLiveDescription = timeToLiveDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let timeToLiveDescription = dictionary["TimeToLiveDescription"] as? [String: Any] { self.timeToLiveDescription = try Dynamodb.TimeToLiveDescription(dictionary: timeToLiveDescription) }
+        }
     }
 
     public struct ConsumedCapacity: AWSShape {
@@ -197,6 +255,27 @@ extension Dynamodb {
             self.globalSecondaryIndexes = globalSecondaryIndexes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.capacityUnits = dictionary["CapacityUnits"] as? Double
+            if let table = dictionary["Table"] as? [String: Any] { self.table = try Dynamodb.Capacity(dictionary: table) }
+            self.tableName = dictionary["TableName"] as? String
+            if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [String: Any] {
+                var localSecondaryIndexesDict: [String: Capacity] = [:]
+                for (key, value) in localSecondaryIndexes {
+                    guard let capacityDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    localSecondaryIndexesDict[key] = try Capacity(dictionary: capacityDict)
+                }
+                self.localSecondaryIndexes = localSecondaryIndexesDict
+            }
+            if let globalSecondaryIndexes = dictionary["GlobalSecondaryIndexes"] as? [String: Any] {
+                var globalSecondaryIndexesDict: [String: Capacity] = [:]
+                for (key, value) in globalSecondaryIndexes {
+                    guard let capacityDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    globalSecondaryIndexesDict[key] = try Capacity(dictionary: capacityDict)
+                }
+                self.globalSecondaryIndexes = globalSecondaryIndexesDict
+            }
+        }
     }
 
     public struct ExpectedAttributeValue: AWSShape {
@@ -220,6 +299,14 @@ extension Dynamodb {
             self.exists = exists
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributeValueList = dictionary["AttributeValueList"] as? [[String: Any]] {
+                self.attributeValueList = try attributeValueList.map({ try AttributeValue(dictionary: $0) })
+            }
+            self.comparisonOperator = dictionary["ComparisonOperator"] as? String
+            if let value = dictionary["Value"] as? [String: Any] { self.value = try Dynamodb.AttributeValue(dictionary: value) }
+            self.exists = dictionary["Exists"] as? Bool
+        }
     }
 
     public struct QueryInput: AWSShape {
@@ -281,6 +368,58 @@ extension Dynamodb {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistentRead = dictionary["ConsistentRead"] as? Bool
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.projectionExpression = dictionary["ProjectionExpression"] as? String
+            if let queryFilter = dictionary["QueryFilter"] as? [String: Any] {
+                var queryFilterDict: [String: Condition] = [:]
+                for (key, value) in queryFilter {
+                    guard let conditionDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    queryFilterDict[key] = try Condition(dictionary: conditionDict)
+                }
+                self.queryFilter = queryFilterDict
+            }
+            if let keyConditions = dictionary["KeyConditions"] as? [String: Any] {
+                var keyConditionsDict: [String: Condition] = [:]
+                for (key, value) in keyConditions {
+                    guard let conditionDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    keyConditionsDict[key] = try Condition(dictionary: conditionDict)
+                }
+                self.keyConditions = keyConditionsDict
+            }
+            self.keyConditionExpression = dictionary["KeyConditionExpression"] as? String
+            self.indexName = dictionary["IndexName"] as? String
+            self.select = dictionary["Select"] as? String
+            if let exclusiveStartKey = dictionary["ExclusiveStartKey"] as? [String: Any] {
+                var exclusiveStartKeyDict: [String: AttributeValue] = [:]
+                for (key, value) in exclusiveStartKey {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    exclusiveStartKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.exclusiveStartKey = exclusiveStartKeyDict
+            }
+            if let attributesToGet = dictionary["AttributesToGet"] as? [String] {
+                self.attributesToGet = attributesToGet
+            }
+            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
+                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
+                for (key, value) in expressionAttributeValues {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.expressionAttributeValues = expressionAttributeValuesDict
+            }
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            self.scanIndexForward = dictionary["ScanIndexForward"] as? Bool
+            self.filterExpression = dictionary["FilterExpression"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct PutItemOutput: AWSShape {
@@ -301,6 +440,18 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: AttributeValue] = [:]
+                for (key, value) in attributes {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    attributesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.attributes = attributesDict
+            }
+            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] { self.itemCollectionMetrics = try Dynamodb.ItemCollectionMetrics(dictionary: itemCollectionMetrics) }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -318,6 +469,12 @@ extension Dynamodb {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct GetItemInput: AWSShape {
@@ -349,6 +506,26 @@ extension Dynamodb {
             self.returnConsumedCapacity = returnConsumedCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistentRead = dictionary["ConsistentRead"] as? Bool
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.projectionExpression = dictionary["ProjectionExpression"] as? String
+            if let attributesToGet = dictionary["AttributesToGet"] as? [String] {
+                self.attributesToGet = attributesToGet
+            }
+            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
+            var keyDict: [String: AttributeValue] = [:]
+            for (key, value) in key {
+                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+            }
+            self.key = keyDict
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+        }
     }
 
     public struct AttributeValueUpdate: AWSShape {
@@ -366,6 +543,10 @@ extension Dynamodb {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.action = dictionary["Action"] as? String
+            if let value = dictionary["Value"] as? [String: Any] { self.value = try Dynamodb.AttributeValue(dictionary: value) }
+        }
     }
 
     public struct WriteRequest: AWSShape {
@@ -383,6 +564,10 @@ extension Dynamodb {
             self.putRequest = putRequest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deleteRequest = dictionary["DeleteRequest"] as? [String: Any] { self.deleteRequest = try Dynamodb.DeleteRequest(dictionary: deleteRequest) }
+            if let putRequest = dictionary["PutRequest"] as? [String: Any] { self.putRequest = try Dynamodb.PutRequest(dictionary: putRequest) }
+        }
     }
 
     public struct CreateTableOutput: AWSShape {
@@ -397,6 +582,9 @@ extension Dynamodb {
             self.tableDescription = tableDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tableDescription = dictionary["TableDescription"] as? [String: Any] { self.tableDescription = try Dynamodb.TableDescription(dictionary: tableDescription) }
+        }
     }
 
     public struct TimeToLiveSpecification: AWSShape {
@@ -414,6 +602,12 @@ extension Dynamodb {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+        }
     }
 
     public struct ListTagsOfResourceInput: AWSShape {
@@ -431,6 +625,11 @@ extension Dynamodb {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteTableInput: AWSShape {
@@ -445,6 +644,10 @@ extension Dynamodb {
             self.tableName = tableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+        }
     }
 
     public struct ScanOutput: AWSShape {
@@ -471,6 +674,30 @@ extension Dynamodb {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lastEvaluatedKey = dictionary["LastEvaluatedKey"] as? [String: Any] {
+                var lastEvaluatedKeyDict: [String: AttributeValue] = [:]
+                for (key, value) in lastEvaluatedKey {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    lastEvaluatedKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.lastEvaluatedKey = lastEvaluatedKeyDict
+            }
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) }
+            self.scannedCount = dictionary["ScannedCount"] as? Int32
+            if let items = dictionary["Items"] as? [[String: [String: Any]]] {
+                var itemsList: [[String: AttributeValue]] = []
+                var attributeValueDict: [String: AttributeValue] = [:]
+                for item in items {
+                    for (key, value) in item {
+                        attributeValueDict[key] = try AttributeValue(dictionary: value)
+                    }
+                    itemsList.append(attributeValueDict)
+                }
+                self.items = itemsList
+            }
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct GlobalSecondaryIndex: AWSShape {
@@ -494,6 +721,16 @@ extension Dynamodb {
             self.provisionedThroughput = provisionedThroughput
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let projection = dictionary["Projection"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Projection") }
+            self.projection = try Dynamodb.Projection(dictionary: projection)
+            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
+            self.indexName = indexName
+            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
+            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
+            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+        }
     }
 
     public struct PutRequest: AWSShape {
@@ -508,6 +745,15 @@ extension Dynamodb {
             self.item = item
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let item = dictionary["Item"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Item") }
+            var itemDict: [String: AttributeValue] = [:]
+            for (key, value) in item {
+                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                itemDict[key] = try AttributeValue(dictionary: attributeValueDict)
+            }
+            self.item = itemDict
+        }
     }
 
     public struct CreateTableInput: AWSShape {
@@ -540,6 +786,23 @@ extension Dynamodb {
             self.streamSpecification = streamSpecification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeDefinitions = dictionary["AttributeDefinitions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeDefinitions") }
+            self.attributeDefinitions = try attributeDefinitions.map({ try AttributeDefinition(dictionary: $0) })
+            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
+            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
+            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+            if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [[String: Any]] {
+                self.localSecondaryIndexes = try localSecondaryIndexes.map({ try LocalSecondaryIndex(dictionary: $0) })
+            }
+            if let globalSecondaryIndexes = dictionary["GlobalSecondaryIndexes"] as? [[String: Any]] {
+                self.globalSecondaryIndexes = try globalSecondaryIndexes.map({ try GlobalSecondaryIndex(dictionary: $0) })
+            }
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            if let streamSpecification = dictionary["StreamSpecification"] as? [String: Any] { self.streamSpecification = try Dynamodb.StreamSpecification(dictionary: streamSpecification) }
+        }
     }
 
     public struct ListTablesInput: AWSShape {
@@ -557,6 +820,10 @@ extension Dynamodb {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exclusiveStartTableName = dictionary["ExclusiveStartTableName"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct TimeToLiveDescription: AWSShape {
@@ -574,6 +841,10 @@ extension Dynamodb {
             self.attributeName = attributeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timeToLiveStatus = dictionary["TimeToLiveStatus"] as? String
+            self.attributeName = dictionary["AttributeName"] as? String
+        }
     }
 
     public struct BatchGetItemInput: AWSShape {
@@ -590,6 +861,16 @@ extension Dynamodb {
             self.requestItems = requestItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            guard let requestItems = dictionary["RequestItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestItems") }
+            var requestItemsDict: [String: KeysAndAttributes] = [:]
+            for (key, value) in requestItems {
+                guard let keysAndAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                requestItemsDict[key] = try KeysAndAttributes(dictionary: keysAndAttributesDict)
+            }
+            self.requestItems = requestItemsDict
+        }
     }
 
     public struct TableDescription: AWSShape {
@@ -643,6 +924,30 @@ extension Dynamodb {
             self.latestStreamLabel = latestStreamLabel
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.latestStreamArn = dictionary["LatestStreamArn"] as? String
+            if let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] { self.provisionedThroughput = try Dynamodb.ProvisionedThroughputDescription(dictionary: provisionedThroughput) }
+            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
+                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            }
+            self.tableArn = dictionary["TableArn"] as? String
+            self.itemCount = dictionary["ItemCount"] as? Int64
+            if let streamSpecification = dictionary["StreamSpecification"] as? [String: Any] { self.streamSpecification = try Dynamodb.StreamSpecification(dictionary: streamSpecification) }
+            if let attributeDefinitions = dictionary["AttributeDefinitions"] as? [[String: Any]] {
+                self.attributeDefinitions = try attributeDefinitions.map({ try AttributeDefinition(dictionary: $0) })
+            }
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [[String: Any]] {
+                self.localSecondaryIndexes = try localSecondaryIndexes.map({ try LocalSecondaryIndexDescription(dictionary: $0) })
+            }
+            if let globalSecondaryIndexes = dictionary["GlobalSecondaryIndexes"] as? [[String: Any]] {
+                self.globalSecondaryIndexes = try globalSecondaryIndexes.map({ try GlobalSecondaryIndexDescription(dictionary: $0) })
+            }
+            self.tableSizeBytes = dictionary["TableSizeBytes"] as? Int64
+            self.tableName = dictionary["TableName"] as? String
+            self.tableStatus = dictionary["TableStatus"] as? String
+            self.latestStreamLabel = dictionary["LatestStreamLabel"] as? String
+        }
     }
 
     public struct QueryOutput: AWSShape {
@@ -669,6 +974,30 @@ extension Dynamodb {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lastEvaluatedKey = dictionary["LastEvaluatedKey"] as? [String: Any] {
+                var lastEvaluatedKeyDict: [String: AttributeValue] = [:]
+                for (key, value) in lastEvaluatedKey {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    lastEvaluatedKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.lastEvaluatedKey = lastEvaluatedKeyDict
+            }
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) }
+            self.scannedCount = dictionary["ScannedCount"] as? Int32
+            if let items = dictionary["Items"] as? [[String: [String: Any]]] {
+                var itemsList: [[String: AttributeValue]] = []
+                var attributeValueDict: [String: AttributeValue] = [:]
+                for item in items {
+                    for (key, value) in item {
+                        attributeValueDict[key] = try AttributeValue(dictionary: value)
+                    }
+                    itemsList.append(attributeValueDict)
+                }
+                self.items = itemsList
+            }
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct UntagResourceInput: AWSShape {
@@ -686,6 +1015,12 @@ extension Dynamodb {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct LocalSecondaryIndexDescription: AWSShape {
@@ -715,6 +1050,16 @@ extension Dynamodb {
             self.itemCount = itemCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let projection = dictionary["Projection"] as? [String: Any] { self.projection = try Dynamodb.Projection(dictionary: projection) }
+            self.indexName = dictionary["IndexName"] as? String
+            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
+                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            }
+            self.indexSizeBytes = dictionary["IndexSizeBytes"] as? Int64
+            self.indexArn = dictionary["IndexArn"] as? String
+            self.itemCount = dictionary["ItemCount"] as? Int64
+        }
     }
 
     public struct StreamSpecification: AWSShape {
@@ -732,6 +1077,10 @@ extension Dynamodb {
             self.streamEnabled = streamEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.streamViewType = dictionary["StreamViewType"] as? String
+            self.streamEnabled = dictionary["StreamEnabled"] as? Bool
+        }
     }
 
     public struct DescribeTimeToLiveInput: AWSShape {
@@ -746,6 +1095,10 @@ extension Dynamodb {
             self.tableName = tableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+        }
     }
 
     public struct DescribeLimitsInput: AWSShape {
@@ -754,6 +1107,8 @@ extension Dynamodb {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteItemInput: AWSShape {
@@ -794,6 +1149,41 @@ extension Dynamodb {
             self.expressionAttributeValues = expressionAttributeValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.conditionExpression = dictionary["ConditionExpression"] as? String
+            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
+            self.returnValues = dictionary["ReturnValues"] as? String
+            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
+            var keyDict: [String: AttributeValue] = [:]
+            for (key, value) in key {
+                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+            }
+            self.key = keyDict
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let expected = dictionary["Expected"] as? [String: Any] {
+                var expectedDict: [String: ExpectedAttributeValue] = [:]
+                for (key, value) in expected {
+                    guard let expectedAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expectedDict[key] = try ExpectedAttributeValue(dictionary: expectedAttributeValueDict)
+                }
+                self.expected = expectedDict
+            }
+            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
+                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
+                for (key, value) in expressionAttributeValues {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.expressionAttributeValues = expressionAttributeValuesDict
+            }
+        }
     }
 
     public struct DescribeTableOutput: AWSShape {
@@ -808,6 +1198,9 @@ extension Dynamodb {
             self.table = table
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let table = dictionary["Table"] as? [String: Any] { self.table = try Dynamodb.TableDescription(dictionary: table) }
+        }
     }
 
     public struct UpdateTimeToLiveInput: AWSShape {
@@ -825,6 +1218,12 @@ extension Dynamodb {
             self.timeToLiveSpecification = timeToLiveSpecification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            guard let timeToLiveSpecification = dictionary["TimeToLiveSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimeToLiveSpecification") }
+            self.timeToLiveSpecification = try Dynamodb.TimeToLiveSpecification(dictionary: timeToLiveSpecification)
+        }
     }
 
     public struct ScanInput: AWSShape {
@@ -883,6 +1282,50 @@ extension Dynamodb {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistentRead = dictionary["ConsistentRead"] as? Bool
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.projectionExpression = dictionary["ProjectionExpression"] as? String
+            if let scanFilter = dictionary["ScanFilter"] as? [String: Any] {
+                var scanFilterDict: [String: Condition] = [:]
+                for (key, value) in scanFilter {
+                    guard let conditionDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    scanFilterDict[key] = try Condition(dictionary: conditionDict)
+                }
+                self.scanFilter = scanFilterDict
+            }
+            self.totalSegments = dictionary["TotalSegments"] as? Int32
+            self.indexName = dictionary["IndexName"] as? String
+            self.select = dictionary["Select"] as? String
+            if let exclusiveStartKey = dictionary["ExclusiveStartKey"] as? [String: Any] {
+                var exclusiveStartKeyDict: [String: AttributeValue] = [:]
+                for (key, value) in exclusiveStartKey {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    exclusiveStartKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.exclusiveStartKey = exclusiveStartKeyDict
+            }
+            self.segment = dictionary["Segment"] as? Int32
+            if let attributesToGet = dictionary["AttributesToGet"] as? [String] {
+                self.attributesToGet = attributesToGet
+            }
+            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
+                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
+                for (key, value) in expressionAttributeValues {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.expressionAttributeValues = expressionAttributeValuesDict
+            }
+            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            self.filterExpression = dictionary["FilterExpression"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct BatchWriteItemOutput: AWSShape {
@@ -903,6 +1346,29 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let unprocessedItems = dictionary["UnprocessedItems"] as? [String: Any] {
+                var unprocessedItemsDict: [String: [WriteRequest]] = [:]
+                for (key, value) in unprocessedItems {
+                    guard let writeRequest = value as? [[String: Any]] else { throw InitializableError.convertingError }
+                    let writeRequestList: [WriteRequest] = try writeRequest.map { try WriteRequest(dictionary: $0) }
+                    unprocessedItemsDict[key] = writeRequestList
+                }
+                self.unprocessedItems = unprocessedItemsDict
+            }
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [[String: Any]] {
+                self.consumedCapacity = try consumedCapacity.map({ try ConsumedCapacity(dictionary: $0) })
+            }
+            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] {
+                var itemCollectionMetricsDict: [String: [ItemCollectionMetrics]] = [:]
+                for (key, value) in itemCollectionMetrics {
+                    guard let itemCollectionMetrics = value as? [[String: Any]] else { throw InitializableError.convertingError }
+                    let itemCollectionMetricsList: [ItemCollectionMetrics] = try itemCollectionMetrics.map { try ItemCollectionMetrics(dictionary: $0) }
+                    itemCollectionMetricsDict[key] = itemCollectionMetricsList
+                }
+                self.itemCollectionMetrics = itemCollectionMetricsDict
+            }
+        }
     }
 
     public struct DeleteTableOutput: AWSShape {
@@ -917,6 +1383,9 @@ extension Dynamodb {
             self.tableDescription = tableDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tableDescription = dictionary["TableDescription"] as? [String: Any] { self.tableDescription = try Dynamodb.TableDescription(dictionary: tableDescription) }
+        }
     }
 
     public struct ProvisionedThroughputDescription: AWSShape {
@@ -943,6 +1412,13 @@ extension Dynamodb {
             self.numberOfDecreasesToday = numberOfDecreasesToday
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.writeCapacityUnits = dictionary["WriteCapacityUnits"] as? Int64
+            self.lastIncreaseDateTime = dictionary["LastIncreaseDateTime"] as? Date
+            self.readCapacityUnits = dictionary["ReadCapacityUnits"] as? Int64
+            self.lastDecreaseDateTime = dictionary["LastDecreaseDateTime"] as? Date
+            self.numberOfDecreasesToday = dictionary["NumberOfDecreasesToday"] as? Int64
+        }
     }
 
     public struct PutItemInput: AWSShape {
@@ -983,6 +1459,41 @@ extension Dynamodb {
             self.expressionAttributeValues = expressionAttributeValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.conditionExpression = dictionary["ConditionExpression"] as? String
+            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
+            self.returnValues = dictionary["ReturnValues"] as? String
+            guard let item = dictionary["Item"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Item") }
+            var itemDict: [String: AttributeValue] = [:]
+            for (key, value) in item {
+                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                itemDict[key] = try AttributeValue(dictionary: attributeValueDict)
+            }
+            self.item = itemDict
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let expected = dictionary["Expected"] as? [String: Any] {
+                var expectedDict: [String: ExpectedAttributeValue] = [:]
+                for (key, value) in expected {
+                    guard let expectedAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expectedDict[key] = try ExpectedAttributeValue(dictionary: expectedAttributeValueDict)
+                }
+                self.expected = expectedDict
+            }
+            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
+                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
+                for (key, value) in expressionAttributeValues {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.expressionAttributeValues = expressionAttributeValuesDict
+            }
+        }
     }
 
     public struct Condition: AWSShape {
@@ -1000,6 +1511,13 @@ extension Dynamodb {
             self.attributeValueList = attributeValueList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            if let attributeValueList = dictionary["AttributeValueList"] as? [[String: Any]] {
+                self.attributeValueList = try attributeValueList.map({ try AttributeValue(dictionary: $0) })
+            }
+        }
     }
 
     public struct GlobalSecondaryIndexDescription: AWSShape {
@@ -1038,6 +1556,19 @@ extension Dynamodb {
             self.backfilling = backfilling
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.indexName = dictionary["IndexName"] as? String
+            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
+                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            }
+            self.indexArn = dictionary["IndexArn"] as? String
+            if let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] { self.provisionedThroughput = try Dynamodb.ProvisionedThroughputDescription(dictionary: provisionedThroughput) }
+            self.itemCount = dictionary["ItemCount"] as? Int64
+            if let projection = dictionary["Projection"] as? [String: Any] { self.projection = try Dynamodb.Projection(dictionary: projection) }
+            self.indexSizeBytes = dictionary["IndexSizeBytes"] as? Int64
+            self.indexStatus = dictionary["IndexStatus"] as? String
+            self.backfilling = dictionary["Backfilling"] as? Bool
+        }
     }
 
     public struct DeleteItemOutput: AWSShape {
@@ -1058,6 +1589,18 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: AttributeValue] = [:]
+                for (key, value) in attributes {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    attributesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.attributes = attributesDict
+            }
+            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] { self.itemCollectionMetrics = try Dynamodb.ItemCollectionMetrics(dictionary: itemCollectionMetrics) }
+        }
     }
 
     public struct DescribeLimitsOutput: AWSShape {
@@ -1081,6 +1624,12 @@ extension Dynamodb {
             self.accountMaxWriteCapacityUnits = accountMaxWriteCapacityUnits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tableMaxWriteCapacityUnits = dictionary["TableMaxWriteCapacityUnits"] as? Int64
+            self.tableMaxReadCapacityUnits = dictionary["TableMaxReadCapacityUnits"] as? Int64
+            self.accountMaxReadCapacityUnits = dictionary["AccountMaxReadCapacityUnits"] as? Int64
+            self.accountMaxWriteCapacityUnits = dictionary["AccountMaxWriteCapacityUnits"] as? Int64
+        }
     }
 
     public struct BatchGetItemOutput: AWSShape {
@@ -1101,6 +1650,35 @@ extension Dynamodb {
             self.responses = responses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let unprocessedKeys = dictionary["UnprocessedKeys"] as? [String: Any] {
+                var unprocessedKeysDict: [String: KeysAndAttributes] = [:]
+                for (key, value) in unprocessedKeys {
+                    guard let keysAndAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    unprocessedKeysDict[key] = try KeysAndAttributes(dictionary: keysAndAttributesDict)
+                }
+                self.unprocessedKeys = unprocessedKeysDict
+            }
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [[String: Any]] {
+                self.consumedCapacity = try consumedCapacity.map({ try ConsumedCapacity(dictionary: $0) })
+            }
+            if let responses = dictionary["Responses"] as? [String: Any] {
+                var responsesDict: [String: [[String: AttributeValue]]] = [:]
+                for (key, value) in responses {
+                    guard let itemList = value as? [[String: [String: Any]]] else { throw InitializableError.convertingError }
+                    var itemListList: [[String: AttributeValue]] = []
+                    for item in itemList {
+                        var attributeValueDict: [String: AttributeValue] = [:]
+                        for (key, value) in item {
+                            attributeValueDict[key] = try AttributeValue(dictionary: value)
+                        }
+                        itemListList.append(attributeValueDict)
+                    }
+                    responsesDict[key] = itemListList
+                }
+                self.responses = responsesDict
+            }
+        }
     }
 
     public struct BatchWriteItemInput: AWSShape {
@@ -1120,6 +1698,18 @@ extension Dynamodb {
             self.requestItems = requestItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            guard let requestItems = dictionary["RequestItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestItems") }
+            var requestItemsDict: [String: [WriteRequest]] = [:]
+            for (key, value) in requestItems {
+                guard let writeRequest = value as? [[String: Any]] else { throw InitializableError.convertingError }
+                let writeRequestList: [WriteRequest] = try writeRequest.map { try WriteRequest(dictionary: $0) }
+                requestItemsDict[key] = writeRequestList
+            }
+            self.requestItems = requestItemsDict
+        }
     }
 
     public struct UpdateItemInput: AWSShape {
@@ -1166,6 +1756,50 @@ extension Dynamodb {
             self.updateExpression = updateExpression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributeUpdates = dictionary["AttributeUpdates"] as? [String: Any] {
+                var attributeUpdatesDict: [String: AttributeValueUpdate] = [:]
+                for (key, value) in attributeUpdates {
+                    guard let attributeValueUpdateDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    attributeUpdatesDict[key] = try AttributeValueUpdate(dictionary: attributeValueUpdateDict)
+                }
+                self.attributeUpdates = attributeUpdatesDict
+            }
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.conditionExpression = dictionary["ConditionExpression"] as? String
+            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
+            self.returnValues = dictionary["ReturnValues"] as? String
+            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
+            var keyDict: [String: AttributeValue] = [:]
+            for (key, value) in key {
+                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+            }
+            self.key = keyDict
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let expected = dictionary["Expected"] as? [String: Any] {
+                var expectedDict: [String: ExpectedAttributeValue] = [:]
+                for (key, value) in expected {
+                    guard let expectedAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expectedDict[key] = try ExpectedAttributeValue(dictionary: expectedAttributeValueDict)
+                }
+                self.expected = expectedDict
+            }
+            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
+                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
+                for (key, value) in expressionAttributeValues {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.expressionAttributeValues = expressionAttributeValuesDict
+            }
+            self.updateExpression = dictionary["UpdateExpression"] as? String
+        }
     }
 
     public struct GetItemOutput: AWSShape {
@@ -1183,6 +1817,17 @@ extension Dynamodb {
             self.consumedCapacity = consumedCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [String: Any] {
+                var itemDict: [String: AttributeValue] = [:]
+                for (key, value) in item {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    itemDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.item = itemDict
+            }
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) }
+        }
     }
 
     public struct ItemCollectionMetrics: AWSShape {
@@ -1200,6 +1845,19 @@ extension Dynamodb {
             self.sizeEstimateRangeGB = sizeEstimateRangeGB
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let itemCollectionKey = dictionary["ItemCollectionKey"] as? [String: Any] {
+                var itemCollectionKeyDict: [String: AttributeValue] = [:]
+                for (key, value) in itemCollectionKey {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    itemCollectionKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.itemCollectionKey = itemCollectionKeyDict
+            }
+            if let sizeEstimateRangeGB = dictionary["SizeEstimateRangeGB"] as? [Double] {
+                self.sizeEstimateRangeGB = sizeEstimateRangeGB
+            }
+        }
     }
 
     public struct LocalSecondaryIndex: AWSShape {
@@ -1220,6 +1878,14 @@ extension Dynamodb {
             self.keySchema = keySchema
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let projection = dictionary["Projection"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Projection") }
+            self.projection = try Dynamodb.Projection(dictionary: projection)
+            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
+            self.indexName = indexName
+            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
+            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+        }
     }
 
     public struct DeleteGlobalSecondaryIndexAction: AWSShape {
@@ -1234,6 +1900,10 @@ extension Dynamodb {
             self.indexName = indexName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
+            self.indexName = indexName
+        }
     }
 
     public struct UpdateTimeToLiveOutput: AWSShape {
@@ -1248,6 +1918,9 @@ extension Dynamodb {
             self.timeToLiveSpecification = timeToLiveSpecification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let timeToLiveSpecification = dictionary["TimeToLiveSpecification"] as? [String: Any] { self.timeToLiveSpecification = try Dynamodb.TimeToLiveSpecification(dictionary: timeToLiveSpecification) }
+        }
     }
 
     public struct AttributeDefinition: AWSShape {
@@ -1265,6 +1938,12 @@ extension Dynamodb {
             self.attributeName = attributeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeType = dictionary["AttributeType"] as? String else { throw InitializableError.missingRequiredParam("AttributeType") }
+            self.attributeType = attributeType
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+        }
     }
 
     public struct KeysAndAttributes: AWSShape {
@@ -1291,6 +1970,26 @@ extension Dynamodb {
             self.attributesToGet = attributesToGet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistentRead = dictionary["ConsistentRead"] as? Bool
+            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
+                self.expressionAttributeNames = expressionAttributeNames
+            }
+            self.projectionExpression = dictionary["ProjectionExpression"] as? String
+            guard let keys = dictionary["Keys"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam("Keys") }
+            var keysList: [[String: AttributeValue]] = []
+            var attributeValueDict: [String: AttributeValue] = [:]
+            for item in keys {
+                for (key, value) in item {
+                    attributeValueDict[key] = try AttributeValue(dictionary: value)
+                }
+                keysList.append(attributeValueDict)
+            }
+            self.keys = keysList
+            if let attributesToGet = dictionary["AttributesToGet"] as? [String] {
+                self.attributesToGet = attributesToGet
+            }
+        }
     }
 
     public struct ListTagsOfResourceOutput: AWSShape {
@@ -1308,6 +2007,12 @@ extension Dynamodb {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeTableInput: AWSShape {
@@ -1322,6 +2027,10 @@ extension Dynamodb {
             self.tableName = tableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
+            self.tableName = tableName
+        }
     }
 
     public struct ListTablesOutput: AWSShape {
@@ -1339,6 +2048,12 @@ extension Dynamodb {
             self.lastEvaluatedTableName = lastEvaluatedTableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tableNames = dictionary["TableNames"] as? [String] {
+                self.tableNames = tableNames
+            }
+            self.lastEvaluatedTableName = dictionary["LastEvaluatedTableName"] as? String
+        }
     }
 
     public struct AttributeValue: AWSShape {
@@ -1380,6 +2095,33 @@ extension Dynamodb {
             self.s = s
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nS = dictionary["NS"] as? [String] {
+                self.nS = nS
+            }
+            self.n = dictionary["N"] as? String
+            self.bOOL = dictionary["BOOL"] as? Bool
+            if let bS = dictionary["BS"] as? [Data] {
+                self.bS = bS
+            }
+            if let l = dictionary["L"] as? [[String: Any]] {
+                self.l = try l.map({ try AttributeValue(dictionary: $0) })
+            }
+            self.nULL = dictionary["NULL"] as? Bool
+            self.b = dictionary["B"] as? Data
+            if let m = dictionary["M"] as? [String: Any] {
+                var mDict: [String: AttributeValue] = [:]
+                for (key, value) in m {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    mDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.m = mDict
+            }
+            if let sS = dictionary["SS"] as? [String] {
+                self.sS = sS
+            }
+            self.s = dictionary["S"] as? String
+        }
     }
 
     public struct UpdateTableOutput: AWSShape {
@@ -1394,6 +2136,9 @@ extension Dynamodb {
             self.tableDescription = tableDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tableDescription = dictionary["TableDescription"] as? [String: Any] { self.tableDescription = try Dynamodb.TableDescription(dictionary: tableDescription) }
+        }
     }
 
     public struct UpdateItemOutput: AWSShape {
@@ -1414,6 +2159,18 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: AttributeValue] = [:]
+                for (key, value) in attributes {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    attributesDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.attributes = attributesDict
+            }
+            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] { self.itemCollectionMetrics = try Dynamodb.ItemCollectionMetrics(dictionary: itemCollectionMetrics) }
+        }
     }
 
     public struct UpdateGlobalSecondaryIndexAction: AWSShape {
@@ -1431,6 +2188,12 @@ extension Dynamodb {
             self.provisionedThroughput = provisionedThroughput
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
+            self.indexName = indexName
+            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
+            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+        }
     }
 
     public struct Capacity: AWSShape {
@@ -1445,6 +2208,9 @@ extension Dynamodb {
             self.capacityUnits = capacityUnits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.capacityUnits = dictionary["CapacityUnits"] as? Double
+        }
     }
 
     public struct GlobalSecondaryIndexUpdate: AWSShape {
@@ -1465,6 +2231,11 @@ extension Dynamodb {
             self.delete = delete
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let create = dictionary["Create"] as? [String: Any] { self.create = try Dynamodb.CreateGlobalSecondaryIndexAction(dictionary: create) }
+            if let update = dictionary["Update"] as? [String: Any] { self.update = try Dynamodb.UpdateGlobalSecondaryIndexAction(dictionary: update) }
+            if let delete = dictionary["Delete"] as? [String: Any] { self.delete = try Dynamodb.DeleteGlobalSecondaryIndexAction(dictionary: delete) }
+        }
     }
 
 }

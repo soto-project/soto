@@ -50,6 +50,12 @@ extension Config {
             self.lastStatusChangeTime = lastStatusChangeTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
+            self.lastErrorCode = dictionary["lastErrorCode"] as? String
+            self.lastStatus = dictionary["lastStatus"] as? String
+            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? Date
+        }
     }
 
     public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
@@ -67,6 +73,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let evaluationResults = dictionary["EvaluationResults"] as? [[String: Any]] {
+                self.evaluationResults = try evaluationResults.map({ try EvaluationResult(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetComplianceDetailsByResourceResponse: AWSShape {
@@ -84,6 +96,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let evaluationResults = dictionary["EvaluationResults"] as? [[String: Any]] {
+                self.evaluationResults = try evaluationResults.map({ try EvaluationResult(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Source: AWSShape {
@@ -104,6 +122,15 @@ extension Config {
             self.sourceIdentifier = sourceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let owner = dictionary["Owner"] as? String else { throw InitializableError.missingRequiredParam("Owner") }
+            self.owner = owner
+            if let sourceDetails = dictionary["SourceDetails"] as? [[String: Any]] {
+                self.sourceDetails = try sourceDetails.map({ try SourceDetail(dictionary: $0) })
+            }
+            guard let sourceIdentifier = dictionary["SourceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceIdentifier") }
+            self.sourceIdentifier = sourceIdentifier
+        }
     }
 
     public struct DeleteConfigRuleRequest: AWSShape {
@@ -118,6 +145,10 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configRuleName = dictionary["ConfigRuleName"] as? String else { throw InitializableError.missingRequiredParam("ConfigRuleName") }
+            self.configRuleName = configRuleName
+        }
     }
 
     public struct ConfigExportDeliveryInfo: AWSShape {
@@ -147,6 +178,14 @@ extension Config {
             self.nextDeliveryTime = nextDeliveryTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
+            self.lastAttemptTime = dictionary["lastAttemptTime"] as? Date
+            self.lastSuccessfulTime = dictionary["lastSuccessfulTime"] as? Date
+            self.lastErrorCode = dictionary["lastErrorCode"] as? String
+            self.lastStatus = dictionary["lastStatus"] as? String
+            self.nextDeliveryTime = dictionary["nextDeliveryTime"] as? Date
+        }
     }
 
     public struct SourceDetail: AWSShape {
@@ -167,6 +206,11 @@ extension Config {
             self.maximumExecutionFrequency = maximumExecutionFrequency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.messageType = dictionary["MessageType"] as? String
+            self.eventSource = dictionary["EventSource"] as? String
+            self.maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String
+        }
     }
 
     public struct DescribeConfigurationRecordersResponse: AWSShape {
@@ -181,6 +225,11 @@ extension Config {
             self.configurationRecorders = configurationRecorders
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationRecorders = dictionary["ConfigurationRecorders"] as? [[String: Any]] {
+                self.configurationRecorders = try configurationRecorders.map({ try ConfigurationRecorder(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeConfigurationRecordersRequest: AWSShape {
@@ -195,6 +244,11 @@ extension Config {
             self.configurationRecorderNames = configurationRecorderNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationRecorderNames = dictionary["ConfigurationRecorderNames"] as? [String] {
+                self.configurationRecorderNames = configurationRecorderNames
+            }
+        }
     }
 
     public struct ResourceIdentifier: AWSShape {
@@ -218,6 +272,12 @@ extension Config {
             self.resourceDeletionTime = resourceDeletionTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceType = dictionary["resourceType"] as? String
+            self.resourceId = dictionary["resourceId"] as? String
+            self.resourceName = dictionary["resourceName"] as? String
+            self.resourceDeletionTime = dictionary["resourceDeletionTime"] as? Date
+        }
     }
 
     public struct DeliveryChannel: AWSShape {
@@ -243,6 +303,13 @@ extension Config {
             self.snsTopicARN = snsTopicARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3KeyPrefix = dictionary["s3KeyPrefix"] as? String
+            self.name = dictionary["name"] as? String
+            if let configSnapshotDeliveryProperties = dictionary["configSnapshotDeliveryProperties"] as? [String: Any] { self.configSnapshotDeliveryProperties = try Config.ConfigSnapshotDeliveryProperties(dictionary: configSnapshotDeliveryProperties) }
+            self.s3BucketName = dictionary["s3BucketName"] as? String
+            self.snsTopicARN = dictionary["snsTopicARN"] as? String
+        }
     }
 
     public struct PutConfigRuleRequest: AWSShape {
@@ -256,6 +323,10 @@ extension Config {
             self.configRule = configRule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configRule = dictionary["ConfigRule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConfigRule") }
+            self.configRule = try Config.ConfigRule(dictionary: configRule)
+        }
     }
 
     public struct DescribeDeliveryChannelsResponse: AWSShape {
@@ -270,6 +341,11 @@ extension Config {
             self.deliveryChannels = deliveryChannels
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deliveryChannels = dictionary["DeliveryChannels"] as? [[String: Any]] {
+                self.deliveryChannels = try deliveryChannels.map({ try DeliveryChannel(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
@@ -287,6 +363,12 @@ extension Config {
             self.configRulesEvaluationStatus = configRulesEvaluationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let configRulesEvaluationStatus = dictionary["ConfigRulesEvaluationStatus"] as? [[String: Any]] {
+                self.configRulesEvaluationStatus = try configRulesEvaluationStatus.map({ try ConfigRuleEvaluationStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeComplianceByResourceResponse: AWSShape {
@@ -304,6 +386,12 @@ extension Config {
             self.complianceByResources = complianceByResources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let complianceByResources = dictionary["ComplianceByResources"] as? [[String: Any]] {
+                self.complianceByResources = try complianceByResources.map({ try ComplianceByResource(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeConfigRulesRequest: AWSShape {
@@ -321,6 +409,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configRuleNames = dictionary["ConfigRuleNames"] as? [String] {
+                self.configRuleNames = configRuleNames
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeliverConfigSnapshotResponse: AWSShape {
@@ -335,6 +429,9 @@ extension Config {
             self.configSnapshotId = configSnapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configSnapshotId = dictionary["configSnapshotId"] as? String
+        }
     }
 
     public struct ListDiscoveredResourcesRequest: AWSShape {
@@ -364,6 +461,17 @@ extension Config {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.includeDeletedResources = dictionary["includeDeletedResources"] as? Bool
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let resourceType = dictionary["resourceType"] as? String else { throw InitializableError.missingRequiredParam("resourceType") }
+            self.resourceType = resourceType
+            if let resourceIds = dictionary["resourceIds"] as? [String] {
+                self.resourceIds = resourceIds
+            }
+            self.limit = dictionary["limit"] as? Int32
+            self.resourceName = dictionary["resourceName"] as? String
+        }
     }
 
     public struct DeliverConfigSnapshotRequest: AWSShape {
@@ -378,6 +486,10 @@ extension Config {
             self.deliveryChannelName = deliveryChannelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deliveryChannelName = dictionary["deliveryChannelName"] as? String else { throw InitializableError.missingRequiredParam("deliveryChannelName") }
+            self.deliveryChannelName = deliveryChannelName
+        }
     }
 
     public struct DescribeDeliveryChannelsRequest: AWSShape {
@@ -392,6 +504,11 @@ extension Config {
             self.deliveryChannelNames = deliveryChannelNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deliveryChannelNames = dictionary["DeliveryChannelNames"] as? [String] {
+                self.deliveryChannelNames = deliveryChannelNames
+            }
+        }
     }
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
@@ -406,6 +523,11 @@ extension Config {
             self.complianceSummariesByResourceType = complianceSummariesByResourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let complianceSummariesByResourceType = dictionary["ComplianceSummariesByResourceType"] as? [[String: Any]] {
+                self.complianceSummariesByResourceType = try complianceSummariesByResourceType.map({ try ComplianceSummaryByResourceType(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteEvaluationResultsRequest: AWSShape {
@@ -420,6 +542,10 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configRuleName = dictionary["ConfigRuleName"] as? String else { throw InitializableError.missingRequiredParam("ConfigRuleName") }
+            self.configRuleName = configRuleName
+        }
     }
 
     public struct ConfigurationItem: AWSShape {
@@ -485,6 +611,34 @@ extension Config {
             self.configurationItemMD5Hash = configurationItemMD5Hash
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configurationStateId = dictionary["configurationStateId"] as? String
+            self.resourceType = dictionary["resourceType"] as? String
+            self.resourceName = dictionary["resourceName"] as? String
+            if let relatedEvents = dictionary["relatedEvents"] as? [String] {
+                self.relatedEvents = relatedEvents
+            }
+            if let tags = dictionary["tags"] as? [String: String] {
+                self.tags = tags
+            }
+            self.resourceId = dictionary["resourceId"] as? String
+            self.configuration = dictionary["configuration"] as? String
+            if let relationships = dictionary["relationships"] as? [[String: Any]] {
+                self.relationships = try relationships.map({ try Relationship(dictionary: $0) })
+            }
+            self.availabilityZone = dictionary["availabilityZone"] as? String
+            self.arn = dictionary["arn"] as? String
+            self.configurationItemStatus = dictionary["configurationItemStatus"] as? String
+            self.configurationItemCaptureTime = dictionary["configurationItemCaptureTime"] as? Date
+            self.version = dictionary["version"] as? String
+            self.accountId = dictionary["accountId"] as? String
+            self.resourceCreationTime = dictionary["resourceCreationTime"] as? Date
+            if let supplementaryConfiguration = dictionary["supplementaryConfiguration"] as? [String: String] {
+                self.supplementaryConfiguration = supplementaryConfiguration
+            }
+            self.awsRegion = dictionary["awsRegion"] as? String
+            self.configurationItemMD5Hash = dictionary["configurationItemMD5Hash"] as? String
+        }
     }
 
     public struct PutConfigurationRecorderRequest: AWSShape {
@@ -499,6 +653,10 @@ extension Config {
             self.configurationRecorder = configurationRecorder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationRecorder = dictionary["ConfigurationRecorder"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConfigurationRecorder") }
+            self.configurationRecorder = try Config.ConfigurationRecorder(dictionary: configurationRecorder)
+        }
     }
 
     public struct EvaluationResultIdentifier: AWSShape {
@@ -516,6 +674,10 @@ extension Config {
             self.evaluationResultQualifier = evaluationResultQualifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.orderingTimestamp = dictionary["OrderingTimestamp"] as? Date
+            if let evaluationResultQualifier = dictionary["EvaluationResultQualifier"] as? [String: Any] { self.evaluationResultQualifier = try Config.EvaluationResultQualifier(dictionary: evaluationResultQualifier) }
+        }
     }
 
     public struct RecordingGroup: AWSShape {
@@ -536,6 +698,13 @@ extension Config {
             self.resourceTypes = resourceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allSupported = dictionary["allSupported"] as? Bool
+            self.includeGlobalResourceTypes = dictionary["includeGlobalResourceTypes"] as? Bool
+            if let resourceTypes = dictionary["resourceTypes"] as? [String] {
+                self.resourceTypes = resourceTypes
+            }
+        }
     }
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
@@ -559,6 +728,15 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configRuleName = dictionary["ConfigRuleName"] as? String else { throw InitializableError.missingRequiredParam("ConfigRuleName") }
+            self.configRuleName = configRuleName
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] {
+                self.complianceTypes = complianceTypes
+            }
+        }
     }
 
     public struct ComplianceSummaryByResourceType: AWSShape {
@@ -576,6 +754,10 @@ extension Config {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let complianceSummary = dictionary["ComplianceSummary"] as? [String: Any] { self.complianceSummary = try Config.ComplianceSummary(dictionary: complianceSummary) }
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct PutDeliveryChannelRequest: AWSShape {
@@ -590,6 +772,10 @@ extension Config {
             self.deliveryChannel = deliveryChannel
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deliveryChannel = dictionary["DeliveryChannel"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DeliveryChannel") }
+            self.deliveryChannel = try Config.DeliveryChannel(dictionary: deliveryChannel)
+        }
     }
 
     public struct Evaluation: AWSShape {
@@ -616,6 +802,17 @@ extension Config {
             self.annotation = annotation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let complianceType = dictionary["ComplianceType"] as? String else { throw InitializableError.missingRequiredParam("ComplianceType") }
+            self.complianceType = complianceType
+            guard let complianceResourceType = dictionary["ComplianceResourceType"] as? String else { throw InitializableError.missingRequiredParam("ComplianceResourceType") }
+            self.complianceResourceType = complianceResourceType
+            guard let complianceResourceId = dictionary["ComplianceResourceId"] as? String else { throw InitializableError.missingRequiredParam("ComplianceResourceId") }
+            self.complianceResourceId = complianceResourceId
+            guard let orderingTimestamp = dictionary["OrderingTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("OrderingTimestamp") }
+            self.orderingTimestamp = orderingTimestamp
+            self.annotation = dictionary["Annotation"] as? String
+        }
     }
 
     public struct StopConfigurationRecorderRequest: AWSShape {
@@ -630,6 +827,10 @@ extension Config {
             self.configurationRecorderName = configurationRecorderName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationRecorderName = dictionary["ConfigurationRecorderName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationRecorderName") }
+            self.configurationRecorderName = configurationRecorderName
+        }
     }
 
     public struct ConfigRule: AWSShape {
@@ -668,6 +869,18 @@ extension Config {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configRuleState = dictionary["ConfigRuleState"] as? String
+            self.configRuleName = dictionary["ConfigRuleName"] as? String
+            self.inputParameters = dictionary["InputParameters"] as? String
+            self.configRuleId = dictionary["ConfigRuleId"] as? String
+            self.configRuleArn = dictionary["ConfigRuleArn"] as? String
+            guard let source = dictionary["Source"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Source") }
+            self.source = try Config.Source(dictionary: source)
+            if let scope = dictionary["Scope"] as? [String: Any] { self.scope = try Config.Scope(dictionary: scope) }
+            self.maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct EvaluationResultQualifier: AWSShape {
@@ -688,6 +901,11 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.configRuleName = dictionary["ConfigRuleName"] as? String
+        }
     }
 
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
@@ -702,6 +920,11 @@ extension Config {
             self.configurationRecordersStatus = configurationRecordersStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationRecordersStatus = dictionary["ConfigurationRecordersStatus"] as? [[String: Any]] {
+                self.configurationRecordersStatus = try configurationRecordersStatus.map({ try ConfigurationRecorderStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct ComplianceSummary: AWSShape {
@@ -722,6 +945,11 @@ extension Config {
             self.compliantResourceCount = compliantResourceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.complianceSummaryTimestamp = dictionary["ComplianceSummaryTimestamp"] as? Date
+            if let nonCompliantResourceCount = dictionary["NonCompliantResourceCount"] as? [String: Any] { self.nonCompliantResourceCount = try Config.ComplianceContributorCount(dictionary: nonCompliantResourceCount) }
+            if let compliantResourceCount = dictionary["CompliantResourceCount"] as? [String: Any] { self.compliantResourceCount = try Config.ComplianceContributorCount(dictionary: compliantResourceCount) }
+        }
     }
 
     public struct Scope: AWSShape {
@@ -745,6 +973,14 @@ extension Config {
             self.tagKey = tagKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let complianceResourceTypes = dictionary["ComplianceResourceTypes"] as? [String] {
+                self.complianceResourceTypes = complianceResourceTypes
+            }
+            self.complianceResourceId = dictionary["ComplianceResourceId"] as? String
+            self.tagValue = dictionary["TagValue"] as? String
+            self.tagKey = dictionary["TagKey"] as? String
+        }
     }
 
     public struct ConfigRuleEvaluationStatus: AWSShape {
@@ -789,6 +1025,19 @@ extension Config {
             self.lastFailedInvocationTime = lastFailedInvocationTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastFailedEvaluationTime = dictionary["LastFailedEvaluationTime"] as? Date
+            self.firstEvaluationStarted = dictionary["FirstEvaluationStarted"] as? Bool
+            self.lastSuccessfulEvaluationTime = dictionary["LastSuccessfulEvaluationTime"] as? Date
+            self.configRuleName = dictionary["ConfigRuleName"] as? String
+            self.firstActivatedTime = dictionary["FirstActivatedTime"] as? Date
+            self.configRuleId = dictionary["ConfigRuleId"] as? String
+            self.lastSuccessfulInvocationTime = dictionary["LastSuccessfulInvocationTime"] as? Date
+            self.configRuleArn = dictionary["ConfigRuleArn"] as? String
+            self.lastErrorCode = dictionary["LastErrorCode"] as? String
+            self.lastErrorMessage = dictionary["LastErrorMessage"] as? String
+            self.lastFailedInvocationTime = dictionary["LastFailedInvocationTime"] as? Date
+        }
     }
 
     public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
@@ -803,6 +1052,9 @@ extension Config {
             self.complianceSummary = complianceSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let complianceSummary = dictionary["ComplianceSummary"] as? [String: Any] { self.complianceSummary = try Config.ComplianceSummary(dictionary: complianceSummary) }
+        }
     }
 
     public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
@@ -817,6 +1069,11 @@ extension Config {
             self.resourceTypes = resourceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceTypes = dictionary["ResourceTypes"] as? [String] {
+                self.resourceTypes = resourceTypes
+            }
+        }
     }
 
     public struct DescribeComplianceByConfigRuleRequest: AWSShape {
@@ -837,6 +1094,15 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configRuleNames = dictionary["ConfigRuleNames"] as? [String] {
+                self.configRuleNames = configRuleNames
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] {
+                self.complianceTypes = complianceTypes
+            }
+        }
     }
 
     public struct GetComplianceDetailsByResourceRequest: AWSShape {
@@ -860,6 +1126,16 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] {
+                self.complianceTypes = complianceTypes
+            }
+        }
     }
 
     public struct ComplianceByResource: AWSShape {
@@ -880,6 +1156,11 @@ extension Config {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let compliance = dictionary["Compliance"] as? [String: Any] { self.compliance = try Config.Compliance(dictionary: compliance) }
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct DescribeComplianceByConfigRuleResponse: AWSShape {
@@ -897,6 +1178,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let complianceByConfigRules = dictionary["ComplianceByConfigRules"] as? [[String: Any]] {
+                self.complianceByConfigRules = try complianceByConfigRules.map({ try ComplianceByConfigRule(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
@@ -917,6 +1204,13 @@ extension Config {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configRuleNames = dictionary["ConfigRuleNames"] as? [String] {
+                self.configRuleNames = configRuleNames
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct DeliveryChannelStatus: AWSShape {
@@ -940,6 +1234,12 @@ extension Config {
             self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let configStreamDeliveryInfo = dictionary["configStreamDeliveryInfo"] as? [String: Any] { self.configStreamDeliveryInfo = try Config.ConfigStreamDeliveryInfo(dictionary: configStreamDeliveryInfo) }
+            if let configHistoryDeliveryInfo = dictionary["configHistoryDeliveryInfo"] as? [String: Any] { self.configHistoryDeliveryInfo = try Config.ConfigExportDeliveryInfo(dictionary: configHistoryDeliveryInfo) }
+            if let configSnapshotDeliveryInfo = dictionary["configSnapshotDeliveryInfo"] as? [String: Any] { self.configSnapshotDeliveryInfo = try Config.ConfigExportDeliveryInfo(dictionary: configSnapshotDeliveryInfo) }
+        }
     }
 
     public struct StartConfigRulesEvaluationResponse: AWSShape {
@@ -948,6 +1248,8 @@ extension Config {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ComplianceByConfigRule: AWSShape {
@@ -965,6 +1267,10 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let compliance = dictionary["Compliance"] as? [String: Any] { self.compliance = try Config.Compliance(dictionary: compliance) }
+            self.configRuleName = dictionary["ConfigRuleName"] as? String
+        }
     }
 
     public struct GetResourceConfigHistoryResponse: AWSShape {
@@ -982,6 +1288,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationItems = dictionary["configurationItems"] as? [[String: Any]] {
+                self.configurationItems = try configurationItems.map({ try ConfigurationItem(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ComplianceContributorCount: AWSShape {
@@ -999,6 +1311,10 @@ extension Config {
             self.capExceeded = capExceeded
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cappedCount = dictionary["CappedCount"] as? Int32
+            self.capExceeded = dictionary["CapExceeded"] as? Bool
+        }
     }
 
     public struct DeleteConfigurationRecorderRequest: AWSShape {
@@ -1013,6 +1329,10 @@ extension Config {
             self.configurationRecorderName = configurationRecorderName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationRecorderName = dictionary["ConfigurationRecorderName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationRecorderName") }
+            self.configurationRecorderName = configurationRecorderName
+        }
     }
 
     public struct GetResourceConfigHistoryRequest: AWSShape {
@@ -1045,6 +1365,17 @@ extension Config {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.laterTime = dictionary["laterTime"] as? Date
+            self.limit = dictionary["limit"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let resourceType = dictionary["resourceType"] as? String else { throw InitializableError.missingRequiredParam("resourceType") }
+            self.resourceType = resourceType
+            self.chronologicalOrder = dictionary["chronologicalOrder"] as? String
+            self.earlierTime = dictionary["earlierTime"] as? Date
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct Relationship: AWSShape {
@@ -1068,6 +1399,12 @@ extension Config {
             self.relationshipName = relationshipName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceType = dictionary["resourceType"] as? String
+            self.resourceId = dictionary["resourceId"] as? String
+            self.resourceName = dictionary["resourceName"] as? String
+            self.relationshipName = dictionary["relationshipName"] as? String
+        }
     }
 
     public struct Compliance: AWSShape {
@@ -1085,6 +1422,10 @@ extension Config {
             self.complianceType = complianceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let complianceContributorCount = dictionary["ComplianceContributorCount"] as? [String: Any] { self.complianceContributorCount = try Config.ComplianceContributorCount(dictionary: complianceContributorCount) }
+            self.complianceType = dictionary["ComplianceType"] as? String
+        }
     }
 
     public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
@@ -1099,6 +1440,11 @@ extension Config {
             self.configurationRecorderNames = configurationRecorderNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationRecorderNames = dictionary["ConfigurationRecorderNames"] as? [String] {
+                self.configurationRecorderNames = configurationRecorderNames
+            }
+        }
     }
 
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
@@ -1113,6 +1459,9 @@ extension Config {
             self.deliveryFrequency = deliveryFrequency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deliveryFrequency = dictionary["deliveryFrequency"] as? String
+        }
     }
 
     public struct ListDiscoveredResourcesResponse: AWSShape {
@@ -1130,6 +1479,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceIdentifiers = dictionary["resourceIdentifiers"] as? [[String: Any]] {
+                self.resourceIdentifiers = try resourceIdentifiers.map({ try ResourceIdentifier(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteEvaluationResultsResponse: AWSShape {
@@ -1138,6 +1493,8 @@ extension Config {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeConfigRulesResponse: AWSShape {
@@ -1155,6 +1512,12 @@ extension Config {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configRules = dictionary["ConfigRules"] as? [[String: Any]] {
+                self.configRules = try configRules.map({ try ConfigRule(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct EvaluationResult: AWSShape {
@@ -1184,6 +1547,14 @@ extension Config {
             self.annotation = annotation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let evaluationResultIdentifier = dictionary["EvaluationResultIdentifier"] as? [String: Any] { self.evaluationResultIdentifier = try Config.EvaluationResultIdentifier(dictionary: evaluationResultIdentifier) }
+            self.configRuleInvokedTime = dictionary["ConfigRuleInvokedTime"] as? Date
+            self.resultRecordedTime = dictionary["ResultRecordedTime"] as? Date
+            self.complianceType = dictionary["ComplianceType"] as? String
+            self.resultToken = dictionary["ResultToken"] as? String
+            self.annotation = dictionary["Annotation"] as? String
+        }
     }
 
     public struct DescribeComplianceByResourceRequest: AWSShape {
@@ -1210,6 +1581,15 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] {
+                self.complianceTypes = complianceTypes
+            }
+        }
     }
 
     public struct DescribeDeliveryChannelStatusResponse: AWSShape {
@@ -1224,6 +1604,11 @@ extension Config {
             self.deliveryChannelsStatus = deliveryChannelsStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deliveryChannelsStatus = dictionary["DeliveryChannelsStatus"] as? [[String: Any]] {
+                self.deliveryChannelsStatus = try deliveryChannelsStatus.map({ try DeliveryChannelStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutEvaluationsResponse: AWSShape {
@@ -1238,6 +1623,11 @@ extension Config {
             self.failedEvaluations = failedEvaluations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedEvaluations = dictionary["FailedEvaluations"] as? [[String: Any]] {
+                self.failedEvaluations = try failedEvaluations.map({ try Evaluation(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartConfigRulesEvaluationRequest: AWSShape {
@@ -1252,6 +1642,11 @@ extension Config {
             self.configRuleNames = configRuleNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configRuleNames = dictionary["ConfigRuleNames"] as? [String] {
+                self.configRuleNames = configRuleNames
+            }
+        }
     }
 
     public struct StartConfigurationRecorderRequest: AWSShape {
@@ -1266,6 +1661,10 @@ extension Config {
             self.configurationRecorderName = configurationRecorderName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationRecorderName = dictionary["ConfigurationRecorderName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationRecorderName") }
+            self.configurationRecorderName = configurationRecorderName
+        }
     }
 
     public struct DeleteDeliveryChannelRequest: AWSShape {
@@ -1280,6 +1679,10 @@ extension Config {
             self.deliveryChannelName = deliveryChannelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deliveryChannelName = dictionary["DeliveryChannelName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryChannelName") }
+            self.deliveryChannelName = deliveryChannelName
+        }
     }
 
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
@@ -1294,6 +1697,11 @@ extension Config {
             self.deliveryChannelNames = deliveryChannelNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deliveryChannelNames = dictionary["DeliveryChannelNames"] as? [String] {
+                self.deliveryChannelNames = deliveryChannelNames
+            }
+        }
     }
 
     public struct ConfigurationRecorderStatus: AWSShape {
@@ -1329,6 +1737,16 @@ extension Config {
             self.lastErrorMessage = lastErrorMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? Date
+            self.lastStopTime = dictionary["lastStopTime"] as? Date
+            self.recording = dictionary["recording"] as? Bool
+            self.lastErrorCode = dictionary["lastErrorCode"] as? String
+            self.lastStatus = dictionary["lastStatus"] as? String
+            self.lastStartTime = dictionary["lastStartTime"] as? Date
+            self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
+        }
     }
 
     public struct ConfigurationRecorder: AWSShape {
@@ -1349,6 +1767,11 @@ extension Config {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let recordingGroup = dictionary["recordingGroup"] as? [String: Any] { self.recordingGroup = try Config.RecordingGroup(dictionary: recordingGroup) }
+            self.roleARN = dictionary["roleARN"] as? String
+        }
     }
 
     public struct PutEvaluationsRequest: AWSShape {
@@ -1369,6 +1792,14 @@ extension Config {
             self.testMode = testMode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let evaluations = dictionary["Evaluations"] as? [[String: Any]] {
+                self.evaluations = try evaluations.map({ try Evaluation(dictionary: $0) })
+            }
+            guard let resultToken = dictionary["ResultToken"] as? String else { throw InitializableError.missingRequiredParam("ResultToken") }
+            self.resultToken = resultToken
+            self.testMode = dictionary["TestMode"] as? Bool
+        }
     }
 
 }

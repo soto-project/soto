@@ -44,6 +44,12 @@ extension Logs {
             self.logStreamName = logStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
+            self.logStreamName = logStreamName
+        }
     }
 
     public struct DescribeDestinationsResponse: AWSShape {
@@ -60,6 +66,12 @@ extension Logs {
             self.destinations = destinations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let destinations = dictionary["destinations"] as? [[String: Any]] {
+                self.destinations = try destinations.map({ try Destination(dictionary: $0) })
+            }
+        }
     }
 
     public struct TestMetricFilterResponse: AWSShape {
@@ -74,6 +86,11 @@ extension Logs {
             self.matches = matches
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let matches = dictionary["matches"] as? [[String: Any]] {
+                self.matches = try matches.map({ try MetricFilterMatchRecord(dictionary: $0) })
+            }
+        }
     }
 
     public struct LogStream: AWSShape {
@@ -109,6 +126,16 @@ extension Logs {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.storedBytes = dictionary["storedBytes"] as? Int64
+            self.lastEventTimestamp = dictionary["lastEventTimestamp"] as? Int64
+            self.logStreamName = dictionary["logStreamName"] as? String
+            self.creationTime = dictionary["creationTime"] as? Int64
+            self.lastIngestionTime = dictionary["lastIngestionTime"] as? Int64
+            self.firstEventTimestamp = dictionary["firstEventTimestamp"] as? Int64
+            self.uploadSequenceToken = dictionary["uploadSequenceToken"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct InputLogEvent: AWSShape {
@@ -126,6 +153,12 @@ extension Logs {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timestamp = dictionary["timestamp"] as? Int64 else { throw InitializableError.missingRequiredParam("timestamp") }
+            self.timestamp = timestamp
+            guard let message = dictionary["message"] as? String else { throw InitializableError.missingRequiredParam("message") }
+            self.message = message
+        }
     }
 
     public struct FilteredLogEvent: AWSShape {
@@ -152,6 +185,13 @@ extension Logs {
             self.ingestionTime = ingestionTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventId = dictionary["eventId"] as? String
+            self.message = dictionary["message"] as? String
+            self.timestamp = dictionary["timestamp"] as? Int64
+            self.logStreamName = dictionary["logStreamName"] as? String
+            self.ingestionTime = dictionary["ingestionTime"] as? Int64
+        }
     }
 
     public struct PutLogEventsRequest: AWSShape {
@@ -175,6 +215,15 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logEvents = dictionary["logEvents"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("logEvents") }
+            self.logEvents = try logEvents.map({ try InputLogEvent(dictionary: $0) })
+            self.sequenceToken = dictionary["sequenceToken"] as? String
+            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
+            self.logStreamName = logStreamName
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct ExportTaskExecutionInfo: AWSShape {
@@ -192,6 +241,10 @@ extension Logs {
             self.completionTime = completionTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.creationTime = dictionary["creationTime"] as? Int64
+            self.completionTime = dictionary["completionTime"] as? Int64
+        }
     }
 
     public struct DescribeLogStreamsRequest: AWSShape {
@@ -221,6 +274,15 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            self.descending = dictionary["descending"] as? Bool
+            self.logStreamNamePrefix = dictionary["logStreamNamePrefix"] as? String
+            self.orderBy = dictionary["orderBy"] as? String
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct DescribeLogStreamsResponse: AWSShape {
@@ -237,6 +299,12 @@ extension Logs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let logStreams = dictionary["logStreams"] as? [[String: Any]] {
+                self.logStreams = try logStreams.map({ try LogStream(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteRetentionPolicyRequest: AWSShape {
@@ -251,6 +319,10 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct MetricTransformation: AWSShape {
@@ -274,6 +346,15 @@ extension Logs {
             self.metricNamespace = metricNamespace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricValue = dictionary["metricValue"] as? String else { throw InitializableError.missingRequiredParam("metricValue") }
+            self.metricValue = metricValue
+            self.defaultValue = dictionary["defaultValue"] as? Double
+            guard let metricName = dictionary["metricName"] as? String else { throw InitializableError.missingRequiredParam("metricName") }
+            self.metricName = metricName
+            guard let metricNamespace = dictionary["metricNamespace"] as? String else { throw InitializableError.missingRequiredParam("metricNamespace") }
+            self.metricNamespace = metricNamespace
+        }
     }
 
     public struct PutSubscriptionFilterRequest: AWSShape {
@@ -303,6 +384,18 @@ extension Logs {
             self.filterPattern = filterPattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
+            self.filterName = filterName
+            guard let destinationArn = dictionary["destinationArn"] as? String else { throw InitializableError.missingRequiredParam("destinationArn") }
+            self.destinationArn = destinationArn
+            self.roleArn = dictionary["roleArn"] as? String
+            self.distribution = dictionary["distribution"] as? String
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
+            self.filterPattern = filterPattern
+        }
     }
 
     public struct RejectedLogEventsInfo: AWSShape {
@@ -323,6 +416,11 @@ extension Logs {
             self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expiredLogEventEndIndex = dictionary["expiredLogEventEndIndex"] as? Int32
+            self.tooOldLogEventEndIndex = dictionary["tooOldLogEventEndIndex"] as? Int32
+            self.tooNewLogEventStartIndex = dictionary["tooNewLogEventStartIndex"] as? Int32
+        }
     }
 
     public struct DeleteDestinationRequest: AWSShape {
@@ -337,6 +435,10 @@ extension Logs {
             self.destinationName = destinationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destinationName = dictionary["destinationName"] as? String else { throw InitializableError.missingRequiredParam("destinationName") }
+            self.destinationName = destinationName
+        }
     }
 
     public struct PutMetricFilterRequest: AWSShape {
@@ -360,6 +462,16 @@ extension Logs {
             self.filterPattern = filterPattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
+            self.filterName = filterName
+            guard let metricTransformations = dictionary["metricTransformations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("metricTransformations") }
+            self.metricTransformations = try metricTransformations.map({ try MetricTransformation(dictionary: $0) })
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
+            self.filterPattern = filterPattern
+        }
     }
 
     public struct DescribeLogGroupsResponse: AWSShape {
@@ -376,6 +488,12 @@ extension Logs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let logGroups = dictionary["logGroups"] as? [[String: Any]] {
+                self.logGroups = try logGroups.map({ try LogGroup(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct PutDestinationRequest: AWSShape {
@@ -396,6 +514,14 @@ extension Logs {
             self.targetArn = targetArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destinationName = dictionary["destinationName"] as? String else { throw InitializableError.missingRequiredParam("destinationName") }
+            self.destinationName = destinationName
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let targetArn = dictionary["targetArn"] as? String else { throw InitializableError.missingRequiredParam("targetArn") }
+            self.targetArn = targetArn
+        }
     }
 
     public struct OutputLogEvent: AWSShape {
@@ -416,6 +542,11 @@ extension Logs {
             self.ingestionTime = ingestionTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["timestamp"] as? Int64
+            self.message = dictionary["message"] as? String
+            self.ingestionTime = dictionary["ingestionTime"] as? Int64
+        }
     }
 
     public struct DeleteLogStreamRequest: AWSShape {
@@ -433,6 +564,12 @@ extension Logs {
             self.logStreamName = logStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
+            self.logStreamName = logStreamName
+        }
     }
 
     public struct DescribeSubscriptionFiltersRequest: AWSShape {
@@ -456,6 +593,13 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.filterNamePrefix = dictionary["filterNamePrefix"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct DescribeLogGroupsRequest: AWSShape {
@@ -476,6 +620,11 @@ extension Logs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["limit"] as? Int32
+            self.logGroupNamePrefix = dictionary["logGroupNamePrefix"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeMetricFiltersRequest: AWSShape {
@@ -505,6 +654,14 @@ extension Logs {
             self.metricNamespace = metricNamespace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["limit"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            self.filterNamePrefix = dictionary["filterNamePrefix"] as? String
+            self.logGroupName = dictionary["logGroupName"] as? String
+            self.metricName = dictionary["metricName"] as? String
+            self.metricNamespace = dictionary["metricNamespace"] as? String
+        }
     }
 
     public struct DeleteSubscriptionFilterRequest: AWSShape {
@@ -522,6 +679,12 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
+            self.filterName = filterName
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
@@ -545,6 +708,12 @@ extension Logs {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.statusCode = dictionary["statusCode"] as? String
+            self.taskId = dictionary["taskId"] as? String
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct CreateExportTaskRequest: AWSShape {
@@ -577,6 +746,19 @@ extension Logs {
             self.logStreamNamePrefix = logStreamNamePrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.destinationPrefix = dictionary["destinationPrefix"] as? String
+            guard let destination = dictionary["destination"] as? String else { throw InitializableError.missingRequiredParam("destination") }
+            self.destination = destination
+            guard let from = dictionary["from"] as? Int64 else { throw InitializableError.missingRequiredParam("from") }
+            self.from = from
+            self.taskName = dictionary["taskName"] as? String
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            guard let to = dictionary["to"] as? Int64 else { throw InitializableError.missingRequiredParam("to") }
+            self.to = to
+            self.logStreamNamePrefix = dictionary["logStreamNamePrefix"] as? String
+        }
     }
 
     public struct MetricFilter: AWSShape {
@@ -602,6 +784,15 @@ extension Logs {
             self.filterPattern = filterPattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metricTransformations = dictionary["metricTransformations"] as? [[String: Any]] {
+                self.metricTransformations = try metricTransformations.map({ try MetricTransformation(dictionary: $0) })
+            }
+            self.filterName = dictionary["filterName"] as? String
+            self.logGroupName = dictionary["logGroupName"] as? String
+            self.creationTime = dictionary["creationTime"] as? Int64
+            self.filterPattern = dictionary["filterPattern"] as? String
+        }
     }
 
     public struct TestMetricFilterRequest: AWSShape {
@@ -618,6 +809,12 @@ extension Logs {
             self.logEventMessages = logEventMessages
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
+            self.filterPattern = filterPattern
+            guard let logEventMessages = dictionary["logEventMessages"] as? [String] else { throw InitializableError.missingRequiredParam("logEventMessages") }
+            self.logEventMessages = logEventMessages
+        }
     }
 
     public struct DeleteLogGroupRequest: AWSShape {
@@ -632,6 +829,10 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct GetLogEventsResponse: AWSShape {
@@ -652,6 +853,13 @@ extension Logs {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextForwardToken = dictionary["nextForwardToken"] as? String
+            self.nextBackwardToken = dictionary["nextBackwardToken"] as? String
+            if let events = dictionary["events"] as? [[String: Any]] {
+                self.events = try events.map({ try OutputLogEvent(dictionary: $0) })
+            }
+        }
     }
 
     public struct ExportTaskStatus: AWSShape {
@@ -669,6 +877,10 @@ extension Logs {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["code"] as? String
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct Destination: AWSShape {
@@ -698,6 +910,14 @@ extension Logs {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accessPolicy = dictionary["accessPolicy"] as? String
+            self.destinationName = dictionary["destinationName"] as? String
+            self.roleArn = dictionary["roleArn"] as? String
+            self.creationTime = dictionary["creationTime"] as? Int64
+            self.targetArn = dictionary["targetArn"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct CreateLogGroupRequest: AWSShape {
@@ -715,6 +935,13 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["tags"] as? [String: String] {
+                self.tags = tags
+            }
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct DescribeExportTasksResponse: AWSShape {
@@ -731,6 +958,12 @@ extension Logs {
             self.exportTasks = exportTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let exportTasks = dictionary["exportTasks"] as? [[String: Any]] {
+                self.exportTasks = try exportTasks.map({ try ExportTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct CancelExportTaskRequest: AWSShape {
@@ -745,6 +978,10 @@ extension Logs {
             self.taskId = taskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let taskId = dictionary["taskId"] as? String else { throw InitializableError.missingRequiredParam("taskId") }
+            self.taskId = taskId
+        }
     }
 
     public struct UntagLogGroupRequest: AWSShape {
@@ -762,6 +999,12 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [String] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = tags
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct ListTagsLogGroupResponse: AWSShape {
@@ -776,6 +1019,11 @@ extension Logs {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["tags"] as? [String: String] {
+                self.tags = tags
+            }
+        }
     }
 
     public struct DeleteMetricFilterRequest: AWSShape {
@@ -793,6 +1041,12 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
+            self.filterName = filterName
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct LogGroup: AWSShape {
@@ -821,6 +1075,14 @@ extension Logs {
             self.metricFilterCount = metricFilterCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.storedBytes = dictionary["storedBytes"] as? Int64
+            self.arn = dictionary["arn"] as? String
+            self.logGroupName = dictionary["logGroupName"] as? String
+            self.creationTime = dictionary["creationTime"] as? Int64
+            self.retentionInDays = dictionary["retentionInDays"] as? Int32
+            self.metricFilterCount = dictionary["metricFilterCount"] as? Int32
+        }
     }
 
     public struct TagLogGroupRequest: AWSShape {
@@ -838,6 +1100,12 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = tags
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct DescribeSubscriptionFiltersResponse: AWSShape {
@@ -854,6 +1122,12 @@ extension Logs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subscriptionFilters = dictionary["subscriptionFilters"] as? [[String: Any]] {
+                self.subscriptionFilters = try subscriptionFilters.map({ try SubscriptionFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct GetLogEventsRequest: AWSShape {
@@ -886,6 +1160,17 @@ extension Logs {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
+            self.logStreamName = logStreamName
+            self.startFromHead = dictionary["startFromHead"] as? Bool
+            self.endTime = dictionary["endTime"] as? Int64
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            self.startTime = dictionary["startTime"] as? Int64
+        }
     }
 
     public struct FilterLogEventsResponse: AWSShape {
@@ -906,6 +1191,15 @@ extension Logs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let searchedLogStreams = dictionary["searchedLogStreams"] as? [[String: Any]] {
+                self.searchedLogStreams = try searchedLogStreams.map({ try SearchedLogStream(dictionary: $0) })
+            }
+            if let events = dictionary["events"] as? [[String: Any]] {
+                self.events = try events.map({ try FilteredLogEvent(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct PutDestinationPolicyRequest: AWSShape {
@@ -923,6 +1217,12 @@ extension Logs {
             self.destinationName = destinationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accessPolicy = dictionary["accessPolicy"] as? String else { throw InitializableError.missingRequiredParam("accessPolicy") }
+            self.accessPolicy = accessPolicy
+            guard let destinationName = dictionary["destinationName"] as? String else { throw InitializableError.missingRequiredParam("destinationName") }
+            self.destinationName = destinationName
+        }
     }
 
     public struct ListTagsLogGroupRequest: AWSShape {
@@ -937,6 +1237,10 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct SearchedLogStream: AWSShape {
@@ -954,6 +1258,10 @@ extension Logs {
             self.searchedCompletely = searchedCompletely
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.logStreamName = dictionary["logStreamName"] as? String
+            self.searchedCompletely = dictionary["searchedCompletely"] as? Bool
+        }
     }
 
     public struct PutRetentionPolicyRequest: AWSShape {
@@ -970,6 +1278,12 @@ extension Logs {
             self.retentionInDays = retentionInDays
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            guard let retentionInDays = dictionary["retentionInDays"] as? Int32 else { throw InitializableError.missingRequiredParam("retentionInDays") }
+            self.retentionInDays = retentionInDays
+        }
     }
 
     public struct FilterLogEventsRequest: AWSShape {
@@ -1005,6 +1319,19 @@ extension Logs {
             self.interleaved = interleaved
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            self.filterPattern = dictionary["filterPattern"] as? String
+            self.endTime = dictionary["endTime"] as? Int64
+            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
+            self.logGroupName = logGroupName
+            if let logStreamNames = dictionary["logStreamNames"] as? [String] {
+                self.logStreamNames = logStreamNames
+            }
+            self.startTime = dictionary["startTime"] as? Int64
+            self.interleaved = dictionary["interleaved"] as? Bool
+        }
     }
 
     public struct CreateExportTaskResponse: AWSShape {
@@ -1019,6 +1346,9 @@ extension Logs {
             self.taskId = taskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.taskId = dictionary["taskId"] as? String
+        }
     }
 
     public struct MetricFilterMatchRecord: AWSShape {
@@ -1039,6 +1369,13 @@ extension Logs {
             self.eventMessage = eventMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let extractedValues = dictionary["extractedValues"] as? [String: String] {
+                self.extractedValues = extractedValues
+            }
+            self.eventNumber = dictionary["eventNumber"] as? Int64
+            self.eventMessage = dictionary["eventMessage"] as? String
+        }
     }
 
     public struct PutDestinationResponse: AWSShape {
@@ -1053,6 +1390,9 @@ extension Logs {
             self.destination = destination
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let destination = dictionary["destination"] as? [String: Any] { self.destination = try Logs.Destination(dictionary: destination) }
+        }
     }
 
     public struct SubscriptionFilter: AWSShape {
@@ -1083,6 +1423,15 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.distribution = dictionary["distribution"] as? String
+            self.roleArn = dictionary["roleArn"] as? String
+            self.destinationArn = dictionary["destinationArn"] as? String
+            self.creationTime = dictionary["creationTime"] as? Int64
+            self.filterPattern = dictionary["filterPattern"] as? String
+            self.filterName = dictionary["filterName"] as? String
+            self.logGroupName = dictionary["logGroupName"] as? String
+        }
     }
 
     public struct DescribeMetricFiltersResponse: AWSShape {
@@ -1099,6 +1448,12 @@ extension Logs {
             self.metricFilters = metricFilters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let metricFilters = dictionary["metricFilters"] as? [[String: Any]] {
+                self.metricFilters = try metricFilters.map({ try MetricFilter(dictionary: $0) })
+            }
+        }
     }
 
     public struct ExportTask: AWSShape {
@@ -1137,6 +1492,17 @@ extension Logs {
             self.to = to
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let status = dictionary["status"] as? [String: Any] { self.status = try Logs.ExportTaskStatus(dictionary: status) }
+            self.destination = dictionary["destination"] as? String
+            self.taskId = dictionary["taskId"] as? String
+            self.destinationPrefix = dictionary["destinationPrefix"] as? String
+            self.from = dictionary["from"] as? Int64
+            self.taskName = dictionary["taskName"] as? String
+            if let executionInfo = dictionary["executionInfo"] as? [String: Any] { self.executionInfo = try Logs.ExportTaskExecutionInfo(dictionary: executionInfo) }
+            self.logGroupName = dictionary["logGroupName"] as? String
+            self.to = dictionary["to"] as? Int64
+        }
     }
 
     public struct PutLogEventsResponse: AWSShape {
@@ -1154,6 +1520,10 @@ extension Logs {
             self.nextSequenceToken = nextSequenceToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rejectedLogEventsInfo = dictionary["rejectedLogEventsInfo"] as? [String: Any] { self.rejectedLogEventsInfo = try Logs.RejectedLogEventsInfo(dictionary: rejectedLogEventsInfo) }
+            self.nextSequenceToken = dictionary["nextSequenceToken"] as? String
+        }
     }
 
     public struct DescribeDestinationsRequest: AWSShape {
@@ -1174,6 +1544,11 @@ extension Logs {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["limit"] as? Int32
+            self.destinationNamePrefix = dictionary["DestinationNamePrefix"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
 }

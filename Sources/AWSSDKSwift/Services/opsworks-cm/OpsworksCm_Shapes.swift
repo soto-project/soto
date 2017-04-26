@@ -41,6 +41,11 @@ extension OpsworksCm {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try AccountAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeEventsResponse: AWSShape {
@@ -58,6 +63,12 @@ extension OpsworksCm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serverEvents = dictionary["ServerEvents"] as? [[String: Any]] {
+                self.serverEvents = try serverEvents.map({ try ServerEvent(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct AssociateNodeResponse: AWSShape {
@@ -72,6 +83,9 @@ extension OpsworksCm {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nodeAssociationStatusToken = dictionary["NodeAssociationStatusToken"] as? String
+        }
     }
 
     public struct CreateServerRequest: AWSShape {
@@ -134,6 +148,35 @@ extension OpsworksCm {
             self.associatePublicIpAddress = associatePublicIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.engineModel = dictionary["EngineModel"] as? String
+            if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
+                self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            }
+            self.backupId = dictionary["BackupId"] as? String
+            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
+            self.serviceRoleArn = serviceRoleArn
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            guard let instanceProfileArn = dictionary["InstanceProfileArn"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileArn") }
+            self.instanceProfileArn = instanceProfileArn
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+            self.engine = dictionary["Engine"] as? String
+            self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
+            self.keyPair = dictionary["KeyPair"] as? String
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+        }
     }
 
     public struct CreateBackupRequest: AWSShape {
@@ -151,6 +194,11 @@ extension OpsworksCm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateServerEngineAttributesRequest: AWSShape {
@@ -171,6 +219,13 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            self.attributeValue = dictionary["AttributeValue"] as? String
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct AssociateNodeRequest: AWSShape {
@@ -191,6 +246,14 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let nodeName = dictionary["NodeName"] as? String else { throw InitializableError.missingRequiredParam("NodeName") }
+            self.nodeName = nodeName
+            guard let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("EngineAttributes") }
+            self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct AccountAttribute: AWSShape {
@@ -211,6 +274,11 @@ extension OpsworksCm {
             self.used = used
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maximum = dictionary["Maximum"] as? Int32
+            self.name = dictionary["Name"] as? String
+            self.used = dictionary["Used"] as? Int32
+        }
     }
 
     public struct StartMaintenanceResponse: AWSShape {
@@ -225,6 +293,9 @@ extension OpsworksCm {
             self.server = server
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+        }
     }
 
     public struct CreateBackupResponse: AWSShape {
@@ -239,6 +310,9 @@ extension OpsworksCm {
             self.backup = backup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let backup = dictionary["Backup"] as? [String: Any] { self.backup = try OpsworksCm.Backup(dictionary: backup) }
+        }
     }
 
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
@@ -255,6 +329,12 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let nodeAssociationStatusToken = dictionary["NodeAssociationStatusToken"] as? String else { throw InitializableError.missingRequiredParam("NodeAssociationStatusToken") }
+            self.nodeAssociationStatusToken = nodeAssociationStatusToken
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct StartMaintenanceRequest: AWSShape {
@@ -269,6 +349,10 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct UpdateServerResponse: AWSShape {
@@ -283,6 +367,9 @@ extension OpsworksCm {
             self.server = server
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+        }
     }
 
     public struct DisassociateNodeResponse: AWSShape {
@@ -297,6 +384,9 @@ extension OpsworksCm {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nodeAssociationStatusToken = dictionary["NodeAssociationStatusToken"] as? String
+        }
     }
 
     public struct DescribeServersRequest: AWSShape {
@@ -317,6 +407,11 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.serverName = dictionary["ServerName"] as? String
+        }
     }
 
     public struct ServerEvent: AWSShape {
@@ -340,6 +435,12 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.logUrl = dictionary["LogUrl"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.message = dictionary["Message"] as? String
+            self.serverName = dictionary["ServerName"] as? String
+        }
     }
 
     public struct DescribeBackupsRequest: AWSShape {
@@ -363,6 +464,12 @@ extension OpsworksCm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.serverName = dictionary["ServerName"] as? String
+            self.backupId = dictionary["BackupId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct RestoreServerResponse: AWSShape {
@@ -371,6 +478,8 @@ extension OpsworksCm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Backup: AWSShape {
@@ -454,6 +563,36 @@ extension OpsworksCm {
             self.keyPair = keyPair
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.engineModel = dictionary["EngineModel"] as? String
+            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
+            self.s3DataSize = dictionary["S3DataSize"] as? Int32
+            self.backupId = dictionary["BackupId"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.toolsVersion = dictionary["ToolsVersion"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.description = dictionary["Description"] as? String
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.status = dictionary["Status"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.serverName = dictionary["ServerName"] as? String
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            self.backupType = dictionary["BackupType"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.s3DataUrl = dictionary["S3DataUrl"] as? String
+            self.s3LogUrl = dictionary["S3LogUrl"] as? String
+            self.userArn = dictionary["UserArn"] as? String
+            self.statusDescription = dictionary["StatusDescription"] as? String
+            self.backupArn = dictionary["BackupArn"] as? String
+            self.keyPair = dictionary["KeyPair"] as? String
+        }
     }
 
     public struct DeleteServerRequest: AWSShape {
@@ -468,6 +607,10 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct DisassociateNodeRequest: AWSShape {
@@ -488,6 +631,15 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let nodeName = dictionary["NodeName"] as? String else { throw InitializableError.missingRequiredParam("NodeName") }
+            self.nodeName = nodeName
+            if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
+                self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            }
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct Server: AWSShape {
@@ -568,6 +720,37 @@ extension OpsworksCm {
             self.keyPair = keyPair
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.serverArn = dictionary["ServerArn"] as? String
+            self.engineModel = dictionary["EngineModel"] as? String
+            if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
+                self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            }
+            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
+            self.statusReason = dictionary["StatusReason"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.serverName = dictionary["ServerName"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.maintenanceStatus = dictionary["MaintenanceStatus"] as? String
+            self.cloudFormationStackArn = dictionary["CloudFormationStackArn"] as? String
+            self.status = dictionary["Status"] as? String
+            self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
+            self.endpoint = dictionary["Endpoint"] as? String
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+            self.keyPair = dictionary["KeyPair"] as? String
+        }
     }
 
     public struct DescribeEventsRequest: AWSShape {
@@ -588,6 +771,12 @@ extension OpsworksCm {
             self.serverName = serverName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+        }
     }
 
     public struct DescribeServersResponse: AWSShape {
@@ -605,6 +794,12 @@ extension OpsworksCm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let servers = dictionary["Servers"] as? [[String: Any]] {
+                self.servers = try servers.map({ try Server(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct RestoreServerRequest: AWSShape {
@@ -628,6 +823,14 @@ extension OpsworksCm {
             self.keyPair = keyPair
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+            self.instanceType = dictionary["InstanceType"] as? String
+            guard let backupId = dictionary["BackupId"] as? String else { throw InitializableError.missingRequiredParam("BackupId") }
+            self.backupId = backupId
+            self.keyPair = dictionary["KeyPair"] as? String
+        }
     }
 
     public struct DescribeBackupsResponse: AWSShape {
@@ -645,6 +848,12 @@ extension OpsworksCm {
             self.backups = backups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let backups = dictionary["Backups"] as? [[String: Any]] {
+                self.backups = try backups.map({ try Backup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAccountAttributesRequest: AWSShape {
@@ -653,6 +862,8 @@ extension OpsworksCm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
@@ -667,6 +878,9 @@ extension OpsworksCm {
             self.nodeAssociationStatus = nodeAssociationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nodeAssociationStatus = dictionary["NodeAssociationStatus"] as? String
+        }
     }
 
     public struct DeleteBackupRequest: AWSShape {
@@ -681,6 +895,10 @@ extension OpsworksCm {
             self.backupId = backupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let backupId = dictionary["BackupId"] as? String else { throw InitializableError.missingRequiredParam("BackupId") }
+            self.backupId = backupId
+        }
     }
 
     public struct EngineAttribute: AWSShape {
@@ -698,6 +916,10 @@ extension OpsworksCm {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct UpdateServerRequest: AWSShape {
@@ -722,6 +944,14 @@ extension OpsworksCm {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
+            self.serverName = serverName
+            self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
+            self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+        }
     }
 
     public struct DeleteServerResponse: AWSShape {
@@ -730,6 +960,8 @@ extension OpsworksCm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteBackupResponse: AWSShape {
@@ -738,6 +970,8 @@ extension OpsworksCm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateServerResponse: AWSShape {
@@ -752,6 +986,9 @@ extension OpsworksCm {
             self.server = server
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+        }
     }
 
     public struct UpdateServerEngineAttributesResponse: AWSShape {
@@ -766,6 +1003,9 @@ extension OpsworksCm {
             self.server = server
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+        }
     }
 
 }

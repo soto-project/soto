@@ -44,6 +44,12 @@ extension Codebuild {
             self.projects = projects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let projects = dictionary["projects"] as? [String] {
+                self.projects = projects
+            }
+        }
     }
 
     public struct StopBuildOutput: AWSShape {
@@ -58,6 +64,9 @@ extension Codebuild {
             self.build = build
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) }
+        }
     }
 
     public struct StopBuildInput: AWSShape {
@@ -72,6 +81,10 @@ extension Codebuild {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+        }
     }
 
     public struct BatchGetProjectsOutput: AWSShape {
@@ -89,6 +102,14 @@ extension Codebuild {
             self.projectsNotFound = projectsNotFound
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let projects = dictionary["projects"] as? [[String: Any]] {
+                self.projects = try projects.map({ try Project(dictionary: $0) })
+            }
+            if let projectsNotFound = dictionary["projectsNotFound"] as? [String] {
+                self.projectsNotFound = projectsNotFound
+            }
+        }
     }
 
     public struct Project: AWSShape {
@@ -136,6 +157,22 @@ extension Codebuild {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.lastModified = dictionary["lastModified"] as? Date
+            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) }
+            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
+            self.created = dictionary["created"] as? Date
+            self.encryptionKey = dictionary["encryptionKey"] as? String
+            self.description = dictionary["description"] as? String
+            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) }
+            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) }
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.serviceRole = dictionary["serviceRole"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct BuildArtifacts: AWSShape {
@@ -156,6 +193,11 @@ extension Codebuild {
             self.sha256sum = sha256sum
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.md5sum = dictionary["md5sum"] as? String
+            self.location = dictionary["location"] as? String
+            self.sha256sum = dictionary["sha256sum"] as? String
+        }
     }
 
     public struct BuildPhase: AWSShape {
@@ -185,6 +227,16 @@ extension Codebuild {
             self.phaseType = phaseType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.durationInSeconds = dictionary["durationInSeconds"] as? Int64
+            self.endTime = dictionary["endTime"] as? Date
+            self.startTime = dictionary["startTime"] as? Date
+            if let contexts = dictionary["contexts"] as? [[String: Any]] {
+                self.contexts = try contexts.map({ try PhaseContext(dictionary: $0) })
+            }
+            self.phaseStatus = dictionary["phaseStatus"] as? String
+            self.phaseType = dictionary["phaseType"] as? String
+        }
     }
 
     public struct LogsLocation: AWSShape {
@@ -205,6 +257,11 @@ extension Codebuild {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deepLink = dictionary["deepLink"] as? String
+            self.groupName = dictionary["groupName"] as? String
+            self.streamName = dictionary["streamName"] as? String
+        }
     }
 
     public struct SourceAuth: AWSShape {
@@ -222,6 +279,11 @@ extension Codebuild {
             self.resource = resource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            self.resource = dictionary["resource"] as? String
+        }
     }
 
     public struct EnvironmentPlatform: AWSShape {
@@ -239,6 +301,12 @@ extension Codebuild {
             self.platform = platform
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let languages = dictionary["languages"] as? [[String: Any]] {
+                self.languages = try languages.map({ try EnvironmentLanguage(dictionary: $0) })
+            }
+            self.platform = dictionary["platform"] as? String
+        }
     }
 
     public struct Build: AWSShape {
@@ -298,6 +366,26 @@ extension Codebuild {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let phases = dictionary["phases"] as? [[String: Any]] {
+                self.phases = try phases.map({ try BuildPhase(dictionary: $0) })
+            }
+            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) }
+            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
+            self.sourceVersion = dictionary["sourceVersion"] as? String
+            self.currentPhase = dictionary["currentPhase"] as? String
+            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.BuildArtifacts(dictionary: artifacts) }
+            self.buildStatus = dictionary["buildStatus"] as? String
+            self.arn = dictionary["arn"] as? String
+            self.initiator = dictionary["initiator"] as? String
+            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) }
+            self.id = dictionary["id"] as? String
+            self.projectName = dictionary["projectName"] as? String
+            self.buildComplete = dictionary["buildComplete"] as? Bool
+            self.endTime = dictionary["endTime"] as? Date
+            if let logs = dictionary["logs"] as? [String: Any] { self.logs = try Codebuild.LogsLocation(dictionary: logs) }
+            self.startTime = dictionary["startTime"] as? Date
+        }
     }
 
     public struct DeleteProjectInput: AWSShape {
@@ -312,6 +400,10 @@ extension Codebuild {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct DeleteProjectOutput: AWSShape {
@@ -320,6 +412,8 @@ extension Codebuild {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateProjectOutput: AWSShape {
@@ -334,6 +428,9 @@ extension Codebuild {
             self.project = project
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) }
+        }
     }
 
     public struct ProjectArtifacts: AWSShape {
@@ -363,6 +460,15 @@ extension Codebuild {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.location = dictionary["location"] as? String
+            self.path = dictionary["path"] as? String
+            self.namespaceType = dictionary["namespaceType"] as? String
+            self.packaging = dictionary["packaging"] as? String
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+        }
     }
 
     public struct ListCuratedEnvironmentImagesInput: AWSShape {
@@ -371,6 +477,8 @@ extension Codebuild {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BatchGetBuildsOutput: AWSShape {
@@ -388,6 +496,14 @@ extension Codebuild {
             self.buildsNotFound = buildsNotFound
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let builds = dictionary["builds"] as? [[String: Any]] {
+                self.builds = try builds.map({ try Build(dictionary: $0) })
+            }
+            if let buildsNotFound = dictionary["buildsNotFound"] as? [String] {
+                self.buildsNotFound = buildsNotFound
+            }
+        }
     }
 
     public struct EnvironmentLanguage: AWSShape {
@@ -405,6 +521,12 @@ extension Codebuild {
             self.images = images
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.language = dictionary["language"] as? String
+            if let images = dictionary["images"] as? [[String: Any]] {
+                self.images = try images.map({ try EnvironmentImage(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartBuildOutput: AWSShape {
@@ -419,6 +541,9 @@ extension Codebuild {
             self.build = build
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -436,6 +561,10 @@ extension Codebuild {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["key"] as? String
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct ListBuildsOutput: AWSShape {
@@ -453,6 +582,12 @@ extension Codebuild {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ids = dictionary["ids"] as? [String] {
+                self.ids = ids
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListBuildsForProjectOutput: AWSShape {
@@ -470,6 +605,12 @@ extension Codebuild {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ids = dictionary["ids"] as? [String] {
+                self.ids = ids
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ProjectEnvironment: AWSShape {
@@ -493,6 +634,17 @@ extension Codebuild {
             self.image = image
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let computeType = dictionary["computeType"] as? String else { throw InitializableError.missingRequiredParam("computeType") }
+            self.computeType = computeType
+            if let environmentVariables = dictionary["environmentVariables"] as? [[String: Any]] {
+                self.environmentVariables = try environmentVariables.map({ try EnvironmentVariable(dictionary: $0) })
+            }
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
+            self.image = image
+        }
     }
 
     public struct ListBuildsInput: AWSShape {
@@ -510,6 +662,10 @@ extension Codebuild {
             self.sortOrder = sortOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.sortOrder = dictionary["sortOrder"] as? String
+        }
     }
 
     public struct BatchGetProjectsInput: AWSShape {
@@ -524,6 +680,10 @@ extension Codebuild {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let names = dictionary["names"] as? [String] else { throw InitializableError.missingRequiredParam("names") }
+            self.names = names
+        }
     }
 
     public struct ListBuildsForProjectInput: AWSShape {
@@ -544,6 +704,12 @@ extension Codebuild {
             self.sortOrder = sortOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let projectName = dictionary["projectName"] as? String else { throw InitializableError.missingRequiredParam("projectName") }
+            self.projectName = projectName
+            self.nextToken = dictionary["nextToken"] as? String
+            self.sortOrder = dictionary["sortOrder"] as? String
+        }
     }
 
     public struct UpdateProjectInput: AWSShape {
@@ -582,6 +748,20 @@ extension Codebuild {
             self.serviceRole = serviceRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) }
+            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) }
+            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
+            self.encryptionKey = dictionary["encryptionKey"] as? String
+            self.description = dictionary["description"] as? String
+            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) }
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.serviceRole = dictionary["serviceRole"] as? String
+        }
     }
 
     public struct StartBuildInput: AWSShape {
@@ -611,6 +791,17 @@ extension Codebuild {
             self.buildspecOverride = buildspecOverride
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceVersion = dictionary["sourceVersion"] as? String
+            if let environmentVariablesOverride = dictionary["environmentVariablesOverride"] as? [[String: Any]] {
+                self.environmentVariablesOverride = try environmentVariablesOverride.map({ try EnvironmentVariable(dictionary: $0) })
+            }
+            if let artifactsOverride = dictionary["artifactsOverride"] as? [String: Any] { self.artifactsOverride = try Codebuild.ProjectArtifacts(dictionary: artifactsOverride) }
+            guard let projectName = dictionary["projectName"] as? String else { throw InitializableError.missingRequiredParam("projectName") }
+            self.projectName = projectName
+            self.timeoutInMinutesOverride = dictionary["timeoutInMinutesOverride"] as? Int32
+            self.buildspecOverride = dictionary["buildspecOverride"] as? String
+        }
     }
 
     public struct EnvironmentImage: AWSShape {
@@ -628,6 +819,10 @@ extension Codebuild {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.name = dictionary["name"] as? String
+        }
     }
 
     public struct EnvironmentVariable: AWSShape {
@@ -645,6 +840,12 @@ extension Codebuild {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
     public struct BatchGetBuildsInput: AWSShape {
@@ -659,6 +860,10 @@ extension Codebuild {
             self.ids = ids
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ids = dictionary["ids"] as? [String] else { throw InitializableError.missingRequiredParam("ids") }
+            self.ids = ids
+        }
     }
 
     public struct PhaseContext: AWSShape {
@@ -676,6 +881,10 @@ extension Codebuild {
             self.statusCode = statusCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["message"] as? String
+            self.statusCode = dictionary["statusCode"] as? String
+        }
     }
 
     public struct CreateProjectInput: AWSShape {
@@ -714,6 +923,23 @@ extension Codebuild {
             self.serviceRole = serviceRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let environment = dictionary["environment"] as? [String: Any] else { throw InitializableError.missingRequiredParam("environment") }
+            self.environment = try Codebuild.ProjectEnvironment(dictionary: environment)
+            guard let source = dictionary["source"] as? [String: Any] else { throw InitializableError.missingRequiredParam("source") }
+            self.source = try Codebuild.ProjectSource(dictionary: source)
+            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
+            self.encryptionKey = dictionary["encryptionKey"] as? String
+            self.description = dictionary["description"] as? String
+            guard let artifacts = dictionary["artifacts"] as? [String: Any] else { throw InitializableError.missingRequiredParam("artifacts") }
+            self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts)
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.serviceRole = dictionary["serviceRole"] as? String
+        }
     }
 
     public struct CreateProjectOutput: AWSShape {
@@ -728,6 +954,9 @@ extension Codebuild {
             self.project = project
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) }
+        }
     }
 
     public struct ProjectSource: AWSShape {
@@ -751,6 +980,13 @@ extension Codebuild {
             self.auth = auth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.buildspec = dictionary["buildspec"] as? String
+            self.location = dictionary["location"] as? String
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            if let auth = dictionary["auth"] as? [String: Any] { self.auth = try Codebuild.SourceAuth(dictionary: auth) }
+        }
     }
 
     public struct ListProjectsInput: AWSShape {
@@ -771,6 +1007,11 @@ extension Codebuild {
             self.sortOrder = sortOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sortBy = dictionary["sortBy"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.sortOrder = dictionary["sortOrder"] as? String
+        }
     }
 
     public struct ListCuratedEnvironmentImagesOutput: AWSShape {
@@ -785,6 +1026,11 @@ extension Codebuild {
             self.platforms = platforms
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let platforms = dictionary["platforms"] as? [[String: Any]] {
+                self.platforms = try platforms.map({ try EnvironmentPlatform(dictionary: $0) })
+            }
+        }
     }
 
 }

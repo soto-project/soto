@@ -53,6 +53,13 @@ extension Monitoring {
             self.historyItemType = historyItemType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.alarmName = dictionary["AlarmName"] as? String
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.historyData = dictionary["HistoryData"] as? String
+            self.historySummary = dictionary["HistorySummary"] as? String
+            self.historyItemType = dictionary["HistoryItemType"] as? String
+        }
     }
 
     public struct EnableAlarmActionsInput: AWSShape {
@@ -67,6 +74,10 @@ extension Monitoring {
             self.alarmNames = alarmNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let alarmNames = dictionary["AlarmNames"] as? [String] else { throw InitializableError.missingRequiredParam("AlarmNames") }
+            self.alarmNames = alarmNames
+        }
     }
 
     public struct MetricDatum: AWSShape {
@@ -96,6 +107,17 @@ extension Monitoring {
             self.statisticValues = statisticValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            self.unit = dictionary["Unit"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.value = dictionary["Value"] as? Double
+            if let statisticValues = dictionary["StatisticValues"] as? [String: Any] { self.statisticValues = try Monitoring.StatisticSet(dictionary: statisticValues) }
+        }
     }
 
     public struct DescribeAlarmsOutput: AWSShape {
@@ -113,6 +135,12 @@ extension Monitoring {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metricAlarms = dictionary["MetricAlarms"] as? [[String: Any]] {
+                self.metricAlarms = try metricAlarms.map({ try MetricAlarm(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct StatisticSet: AWSShape {
@@ -136,6 +164,16 @@ extension Monitoring {
             self.maximum = maximum
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sampleCount = dictionary["SampleCount"] as? Double else { throw InitializableError.missingRequiredParam("SampleCount") }
+            self.sampleCount = sampleCount
+            guard let minimum = dictionary["Minimum"] as? Double else { throw InitializableError.missingRequiredParam("Minimum") }
+            self.minimum = minimum
+            guard let sum = dictionary["Sum"] as? Double else { throw InitializableError.missingRequiredParam("Sum") }
+            self.sum = sum
+            guard let maximum = dictionary["Maximum"] as? Double else { throw InitializableError.missingRequiredParam("Maximum") }
+            self.maximum = maximum
+        }
     }
 
     public struct DisableAlarmActionsInput: AWSShape {
@@ -150,6 +188,10 @@ extension Monitoring {
             self.alarmNames = alarmNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let alarmNames = dictionary["AlarmNames"] as? [String] else { throw InitializableError.missingRequiredParam("AlarmNames") }
+            self.alarmNames = alarmNames
+        }
     }
 
     public struct Datapoint: AWSShape {
@@ -185,6 +227,18 @@ extension Monitoring {
             self.average = average
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sampleCount = dictionary["SampleCount"] as? Double
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.sum = dictionary["Sum"] as? Double
+            self.unit = dictionary["Unit"] as? String
+            if let extendedStatistics = dictionary["ExtendedStatistics"] as? [String: Double] {
+                self.extendedStatistics = extendedStatistics
+            }
+            self.minimum = dictionary["Minimum"] as? Double
+            self.maximum = dictionary["Maximum"] as? Double
+            self.average = dictionary["Average"] as? Double
+        }
     }
 
     public struct PutMetricAlarmInput: AWSShape {
@@ -244,6 +298,39 @@ extension Monitoring {
             self.oKActions = oKActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
+            self.threshold = threshold
+            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
+            self.period = period
+            self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
+            if let alarmActions = dictionary["AlarmActions"] as? [String] {
+                self.alarmActions = alarmActions
+            }
+            self.statistic = dictionary["Statistic"] as? String
+            self.unit = dictionary["Unit"] as? String
+            self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
+            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
+            self.namespace = namespace
+            if let insufficientDataActions = dictionary["InsufficientDataActions"] as? [String] {
+                self.insufficientDataActions = insufficientDataActions
+            }
+            guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
+            self.alarmName = alarmName
+            guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
+            self.evaluationPeriods = evaluationPeriods
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+            self.alarmDescription = dictionary["AlarmDescription"] as? String
+            if let oKActions = dictionary["OKActions"] as? [String] {
+                self.oKActions = oKActions
+            }
+        }
     }
 
     public struct DescribeAlarmHistoryInput: AWSShape {
@@ -273,6 +360,14 @@ extension Monitoring {
             self.endDate = endDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.alarmName = dictionary["AlarmName"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.startDate = dictionary["StartDate"] as? Date
+            self.historyItemType = dictionary["HistoryItemType"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.endDate = dictionary["EndDate"] as? Date
+        }
     }
 
     public struct DescribeAlarmsForMetricInput: AWSShape {
@@ -305,6 +400,19 @@ extension Monitoring {
             self.namespace = namespace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            self.period = dictionary["Period"] as? Int32
+            self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
+            self.statistic = dictionary["Statistic"] as? String
+            self.unit = dictionary["Unit"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
+            self.namespace = namespace
+        }
     }
 
     public struct DescribeAlarmsInput: AWSShape {
@@ -334,6 +442,16 @@ extension Monitoring {
             self.stateValue = stateValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.alarmNamePrefix = dictionary["AlarmNamePrefix"] as? String
+            self.actionPrefix = dictionary["ActionPrefix"] as? String
+            if let alarmNames = dictionary["AlarmNames"] as? [String] {
+                self.alarmNames = alarmNames
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.stateValue = dictionary["StateValue"] as? String
+        }
     }
 
     public struct ListMetricsOutput: AWSShape {
@@ -351,6 +469,12 @@ extension Monitoring {
             self.metrics = metrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let metrics = dictionary["Metrics"] as? [[String: Any]] {
+                self.metrics = try metrics.map({ try Metric(dictionary: $0) })
+            }
+        }
     }
 
     public struct MetricAlarm: AWSShape {
@@ -428,6 +552,38 @@ extension Monitoring {
             self.oKActions = oKActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metricName = dictionary["MetricName"] as? String
+            self.threshold = dictionary["Threshold"] as? Double
+            self.period = dictionary["Period"] as? Int32
+            self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
+            if let alarmActions = dictionary["AlarmActions"] as? [String] {
+                self.alarmActions = alarmActions
+            }
+            self.statistic = dictionary["Statistic"] as? String
+            self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
+            self.stateUpdatedTimestamp = dictionary["StateUpdatedTimestamp"] as? Date
+            self.unit = dictionary["Unit"] as? String
+            self.stateReasonData = dictionary["StateReasonData"] as? String
+            self.stateReason = dictionary["StateReason"] as? String
+            if let insufficientDataActions = dictionary["InsufficientDataActions"] as? [String] {
+                self.insufficientDataActions = insufficientDataActions
+            }
+            self.namespace = dictionary["Namespace"] as? String
+            self.stateValue = dictionary["StateValue"] as? String
+            self.alarmName = dictionary["AlarmName"] as? String
+            self.alarmConfigurationUpdatedTimestamp = dictionary["AlarmConfigurationUpdatedTimestamp"] as? Date
+            self.alarmArn = dictionary["AlarmArn"] as? String
+            self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
+            self.comparisonOperator = dictionary["ComparisonOperator"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+            self.alarmDescription = dictionary["AlarmDescription"] as? String
+            if let oKActions = dictionary["OKActions"] as? [String] {
+                self.oKActions = oKActions
+            }
+        }
     }
 
     public struct Metric: AWSShape {
@@ -448,6 +604,13 @@ extension Monitoring {
             self.namespace = namespace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metricName = dictionary["MetricName"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+            self.namespace = dictionary["Namespace"] as? String
+        }
     }
 
     public struct ListMetricsInput: AWSShape {
@@ -471,6 +634,14 @@ extension Monitoring {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namespace = dictionary["Namespace"] as? String
+            self.metricName = dictionary["MetricName"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try DimensionFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteAlarmsInput: AWSShape {
@@ -485,6 +656,10 @@ extension Monitoring {
             self.alarmNames = alarmNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let alarmNames = dictionary["AlarmNames"] as? [String] else { throw InitializableError.missingRequiredParam("AlarmNames") }
+            self.alarmNames = alarmNames
+        }
     }
 
     public struct PutMetricDataInput: AWSShape {
@@ -502,6 +677,12 @@ extension Monitoring {
             self.metricData = metricData
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
+            self.namespace = namespace
+            guard let metricData = dictionary["MetricData"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MetricData") }
+            self.metricData = try metricData.map({ try MetricDatum(dictionary: $0) })
+        }
     }
 
     public struct GetMetricStatisticsInput: AWSShape {
@@ -540,6 +721,28 @@ extension Monitoring {
             self.namespace = namespace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
+            self.period = period
+            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            self.endTime = endTime
+            if let extendedStatistics = dictionary["ExtendedStatistics"] as? [String] {
+                self.extendedStatistics = extendedStatistics
+            }
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+            self.unit = dictionary["Unit"] as? String
+            if let statistics = dictionary["Statistics"] as? [String] {
+                self.statistics = statistics
+            }
+            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
+            self.namespace = namespace
+        }
     }
 
     public struct Dimension: AWSShape {
@@ -557,6 +760,12 @@ extension Monitoring {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetMetricStatisticsOutput: AWSShape {
@@ -574,6 +783,12 @@ extension Monitoring {
             self.datapoints = datapoints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.label = dictionary["Label"] as? String
+            if let datapoints = dictionary["Datapoints"] as? [[String: Any]] {
+                self.datapoints = try datapoints.map({ try Datapoint(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAlarmHistoryOutput: AWSShape {
@@ -591,6 +806,12 @@ extension Monitoring {
             self.alarmHistoryItems = alarmHistoryItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let alarmHistoryItems = dictionary["AlarmHistoryItems"] as? [[String: Any]] {
+                self.alarmHistoryItems = try alarmHistoryItems.map({ try AlarmHistoryItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetAlarmStateInput: AWSShape {
@@ -614,6 +835,15 @@ extension Monitoring {
             self.stateValue = stateValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
+            self.alarmName = alarmName
+            self.stateReasonData = dictionary["StateReasonData"] as? String
+            guard let stateReason = dictionary["StateReason"] as? String else { throw InitializableError.missingRequiredParam("StateReason") }
+            self.stateReason = stateReason
+            guard let stateValue = dictionary["StateValue"] as? String else { throw InitializableError.missingRequiredParam("StateValue") }
+            self.stateValue = stateValue
+        }
     }
 
     public struct DescribeAlarmsForMetricOutput: AWSShape {
@@ -628,6 +858,11 @@ extension Monitoring {
             self.metricAlarms = metricAlarms
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metricAlarms = dictionary["MetricAlarms"] as? [[String: Any]] {
+                self.metricAlarms = try metricAlarms.map({ try MetricAlarm(dictionary: $0) })
+            }
+        }
     }
 
     public struct DimensionFilter: AWSShape {
@@ -645,6 +880,11 @@ extension Monitoring {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
 }

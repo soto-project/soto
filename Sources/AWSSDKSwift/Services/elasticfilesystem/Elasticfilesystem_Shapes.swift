@@ -47,6 +47,13 @@ extension Elasticfilesystem {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fileSystems = dictionary["FileSystems"] as? [[String: Any]] {
+                self.fileSystems = try fileSystems.map({ try FileSystemDescription(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct DescribeTagsResponse: AWSShape {
@@ -67,6 +74,12 @@ extension Elasticfilesystem {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct CreateTagsRequest: AWSShape {
@@ -87,6 +100,12 @@ extension Elasticfilesystem {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct DescribeMountTargetsRequest: AWSShape {
@@ -113,6 +132,12 @@ extension Elasticfilesystem {
             self.mountTargetId = mountTargetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.fileSystemId = dictionary["FileSystemId"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.mountTargetId = dictionary["MountTargetId"] as? String
+        }
     }
 
     public struct DescribeFileSystemsRequest: AWSShape {
@@ -139,6 +164,12 @@ extension Elasticfilesystem {
             self.creationToken = creationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.fileSystemId = dictionary["FileSystemId"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.creationToken = dictionary["CreationToken"] as? String
+        }
     }
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
@@ -153,6 +184,10 @@ extension Elasticfilesystem {
             self.securityGroups = securityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
+            self.securityGroups = securityGroups
+        }
     }
 
     public struct DeleteTagsRequest: AWSShape {
@@ -173,6 +208,12 @@ extension Elasticfilesystem {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct DescribeTagsRequest: AWSShape {
@@ -199,6 +240,12 @@ extension Elasticfilesystem {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
@@ -219,6 +266,13 @@ extension Elasticfilesystem {
             self.securityGroups = securityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
+            self.mountTargetId = mountTargetId
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -236,6 +290,12 @@ extension Elasticfilesystem {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct DescribeMountTargetsResponse: AWSShape {
@@ -256,6 +316,13 @@ extension Elasticfilesystem {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let mountTargets = dictionary["MountTargets"] as? [[String: Any]] {
+                self.mountTargets = try mountTargets.map({ try MountTargetDescription(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct DeleteMountTargetRequest: AWSShape {
@@ -273,6 +340,10 @@ extension Elasticfilesystem {
             self.mountTargetId = mountTargetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
+            self.mountTargetId = mountTargetId
+        }
     }
 
     public struct DeleteFileSystemRequest: AWSShape {
@@ -290,6 +361,10 @@ extension Elasticfilesystem {
             self.fileSystemId = fileSystemId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+        }
     }
 
     public struct CreateFileSystemRequest: AWSShape {
@@ -307,6 +382,11 @@ extension Elasticfilesystem {
             self.creationToken = creationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.performanceMode = dictionary["PerformanceMode"] as? String
+            guard let creationToken = dictionary["CreationToken"] as? String else { throw InitializableError.missingRequiredParam("CreationToken") }
+            self.creationToken = creationToken
+        }
     }
 
     public struct FileSystemSize: AWSShape {
@@ -324,6 +404,11 @@ extension Elasticfilesystem {
             self.timestamp = timestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? Int64 else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            self.timestamp = dictionary["Timestamp"] as? Date
+        }
     }
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
@@ -341,6 +426,10 @@ extension Elasticfilesystem {
             self.mountTargetId = mountTargetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
+            self.mountTargetId = mountTargetId
+        }
     }
 
     public struct CreateMountTargetRequest: AWSShape {
@@ -364,6 +453,16 @@ extension Elasticfilesystem {
             self.ipAddress = ipAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            self.ipAddress = dictionary["IpAddress"] as? String
+        }
     }
 
     public struct FileSystemDescription: AWSShape {
@@ -402,6 +501,25 @@ extension Elasticfilesystem {
             self.ownerId = ownerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            guard let creationToken = dictionary["CreationToken"] as? String else { throw InitializableError.missingRequiredParam("CreationToken") }
+            self.creationToken = creationToken
+            guard let sizeInBytes = dictionary["SizeInBytes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SizeInBytes") }
+            self.sizeInBytes = try Elasticfilesystem.FileSystemSize(dictionary: sizeInBytes)
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+            guard let lifeCycleState = dictionary["LifeCycleState"] as? String else { throw InitializableError.missingRequiredParam("LifeCycleState") }
+            self.lifeCycleState = lifeCycleState
+            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            self.creationTime = creationTime
+            guard let performanceMode = dictionary["PerformanceMode"] as? String else { throw InitializableError.missingRequiredParam("PerformanceMode") }
+            self.performanceMode = performanceMode
+            guard let numberOfMountTargets = dictionary["NumberOfMountTargets"] as? Int32 else { throw InitializableError.missingRequiredParam("NumberOfMountTargets") }
+            self.numberOfMountTargets = numberOfMountTargets
+            guard let ownerId = dictionary["OwnerId"] as? String else { throw InitializableError.missingRequiredParam("OwnerId") }
+            self.ownerId = ownerId
+        }
     }
 
     public struct MountTargetDescription: AWSShape {
@@ -434,6 +552,19 @@ extension Elasticfilesystem {
             self.ownerId = ownerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
+            self.mountTargetId = mountTargetId
+            self.ipAddress = dictionary["IpAddress"] as? String
+            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
+            self.fileSystemId = fileSystemId
+            guard let lifeCycleState = dictionary["LifeCycleState"] as? String else { throw InitializableError.missingRequiredParam("LifeCycleState") }
+            self.lifeCycleState = lifeCycleState
+            self.ownerId = dictionary["OwnerId"] as? String
+        }
     }
 
 }

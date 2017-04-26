@@ -41,6 +41,11 @@ extension Ec2 {
             self.vpcs = vpcs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcs = dictionary["Vpcs"] as? [[String: Any]] {
+                self.vpcs = try vpcs.map({ try VpcClassicLink(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetConsoleScreenshotRequest: AWSShape {
@@ -61,6 +66,12 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.wakeUp = dictionary["WakeUp"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeIamInstanceProfileAssociationsRequest: AWSShape {
@@ -84,6 +95,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let associationIds = dictionary["AssociationIds"] as? [String] {
+                self.associationIds = associationIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeInstanceAttributeRequest: AWSShape {
@@ -104,6 +125,13 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+        }
     }
 
     public struct BlobAttributeValue: AWSShape {
@@ -117,6 +145,9 @@ extension Ec2 {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? Data
+        }
     }
 
     public struct ModifyVolumeAttributeRequest: AWSShape {
@@ -137,6 +168,12 @@ extension Ec2 {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) }
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+        }
     }
 
     public struct InternetGatewayAttachment: AWSShape {
@@ -154,6 +191,10 @@ extension Ec2 {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
@@ -171,6 +212,12 @@ extension Ec2 {
             self.scheduledInstanceAvailabilitySet = scheduledInstanceAvailabilitySet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let scheduledInstanceAvailabilitySet = dictionary["ScheduledInstanceAvailabilitySet"] as? [[String: Any]] {
+                self.scheduledInstanceAvailabilitySet = try scheduledInstanceAvailabilitySet.map({ try ScheduledInstanceAvailability(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAddressesResult: AWSShape {
@@ -185,6 +232,11 @@ extension Ec2 {
             self.addresses = addresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let addresses = dictionary["Addresses"] as? [[String: Any]] {
+                self.addresses = try addresses.map({ try Address(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeNatGatewaysResult: AWSShape {
@@ -202,6 +254,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let natGateways = dictionary["NatGateways"] as? [[String: Any]] {
+                self.natGateways = try natGateways.map({ try NatGateway(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateEgressOnlyInternetGatewayRequest: AWSShape {
@@ -222,6 +280,12 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ModifyVpcAttributeRequest: AWSShape {
@@ -242,6 +306,12 @@ extension Ec2 {
             self.enableDnsHostnames = enableDnsHostnames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) }
+            if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) }
+        }
     }
 
     public struct CreateVpcPeeringConnectionRequest: AWSShape {
@@ -265,6 +335,12 @@ extension Ec2 {
             self.peerVpcId = peerVpcId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.peerOwnerId = dictionary["PeerOwnerId"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.vpcId = dictionary["VpcId"] as? String
+            self.peerVpcId = dictionary["PeerVpcId"] as? String
+        }
     }
 
     public struct Host: AWSShape {
@@ -303,6 +379,19 @@ extension Ec2 {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.autoPlacement = dictionary["AutoPlacement"] as? String
+            self.hostId = dictionary["HostId"] as? String
+            self.state = dictionary["State"] as? String
+            if let availableCapacity = dictionary["AvailableCapacity"] as? [String: Any] { self.availableCapacity = try Ec2.AvailableCapacity(dictionary: availableCapacity) }
+            self.hostReservationId = dictionary["HostReservationId"] as? String
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try HostInstance(dictionary: $0) })
+            }
+            if let hostProperties = dictionary["HostProperties"] as? [String: Any] { self.hostProperties = try Ec2.HostProperties(dictionary: hostProperties) }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+        }
     }
 
     public struct TargetReservationValue: AWSShape {
@@ -320,6 +409,10 @@ extension Ec2 {
             self.reservationValue = reservationValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetConfiguration = dictionary["TargetConfiguration"] as? [String: Any] { self.targetConfiguration = try Ec2.TargetConfiguration(dictionary: targetConfiguration) }
+            if let reservationValue = dictionary["ReservationValue"] as? [String: Any] { self.reservationValue = try Ec2.ReservationValue(dictionary: reservationValue) }
+        }
     }
 
     public struct ImportKeyPairResult: AWSShape {
@@ -337,6 +430,10 @@ extension Ec2 {
             self.keyFingerprint = keyFingerprint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyName = dictionary["KeyName"] as? String
+            self.keyFingerprint = dictionary["KeyFingerprint"] as? String
+        }
     }
 
     public struct DescribeSnapshotsResult: AWSShape {
@@ -354,6 +451,12 @@ extension Ec2 {
             self.snapshots = snapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
+                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeInstanceStatusRequest: AWSShape {
@@ -383,6 +486,18 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.includeAllInstances = dictionary["IncludeAllInstances"] as? Bool
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct VolumeStatusItem: AWSShape {
@@ -409,6 +524,17 @@ extension Ec2 {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let actions = dictionary["Actions"] as? [[String: Any]] {
+                self.actions = try actions.map({ try VolumeStatusAction(dictionary: $0) })
+            }
+            if let volumeStatus = dictionary["VolumeStatus"] as? [String: Any] { self.volumeStatus = try Ec2.VolumeStatusInfo(dictionary: volumeStatus) }
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try VolumeStatusEvent(dictionary: $0) })
+            }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+        }
     }
 
     public struct CreateRouteTableResult: AWSShape {
@@ -423,6 +549,9 @@ extension Ec2 {
             self.routeTable = routeTable
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let routeTable = dictionary["RouteTable"] as? [String: Any] { self.routeTable = try Ec2.RouteTable(dictionary: routeTable) }
+        }
     }
 
     public struct EnableVpcClassicLinkRequest: AWSShape {
@@ -440,6 +569,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct InstanceNetworkInterface: AWSShape {
@@ -496,6 +630,29 @@ extension Ec2 {
             self.association = association
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.macAddress = dictionary["MacAddress"] as? String
+            self.sourceDestCheck = dictionary["SourceDestCheck"] as? Bool
+            self.privateDnsName = dictionary["PrivateDnsName"] as? String
+            self.ownerId = dictionary["OwnerId"] as? String
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.InstanceNetworkInterfaceAttachment(dictionary: attachment) }
+            self.description = dictionary["Description"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.status = dictionary["Status"] as? String
+            if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
+                self.privateIpAddresses = try privateIpAddresses.map({ try InstancePrivateIpAddress(dictionary: $0) })
+            }
+            self.vpcId = dictionary["VpcId"] as? String
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
+                self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            }
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) }
+        }
     }
 
     public struct CreateNetworkInterfaceResult: AWSShape {
@@ -510,6 +667,9 @@ extension Ec2 {
             self.networkInterface = networkInterface
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkInterface = dictionary["NetworkInterface"] as? [String: Any] { self.networkInterface = try Ec2.NetworkInterface(dictionary: networkInterface) }
+        }
     }
 
     public struct ResetInstanceAttributeRequest: AWSShape {
@@ -530,6 +690,13 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+        }
     }
 
     public struct Monitoring: AWSShape {
@@ -544,6 +711,9 @@ extension Ec2 {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct RequestSpotLaunchSpecification: AWSShape {
@@ -600,6 +770,32 @@ extension Ec2 {
             self.ramdiskId = ramdiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.userData = dictionary["UserData"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.kernelId = dictionary["KernelId"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) }
+            self.instanceType = dictionary["InstanceType"] as? String
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            self.keyName = dictionary["KeyName"] as? String
+            self.addressingType = dictionary["AddressingType"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            self.imageId = dictionary["ImageId"] as? String
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) }
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+        }
     }
 
     public struct AssociateVpcCidrBlockRequest: AWSShape {
@@ -617,6 +813,11 @@ extension Ec2 {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.amazonProvidedIpv6CidrBlock = dictionary["AmazonProvidedIpv6CidrBlock"] as? Bool
+        }
     }
 
     public struct ImageDiskContainer: AWSShape {
@@ -646,6 +847,14 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) }
+            self.format = dictionary["Format"] as? String
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.url = dictionary["Url"] as? String
+            self.deviceName = dictionary["DeviceName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct PurchaseReservedInstancesOfferingRequest: AWSShape {
@@ -669,6 +878,14 @@ extension Ec2 {
             self.limitPrice = limitPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reservedInstancesOfferingId = dictionary["ReservedInstancesOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedInstancesOfferingId") }
+            self.reservedInstancesOfferingId = reservedInstancesOfferingId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
+            self.instanceCount = instanceCount
+            if let limitPrice = dictionary["LimitPrice"] as? [String: Any] { self.limitPrice = try Ec2.ReservedInstanceLimitPrice(dictionary: limitPrice) }
+        }
     }
 
     public struct ReservedInstances: AWSShape {
@@ -734,6 +951,30 @@ extension Ec2 {
             self.fixedPrice = fixedPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.usagePrice = dictionary["UsagePrice"] as? Float
+            self.state = dictionary["State"] as? String
+            self.instanceTenancy = dictionary["InstanceTenancy"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+            self.offeringClass = dictionary["OfferingClass"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.start = dictionary["Start"] as? Date
+            self.end = dictionary["End"] as? Date
+            self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            self.duration = dictionary["Duration"] as? Int64
+            self.scope = dictionary["Scope"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Float
+        }
     }
 
     public struct NetworkInterfaceIpv6Address: AWSShape {
@@ -748,6 +989,9 @@ extension Ec2 {
             self.ipv6Address = ipv6Address
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipv6Address = dictionary["Ipv6Address"] as? String
+        }
     }
 
     public struct DescribeCustomerGatewaysRequest: AWSShape {
@@ -768,6 +1012,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let customerGatewayIds = dictionary["CustomerGatewayIds"] as? [String] {
+                self.customerGatewayIds = customerGatewayIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct NetworkInterface: AWSShape {
@@ -839,6 +1092,36 @@ extension Ec2 {
             self.association = association
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.macAddress = dictionary["MacAddress"] as? String
+            self.sourceDestCheck = dictionary["SourceDestCheck"] as? Bool
+            self.privateDnsName = dictionary["PrivateDnsName"] as? String
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachment(dictionary: attachment) }
+            self.interfaceType = dictionary["InterfaceType"] as? String
+            if let tagSet = dictionary["TagSet"] as? [[String: Any]] {
+                self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+            }
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.requesterId = dictionary["RequesterId"] as? String
+            self.description = dictionary["Description"] as? String
+            self.ownerId = dictionary["OwnerId"] as? String
+            if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
+                self.privateIpAddresses = try privateIpAddresses.map({ try NetworkInterfacePrivateIpAddress(dictionary: $0) })
+            }
+            self.vpcId = dictionary["VpcId"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.status = dictionary["Status"] as? String
+            self.requesterManaged = dictionary["RequesterManaged"] as? Bool
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
+                self.ipv6Addresses = try ipv6Addresses.map({ try NetworkInterfaceIpv6Address(dictionary: $0) })
+            }
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) }
+        }
     }
 
     public struct Subnet: AWSShape {
@@ -883,6 +1166,23 @@ extension Ec2 {
             self.cidrBlock = cidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mapPublicIpOnLaunch = dictionary["MapPublicIpOnLaunch"] as? Bool
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.defaultForAz = dictionary["DefaultForAz"] as? Bool
+            self.vpcId = dictionary["VpcId"] as? String
+            self.state = dictionary["State"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.assignIpv6AddressOnCreation = dictionary["AssignIpv6AddressOnCreation"] as? Bool
+            if let ipv6CidrBlockAssociationSet = dictionary["Ipv6CidrBlockAssociationSet"] as? [[String: Any]] {
+                self.ipv6CidrBlockAssociationSet = try ipv6CidrBlockAssociationSet.map({ try SubnetIpv6CidrBlockAssociation(dictionary: $0) })
+            }
+            self.availableIpAddressCount = dictionary["AvailableIpAddressCount"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.cidrBlock = dictionary["CidrBlock"] as? String
+        }
     }
 
     public struct CancelSpotInstanceRequestsResult: AWSShape {
@@ -897,6 +1197,11 @@ extension Ec2 {
             self.cancelledSpotInstanceRequests = cancelledSpotInstanceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cancelledSpotInstanceRequests = dictionary["CancelledSpotInstanceRequests"] as? [[String: Any]] {
+                self.cancelledSpotInstanceRequests = try cancelledSpotInstanceRequests.map({ try CancelledSpotInstanceRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct EnableVolumeIORequest: AWSShape {
@@ -914,6 +1219,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct AssociateSubnetCidrBlockResult: AWSShape {
@@ -931,6 +1241,10 @@ extension Ec2 {
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.SubnetIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+        }
     }
 
     public struct EventInformation: AWSShape {
@@ -951,6 +1265,11 @@ extension Ec2 {
             self.eventDescription = eventDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventSubType = dictionary["EventSubType"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.eventDescription = dictionary["EventDescription"] as? String
+        }
     }
 
     public struct DescribeSubnetsRequest: AWSShape {
@@ -971,6 +1290,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeTagsResult: AWSShape {
@@ -988,6 +1316,12 @@ extension Ec2 {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try TagDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct AcceptReservedInstancesExchangeQuoteResult: AWSShape {
@@ -1002,6 +1336,9 @@ extension Ec2 {
             self.exchangeId = exchangeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exchangeId = dictionary["ExchangeId"] as? String
+        }
     }
 
     public struct DescribeNatGatewaysRequest: AWSShape {
@@ -1025,6 +1362,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filter = dictionary["Filter"] as? [[String: Any]] {
+                self.filter = try filter.map({ try Filter(dictionary: $0) })
+            }
+            if let natGatewayIds = dictionary["NatGatewayIds"] as? [String] {
+                self.natGatewayIds = natGatewayIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct NetworkInterfacePrivateIpAddress: AWSShape {
@@ -1048,6 +1395,12 @@ extension Ec2 {
             self.association = association
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.privateDnsName = dictionary["PrivateDnsName"] as? String
+            self.primary = dictionary["Primary"] as? Bool
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) }
+        }
     }
 
     public struct DescribeNetworkAclsResult: AWSShape {
@@ -1062,6 +1415,11 @@ extension Ec2 {
             self.networkAcls = networkAcls
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkAcls = dictionary["NetworkAcls"] as? [[String: Any]] {
+                self.networkAcls = try networkAcls.map({ try NetworkAcl(dictionary: $0) })
+            }
+        }
     }
 
     public struct ReservedInstancesListing: AWSShape {
@@ -1103,6 +1461,24 @@ extension Ec2 {
             self.instanceCounts = instanceCounts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let priceSchedules = dictionary["PriceSchedules"] as? [[String: Any]] {
+                self.priceSchedules = try priceSchedules.map({ try PriceSchedule(dictionary: $0) })
+            }
+            self.reservedInstancesListingId = dictionary["ReservedInstancesListingId"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.updateDate = dictionary["UpdateDate"] as? Date
+            self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            if let instanceCounts = dictionary["InstanceCounts"] as? [[String: Any]] {
+                self.instanceCounts = try instanceCounts.map({ try InstanceCount(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteNetworkAclRequest: AWSShape {
@@ -1120,6 +1496,11 @@ extension Ec2 {
             self.networkAclId = networkAclId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let networkAclId = dictionary["NetworkAclId"] as? String else { throw InitializableError.missingRequiredParam("NetworkAclId") }
+            self.networkAclId = networkAclId
+        }
     }
 
     public struct AllocateHostsRequest: AWSShape {
@@ -1146,6 +1527,16 @@ extension Ec2 {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoPlacement = dictionary["AutoPlacement"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct DescribeVpcEndpointServicesRequest: AWSShape {
@@ -1166,6 +1557,11 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UnassignIpv6AddressesRequest: AWSShape {
@@ -1183,6 +1579,12 @@ extension Ec2 {
             self.networkInterfaceId = networkInterfaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ipv6Addresses = dictionary["Ipv6Addresses"] as? [String] else { throw InitializableError.missingRequiredParam("Ipv6Addresses") }
+            self.ipv6Addresses = ipv6Addresses
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+        }
     }
 
     public struct BundleInstanceResult: AWSShape {
@@ -1197,6 +1599,9 @@ extension Ec2 {
             self.bundleTask = bundleTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let bundleTask = dictionary["BundleTask"] as? [String: Any] { self.bundleTask = try Ec2.BundleTask(dictionary: bundleTask) }
+        }
     }
 
     public struct DeletePlacementGroupRequest: AWSShape {
@@ -1214,6 +1619,11 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct PrefixListId: AWSShape {
@@ -1228,6 +1638,9 @@ extension Ec2 {
             self.prefixListId = prefixListId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.prefixListId = dictionary["PrefixListId"] as? String
+        }
     }
 
     public struct PeeringConnectionOptionsRequest: AWSShape {
@@ -1248,6 +1661,11 @@ extension Ec2 {
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowEgressFromLocalVpcToRemoteClassicLink = dictionary["AllowEgressFromLocalVpcToRemoteClassicLink"] as? Bool
+            self.allowDnsResolutionFromRemoteVpc = dictionary["AllowDnsResolutionFromRemoteVpc"] as? Bool
+            self.allowEgressFromLocalClassicLinkToRemoteVpc = dictionary["AllowEgressFromLocalClassicLinkToRemoteVpc"] as? Bool
+        }
     }
 
     public struct AccountAttributeValue: AWSShape {
@@ -1262,6 +1680,9 @@ extension Ec2 {
             self.attributeValue = attributeValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeValue = dictionary["AttributeValue"] as? String
+        }
     }
 
     public struct PurchaseScheduledInstancesRequest: AWSShape {
@@ -1282,6 +1703,12 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let purchaseRequests = dictionary["PurchaseRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PurchaseRequests") }
+            self.purchaseRequests = try purchaseRequests.map({ try PurchaseRequest(dictionary: $0) })
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeHostReservationOfferingsRequest: AWSShape {
@@ -1311,6 +1738,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxDuration = dictionary["MaxDuration"] as? Int32
+            self.minDuration = dictionary["MinDuration"] as? Int32
+            if let filter = dictionary["Filter"] as? [[String: Any]] {
+                self.filter = try filter.map({ try Filter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.offeringId = dictionary["OfferingId"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct StopInstancesResult: AWSShape {
@@ -1325,6 +1762,11 @@ extension Ec2 {
             self.stoppingInstances = stoppingInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stoppingInstances = dictionary["StoppingInstances"] as? [[String: Any]] {
+                self.stoppingInstances = try stoppingInstances.map({ try InstanceStateChange(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeScheduledInstanceAvailabilityRequest: AWSShape {
@@ -1360,6 +1802,20 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let firstSlotStartTimeRange = dictionary["FirstSlotStartTimeRange"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FirstSlotStartTimeRange") }
+            self.firstSlotStartTimeRange = try Ec2.SlotDateTimeRangeRequest(dictionary: firstSlotStartTimeRange)
+            self.minSlotDurationInHours = dictionary["MinSlotDurationInHours"] as? Int32
+            self.maxSlotDurationInHours = dictionary["MaxSlotDurationInHours"] as? Int32
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let recurrence = dictionary["Recurrence"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Recurrence") }
+            self.recurrence = try Ec2.ScheduledInstanceRecurrenceRequest(dictionary: recurrence)
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ReservedInstancesModificationResult: AWSShape {
@@ -1377,6 +1833,10 @@ extension Ec2 {
             self.targetConfiguration = targetConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
+            if let targetConfiguration = dictionary["TargetConfiguration"] as? [String: Any] { self.targetConfiguration = try Ec2.ReservedInstancesConfiguration(dictionary: targetConfiguration) }
+        }
     }
 
     public struct EnableVpcClassicLinkDnsSupportResult: AWSShape {
@@ -1391,6 +1851,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct ImportVolumeRequest: AWSShape {
@@ -1417,6 +1880,16 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Ec2.DiskImageDetail(dictionary: image)
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let volume = dictionary["Volume"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Volume") }
+            self.volume = try Ec2.VolumeDetail(dictionary: volume)
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeAddressesRequest: AWSShape {
@@ -1440,6 +1913,18 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let publicIps = dictionary["PublicIps"] as? [String] {
+                self.publicIps = publicIps
+            }
+            if let allocationIds = dictionary["AllocationIds"] as? [String] {
+                self.allocationIds = allocationIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct Ipv6CidrBlock: AWSShape {
@@ -1454,6 +1939,9 @@ extension Ec2 {
             self.ipv6CidrBlock = ipv6CidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+        }
     }
 
     public struct SecurityGroup: AWSShape {
@@ -1489,6 +1977,22 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ipPermissionsEgress = dictionary["IpPermissionsEgress"] as? [[String: Any]] {
+                self.ipPermissionsEgress = try ipPermissionsEgress.map({ try IpPermission(dictionary: $0) })
+            }
+            self.groupName = dictionary["GroupName"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
+                self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.groupId = dictionary["GroupId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeAccountAttributesResult: AWSShape {
@@ -1503,6 +2007,11 @@ extension Ec2 {
             self.accountAttributes = accountAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accountAttributes = dictionary["AccountAttributes"] as? [[String: Any]] {
+                self.accountAttributes = try accountAttributes.map({ try AccountAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct ReplaceRouteRequest: AWSShape {
@@ -1544,6 +2053,19 @@ extension Ec2 {
             self.destinationCidrBlock = destinationCidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.natGatewayId = dictionary["NatGatewayId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.destinationIpv6CidrBlock = dictionary["DestinationIpv6CidrBlock"] as? String
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.egressOnlyInternetGatewayId = dictionary["EgressOnlyInternetGatewayId"] as? String
+            self.gatewayId = dictionary["GatewayId"] as? String
+            self.destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String
+        }
     }
 
     public struct CreateRouteRequest: AWSShape {
@@ -1585,6 +2107,19 @@ extension Ec2 {
             self.destinationCidrBlock = destinationCidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.natGatewayId = dictionary["NatGatewayId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.destinationIpv6CidrBlock = dictionary["DestinationIpv6CidrBlock"] as? String
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.egressOnlyInternetGatewayId = dictionary["EgressOnlyInternetGatewayId"] as? String
+            self.gatewayId = dictionary["GatewayId"] as? String
+            self.destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String
+        }
     }
 
     public struct DeleteVpnConnectionRouteRequest: AWSShape {
@@ -1602,6 +2137,12 @@ extension Ec2 {
             self.destinationCidrBlock = destinationCidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpnConnectionId = dictionary["VpnConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpnConnectionId") }
+            self.vpnConnectionId = vpnConnectionId
+            guard let destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String else { throw InitializableError.missingRequiredParam("DestinationCidrBlock") }
+            self.destinationCidrBlock = destinationCidrBlock
+        }
     }
 
     public struct KeyPairInfo: AWSShape {
@@ -1619,6 +2160,10 @@ extension Ec2 {
             self.keyFingerprint = keyFingerprint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyName = dictionary["KeyName"] as? String
+            self.keyFingerprint = dictionary["KeyFingerprint"] as? String
+        }
     }
 
     public struct VolumeAttachment: AWSShape {
@@ -1648,6 +2193,14 @@ extension Ec2 {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachTime = dictionary["AttachTime"] as? Date
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.device = dictionary["Device"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct ImportSnapshotTask: AWSShape {
@@ -1668,6 +2221,11 @@ extension Ec2 {
             self.importTaskId = importTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            if let snapshotTaskDetail = dictionary["SnapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) }
+            self.importTaskId = dictionary["ImportTaskId"] as? String
+        }
     }
 
     public struct CreateNatGatewayRequest: AWSShape {
@@ -1688,6 +2246,13 @@ extension Ec2 {
             self.allocationId = allocationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let allocationId = dictionary["AllocationId"] as? String else { throw InitializableError.missingRequiredParam("AllocationId") }
+            self.allocationId = allocationId
+        }
     }
 
     public struct AttachVpnGatewayResult: AWSShape {
@@ -1702,6 +2267,9 @@ extension Ec2 {
             self.vpcAttachment = vpcAttachment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcAttachment = dictionary["VpcAttachment"] as? [String: Any] { self.vpcAttachment = try Ec2.VpcAttachment(dictionary: vpcAttachment) }
+        }
     }
 
     public struct RequestSpotInstancesRequest: AWSShape {
@@ -1745,6 +2313,20 @@ extension Ec2 {
             self.launchGroup = launchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.blockDurationMinutes = dictionary["BlockDurationMinutes"] as? Int32
+            self.availabilityZoneGroup = dictionary["AvailabilityZoneGroup"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.RequestSpotLaunchSpecification(dictionary: launchSpecification) }
+            self.validFrom = dictionary["ValidFrom"] as? Date
+            guard let spotPrice = dictionary["SpotPrice"] as? String else { throw InitializableError.missingRequiredParam("SpotPrice") }
+            self.spotPrice = spotPrice
+            self.validUntil = dictionary["ValidUntil"] as? Date
+            self.type = dictionary["Type"] as? String
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.launchGroup = dictionary["LaunchGroup"] as? String
+        }
     }
 
     public struct DescribeImagesRequest: AWSShape {
@@ -1771,6 +2353,21 @@ extension Ec2 {
             self.owners = owners
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let executableUsers = dictionary["ExecutableUsers"] as? [String] {
+                self.executableUsers = executableUsers
+            }
+            if let imageIds = dictionary["ImageIds"] as? [String] {
+                self.imageIds = imageIds
+            }
+            if let owners = dictionary["Owners"] as? [String] {
+                self.owners = owners
+            }
+        }
     }
 
     public struct HostOffering: AWSShape {
@@ -1803,6 +2400,15 @@ extension Ec2 {
             self.instanceFamily = instanceFamily
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.upfrontPrice = dictionary["UpfrontPrice"] as? String
+            self.paymentOption = dictionary["PaymentOption"] as? String
+            self.offeringId = dictionary["OfferingId"] as? String
+            self.hourlyPrice = dictionary["HourlyPrice"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.instanceFamily = dictionary["InstanceFamily"] as? String
+        }
     }
 
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
@@ -1850,6 +2456,26 @@ extension Ec2 {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceIndex = dictionary["DeviceIndex"] as? Int32
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.description = dictionary["Description"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
+            if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
+                self.privateIpAddresses = try privateIpAddresses.map({ try PrivateIpAddressSpecification(dictionary: $0) })
+            }
+            self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
+                self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            }
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+            if let groups = dictionary["Groups"] as? [String] {
+                self.groups = groups
+            }
+        }
     }
 
     public struct DeleteRouteTableRequest: AWSShape {
@@ -1867,6 +2493,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct NatGatewayAddress: AWSShape {
@@ -1890,6 +2521,12 @@ extension Ec2 {
             self.allocationId = allocationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.privateIp = dictionary["PrivateIp"] as? String
+            self.allocationId = dictionary["AllocationId"] as? String
+        }
     }
 
     public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
@@ -1916,6 +2553,15 @@ extension Ec2 {
             self.sourceDestCheck = sourceDestCheck
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachment(dictionary: attachment) }
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+        }
     }
 
     public struct ModifyVpcEndpointResult: AWSShape {
@@ -1930,6 +2576,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct ImportSnapshotRequest: AWSShape {
@@ -1959,6 +2608,14 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.roleName = dictionary["RoleName"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let clientData = dictionary["ClientData"] as? [String: Any] { self.clientData = try Ec2.ClientData(dictionary: clientData) }
+            if let diskContainer = dictionary["DiskContainer"] as? [String: Any] { self.diskContainer = try Ec2.SnapshotDiskContainer(dictionary: diskContainer) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateVpcRequest: AWSShape {
@@ -1982,6 +2639,13 @@ extension Ec2 {
             self.cidrBlock = cidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceTenancy = dictionary["InstanceTenancy"] as? String
+            self.amazonProvidedIpv6CidrBlock = dictionary["AmazonProvidedIpv6CidrBlock"] as? Bool
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let cidrBlock = dictionary["CidrBlock"] as? String else { throw InitializableError.missingRequiredParam("CidrBlock") }
+            self.cidrBlock = cidrBlock
+        }
     }
 
     public struct CreateRouteTableRequest: AWSShape {
@@ -1999,6 +2663,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeVpcsResult: AWSShape {
@@ -2013,6 +2682,11 @@ extension Ec2 {
             self.vpcs = vpcs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcs = dictionary["Vpcs"] as? [[String: Any]] {
+                self.vpcs = try vpcs.map({ try Vpc(dictionary: $0) })
+            }
+        }
     }
 
     public struct ImportInstanceRequest: AWSShape {
@@ -2039,6 +2713,16 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let diskImages = dictionary["DiskImages"] as? [[String: Any]] {
+                self.diskImages = try diskImages.map({ try DiskImage(dictionary: $0) })
+            }
+            guard let platform = dictionary["Platform"] as? String else { throw InitializableError.missingRequiredParam("Platform") }
+            self.platform = platform
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.ImportInstanceLaunchSpecification(dictionary: launchSpecification) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateVpcEndpointRequest: AWSShape {
@@ -2068,6 +2752,18 @@ extension Ec2 {
             self.routeTableIds = routeTableIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
+            self.serviceName = serviceName
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.policyDocument = dictionary["PolicyDocument"] as? String
+            if let routeTableIds = dictionary["RouteTableIds"] as? [String] {
+                self.routeTableIds = routeTableIds
+            }
+        }
     }
 
     public struct MovingAddressStatus: AWSShape {
@@ -2085,6 +2781,10 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.moveStatus = dictionary["MoveStatus"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+        }
     }
 
     public struct DeregisterImageRequest: AWSShape {
@@ -2102,6 +2802,11 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+        }
     }
 
     public struct DeleteSnapshotRequest: AWSShape {
@@ -2119,6 +2824,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
@@ -2175,6 +2885,27 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxDuration = dictionary["MaxDuration"] as? Int64
+            self.instanceTenancy = dictionary["InstanceTenancy"] as? String
+            if let reservedInstancesOfferingIds = dictionary["ReservedInstancesOfferingIds"] as? [String] {
+                self.reservedInstancesOfferingIds = reservedInstancesOfferingIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.offeringClass = dictionary["OfferingClass"] as? String
+            self.includeMarketplace = dictionary["IncludeMarketplace"] as? Bool
+            self.minDuration = dictionary["MinDuration"] as? Int64
+            self.maxInstanceCount = dictionary["MaxInstanceCount"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CancelledSpotInstanceRequest: AWSShape {
@@ -2192,6 +2923,10 @@ extension Ec2 {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.spotInstanceRequestId = dictionary["SpotInstanceRequestId"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct ModifyImageAttributeRequest: AWSShape {
@@ -2233,6 +2968,25 @@ extension Ec2 {
             self.operationType = operationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let productCodes = dictionary["ProductCodes"] as? [String] {
+                self.productCodes = productCodes
+            }
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+            if let userIds = dictionary["UserIds"] as? [String] {
+                self.userIds = userIds
+            }
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+            if let userGroups = dictionary["UserGroups"] as? [String] {
+                self.userGroups = userGroups
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.attribute = dictionary["Attribute"] as? String
+            self.value = dictionary["Value"] as? String
+            if let launchPermission = dictionary["LaunchPermission"] as? [String: Any] { self.launchPermission = try Ec2.LaunchPermissionModifications(dictionary: launchPermission) }
+            self.operationType = dictionary["OperationType"] as? String
+        }
     }
 
     public struct SubnetIpv6CidrBlockAssociation: AWSShape {
@@ -2253,6 +3007,11 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ipv6CidrBlockState = dictionary["Ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.SubnetCidrBlockState(dictionary: ipv6CidrBlockState) }
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct CreateDhcpOptionsResult: AWSShape {
@@ -2267,6 +3026,9 @@ extension Ec2 {
             self.dhcpOptions = dhcpOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dhcpOptions = dictionary["DhcpOptions"] as? [String: Any] { self.dhcpOptions = try Ec2.DhcpOptions(dictionary: dhcpOptions) }
+        }
     }
 
     public struct InstanceNetworkInterfaceAssociation: AWSShape {
@@ -2287,6 +3049,11 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.publicDnsName = dictionary["PublicDnsName"] as? String
+            self.ipOwnerId = dictionary["IpOwnerId"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+        }
     }
 
     public struct EbsInstanceBlockDevice: AWSShape {
@@ -2310,6 +3077,12 @@ extension Ec2 {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachTime = dictionary["AttachTime"] as? Date
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.status = dictionary["Status"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+        }
     }
 
     public struct CancelImportTaskRequest: AWSShape {
@@ -2330,6 +3103,11 @@ extension Ec2 {
             self.importTaskId = importTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.cancelReason = dictionary["CancelReason"] as? String
+            self.importTaskId = dictionary["ImportTaskId"] as? String
+        }
     }
 
     public struct ReservedInstanceReservationValue: AWSShape {
@@ -2347,6 +3125,10 @@ extension Ec2 {
             self.reservationValue = reservationValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedInstanceId = dictionary["ReservedInstanceId"] as? String
+            if let reservationValue = dictionary["ReservationValue"] as? [String: Any] { self.reservationValue = try Ec2.ReservationValue(dictionary: reservationValue) }
+        }
     }
 
     public struct CreateFlowLogsResult: AWSShape {
@@ -2367,6 +3149,15 @@ extension Ec2 {
             self.clientToken = clientToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let flowLogIds = dictionary["FlowLogIds"] as? [String] {
+                self.flowLogIds = flowLogIds
+            }
+            if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
+                self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            }
+            self.clientToken = dictionary["ClientToken"] as? String
+        }
     }
 
     public struct StopInstancesRequest: AWSShape {
@@ -2387,6 +3178,12 @@ extension Ec2 {
             self.force = force
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.force = dictionary["Force"] as? Bool
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -2410,6 +3207,14 @@ extension Ec2 {
             self.regionName = regionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.zoneName = dictionary["ZoneName"] as? String
+            self.state = dictionary["State"] as? String
+            if let messages = dictionary["Messages"] as? [[String: Any]] {
+                self.messages = try messages.map({ try AvailabilityZoneMessage(dictionary: $0) })
+            }
+            self.regionName = dictionary["RegionName"] as? String
+        }
     }
 
     public struct VolumeStatusDetails: AWSShape {
@@ -2427,6 +3232,10 @@ extension Ec2 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct DisassociateIamInstanceProfileResult: AWSShape {
@@ -2441,6 +3250,9 @@ extension Ec2 {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) }
+        }
     }
 
     public struct DescribeReservedInstancesModificationsRequest: AWSShape {
@@ -2461,6 +3273,15 @@ extension Ec2 {
             self.reservedInstancesModificationIds = reservedInstancesModificationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let reservedInstancesModificationIds = dictionary["ReservedInstancesModificationIds"] as? [String] {
+                self.reservedInstancesModificationIds = reservedInstancesModificationIds
+            }
+        }
     }
 
     public struct SpotInstanceStateFault: AWSShape {
@@ -2478,6 +3299,10 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct DescribeImagesResult: AWSShape {
@@ -2492,6 +3317,11 @@ extension Ec2 {
             self.images = images
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let images = dictionary["Images"] as? [[String: Any]] {
+                self.images = try images.map({ try Image(dictionary: $0) })
+            }
+        }
     }
 
     public struct ScheduledInstancesPlacement: AWSShape {
@@ -2509,6 +3339,10 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct CancelSpotFleetRequestsSuccessItem: AWSShape {
@@ -2529,6 +3363,14 @@ extension Ec2 {
             self.spotFleetRequestId = spotFleetRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let currentSpotFleetRequestState = dictionary["CurrentSpotFleetRequestState"] as? String else { throw InitializableError.missingRequiredParam("CurrentSpotFleetRequestState") }
+            self.currentSpotFleetRequestState = currentSpotFleetRequestState
+            guard let previousSpotFleetRequestState = dictionary["PreviousSpotFleetRequestState"] as? String else { throw InitializableError.missingRequiredParam("PreviousSpotFleetRequestState") }
+            self.previousSpotFleetRequestState = previousSpotFleetRequestState
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+        }
     }
 
     public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
@@ -2570,6 +3412,20 @@ extension Ec2 {
             self.groupId = groupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceSecurityGroupOwnerId = dictionary["SourceSecurityGroupOwnerId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
+                self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+            self.cidrIp = dictionary["CidrIp"] as? String
+            self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.toPort = dictionary["ToPort"] as? Int32
+            self.fromPort = dictionary["FromPort"] as? Int32
+            self.ipProtocol = dictionary["IpProtocol"] as? String
+            self.groupId = dictionary["GroupId"] as? String
+        }
     }
 
     public struct PortRange: AWSShape {
@@ -2587,6 +3443,10 @@ extension Ec2 {
             self.to = to
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.from = dictionary["From"] as? Int32
+            self.to = dictionary["To"] as? Int32
+        }
     }
 
     public struct InstanceState: AWSShape {
@@ -2604,6 +3464,10 @@ extension Ec2 {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.code = dictionary["Code"] as? Int32
+        }
     }
 
     public struct InstancePrivateIpAddress: AWSShape {
@@ -2627,6 +3491,12 @@ extension Ec2 {
             self.association = association
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.privateDnsName = dictionary["PrivateDnsName"] as? String
+            self.primary = dictionary["Primary"] as? Bool
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) }
+        }
     }
 
     public struct HostProperties: AWSShape {
@@ -2650,6 +3520,12 @@ extension Ec2 {
             self.cores = cores
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sockets = dictionary["Sockets"] as? Int32
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.totalVCpus = dictionary["TotalVCpus"] as? Int32
+            self.cores = dictionary["Cores"] as? Int32
+        }
     }
 
     public struct UnassignPrivateIpAddressesRequest: AWSShape {
@@ -2667,6 +3543,12 @@ extension Ec2 {
             self.privateIpAddresses = privateIpAddresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            guard let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [String] else { throw InitializableError.missingRequiredParam("PrivateIpAddresses") }
+            self.privateIpAddresses = privateIpAddresses
+        }
     }
 
     public struct SecurityGroupReference: AWSShape {
@@ -2687,6 +3569,13 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let referencingVpcId = dictionary["ReferencingVpcId"] as? String else { throw InitializableError.missingRequiredParam("ReferencingVpcId") }
+            self.referencingVpcId = referencingVpcId
+            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
+            self.groupId = groupId
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+        }
     }
 
     public struct PriceSchedule: AWSShape {
@@ -2710,6 +3599,12 @@ extension Ec2 {
             self.price = price
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.active = dictionary["Active"] as? Bool
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.term = dictionary["Term"] as? Int64
+            self.price = dictionary["Price"] as? Double
+        }
     }
 
     public struct DescribePrefixListsRequest: AWSShape {
@@ -2736,6 +3631,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let prefixListIds = dictionary["PrefixListIds"] as? [String] {
+                self.prefixListIds = prefixListIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DiskImage: AWSShape {
@@ -2756,6 +3662,11 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let image = dictionary["Image"] as? [String: Any] { self.image = try Ec2.DiskImageDetail(dictionary: image) }
+            if let volume = dictionary["Volume"] as? [String: Any] { self.volume = try Ec2.VolumeDetail(dictionary: volume) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeRouteTablesRequest: AWSShape {
@@ -2776,6 +3687,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let routeTableIds = dictionary["RouteTableIds"] as? [String] {
+                self.routeTableIds = routeTableIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeInternetGatewaysResult: AWSShape {
@@ -2790,6 +3710,11 @@ extension Ec2 {
             self.internetGateways = internetGateways
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let internetGateways = dictionary["InternetGateways"] as? [[String: Any]] {
+                self.internetGateways = try internetGateways.map({ try InternetGateway(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceNetworkInterfaceAttachment: AWSShape {
@@ -2816,6 +3741,13 @@ extension Ec2 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachTime = dictionary["AttachTime"] as? Date
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.deviceIndex = dictionary["DeviceIndex"] as? Int32
+            self.attachmentId = dictionary["AttachmentId"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct DisassociateVpcCidrBlockRequest: AWSShape {
@@ -2830,6 +3762,10 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+        }
     }
 
     public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
@@ -2850,6 +3786,15 @@ extension Ec2 {
             self.vpcPeeringConnectionIds = vpcPeeringConnectionIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let vpcPeeringConnectionIds = dictionary["VpcPeeringConnectionIds"] as? [String] {
+                self.vpcPeeringConnectionIds = vpcPeeringConnectionIds
+            }
+        }
     }
 
     public struct DetachClassicLinkVpcRequest: AWSShape {
@@ -2870,6 +3815,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ReservationValue: AWSShape {
@@ -2890,6 +3842,11 @@ extension Ec2 {
             self.remainingUpfrontValue = remainingUpfrontValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hourlyPrice = dictionary["HourlyPrice"] as? String
+            self.remainingTotalValue = dictionary["RemainingTotalValue"] as? String
+            self.remainingUpfrontValue = dictionary["RemainingUpfrontValue"] as? String
+        }
     }
 
     public struct DetachClassicLinkVpcResult: AWSShape {
@@ -2904,6 +3861,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct S3Storage: AWSShape {
@@ -2930,6 +3890,13 @@ extension Ec2 {
             self.uploadPolicy = uploadPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.aWSAccessKeyId = dictionary["AWSAccessKeyId"] as? String
+            self.uploadPolicySignature = dictionary["UploadPolicySignature"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.uploadPolicy = dictionary["UploadPolicy"] as? Data
+        }
     }
 
     public struct DescribeInstancesResult: AWSShape {
@@ -2947,6 +3914,12 @@ extension Ec2 {
             self.reservations = reservations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let reservations = dictionary["Reservations"] as? [[String: Any]] {
+                self.reservations = try reservations.map({ try Reservation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeReservedInstancesListingsRequest: AWSShape {
@@ -2967,6 +3940,13 @@ extension Ec2 {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
+            self.reservedInstancesListingId = dictionary["ReservedInstancesListingId"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct CancelBundleTaskRequest: AWSShape {
@@ -2984,6 +3964,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bundleId = dictionary["BundleId"] as? String else { throw InitializableError.missingRequiredParam("BundleId") }
+            self.bundleId = bundleId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DeleteCustomerGatewayRequest: AWSShape {
@@ -3001,6 +3986,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let customerGatewayId = dictionary["CustomerGatewayId"] as? String else { throw InitializableError.missingRequiredParam("CustomerGatewayId") }
+            self.customerGatewayId = customerGatewayId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeHostsResult: AWSShape {
@@ -3018,6 +4008,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hosts = dictionary["Hosts"] as? [[String: Any]] {
+                self.hosts = try hosts.map({ try Host(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct PurchaseHostReservationResult: AWSShape {
@@ -3044,6 +4040,15 @@ extension Ec2 {
             self.totalHourlyPrice = totalHourlyPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let purchase = dictionary["Purchase"] as? [[String: Any]] {
+                self.purchase = try purchase.map({ try Purchase(dictionary: $0) })
+            }
+            self.totalUpfrontPrice = dictionary["TotalUpfrontPrice"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.totalHourlyPrice = dictionary["TotalHourlyPrice"] as? String
+        }
     }
 
     public struct DeleteEgressOnlyInternetGatewayResult: AWSShape {
@@ -3058,6 +4063,9 @@ extension Ec2 {
             self.returnCode = returnCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.returnCode = dictionary["ReturnCode"] as? Bool
+        }
     }
 
     public struct DeleteVolumeRequest: AWSShape {
@@ -3075,6 +4083,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct TargetConfiguration: AWSShape {
@@ -3092,6 +4105,10 @@ extension Ec2 {
             self.instanceCount = instanceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.offeringId = dictionary["OfferingId"] as? String
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+        }
     }
 
     public struct CreateCustomerGatewayResult: AWSShape {
@@ -3106,6 +4123,9 @@ extension Ec2 {
             self.customerGateway = customerGateway
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let customerGateway = dictionary["CustomerGateway"] as? [String: Any] { self.customerGateway = try Ec2.CustomerGateway(dictionary: customerGateway) }
+        }
     }
 
     public struct DescribeBundleTasksResult: AWSShape {
@@ -3120,6 +4140,11 @@ extension Ec2 {
             self.bundleTasks = bundleTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let bundleTasks = dictionary["BundleTasks"] as? [[String: Any]] {
+                self.bundleTasks = try bundleTasks.map({ try BundleTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
@@ -3158,6 +4183,21 @@ extension Ec2 {
             self.validationFailureReason = validationFailureReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputReservedInstancesWillExpireAt = dictionary["OutputReservedInstancesWillExpireAt"] as? Date
+            if let targetConfigurationValueRollup = dictionary["TargetConfigurationValueRollup"] as? [String: Any] { self.targetConfigurationValueRollup = try Ec2.ReservationValue(dictionary: targetConfigurationValueRollup) }
+            self.isValidExchange = dictionary["IsValidExchange"] as? Bool
+            if let reservedInstanceValueRollup = dictionary["ReservedInstanceValueRollup"] as? [String: Any] { self.reservedInstanceValueRollup = try Ec2.ReservationValue(dictionary: reservedInstanceValueRollup) }
+            if let reservedInstanceValueSet = dictionary["ReservedInstanceValueSet"] as? [[String: Any]] {
+                self.reservedInstanceValueSet = try reservedInstanceValueSet.map({ try ReservedInstanceReservationValue(dictionary: $0) })
+            }
+            self.paymentDue = dictionary["PaymentDue"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            if let targetConfigurationValueSet = dictionary["TargetConfigurationValueSet"] as? [[String: Any]] {
+                self.targetConfigurationValueSet = try targetConfigurationValueSet.map({ try TargetReservationValue(dictionary: $0) })
+            }
+            self.validationFailureReason = dictionary["ValidationFailureReason"] as? String
+        }
     }
 
     public struct InstanceExportDetails: AWSShape {
@@ -3175,6 +4215,10 @@ extension Ec2 {
             self.targetEnvironment = targetEnvironment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.targetEnvironment = dictionary["TargetEnvironment"] as? String
+        }
     }
 
     public struct NetworkAcl: AWSShape {
@@ -3204,6 +4248,20 @@ extension Ec2 {
             self.associations = associations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isDefault = dictionary["IsDefault"] as? Bool
+            if let entries = dictionary["Entries"] as? [[String: Any]] {
+                self.entries = try entries.map({ try NetworkAclEntry(dictionary: $0) })
+            }
+            self.networkAclId = dictionary["NetworkAclId"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let associations = dictionary["Associations"] as? [[String: Any]] {
+                self.associations = try associations.map({ try NetworkAclAssociation(dictionary: $0) })
+            }
+        }
     }
 
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
@@ -3245,6 +4303,20 @@ extension Ec2 {
             self.groupId = groupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceSecurityGroupOwnerId = dictionary["SourceSecurityGroupOwnerId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
+                self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+            self.cidrIp = dictionary["CidrIp"] as? String
+            self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.toPort = dictionary["ToPort"] as? Int32
+            self.fromPort = dictionary["FromPort"] as? Int32
+            self.ipProtocol = dictionary["IpProtocol"] as? String
+            self.groupId = dictionary["GroupId"] as? String
+        }
     }
 
     public struct DescribeKeyPairsResult: AWSShape {
@@ -3259,6 +4331,11 @@ extension Ec2 {
             self.keyPairs = keyPairs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyPairs = dictionary["KeyPairs"] as? [[String: Any]] {
+                self.keyPairs = try keyPairs.map({ try KeyPairInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct ScheduledInstancesPrivateIpAddressConfig: AWSShape {
@@ -3276,6 +4353,10 @@ extension Ec2 {
             self.privateIpAddress = privateIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.primary = dictionary["Primary"] as? Bool
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+        }
     }
 
     public struct CancelReservedInstancesListingResult: AWSShape {
@@ -3290,6 +4371,11 @@ extension Ec2 {
             self.reservedInstancesListings = reservedInstancesListings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstancesListings = dictionary["ReservedInstancesListings"] as? [[String: Any]] {
+                self.reservedInstancesListings = try reservedInstancesListings.map({ try ReservedInstancesListing(dictionary: $0) })
+            }
+        }
     }
 
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
@@ -3310,6 +4396,14 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reservedInstanceIds = dictionary["ReservedInstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("ReservedInstanceIds") }
+            self.reservedInstanceIds = reservedInstanceIds
+            if let targetConfigurations = dictionary["TargetConfigurations"] as? [[String: Any]] {
+                self.targetConfigurations = try targetConfigurations.map({ try TargetConfigurationRequest(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct BundleInstanceRequest: AWSShape {
@@ -3330,6 +4424,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let storage = dictionary["Storage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Storage") }
+            self.storage = try Ec2.Storage(dictionary: storage)
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeVolumesModificationsResult: AWSShape {
@@ -3347,6 +4448,12 @@ extension Ec2 {
             self.volumesModifications = volumesModifications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let volumesModifications = dictionary["VolumesModifications"] as? [[String: Any]] {
+                self.volumesModifications = try volumesModifications.map({ try VolumeModification(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeVpcClassicLinkRequest: AWSShape {
@@ -3367,6 +4474,15 @@ extension Ec2 {
             self.vpcIds = vpcIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let vpcIds = dictionary["VpcIds"] as? [String] {
+                self.vpcIds = vpcIds
+            }
+        }
     }
 
     public struct DescribeVolumeAttributeRequest: AWSShape {
@@ -3387,6 +4503,12 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.attribute = dictionary["Attribute"] as? String
+        }
     }
 
     public struct GetPasswordDataRequest: AWSShape {
@@ -3404,6 +4526,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ReportInstanceStatusRequest: AWSShape {
@@ -3436,6 +4563,18 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            self.endTime = dictionary["EndTime"] as? Date
+            guard let instances = dictionary["Instances"] as? [String] else { throw InitializableError.missingRequiredParam("Instances") }
+            self.instances = instances
+            guard let reasonCodes = dictionary["ReasonCodes"] as? [String] else { throw InitializableError.missingRequiredParam("ReasonCodes") }
+            self.reasonCodes = reasonCodes
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct AllocateHostsResult: AWSShape {
@@ -3450,6 +4589,11 @@ extension Ec2 {
             self.hostIds = hostIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hostIds = dictionary["HostIds"] as? [String] {
+                self.hostIds = hostIds
+            }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -3467,6 +4611,10 @@ extension Ec2 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DescribeRegionsRequest: AWSShape {
@@ -3487,6 +4635,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let regionNames = dictionary["RegionNames"] as? [String] {
+                self.regionNames = regionNames
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct TagDescription: AWSShape {
@@ -3510,6 +4667,12 @@ extension Ec2 {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.value = dictionary["Value"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct ProvisionedBandwidth: AWSShape {
@@ -3536,6 +4699,13 @@ extension Ec2 {
             self.requested = requested
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.provisioned = dictionary["Provisioned"] as? String
+            self.status = dictionary["Status"] as? String
+            self.requestTime = dictionary["RequestTime"] as? Date
+            self.provisionTime = dictionary["ProvisionTime"] as? Date
+            self.requested = dictionary["Requested"] as? String
+        }
     }
 
     public struct DescribeSnapshotAttributeRequest: AWSShape {
@@ -3556,6 +4726,13 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+        }
     }
 
     public struct DescribeSpotDatafeedSubscriptionRequest: AWSShape {
@@ -3570,6 +4747,9 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeSnapshotAttributeResult: AWSShape {
@@ -3590,6 +4770,15 @@ extension Ec2 {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let createVolumePermissions = dictionary["CreateVolumePermissions"] as? [[String: Any]] {
+                self.createVolumePermissions = try createVolumePermissions.map({ try CreateVolumePermission(dictionary: $0) })
+            }
+            if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
+                self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            }
+            self.snapshotId = dictionary["SnapshotId"] as? String
+        }
     }
 
     public struct RecurringCharge: AWSShape {
@@ -3607,6 +4796,10 @@ extension Ec2 {
             self.amount = amount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.frequency = dictionary["Frequency"] as? String
+            self.amount = dictionary["Amount"] as? Double
+        }
     }
 
     public struct DeleteVpcPeeringConnectionRequest: AWSShape {
@@ -3624,6 +4817,11 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpcPeeringConnectionId") }
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
     }
 
     public struct DescribeAvailabilityZonesRequest: AWSShape {
@@ -3644,6 +4842,15 @@ extension Ec2 {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let zoneNames = dictionary["ZoneNames"] as? [String] {
+                self.zoneNames = zoneNames
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct AssociateRouteTableResult: AWSShape {
@@ -3658,6 +4865,9 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct IcmpTypeCode: AWSShape {
@@ -3675,6 +4885,10 @@ extension Ec2 {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? Int32
+            self.code = dictionary["Code"] as? Int32
+        }
     }
 
     public struct DeleteFlowLogsRequest: AWSShape {
@@ -3689,6 +4903,10 @@ extension Ec2 {
             self.flowLogIds = flowLogIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let flowLogIds = dictionary["FlowLogIds"] as? [String] else { throw InitializableError.missingRequiredParam("FlowLogIds") }
+            self.flowLogIds = flowLogIds
+        }
     }
 
     public struct DescribeVpnConnectionsRequest: AWSShape {
@@ -3709,6 +4927,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpnConnectionIds = dictionary["VpnConnectionIds"] as? [String] {
+                self.vpnConnectionIds = vpnConnectionIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ReservedInstanceLimitPrice: AWSShape {
@@ -3726,6 +4953,10 @@ extension Ec2 {
             self.amount = amount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.amount = dictionary["Amount"] as? Double
+        }
     }
 
     public struct NewDhcpConfiguration: AWSShape {
@@ -3741,6 +4972,12 @@ extension Ec2 {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct NetworkAclEntry: AWSShape {
@@ -3776,6 +5013,16 @@ extension Ec2 {
             self.portRange = portRange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidrBlock = dictionary["CidrBlock"] as? String
+            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) }
+            self.ruleNumber = dictionary["RuleNumber"] as? Int32
+            self.`protocol` = dictionary["Protocol"] as? String
+            self.ruleAction = dictionary["RuleAction"] as? String
+            self.egress = dictionary["Egress"] as? Bool
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) }
+        }
     }
 
     public struct Vpc: AWSShape {
@@ -3811,6 +5058,20 @@ extension Ec2 {
             self.cidrBlock = cidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isDefault = dictionary["IsDefault"] as? Bool
+            self.vpcId = dictionary["VpcId"] as? String
+            self.state = dictionary["State"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.dhcpOptionsId = dictionary["DhcpOptionsId"] as? String
+            if let ipv6CidrBlockAssociationSet = dictionary["Ipv6CidrBlockAssociationSet"] as? [[String: Any]] {
+                self.ipv6CidrBlockAssociationSet = try ipv6CidrBlockAssociationSet.map({ try VpcIpv6CidrBlockAssociation(dictionary: $0) })
+            }
+            self.instanceTenancy = dictionary["InstanceTenancy"] as? String
+            self.cidrBlock = dictionary["CidrBlock"] as? String
+        }
     }
 
     public struct AvailabilityZoneMessage: AWSShape {
@@ -3825,6 +5086,9 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct DescribeStaleSecurityGroupsRequest: AWSShape {
@@ -3848,6 +5112,13 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct RestoreAddressToClassicRequest: AWSShape {
@@ -3865,6 +5136,11 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let publicIp = dictionary["PublicIp"] as? String else { throw InitializableError.missingRequiredParam("PublicIp") }
+            self.publicIp = publicIp
+        }
     }
 
     public struct RouteTable: AWSShape {
@@ -3894,6 +5170,22 @@ extension Ec2 {
             self.associations = associations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let routes = dictionary["Routes"] as? [[String: Any]] {
+                self.routes = try routes.map({ try Route(dictionary: $0) })
+            }
+            if let propagatingVgws = dictionary["PropagatingVgws"] as? [[String: Any]] {
+                self.propagatingVgws = try propagatingVgws.map({ try PropagatingVgw(dictionary: $0) })
+            }
+            self.routeTableId = dictionary["RouteTableId"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let associations = dictionary["Associations"] as? [[String: Any]] {
+                self.associations = try associations.map({ try RouteTableAssociation(dictionary: $0) })
+            }
+        }
     }
 
     public struct VolumeStatusEvent: AWSShape {
@@ -3920,6 +5212,13 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notBefore = dictionary["NotBefore"] as? Date
+            self.eventType = dictionary["EventType"] as? String
+            self.notAfter = dictionary["NotAfter"] as? Date
+            self.eventId = dictionary["EventId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ModifyVpcEndpointRequest: AWSShape {
@@ -3949,6 +5248,19 @@ extension Ec2 {
             self.removeRouteTableIds = removeRouteTableIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let addRouteTableIds = dictionary["AddRouteTableIds"] as? [String] {
+                self.addRouteTableIds = addRouteTableIds
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcEndpointId = dictionary["VpcEndpointId"] as? String else { throw InitializableError.missingRequiredParam("VpcEndpointId") }
+            self.vpcEndpointId = vpcEndpointId
+            self.policyDocument = dictionary["PolicyDocument"] as? String
+            self.resetPolicy = dictionary["ResetPolicy"] as? Bool
+            if let removeRouteTableIds = dictionary["RemoveRouteTableIds"] as? [String] {
+                self.removeRouteTableIds = removeRouteTableIds
+            }
+        }
     }
 
     public struct VpcClassicLink: AWSShape {
@@ -3969,6 +5281,13 @@ extension Ec2 {
             self.classicLinkEnabled = classicLinkEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.classicLinkEnabled = dictionary["ClassicLinkEnabled"] as? Bool
+        }
     }
 
     public struct DisassociateIamInstanceProfileRequest: AWSShape {
@@ -3983,6 +5302,10 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+        }
     }
 
     public struct DescribeHostReservationOfferingsResult: AWSShape {
@@ -4000,6 +5323,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let offeringSet = dictionary["OfferingSet"] as? [[String: Any]] {
+                self.offeringSet = try offeringSet.map({ try HostOffering(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct VpcCidrBlockState: AWSShape {
@@ -4017,6 +5346,10 @@ extension Ec2 {
             self.statusMessage = statusMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+        }
     }
 
     public struct NetworkAclAssociation: AWSShape {
@@ -4037,6 +5370,11 @@ extension Ec2 {
             self.networkAclId = networkAclId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.networkAclAssociationId = dictionary["NetworkAclAssociationId"] as? String
+            self.networkAclId = dictionary["NetworkAclId"] as? String
+        }
     }
 
     public struct DeleteNatGatewayRequest: AWSShape {
@@ -4051,6 +5389,10 @@ extension Ec2 {
             self.natGatewayId = natGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let natGatewayId = dictionary["NatGatewayId"] as? String else { throw InitializableError.missingRequiredParam("NatGatewayId") }
+            self.natGatewayId = natGatewayId
+        }
     }
 
     public struct PurchaseScheduledInstancesResult: AWSShape {
@@ -4065,6 +5407,11 @@ extension Ec2 {
             self.scheduledInstanceSet = scheduledInstanceSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let scheduledInstanceSet = dictionary["ScheduledInstanceSet"] as? [[String: Any]] {
+                self.scheduledInstanceSet = try scheduledInstanceSet.map({ try ScheduledInstance(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeVolumeStatusResult: AWSShape {
@@ -4082,6 +5429,12 @@ extension Ec2 {
             self.volumeStatuses = volumeStatuses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let volumeStatuses = dictionary["VolumeStatuses"] as? [[String: Any]] {
+                self.volumeStatuses = try volumeStatuses.map({ try VolumeStatusItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct AvailableCapacity: AWSShape {
@@ -4099,6 +5452,12 @@ extension Ec2 {
             self.availableVCpus = availableVCpus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availableInstanceCapacity = dictionary["AvailableInstanceCapacity"] as? [[String: Any]] {
+                self.availableInstanceCapacity = try availableInstanceCapacity.map({ try InstanceCapacity(dictionary: $0) })
+            }
+            self.availableVCpus = dictionary["AvailableVCpus"] as? Int32
+        }
     }
 
     public struct SpotPrice: AWSShape {
@@ -4125,6 +5484,13 @@ extension Ec2 {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.spotPrice = dictionary["SpotPrice"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct ReservedInstancesConfiguration: AWSShape {
@@ -4151,6 +5517,13 @@ extension Ec2 {
             self.scope = scope
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platform = dictionary["Platform"] as? String
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.scope = dictionary["Scope"] as? String
+        }
     }
 
     public struct CreatePlacementGroupRequest: AWSShape {
@@ -4171,6 +5544,13 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let strategy = dictionary["Strategy"] as? String else { throw InitializableError.missingRequiredParam("Strategy") }
+            self.strategy = strategy
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct DescribeSecurityGroupReferencesRequest: AWSShape {
@@ -4188,6 +5568,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupId = dictionary["GroupId"] as? [String] else { throw InitializableError.missingRequiredParam("GroupId") }
+            self.groupId = groupId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeVolumesModificationsRequest: AWSShape {
@@ -4214,6 +5599,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumeIds = dictionary["VolumeIds"] as? [String] {
+                self.volumeIds = volumeIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ImageAttribute: AWSShape {
@@ -4249,6 +5645,22 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
+                self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            }
+            if let launchPermissions = dictionary["LaunchPermissions"] as? [[String: Any]] {
+                self.launchPermissions = try launchPermissions.map({ try LaunchPermission(dictionary: $0) })
+            }
+            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) }
+            if let kernelId = dictionary["KernelId"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) }
+            self.imageId = dictionary["ImageId"] as? String
+            if let ramdiskId = dictionary["RamdiskId"] as? [String: Any] { self.ramdiskId = try Ec2.AttributeValue(dictionary: ramdiskId) }
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+        }
     }
 
     public struct CreateInstanceExportTaskRequest: AWSShape {
@@ -4272,6 +5684,13 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetEnvironment = dictionary["TargetEnvironment"] as? String
+            if let exportToS3Task = dictionary["ExportToS3Task"] as? [String: Any] { self.exportToS3Task = try Ec2.ExportToS3TaskSpecification(dictionary: exportToS3Task) }
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateFlowLogsRequest: AWSShape {
@@ -4301,6 +5720,19 @@ extension Ec2 {
             self.logGroupName = logGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficType = dictionary["TrafficType"] as? String else { throw InitializableError.missingRequiredParam("TrafficType") }
+            self.trafficType = trafficType
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let resourceIds = dictionary["ResourceIds"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceIds") }
+            self.resourceIds = resourceIds
+            guard let deliverLogsPermissionArn = dictionary["DeliverLogsPermissionArn"] as? String else { throw InitializableError.missingRequiredParam("DeliverLogsPermissionArn") }
+            self.deliverLogsPermissionArn = deliverLogsPermissionArn
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            guard let logGroupName = dictionary["LogGroupName"] as? String else { throw InitializableError.missingRequiredParam("LogGroupName") }
+            self.logGroupName = logGroupName
+        }
     }
 
     public struct ImportImageTask: AWSShape {
@@ -4345,6 +5777,21 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.licenseType = dictionary["LicenseType"] as? String
+            self.status = dictionary["Status"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.progress = dictionary["Progress"] as? String
+            self.hypervisor = dictionary["Hypervisor"] as? String
+            self.architecture = dictionary["Architecture"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+            self.importTaskId = dictionary["ImportTaskId"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            if let snapshotDetails = dictionary["SnapshotDetails"] as? [[String: Any]] {
+                self.snapshotDetails = try snapshotDetails.map({ try SnapshotDetail(dictionary: $0) })
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeVolumesResult: AWSShape {
@@ -4362,6 +5809,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumes = dictionary["Volumes"] as? [[String: Any]] {
+                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ModifyInstancePlacementRequest: AWSShape {
@@ -4385,6 +5838,13 @@ extension Ec2 {
             self.tenancy = tenancy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.affinity = dictionary["Affinity"] as? String
+            self.hostId = dictionary["HostId"] as? String
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.tenancy = dictionary["Tenancy"] as? String
+        }
     }
 
     public struct ScheduledInstancesLaunchSpecification: AWSShape {
@@ -4438,6 +5898,29 @@ extension Ec2 {
             self.ramdiskId = ramdiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try ScheduledInstancesBlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.userData = dictionary["UserData"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.kernelId = dictionary["KernelId"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.ScheduledInstancesMonitoring(dictionary: monitoring) }
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.keyName = dictionary["KeyName"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.ScheduledInstancesIamInstanceProfile(dictionary: iamInstanceProfile) }
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try ScheduledInstancesNetworkInterface(dictionary: $0) })
+            }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.ScheduledInstancesPlacement(dictionary: placement) }
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+        }
     }
 
     public struct DisableVpcClassicLinkRequest: AWSShape {
@@ -4455,6 +5938,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct MoveAddressToVpcResult: AWSShape {
@@ -4472,6 +5960,10 @@ extension Ec2 {
             self.allocationId = allocationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.allocationId = dictionary["AllocationId"] as? String
+        }
     }
 
     public struct DeleteVpnConnectionRequest: AWSShape {
@@ -4489,6 +5981,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpnConnectionId = dictionary["VpnConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpnConnectionId") }
+            self.vpnConnectionId = vpnConnectionId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct CreateVolumePermission: AWSShape {
@@ -4506,6 +6003,10 @@ extension Ec2 {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userId = dictionary["UserId"] as? String
+            self.group = dictionary["Group"] as? String
+        }
     }
 
     public struct CustomerGateway: AWSShape {
@@ -4535,6 +6036,16 @@ extension Ec2 {
             self.ipAddress = ipAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerGatewayId = dictionary["CustomerGatewayId"] as? String
+            self.bgpAsn = dictionary["BgpAsn"] as? String
+            self.type = dictionary["Type"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.state = dictionary["State"] as? String
+            self.ipAddress = dictionary["IpAddress"] as? String
+        }
     }
 
     public struct DescribeAccountAttributesRequest: AWSShape {
@@ -4552,6 +6063,12 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributeNames = dictionary["AttributeNames"] as? [String] {
+                self.attributeNames = attributeNames
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct CreateVpnGatewayRequest: AWSShape {
@@ -4572,6 +6089,12 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DeleteSpotDatafeedSubscriptionRequest: AWSShape {
@@ -4586,6 +6109,9 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct Route: AWSShape {
@@ -4633,6 +6159,20 @@ extension Ec2 {
             self.destinationCidrBlock = destinationCidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.egressOnlyInternetGatewayId = dictionary["EgressOnlyInternetGatewayId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.natGatewayId = dictionary["NatGatewayId"] as? String
+            self.origin = dictionary["Origin"] as? String
+            self.state = dictionary["State"] as? String
+            self.destinationIpv6CidrBlock = dictionary["DestinationIpv6CidrBlock"] as? String
+            self.destinationPrefixListId = dictionary["DestinationPrefixListId"] as? String
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.instanceOwnerId = dictionary["InstanceOwnerId"] as? String
+            self.gatewayId = dictionary["GatewayId"] as? String
+            self.destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String
+        }
     }
 
     public struct CancelSpotFleetRequestsResponse: AWSShape {
@@ -4650,6 +6190,14 @@ extension Ec2 {
             self.unsuccessfulFleetRequests = unsuccessfulFleetRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let successfulFleetRequests = dictionary["SuccessfulFleetRequests"] as? [[String: Any]] {
+                self.successfulFleetRequests = try successfulFleetRequests.map({ try CancelSpotFleetRequestsSuccessItem(dictionary: $0) })
+            }
+            if let unsuccessfulFleetRequests = dictionary["UnsuccessfulFleetRequests"] as? [[String: Any]] {
+                self.unsuccessfulFleetRequests = try unsuccessfulFleetRequests.map({ try CancelSpotFleetRequestsErrorItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteSecurityGroupRequest: AWSShape {
@@ -4670,6 +6218,11 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.groupId = dictionary["GroupId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct CreateVpcResult: AWSShape {
@@ -4684,6 +6237,9 @@ extension Ec2 {
             self.vpc = vpc
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpc = dictionary["Vpc"] as? [String: Any] { self.vpc = try Ec2.Vpc(dictionary: vpc) }
+        }
     }
 
     public struct DescribeInstancesRequest: AWSShape {
@@ -4710,6 +6266,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeScheduledInstancesResult: AWSShape {
@@ -4727,6 +6294,12 @@ extension Ec2 {
             self.scheduledInstanceSet = scheduledInstanceSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let scheduledInstanceSet = dictionary["ScheduledInstanceSet"] as? [[String: Any]] {
+                self.scheduledInstanceSet = try scheduledInstanceSet.map({ try ScheduledInstance(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteNetworkAclEntryRequest: AWSShape {
@@ -4750,6 +6323,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let networkAclId = dictionary["NetworkAclId"] as? String else { throw InitializableError.missingRequiredParam("NetworkAclId") }
+            self.networkAclId = networkAclId
+            guard let ruleNumber = dictionary["RuleNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("RuleNumber") }
+            self.ruleNumber = ruleNumber
+            guard let egress = dictionary["Egress"] as? Bool else { throw InitializableError.missingRequiredParam("Egress") }
+            self.egress = egress
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ResetSnapshotAttributeRequest: AWSShape {
@@ -4770,6 +6352,13 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+        }
     }
 
     public struct VpnGateway: AWSShape {
@@ -4799,6 +6388,18 @@ extension Ec2 {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcAttachments = dictionary["VpcAttachments"] as? [[String: Any]] {
+                self.vpcAttachments = try vpcAttachments.map({ try VpcAttachment(dictionary: $0) })
+            }
+            self.vpnGatewayId = dictionary["VpnGatewayId"] as? String
+            self.type = dictionary["Type"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct CancelSpotFleetRequestsRequest: AWSShape {
@@ -4819,6 +6420,13 @@ extension Ec2 {
             self.spotFleetRequestIds = spotFleetRequestIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let terminateInstances = dictionary["TerminateInstances"] as? Bool else { throw InitializableError.missingRequiredParam("TerminateInstances") }
+            self.terminateInstances = terminateInstances
+            guard let spotFleetRequestIds = dictionary["SpotFleetRequestIds"] as? [String] else { throw InitializableError.missingRequiredParam("SpotFleetRequestIds") }
+            self.spotFleetRequestIds = spotFleetRequestIds
+        }
     }
 
     public struct DescribeVolumeStatusRequest: AWSShape {
@@ -4845,6 +6453,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumeIds = dictionary["VolumeIds"] as? [String] {
+                self.volumeIds = volumeIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeSecurityGroupsRequest: AWSShape {
@@ -4868,6 +6487,18 @@ extension Ec2 {
             self.groupNames = groupNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let groupIds = dictionary["GroupIds"] as? [String] {
+                self.groupIds = groupIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let groupNames = dictionary["GroupNames"] as? [String] {
+                self.groupNames = groupNames
+            }
+        }
     }
 
     public struct Snapshot: AWSShape {
@@ -4921,6 +6552,24 @@ extension Ec2 {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stateMessage = dictionary["StateMessage"] as? String
+            self.state = dictionary["State"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.description = dictionary["Description"] as? String
+            self.startTime = dictionary["StartTime"] as? Date
+            self.dataEncryptionKeyId = dictionary["DataEncryptionKeyId"] as? String
+            self.progress = dictionary["Progress"] as? String
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.ownerAlias = dictionary["OwnerAlias"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct DescribeVpcsRequest: AWSShape {
@@ -4941,6 +6590,15 @@ extension Ec2 {
             self.vpcIds = vpcIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let vpcIds = dictionary["VpcIds"] as? [String] {
+                self.vpcIds = vpcIds
+            }
+        }
     }
 
     public struct DescribeIdFormatResult: AWSShape {
@@ -4955,6 +6613,11 @@ extension Ec2 {
             self.statuses = statuses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let statuses = dictionary["Statuses"] as? [[String: Any]] {
+                self.statuses = try statuses.map({ try IdFormat(dictionary: $0) })
+            }
+        }
     }
 
     public struct RegisterImageRequest: AWSShape {
@@ -5005,6 +6668,26 @@ extension Ec2 {
             self.ramdiskId = ramdiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let billingProducts = dictionary["BillingProducts"] as? [String] {
+                self.billingProducts = billingProducts
+            }
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.sriovNetSupport = dictionary["SriovNetSupport"] as? String
+            self.rootDeviceName = dictionary["RootDeviceName"] as? String
+            self.imageLocation = dictionary["ImageLocation"] as? String
+            self.kernelId = dictionary["KernelId"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.description = dictionary["Description"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.architecture = dictionary["Architecture"] as? String
+            self.enaSupport = dictionary["EnaSupport"] as? Bool
+            self.virtualizationType = dictionary["VirtualizationType"] as? String
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+        }
     }
 
     public struct DescribeMovingAddressesRequest: AWSShape {
@@ -5031,6 +6714,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let publicIps = dictionary["PublicIps"] as? [String] {
+                self.publicIps = publicIps
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct MonitorInstancesResult: AWSShape {
@@ -5045,6 +6739,11 @@ extension Ec2 {
             self.instanceMonitorings = instanceMonitorings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceMonitorings = dictionary["InstanceMonitorings"] as? [[String: Any]] {
+                self.instanceMonitorings = try instanceMonitorings.map({ try InstanceMonitoring(dictionary: $0) })
+            }
+        }
     }
 
     public struct AssignIpv6AddressesResult: AWSShape {
@@ -5062,6 +6761,12 @@ extension Ec2 {
             self.networkInterfaceId = networkInterfaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let assignedIpv6Addresses = dictionary["AssignedIpv6Addresses"] as? [String] {
+                self.assignedIpv6Addresses = assignedIpv6Addresses
+            }
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+        }
     }
 
     public struct AssignPrivateIpAddressesRequest: AWSShape {
@@ -5085,6 +6790,15 @@ extension Ec2 {
             self.privateIpAddresses = privateIpAddresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowReassignment = dictionary["AllowReassignment"] as? Bool
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
+            if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [String] {
+                self.privateIpAddresses = privateIpAddresses
+            }
+        }
     }
 
     public struct RunInstancesRequest: AWSShape {
@@ -5171,6 +6885,46 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.disableApiTermination = dictionary["DisableApiTermination"] as? Bool
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.kernelId = dictionary["KernelId"] as? String
+            self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.keyName = dictionary["KeyName"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            self.instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? String
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
+                self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            }
+            guard let minCount = dictionary["MinCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MinCount") }
+            self.minCount = minCount
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.userData = dictionary["UserData"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            guard let maxCount = dictionary["MaxCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxCount") }
+            self.maxCount = maxCount
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) }
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            }
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+        }
     }
 
     public struct SpotInstanceRequest: AWSShape {
@@ -5236,6 +6990,28 @@ extension Ec2 {
             self.createTime = createTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.launchedAvailabilityZone = dictionary["LaunchedAvailabilityZone"] as? String
+            self.spotInstanceRequestId = dictionary["SpotInstanceRequestId"] as? String
+            self.state = dictionary["State"] as? String
+            self.spotPrice = dictionary["SpotPrice"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.validUntil = dictionary["ValidUntil"] as? Date
+            if let fault = dictionary["Fault"] as? [String: Any] { self.fault = try Ec2.SpotInstanceStateFault(dictionary: fault) }
+            self.productDescription = dictionary["ProductDescription"] as? String
+            self.availabilityZoneGroup = dictionary["AvailabilityZoneGroup"] as? String
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ec2.SpotInstanceStatus(dictionary: status) }
+            self.validFrom = dictionary["ValidFrom"] as? Date
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.actualBlockHourlyPrice = dictionary["ActualBlockHourlyPrice"] as? String
+            self.blockDurationMinutes = dictionary["BlockDurationMinutes"] as? Int32
+            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.LaunchSpecification(dictionary: launchSpecification) }
+            self.type = dictionary["Type"] as? String
+            self.launchGroup = dictionary["LaunchGroup"] as? String
+            self.createTime = dictionary["CreateTime"] as? Date
+        }
     }
 
     public struct RebootInstancesRequest: AWSShape {
@@ -5253,6 +7029,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct VpcPeeringConnectionStateReason: AWSShape {
@@ -5270,6 +7051,10 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct ScheduledInstance: AWSShape {
@@ -5326,6 +7111,23 @@ extension Ec2 {
             self.recurrence = recurrence
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platform = dictionary["Platform"] as? String
+            self.previousSlotEndTime = dictionary["PreviousSlotEndTime"] as? Date
+            self.totalScheduledInstanceHours = dictionary["TotalScheduledInstanceHours"] as? Int32
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.hourlyPrice = dictionary["HourlyPrice"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.slotDurationInHours = dictionary["SlotDurationInHours"] as? Int32
+            self.scheduledInstanceId = dictionary["ScheduledInstanceId"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.termStartDate = dictionary["TermStartDate"] as? Date
+            self.termEndDate = dictionary["TermEndDate"] as? Date
+            self.nextSlotStartTime = dictionary["NextSlotStartTime"] as? Date
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            self.networkPlatform = dictionary["NetworkPlatform"] as? String
+            if let recurrence = dictionary["Recurrence"] as? [String: Any] { self.recurrence = try Ec2.ScheduledInstanceRecurrence(dictionary: recurrence) }
+        }
     }
 
     public struct DescribeSpotFleetInstancesResponse: AWSShape {
@@ -5346,6 +7148,13 @@ extension Ec2 {
             self.activeInstances = activeInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+            guard let activeInstances = dictionary["ActiveInstances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ActiveInstances") }
+            self.activeInstances = try activeInstances.map({ try ActiveInstance(dictionary: $0) })
+        }
     }
 
     public struct ProductCode: AWSShape {
@@ -5363,6 +7172,10 @@ extension Ec2 {
             self.productCodeId = productCodeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.productCodeType = dictionary["ProductCodeType"] as? String
+            self.productCodeId = dictionary["ProductCodeId"] as? String
+        }
     }
 
     public struct InstanceStatusEvent: AWSShape {
@@ -5386,6 +7199,12 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.notBefore = dictionary["NotBefore"] as? Date
+            self.notAfter = dictionary["NotAfter"] as? Date
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeVolumeAttributeResult: AWSShape {
@@ -5406,6 +7225,13 @@ extension Ec2 {
             self.autoEnableIO = autoEnableIO
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
+                self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            }
+            self.volumeId = dictionary["VolumeId"] as? String
+            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) }
+        }
     }
 
     public struct DeleteNetworkInterfaceRequest: AWSShape {
@@ -5423,6 +7249,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct SpotDatafeedSubscription: AWSShape {
@@ -5449,6 +7280,13 @@ extension Ec2 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.state = dictionary["State"] as? String
+            if let fault = dictionary["Fault"] as? [String: Any] { self.fault = try Ec2.SpotInstanceStateFault(dictionary: fault) }
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct ImportImageRequest: AWSShape {
@@ -5490,6 +7328,20 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let diskContainers = dictionary["DiskContainers"] as? [[String: Any]] {
+                self.diskContainers = try diskContainers.map({ try ImageDiskContainer(dictionary: $0) })
+            }
+            self.platform = dictionary["Platform"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.licenseType = dictionary["LicenseType"] as? String
+            self.hypervisor = dictionary["Hypervisor"] as? String
+            self.architecture = dictionary["Architecture"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.roleName = dictionary["RoleName"] as? String
+            if let clientData = dictionary["ClientData"] as? [String: Any] { self.clientData = try Ec2.ClientData(dictionary: clientData) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ImportInstanceVolumeDetailItem: AWSShape {
@@ -5522,6 +7374,20 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let bytesConverted = dictionary["BytesConverted"] as? Int64 else { throw InitializableError.missingRequiredParam("BytesConverted") }
+            self.bytesConverted = bytesConverted
+            guard let volume = dictionary["Volume"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Volume") }
+            self.volume = try Ec2.DiskImageVolumeDescription(dictionary: volume)
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Ec2.DiskImageDescription(dictionary: image)
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UnsuccessfulItem: AWSShape {
@@ -5539,6 +7405,11 @@ extension Ec2 {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            guard let error = dictionary["Error"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Error") }
+            self.error = try Ec2.UnsuccessfulItemError(dictionary: error)
+        }
     }
 
     public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
@@ -5556,6 +7427,12 @@ extension Ec2 {
             self.iamInstanceProfileAssociations = iamInstanceProfileAssociations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let iamInstanceProfileAssociations = dictionary["IamInstanceProfileAssociations"] as? [[String: Any]] {
+                self.iamInstanceProfileAssociations = try iamInstanceProfileAssociations.map({ try IamInstanceProfileAssociation(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifySpotFleetRequestResponse: AWSShape {
@@ -5570,6 +7447,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct Volume: AWSShape {
@@ -5617,6 +7497,24 @@ extension Ec2 {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.state = dictionary["State"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.size = dictionary["Size"] as? Int32
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            self.createTime = dictionary["CreateTime"] as? Date
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            if let attachments = dictionary["Attachments"] as? [[String: Any]] {
+                self.attachments = try attachments.map({ try VolumeAttachment(dictionary: $0) })
+            }
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct PurchaseHostReservationRequest: AWSShape {
@@ -5643,6 +7541,15 @@ extension Ec2 {
             self.hostIdSet = hostIdSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.limitPrice = dictionary["LimitPrice"] as? String
+            guard let offeringId = dictionary["OfferingId"] as? String else { throw InitializableError.missingRequiredParam("OfferingId") }
+            self.offeringId = offeringId
+            guard let hostIdSet = dictionary["HostIdSet"] as? [String] else { throw InitializableError.missingRequiredParam("HostIdSet") }
+            self.hostIdSet = hostIdSet
+        }
     }
 
     public struct SubnetCidrBlockState: AWSShape {
@@ -5660,6 +7567,10 @@ extension Ec2 {
             self.statusMessage = statusMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+        }
     }
 
     public struct InstanceAttribute: AWSShape {
@@ -5716,6 +7627,29 @@ extension Ec2 {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try InstanceBlockDeviceMapping(dictionary: $0) })
+            }
+            if let disableApiTermination = dictionary["DisableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) }
+            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.AttributeValue(dictionary: userData) }
+            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) }
+            if let rootDeviceName = dictionary["RootDeviceName"] as? [String: Any] { self.rootDeviceName = try Ec2.AttributeValue(dictionary: rootDeviceName) }
+            if let ebsOptimized = dictionary["EbsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+            if let kernelId = dictionary["KernelId"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) }
+            if let instanceType = dictionary["InstanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) }
+            if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
+                self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            }
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let enaSupport = dictionary["EnaSupport"] as? [String: Any] { self.enaSupport = try Ec2.AttributeBooleanValue(dictionary: enaSupport) }
+            if let instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? [String: Any] { self.instanceInitiatedShutdownBehavior = try Ec2.AttributeValue(dictionary: instanceInitiatedShutdownBehavior) }
+            if let ramdiskId = dictionary["RamdiskId"] as? [String: Any] { self.ramdiskId = try Ec2.AttributeValue(dictionary: ramdiskId) }
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeConversionTasksResult: AWSShape {
@@ -5730,6 +7664,11 @@ extension Ec2 {
             self.conversionTasks = conversionTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let conversionTasks = dictionary["ConversionTasks"] as? [[String: Any]] {
+                self.conversionTasks = try conversionTasks.map({ try ConversionTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifySnapshotAttributeRequest: AWSShape {
@@ -5762,6 +7701,20 @@ extension Ec2 {
             self.groupNames = groupNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userIds = dictionary["UserIds"] as? [String] {
+                self.userIds = userIds
+            }
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+            if let createVolumePermission = dictionary["CreateVolumePermission"] as? [String: Any] { self.createVolumePermission = try Ec2.CreateVolumePermissionModifications(dictionary: createVolumePermission) }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.attribute = dictionary["Attribute"] as? String
+            self.operationType = dictionary["OperationType"] as? String
+            if let groupNames = dictionary["GroupNames"] as? [String] {
+                self.groupNames = groupNames
+            }
+        }
     }
 
     public struct AttachClassicLinkVpcResult: AWSShape {
@@ -5776,6 +7729,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct ModifySpotFleetRequestRequest: AWSShape {
@@ -5796,6 +7752,12 @@ extension Ec2 {
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetCapacity = dictionary["TargetCapacity"] as? Int32
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+            self.excessCapacityTerminationPolicy = dictionary["ExcessCapacityTerminationPolicy"] as? String
+        }
     }
 
     public struct HostReservation: AWSShape {
@@ -5846,6 +7808,23 @@ extension Ec2 {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.upfrontPrice = dictionary["UpfrontPrice"] as? String
+            self.state = dictionary["State"] as? String
+            self.paymentOption = dictionary["PaymentOption"] as? String
+            self.offeringId = dictionary["OfferingId"] as? String
+            self.count = dictionary["Count"] as? Int32
+            self.hostReservationId = dictionary["HostReservationId"] as? String
+            self.hourlyPrice = dictionary["HourlyPrice"] as? String
+            self.instanceFamily = dictionary["InstanceFamily"] as? String
+            self.start = dictionary["Start"] as? Date
+            self.end = dictionary["End"] as? Date
+            if let hostIdSet = dictionary["HostIdSet"] as? [String] {
+                self.hostIdSet = hostIdSet
+            }
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+        }
     }
 
     public struct CreateReservedInstancesListingResult: AWSShape {
@@ -5860,6 +7839,11 @@ extension Ec2 {
             self.reservedInstancesListings = reservedInstancesListings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstancesListings = dictionary["ReservedInstancesListings"] as? [[String: Any]] {
+                self.reservedInstancesListings = try reservedInstancesListings.map({ try ReservedInstancesListing(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeHostsRequest: AWSShape {
@@ -5883,6 +7867,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filter = dictionary["Filter"] as? [[String: Any]] {
+                self.filter = try filter.map({ try Filter(dictionary: $0) })
+            }
+            if let hostIds = dictionary["HostIds"] as? [String] {
+                self.hostIds = hostIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct AllocateAddressRequest: AWSShape {
@@ -5900,6 +7894,10 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domain = dictionary["Domain"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeBundleTasksRequest: AWSShape {
@@ -5920,6 +7918,15 @@ extension Ec2 {
             self.bundleIds = bundleIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let bundleIds = dictionary["BundleIds"] as? [String] {
+                self.bundleIds = bundleIds
+            }
+        }
     }
 
     public struct RunScheduledInstancesResult: AWSShape {
@@ -5934,6 +7941,11 @@ extension Ec2 {
             self.instanceIdSet = instanceIdSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceIdSet = dictionary["InstanceIdSet"] as? [String] {
+                self.instanceIdSet = instanceIdSet
+            }
+        }
     }
 
     public struct DescribeVpcEndpointServicesResult: AWSShape {
@@ -5951,6 +7963,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceNames = dictionary["ServiceNames"] as? [String] {
+                self.serviceNames = serviceNames
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct AssociateVpcCidrBlockResult: AWSShape {
@@ -5968,6 +7986,10 @@ extension Ec2 {
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.VpcIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+        }
     }
 
     public struct UserData: AWSShape {
@@ -5982,6 +8004,9 @@ extension Ec2 {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.data = dictionary["Data"] as? String
+        }
     }
 
     public struct AssociateAddressRequest: AWSShape {
@@ -6014,6 +8039,15 @@ extension Ec2 {
             self.allowReassociation = allowReassociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.allocationId = dictionary["AllocationId"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.allowReassociation = dictionary["AllowReassociation"] as? Bool
+        }
     }
 
     public struct DisassociateSubnetCidrBlockRequest: AWSShape {
@@ -6028,6 +8062,10 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+        }
     }
 
     public struct DeleteEgressOnlyInternetGatewayRequest: AWSShape {
@@ -6045,6 +8083,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let egressOnlyInternetGatewayId = dictionary["EgressOnlyInternetGatewayId"] as? String else { throw InitializableError.missingRequiredParam("EgressOnlyInternetGatewayId") }
+            self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
@@ -6083,6 +8126,20 @@ extension Ec2 {
             self.groupId = groupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceSecurityGroupOwnerId = dictionary["SourceSecurityGroupOwnerId"] as? String
+            if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
+                self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+            self.cidrIp = dictionary["CidrIp"] as? String
+            self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.fromPort = dictionary["FromPort"] as? Int32
+            self.ipProtocol = dictionary["IpProtocol"] as? String
+            self.toPort = dictionary["ToPort"] as? Int32
+            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
+            self.groupId = groupId
+        }
     }
 
     public struct FlowLog: AWSShape {
@@ -6121,6 +8178,17 @@ extension Ec2 {
             self.deliverLogsErrorMessage = deliverLogsErrorMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.logGroupName = dictionary["LogGroupName"] as? String
+            self.flowLogStatus = dictionary["FlowLogStatus"] as? String
+            self.flowLogId = dictionary["FlowLogId"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.trafficType = dictionary["TrafficType"] as? String
+            self.deliverLogsPermissionArn = dictionary["DeliverLogsPermissionArn"] as? String
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.deliverLogsStatus = dictionary["DeliverLogsStatus"] as? String
+            self.deliverLogsErrorMessage = dictionary["DeliverLogsErrorMessage"] as? String
+        }
     }
 
     public struct CreateVpcEndpointResult: AWSShape {
@@ -6138,6 +8206,10 @@ extension Ec2 {
             self.vpcEndpoint = vpcEndpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let vpcEndpoint = dictionary["VpcEndpoint"] as? [String: Any] { self.vpcEndpoint = try Ec2.VpcEndpoint(dictionary: vpcEndpoint) }
+        }
     }
 
     public struct AttachNetworkInterfaceResult: AWSShape {
@@ -6152,6 +8224,9 @@ extension Ec2 {
             self.attachmentId = attachmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachmentId = dictionary["AttachmentId"] as? String
+        }
     }
 
     public struct DescribeVpcEndpointsResult: AWSShape {
@@ -6169,6 +8244,12 @@ extension Ec2 {
             self.vpcEndpoints = vpcEndpoints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let vpcEndpoints = dictionary["VpcEndpoints"] as? [[String: Any]] {
+                self.vpcEndpoints = try vpcEndpoints.map({ try VpcEndpoint(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateKeyPairRequest: AWSShape {
@@ -6186,6 +8267,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyName = dictionary["KeyName"] as? String else { throw InitializableError.missingRequiredParam("KeyName") }
+            self.keyName = keyName
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct StaleSecurityGroup: AWSShape {
@@ -6215,6 +8301,19 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let staleIpPermissions = dictionary["StaleIpPermissions"] as? [[String: Any]] {
+                self.staleIpPermissions = try staleIpPermissions.map({ try StaleIpPermission(dictionary: $0) })
+            }
+            if let staleIpPermissionsEgress = dictionary["StaleIpPermissionsEgress"] as? [[String: Any]] {
+                self.staleIpPermissionsEgress = try staleIpPermissionsEgress.map({ try StaleIpPermission(dictionary: $0) })
+            }
+            self.groupName = dictionary["GroupName"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
+            self.groupId = groupId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ConfirmProductInstanceResult: AWSShape {
@@ -6232,6 +8331,10 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct ImportKeyPairRequest: AWSShape {
@@ -6252,6 +8355,13 @@ extension Ec2 {
             self.publicKeyMaterial = publicKeyMaterial
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyName = dictionary["KeyName"] as? String else { throw InitializableError.missingRequiredParam("KeyName") }
+            self.keyName = keyName
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let publicKeyMaterial = dictionary["PublicKeyMaterial"] as? Data else { throw InitializableError.missingRequiredParam("PublicKeyMaterial") }
+            self.publicKeyMaterial = publicKeyMaterial
+        }
     }
 
     public struct RunInstancesMonitoringEnabled: AWSShape {
@@ -6266,6 +8376,10 @@ extension Ec2 {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+        }
     }
 
     public struct GetPasswordDataResult: AWSShape {
@@ -6286,6 +8400,11 @@ extension Ec2 {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.passwordData = dictionary["PasswordData"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct IdFormat: AWSShape {
@@ -6306,6 +8425,11 @@ extension Ec2 {
             self.useLongIds = useLongIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deadline = dictionary["Deadline"] as? Date
+            self.resource = dictionary["Resource"] as? String
+            self.useLongIds = dictionary["UseLongIds"] as? Bool
+        }
     }
 
     public struct DescribeClassicLinkInstancesRequest: AWSShape {
@@ -6332,6 +8456,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct RunScheduledInstancesRequest: AWSShape {
@@ -6358,6 +8493,15 @@ extension Ec2 {
             self.scheduledInstanceId = scheduledInstanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LaunchSpecification") }
+            self.launchSpecification = try Ec2.ScheduledInstancesLaunchSpecification(dictionary: launchSpecification)
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            guard let scheduledInstanceId = dictionary["ScheduledInstanceId"] as? String else { throw InitializableError.missingRequiredParam("ScheduledInstanceId") }
+            self.scheduledInstanceId = scheduledInstanceId
+        }
     }
 
     public struct BlockDeviceMapping: AWSShape {
@@ -6381,6 +8525,12 @@ extension Ec2 {
             self.ebs = ebs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noDevice = dictionary["NoDevice"] as? String
+            self.virtualName = dictionary["VirtualName"] as? String
+            self.deviceName = dictionary["DeviceName"] as? String
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsBlockDevice(dictionary: ebs) }
+        }
     }
 
     public struct ReplaceIamInstanceProfileAssociationRequest: AWSShape {
@@ -6398,6 +8548,12 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IamInstanceProfile") }
+            self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile)
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+        }
     }
 
     public struct ScheduledInstancesIpv6Address: AWSShape {
@@ -6412,6 +8568,9 @@ extension Ec2 {
             self.ipv6Address = ipv6Address
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipv6Address = dictionary["Ipv6Address"] as? String
+        }
     }
 
     public struct DescribeSpotFleetRequestHistoryRequest: AWSShape {
@@ -6441,6 +8600,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.eventType = dictionary["EventType"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ScheduledInstanceAvailability: AWSShape {
@@ -6491,6 +8660,21 @@ extension Ec2 {
             self.recurrence = recurrence
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platform = dictionary["Platform"] as? String
+            self.totalScheduledInstanceHours = dictionary["TotalScheduledInstanceHours"] as? Int32
+            self.minTermDurationInDays = dictionary["MinTermDurationInDays"] as? Int32
+            self.maxTermDurationInDays = dictionary["MaxTermDurationInDays"] as? Int32
+            self.hourlyPrice = dictionary["HourlyPrice"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.slotDurationInHours = dictionary["SlotDurationInHours"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.availableInstanceCount = dictionary["AvailableInstanceCount"] as? Int32
+            self.firstSlotStartTime = dictionary["FirstSlotStartTime"] as? Date
+            self.networkPlatform = dictionary["NetworkPlatform"] as? String
+            self.purchaseToken = dictionary["PurchaseToken"] as? String
+            if let recurrence = dictionary["Recurrence"] as? [String: Any] { self.recurrence = try Ec2.ScheduledInstanceRecurrence(dictionary: recurrence) }
+        }
     }
 
     public struct VolumeDetail: AWSShape {
@@ -6505,6 +8689,10 @@ extension Ec2 {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let size = dictionary["Size"] as? Int64 else { throw InitializableError.missingRequiredParam("Size") }
+            self.size = size
+        }
     }
 
     public struct ReleaseHostsRequest: AWSShape {
@@ -6519,6 +8707,10 @@ extension Ec2 {
             self.hostIds = hostIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostIds = dictionary["HostIds"] as? [String] else { throw InitializableError.missingRequiredParam("HostIds") }
+            self.hostIds = hostIds
+        }
     }
 
     public struct InstanceStatusDetails: AWSShape {
@@ -6539,6 +8731,11 @@ extension Ec2 {
             self.impairedSince = impairedSince
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.status = dictionary["Status"] as? String
+            self.impairedSince = dictionary["ImpairedSince"] as? Date
+        }
     }
 
     public struct StartInstancesRequest: AWSShape {
@@ -6559,6 +8756,12 @@ extension Ec2 {
             self.additionalInfo = additionalInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+        }
     }
 
     public struct SlotStartTimeRangeRequest: AWSShape {
@@ -6576,6 +8779,10 @@ extension Ec2 {
             self.latestTime = latestTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.earliestTime = dictionary["EarliestTime"] as? Date
+            self.latestTime = dictionary["LatestTime"] as? Date
+        }
     }
 
     public struct CreateRouteResult: AWSShape {
@@ -6590,6 +8797,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct DescribeReservedInstancesListingsResult: AWSShape {
@@ -6604,6 +8814,11 @@ extension Ec2 {
             self.reservedInstancesListings = reservedInstancesListings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstancesListings = dictionary["ReservedInstancesListings"] as? [[String: Any]] {
+                self.reservedInstancesListings = try reservedInstancesListings.map({ try ReservedInstancesListing(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetHostReservationPurchasePreviewResult: AWSShape {
@@ -6627,6 +8842,14 @@ extension Ec2 {
             self.totalHourlyPrice = totalHourlyPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let purchase = dictionary["Purchase"] as? [[String: Any]] {
+                self.purchase = try purchase.map({ try Purchase(dictionary: $0) })
+            }
+            self.totalUpfrontPrice = dictionary["TotalUpfrontPrice"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.totalHourlyPrice = dictionary["TotalHourlyPrice"] as? String
+        }
     }
 
     public struct ExportTask: AWSShape {
@@ -6656,6 +8879,14 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceExportDetails = dictionary["InstanceExportDetails"] as? [String: Any] { self.instanceExportDetails = try Ec2.InstanceExportDetails(dictionary: instanceExportDetails) }
+            self.exportTaskId = dictionary["ExportTaskId"] as? String
+            if let exportToS3Task = dictionary["ExportToS3Task"] as? [String: Any] { self.exportToS3Task = try Ec2.ExportToS3Task(dictionary: exportToS3Task) }
+            self.state = dictionary["State"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateSpotDatafeedSubscriptionRequest: AWSShape {
@@ -6676,6 +8907,12 @@ extension Ec2 {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.prefix = dictionary["Prefix"] as? String
+        }
     }
 
     public struct DescribeScheduledInstancesRequest: AWSShape {
@@ -6705,6 +8942,18 @@ extension Ec2 {
             self.scheduledInstanceIds = scheduledInstanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let slotStartTimeRange = dictionary["SlotStartTimeRange"] as? [String: Any] { self.slotStartTimeRange = try Ec2.SlotStartTimeRangeRequest(dictionary: slotStartTimeRange) }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            if let scheduledInstanceIds = dictionary["ScheduledInstanceIds"] as? [String] {
+                self.scheduledInstanceIds = scheduledInstanceIds
+            }
+        }
     }
 
     public struct DeleteSubnetRequest: AWSShape {
@@ -6722,6 +8971,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct EbsInstanceBlockDeviceSpecification: AWSShape {
@@ -6739,6 +8993,10 @@ extension Ec2 {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.volumeId = dictionary["VolumeId"] as? String
+        }
     }
 
     public struct NetworkInterfaceAttachment: AWSShape {
@@ -6771,6 +9029,15 @@ extension Ec2 {
             self.instanceOwnerId = instanceOwnerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceIndex = dictionary["DeviceIndex"] as? Int32
+            self.status = dictionary["Status"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.attachTime = dictionary["AttachTime"] as? Date
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.attachmentId = dictionary["AttachmentId"] as? String
+            self.instanceOwnerId = dictionary["InstanceOwnerId"] as? String
+        }
     }
 
     public struct DescribePrefixListsResult: AWSShape {
@@ -6788,6 +9055,12 @@ extension Ec2 {
             self.prefixLists = prefixLists
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let prefixLists = dictionary["PrefixLists"] as? [[String: Any]] {
+                self.prefixLists = try prefixLists.map({ try PrefixList(dictionary: $0) })
+            }
+        }
     }
 
     public struct ReplaceRouteTableAssociationRequest: AWSShape {
@@ -6808,6 +9081,13 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+        }
     }
 
     public struct InstanceStatusSummary: AWSShape {
@@ -6825,6 +9105,12 @@ extension Ec2 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let details = dictionary["Details"] as? [[String: Any]] {
+                self.details = try details.map({ try InstanceStatusDetails(dictionary: $0) })
+            }
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct UnsuccessfulItemError: AWSShape {
@@ -6842,6 +9128,12 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let code = dictionary["Code"] as? String else { throw InitializableError.missingRequiredParam("Code") }
+            self.code = code
+            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = message
+        }
     }
 
     public struct RestoreAddressToClassicResult: AWSShape {
@@ -6859,6 +9151,10 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+        }
     }
 
     public struct CopyImageResult: AWSShape {
@@ -6873,6 +9169,9 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageId = dictionary["ImageId"] as? String
+        }
     }
 
     public struct DescribeSecurityGroupReferencesResult: AWSShape {
@@ -6887,6 +9186,11 @@ extension Ec2 {
             self.securityGroupReferenceSet = securityGroupReferenceSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let securityGroupReferenceSet = dictionary["SecurityGroupReferenceSet"] as? [[String: Any]] {
+                self.securityGroupReferenceSet = try securityGroupReferenceSet.map({ try SecurityGroupReference(dictionary: $0) })
+            }
+        }
     }
 
     public struct LaunchPermission: AWSShape {
@@ -6904,6 +9208,10 @@ extension Ec2 {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userId = dictionary["UserId"] as? String
+            self.group = dictionary["Group"] as? String
+        }
     }
 
     public struct ImportImageResult: AWSShape {
@@ -6948,6 +9256,21 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.licenseType = dictionary["LicenseType"] as? String
+            self.status = dictionary["Status"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.progress = dictionary["Progress"] as? String
+            self.hypervisor = dictionary["Hypervisor"] as? String
+            self.architecture = dictionary["Architecture"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+            self.importTaskId = dictionary["ImportTaskId"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            if let snapshotDetails = dictionary["SnapshotDetails"] as? [[String: Any]] {
+                self.snapshotDetails = try snapshotDetails.map({ try SnapshotDetail(dictionary: $0) })
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeVpcPeeringConnectionsResult: AWSShape {
@@ -6962,6 +9285,11 @@ extension Ec2 {
             self.vpcPeeringConnections = vpcPeeringConnections
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcPeeringConnections = dictionary["VpcPeeringConnections"] as? [[String: Any]] {
+                self.vpcPeeringConnections = try vpcPeeringConnections.map({ try VpcPeeringConnection(dictionary: $0) })
+            }
+        }
     }
 
     public struct DiskImageDetail: AWSShape {
@@ -6982,6 +9310,14 @@ extension Ec2 {
             self.bytes = bytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            self.format = format
+            guard let importManifestUrl = dictionary["ImportManifestUrl"] as? String else { throw InitializableError.missingRequiredParam("ImportManifestUrl") }
+            self.importManifestUrl = importManifestUrl
+            guard let bytes = dictionary["Bytes"] as? Int64 else { throw InitializableError.missingRequiredParam("Bytes") }
+            self.bytes = bytes
+        }
     }
 
     public struct PrefixList: AWSShape {
@@ -7002,6 +9338,13 @@ extension Ec2 {
             self.prefixListName = prefixListName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.prefixListId = dictionary["PrefixListId"] as? String
+            if let cidrs = dictionary["Cidrs"] as? [String] {
+                self.cidrs = cidrs
+            }
+            self.prefixListName = dictionary["PrefixListName"] as? String
+        }
     }
 
     public struct ModifyIdFormatRequest: AWSShape {
@@ -7019,6 +9362,12 @@ extension Ec2 {
             self.useLongIds = useLongIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
+            self.resource = resource
+            guard let useLongIds = dictionary["UseLongIds"] as? Bool else { throw InitializableError.missingRequiredParam("UseLongIds") }
+            self.useLongIds = useLongIds
+        }
     }
 
     public struct DescribeTagsRequest: AWSShape {
@@ -7042,6 +9391,14 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct BundleTask: AWSShape {
@@ -7077,6 +9434,16 @@ extension Ec2 {
             self.bundleId = bundleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            if let bundleTaskError = dictionary["BundleTaskError"] as? [String: Any] { self.bundleTaskError = try Ec2.BundleTaskError(dictionary: bundleTaskError) }
+            self.progress = dictionary["Progress"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.state = dictionary["State"] as? String
+            self.updateTime = dictionary["UpdateTime"] as? Date
+            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Ec2.Storage(dictionary: storage) }
+            self.bundleId = dictionary["BundleId"] as? String
+        }
     }
 
     public struct DetachNetworkInterfaceRequest: AWSShape {
@@ -7097,6 +9464,12 @@ extension Ec2 {
             self.force = force
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let attachmentId = dictionary["AttachmentId"] as? String else { throw InitializableError.missingRequiredParam("AttachmentId") }
+            self.attachmentId = attachmentId
+            self.force = dictionary["Force"] as? Bool
+        }
     }
 
     public struct DescribeRegionsResult: AWSShape {
@@ -7111,6 +9484,11 @@ extension Ec2 {
             self.regions = regions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let regions = dictionary["Regions"] as? [[String: Any]] {
+                self.regions = try regions.map({ try Region(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetConsoleOutputRequest: AWSShape {
@@ -7128,6 +9506,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct CreateVpnConnectionRequest: AWSShape {
@@ -7154,6 +9537,16 @@ extension Ec2 {
             self.vpnGatewayId = vpnGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let options = dictionary["Options"] as? [String: Any] { self.options = try Ec2.VpnConnectionOptionsSpecification(dictionary: options) }
+            guard let customerGatewayId = dictionary["CustomerGatewayId"] as? String else { throw InitializableError.missingRequiredParam("CustomerGatewayId") }
+            self.customerGatewayId = customerGatewayId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let vpnGatewayId = dictionary["VpnGatewayId"] as? String else { throw InitializableError.missingRequiredParam("VpnGatewayId") }
+            self.vpnGatewayId = vpnGatewayId
+        }
     }
 
     public struct DescribeSpotPriceHistoryResult: AWSShape {
@@ -7171,6 +9564,12 @@ extension Ec2 {
             self.spotPriceHistory = spotPriceHistory
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let spotPriceHistory = dictionary["SpotPriceHistory"] as? [[String: Any]] {
+                self.spotPriceHistory = try spotPriceHistory.map({ try SpotPrice(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateSecurityGroupResult: AWSShape {
@@ -7185,6 +9584,9 @@ extension Ec2 {
             self.groupId = groupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.groupId = dictionary["GroupId"] as? String
+        }
     }
 
     public struct CreateNatGatewayResult: AWSShape {
@@ -7202,6 +9604,10 @@ extension Ec2 {
             self.natGateway = natGateway
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let natGateway = dictionary["NatGateway"] as? [String: Any] { self.natGateway = try Ec2.NatGateway(dictionary: natGateway) }
+        }
     }
 
     public struct SpotPlacement: AWSShape {
@@ -7222,6 +9628,11 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.tenancy = dictionary["Tenancy"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct Instance: AWSShape {
@@ -7347,6 +9758,56 @@ extension Ec2 {
             self.virtualizationType = virtualizationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.rootDeviceName = dictionary["RootDeviceName"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.sourceDestCheck = dictionary["SourceDestCheck"] as? Bool
+            self.kernelId = dictionary["KernelId"] as? String
+            self.privateDnsName = dictionary["PrivateDnsName"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
+                self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            }
+            self.keyName = dictionary["KeyName"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfile(dictionary: iamInstanceProfile) }
+            self.publicDnsName = dictionary["PublicDnsName"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.rootDeviceType = dictionary["RootDeviceType"] as? String
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+            self.instanceLifecycle = dictionary["InstanceLifecycle"] as? String
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try InstanceBlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.sriovNetSupport = dictionary["SriovNetSupport"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.spotInstanceRequestId = dictionary["SpotInstanceRequestId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.launchTime = dictionary["LaunchTime"] as? Date
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Ec2.InstanceState(dictionary: state) }
+            self.publicIpAddress = dictionary["PublicIpAddress"] as? String
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) }
+            self.stateTransitionReason = dictionary["StateTransitionReason"] as? String
+            if let stateReason = dictionary["StateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) }
+            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
+                self.securityGroups = try securityGroups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            self.hypervisor = dictionary["Hypervisor"] as? String
+            self.architecture = dictionary["Architecture"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+            self.enaSupport = dictionary["EnaSupport"] as? Bool
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterface(dictionary: $0) })
+            }
+            self.amiLaunchIndex = dictionary["AmiLaunchIndex"] as? Int32
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) }
+            self.virtualizationType = dictionary["VirtualizationType"] as? String
+        }
     }
 
     public struct AttachVolumeRequest: AWSShape {
@@ -7370,6 +9831,15 @@ extension Ec2 {
             self.volumeId = volumeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let device = dictionary["Device"] as? String else { throw InitializableError.missingRequiredParam("Device") }
+            self.device = device
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+        }
     }
 
     public struct DisableVpcClassicLinkResult: AWSShape {
@@ -7384,6 +9854,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct AcceptVpcPeeringConnectionRequest: AWSShape {
@@ -7401,6 +9874,10 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+        }
     }
 
     public struct DescribeFlowLogsRequest: AWSShape {
@@ -7424,6 +9901,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filter = dictionary["Filter"] as? [[String: Any]] {
+                self.filter = try filter.map({ try Filter(dictionary: $0) })
+            }
+            if let flowLogIds = dictionary["FlowLogIds"] as? [String] {
+                self.flowLogIds = flowLogIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct HostInstance: AWSShape {
@@ -7441,6 +9928,10 @@ extension Ec2 {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct DescribeSpotDatafeedSubscriptionResult: AWSShape {
@@ -7455,6 +9946,9 @@ extension Ec2 {
             self.spotDatafeedSubscription = spotDatafeedSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let spotDatafeedSubscription = dictionary["SpotDatafeedSubscription"] as? [String: Any] { self.spotDatafeedSubscription = try Ec2.SpotDatafeedSubscription(dictionary: spotDatafeedSubscription) }
+        }
     }
 
     public struct SpotFleetMonitoring: AWSShape {
@@ -7469,6 +9963,9 @@ extension Ec2 {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct Storage: AWSShape {
@@ -7483,6 +9980,9 @@ extension Ec2 {
             self.s3 = s3
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3 = dictionary["S3"] as? [String: Any] { self.s3 = try Ec2.S3Storage(dictionary: s3) }
+        }
     }
 
     public struct ImportInstanceLaunchSpecification: AWSShape {
@@ -7527,6 +10027,23 @@ extension Ec2 {
             self.groupNames = groupNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.subnetId = dictionary["SubnetId"] as? String
+            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.UserData(dictionary: userData) }
+            if let groupIds = dictionary["GroupIds"] as? [String] {
+                self.groupIds = groupIds
+            }
+            self.architecture = dictionary["Architecture"] as? String
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+            self.instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? String
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) }
+            self.monitoring = dictionary["Monitoring"] as? Bool
+            self.instanceType = dictionary["InstanceType"] as? String
+            if let groupNames = dictionary["GroupNames"] as? [String] {
+                self.groupNames = groupNames
+            }
+        }
     }
 
     public struct SpotInstanceStatus: AWSShape {
@@ -7547,6 +10064,11 @@ extension Ec2 {
             self.updateTime = updateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+            self.code = dictionary["Code"] as? String
+            self.updateTime = dictionary["UpdateTime"] as? Date
+        }
     }
 
     public struct InstanceIpv6Address: AWSShape {
@@ -7561,6 +10083,9 @@ extension Ec2 {
             self.ipv6Address = ipv6Address
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipv6Address = dictionary["Ipv6Address"] as? String
+        }
     }
 
     public struct StaleIpPermission: AWSShape {
@@ -7590,6 +10115,20 @@ extension Ec2 {
             self.ipProtocol = ipProtocol
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let prefixListIds = dictionary["PrefixListIds"] as? [String] {
+                self.prefixListIds = prefixListIds
+            }
+            if let userIdGroupPairs = dictionary["UserIdGroupPairs"] as? [[String: Any]] {
+                self.userIdGroupPairs = try userIdGroupPairs.map({ try UserIdGroupPair(dictionary: $0) })
+            }
+            if let ipRanges = dictionary["IpRanges"] as? [String] {
+                self.ipRanges = ipRanges
+            }
+            self.fromPort = dictionary["FromPort"] as? Int32
+            self.toPort = dictionary["ToPort"] as? Int32
+            self.ipProtocol = dictionary["IpProtocol"] as? String
+        }
     }
 
     public struct IamInstanceProfile: AWSShape {
@@ -7607,6 +10146,10 @@ extension Ec2 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeSecurityGroupsResult: AWSShape {
@@ -7621,6 +10164,11 @@ extension Ec2 {
             self.securityGroups = securityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
+                self.securityGroups = try securityGroups.map({ try SecurityGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct Purchase: AWSShape {
@@ -7656,6 +10204,18 @@ extension Ec2 {
             self.instanceFamily = instanceFamily
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.upfrontPrice = dictionary["UpfrontPrice"] as? String
+            if let hostIdSet = dictionary["HostIdSet"] as? [String] {
+                self.hostIdSet = hostIdSet
+            }
+            self.paymentOption = dictionary["PaymentOption"] as? String
+            self.hourlyPrice = dictionary["HourlyPrice"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.hostReservationId = dictionary["HostReservationId"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.instanceFamily = dictionary["InstanceFamily"] as? String
+        }
     }
 
     public struct RequestSpotFleetRequest: AWSShape {
@@ -7673,6 +10233,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let spotFleetRequestConfig = dictionary["SpotFleetRequestConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SpotFleetRequestConfig") }
+            self.spotFleetRequestConfig = try Ec2.SpotFleetRequestConfigData(dictionary: spotFleetRequestConfig)
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ReservedInstancesOffering: AWSShape {
@@ -7729,6 +10294,27 @@ extension Ec2 {
             self.fixedPrice = fixedPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.usagePrice = dictionary["UsagePrice"] as? Float
+            self.instanceTenancy = dictionary["InstanceTenancy"] as? String
+            if let pricingDetails = dictionary["PricingDetails"] as? [[String: Any]] {
+                self.pricingDetails = try pricingDetails.map({ try PricingDetail(dictionary: $0) })
+            }
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+            self.marketplace = dictionary["Marketplace"] as? Bool
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.offeringClass = dictionary["OfferingClass"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.reservedInstancesOfferingId = dictionary["ReservedInstancesOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? Int64
+            self.scope = dictionary["Scope"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Float
+        }
     }
 
     public struct InstanceCount: AWSShape {
@@ -7746,6 +10332,10 @@ extension Ec2 {
             self.instanceCount = instanceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+        }
     }
 
     public struct DescribeNetworkInterfacesRequest: AWSShape {
@@ -7766,6 +10356,15 @@ extension Ec2 {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let networkInterfaceIds = dictionary["NetworkInterfaceIds"] as? [String] {
+                self.networkInterfaceIds = networkInterfaceIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateNetworkAclResult: AWSShape {
@@ -7780,6 +10379,9 @@ extension Ec2 {
             self.networkAcl = networkAcl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkAcl = dictionary["NetworkAcl"] as? [String: Any] { self.networkAcl = try Ec2.NetworkAcl(dictionary: networkAcl) }
+        }
     }
 
     public struct InstanceBlockDeviceMapping: AWSShape {
@@ -7797,6 +10399,10 @@ extension Ec2 {
             self.deviceName = deviceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsInstanceBlockDevice(dictionary: ebs) }
+            self.deviceName = dictionary["DeviceName"] as? String
+        }
     }
 
     public struct VolumeStatusAction: AWSShape {
@@ -7820,6 +10426,12 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.eventType = dictionary["EventType"] as? String
+            self.eventId = dictionary["EventId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateReservedInstancesListingRequest: AWSShape {
@@ -7843,6 +10455,16 @@ extension Ec2 {
             self.clientToken = clientToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let priceSchedules = dictionary["PriceSchedules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PriceSchedules") }
+            self.priceSchedules = try priceSchedules.map({ try PriceScheduleSpecification(dictionary: $0) })
+            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
+            self.instanceCount = instanceCount
+            guard let reservedInstancesId = dictionary["ReservedInstancesId"] as? String else { throw InitializableError.missingRequiredParam("ReservedInstancesId") }
+            self.reservedInstancesId = reservedInstancesId
+            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
+            self.clientToken = clientToken
+        }
     }
 
     public struct DescribeRouteTablesResult: AWSShape {
@@ -7857,6 +10479,11 @@ extension Ec2 {
             self.routeTables = routeTables
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let routeTables = dictionary["RouteTables"] as? [[String: Any]] {
+                self.routeTables = try routeTables.map({ try RouteTable(dictionary: $0) })
+            }
+        }
     }
 
     public struct AssociateIamInstanceProfileResult: AWSShape {
@@ -7871,6 +10498,9 @@ extension Ec2 {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) }
+        }
     }
 
     public struct DhcpOptions: AWSShape {
@@ -7891,6 +10521,15 @@ extension Ec2 {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dhcpOptionsId = dictionary["DhcpOptionsId"] as? String
+            if let dhcpConfigurations = dictionary["DhcpConfigurations"] as? [[String: Any]] {
+                self.dhcpConfigurations = try dhcpConfigurations.map({ try DhcpConfiguration(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeClassicLinkInstancesResult: AWSShape {
@@ -7908,6 +10547,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try ClassicLinkInstance(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CopyImageRequest: AWSShape {
@@ -7943,6 +10588,19 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let sourceRegion = dictionary["SourceRegion"] as? String else { throw InitializableError.missingRequiredParam("SourceRegion") }
+            self.sourceRegion = sourceRegion
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            guard let sourceImageId = dictionary["SourceImageId"] as? String else { throw InitializableError.missingRequiredParam("SourceImageId") }
+            self.sourceImageId = sourceImageId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeNetworkAclsRequest: AWSShape {
@@ -7963,6 +10621,15 @@ extension Ec2 {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let networkAclIds = dictionary["NetworkAclIds"] as? [String] {
+                self.networkAclIds = networkAclIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct TerminateInstancesResult: AWSShape {
@@ -7977,6 +10644,11 @@ extension Ec2 {
             self.terminatingInstances = terminatingInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let terminatingInstances = dictionary["TerminatingInstances"] as? [[String: Any]] {
+                self.terminatingInstances = try terminatingInstances.map({ try InstanceStateChange(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateVolumeRequest: AWSShape {
@@ -8012,6 +10684,17 @@ extension Ec2 {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            self.size = dictionary["Size"] as? Int32
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.iops = dictionary["Iops"] as? Int32
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct DescribeImportSnapshotTasksRequest: AWSShape {
@@ -8038,6 +10721,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let importTaskIds = dictionary["ImportTaskIds"] as? [String] {
+                self.importTaskIds = importTaskIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DisassociateSubnetCidrBlockResult: AWSShape {
@@ -8055,6 +10749,10 @@ extension Ec2 {
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.SubnetIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+        }
     }
 
     public struct AllocateAddressResult: AWSShape {
@@ -8075,6 +10773,11 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allocationId = dictionary["AllocationId"] as? String
+            self.domain = dictionary["Domain"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+        }
     }
 
     public struct VolumeModification: AWSShape {
@@ -8122,6 +10825,20 @@ extension Ec2 {
             self.statusMessage = statusMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.originalIops = dictionary["OriginalIops"] as? Int32
+            self.modificationState = dictionary["ModificationState"] as? String
+            self.originalSize = dictionary["OriginalSize"] as? Int32
+            self.progress = dictionary["Progress"] as? Int64
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.targetVolumeType = dictionary["TargetVolumeType"] as? String
+            self.targetIops = dictionary["TargetIops"] as? Int32
+            self.originalVolumeType = dictionary["OriginalVolumeType"] as? String
+            self.targetSize = dictionary["TargetSize"] as? Int32
+            self.statusMessage = dictionary["StatusMessage"] as? String
+        }
     }
 
     public struct UserBucket: AWSShape {
@@ -8139,6 +10856,10 @@ extension Ec2 {
             self.s3Key = s3Key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+            self.s3Key = dictionary["S3Key"] as? String
+        }
     }
 
     public struct AssociateDhcpOptionsRequest: AWSShape {
@@ -8159,6 +10880,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let dhcpOptionsId = dictionary["DhcpOptionsId"] as? String else { throw InitializableError.missingRequiredParam("DhcpOptionsId") }
+            self.dhcpOptionsId = dhcpOptionsId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct CreateSnapshotRequest: AWSShape {
@@ -8179,6 +10907,12 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeIdFormatRequest: AWSShape {
@@ -8193,6 +10927,9 @@ extension Ec2 {
             self.resource = resource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resource = dictionary["Resource"] as? String
+        }
     }
 
     public struct DescribeHostReservationsRequest: AWSShape {
@@ -8216,6 +10953,16 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hostReservationIdSet = dictionary["HostReservationIdSet"] as? [String] {
+                self.hostReservationIdSet = hostReservationIdSet
+            }
+            if let filter = dictionary["Filter"] as? [[String: Any]] {
+                self.filter = try filter.map({ try Filter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetHostReservationPurchasePreviewRequest: AWSShape {
@@ -8233,6 +10980,12 @@ extension Ec2 {
             self.offeringId = offeringId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostIdSet = dictionary["HostIdSet"] as? [String] else { throw InitializableError.missingRequiredParam("HostIdSet") }
+            self.hostIdSet = hostIdSet
+            guard let offeringId = dictionary["OfferingId"] as? String else { throw InitializableError.missingRequiredParam("OfferingId") }
+            self.offeringId = offeringId
+        }
     }
 
     public struct ActiveInstance: AWSShape {
@@ -8256,6 +11009,12 @@ extension Ec2 {
             self.spotInstanceRequestId = spotInstanceRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.instanceHealth = dictionary["InstanceHealth"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.spotInstanceRequestId = dictionary["SpotInstanceRequestId"] as? String
+        }
     }
 
     public struct DescribeMovingAddressesResult: AWSShape {
@@ -8273,6 +11032,12 @@ extension Ec2 {
             self.movingAddressStatuses = movingAddressStatuses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let movingAddressStatuses = dictionary["MovingAddressStatuses"] as? [[String: Any]] {
+                self.movingAddressStatuses = try movingAddressStatuses.map({ try MovingAddressStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct ExportToS3Task: AWSShape {
@@ -8296,6 +11061,12 @@ extension Ec2 {
             self.diskImageFormat = diskImageFormat
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Key = dictionary["S3Key"] as? String
+            self.containerFormat = dictionary["ContainerFormat"] as? String
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+            self.diskImageFormat = dictionary["DiskImageFormat"] as? String
+        }
     }
 
     public struct VpcAttachment: AWSShape {
@@ -8313,6 +11084,10 @@ extension Ec2 {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct Ipv6Range: AWSShape {
@@ -8327,6 +11102,9 @@ extension Ec2 {
             self.cidrIpv6 = cidrIpv6
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidrIpv6 = dictionary["CidrIpv6"] as? String
+        }
     }
 
     public struct DisableVpcClassicLinkDnsSupportResult: AWSShape {
@@ -8341,6 +11119,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct CreateTagsRequest: AWSShape {
@@ -8361,6 +11142,13 @@ extension Ec2 {
             self.resources = resources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let resources = dictionary["Resources"] as? [String] else { throw InitializableError.missingRequiredParam("Resources") }
+            self.resources = resources
+        }
     }
 
     public struct DescribeSnapshotsRequest: AWSShape {
@@ -8393,6 +11181,23 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let restorableByUserIds = dictionary["RestorableByUserIds"] as? [String] {
+                self.restorableByUserIds = restorableByUserIds
+            }
+            if let snapshotIds = dictionary["SnapshotIds"] as? [String] {
+                self.snapshotIds = snapshotIds
+            }
+            if let ownerIds = dictionary["OwnerIds"] as? [String] {
+                self.ownerIds = ownerIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CancelReservedInstancesListingRequest: AWSShape {
@@ -8407,6 +11212,10 @@ extension Ec2 {
             self.reservedInstancesListingId = reservedInstancesListingId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reservedInstancesListingId = dictionary["ReservedInstancesListingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedInstancesListingId") }
+            self.reservedInstancesListingId = reservedInstancesListingId
+        }
     }
 
     public struct ScheduledInstancesMonitoring: AWSShape {
@@ -8421,6 +11230,9 @@ extension Ec2 {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct CreateNetworkInterfaceRequest: AWSShape {
@@ -8459,6 +11271,24 @@ extension Ec2 {
             self.privateIpAddresses = privateIpAddresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
+            self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
+                self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let groups = dictionary["Groups"] as? [String] {
+                self.groups = groups
+            }
+            if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
+                self.privateIpAddresses = try privateIpAddresses.map({ try PrivateIpAddressSpecification(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyReservedInstancesRequest: AWSShape {
@@ -8479,6 +11309,13 @@ extension Ec2 {
             self.clientToken = clientToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reservedInstancesIds = dictionary["ReservedInstancesIds"] as? [String] else { throw InitializableError.missingRequiredParam("ReservedInstancesIds") }
+            self.reservedInstancesIds = reservedInstancesIds
+            guard let targetConfigurations = dictionary["TargetConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TargetConfigurations") }
+            self.targetConfigurations = try targetConfigurations.map({ try ReservedInstancesConfiguration(dictionary: $0) })
+            self.clientToken = dictionary["ClientToken"] as? String
+        }
     }
 
     public struct CancelSpotFleetRequestsErrorItem: AWSShape {
@@ -8496,6 +11333,12 @@ extension Ec2 {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+            guard let error = dictionary["Error"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Error") }
+            self.error = try Ec2.CancelSpotFleetRequestsError(dictionary: error)
+        }
     }
 
     public struct CreateInstanceExportTaskResult: AWSShape {
@@ -8510,6 +11353,9 @@ extension Ec2 {
             self.exportTask = exportTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let exportTask = dictionary["ExportTask"] as? [String: Any] { self.exportTask = try Ec2.ExportTask(dictionary: exportTask) }
+        }
     }
 
     public struct DescribeVolumesRequest: AWSShape {
@@ -8536,6 +11382,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumeIds = dictionary["VolumeIds"] as? [String] {
+                self.volumeIds = volumeIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteVpnGatewayRequest: AWSShape {
@@ -8553,6 +11410,11 @@ extension Ec2 {
             self.vpnGatewayId = vpnGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpnGatewayId = dictionary["VpnGatewayId"] as? String else { throw InitializableError.missingRequiredParam("VpnGatewayId") }
+            self.vpnGatewayId = vpnGatewayId
+        }
     }
 
     public struct DescribeReservedInstancesResult: AWSShape {
@@ -8567,6 +11429,11 @@ extension Ec2 {
             self.reservedInstances = reservedInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstances = dictionary["ReservedInstances"] as? [[String: Any]] {
+                self.reservedInstances = try reservedInstances.map({ try ReservedInstances(dictionary: $0) })
+            }
+        }
     }
 
     public struct EnableVpcClassicLinkDnsSupportRequest: AWSShape {
@@ -8581,6 +11448,9 @@ extension Ec2 {
             self.vpcId = vpcId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+        }
     }
 
     public struct DescribeNetworkInterfaceAttributeRequest: AWSShape {
@@ -8601,6 +11471,12 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            self.attribute = dictionary["Attribute"] as? String
+        }
     }
 
     public struct SlotDateTimeRangeRequest: AWSShape {
@@ -8618,6 +11494,12 @@ extension Ec2 {
             self.latestTime = latestTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let earliestTime = dictionary["EarliestTime"] as? Date else { throw InitializableError.missingRequiredParam("EarliestTime") }
+            self.earliestTime = earliestTime
+            guard let latestTime = dictionary["LatestTime"] as? Date else { throw InitializableError.missingRequiredParam("LatestTime") }
+            self.latestTime = latestTime
+        }
     }
 
     public struct DeleteVpcRequest: AWSShape {
@@ -8635,6 +11517,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct InstanceBlockDeviceMappingSpecification: AWSShape {
@@ -8658,6 +11545,12 @@ extension Ec2 {
             self.ebs = ebs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noDevice = dictionary["NoDevice"] as? String
+            self.virtualName = dictionary["VirtualName"] as? String
+            self.deviceName = dictionary["DeviceName"] as? String
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsInstanceBlockDeviceSpecification(dictionary: ebs) }
+        }
     }
 
     public struct InstanceMonitoring: AWSShape {
@@ -8675,6 +11568,10 @@ extension Ec2 {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) }
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct DescribeVpcEndpointsRequest: AWSShape {
@@ -8701,6 +11598,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcEndpointIds = dictionary["VpcEndpointIds"] as? [String] {
+                self.vpcEndpointIds = vpcEndpointIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeFlowLogsResult: AWSShape {
@@ -8718,6 +11626,12 @@ extension Ec2 {
             self.flowLogs = flowLogs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let flowLogs = dictionary["FlowLogs"] as? [[String: Any]] {
+                self.flowLogs = try flowLogs.map({ try FlowLog(dictionary: $0) })
+            }
+        }
     }
 
     public struct EnableVpcClassicLinkResult: AWSShape {
@@ -8732,6 +11646,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct CreateVpnConnectionResult: AWSShape {
@@ -8746,6 +11663,9 @@ extension Ec2 {
             self.vpnConnection = vpnConnection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpnConnection = dictionary["VpnConnection"] as? [String: Any] { self.vpnConnection = try Ec2.VpnConnection(dictionary: vpnConnection) }
+        }
     }
 
     public struct PropagatingVgw: AWSShape {
@@ -8760,6 +11680,9 @@ extension Ec2 {
             self.gatewayId = gatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayId = dictionary["GatewayId"] as? String
+        }
     }
 
     public struct StartInstancesResult: AWSShape {
@@ -8774,6 +11697,11 @@ extension Ec2 {
             self.startingInstances = startingInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let startingInstances = dictionary["StartingInstances"] as? [[String: Any]] {
+                self.startingInstances = try startingInstances.map({ try InstanceStateChange(dictionary: $0) })
+            }
+        }
     }
 
     public struct RevokeSecurityGroupEgressRequest: AWSShape {
@@ -8812,6 +11740,20 @@ extension Ec2 {
             self.groupId = groupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceSecurityGroupOwnerId = dictionary["SourceSecurityGroupOwnerId"] as? String
+            if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
+                self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+            self.cidrIp = dictionary["CidrIp"] as? String
+            self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.fromPort = dictionary["FromPort"] as? Int32
+            self.ipProtocol = dictionary["IpProtocol"] as? String
+            self.toPort = dictionary["ToPort"] as? Int32
+            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
+            self.groupId = groupId
+        }
     }
 
     public struct DescribeImportImageTasksResult: AWSShape {
@@ -8829,6 +11771,12 @@ extension Ec2 {
             self.importImageTasks = importImageTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let importImageTasks = dictionary["ImportImageTasks"] as? [[String: Any]] {
+                self.importImageTasks = try importImageTasks.map({ try ImportImageTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceStateChange: AWSShape {
@@ -8849,6 +11797,11 @@ extension Ec2 {
             self.currentState = currentState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let previousState = dictionary["PreviousState"] as? [String: Any] { self.previousState = try Ec2.InstanceState(dictionary: previousState) }
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let currentState = dictionary["CurrentState"] as? [String: Any] { self.currentState = try Ec2.InstanceState(dictionary: currentState) }
+        }
     }
 
     public struct GroupIdentifier: AWSShape {
@@ -8866,6 +11819,10 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.groupId = dictionary["GroupId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct CreateSubnetRequest: AWSShape {
@@ -8892,6 +11849,15 @@ extension Ec2 {
             self.cidrBlock = cidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+            guard let cidrBlock = dictionary["CidrBlock"] as? String else { throw InitializableError.missingRequiredParam("CidrBlock") }
+            self.cidrBlock = cidrBlock
+        }
     }
 
     public struct ReservedInstancesId: AWSShape {
@@ -8906,6 +11872,9 @@ extension Ec2 {
             self.reservedInstancesId = reservedInstancesId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
+        }
     }
 
     public struct ResetNetworkInterfaceAttributeRequest: AWSShape {
@@ -8926,6 +11895,12 @@ extension Ec2 {
             self.sourceDestCheck = sourceDestCheck
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            self.sourceDestCheck = dictionary["SourceDestCheck"] as? String
+        }
     }
 
     public struct DescribeInternetGatewaysRequest: AWSShape {
@@ -8946,6 +11921,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let internetGatewayIds = dictionary["InternetGatewayIds"] as? [String] {
+                self.internetGatewayIds = internetGatewayIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeIdentityIdFormatRequest: AWSShape {
@@ -8963,6 +11947,11 @@ extension Ec2 {
             self.resource = resource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let principalArn = dictionary["PrincipalArn"] as? String else { throw InitializableError.missingRequiredParam("PrincipalArn") }
+            self.principalArn = principalArn
+            self.resource = dictionary["Resource"] as? String
+        }
     }
 
     public struct Image: AWSShape {
@@ -9046,6 +12035,38 @@ extension Ec2 {
             self.virtualizationType = virtualizationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.platform = dictionary["Platform"] as? String
+            self.rootDeviceName = dictionary["RootDeviceName"] as? String
+            self.sriovNetSupport = dictionary["SriovNetSupport"] as? String
+            self.imageOwnerAlias = dictionary["ImageOwnerAlias"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.state = dictionary["State"] as? String
+            self.kernelId = dictionary["KernelId"] as? String
+            self.imageLocation = dictionary["ImageLocation"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
+            if let stateReason = dictionary["StateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) }
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.`public` = dictionary["Public"] as? Bool
+            self.description = dictionary["Description"] as? String
+            if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
+                self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            }
+            self.hypervisor = dictionary["Hypervisor"] as? String
+            self.enaSupport = dictionary["EnaSupport"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.rootDeviceType = dictionary["RootDeviceType"] as? String
+            self.architecture = dictionary["Architecture"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+            self.imageType = dictionary["ImageType"] as? String
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+            self.virtualizationType = dictionary["VirtualizationType"] as? String
+        }
     }
 
     public struct VpnConnectionOptions: AWSShape {
@@ -9060,6 +12081,9 @@ extension Ec2 {
             self.staticRoutesOnly = staticRoutesOnly
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.staticRoutesOnly = dictionary["StaticRoutesOnly"] as? Bool
+        }
     }
 
     public struct DescribeImportImageTasksRequest: AWSShape {
@@ -9086,6 +12110,17 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let importTaskIds = dictionary["ImportTaskIds"] as? [String] {
+                self.importTaskIds = importTaskIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct NatGateway: AWSShape {
@@ -9127,6 +12162,20 @@ extension Ec2 {
             self.natGatewayAddresses = natGatewayAddresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.natGatewayId = dictionary["NatGatewayId"] as? String
+            self.deleteTime = dictionary["DeleteTime"] as? Date
+            self.vpcId = dictionary["VpcId"] as? String
+            self.state = dictionary["State"] as? String
+            self.failureCode = dictionary["FailureCode"] as? String
+            self.createTime = dictionary["CreateTime"] as? Date
+            self.failureMessage = dictionary["FailureMessage"] as? String
+            if let provisionedBandwidth = dictionary["ProvisionedBandwidth"] as? [String: Any] { self.provisionedBandwidth = try Ec2.ProvisionedBandwidth(dictionary: provisionedBandwidth) }
+            if let natGatewayAddresses = dictionary["NatGatewayAddresses"] as? [[String: Any]] {
+                self.natGatewayAddresses = try natGatewayAddresses.map({ try NatGatewayAddress(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceCapacity: AWSShape {
@@ -9147,6 +12196,11 @@ extension Ec2 {
             self.availableCapacity = availableCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.totalCapacity = dictionary["TotalCapacity"] as? Int32
+            self.availableCapacity = dictionary["AvailableCapacity"] as? Int32
+        }
     }
 
     public struct UnassignIpv6AddressesResult: AWSShape {
@@ -9164,6 +12218,12 @@ extension Ec2 {
             self.unassignedIpv6Addresses = unassignedIpv6Addresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            if let unassignedIpv6Addresses = dictionary["UnassignedIpv6Addresses"] as? [String] {
+                self.unassignedIpv6Addresses = unassignedIpv6Addresses
+            }
+        }
     }
 
     public struct ClassicLinkDnsSupport: AWSShape {
@@ -9181,6 +12241,10 @@ extension Ec2 {
             self.classicLinkDnsSupported = classicLinkDnsSupported
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            self.classicLinkDnsSupported = dictionary["ClassicLinkDnsSupported"] as? Bool
+        }
     }
 
     public struct CancelImportTaskResult: AWSShape {
@@ -9201,6 +12265,11 @@ extension Ec2 {
             self.importTaskId = importTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.previousState = dictionary["PreviousState"] as? String
+            self.state = dictionary["State"] as? String
+            self.importTaskId = dictionary["ImportTaskId"] as? String
+        }
     }
 
     public struct PriceScheduleSpecification: AWSShape {
@@ -9221,6 +12290,11 @@ extension Ec2 {
             self.term = term
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.price = dictionary["Price"] as? Double
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.term = dictionary["Term"] as? Int64
+        }
     }
 
     public struct DescribeIdentityIdFormatResult: AWSShape {
@@ -9235,6 +12309,11 @@ extension Ec2 {
             self.statuses = statuses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let statuses = dictionary["Statuses"] as? [[String: Any]] {
+                self.statuses = try statuses.map({ try IdFormat(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateVpnConnectionRouteRequest: AWSShape {
@@ -9252,6 +12331,12 @@ extension Ec2 {
             self.destinationCidrBlock = destinationCidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpnConnectionId = dictionary["VpnConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpnConnectionId") }
+            self.vpnConnectionId = vpnConnectionId
+            guard let destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String else { throw InitializableError.missingRequiredParam("DestinationCidrBlock") }
+            self.destinationCidrBlock = destinationCidrBlock
+        }
     }
 
     public struct ImportVolumeResult: AWSShape {
@@ -9266,6 +12351,9 @@ extension Ec2 {
             self.conversionTask = conversionTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let conversionTask = dictionary["ConversionTask"] as? [String: Any] { self.conversionTask = try Ec2.ConversionTask(dictionary: conversionTask) }
+        }
     }
 
     public struct VpnConnection: AWSShape {
@@ -9307,6 +12395,24 @@ extension Ec2 {
             self.vpnGatewayId = vpnGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let options = dictionary["Options"] as? [String: Any] { self.options = try Ec2.VpnConnectionOptions(dictionary: options) }
+            self.customerGatewayId = dictionary["CustomerGatewayId"] as? String
+            if let routes = dictionary["Routes"] as? [[String: Any]] {
+                self.routes = try routes.map({ try VpnStaticRoute(dictionary: $0) })
+            }
+            self.vpnConnectionId = dictionary["VpnConnectionId"] as? String
+            self.state = dictionary["State"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let vgwTelemetry = dictionary["VgwTelemetry"] as? [[String: Any]] {
+                self.vgwTelemetry = try vgwTelemetry.map({ try VgwTelemetry(dictionary: $0) })
+            }
+            self.customerGatewayConfiguration = dictionary["CustomerGatewayConfiguration"] as? String
+            self.type = dictionary["Type"] as? String
+            self.vpnGatewayId = dictionary["VpnGatewayId"] as? String
+        }
     }
 
     public struct Address: AWSShape {
@@ -9342,6 +12448,16 @@ extension Ec2 {
             self.privateIpAddress = privateIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.networkInterfaceOwnerId = dictionary["NetworkInterfaceOwnerId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.allocationId = dictionary["AllocationId"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.domain = dictionary["Domain"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+        }
     }
 
     public struct DescribeVpnGatewaysRequest: AWSShape {
@@ -9362,6 +12478,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpnGatewayIds = dictionary["VpnGatewayIds"] as? [String] {
+                self.vpnGatewayIds = vpnGatewayIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct TerminateInstancesRequest: AWSShape {
@@ -9379,6 +12504,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct PurchaseReservedInstancesOfferingResult: AWSShape {
@@ -9393,6 +12523,9 @@ extension Ec2 {
             self.reservedInstancesId = reservedInstancesId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
+        }
     }
 
     public struct CreateNetworkAclRequest: AWSShape {
@@ -9410,6 +12543,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeVpnConnectionsResult: AWSShape {
@@ -9424,6 +12562,11 @@ extension Ec2 {
             self.vpnConnections = vpnConnections
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpnConnections = dictionary["VpnConnections"] as? [[String: Any]] {
+                self.vpnConnections = try vpnConnections.map({ try VpnConnection(dictionary: $0) })
+            }
+        }
     }
 
     public struct ImportInstanceTaskDetails: AWSShape {
@@ -9447,6 +12590,13 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platform = dictionary["Platform"] as? String
+            guard let volumes = dictionary["Volumes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Volumes") }
+            self.volumes = try volumes.map({ try ImportInstanceVolumeDetailItem(dictionary: $0) })
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct BundleTaskError: AWSShape {
@@ -9464,6 +12614,10 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct AccountAttribute: AWSShape {
@@ -9481,6 +12635,12 @@ extension Ec2 {
             self.attributeValues = attributeValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? String
+            if let attributeValues = dictionary["AttributeValues"] as? [[String: Any]] {
+                self.attributeValues = try attributeValues.map({ try AccountAttributeValue(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyReservedInstancesResult: AWSShape {
@@ -9495,6 +12655,9 @@ extension Ec2 {
             self.reservedInstancesModificationId = reservedInstancesModificationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedInstancesModificationId = dictionary["ReservedInstancesModificationId"] as? String
+        }
     }
 
     public struct CreateCustomerGatewayRequest: AWSShape {
@@ -9518,6 +12681,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bgpAsn = dictionary["BgpAsn"] as? Int32 else { throw InitializableError.missingRequiredParam("BgpAsn") }
+            self.bgpAsn = bgpAsn
+            guard let publicIp = dictionary["PublicIp"] as? String else { throw InitializableError.missingRequiredParam("PublicIp") }
+            self.publicIp = publicIp
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
@@ -9535,6 +12707,11 @@ extension Ec2 {
             self.spotInstanceRequestIds = spotInstanceRequestIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let spotInstanceRequestIds = dictionary["SpotInstanceRequestIds"] as? [String] else { throw InitializableError.missingRequiredParam("SpotInstanceRequestIds") }
+            self.spotInstanceRequestIds = spotInstanceRequestIds
+        }
     }
 
     public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
@@ -9552,6 +12729,12 @@ extension Ec2 {
             self.egressOnlyInternetGateways = egressOnlyInternetGateways
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let egressOnlyInternetGateways = dictionary["EgressOnlyInternetGateways"] as? [[String: Any]] {
+                self.egressOnlyInternetGateways = try egressOnlyInternetGateways.map({ try EgressOnlyInternetGateway(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateSecurityGroupRequest: AWSShape {
@@ -9575,6 +12758,14 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            self.vpcId = dictionary["VpcId"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct MoveAddressToVpcRequest: AWSShape {
@@ -9592,6 +12783,11 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let publicIp = dictionary["PublicIp"] as? String else { throw InitializableError.missingRequiredParam("PublicIp") }
+            self.publicIp = publicIp
+        }
     }
 
     public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
@@ -9618,6 +12814,17 @@ extension Ec2 {
             self.spotFleetRequestId = spotFleetRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lastEvaluatedTime = dictionary["LastEvaluatedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastEvaluatedTime") }
+            self.lastEvaluatedTime = lastEvaluatedTime
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+            guard let historyRecords = dictionary["HistoryRecords"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("HistoryRecords") }
+            self.historyRecords = try historyRecords.map({ try HistoryRecord(dictionary: $0) })
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+        }
     }
 
     public struct CreateInternetGatewayResult: AWSShape {
@@ -9632,6 +12839,9 @@ extension Ec2 {
             self.internetGateway = internetGateway
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let internetGateway = dictionary["InternetGateway"] as? [String: Any] { self.internetGateway = try Ec2.InternetGateway(dictionary: internetGateway) }
+        }
     }
 
     public struct DescribeImageAttributeRequest: AWSShape {
@@ -9652,6 +12862,13 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+        }
     }
 
     public struct ReplaceNetworkAclEntryRequest: AWSShape {
@@ -9693,6 +12910,23 @@ extension Ec2 {
             self.portRange = portRange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidrBlock = dictionary["CidrBlock"] as? String
+            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) }
+            guard let ruleNumber = dictionary["RuleNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("RuleNumber") }
+            self.ruleNumber = ruleNumber
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            guard let ruleAction = dictionary["RuleAction"] as? String else { throw InitializableError.missingRequiredParam("RuleAction") }
+            self.ruleAction = ruleAction
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let networkAclId = dictionary["NetworkAclId"] as? String else { throw InitializableError.missingRequiredParam("NetworkAclId") }
+            self.networkAclId = networkAclId
+            guard let egress = dictionary["Egress"] as? Bool else { throw InitializableError.missingRequiredParam("Egress") }
+            self.egress = egress
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) }
+        }
     }
 
     public struct DeleteKeyPairRequest: AWSShape {
@@ -9710,6 +12944,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyName = dictionary["KeyName"] as? String else { throw InitializableError.missingRequiredParam("KeyName") }
+            self.keyName = keyName
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct EbsBlockDevice: AWSShape {
@@ -9739,6 +12978,14 @@ extension Ec2 {
             self.encrypted = encrypted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.iops = dictionary["Iops"] as? Int32
+            self.encrypted = dictionary["Encrypted"] as? Bool
+        }
     }
 
     public struct DescribeExportTasksResult: AWSShape {
@@ -9753,6 +13000,11 @@ extension Ec2 {
             self.exportTasks = exportTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let exportTasks = dictionary["ExportTasks"] as? [[String: Any]] {
+                self.exportTasks = try exportTasks.map({ try ExportTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateVpcPeeringConnectionResult: AWSShape {
@@ -9767,6 +13019,9 @@ extension Ec2 {
             self.vpcPeeringConnection = vpcPeeringConnection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcPeeringConnection = dictionary["VpcPeeringConnection"] as? [String: Any] { self.vpcPeeringConnection = try Ec2.VpcPeeringConnection(dictionary: vpcPeeringConnection) }
+        }
     }
 
     public struct IpRange: AWSShape {
@@ -9781,6 +13036,9 @@ extension Ec2 {
             self.cidrIp = cidrIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidrIp = dictionary["CidrIp"] as? String
+        }
     }
 
     public struct DhcpConfiguration: AWSShape {
@@ -9798,6 +13056,12 @@ extension Ec2 {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [[String: Any]] {
+                self.values = try values.map({ try AttributeValue(dictionary: $0) })
+            }
+        }
     }
 
     public struct CancelConversionRequest: AWSShape {
@@ -9818,6 +13082,12 @@ extension Ec2 {
             self.reasonMessage = reasonMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let conversionTaskId = dictionary["ConversionTaskId"] as? String else { throw InitializableError.missingRequiredParam("ConversionTaskId") }
+            self.conversionTaskId = conversionTaskId
+            self.reasonMessage = dictionary["ReasonMessage"] as? String
+        }
     }
 
     public struct ModifyInstancePlacementResult: AWSShape {
@@ -9832,6 +13102,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct DescribeVpcAttributeRequest: AWSShape {
@@ -9852,6 +13125,13 @@ extension Ec2 {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+        }
     }
 
     public struct ReservedInstancesModification: AWSShape {
@@ -9890,6 +13170,21 @@ extension Ec2 {
             self.statusMessage = statusMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstancesIds = dictionary["ReservedInstancesIds"] as? [[String: Any]] {
+                self.reservedInstancesIds = try reservedInstancesIds.map({ try ReservedInstancesId(dictionary: $0) })
+            }
+            self.status = dictionary["Status"] as? String
+            self.effectiveDate = dictionary["EffectiveDate"] as? Date
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let modificationResults = dictionary["ModificationResults"] as? [[String: Any]] {
+                self.modificationResults = try modificationResults.map({ try ReservedInstancesModificationResult(dictionary: $0) })
+            }
+            self.updateDate = dictionary["UpdateDate"] as? Date
+            self.reservedInstancesModificationId = dictionary["ReservedInstancesModificationId"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.statusMessage = dictionary["StatusMessage"] as? String
+        }
     }
 
     public struct DescribeAvailabilityZonesResult: AWSShape {
@@ -9904,6 +13199,11 @@ extension Ec2 {
             self.availabilityZones = availabilityZones
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            }
+        }
     }
 
     public struct RejectVpcPeeringConnectionRequest: AWSShape {
@@ -9921,6 +13221,11 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpcPeeringConnectionId") }
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
     }
 
     public struct ReplaceIamInstanceProfileAssociationResult: AWSShape {
@@ -9935,6 +13240,9 @@ extension Ec2 {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) }
+        }
     }
 
     public struct CreateImageResult: AWSShape {
@@ -9949,6 +13257,9 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageId = dictionary["ImageId"] as? String
+        }
     }
 
     public struct ImportVolumeTaskDetails: AWSShape {
@@ -9975,6 +13286,17 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Ec2.DiskImageDescription(dictionary: image)
+            guard let bytesConverted = dictionary["BytesConverted"] as? Int64 else { throw InitializableError.missingRequiredParam("BytesConverted") }
+            self.bytesConverted = bytesConverted
+            guard let volume = dictionary["Volume"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Volume") }
+            self.volume = try Ec2.DiskImageVolumeDescription(dictionary: volume)
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct NetworkInterfaceAssociation: AWSShape {
@@ -10001,6 +13323,13 @@ extension Ec2 {
             self.publicDnsName = publicDnsName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+            self.ipOwnerId = dictionary["IpOwnerId"] as? String
+            self.allocationId = dictionary["AllocationId"] as? String
+            self.publicDnsName = dictionary["PublicDnsName"] as? String
+        }
     }
 
     public struct ScheduledInstanceRecurrenceRequest: AWSShape {
@@ -10027,6 +13356,15 @@ extension Ec2 {
             self.interval = interval
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let occurrenceDays = dictionary["OccurrenceDays"] as? [Int32] {
+                self.occurrenceDays = occurrenceDays
+            }
+            self.frequency = dictionary["Frequency"] as? String
+            self.occurrenceUnit = dictionary["OccurrenceUnit"] as? String
+            self.occurrenceRelativeToEnd = dictionary["OccurrenceRelativeToEnd"] as? Bool
+            self.interval = dictionary["Interval"] as? Int32
+        }
     }
 
     public struct Filter: AWSShape {
@@ -10044,6 +13382,12 @@ extension Ec2 {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct MonitorInstancesRequest: AWSShape {
@@ -10061,6 +13405,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct LaunchSpecification: AWSShape {
@@ -10116,6 +13465,29 @@ extension Ec2 {
             self.ramdiskId = ramdiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.userData = dictionary["UserData"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.kernelId = dictionary["KernelId"] as? String
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) }
+            self.instanceType = dictionary["InstanceType"] as? String
+            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
+                self.securityGroups = try securityGroups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            self.keyName = dictionary["KeyName"] as? String
+            self.addressingType = dictionary["AddressingType"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            self.imageId = dictionary["ImageId"] as? String
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) }
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+        }
     }
 
     public struct RequestSpotInstancesResult: AWSShape {
@@ -10130,6 +13502,11 @@ extension Ec2 {
             self.spotInstanceRequests = spotInstanceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let spotInstanceRequests = dictionary["SpotInstanceRequests"] as? [[String: Any]] {
+                self.spotInstanceRequests = try spotInstanceRequests.map({ try SpotInstanceRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateNetworkAclEntryRequest: AWSShape {
@@ -10171,6 +13548,23 @@ extension Ec2 {
             self.portRange = portRange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidrBlock = dictionary["CidrBlock"] as? String
+            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) }
+            guard let ruleNumber = dictionary["RuleNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("RuleNumber") }
+            self.ruleNumber = ruleNumber
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            guard let ruleAction = dictionary["RuleAction"] as? String else { throw InitializableError.missingRequiredParam("RuleAction") }
+            self.ruleAction = ruleAction
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let networkAclId = dictionary["NetworkAclId"] as? String else { throw InitializableError.missingRequiredParam("NetworkAclId") }
+            self.networkAclId = networkAclId
+            guard let egress = dictionary["Egress"] as? Bool else { throw InitializableError.missingRequiredParam("Egress") }
+            self.egress = egress
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) }
+        }
     }
 
     public struct CancelBundleTaskResult: AWSShape {
@@ -10185,6 +13579,9 @@ extension Ec2 {
             self.bundleTask = bundleTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let bundleTask = dictionary["BundleTask"] as? [String: Any] { self.bundleTask = try Ec2.BundleTask(dictionary: bundleTask) }
+        }
     }
 
     public struct VpcPeeringConnection: AWSShape {
@@ -10214,6 +13611,16 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let requesterVpcInfo = dictionary["RequesterVpcInfo"] as? [String: Any] { self.requesterVpcInfo = try Ec2.VpcPeeringConnectionVpcInfo(dictionary: requesterVpcInfo) }
+            if let accepterVpcInfo = dictionary["AccepterVpcInfo"] as? [String: Any] { self.accepterVpcInfo = try Ec2.VpcPeeringConnectionVpcInfo(dictionary: accepterVpcInfo) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ec2.VpcPeeringConnectionStateReason(dictionary: status) }
+            self.expirationTime = dictionary["ExpirationTime"] as? Date
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+        }
     }
 
     public struct RegisterImageResult: AWSShape {
@@ -10228,6 +13635,9 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageId = dictionary["ImageId"] as? String
+        }
     }
 
     public struct ClientData: AWSShape {
@@ -10251,6 +13661,12 @@ extension Ec2 {
             self.uploadSize = uploadSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.comment = dictionary["Comment"] as? String
+            self.uploadStart = dictionary["UploadStart"] as? Date
+            self.uploadEnd = dictionary["UploadEnd"] as? Date
+            self.uploadSize = dictionary["UploadSize"] as? Double
+        }
     }
 
     public struct RejectVpcPeeringConnectionResult: AWSShape {
@@ -10265,6 +13681,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct DiskImageDescription: AWSShape {
@@ -10288,6 +13707,15 @@ extension Ec2 {
             self.importManifestUrl = importManifestUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            self.format = format
+            self.checksum = dictionary["Checksum"] as? String
+            guard let size = dictionary["Size"] as? Int64 else { throw InitializableError.missingRequiredParam("Size") }
+            self.size = size
+            guard let importManifestUrl = dictionary["ImportManifestUrl"] as? String else { throw InitializableError.missingRequiredParam("ImportManifestUrl") }
+            self.importManifestUrl = importManifestUrl
+        }
     }
 
     public struct CreateSubnetResult: AWSShape {
@@ -10302,6 +13730,9 @@ extension Ec2 {
             self.subnet = subnet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnet = dictionary["Subnet"] as? [String: Any] { self.subnet = try Ec2.Subnet(dictionary: subnet) }
+        }
     }
 
     public struct GetConsoleOutputResult: AWSShape {
@@ -10322,6 +13753,11 @@ extension Ec2 {
             self.output = output
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.output = dictionary["Output"] as? String
+        }
     }
 
     public struct DisassociateRouteTableRequest: AWSShape {
@@ -10339,6 +13775,11 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+        }
     }
 
     public struct AssignIpv6AddressesRequest: AWSShape {
@@ -10359,6 +13800,14 @@ extension Ec2 {
             self.networkInterfaceId = networkInterfaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [String] {
+                self.ipv6Addresses = ipv6Addresses
+            }
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+        }
     }
 
     public struct DescribeImportSnapshotTasksResult: AWSShape {
@@ -10376,6 +13825,12 @@ extension Ec2 {
             self.importSnapshotTasks = importSnapshotTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let importSnapshotTasks = dictionary["ImportSnapshotTasks"] as? [[String: Any]] {
+                self.importSnapshotTasks = try importSnapshotTasks.map({ try ImportSnapshotTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct VolumeStatusInfo: AWSShape {
@@ -10393,6 +13848,12 @@ extension Ec2 {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let details = dictionary["Details"] as? [[String: Any]] {
+                self.details = try details.map({ try VolumeStatusDetails(dictionary: $0) })
+            }
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct DisableVpcClassicLinkDnsSupportRequest: AWSShape {
@@ -10407,6 +13868,9 @@ extension Ec2 {
             self.vpcId = vpcId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+        }
     }
 
     public struct DescribeSubnetsResult: AWSShape {
@@ -10421,6 +13885,11 @@ extension Ec2 {
             self.subnets = subnets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
+                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteVpcPeeringConnectionResult: AWSShape {
@@ -10435,6 +13904,9 @@ extension Ec2 {
             self.`return` = `return`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`return` = dictionary["Return"] as? Bool
+        }
     }
 
     public struct UserBucketDetails: AWSShape {
@@ -10452,6 +13924,10 @@ extension Ec2 {
             self.s3Key = s3Key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+            self.s3Key = dictionary["S3Key"] as? String
+        }
     }
 
     public struct RequestSpotFleetResponse: AWSShape {
@@ -10466,6 +13942,10 @@ extension Ec2 {
             self.spotFleetRequestId = spotFleetRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+        }
     }
 
     public struct DeleteVpcEndpointsResult: AWSShape {
@@ -10480,6 +13960,11 @@ extension Ec2 {
             self.unsuccessful = unsuccessful
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
+                self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeEgressOnlyInternetGatewaysRequest: AWSShape {
@@ -10503,6 +13988,14 @@ extension Ec2 {
             self.egressOnlyInternetGatewayIds = egressOnlyInternetGatewayIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            if let egressOnlyInternetGatewayIds = dictionary["EgressOnlyInternetGatewayIds"] as? [String] {
+                self.egressOnlyInternetGatewayIds = egressOnlyInternetGatewayIds
+            }
+        }
     }
 
     public struct AttachInternetGatewayRequest: AWSShape {
@@ -10523,6 +14016,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let internetGatewayId = dictionary["InternetGatewayId"] as? String else { throw InitializableError.missingRequiredParam("InternetGatewayId") }
+            self.internetGatewayId = internetGatewayId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct CopySnapshotResult: AWSShape {
@@ -10537,6 +14037,9 @@ extension Ec2 {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+        }
     }
 
     public struct VpcIpv6CidrBlockAssociation: AWSShape {
@@ -10557,6 +14060,11 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ipv6CidrBlockState = dictionary["Ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.VpcCidrBlockState(dictionary: ipv6CidrBlockState) }
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct ScheduledInstancesIamInstanceProfile: AWSShape {
@@ -10574,6 +14082,10 @@ extension Ec2 {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.arn = dictionary["Arn"] as? String
+        }
     }
 
     public struct AcceptVpcPeeringConnectionResult: AWSShape {
@@ -10588,6 +14100,9 @@ extension Ec2 {
             self.vpcPeeringConnection = vpcPeeringConnection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcPeeringConnection = dictionary["VpcPeeringConnection"] as? [String: Any] { self.vpcPeeringConnection = try Ec2.VpcPeeringConnection(dictionary: vpcPeeringConnection) }
+        }
     }
 
     public struct ImportSnapshotResult: AWSShape {
@@ -10608,6 +14123,11 @@ extension Ec2 {
             self.importTaskId = importTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            if let snapshotTaskDetail = dictionary["SnapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) }
+            self.importTaskId = dictionary["ImportTaskId"] as? String
+        }
     }
 
     public struct SnapshotDiskContainer: AWSShape {
@@ -10631,6 +14151,12 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) }
+            self.format = dictionary["Format"] as? String
+            self.url = dictionary["Url"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteFlowLogsResult: AWSShape {
@@ -10645,6 +14171,11 @@ extension Ec2 {
             self.unsuccessful = unsuccessful
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
+                self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeDhcpOptionsResult: AWSShape {
@@ -10659,6 +14190,11 @@ extension Ec2 {
             self.dhcpOptions = dhcpOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dhcpOptions = dictionary["DhcpOptions"] as? [[String: Any]] {
+                self.dhcpOptions = try dhcpOptions.map({ try DhcpOptions(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteRouteRequest: AWSShape {
@@ -10682,6 +14218,13 @@ extension Ec2 {
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String
+            self.destinationIpv6CidrBlock = dictionary["DestinationIpv6CidrBlock"] as? String
+        }
     }
 
     public struct IamInstanceProfileAssociation: AWSShape {
@@ -10708,6 +14251,13 @@ extension Ec2 {
             self.iamInstanceProfile = iamInstanceProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.associationId = dictionary["AssociationId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.state = dictionary["State"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfile(dictionary: iamInstanceProfile) }
+        }
     }
 
     public struct PeeringConnectionOptions: AWSShape {
@@ -10728,6 +14278,11 @@ extension Ec2 {
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowEgressFromLocalVpcToRemoteClassicLink = dictionary["AllowEgressFromLocalVpcToRemoteClassicLink"] as? Bool
+            self.allowDnsResolutionFromRemoteVpc = dictionary["AllowDnsResolutionFromRemoteVpc"] as? Bool
+            self.allowEgressFromLocalClassicLinkToRemoteVpc = dictionary["AllowEgressFromLocalClassicLinkToRemoteVpc"] as? Bool
+        }
     }
 
     public struct DetachVpnGatewayRequest: AWSShape {
@@ -10748,6 +14303,13 @@ extension Ec2 {
             self.vpnGatewayId = vpnGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpnGatewayId = dictionary["VpnGatewayId"] as? String else { throw InitializableError.missingRequiredParam("VpnGatewayId") }
+            self.vpnGatewayId = vpnGatewayId
+        }
     }
 
     public struct RouteTableAssociation: AWSShape {
@@ -10771,6 +14333,12 @@ extension Ec2 {
             self.main = main
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.routeTableId = dictionary["RouteTableId"] as? String
+            self.routeTableAssociationId = dictionary["RouteTableAssociationId"] as? String
+            self.main = dictionary["Main"] as? Bool
+        }
     }
 
     public struct UnmonitorInstancesRequest: AWSShape {
@@ -10788,6 +14356,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
@@ -10802,6 +14375,11 @@ extension Ec2 {
             self.exportTaskIds = exportTaskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let exportTaskIds = dictionary["ExportTaskIds"] as? [String] {
+                self.exportTaskIds = exportTaskIds
+            }
+        }
     }
 
     public struct PricingDetail: AWSShape {
@@ -10819,6 +14397,10 @@ extension Ec2 {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.price = dictionary["Price"] as? Double
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct GetConsoleScreenshotResult: AWSShape {
@@ -10836,6 +14418,10 @@ extension Ec2 {
             self.imageData = imageData
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.imageData = dictionary["ImageData"] as? String
+        }
     }
 
     public struct DescribeReservedInstancesRequest: AWSShape {
@@ -10862,6 +14448,17 @@ extension Ec2 {
             self.offeringClass = offeringClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstancesIds = dictionary["ReservedInstancesIds"] as? [String] {
+                self.reservedInstancesIds = reservedInstancesIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.offeringClass = dictionary["OfferingClass"] as? String
+        }
     }
 
     public struct Placement: AWSShape {
@@ -10888,6 +14485,13 @@ extension Ec2 {
             self.tenancy = tenancy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.affinity = dictionary["Affinity"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            self.hostId = dictionary["HostId"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.tenancy = dictionary["Tenancy"] as? String
+        }
     }
 
     public struct DescribeStaleSecurityGroupsResult: AWSShape {
@@ -10905,6 +14509,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let staleSecurityGroupSet = dictionary["StaleSecurityGroupSet"] as? [[String: Any]] {
+                self.staleSecurityGroupSet = try staleSecurityGroupSet.map({ try StaleSecurityGroup(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ScheduledInstancesNetworkInterface: AWSShape {
@@ -10952,6 +14562,26 @@ extension Ec2 {
             self.associatePublicIpAddress = associatePublicIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceIndex = dictionary["DeviceIndex"] as? Int32
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            if let privateIpAddressConfigs = dictionary["PrivateIpAddressConfigs"] as? [[String: Any]] {
+                self.privateIpAddressConfigs = try privateIpAddressConfigs.map({ try ScheduledInstancesPrivateIpAddressConfig(dictionary: $0) })
+            }
+            self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
+            self.description = dictionary["Description"] as? String
+            self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
+            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
+                self.ipv6Addresses = try ipv6Addresses.map({ try ScheduledInstancesIpv6Address(dictionary: $0) })
+            }
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            if let groups = dictionary["Groups"] as? [String] {
+                self.groups = groups
+            }
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+        }
     }
 
     public struct UserIdGroupPair: AWSShape {
@@ -10981,6 +14611,14 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userId = dictionary["UserId"] as? String
+            self.peeringStatus = dictionary["PeeringStatus"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            self.groupId = dictionary["GroupId"] as? String
+            self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
+        }
     }
 
     public struct DescribeConversionTasksRequest: AWSShape {
@@ -10998,6 +14636,12 @@ extension Ec2 {
             self.conversionTaskIds = conversionTaskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let conversionTaskIds = dictionary["ConversionTaskIds"] as? [String] {
+                self.conversionTaskIds = conversionTaskIds
+            }
+        }
     }
 
     public struct ModifySubnetAttributeRequest: AWSShape {
@@ -11018,6 +14662,12 @@ extension Ec2 {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let mapPublicIpOnLaunch = dictionary["MapPublicIpOnLaunch"] as? [String: Any] { self.mapPublicIpOnLaunch = try Ec2.AttributeBooleanValue(dictionary: mapPublicIpOnLaunch) }
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            if let assignIpv6AddressOnCreation = dictionary["AssignIpv6AddressOnCreation"] as? [String: Any] { self.assignIpv6AddressOnCreation = try Ec2.AttributeBooleanValue(dictionary: assignIpv6AddressOnCreation) }
+        }
     }
 
     public struct PlacementGroup: AWSShape {
@@ -11038,6 +14688,11 @@ extension Ec2 {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            self.strategy = dictionary["Strategy"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct AssociateAddressResult: AWSShape {
@@ -11052,6 +14707,9 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct Reservation: AWSShape {
@@ -11078,6 +14736,17 @@ extension Ec2 {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requesterId = dictionary["RequesterId"] as? String
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+            self.reservationId = dictionary["ReservationId"] as? String
+            self.ownerId = dictionary["OwnerId"] as? String
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+        }
     }
 
     public struct SpotFleetRequestConfigData: AWSShape {
@@ -11128,6 +14797,25 @@ extension Ec2 {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetCapacity = dictionary["TargetCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("TargetCapacity") }
+            self.targetCapacity = targetCapacity
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let iamFleetRole = dictionary["IamFleetRole"] as? String else { throw InitializableError.missingRequiredParam("IamFleetRole") }
+            self.iamFleetRole = iamFleetRole
+            guard let spotPrice = dictionary["SpotPrice"] as? String else { throw InitializableError.missingRequiredParam("SpotPrice") }
+            self.spotPrice = spotPrice
+            self.validUntil = dictionary["ValidUntil"] as? Date
+            self.allocationStrategy = dictionary["AllocationStrategy"] as? String
+            self.excessCapacityTerminationPolicy = dictionary["ExcessCapacityTerminationPolicy"] as? String
+            guard let launchSpecifications = dictionary["LaunchSpecifications"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("LaunchSpecifications") }
+            self.launchSpecifications = try launchSpecifications.map({ try SpotFleetLaunchSpecification(dictionary: $0) })
+            self.validFrom = dictionary["ValidFrom"] as? Date
+            self.terminateInstancesWithExpiration = dictionary["TerminateInstancesWithExpiration"] as? Bool
+            self.replaceUnhealthyInstances = dictionary["ReplaceUnhealthyInstances"] as? Bool
+            self.fulfilledCapacity = dictionary["FulfilledCapacity"] as? Double
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct DeleteInternetGatewayRequest: AWSShape {
@@ -11145,6 +14833,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let internetGatewayId = dictionary["InternetGatewayId"] as? String else { throw InitializableError.missingRequiredParam("InternetGatewayId") }
+            self.internetGatewayId = internetGatewayId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ScheduledInstancesBlockDeviceMapping: AWSShape {
@@ -11168,6 +14861,12 @@ extension Ec2 {
             self.ebs = ebs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noDevice = dictionary["NoDevice"] as? String
+            self.virtualName = dictionary["VirtualName"] as? String
+            self.deviceName = dictionary["DeviceName"] as? String
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.ScheduledInstancesEbs(dictionary: ebs) }
+        }
     }
 
     public struct StateReason: AWSShape {
@@ -11185,6 +14884,10 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct DeleteTagsRequest: AWSShape {
@@ -11205,6 +14908,14 @@ extension Ec2 {
             self.resources = resources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let resources = dictionary["Resources"] as? [String] else { throw InitializableError.missingRequiredParam("Resources") }
+            self.resources = resources
+        }
     }
 
     public struct DescribeSpotInstanceRequestsRequest: AWSShape {
@@ -11225,6 +14936,15 @@ extension Ec2 {
             self.spotInstanceRequestIds = spotInstanceRequestIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let spotInstanceRequestIds = dictionary["SpotInstanceRequestIds"] as? [String] {
+                self.spotInstanceRequestIds = spotInstanceRequestIds
+            }
+        }
     }
 
     public struct AttachClassicLinkVpcRequest: AWSShape {
@@ -11248,6 +14968,15 @@ extension Ec2 {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let groups = dictionary["Groups"] as? [String] else { throw InitializableError.missingRequiredParam("Groups") }
+            self.groups = groups
+        }
     }
 
     public struct ReleaseHostsResult: AWSShape {
@@ -11265,6 +14994,14 @@ extension Ec2 {
             self.unsuccessful = unsuccessful
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let successful = dictionary["Successful"] as? [String] {
+                self.successful = successful
+            }
+            if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
+                self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct ExportToS3TaskSpecification: AWSShape {
@@ -11288,6 +15025,12 @@ extension Ec2 {
             self.s3Bucket = s3Bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Prefix = dictionary["S3Prefix"] as? String
+            self.containerFormat = dictionary["ContainerFormat"] as? String
+            self.diskImageFormat = dictionary["DiskImageFormat"] as? String
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+        }
     }
 
     public struct CancelSpotFleetRequestsError: AWSShape {
@@ -11305,6 +15048,12 @@ extension Ec2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let code = dictionary["Code"] as? String else { throw InitializableError.missingRequiredParam("Code") }
+            self.code = code
+            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = message
+        }
     }
 
     public struct DescribeKeyPairsRequest: AWSShape {
@@ -11325,6 +15074,15 @@ extension Ec2 {
             self.keyNames = keyNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let keyNames = dictionary["KeyNames"] as? [String] {
+                self.keyNames = keyNames
+            }
+        }
     }
 
     public struct DescribeReservedInstancesOfferingsResult: AWSShape {
@@ -11342,6 +15100,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedInstancesOfferings = dictionary["ReservedInstancesOfferings"] as? [[String: Any]] {
+                self.reservedInstancesOfferings = try reservedInstancesOfferings.map({ try ReservedInstancesOffering(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct VpnStaticRoute: AWSShape {
@@ -11362,6 +15126,11 @@ extension Ec2 {
             self.source = source
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.destinationCidrBlock = dictionary["DestinationCidrBlock"] as? String
+            self.state = dictionary["State"] as? String
+            self.source = dictionary["Source"] as? String
+        }
     }
 
     public struct CopySnapshotRequest: AWSShape {
@@ -11397,6 +15166,18 @@ extension Ec2 {
             self.sourceSnapshotId = sourceSnapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            guard let sourceRegion = dictionary["SourceRegion"] as? String else { throw InitializableError.missingRequiredParam("SourceRegion") }
+            self.sourceRegion = sourceRegion
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            self.destinationRegion = dictionary["DestinationRegion"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.presignedUrl = dictionary["PresignedUrl"] as? String
+            guard let sourceSnapshotId = dictionary["SourceSnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SourceSnapshotId") }
+            self.sourceSnapshotId = sourceSnapshotId
+        }
     }
 
     public struct DescribePlacementGroupsResult: AWSShape {
@@ -11411,6 +15192,11 @@ extension Ec2 {
             self.placementGroups = placementGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let placementGroups = dictionary["PlacementGroups"] as? [[String: Any]] {
+                self.placementGroups = try placementGroups.map({ try PlacementGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DetachVolumeRequest: AWSShape {
@@ -11437,6 +15223,14 @@ extension Ec2 {
             self.force = force
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.device = dictionary["Device"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.instanceId = dictionary["InstanceId"] as? String
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.force = dictionary["Force"] as? Bool
+        }
     }
 
     public struct EgressOnlyInternetGateway: AWSShape {
@@ -11454,6 +15248,12 @@ extension Ec2 {
             self.attachments = attachments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.egressOnlyInternetGatewayId = dictionary["EgressOnlyInternetGatewayId"] as? String
+            if let attachments = dictionary["Attachments"] as? [[String: Any]] {
+                self.attachments = try attachments.map({ try InternetGatewayAttachment(dictionary: $0) })
+            }
+        }
     }
 
     public struct EnableVgwRoutePropagationRequest: AWSShape {
@@ -11471,6 +15271,12 @@ extension Ec2 {
             self.routeTableId = routeTableId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayId = dictionary["GatewayId"] as? String else { throw InitializableError.missingRequiredParam("GatewayId") }
+            self.gatewayId = gatewayId
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+        }
     }
 
     public struct GetReservedInstancesExchangeQuoteRequest: AWSShape {
@@ -11491,6 +15297,14 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reservedInstanceIds = dictionary["ReservedInstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("ReservedInstanceIds") }
+            self.reservedInstanceIds = reservedInstanceIds
+            if let targetConfigurations = dictionary["TargetConfigurations"] as? [[String: Any]] {
+                self.targetConfigurations = try targetConfigurations.map({ try TargetConfigurationRequest(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct SpotFleetLaunchSpecification: AWSShape {
@@ -11553,6 +15367,31 @@ extension Ec2 {
             self.ramdiskId = ramdiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.userData = dictionary["UserData"] as? String
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.kernelId = dictionary["KernelId"] as? String
+            self.spotPrice = dictionary["SpotPrice"] as? String
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.SpotFleetMonitoring(dictionary: monitoring) }
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.weightedCapacity = dictionary["WeightedCapacity"] as? Double
+            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
+                self.securityGroups = try securityGroups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            self.keyName = dictionary["KeyName"] as? String
+            self.addressingType = dictionary["AddressingType"] as? String
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            self.imageId = dictionary["ImageId"] as? String
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) }
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+        }
     }
 
     public struct Region: AWSShape {
@@ -11570,6 +15409,10 @@ extension Ec2 {
             self.regionName = regionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpoint = dictionary["Endpoint"] as? String
+            self.regionName = dictionary["RegionName"] as? String
+        }
     }
 
     public struct PurchaseRequest: AWSShape {
@@ -11587,6 +15430,12 @@ extension Ec2 {
             self.instanceCount = instanceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let purchaseToken = dictionary["PurchaseToken"] as? String else { throw InitializableError.missingRequiredParam("PurchaseToken") }
+            self.purchaseToken = purchaseToken
+            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
+            self.instanceCount = instanceCount
+        }
     }
 
     public struct DetachInternetGatewayRequest: AWSShape {
@@ -11607,6 +15456,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let internetGatewayId = dictionary["InternetGatewayId"] as? String else { throw InitializableError.missingRequiredParam("InternetGatewayId") }
+            self.internetGatewayId = internetGatewayId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
@@ -11624,6 +15480,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcs = dictionary["Vpcs"] as? [[String: Any]] {
+                self.vpcs = try vpcs.map({ try ClassicLinkDnsSupport(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateInternetGatewayRequest: AWSShape {
@@ -11638,6 +15500,9 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct VpnConnectionOptionsSpecification: AWSShape {
@@ -11652,6 +15517,9 @@ extension Ec2 {
             self.staticRoutesOnly = staticRoutesOnly
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.staticRoutesOnly = dictionary["StaticRoutesOnly"] as? Bool
+        }
     }
 
     public struct HistoryRecord: AWSShape {
@@ -11672,6 +15540,14 @@ extension Ec2 {
             self.eventInformation = eventInformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let eventType = dictionary["EventType"] as? String else { throw InitializableError.missingRequiredParam("EventType") }
+            self.eventType = eventType
+            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            self.timestamp = timestamp
+            guard let eventInformation = dictionary["EventInformation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventInformation") }
+            self.eventInformation = try Ec2.EventInformation(dictionary: eventInformation)
+        }
     }
 
     public struct DescribeSpotFleetRequestsResponse: AWSShape {
@@ -11689,6 +15565,11 @@ extension Ec2 {
             self.spotFleetRequestConfigs = spotFleetRequestConfigs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let spotFleetRequestConfigs = dictionary["SpotFleetRequestConfigs"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SpotFleetRequestConfigs") }
+            self.spotFleetRequestConfigs = try spotFleetRequestConfigs.map({ try SpotFleetRequestConfig(dictionary: $0) })
+        }
     }
 
     public struct VpcPeeringConnectionOptionsDescription: AWSShape {
@@ -11709,6 +15590,11 @@ extension Ec2 {
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowEgressFromLocalVpcToRemoteClassicLink = dictionary["AllowEgressFromLocalVpcToRemoteClassicLink"] as? Bool
+            self.allowDnsResolutionFromRemoteVpc = dictionary["AllowDnsResolutionFromRemoteVpc"] as? Bool
+            self.allowEgressFromLocalClassicLinkToRemoteVpc = dictionary["AllowEgressFromLocalClassicLinkToRemoteVpc"] as? Bool
+        }
     }
 
     public struct InstanceStatus: AWSShape {
@@ -11738,6 +15624,16 @@ extension Ec2 {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceState = dictionary["InstanceState"] as? [String: Any] { self.instanceState = try Ec2.InstanceState(dictionary: instanceState) }
+            if let systemStatus = dictionary["SystemStatus"] as? [String: Any] { self.systemStatus = try Ec2.InstanceStatusSummary(dictionary: systemStatus) }
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try InstanceStatusEvent(dictionary: $0) })
+            }
+            if let instanceStatus = dictionary["InstanceStatus"] as? [String: Any] { self.instanceStatus = try Ec2.InstanceStatusSummary(dictionary: instanceStatus) }
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+        }
     }
 
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
@@ -11764,6 +15660,15 @@ extension Ec2 {
             self.cidrBlock = cidrBlock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let peeringOptions = dictionary["PeeringOptions"] as? [String: Any] { self.peeringOptions = try Ec2.VpcPeeringConnectionOptionsDescription(dictionary: peeringOptions) }
+            if let ipv6CidrBlockSet = dictionary["Ipv6CidrBlockSet"] as? [[String: Any]] {
+                self.ipv6CidrBlockSet = try ipv6CidrBlockSet.map({ try Ipv6CidrBlock(dictionary: $0) })
+            }
+            self.vpcId = dictionary["VpcId"] as? String
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.cidrBlock = dictionary["CidrBlock"] as? String
+        }
     }
 
     public struct SnapshotTaskDetail: AWSShape {
@@ -11802,6 +15707,17 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.progress = dictionary["Progress"] as? String
+            self.url = dictionary["Url"] as? String
+            self.diskImageSize = dictionary["DiskImageSize"] as? Double
+            self.format = dictionary["Format"] as? String
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucketDetails(dictionary: userBucket) }
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateSpotDatafeedSubscriptionResult: AWSShape {
@@ -11816,6 +15732,9 @@ extension Ec2 {
             self.spotDatafeedSubscription = spotDatafeedSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let spotDatafeedSubscription = dictionary["SpotDatafeedSubscription"] as? [String: Any] { self.spotDatafeedSubscription = try Ec2.SpotDatafeedSubscription(dictionary: spotDatafeedSubscription) }
+        }
     }
 
     public struct DescribeSpotInstanceRequestsResult: AWSShape {
@@ -11830,6 +15749,11 @@ extension Ec2 {
             self.spotInstanceRequests = spotInstanceRequests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let spotInstanceRequests = dictionary["SpotInstanceRequests"] as? [[String: Any]] {
+                self.spotInstanceRequests = try spotInstanceRequests.map({ try SpotInstanceRequest(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyVpcPeeringConnectionOptionsRequest: AWSShape {
@@ -11853,6 +15777,13 @@ extension Ec2 {
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accepterPeeringConnectionOptions = dictionary["AccepterPeeringConnectionOptions"] as? [String: Any] { self.accepterPeeringConnectionOptions = try Ec2.PeeringConnectionOptionsRequest(dictionary: accepterPeeringConnectionOptions) }
+            if let requesterPeeringConnectionOptions = dictionary["RequesterPeeringConnectionOptions"] as? [String: Any] { self.requesterPeeringConnectionOptions = try Ec2.PeeringConnectionOptionsRequest(dictionary: requesterPeeringConnectionOptions) }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpcPeeringConnectionId") }
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
     }
 
     public struct IamInstanceProfileSpecification: AWSShape {
@@ -11870,6 +15801,10 @@ extension Ec2 {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.arn = dictionary["Arn"] as? String
+        }
     }
 
     public struct ConfirmProductInstanceRequest: AWSShape {
@@ -11890,6 +15825,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let productCode = dictionary["ProductCode"] as? String else { throw InitializableError.missingRequiredParam("ProductCode") }
+            self.productCode = productCode
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DisableVgwRoutePropagationRequest: AWSShape {
@@ -11907,6 +15849,12 @@ extension Ec2 {
             self.routeTableId = routeTableId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayId = dictionary["GatewayId"] as? String else { throw InitializableError.missingRequiredParam("GatewayId") }
+            self.gatewayId = gatewayId
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+        }
     }
 
     public struct DescribeSpotPriceHistoryRequest: AWSShape {
@@ -11945,6 +15893,23 @@ extension Ec2 {
             self.instanceTypes = instanceTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            if let productDescriptions = dictionary["ProductDescriptions"] as? [String] {
+                self.productDescriptions = productDescriptions
+            }
+            self.endTime = dictionary["EndTime"] as? Date
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            if let instanceTypes = dictionary["InstanceTypes"] as? [String] {
+                self.instanceTypes = instanceTypes
+            }
+        }
     }
 
     public struct ConversionTask: AWSShape {
@@ -11977,6 +15942,19 @@ extension Ec2 {
             self.importVolume = importVolume
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let importInstance = dictionary["ImportInstance"] as? [String: Any] { self.importInstance = try Ec2.ImportInstanceTaskDetails(dictionary: importInstance) }
+            self.expirationTime = dictionary["ExpirationTime"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let conversionTaskId = dictionary["ConversionTaskId"] as? String else { throw InitializableError.missingRequiredParam("ConversionTaskId") }
+            self.conversionTaskId = conversionTaskId
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            if let importVolume = dictionary["ImportVolume"] as? [String: Any] { self.importVolume = try Ec2.ImportVolumeTaskDetails(dictionary: importVolume) }
+        }
     }
 
     public struct ReplaceRouteTableAssociationResult: AWSShape {
@@ -11991,6 +15969,9 @@ extension Ec2 {
             self.newAssociationId = newAssociationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newAssociationId = dictionary["NewAssociationId"] as? String
+        }
     }
 
     public struct ModifyVolumeResult: AWSShape {
@@ -12005,6 +15986,9 @@ extension Ec2 {
             self.volumeModification = volumeModification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumeModification = dictionary["VolumeModification"] as? [String: Any] { self.volumeModification = try Ec2.VolumeModification(dictionary: volumeModification) }
+        }
     }
 
     public struct KeyPair: AWSShape {
@@ -12025,6 +16009,11 @@ extension Ec2 {
             self.keyMaterial = keyMaterial
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyName = dictionary["KeyName"] as? String
+            self.keyFingerprint = dictionary["KeyFingerprint"] as? String
+            self.keyMaterial = dictionary["KeyMaterial"] as? String
+        }
     }
 
     public struct DescribeVpnGatewaysResult: AWSShape {
@@ -12039,6 +16028,11 @@ extension Ec2 {
             self.vpnGateways = vpnGateways
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpnGateways = dictionary["VpnGateways"] as? [[String: Any]] {
+                self.vpnGateways = try vpnGateways.map({ try VpnGateway(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeSpotFleetInstancesRequest: AWSShape {
@@ -12062,6 +16056,13 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteVpcEndpointsRequest: AWSShape {
@@ -12079,6 +16080,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcEndpointIds = dictionary["VpcEndpointIds"] as? [String] else { throw InitializableError.missingRequiredParam("VpcEndpointIds") }
+            self.vpcEndpointIds = vpcEndpointIds
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeReservedInstancesModificationsResult: AWSShape {
@@ -12096,6 +16102,12 @@ extension Ec2 {
             self.reservedInstancesModifications = reservedInstancesModifications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let reservedInstancesModifications = dictionary["ReservedInstancesModifications"] as? [[String: Any]] {
+                self.reservedInstancesModifications = try reservedInstancesModifications.map({ try ReservedInstancesModification(dictionary: $0) })
+            }
+        }
     }
 
     public struct AssociateSubnetCidrBlockRequest: AWSShape {
@@ -12113,6 +16125,12 @@ extension Ec2 {
             self.subnetId = subnetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String else { throw InitializableError.missingRequiredParam("Ipv6CidrBlock") }
+            self.ipv6CidrBlock = ipv6CidrBlock
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+        }
     }
 
     public struct DescribeDhcpOptionsRequest: AWSShape {
@@ -12133,6 +16151,15 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dhcpOptionsIds = dictionary["DhcpOptionsIds"] as? [String] {
+                self.dhcpOptionsIds = dhcpOptionsIds
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct LaunchPermissionModifications: AWSShape {
@@ -12150,6 +16177,14 @@ extension Ec2 {
             self.add = add
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let remove = dictionary["Remove"] as? [[String: Any]] {
+                self.remove = try remove.map({ try LaunchPermission(dictionary: $0) })
+            }
+            if let add = dictionary["Add"] as? [[String: Any]] {
+                self.add = try add.map({ try LaunchPermission(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyHostsRequest: AWSShape {
@@ -12167,6 +16202,12 @@ extension Ec2 {
             self.autoPlacement = autoPlacement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostIds = dictionary["HostIds"] as? [String] else { throw InitializableError.missingRequiredParam("HostIds") }
+            self.hostIds = hostIds
+            guard let autoPlacement = dictionary["AutoPlacement"] as? String else { throw InitializableError.missingRequiredParam("AutoPlacement") }
+            self.autoPlacement = autoPlacement
+        }
     }
 
     public struct ReleaseAddressRequest: AWSShape {
@@ -12187,6 +16228,11 @@ extension Ec2 {
             self.publicIp = publicIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.allocationId = dictionary["AllocationId"] as? String
+            self.publicIp = dictionary["PublicIp"] as? String
+        }
     }
 
     public struct VpcEndpoint: AWSShape {
@@ -12219,6 +16265,17 @@ extension Ec2 {
             self.routeTableIds = routeTableIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.creationTimestamp = dictionary["CreationTimestamp"] as? Date
+            self.vpcId = dictionary["VpcId"] as? String
+            self.state = dictionary["State"] as? String
+            self.serviceName = dictionary["ServiceName"] as? String
+            self.vpcEndpointId = dictionary["VpcEndpointId"] as? String
+            self.policyDocument = dictionary["PolicyDocument"] as? String
+            if let routeTableIds = dictionary["RouteTableIds"] as? [String] {
+                self.routeTableIds = routeTableIds
+            }
+        }
     }
 
     public struct AssociateIamInstanceProfileRequest: AWSShape {
@@ -12236,6 +16293,12 @@ extension Ec2 {
             self.iamInstanceProfile = iamInstanceProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IamInstanceProfile") }
+            self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile)
+        }
     }
 
     public struct DisassociateVpcCidrBlockResult: AWSShape {
@@ -12253,6 +16316,10 @@ extension Ec2 {
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.VpcIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+        }
     }
 
     public struct DeleteDhcpOptionsRequest: AWSShape {
@@ -12270,6 +16337,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dhcpOptionsId = dictionary["DhcpOptionsId"] as? String else { throw InitializableError.missingRequiredParam("DhcpOptionsId") }
+            self.dhcpOptionsId = dhcpOptionsId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct DescribeHostReservationsResult: AWSShape {
@@ -12287,6 +16359,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hostReservationSet = dictionary["HostReservationSet"] as? [[String: Any]] {
+                self.hostReservationSet = try hostReservationSet.map({ try HostReservation(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
@@ -12316,6 +16394,17 @@ extension Ec2 {
             self.sourceDestCheck = sourceDestCheck
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachmentChanges(dictionary: attachment) }
+            if let groups = dictionary["Groups"] as? [String] {
+                self.groups = groups
+            }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+        }
     }
 
     public struct AttributeBooleanValue: AWSShape {
@@ -12330,6 +16419,9 @@ extension Ec2 {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct AttachVpnGatewayRequest: AWSShape {
@@ -12350,6 +16442,13 @@ extension Ec2 {
             self.vpnGatewayId = vpnGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let vpnGatewayId = dictionary["VpnGatewayId"] as? String else { throw InitializableError.missingRequiredParam("VpnGatewayId") }
+            self.vpnGatewayId = vpnGatewayId
+        }
     }
 
     public struct CreateEgressOnlyInternetGatewayResult: AWSShape {
@@ -12367,6 +16466,10 @@ extension Ec2 {
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let egressOnlyInternetGateway = dictionary["EgressOnlyInternetGateway"] as? [String: Any] { self.egressOnlyInternetGateway = try Ec2.EgressOnlyInternetGateway(dictionary: egressOnlyInternetGateway) }
+        }
     }
 
     public struct NetworkInterfaceAttachmentChanges: AWSShape {
@@ -12384,6 +16487,10 @@ extension Ec2 {
             self.attachmentId = attachmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.attachmentId = dictionary["AttachmentId"] as? String
+        }
     }
 
     public struct CancelExportTaskRequest: AWSShape {
@@ -12398,6 +16505,10 @@ extension Ec2 {
             self.exportTaskId = exportTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let exportTaskId = dictionary["ExportTaskId"] as? String else { throw InitializableError.missingRequiredParam("ExportTaskId") }
+            self.exportTaskId = exportTaskId
+        }
     }
 
     public struct ResetImageAttributeRequest: AWSShape {
@@ -12418,6 +16529,13 @@ extension Ec2 {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attribute = dictionary["Attribute"] as? String else { throw InitializableError.missingRequiredParam("Attribute") }
+            self.attribute = attribute
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+        }
     }
 
     public struct AssociateRouteTableRequest: AWSShape {
@@ -12438,6 +16556,13 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
+            self.routeTableId = routeTableId
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct PrivateIpAddressSpecification: AWSShape {
@@ -12455,6 +16580,11 @@ extension Ec2 {
             self.privateIpAddress = privateIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.primary = dictionary["Primary"] as? Bool
+            guard let privateIpAddress = dictionary["PrivateIpAddress"] as? String else { throw InitializableError.missingRequiredParam("PrivateIpAddress") }
+            self.privateIpAddress = privateIpAddress
+        }
     }
 
     public struct ClassicLinkInstance: AWSShape {
@@ -12478,6 +16608,16 @@ extension Ec2 {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribePlacementGroupsRequest: AWSShape {
@@ -12498,6 +16638,15 @@ extension Ec2 {
             self.groupNames = groupNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let groupNames = dictionary["GroupNames"] as? [String] {
+                self.groupNames = groupNames
+            }
+        }
     }
 
     public struct ReplaceNetworkAclAssociationRequest: AWSShape {
@@ -12518,6 +16667,13 @@ extension Ec2 {
             self.networkAclId = networkAclId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let networkAclId = dictionary["NetworkAclId"] as? String else { throw InitializableError.missingRequiredParam("NetworkAclId") }
+            self.networkAclId = networkAclId
+        }
     }
 
     public struct CreateImageRequest: AWSShape {
@@ -12547,6 +16703,18 @@ extension Ec2 {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.description = dictionary["Description"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.noReboot = dictionary["NoReboot"] as? Bool
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct ModifyVpcPeeringConnectionOptionsResult: AWSShape {
@@ -12564,6 +16732,10 @@ extension Ec2 {
             self.requesterPeeringConnectionOptions = requesterPeeringConnectionOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accepterPeeringConnectionOptions = dictionary["AccepterPeeringConnectionOptions"] as? [String: Any] { self.accepterPeeringConnectionOptions = try Ec2.PeeringConnectionOptions(dictionary: accepterPeeringConnectionOptions) }
+            if let requesterPeeringConnectionOptions = dictionary["RequesterPeeringConnectionOptions"] as? [String: Any] { self.requesterPeeringConnectionOptions = try Ec2.PeeringConnectionOptions(dictionary: requesterPeeringConnectionOptions) }
+        }
     }
 
     public struct DescribeVpcAttributeResult: AWSShape {
@@ -12584,6 +16756,11 @@ extension Ec2 {
             self.enableDnsHostnames = enableDnsHostnames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vpcId = dictionary["VpcId"] as? String
+            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) }
+            if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) }
+        }
     }
 
     public struct ModifyVolumeRequest: AWSShape {
@@ -12609,6 +16786,14 @@ extension Ec2 {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.iops = dictionary["Iops"] as? Int32
+            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
+            self.volumeId = volumeId
+            self.size = dictionary["Size"] as? Int32
+        }
     }
 
     public struct DescribeCustomerGatewaysResult: AWSShape {
@@ -12623,6 +16808,11 @@ extension Ec2 {
             self.customerGateways = customerGateways
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let customerGateways = dictionary["CustomerGateways"] as? [[String: Any]] {
+                self.customerGateways = try customerGateways.map({ try CustomerGateway(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyInstanceAttributeRequest: AWSShape {
@@ -12682,6 +16872,29 @@ extension Ec2 {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try InstanceBlockDeviceMappingSpecification(dictionary: $0) })
+            }
+            if let disableApiTermination = dictionary["DisableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) }
+            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.BlobAttributeValue(dictionary: userData) }
+            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) }
+            if let ebsOptimized = dictionary["EbsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+            self.attribute = dictionary["Attribute"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let instanceType = dictionary["InstanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) }
+            if let ramdisk = dictionary["Ramdisk"] as? [String: Any] { self.ramdisk = try Ec2.AttributeValue(dictionary: ramdisk) }
+            self.value = dictionary["Value"] as? String
+            if let kernel = dictionary["Kernel"] as? [String: Any] { self.kernel = try Ec2.AttributeValue(dictionary: kernel) }
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            if let enaSupport = dictionary["EnaSupport"] as? [String: Any] { self.enaSupport = try Ec2.AttributeBooleanValue(dictionary: enaSupport) }
+            if let instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? [String: Any] { self.instanceInitiatedShutdownBehavior = try Ec2.AttributeValue(dictionary: instanceInitiatedShutdownBehavior) }
+            if let groups = dictionary["Groups"] as? [String] {
+                self.groups = groups
+            }
+        }
     }
 
     public struct ScheduledInstanceRecurrence: AWSShape {
@@ -12708,6 +16921,15 @@ extension Ec2 {
             self.occurrenceDaySet = occurrenceDaySet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.frequency = dictionary["Frequency"] as? String
+            self.occurrenceUnit = dictionary["OccurrenceUnit"] as? String
+            self.occurrenceRelativeToEnd = dictionary["OccurrenceRelativeToEnd"] as? Bool
+            self.interval = dictionary["Interval"] as? Int32
+            if let occurrenceDaySet = dictionary["OccurrenceDaySet"] as? [Int32] {
+                self.occurrenceDaySet = occurrenceDaySet
+            }
+        }
     }
 
     public struct CreateVpnGatewayResult: AWSShape {
@@ -12722,6 +16944,9 @@ extension Ec2 {
             self.vpnGateway = vpnGateway
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpnGateway = dictionary["VpnGateway"] as? [String: Any] { self.vpnGateway = try Ec2.VpnGateway(dictionary: vpnGateway) }
+        }
     }
 
     public struct SnapshotDetail: AWSShape {
@@ -12763,6 +16988,18 @@ extension Ec2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.progress = dictionary["Progress"] as? String
+            self.url = dictionary["Url"] as? String
+            self.diskImageSize = dictionary["DiskImageSize"] as? Double
+            self.format = dictionary["Format"] as? String
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucketDetails(dictionary: userBucket) }
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.deviceName = dictionary["DeviceName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
@@ -12783,6 +17020,13 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcIds = dictionary["VpcIds"] as? [String] {
+                self.vpcIds = vpcIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteNatGatewayResult: AWSShape {
@@ -12797,6 +17041,9 @@ extension Ec2 {
             self.natGatewayId = natGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.natGatewayId = dictionary["NatGatewayId"] as? String
+        }
     }
 
     public struct AttachNetworkInterfaceRequest: AWSShape {
@@ -12820,6 +17067,15 @@ extension Ec2 {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceIndex = dictionary["DeviceIndex"] as? Int32 else { throw InitializableError.missingRequiredParam("DeviceIndex") }
+            self.deviceIndex = deviceIndex
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            self.dryRun = dictionary["DryRun"] as? Bool
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct IpPermission: AWSShape {
@@ -12852,6 +17108,23 @@ extension Ec2 {
             self.fromPort = fromPort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userIdGroupPairs = dictionary["UserIdGroupPairs"] as? [[String: Any]] {
+                self.userIdGroupPairs = try userIdGroupPairs.map({ try UserIdGroupPair(dictionary: $0) })
+            }
+            if let ipRanges = dictionary["IpRanges"] as? [[String: Any]] {
+                self.ipRanges = try ipRanges.map({ try IpRange(dictionary: $0) })
+            }
+            if let ipv6Ranges = dictionary["Ipv6Ranges"] as? [[String: Any]] {
+                self.ipv6Ranges = try ipv6Ranges.map({ try Ipv6Range(dictionary: $0) })
+            }
+            if let prefixListIds = dictionary["PrefixListIds"] as? [[String: Any]] {
+                self.prefixListIds = try prefixListIds.map({ try PrefixListId(dictionary: $0) })
+            }
+            self.toPort = dictionary["ToPort"] as? Int32
+            self.ipProtocol = dictionary["IpProtocol"] as? String
+            self.fromPort = dictionary["FromPort"] as? Int32
+        }
     }
 
     public struct VgwTelemetry: AWSShape {
@@ -12878,6 +17151,13 @@ extension Ec2 {
             self.acceptedRouteCount = acceptedRouteCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.lastStatusChange = dictionary["LastStatusChange"] as? Date
+            self.outsideIpAddress = dictionary["OutsideIpAddress"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.acceptedRouteCount = dictionary["AcceptedRouteCount"] as? Int32
+        }
     }
 
     public struct ReplaceNetworkAclAssociationResult: AWSShape {
@@ -12892,6 +17172,9 @@ extension Ec2 {
             self.newAssociationId = newAssociationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newAssociationId = dictionary["NewAssociationId"] as? String
+        }
     }
 
     public struct DiskImageVolumeDescription: AWSShape {
@@ -12909,6 +17192,11 @@ extension Ec2 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.size = dictionary["Size"] as? Int64
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct AttributeValue: AWSShape {
@@ -12923,6 +17211,9 @@ extension Ec2 {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+        }
     }
 
     public struct ImportInstanceResult: AWSShape {
@@ -12937,6 +17228,9 @@ extension Ec2 {
             self.conversionTask = conversionTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let conversionTask = dictionary["ConversionTask"] as? [String: Any] { self.conversionTask = try Ec2.ConversionTask(dictionary: conversionTask) }
+        }
     }
 
     public struct CreateDhcpOptionsRequest: AWSShape {
@@ -12954,6 +17248,11 @@ extension Ec2 {
             self.dryRun = dryRun
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dhcpConfigurations = dictionary["DhcpConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DhcpConfigurations") }
+            self.dhcpConfigurations = try dhcpConfigurations.map({ try NewDhcpConfiguration(dictionary: $0) })
+            self.dryRun = dictionary["DryRun"] as? Bool
+        }
     }
 
     public struct ModifyIdentityIdFormatRequest: AWSShape {
@@ -12974,6 +17273,14 @@ extension Ec2 {
             self.useLongIds = useLongIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let principalArn = dictionary["PrincipalArn"] as? String else { throw InitializableError.missingRequiredParam("PrincipalArn") }
+            self.principalArn = principalArn
+            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
+            self.resource = resource
+            guard let useLongIds = dictionary["UseLongIds"] as? Bool else { throw InitializableError.missingRequiredParam("UseLongIds") }
+            self.useLongIds = useLongIds
+        }
     }
 
     public struct SpotFleetRequestConfig: AWSShape {
@@ -13000,6 +17307,17 @@ extension Ec2 {
             self.spotFleetRequestId = spotFleetRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let spotFleetRequestState = dictionary["SpotFleetRequestState"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestState") }
+            self.spotFleetRequestState = spotFleetRequestState
+            guard let createTime = dictionary["CreateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreateTime") }
+            self.createTime = createTime
+            self.activityStatus = dictionary["ActivityStatus"] as? String
+            guard let spotFleetRequestConfig = dictionary["SpotFleetRequestConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SpotFleetRequestConfig") }
+            self.spotFleetRequestConfig = try Ec2.SpotFleetRequestConfigData(dictionary: spotFleetRequestConfig)
+            guard let spotFleetRequestId = dictionary["SpotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("SpotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
+        }
     }
 
     public struct ModifyHostsResult: AWSShape {
@@ -13017,6 +17335,14 @@ extension Ec2 {
             self.unsuccessful = unsuccessful
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let successful = dictionary["Successful"] as? [String] {
+                self.successful = successful
+            }
+            if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
+                self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct DisassociateAddressRequest: AWSShape {
@@ -13037,6 +17363,11 @@ extension Ec2 {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.publicIp = dictionary["PublicIp"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct ScheduledInstancesEbs: AWSShape {
@@ -13066,6 +17397,14 @@ extension Ec2 {
             self.encrypted = encrypted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.iops = dictionary["Iops"] as? Int32
+            self.encrypted = dictionary["Encrypted"] as? Bool
+        }
     }
 
     public struct UnmonitorInstancesResult: AWSShape {
@@ -13080,6 +17419,11 @@ extension Ec2 {
             self.instanceMonitorings = instanceMonitorings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceMonitorings = dictionary["InstanceMonitorings"] as? [[String: Any]] {
+                self.instanceMonitorings = try instanceMonitorings.map({ try InstanceMonitoring(dictionary: $0) })
+            }
+        }
     }
 
     public struct InternetGateway: AWSShape {
@@ -13100,6 +17444,15 @@ extension Ec2 {
             self.attachments = attachments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.internetGatewayId = dictionary["InternetGatewayId"] as? String
+            if let attachments = dictionary["Attachments"] as? [[String: Any]] {
+                self.attachments = try attachments.map({ try InternetGatewayAttachment(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateVolumePermissionModifications: AWSShape {
@@ -13117,6 +17470,14 @@ extension Ec2 {
             self.add = add
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let remove = dictionary["Remove"] as? [[String: Any]] {
+                self.remove = try remove.map({ try CreateVolumePermission(dictionary: $0) })
+            }
+            if let add = dictionary["Add"] as? [[String: Any]] {
+                self.add = try add.map({ try CreateVolumePermission(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeSpotFleetRequestsRequest: AWSShape {
@@ -13140,6 +17501,14 @@ extension Ec2 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let spotFleetRequestIds = dictionary["SpotFleetRequestIds"] as? [String] {
+                self.spotFleetRequestIds = spotFleetRequestIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeNetworkInterfacesResult: AWSShape {
@@ -13154,6 +17523,11 @@ extension Ec2 {
             self.networkInterfaces = networkInterfaces
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
+                self.networkInterfaces = try networkInterfaces.map({ try NetworkInterface(dictionary: $0) })
+            }
+        }
     }
 
     public struct TargetConfigurationRequest: AWSShape {
@@ -13171,6 +17545,11 @@ extension Ec2 {
             self.instanceCount = instanceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let offeringId = dictionary["OfferingId"] as? String else { throw InitializableError.missingRequiredParam("OfferingId") }
+            self.offeringId = offeringId
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+        }
     }
 
     public struct DescribeInstanceStatusResult: AWSShape {
@@ -13188,6 +17567,12 @@ extension Ec2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceStatuses = dictionary["InstanceStatuses"] as? [[String: Any]] {
+                self.instanceStatuses = try instanceStatuses.map({ try InstanceStatus(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
 }

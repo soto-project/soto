@@ -35,6 +35,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListDevicesRequest: AWSShape {
@@ -52,6 +54,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct NetworkProfile: AWSShape {
@@ -99,6 +105,20 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uplinkJitterMs = dictionary["uplinkJitterMs"] as? Int64
+            self.name = dictionary["name"] as? String
+            self.downlinkJitterMs = dictionary["downlinkJitterMs"] as? Int64
+            self.downlinkDelayMs = dictionary["downlinkDelayMs"] as? Int64
+            self.uplinkLossPercent = dictionary["uplinkLossPercent"] as? Int32
+            self.downlinkLossPercent = dictionary["downlinkLossPercent"] as? Int32
+            self.description = dictionary["description"] as? String
+            self.uplinkDelayMs = dictionary["uplinkDelayMs"] as? Int64
+            self.uplinkBandwidthBits = dictionary["uplinkBandwidthBits"] as? Int64
+            self.type = dictionary["type"] as? String
+            self.downlinkBandwidthBits = dictionary["downlinkBandwidthBits"] as? Int64
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct GetTestResult: AWSShape {
@@ -113,6 +133,9 @@ extension Devicefarm {
             self.test = test
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.Test(dictionary: test) }
+        }
     }
 
     public struct Rule: AWSShape {
@@ -133,6 +156,11 @@ extension Devicefarm {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attribute = dictionary["attribute"] as? String
+            self.`operator` = dictionary["operator"] as? String
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct ListTestsRequest: AWSShape {
@@ -150,6 +178,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CreateRemoteAccessSessionConfiguration: AWSShape {
@@ -164,6 +197,9 @@ extension Devicefarm {
             self.billingMethod = billingMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.billingMethod = dictionary["billingMethod"] as? String
+        }
     }
 
     public struct GetUploadResult: AWSShape {
@@ -178,6 +214,9 @@ extension Devicefarm {
             self.upload = upload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) }
+        }
     }
 
     public struct ListSuitesResult: AWSShape {
@@ -195,6 +234,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let suites = dictionary["suites"] as? [[String: Any]] {
+                self.suites = try suites.map({ try Suite(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListRemoteAccessSessionsResult: AWSShape {
@@ -212,6 +257,12 @@ extension Devicefarm {
             self.remoteAccessSessions = remoteAccessSessions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let remoteAccessSessions = dictionary["remoteAccessSessions"] as? [[String: Any]] {
+                self.remoteAccessSessions = try remoteAccessSessions.map({ try RemoteAccessSession(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateNetworkProfileRequest: AWSShape {
@@ -259,6 +310,21 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uplinkJitterMs = dictionary["uplinkJitterMs"] as? Int64
+            self.name = dictionary["name"] as? String
+            self.downlinkJitterMs = dictionary["downlinkJitterMs"] as? Int64
+            self.downlinkDelayMs = dictionary["downlinkDelayMs"] as? Int64
+            self.uplinkLossPercent = dictionary["uplinkLossPercent"] as? Int32
+            self.downlinkLossPercent = dictionary["downlinkLossPercent"] as? Int32
+            self.description = dictionary["description"] as? String
+            self.uplinkDelayMs = dictionary["uplinkDelayMs"] as? Int64
+            self.uplinkBandwidthBits = dictionary["uplinkBandwidthBits"] as? Int64
+            self.type = dictionary["type"] as? String
+            self.downlinkBandwidthBits = dictionary["downlinkBandwidthBits"] as? Int64
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetDevicePoolResult: AWSShape {
@@ -273,6 +339,9 @@ extension Devicefarm {
             self.devicePool = devicePool
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) }
+        }
     }
 
     public struct DevicePool: AWSShape {
@@ -299,6 +368,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.name = dictionary["name"] as? String
+            self.type = dictionary["type"] as? String
+            if let rules = dictionary["rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct CreateProjectResult: AWSShape {
@@ -313,6 +391,9 @@ extension Devicefarm {
             self.project = project
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) }
+        }
     }
 
     public struct PurchaseOfferingResult: AWSShape {
@@ -327,6 +408,9 @@ extension Devicefarm {
             self.offeringTransaction = offeringTransaction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) }
+        }
     }
 
     public struct ExecutionConfiguration: AWSShape {
@@ -341,6 +425,9 @@ extension Devicefarm {
             self.jobTimeoutMinutes = jobTimeoutMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobTimeoutMinutes = dictionary["jobTimeoutMinutes"] as? Int32
+        }
     }
 
     public struct MonetaryAmount: AWSShape {
@@ -358,6 +445,10 @@ extension Devicefarm {
             self.amount = amount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.currencyCode = dictionary["currencyCode"] as? String
+            self.amount = dictionary["amount"] as? Double
+        }
     }
 
     public struct CreateNetworkProfileRequest: AWSShape {
@@ -405,6 +496,22 @@ extension Devicefarm {
             self.projectArn = projectArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uplinkJitterMs = dictionary["uplinkJitterMs"] as? Int64
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.downlinkJitterMs = dictionary["downlinkJitterMs"] as? Int64
+            self.downlinkDelayMs = dictionary["downlinkDelayMs"] as? Int64
+            self.uplinkLossPercent = dictionary["uplinkLossPercent"] as? Int32
+            self.downlinkLossPercent = dictionary["downlinkLossPercent"] as? Int32
+            self.description = dictionary["description"] as? String
+            self.uplinkDelayMs = dictionary["uplinkDelayMs"] as? Int64
+            self.uplinkBandwidthBits = dictionary["uplinkBandwidthBits"] as? Int64
+            self.type = dictionary["type"] as? String
+            self.downlinkBandwidthBits = dictionary["downlinkBandwidthBits"] as? Int64
+            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
+            self.projectArn = projectArn
+        }
     }
 
     public struct GetDevicePoolRequest: AWSShape {
@@ -419,6 +526,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct RemoteAccessSession: AWSShape {
@@ -466,6 +577,20 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.billingMethod = dictionary["billingMethod"] as? String
+            self.status = dictionary["status"] as? String
+            self.name = dictionary["name"] as? String
+            self.endpoint = dictionary["endpoint"] as? String
+            self.created = dictionary["created"] as? Date
+            self.started = dictionary["started"] as? Date
+            self.stopped = dictionary["stopped"] as? Date
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            self.message = dictionary["message"] as? String
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            self.result = dictionary["result"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct RecurringCharge: AWSShape {
@@ -483,6 +608,10 @@ extension Devicefarm {
             self.cost = cost
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.frequency = dictionary["frequency"] as? String
+            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) }
+        }
     }
 
     public struct Suite: AWSShape {
@@ -527,6 +656,19 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.name = dictionary["name"] as? String
+            self.created = dictionary["created"] as? Date
+            self.started = dictionary["started"] as? Date
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            self.stopped = dictionary["stopped"] as? Date
+            self.message = dictionary["message"] as? String
+            self.type = dictionary["type"] as? String
+            self.result = dictionary["result"] as? String
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct DeleteUploadRequest: AWSShape {
@@ -541,6 +683,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListUniqueProblemsRequest: AWSShape {
@@ -558,6 +704,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
@@ -566,6 +717,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ProblemDetail: AWSShape {
@@ -583,6 +736,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct ScheduleRunConfiguration: AWSShape {
@@ -615,6 +772,17 @@ extension Devicefarm {
             self.billingMethod = billingMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.extraDataPackageArn = dictionary["extraDataPackageArn"] as? String
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Devicefarm.Location(dictionary: location) }
+            self.networkProfileArn = dictionary["networkProfileArn"] as? String
+            if let auxiliaryApps = dictionary["auxiliaryApps"] as? [String] {
+                self.auxiliaryApps = auxiliaryApps
+            }
+            if let radios = dictionary["radios"] as? [String: Any] { self.radios = try Devicefarm.Radios(dictionary: radios) }
+            self.locale = dictionary["locale"] as? String
+            self.billingMethod = dictionary["billingMethod"] as? String
+        }
     }
 
     public struct GetJobResult: AWSShape {
@@ -629,6 +797,9 @@ extension Devicefarm {
             self.job = job
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.Job(dictionary: job) }
+        }
     }
 
     public struct ListOfferingsResult: AWSShape {
@@ -646,6 +817,12 @@ extension Devicefarm {
             self.offerings = offerings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let offerings = dictionary["offerings"] as? [[String: Any]] {
+                self.offerings = try offerings.map({ try Offering(dictionary: $0) })
+            }
+        }
     }
 
     public struct StopRunResult: AWSShape {
@@ -660,6 +837,9 @@ extension Devicefarm {
             self.run = run
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) }
+        }
     }
 
     public struct ScheduleRunRequest: AWSShape {
@@ -692,6 +872,18 @@ extension Devicefarm {
             self.configuration = configuration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
+            self.projectArn = projectArn
+            self.name = dictionary["name"] as? String
+            if let executionConfiguration = dictionary["executionConfiguration"] as? [String: Any] { self.executionConfiguration = try Devicefarm.ExecutionConfiguration(dictionary: executionConfiguration) }
+            guard let test = dictionary["test"] as? [String: Any] else { throw InitializableError.missingRequiredParam("test") }
+            self.test = try Devicefarm.ScheduleRunTest(dictionary: test)
+            self.appArn = dictionary["appArn"] as? String
+            guard let devicePoolArn = dictionary["devicePoolArn"] as? String else { throw InitializableError.missingRequiredParam("devicePoolArn") }
+            self.devicePoolArn = devicePoolArn
+            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.ScheduleRunConfiguration(dictionary: configuration) }
+        }
     }
 
     public struct Artifact: AWSShape {
@@ -718,6 +910,13 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.type = dictionary["type"] as? String
+            self.`extension` = dictionary["extension"] as? String
+            self.url = dictionary["url"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct CreateNetworkProfileResult: AWSShape {
@@ -732,6 +931,9 @@ extension Devicefarm {
             self.networkProfile = networkProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+        }
     }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
@@ -746,6 +948,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct Project: AWSShape {
@@ -769,6 +975,12 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.created = dictionary["created"] as? Date
+            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct ScheduleRunResult: AWSShape {
@@ -783,6 +995,9 @@ extension Devicefarm {
             self.run = run
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) }
+        }
     }
 
     public struct GetRunRequest: AWSShape {
@@ -797,6 +1012,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListNetworkProfilesResult: AWSShape {
@@ -814,6 +1033,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkProfiles = dictionary["networkProfiles"] as? [[String: Any]] {
+                self.networkProfiles = try networkProfiles.map({ try NetworkProfile(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListSamplesRequest: AWSShape {
@@ -831,6 +1056,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CreateProjectRequest: AWSShape {
@@ -848,6 +1078,11 @@ extension Devicefarm {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
+        }
     }
 
     public struct GetRemoteAccessSessionResult: AWSShape {
@@ -862,6 +1097,9 @@ extension Devicefarm {
             self.remoteAccessSession = remoteAccessSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) }
+        }
     }
 
     public struct UpdateDevicePoolResult: AWSShape {
@@ -876,6 +1114,9 @@ extension Devicefarm {
             self.devicePool = devicePool
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) }
+        }
     }
 
     public struct PurchaseOfferingRequest: AWSShape {
@@ -893,6 +1134,10 @@ extension Devicefarm {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.offeringId = dictionary["offeringId"] as? String
+            self.quantity = dictionary["quantity"] as? Int32
+        }
     }
 
     public struct StopRemoteAccessSessionRequest: AWSShape {
@@ -907,6 +1152,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CreateUploadResult: AWSShape {
@@ -921,6 +1170,9 @@ extension Devicefarm {
             self.upload = upload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) }
+        }
     }
 
     public struct UniqueProblem: AWSShape {
@@ -938,6 +1190,12 @@ extension Devicefarm {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let problems = dictionary["problems"] as? [[String: Any]] {
+                self.problems = try problems.map({ try Problem(dictionary: $0) })
+            }
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct UpdateNetworkProfileResult: AWSShape {
@@ -952,6 +1210,9 @@ extension Devicefarm {
             self.networkProfile = networkProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+        }
     }
 
     public struct ListNetworkProfilesRequest: AWSShape {
@@ -972,6 +1233,12 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetJobRequest: AWSShape {
@@ -986,6 +1253,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListRunsResult: AWSShape {
@@ -1003,6 +1274,12 @@ extension Devicefarm {
             self.runs = runs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let runs = dictionary["runs"] as? [[String: Any]] {
+                self.runs = try runs.map({ try Run(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListTestsResult: AWSShape {
@@ -1020,6 +1297,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tests = dictionary["tests"] as? [[String: Any]] {
+                self.tests = try tests.map({ try Test(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteNetworkProfileResult: AWSShape {
@@ -1028,6 +1311,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct OfferingTransaction: AWSShape {
@@ -1051,6 +1336,12 @@ extension Devicefarm {
             self.offeringStatus = offeringStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.transactionId = dictionary["transactionId"] as? String
+            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) }
+            self.createdOn = dictionary["createdOn"] as? Date
+            if let offeringStatus = dictionary["offeringStatus"] as? [String: Any] { self.offeringStatus = try Devicefarm.OfferingStatus(dictionary: offeringStatus) }
+        }
     }
 
     public struct ListDevicesResult: AWSShape {
@@ -1068,6 +1359,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let devices = dictionary["devices"] as? [[String: Any]] {
+                self.devices = try devices.map({ try Device(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListUploadsResult: AWSShape {
@@ -1085,6 +1382,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let uploads = dictionary["uploads"] as? [[String: Any]] {
+                self.uploads = try uploads.map({ try Upload(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct Offering: AWSShape {
@@ -1111,6 +1414,15 @@ extension Devicefarm {
             self.platform = platform
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            if let recurringCharges = dictionary["recurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.id = dictionary["id"] as? String
+            self.type = dictionary["type"] as? String
+            self.platform = dictionary["platform"] as? String
+        }
     }
 
     public struct GetSuiteResult: AWSShape {
@@ -1125,6 +1437,9 @@ extension Devicefarm {
             self.suite = suite
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.Suite(dictionary: suite) }
+        }
     }
 
     public struct GetSuiteRequest: AWSShape {
@@ -1139,6 +1454,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetUploadRequest: AWSShape {
@@ -1153,6 +1472,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct Test: AWSShape {
@@ -1197,6 +1520,19 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.name = dictionary["name"] as? String
+            self.created = dictionary["created"] as? Date
+            self.started = dictionary["started"] as? Date
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            self.stopped = dictionary["stopped"] as? Date
+            self.message = dictionary["message"] as? String
+            self.type = dictionary["type"] as? String
+            self.result = dictionary["result"] as? String
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct DeleteRemoteAccessSessionRequest: AWSShape {
@@ -1211,6 +1547,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetOfferingStatusResult: AWSShape {
@@ -1231,6 +1571,25 @@ extension Devicefarm {
             self.current = current
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nextPeriod = dictionary["nextPeriod"] as? [String: Any] {
+                var nextPeriodDict: [String: OfferingStatus] = [:]
+                for (key, value) in nextPeriod {
+                    guard let offeringStatusDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    nextPeriodDict[key] = try OfferingStatus(dictionary: offeringStatusDict)
+                }
+                self.nextPeriod = nextPeriodDict
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+            if let current = dictionary["current"] as? [String: Any] {
+                var currentDict: [String: OfferingStatus] = [:]
+                for (key, value) in current {
+                    guard let offeringStatusDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    currentDict[key] = try OfferingStatus(dictionary: offeringStatusDict)
+                }
+                self.current = currentDict
+            }
+        }
     }
 
     public struct GetOfferingStatusRequest: AWSShape {
@@ -1245,6 +1604,9 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct IncompatibilityMessage: AWSShape {
@@ -1262,6 +1624,10 @@ extension Devicefarm {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct CreateUploadRequest: AWSShape {
@@ -1285,6 +1651,15 @@ extension Devicefarm {
             self.projectArn = projectArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.contentType = dictionary["contentType"] as? String
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
+            self.projectArn = projectArn
+        }
     }
 
     public struct UpdateProjectResult: AWSShape {
@@ -1299,6 +1674,9 @@ extension Devicefarm {
             self.project = project
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) }
+        }
     }
 
     public struct ScheduleRunTest: AWSShape {
@@ -1322,6 +1700,15 @@ extension Devicefarm {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.filter = dictionary["filter"] as? String
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            self.testPackageArn = dictionary["testPackageArn"] as? String
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct DeleteDevicePoolResult: AWSShape {
@@ -1330,6 +1717,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListUploadsRequest: AWSShape {
@@ -1347,6 +1736,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CreateRemoteAccessSessionResult: AWSShape {
@@ -1361,6 +1755,9 @@ extension Devicefarm {
             self.remoteAccessSession = remoteAccessSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) }
+        }
     }
 
     public struct GetDeviceRequest: AWSShape {
@@ -1375,6 +1772,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct Radios: AWSShape {
@@ -1398,6 +1799,12 @@ extension Devicefarm {
             self.gps = gps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.wifi = dictionary["wifi"] as? Bool
+            self.bluetooth = dictionary["bluetooth"] as? Bool
+            self.nfc = dictionary["nfc"] as? Bool
+            self.gps = dictionary["gps"] as? Bool
+        }
     }
 
     public struct GetRunResult: AWSShape {
@@ -1412,6 +1819,9 @@ extension Devicefarm {
             self.run = run
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) }
+        }
     }
 
     public struct RenewOfferingResult: AWSShape {
@@ -1426,6 +1836,9 @@ extension Devicefarm {
             self.offeringTransaction = offeringTransaction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) }
+        }
     }
 
     public struct DeleteDevicePoolRequest: AWSShape {
@@ -1440,6 +1853,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CreateRemoteAccessSessionRequest: AWSShape {
@@ -1463,6 +1880,14 @@ extension Devicefarm {
             self.configuration = configuration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            guard let deviceArn = dictionary["deviceArn"] as? String else { throw InitializableError.missingRequiredParam("deviceArn") }
+            self.deviceArn = deviceArn
+            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
+            self.projectArn = projectArn
+            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.CreateRemoteAccessSessionConfiguration(dictionary: configuration) }
+        }
     }
 
     public struct ListJobsResult: AWSShape {
@@ -1480,6 +1905,12 @@ extension Devicefarm {
             self.jobs = jobs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let jobs = dictionary["jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListSamplesResult: AWSShape {
@@ -1497,6 +1928,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let samples = dictionary["samples"] as? [[String: Any]] {
+                self.samples = try samples.map({ try Sample(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct CreateDevicePoolRequest: AWSShape {
@@ -1520,6 +1957,15 @@ extension Devicefarm {
             self.projectArn = projectArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let rules = dictionary["rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("rules") }
+            self.rules = try rules.map({ try Rule(dictionary: $0) })
+            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
+            self.projectArn = projectArn
+        }
     }
 
     public struct ListProjectsResult: AWSShape {
@@ -1537,6 +1983,12 @@ extension Devicefarm {
             self.projects = projects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let projects = dictionary["projects"] as? [[String: Any]] {
+                self.projects = try projects.map({ try Project(dictionary: $0) })
+            }
+        }
     }
 
     public struct OfferingStatus: AWSShape {
@@ -1560,6 +2012,12 @@ extension Devicefarm {
             self.offering = offering
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.quantity = dictionary["quantity"] as? Int32
+            self.type = dictionary["type"] as? String
+            self.effectiveOn = dictionary["effectiveOn"] as? Date
+            if let offering = dictionary["offering"] as? [String: Any] { self.offering = try Devicefarm.Offering(dictionary: offering) }
+        }
     }
 
     public struct ListDevicePoolsRequest: AWSShape {
@@ -1580,6 +2038,12 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListJobsRequest: AWSShape {
@@ -1597,6 +2061,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct Run: AWSShape {
@@ -1656,6 +2125,24 @@ extension Devicefarm {
             self.billingMethod = billingMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.platform = dictionary["platform"] as? String
+            self.type = dictionary["type"] as? String
+            self.result = dictionary["result"] as? String
+            self.arn = dictionary["arn"] as? String
+            self.status = dictionary["status"] as? String
+            self.completedJobs = dictionary["completedJobs"] as? Int32
+            self.created = dictionary["created"] as? Date
+            self.started = dictionary["started"] as? Date
+            self.totalJobs = dictionary["totalJobs"] as? Int32
+            self.stopped = dictionary["stopped"] as? Date
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            self.message = dictionary["message"] as? String
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            self.billingMethod = dictionary["billingMethod"] as? String
+        }
     }
 
     public struct DevicePoolCompatibilityResult: AWSShape {
@@ -1676,6 +2163,13 @@ extension Devicefarm {
             self.incompatibilityMessages = incompatibilityMessages
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            self.compatible = dictionary["compatible"] as? Bool
+            if let incompatibilityMessages = dictionary["incompatibilityMessages"] as? [[String: Any]] {
+                self.incompatibilityMessages = try incompatibilityMessages.map({ try IncompatibilityMessage(dictionary: $0) })
+            }
+        }
     }
 
     public struct Upload: AWSShape {
@@ -1714,6 +2208,17 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metadata = dictionary["metadata"] as? String
+            self.status = dictionary["status"] as? String
+            self.contentType = dictionary["contentType"] as? String
+            self.name = dictionary["name"] as? String
+            self.created = dictionary["created"] as? Date
+            self.message = dictionary["message"] as? String
+            self.type = dictionary["type"] as? String
+            self.url = dictionary["url"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct ListOfferingsRequest: AWSShape {
@@ -1728,6 +2233,9 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteRunResult: AWSShape {
@@ -1736,6 +2244,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteProjectResult: AWSShape {
@@ -1744,6 +2254,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListDevicePoolsResult: AWSShape {
@@ -1761,6 +2273,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let devicePools = dictionary["devicePools"] as? [[String: Any]] {
+                self.devicePools = try devicePools.map({ try DevicePool(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListOfferingTransactionsResult: AWSShape {
@@ -1778,6 +2296,12 @@ extension Devicefarm {
             self.offeringTransactions = offeringTransactions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let offeringTransactions = dictionary["offeringTransactions"] as? [[String: Any]] {
+                self.offeringTransactions = try offeringTransactions.map({ try OfferingTransaction(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListSuitesRequest: AWSShape {
@@ -1795,6 +2319,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CPU: AWSShape {
@@ -1815,6 +2344,11 @@ extension Devicefarm {
             self.clock = clock
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.frequency = dictionary["frequency"] as? String
+            self.architecture = dictionary["architecture"] as? String
+            self.clock = dictionary["clock"] as? Double
+        }
     }
 
     public struct InstallToRemoteAccessSessionResult: AWSShape {
@@ -1829,6 +2363,9 @@ extension Devicefarm {
             self.appUpload = appUpload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let appUpload = dictionary["appUpload"] as? [String: Any] { self.appUpload = try Devicefarm.Upload(dictionary: appUpload) }
+        }
     }
 
     public struct GetNetworkProfileRequest: AWSShape {
@@ -1843,6 +2380,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct Counters: AWSShape {
@@ -1875,6 +2416,15 @@ extension Devicefarm {
             self.total = total
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.warned = dictionary["warned"] as? Int32
+            self.errored = dictionary["errored"] as? Int32
+            self.failed = dictionary["failed"] as? Int32
+            self.skipped = dictionary["skipped"] as? Int32
+            self.passed = dictionary["passed"] as? Int32
+            self.stopped = dictionary["stopped"] as? Int32
+            self.total = dictionary["total"] as? Int32
+        }
     }
 
     public struct DeleteRemoteAccessSessionResult: AWSShape {
@@ -1883,6 +2433,8 @@ extension Devicefarm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeviceMinutes: AWSShape {
@@ -1903,6 +2455,11 @@ extension Devicefarm {
             self.unmetered = unmetered
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.total = dictionary["total"] as? Double
+            self.metered = dictionary["metered"] as? Double
+            self.unmetered = dictionary["unmetered"] as? Double
+        }
     }
 
     public struct ListRemoteAccessSessionsRequest: AWSShape {
@@ -1920,6 +2477,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListArtifactsRequest: AWSShape {
@@ -1940,6 +2502,13 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetTestRequest: AWSShape {
@@ -1954,6 +2523,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetDeviceResult: AWSShape {
@@ -1968,6 +2541,9 @@ extension Devicefarm {
             self.device = device
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+        }
     }
 
     public struct DeleteProjectRequest: AWSShape {
@@ -1982,6 +2558,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct StopRunRequest: AWSShape {
@@ -1996,6 +2576,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListUniqueProblemsResult: AWSShape {
@@ -2013,6 +2597,18 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let uniqueProblems = dictionary["uniqueProblems"] as? [String: Any] {
+                var uniqueProblemsDict: [String: [UniqueProblem]] = [:]
+                for (key, value) in uniqueProblems {
+                    guard let uniqueProblem = value as? [[String: Any]] else { throw InitializableError.convertingError }
+                    let uniqueProblemList: [UniqueProblem] = try uniqueProblem.map { try UniqueProblem(dictionary: $0) }
+                    uniqueProblemsDict[key] = uniqueProblemList
+                }
+                self.uniqueProblems = uniqueProblemsDict
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct Problem: AWSShape {
@@ -2045,6 +2641,15 @@ extension Devicefarm {
             self.result = result
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.ProblemDetail(dictionary: test) }
+            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.ProblemDetail(dictionary: suite) }
+            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.ProblemDetail(dictionary: job) }
+            self.message = dictionary["message"] as? String
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.ProblemDetail(dictionary: run) }
+            self.result = dictionary["result"] as? String
+        }
     }
 
     public struct Sample: AWSShape {
@@ -2065,6 +2670,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.url = dictionary["url"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct DeleteRunRequest: AWSShape {
@@ -2079,6 +2689,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct CreateDevicePoolResult: AWSShape {
@@ -2093,6 +2707,9 @@ extension Devicefarm {
             self.devicePool = devicePool
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) }
+        }
     }
 
     public struct UpdateDevicePoolRequest: AWSShape {
@@ -2116,6 +2733,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.name = dictionary["name"] as? String
+            if let rules = dictionary["rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListOfferingTransactionsRequest: AWSShape {
@@ -2130,6 +2756,9 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct AccountSettings: AWSShape {
@@ -2156,6 +2785,17 @@ extension Devicefarm {
             self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.awsAccountNumber = dictionary["awsAccountNumber"] as? String
+            if let unmeteredDevices = dictionary["unmeteredDevices"] as? [String: Int32] {
+                self.unmeteredDevices = unmeteredDevices
+            }
+            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
+            self.maxJobTimeoutMinutes = dictionary["maxJobTimeoutMinutes"] as? Int32
+            if let unmeteredRemoteAccessDevices = dictionary["unmeteredRemoteAccessDevices"] as? [String: Int32] {
+                self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
+            }
+        }
     }
 
     public struct StopRemoteAccessSessionResult: AWSShape {
@@ -2170,6 +2810,9 @@ extension Devicefarm {
             self.remoteAccessSession = remoteAccessSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) }
+        }
     }
 
     public struct ListArtifactsResult: AWSShape {
@@ -2187,6 +2830,12 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let artifacts = dictionary["artifacts"] as? [[String: Any]] {
+                self.artifacts = try artifacts.map({ try Artifact(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct GetNetworkProfileResult: AWSShape {
@@ -2201,6 +2850,9 @@ extension Devicefarm {
             self.networkProfile = networkProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+        }
     }
 
     public struct Location: AWSShape {
@@ -2218,6 +2870,12 @@ extension Devicefarm {
             self.latitude = latitude
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let longitude = dictionary["longitude"] as? Double else { throw InitializableError.missingRequiredParam("longitude") }
+            self.longitude = longitude
+            guard let latitude = dictionary["latitude"] as? Double else { throw InitializableError.missingRequiredParam("latitude") }
+            self.latitude = latitude
+        }
     }
 
     public struct GetAccountSettingsResult: AWSShape {
@@ -2232,6 +2890,9 @@ extension Devicefarm {
             self.accountSettings = accountSettings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accountSettings = dictionary["accountSettings"] as? [String: Any] { self.accountSettings = try Devicefarm.AccountSettings(dictionary: accountSettings) }
+        }
     }
 
     public struct GetDevicePoolCompatibilityRequest: AWSShape {
@@ -2252,6 +2913,12 @@ extension Devicefarm {
             self.testType = testType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.appArn = dictionary["appArn"] as? String
+            guard let devicePoolArn = dictionary["devicePoolArn"] as? String else { throw InitializableError.missingRequiredParam("devicePoolArn") }
+            self.devicePoolArn = devicePoolArn
+            self.testType = dictionary["testType"] as? String
+        }
     }
 
     public struct Resolution: AWSShape {
@@ -2269,6 +2936,10 @@ extension Devicefarm {
             self.width = width
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.height = dictionary["height"] as? Int32
+            self.width = dictionary["width"] as? Int32
+        }
     }
 
     public struct RenewOfferingRequest: AWSShape {
@@ -2286,6 +2957,10 @@ extension Devicefarm {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.offeringId = dictionary["offeringId"] as? String
+            self.quantity = dictionary["quantity"] as? Int32
+        }
     }
 
     public struct Device: AWSShape {
@@ -2348,6 +3023,25 @@ extension Devicefarm {
             self.carrier = carrier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let cpu = dictionary["cpu"] as? [String: Any] { self.cpu = try Devicefarm.CPU(dictionary: cpu) }
+            self.platform = dictionary["platform"] as? String
+            self.heapSize = dictionary["heapSize"] as? Int64
+            self.model = dictionary["model"] as? String
+            self.radio = dictionary["radio"] as? String
+            self.arn = dictionary["arn"] as? String
+            self.memory = dictionary["memory"] as? Int64
+            if let resolution = dictionary["resolution"] as? [String: Any] { self.resolution = try Devicefarm.Resolution(dictionary: resolution) }
+            self.os = dictionary["os"] as? String
+            self.image = dictionary["image"] as? String
+            self.remoteAccessEnabled = dictionary["remoteAccessEnabled"] as? Bool
+            self.formFactor = dictionary["formFactor"] as? String
+            self.fleetType = dictionary["fleetType"] as? String
+            self.fleetName = dictionary["fleetName"] as? String
+            self.manufacturer = dictionary["manufacturer"] as? String
+            self.carrier = dictionary["carrier"] as? String
+        }
     }
 
     public struct ListRunsRequest: AWSShape {
@@ -2365,6 +3059,11 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct Job: AWSShape {
@@ -2412,6 +3111,20 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            self.status = dictionary["status"] as? String
+            self.name = dictionary["name"] as? String
+            self.created = dictionary["created"] as? Date
+            self.started = dictionary["started"] as? Date
+            self.stopped = dictionary["stopped"] as? Date
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            self.message = dictionary["message"] as? String
+            self.type = dictionary["type"] as? String
+            self.result = dictionary["result"] as? String
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct GetProjectRequest: AWSShape {
@@ -2426,6 +3139,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct ListProjectsRequest: AWSShape {
@@ -2443,6 +3160,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct UpdateProjectRequest: AWSShape {
@@ -2463,6 +3184,12 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct InstallToRemoteAccessSessionRequest: AWSShape {
@@ -2480,6 +3207,12 @@ extension Devicefarm {
             self.remoteAccessSessionArn = remoteAccessSessionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let appArn = dictionary["appArn"] as? String else { throw InitializableError.missingRequiredParam("appArn") }
+            self.appArn = appArn
+            guard let remoteAccessSessionArn = dictionary["remoteAccessSessionArn"] as? String else { throw InitializableError.missingRequiredParam("remoteAccessSessionArn") }
+            self.remoteAccessSessionArn = remoteAccessSessionArn
+        }
     }
 
     public struct GetDevicePoolCompatibilityResult: AWSShape {
@@ -2497,6 +3230,14 @@ extension Devicefarm {
             self.compatibleDevices = compatibleDevices
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let incompatibleDevices = dictionary["incompatibleDevices"] as? [[String: Any]] {
+                self.incompatibleDevices = try incompatibleDevices.map({ try DevicePoolCompatibilityResult(dictionary: $0) })
+            }
+            if let compatibleDevices = dictionary["compatibleDevices"] as? [[String: Any]] {
+                self.compatibleDevices = try compatibleDevices.map({ try DevicePoolCompatibilityResult(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetRemoteAccessSessionRequest: AWSShape {
@@ -2511,6 +3252,10 @@ extension Devicefarm {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct GetProjectResult: AWSShape {
@@ -2525,6 +3270,9 @@ extension Devicefarm {
             self.project = project
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) }
+        }
     }
 
 }

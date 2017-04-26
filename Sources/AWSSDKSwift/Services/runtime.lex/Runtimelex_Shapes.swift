@@ -52,6 +52,15 @@ extension Runtimelex {
             self.subTitle = subTitle
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachmentLinkUrl = dictionary["attachmentLinkUrl"] as? String
+            self.title = dictionary["title"] as? String
+            self.imageUrl = dictionary["imageUrl"] as? String
+            if let buttons = dictionary["buttons"] as? [[String: Any]] {
+                self.buttons = try buttons.map({ try Button(dictionary: $0) })
+            }
+            self.subTitle = dictionary["subTitle"] as? String
+        }
     }
 
     public struct ResponseCard: AWSShape {
@@ -72,6 +81,13 @@ extension Runtimelex {
             self.contentType = contentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let genericAttachments = dictionary["genericAttachments"] as? [[String: Any]] {
+                self.genericAttachments = try genericAttachments.map({ try GenericAttachment(dictionary: $0) })
+            }
+            self.version = dictionary["version"] as? String
+            self.contentType = dictionary["contentType"] as? String
+        }
     }
 
     public struct PostTextResponse: AWSShape {
@@ -104,6 +120,19 @@ extension Runtimelex {
             self.responseCard = responseCard
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.slotToElicit = dictionary["slotToElicit"] as? String
+            if let slots = dictionary["slots"] as? [String: String] {
+                self.slots = slots
+            }
+            if let sessionAttributes = dictionary["sessionAttributes"] as? [String: String] {
+                self.sessionAttributes = sessionAttributes
+            }
+            self.message = dictionary["message"] as? String
+            self.dialogState = dictionary["dialogState"] as? String
+            self.intentName = dictionary["intentName"] as? String
+            if let responseCard = dictionary["responseCard"] as? [String: Any] { self.responseCard = try Runtimelex.ResponseCard(dictionary: responseCard) }
+        }
     }
 
     public struct PostTextRequest: AWSShape {
@@ -133,6 +162,19 @@ extension Runtimelex {
             self.botName = botName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let botAlias = dictionary["botAlias"] as? String else { throw InitializableError.missingRequiredParam("botAlias") }
+            self.botAlias = botAlias
+            if let sessionAttributes = dictionary["sessionAttributes"] as? [String: String] {
+                self.sessionAttributes = sessionAttributes
+            }
+            guard let userId = dictionary["userId"] as? String else { throw InitializableError.missingRequiredParam("userId") }
+            self.userId = userId
+            guard let inputText = dictionary["inputText"] as? String else { throw InitializableError.missingRequiredParam("inputText") }
+            self.inputText = inputText
+            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
+            self.botName = botName
+        }
     }
 
     public struct Button: AWSShape {
@@ -150,6 +192,12 @@ extension Runtimelex {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let text = dictionary["text"] as? String else { throw InitializableError.missingRequiredParam("text") }
+            self.text = text
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
 }

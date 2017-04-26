@@ -47,6 +47,11 @@ extension Sts {
             self.durationSeconds = durationSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tokenCode = dictionary["TokenCode"] as? String
+            self.serialNumber = dictionary["SerialNumber"] as? String
+            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+        }
     }
 
     public struct GetSessionTokenResponse: AWSShape {
@@ -61,6 +66,9 @@ extension Sts {
             self.credentials = credentials
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) }
+        }
     }
 
     public struct DecodeAuthorizationMessageRequest: AWSShape {
@@ -75,6 +83,10 @@ extension Sts {
             self.encodedMessage = encodedMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let encodedMessage = dictionary["EncodedMessage"] as? String else { throw InitializableError.missingRequiredParam("EncodedMessage") }
+            self.encodedMessage = encodedMessage
+        }
     }
 
     public struct Credentials: AWSShape {
@@ -98,6 +110,16 @@ extension Sts {
             self.expiration = expiration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sessionToken = dictionary["SessionToken"] as? String else { throw InitializableError.missingRequiredParam("SessionToken") }
+            self.sessionToken = sessionToken
+            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
+            self.accessKeyId = accessKeyId
+            guard let secretAccessKey = dictionary["SecretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("SecretAccessKey") }
+            self.secretAccessKey = secretAccessKey
+            guard let expiration = dictionary["Expiration"] as? Date else { throw InitializableError.missingRequiredParam("Expiration") }
+            self.expiration = expiration
+        }
     }
 
     public struct AssumeRoleWithWebIdentityResponse: AWSShape {
@@ -127,6 +149,14 @@ extension Sts {
             self.packedPolicySize = packedPolicySize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.audience = dictionary["Audience"] as? String
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) }
+            self.subjectFromWebIdentityToken = dictionary["SubjectFromWebIdentityToken"] as? String
+            if let assumedRoleUser = dictionary["AssumedRoleUser"] as? [String: Any] { self.assumedRoleUser = try Sts.AssumedRoleUser(dictionary: assumedRoleUser) }
+            self.provider = dictionary["Provider"] as? String
+            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+        }
     }
 
     public struct GetFederationTokenResponse: AWSShape {
@@ -147,6 +177,11 @@ extension Sts {
             self.packedPolicySize = packedPolicySize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) }
+            if let federatedUser = dictionary["FederatedUser"] as? [String: Any] { self.federatedUser = try Sts.FederatedUser(dictionary: federatedUser) }
+            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+        }
     }
 
     public struct AssumeRoleWithWebIdentityRequest: AWSShape {
@@ -176,6 +211,17 @@ extension Sts {
             self.roleSessionName = roleSessionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.providerId = dictionary["ProviderId"] as? String
+            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
+            self.roleArn = roleArn
+            guard let webIdentityToken = dictionary["WebIdentityToken"] as? String else { throw InitializableError.missingRequiredParam("WebIdentityToken") }
+            self.webIdentityToken = webIdentityToken
+            self.policy = dictionary["Policy"] as? String
+            guard let roleSessionName = dictionary["RoleSessionName"] as? String else { throw InitializableError.missingRequiredParam("RoleSessionName") }
+            self.roleSessionName = roleSessionName
+        }
     }
 
     public struct AssumedRoleUser: AWSShape {
@@ -193,6 +239,12 @@ extension Sts {
             self.assumedRoleId = assumedRoleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            guard let assumedRoleId = dictionary["AssumedRoleId"] as? String else { throw InitializableError.missingRequiredParam("AssumedRoleId") }
+            self.assumedRoleId = assumedRoleId
+        }
     }
 
     public struct DecodeAuthorizationMessageResponse: AWSShape {
@@ -207,6 +259,9 @@ extension Sts {
             self.decodedMessage = decodedMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.decodedMessage = dictionary["DecodedMessage"] as? String
+        }
     }
 
     public struct GetCallerIdentityRequest: AWSShape {
@@ -215,6 +270,8 @@ extension Sts {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AssumeRoleWithSAMLRequest: AWSShape {
@@ -241,6 +298,16 @@ extension Sts {
             self.sAMLAssertion = sAMLAssertion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let principalArn = dictionary["PrincipalArn"] as? String else { throw InitializableError.missingRequiredParam("PrincipalArn") }
+            self.principalArn = principalArn
+            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
+            self.roleArn = roleArn
+            self.policy = dictionary["Policy"] as? String
+            guard let sAMLAssertion = dictionary["SAMLAssertion"] as? String else { throw InitializableError.missingRequiredParam("SAMLAssertion") }
+            self.sAMLAssertion = sAMLAssertion
+        }
     }
 
     public struct AssumeRoleWithSAMLResponse: AWSShape {
@@ -276,6 +343,16 @@ extension Sts {
             self.subject = subject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) }
+            if let assumedRoleUser = dictionary["AssumedRoleUser"] as? [String: Any] { self.assumedRoleUser = try Sts.AssumedRoleUser(dictionary: assumedRoleUser) }
+            self.subjectType = dictionary["SubjectType"] as? String
+            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+            self.audience = dictionary["Audience"] as? String
+            self.nameQualifier = dictionary["NameQualifier"] as? String
+            self.issuer = dictionary["Issuer"] as? String
+            self.subject = dictionary["Subject"] as? String
+        }
     }
 
     public struct GetFederationTokenRequest: AWSShape {
@@ -296,6 +373,12 @@ extension Sts {
             self.durationSeconds = durationSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+        }
     }
 
     public struct GetCallerIdentityResponse: AWSShape {
@@ -316,6 +399,11 @@ extension Sts {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.account = dictionary["Account"] as? String
+            self.userId = dictionary["UserId"] as? String
+            self.arn = dictionary["Arn"] as? String
+        }
     }
 
     public struct AssumeRoleRequest: AWSShape {
@@ -348,6 +436,17 @@ extension Sts {
             self.roleSessionName = roleSessionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+            self.externalId = dictionary["ExternalId"] as? String
+            self.tokenCode = dictionary["TokenCode"] as? String
+            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
+            self.roleArn = roleArn
+            self.policy = dictionary["Policy"] as? String
+            self.serialNumber = dictionary["SerialNumber"] as? String
+            guard let roleSessionName = dictionary["RoleSessionName"] as? String else { throw InitializableError.missingRequiredParam("RoleSessionName") }
+            self.roleSessionName = roleSessionName
+        }
     }
 
     public struct AssumeRoleResponse: AWSShape {
@@ -368,6 +467,11 @@ extension Sts {
             self.packedPolicySize = packedPolicySize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) }
+            if let assumedRoleUser = dictionary["AssumedRoleUser"] as? [String: Any] { self.assumedRoleUser = try Sts.AssumedRoleUser(dictionary: assumedRoleUser) }
+            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+        }
     }
 
     public struct FederatedUser: AWSShape {
@@ -385,6 +489,12 @@ extension Sts {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let federatedUserId = dictionary["FederatedUserId"] as? String else { throw InitializableError.missingRequiredParam("FederatedUserId") }
+            self.federatedUserId = federatedUserId
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+        }
     }
 
 }

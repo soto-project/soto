@@ -53,6 +53,16 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let config = dictionary["Config"] as? [String: Any] { self.config = try Route53.HostedZoneConfig(dictionary: config) }
+            self.resourceRecordSetCount = dictionary["ResourceRecordSetCount"] as? Int64
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListHostedZonesRequest: AWSShape {
@@ -76,6 +86,11 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.delegationSetId = dictionary["DelegationSetId"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct GetTrafficPolicyInstanceRequest: AWSShape {
@@ -93,6 +108,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetHealthCheckStatusResponse: AWSShape {
@@ -107,6 +126,10 @@ extension Route53 {
             self.healthCheckObservations = healthCheckObservations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckObservations = dictionary["HealthCheckObservations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("HealthCheckObservations") }
+            self.healthCheckObservations = try healthCheckObservations.map({ try HealthCheckObservation(dictionary: $0) })
+        }
     }
 
     public struct ListVPCAssociationAuthorizationsRequest: AWSShape {
@@ -133,6 +156,12 @@ extension Route53 {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            self.maxResults = dictionary["MaxResults"] as? String
+        }
     }
 
     public struct DeleteReusableDelegationSetRequest: AWSShape {
@@ -150,6 +179,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateHealthCheckResponse: AWSShape {
@@ -170,6 +203,12 @@ extension Route53 {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
+            self.healthCheck = try Route53.HealthCheck(dictionary: healthCheck)
+            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
+            self.location = location
+        }
     }
 
     public struct TestDNSAnswerRequest: AWSShape {
@@ -202,6 +241,17 @@ extension Route53 {
             self.resolverIP = resolverIP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recordType = dictionary["RecordType"] as? String else { throw InitializableError.missingRequiredParam("RecordType") }
+            self.recordType = recordType
+            self.eDNS0ClientSubnetIP = dictionary["EDNS0ClientSubnetIP"] as? String
+            self.eDNS0ClientSubnetMask = dictionary["EDNS0ClientSubnetMask"] as? String
+            guard let recordName = dictionary["RecordName"] as? String else { throw InitializableError.missingRequiredParam("RecordName") }
+            self.recordName = recordName
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            self.resolverIP = dictionary["ResolverIP"] as? String
+        }
     }
 
     public struct ListTrafficPoliciesResponse: AWSShape {
@@ -225,6 +275,16 @@ extension Route53 {
             self.trafficPolicySummaries = trafficPolicySummaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let trafficPolicyIdMarker = dictionary["TrafficPolicyIdMarker"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyIdMarker") }
+            self.trafficPolicyIdMarker = trafficPolicyIdMarker
+            guard let trafficPolicySummaries = dictionary["TrafficPolicySummaries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TrafficPolicySummaries") }
+            self.trafficPolicySummaries = try trafficPolicySummaries.map({ try TrafficPolicySummary(dictionary: $0) })
+        }
     }
 
     public struct GetTrafficPolicyInstanceCountResponse: AWSShape {
@@ -239,6 +299,10 @@ extension Route53 {
             self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicyInstanceCount = dictionary["TrafficPolicyInstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyInstanceCount") }
+            self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
+        }
     }
 
     public struct GetHealthCheckLastFailureReasonRequest: AWSShape {
@@ -256,6 +320,10 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
+            self.healthCheckId = healthCheckId
+        }
     }
 
     public struct TrafficPolicySummary: AWSShape {
@@ -282,6 +350,18 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let latestVersion = dictionary["LatestVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("LatestVersion") }
+            self.latestVersion = latestVersion
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let trafficPolicyCount = dictionary["TrafficPolicyCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyCount") }
+            self.trafficPolicyCount = trafficPolicyCount
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ChangeBatch: AWSShape {
@@ -299,6 +379,11 @@ extension Route53 {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changes = dictionary["Changes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Changes") }
+            self.changes = try changes.map({ try Change(dictionary: $0) })
+            self.comment = dictionary["Comment"] as? String
+        }
     }
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
@@ -325,6 +410,16 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
+            self.trafficPolicyVersion = trafficPolicyVersion
+            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
+            self.trafficPolicyId = trafficPolicyId
+            guard let tTL = dictionary["TTL"] as? Int64 else { throw InitializableError.missingRequiredParam("TTL") }
+            self.tTL = tTL
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListHostedZonesByNameRequest: AWSShape {
@@ -348,6 +443,11 @@ extension Route53 {
             self.dNSName = dNSName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+            self.dNSName = dictionary["DNSName"] as? String
+        }
     }
 
     public struct UpdateHealthCheckResponse: AWSShape {
@@ -361,6 +461,10 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
+            self.healthCheck = try Route53.HealthCheck(dictionary: healthCheck)
+        }
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSShape {
@@ -387,6 +491,16 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
+            self.trafficPolicyInstances = try trafficPolicyInstances.map({ try TrafficPolicyInstance(dictionary: $0) })
+            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+        }
     }
 
     public struct DeleteVPCAssociationAuthorizationResponse: AWSShape {
@@ -395,6 +509,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AssociateVPCWithHostedZoneRequest: AWSShape {
@@ -418,6 +534,13 @@ extension Route53 {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
+            self.vPC = try Route53.VPC(dictionary: vPC)
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            self.comment = dictionary["Comment"] as? String
+        }
     }
 
     public struct ResourceRecord: AWSShape {
@@ -432,6 +555,10 @@ extension Route53 {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+        }
     }
 
     public struct GetHealthCheckStatusRequest: AWSShape {
@@ -449,6 +576,10 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
+            self.healthCheckId = healthCheckId
+        }
     }
 
     public struct Tag: AWSShape {
@@ -466,6 +597,10 @@ extension Route53 {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DelegationSet: AWSShape {
@@ -486,6 +621,12 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let nameServers = dictionary["NameServers"] as? [String] else { throw InitializableError.missingRequiredParam("NameServers") }
+            self.nameServers = nameServers
+            self.callerReference = dictionary["CallerReference"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct UpdateTrafficPolicyCommentRequest: AWSShape {
@@ -509,6 +650,14 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateTrafficPolicyVersionResponse: AWSShape {
@@ -529,6 +678,12 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
+            self.location = location
+            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
+            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        }
     }
 
     public struct ListTrafficPolicyInstancesResponse: AWSShape {
@@ -558,6 +713,17 @@ extension Route53 {
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.hostedZoneIdMarker = dictionary["HostedZoneIdMarker"] as? String
+            guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
+            self.trafficPolicyInstances = try trafficPolicyInstances.map({ try TrafficPolicyInstance(dictionary: $0) })
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+        }
     }
 
     public struct ListHostedZonesByNameResponse: AWSShape {
@@ -590,6 +756,18 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZones = dictionary["HostedZones"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("HostedZones") }
+            self.hostedZones = try hostedZones.map({ try HostedZone(dictionary: $0) })
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.nextHostedZoneId = dictionary["NextHostedZoneId"] as? String
+            self.dNSName = dictionary["DNSName"] as? String
+            self.nextDNSName = dictionary["NextDNSName"] as? String
+            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+        }
     }
 
     public struct CreateHealthCheckRequest: AWSShape {
@@ -607,6 +785,12 @@ extension Route53 {
             self.callerReference = callerReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckConfig = dictionary["HealthCheckConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheckConfig") }
+            self.healthCheckConfig = try Route53.HealthCheckConfig(dictionary: healthCheckConfig)
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+        }
     }
 
     public struct CreateReusableDelegationSetResponse: AWSShape {
@@ -627,6 +811,12 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
+            self.location = location
+            guard let delegationSet = dictionary["DelegationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSet") }
+            self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet)
+        }
     }
 
     public struct AssociateVPCWithHostedZoneResponse: AWSShape {
@@ -641,6 +831,10 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
+            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        }
     }
 
     public struct HealthCheck: AWSShape {
@@ -667,6 +861,17 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckVersion = dictionary["HealthCheckVersion"] as? Int64 else { throw InitializableError.missingRequiredParam("HealthCheckVersion") }
+            self.healthCheckVersion = healthCheckVersion
+            guard let healthCheckConfig = dictionary["HealthCheckConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheckConfig") }
+            self.healthCheckConfig = try Route53.HealthCheckConfig(dictionary: healthCheckConfig)
+            if let cloudWatchAlarmConfiguration = dictionary["CloudWatchAlarmConfiguration"] as? [String: Any] { self.cloudWatchAlarmConfiguration = try Route53.CloudWatchAlarmConfiguration(dictionary: cloudWatchAlarmConfiguration) }
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CloudWatchAlarmConfiguration: AWSShape {
@@ -702,6 +907,25 @@ extension Route53 {
             self.dimensions = dimensions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
+            self.threshold = threshold
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
+            self.period = period
+            guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
+            self.evaluationPeriods = evaluationPeriods
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            guard let statistic = dictionary["Statistic"] as? String else { throw InitializableError.missingRequiredParam("Statistic") }
+            self.statistic = statistic
+            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
+            self.namespace = namespace
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            }
+        }
     }
 
     public struct DisassociateVPCFromHostedZoneResponse: AWSShape {
@@ -716,6 +940,10 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
+            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        }
     }
 
     public struct GetChangeResponse: AWSShape {
@@ -730,6 +958,10 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
+            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        }
     }
 
     public struct UpdateHealthCheckRequest: AWSShape {
@@ -788,6 +1020,28 @@ extension Route53 {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.healthCheckVersion = dictionary["HealthCheckVersion"] as? Int64
+            self.iPAddress = dictionary["IPAddress"] as? String
+            if let childHealthChecks = dictionary["ChildHealthChecks"] as? [String] {
+                self.childHealthChecks = childHealthChecks
+            }
+            self.resourcePath = dictionary["ResourcePath"] as? String
+            self.insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String
+            self.inverted = dictionary["Inverted"] as? Bool
+            if let alarmIdentifier = dictionary["AlarmIdentifier"] as? [String: Any] { self.alarmIdentifier = try Route53.AlarmIdentifier(dictionary: alarmIdentifier) }
+            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
+            self.healthCheckId = healthCheckId
+            if let regions = dictionary["Regions"] as? [String] {
+                self.regions = regions
+            }
+            self.healthThreshold = dictionary["HealthThreshold"] as? Int32
+            self.searchString = dictionary["SearchString"] as? String
+            self.fullyQualifiedDomainName = dictionary["FullyQualifiedDomainName"] as? String
+            self.failureThreshold = dictionary["FailureThreshold"] as? Int32
+            self.enableSNI = dictionary["EnableSNI"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct ListReusableDelegationSetsRequest: AWSShape {
@@ -808,6 +1062,10 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -828,6 +1086,12 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct CreateTrafficPolicyResponse: AWSShape {
@@ -848,6 +1112,12 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
+            self.location = location
+            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
+            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
@@ -862,6 +1132,10 @@ extension Route53 {
             self.resourceTagSet = resourceTagSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceTagSet = dictionary["ResourceTagSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceTagSet") }
+            self.resourceTagSet = try Route53.ResourceTagSet(dictionary: resourceTagSet)
+        }
     }
 
     public struct AliasTarget: AWSShape {
@@ -882,6 +1156,14 @@ extension Route53 {
             self.evaluateTargetHealth = evaluateTargetHealth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dNSName = dictionary["DNSName"] as? String else { throw InitializableError.missingRequiredParam("DNSName") }
+            self.dNSName = dNSName
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            guard let evaluateTargetHealth = dictionary["EvaluateTargetHealth"] as? Bool else { throw InitializableError.missingRequiredParam("EvaluateTargetHealth") }
+            self.evaluateTargetHealth = evaluateTargetHealth
+        }
     }
 
     public struct TrafficPolicyInstance: AWSShape {
@@ -920,6 +1202,26 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let trafficPolicyType = dictionary["TrafficPolicyType"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyType") }
+            self.trafficPolicyType = trafficPolicyType
+            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = message
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
+            self.trafficPolicyVersion = trafficPolicyVersion
+            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
+            self.trafficPolicyId = trafficPolicyId
+            guard let tTL = dictionary["TTL"] as? Int64 else { throw InitializableError.missingRequiredParam("TTL") }
+            self.tTL = tTL
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+        }
     }
 
     public struct UpdateTrafficPolicyInstanceResponse: AWSShape {
@@ -934,6 +1236,10 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstance") }
+            self.trafficPolicyInstance = try Route53.TrafficPolicyInstance(dictionary: trafficPolicyInstance)
+        }
     }
 
     public struct ListTrafficPoliciesRequest: AWSShape {
@@ -954,6 +1260,10 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.trafficPolicyIdMarker = dictionary["TrafficPolicyIdMarker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct GetGeoLocationRequest: AWSShape {
@@ -977,6 +1287,11 @@ extension Route53 {
             self.countryCode = countryCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.continentCode = dictionary["ContinentCode"] as? String
+            self.subdivisionCode = dictionary["SubdivisionCode"] as? String
+            self.countryCode = dictionary["CountryCode"] as? String
+        }
     }
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
@@ -1000,6 +1315,13 @@ extension Route53 {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
+            self.vPC = try Route53.VPC(dictionary: vPC)
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            self.comment = dictionary["Comment"] as? String
+        }
     }
 
     public struct DeleteHealthCheckRequest: AWSShape {
@@ -1017,6 +1339,10 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
+            self.healthCheckId = healthCheckId
+        }
     }
 
     public struct CreateHostedZoneResponse: AWSShape {
@@ -1046,6 +1372,17 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
+            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+            guard let hostedZone = dictionary["HostedZone"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZone") }
+            self.hostedZone = try Route53.HostedZone(dictionary: hostedZone)
+            if let vPC = dictionary["VPC"] as? [String: Any] { self.vPC = try Route53.VPC(dictionary: vPC) }
+            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
+            self.location = location
+            guard let delegationSet = dictionary["DelegationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSet") }
+            self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet)
+        }
     }
 
     public struct GetTrafficPolicyResponse: AWSShape {
@@ -1060,6 +1397,10 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
+            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        }
     }
 
     public struct StatusReport: AWSShape {
@@ -1077,6 +1418,10 @@ extension Route53 {
             self.checkedTime = checkedTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.checkedTime = dictionary["CheckedTime"] as? Date
+        }
     }
 
     public struct TrafficPolicy: AWSShape {
@@ -1106,6 +1451,19 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.comment = dictionary["Comment"] as? String
+            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
+            self.document = document
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetGeoLocationResponse: AWSShape {
@@ -1120,6 +1478,10 @@ extension Route53 {
             self.geoLocationDetails = geoLocationDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let geoLocationDetails = dictionary["GeoLocationDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GeoLocationDetails") }
+            self.geoLocationDetails = try Route53.GeoLocationDetails(dictionary: geoLocationDetails)
+        }
     }
 
     public struct ChangeTagsForResourceResponse: AWSShape {
@@ -1128,6 +1490,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListGeoLocationsResponse: AWSShape {
@@ -1157,6 +1521,17 @@ extension Route53 {
             self.nextCountryCode = nextCountryCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextContinentCode = dictionary["NextContinentCode"] as? String
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            self.nextSubdivisionCode = dictionary["NextSubdivisionCode"] as? String
+            guard let geoLocationDetailsList = dictionary["GeoLocationDetailsList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("GeoLocationDetailsList") }
+            self.geoLocationDetailsList = try geoLocationDetailsList.map({ try GeoLocationDetails(dictionary: $0) })
+            self.nextCountryCode = dictionary["NextCountryCode"] as? String
+        }
     }
 
     public struct HealthCheckObservation: AWSShape {
@@ -1177,6 +1552,11 @@ extension Route53 {
             self.region = region
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let statusReport = dictionary["StatusReport"] as? [String: Any] { self.statusReport = try Route53.StatusReport(dictionary: statusReport) }
+            self.iPAddress = dictionary["IPAddress"] as? String
+            self.region = dictionary["Region"] as? String
+        }
     }
 
     public struct Dimension: AWSShape {
@@ -1194,6 +1574,12 @@ extension Route53 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetReusableDelegationSetRequest: AWSShape {
@@ -1211,6 +1597,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
@@ -1231,6 +1621,12 @@ extension Route53 {
             self.vPC = vPC
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
+            self.vPC = try Route53.VPC(dictionary: vPC)
+        }
     }
 
     public struct GetTrafficPolicyInstanceCountRequest: AWSShape {
@@ -1239,6 +1635,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListResourceRecordSetsResponse: AWSShape {
@@ -1268,6 +1666,17 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextRecordName = dictionary["NextRecordName"] as? String
+            guard let resourceRecordSets = dictionary["ResourceRecordSets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ResourceRecordSets") }
+            self.resourceRecordSets = try resourceRecordSets.map({ try ResourceRecordSet(dictionary: $0) })
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.nextRecordType = dictionary["NextRecordType"] as? String
+            self.nextRecordIdentifier = dictionary["NextRecordIdentifier"] as? String
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+        }
     }
 
     public struct ListHostedZonesResponse: AWSShape {
@@ -1294,6 +1703,17 @@ extension Route53 {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZones = dictionary["HostedZones"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("HostedZones") }
+            self.hostedZones = try hostedZones.map({ try HostedZone(dictionary: $0) })
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+        }
     }
 
     public struct CreateTrafficPolicyInstanceResponse: AWSShape {
@@ -1314,6 +1734,12 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
+            self.location = location
+            guard let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstance") }
+            self.trafficPolicyInstance = try Route53.TrafficPolicyInstance(dictionary: trafficPolicyInstance)
+        }
     }
 
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
@@ -1343,6 +1769,17 @@ extension Route53 {
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.hostedZoneIdMarker = dictionary["HostedZoneIdMarker"] as? String
+            guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
+            self.trafficPolicyInstances = try trafficPolicyInstances.map({ try TrafficPolicyInstance(dictionary: $0) })
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+        }
     }
 
     public struct ChangeInfo: AWSShape {
@@ -1366,6 +1803,15 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.comment = dictionary["Comment"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let submittedAt = dictionary["SubmittedAt"] as? Date else { throw InitializableError.missingRequiredParam("SubmittedAt") }
+            self.submittedAt = submittedAt
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteHealthCheckResponse: AWSShape {
@@ -1374,6 +1820,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GeoLocation: AWSShape {
@@ -1394,6 +1842,11 @@ extension Route53 {
             self.countryCode = countryCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.continentCode = dictionary["ContinentCode"] as? String
+            self.subdivisionCode = dictionary["SubdivisionCode"] as? String
+            self.countryCode = dictionary["CountryCode"] as? String
+        }
     }
 
     public struct ListResourceRecordSetsRequest: AWSShape {
@@ -1426,6 +1879,14 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startRecordIdentifier = dictionary["StartRecordIdentifier"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.startRecordName = dictionary["StartRecordName"] as? String
+            self.startRecordType = dictionary["StartRecordType"] as? String
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+        }
     }
 
     public struct GetHealthCheckLastFailureReasonResponse: AWSShape {
@@ -1440,6 +1901,10 @@ extension Route53 {
             self.healthCheckObservations = healthCheckObservations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckObservations = dictionary["HealthCheckObservations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("HealthCheckObservations") }
+            self.healthCheckObservations = try healthCheckObservations.map({ try HealthCheckObservation(dictionary: $0) })
+        }
     }
 
     public struct CreateTrafficPolicyVersionRequest: AWSShape {
@@ -1463,6 +1928,13 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
+            self.document = document
+            self.comment = dictionary["Comment"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GeoLocationDetails: AWSShape {
@@ -1492,6 +1964,14 @@ extension Route53 {
             self.continentCode = continentCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subdivisionName = dictionary["SubdivisionName"] as? String
+            self.subdivisionCode = dictionary["SubdivisionCode"] as? String
+            self.countryCode = dictionary["CountryCode"] as? String
+            self.continentName = dictionary["ContinentName"] as? String
+            self.countryName = dictionary["CountryName"] as? String
+            self.continentCode = dictionary["ContinentCode"] as? String
+        }
     }
 
     public struct GetHealthCheckCountRequest: AWSShape {
@@ -1500,6 +1980,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteReusableDelegationSetResponse: AWSShape {
@@ -1508,6 +1990,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListTrafficPolicyVersionsResponse: AWSShape {
@@ -1531,6 +2015,16 @@ extension Route53 {
             self.trafficPolicies = trafficPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let trafficPolicyVersionMarker = dictionary["TrafficPolicyVersionMarker"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyVersionMarker") }
+            self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
+            guard let trafficPolicies = dictionary["TrafficPolicies"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TrafficPolicies") }
+            self.trafficPolicies = try trafficPolicies.map({ try TrafficPolicy(dictionary: $0) })
+        }
     }
 
     public struct GetHealthCheckRequest: AWSShape {
@@ -1548,6 +2042,10 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
+            self.healthCheckId = healthCheckId
+        }
     }
 
     public struct ListHealthChecksRequest: AWSShape {
@@ -1568,6 +2066,10 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct ListTagsForResourcesResponse: AWSShape {
@@ -1582,6 +2084,10 @@ extension Route53 {
             self.resourceTagSets = resourceTagSets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceTagSets = dictionary["ResourceTagSets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ResourceTagSets") }
+            self.resourceTagSets = try resourceTagSets.map({ try ResourceTagSet(dictionary: $0) })
+        }
     }
 
     public struct ListReusableDelegationSetsResponse: AWSShape {
@@ -1608,6 +2114,17 @@ extension Route53 {
             self.delegationSets = delegationSets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+            guard let delegationSets = dictionary["DelegationSets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DelegationSets") }
+            self.delegationSets = try delegationSets.map({ try DelegationSet(dictionary: $0) })
+        }
     }
 
     public struct AlarmIdentifier: AWSShape {
@@ -1625,6 +2142,12 @@ extension Route53 {
             self.region = region
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
+            self.region = region
+        }
     }
 
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSShape {
@@ -1657,6 +2180,16 @@ extension Route53 {
             self.trafficPolicyId = trafficPolicyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.hostedZoneIdMarker = dictionary["HostedZoneIdMarker"] as? String
+            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
+            self.trafficPolicyVersion = trafficPolicyVersion
+            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
+            self.trafficPolicyId = trafficPolicyId
+        }
     }
 
     public struct ResourceRecordSet: AWSShape {
@@ -1704,6 +2237,24 @@ extension Route53 {
             self.tTL = tTL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failover = dictionary["Failover"] as? String
+            if let geoLocation = dictionary["GeoLocation"] as? [String: Any] { self.geoLocation = try Route53.GeoLocation(dictionary: geoLocation) }
+            self.trafficPolicyInstanceId = dictionary["TrafficPolicyInstanceId"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.weight = dictionary["Weight"] as? Int64
+            self.region = dictionary["Region"] as? String
+            if let aliasTarget = dictionary["AliasTarget"] as? [String: Any] { self.aliasTarget = try Route53.AliasTarget(dictionary: aliasTarget) }
+            self.healthCheckId = dictionary["HealthCheckId"] as? String
+            self.setIdentifier = dictionary["SetIdentifier"] as? String
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            if let resourceRecords = dictionary["ResourceRecords"] as? [[String: Any]] {
+                self.resourceRecords = try resourceRecords.map({ try ResourceRecord(dictionary: $0) })
+            }
+            self.tTL = dictionary["TTL"] as? Int64
+        }
     }
 
     public struct DeleteTrafficPolicyResponse: AWSShape {
@@ -1712,6 +2263,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteTrafficPolicyRequest: AWSShape {
@@ -1732,6 +2285,12 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ResourceTagSet: AWSShape {
@@ -1752,6 +2311,13 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct ListVPCAssociationAuthorizationsResponse: AWSShape {
@@ -1772,6 +2338,13 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let vPCs = dictionary["VPCs"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("VPCs") }
+            self.vPCs = try vPCs.map({ try VPC(dictionary: $0) })
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+        }
     }
 
     public struct HealthCheckConfig: AWSShape {
@@ -1831,6 +2404,29 @@ extension Route53 {
             self.failureThreshold = failureThreshold
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iPAddress = dictionary["IPAddress"] as? String
+            if let childHealthChecks = dictionary["ChildHealthChecks"] as? [String] {
+                self.childHealthChecks = childHealthChecks
+            }
+            self.measureLatency = dictionary["MeasureLatency"] as? Bool
+            self.resourcePath = dictionary["ResourcePath"] as? String
+            self.insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String
+            self.inverted = dictionary["Inverted"] as? Bool
+            if let alarmIdentifier = dictionary["AlarmIdentifier"] as? [String: Any] { self.alarmIdentifier = try Route53.AlarmIdentifier(dictionary: alarmIdentifier) }
+            if let regions = dictionary["Regions"] as? [String] {
+                self.regions = regions
+            }
+            self.healthThreshold = dictionary["HealthThreshold"] as? Int32
+            self.searchString = dictionary["SearchString"] as? String
+            self.fullyQualifiedDomainName = dictionary["FullyQualifiedDomainName"] as? String
+            self.requestInterval = dictionary["RequestInterval"] as? Int32
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            self.enableSNI = dictionary["EnableSNI"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+            self.failureThreshold = dictionary["FailureThreshold"] as? Int32
+        }
     }
 
     public struct ListTrafficPolicyVersionsRequest: AWSShape {
@@ -1857,6 +2453,12 @@ extension Route53 {
             self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.trafficPolicyVersionMarker = dictionary["TrafficPolicyVersionMarker"] as? String
+        }
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSShape {
@@ -1883,6 +2485,13 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+        }
     }
 
     public struct ListHealthChecksResponse: AWSShape {
@@ -1909,6 +2518,17 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            guard let healthChecks = dictionary["HealthChecks"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("HealthChecks") }
+            self.healthChecks = try healthChecks.map({ try HealthCheck(dictionary: $0) })
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+        }
     }
 
     public struct GetHostedZoneResponse: AWSShape {
@@ -1929,6 +2549,14 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZone = dictionary["HostedZone"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZone") }
+            self.hostedZone = try Route53.HostedZone(dictionary: hostedZone)
+            if let vPCs = dictionary["VPCs"] as? [[String: Any]] {
+                self.vPCs = try vPCs.map({ try VPC(dictionary: $0) })
+            }
+            if let delegationSet = dictionary["DelegationSet"] as? [String: Any] { self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet) }
+        }
     }
 
     public struct ChangeTagsForResourceRequest: AWSShape {
@@ -1955,6 +2583,18 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let addTags = dictionary["AddTags"] as? [[String: Any]] {
+                self.addTags = try addTags.map({ try Tag(dictionary: $0) })
+            }
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            if let removeTagKeys = dictionary["RemoveTagKeys"] as? [String] {
+                self.removeTagKeys = removeTagKeys
+            }
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct UpdateHostedZoneCommentRequest: AWSShape {
@@ -1975,6 +2615,11 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.comment = dictionary["Comment"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
@@ -1995,6 +2640,12 @@ extension Route53 {
             self.vPC = vPC
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
+            self.vPC = try Route53.VPC(dictionary: vPC)
+        }
     }
 
     public struct CreateHostedZoneRequest: AWSShape {
@@ -2021,6 +2672,15 @@ extension Route53 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.delegationSetId = dictionary["DelegationSetId"] as? String
+            if let vPC = dictionary["VPC"] as? [String: Any] { self.vPC = try Route53.VPC(dictionary: vPC) }
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            if let hostedZoneConfig = dictionary["HostedZoneConfig"] as? [String: Any] { self.hostedZoneConfig = try Route53.HostedZoneConfig(dictionary: hostedZoneConfig) }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DeleteHostedZoneResponse: AWSShape {
@@ -2035,6 +2695,10 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
+            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        }
     }
 
     public struct GetHostedZoneCountResponse: AWSShape {
@@ -2049,6 +2713,10 @@ extension Route53 {
             self.hostedZoneCount = hostedZoneCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZoneCount = dictionary["HostedZoneCount"] as? Int64 else { throw InitializableError.missingRequiredParam("HostedZoneCount") }
+            self.hostedZoneCount = hostedZoneCount
+        }
     }
 
     public struct DeleteTrafficPolicyInstanceResponse: AWSShape {
@@ -2057,6 +2725,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetCheckerIpRangesRequest: AWSShape {
@@ -2065,6 +2735,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetHealthCheckResponse: AWSShape {
@@ -2079,6 +2751,10 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
+            self.healthCheck = try Route53.HealthCheck(dictionary: healthCheck)
+        }
     }
 
     public struct UpdateTrafficPolicyCommentResponse: AWSShape {
@@ -2093,6 +2769,10 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
+            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        }
     }
 
     public struct GetHostedZoneCountRequest: AWSShape {
@@ -2101,6 +2781,8 @@ extension Route53 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateHostedZoneCommentResponse: AWSShape {
@@ -2114,6 +2796,10 @@ extension Route53 {
             self.hostedZone = hostedZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZone = dictionary["HostedZone"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZone") }
+            self.hostedZone = try Route53.HostedZone(dictionary: hostedZone)
+        }
     }
 
     public struct Change: AWSShape {
@@ -2131,6 +2817,12 @@ extension Route53 {
             self.action = action
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceRecordSet = dictionary["ResourceRecordSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceRecordSet") }
+            self.resourceRecordSet = try Route53.ResourceRecordSet(dictionary: resourceRecordSet)
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+        }
     }
 
     public struct GetChangeRequest: AWSShape {
@@ -2148,6 +2840,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetCheckerIpRangesResponse: AWSShape {
@@ -2161,6 +2857,10 @@ extension Route53 {
             self.checkerIpRanges = checkerIpRanges
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let checkerIpRanges = dictionary["CheckerIpRanges"] as? [String] else { throw InitializableError.missingRequiredParam("CheckerIpRanges") }
+            self.checkerIpRanges = checkerIpRanges
+        }
     }
 
     public struct GetHostedZoneRequest: AWSShape {
@@ -2178,6 +2878,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteHostedZoneRequest: AWSShape {
@@ -2195,6 +2899,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateReusableDelegationSetRequest: AWSShape {
@@ -2212,6 +2920,11 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+        }
     }
 
     public struct GetHealthCheckCountResponse: AWSShape {
@@ -2226,6 +2939,10 @@ extension Route53 {
             self.healthCheckCount = healthCheckCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let healthCheckCount = dictionary["HealthCheckCount"] as? Int64 else { throw InitializableError.missingRequiredParam("HealthCheckCount") }
+            self.healthCheckCount = healthCheckCount
+        }
     }
 
     public struct HostedZoneConfig: AWSShape {
@@ -2243,6 +2960,10 @@ extension Route53 {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateZone = dictionary["PrivateZone"] as? Bool
+            self.comment = dictionary["Comment"] as? String
+        }
     }
 
     public struct CreateVPCAssociationAuthorizationResponse: AWSShape {
@@ -2260,6 +2981,12 @@ extension Route53 {
             self.vPC = vPC
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
+            self.vPC = try Route53.VPC(dictionary: vPC)
+        }
     }
 
     public struct DeleteTrafficPolicyInstanceRequest: AWSShape {
@@ -2277,6 +3004,10 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct TestDNSAnswerResponse: AWSShape {
@@ -2306,6 +3037,20 @@ extension Route53 {
             self.nameserver = nameserver
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            guard let responseCode = dictionary["ResponseCode"] as? String else { throw InitializableError.missingRequiredParam("ResponseCode") }
+            self.responseCode = responseCode
+            guard let recordData = dictionary["RecordData"] as? [String] else { throw InitializableError.missingRequiredParam("RecordData") }
+            self.recordData = recordData
+            guard let recordName = dictionary["RecordName"] as? String else { throw InitializableError.missingRequiredParam("RecordName") }
+            self.recordName = recordName
+            guard let recordType = dictionary["RecordType"] as? String else { throw InitializableError.missingRequiredParam("RecordType") }
+            self.recordType = recordType
+            guard let nameserver = dictionary["Nameserver"] as? String else { throw InitializableError.missingRequiredParam("Nameserver") }
+            self.nameserver = nameserver
+        }
     }
 
     public struct ChangeResourceRecordSetsRequest: AWSShape {
@@ -2326,6 +3071,12 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeBatch = dictionary["ChangeBatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeBatch") }
+            self.changeBatch = try Route53.ChangeBatch(dictionary: changeBatch)
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+        }
     }
 
     public struct ListTrafficPolicyInstancesRequest: AWSShape {
@@ -2352,6 +3103,12 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.hostedZoneIdMarker = dictionary["HostedZoneIdMarker"] as? String
+            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+        }
     }
 
     public struct VPC: AWSShape {
@@ -2368,6 +3125,10 @@ extension Route53 {
             self.vPCRegion = vPCRegion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vPCId = dictionary["VPCId"] as? String
+            self.vPCRegion = dictionary["VPCRegion"] as? String
+        }
     }
 
     public struct ListGeoLocationsRequest: AWSShape {
@@ -2394,6 +3155,12 @@ extension Route53 {
             self.startCountryCode = startCountryCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? String
+            self.startContinentCode = dictionary["StartContinentCode"] as? String
+            self.startSubdivisionCode = dictionary["StartSubdivisionCode"] as? String
+            self.startCountryCode = dictionary["StartCountryCode"] as? String
+        }
     }
 
     public struct GetTrafficPolicyInstanceResponse: AWSShape {
@@ -2408,6 +3175,10 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstance") }
+            self.trafficPolicyInstance = try Route53.TrafficPolicyInstance(dictionary: trafficPolicyInstance)
+        }
     }
 
     public struct ListTagsForResourcesRequest: AWSShape {
@@ -2428,6 +3199,12 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceIds = dictionary["ResourceIds"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceIds") }
+            self.resourceIds = resourceIds
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct CreateTrafficPolicyInstanceRequest: AWSShape {
@@ -2454,6 +3231,18 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
+            self.trafficPolicyVersion = trafficPolicyVersion
+            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
+            self.trafficPolicyId = trafficPolicyId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let tTL = dictionary["TTL"] as? Int64 else { throw InitializableError.missingRequiredParam("TTL") }
+            self.tTL = tTL
+            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
+            self.hostedZoneId = hostedZoneId
+        }
     }
 
     public struct GetReusableDelegationSetResponse: AWSShape {
@@ -2468,6 +3257,10 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let delegationSet = dictionary["DelegationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSet") }
+            self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet)
+        }
     }
 
     public struct ChangeResourceRecordSetsResponse: AWSShape {
@@ -2482,6 +3275,10 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
+            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        }
     }
 
     public struct CreateTrafficPolicyRequest: AWSShape {
@@ -2502,6 +3299,13 @@ extension Route53 {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
+            self.document = document
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.comment = dictionary["Comment"] as? String
+        }
     }
 
     public struct GetTrafficPolicyRequest: AWSShape {
@@ -2522,6 +3326,12 @@ extension Route53 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
 }

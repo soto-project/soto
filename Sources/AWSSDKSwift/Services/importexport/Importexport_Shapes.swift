@@ -44,6 +44,11 @@ extension Importexport {
             self.aPIVersion = aPIVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxJobs = dictionary["MaxJobs"] as? Int32
+            self.aPIVersion = dictionary["APIVersion"] as? String
+        }
     }
 
     public struct CreateJobInput: AWSShape {
@@ -65,6 +70,16 @@ extension Importexport {
             self.validateOnly = validateOnly
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobType = dictionary["JobType"] as? String else { throw InitializableError.missingRequiredParam("JobType") }
+            self.jobType = jobType
+            self.manifestAddendum = dictionary["ManifestAddendum"] as? String
+            guard let manifest = dictionary["Manifest"] as? String else { throw InitializableError.missingRequiredParam("Manifest") }
+            self.manifest = manifest
+            self.aPIVersion = dictionary["APIVersion"] as? String
+            guard let validateOnly = dictionary["ValidateOnly"] as? Bool else { throw InitializableError.missingRequiredParam("ValidateOnly") }
+            self.validateOnly = validateOnly
+        }
     }
 
     public struct GetShippingLabelInput: AWSShape {
@@ -100,6 +115,21 @@ extension Importexport {
             self.country = country
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stateOrProvince = dictionary["stateOrProvince"] as? String
+            self.city = dictionary["city"] as? String
+            self.postalCode = dictionary["postalCode"] as? String
+            self.name = dictionary["name"] as? String
+            self.phoneNumber = dictionary["phoneNumber"] as? String
+            self.street3 = dictionary["street3"] as? String
+            guard let jobIds = dictionary["jobIds"] as? [String] else { throw InitializableError.missingRequiredParam("jobIds") }
+            self.jobIds = jobIds
+            self.aPIVersion = dictionary["APIVersion"] as? String
+            self.street2 = dictionary["street2"] as? String
+            self.street1 = dictionary["street1"] as? String
+            self.company = dictionary["company"] as? String
+            self.country = dictionary["country"] as? String
+        }
     }
 
     public struct GetStatusInput: AWSShape {
@@ -115,6 +145,11 @@ extension Importexport {
             self.aPIVersion = aPIVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            self.aPIVersion = dictionary["APIVersion"] as? String
+        }
     }
 
     public struct CreateJobOutput: AWSShape {
@@ -138,6 +173,16 @@ extension Importexport {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobType = dictionary["JobType"] as? String
+            if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
+                self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
+            }
+            self.signatureFileContents = dictionary["SignatureFileContents"] as? String
+            self.warningMessage = dictionary["WarningMessage"] as? String
+            self.signature = dictionary["Signature"] as? String
+            self.jobId = dictionary["JobId"] as? String
+        }
     }
 
     public struct GetShippingLabelOutput: AWSShape {
@@ -153,6 +198,10 @@ extension Importexport {
             self.shippingLabelURL = shippingLabelURL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.warning = dictionary["Warning"] as? String
+            self.shippingLabelURL = dictionary["ShippingLabelURL"] as? String
+        }
     }
 
     public struct UpdateJobOutput: AWSShape {
@@ -170,6 +219,13 @@ extension Importexport {
             self.artifactList = artifactList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.success = dictionary["Success"] as? Bool
+            self.warningMessage = dictionary["WarningMessage"] as? String
+            if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
+                self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateJobInput: AWSShape {
@@ -191,6 +247,17 @@ extension Importexport {
             self.validateOnly = validateOnly
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobType = dictionary["JobType"] as? String else { throw InitializableError.missingRequiredParam("JobType") }
+            self.jobType = jobType
+            self.aPIVersion = dictionary["APIVersion"] as? String
+            guard let manifest = dictionary["Manifest"] as? String else { throw InitializableError.missingRequiredParam("Manifest") }
+            self.manifest = manifest
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            guard let validateOnly = dictionary["ValidateOnly"] as? Bool else { throw InitializableError.missingRequiredParam("ValidateOnly") }
+            self.validateOnly = validateOnly
+        }
     }
 
     public struct Job: AWSShape {
@@ -210,6 +277,12 @@ extension Importexport {
             self.isCanceled = isCanceled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobType = dictionary["JobType"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.jobId = dictionary["JobId"] as? String
+            self.isCanceled = dictionary["IsCanceled"] as? Bool
+        }
     }
 
     public struct GetStatusOutput: AWSShape {
@@ -253,6 +326,26 @@ extension Importexport {
             self.locationCode = locationCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.carrier = dictionary["Carrier"] as? String
+            if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
+                self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
+            }
+            self.signature = dictionary["Signature"] as? String
+            self.progressMessage = dictionary["ProgressMessage"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.currentManifest = dictionary["CurrentManifest"] as? String
+            self.trackingNumber = dictionary["TrackingNumber"] as? String
+            self.progressCode = dictionary["ProgressCode"] as? String
+            self.jobId = dictionary["JobId"] as? String
+            self.logKey = dictionary["LogKey"] as? String
+            self.signatureFileContents = dictionary["SignatureFileContents"] as? String
+            self.locationMessage = dictionary["LocationMessage"] as? String
+            self.jobType = dictionary["JobType"] as? String
+            self.errorCount = dictionary["ErrorCount"] as? Int32
+            self.logBucket = dictionary["LogBucket"] as? String
+            self.locationCode = dictionary["LocationCode"] as? String
+        }
     }
 
     public struct ListJobsOutput: AWSShape {
@@ -268,6 +361,12 @@ extension Importexport {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobs = dictionary["Jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            }
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct Artifact: AWSShape {
@@ -283,6 +382,10 @@ extension Importexport {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uRL = dictionary["URL"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CancelJobInput: AWSShape {
@@ -298,6 +401,11 @@ extension Importexport {
             self.aPIVersion = aPIVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            self.aPIVersion = dictionary["APIVersion"] as? String
+        }
     }
 
     public struct CancelJobOutput: AWSShape {
@@ -311,6 +419,9 @@ extension Importexport {
             self.success = success
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.success = dictionary["Success"] as? Bool
+        }
     }
 
 }

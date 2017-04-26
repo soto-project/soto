@@ -44,6 +44,12 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationConfigurationId = dictionary["applicationConfigurationId"] as? String else { throw InitializableError.missingRequiredParam("applicationConfigurationId") }
+            self.applicationConfigurationId = applicationConfigurationId
+            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
+            self.configurationIds = configurationIds
+        }
     }
 
     public struct DescribeTagsResponse: AWSShape {
@@ -61,6 +67,12 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try ConfigurationTag(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct CreateTagsRequest: AWSShape {
@@ -78,6 +90,12 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
+            self.configurationIds = configurationIds
+        }
     }
 
     public struct DeleteTagsResponse: AWSShape {
@@ -86,6 +104,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateApplicationResponse: AWSShape {
@@ -94,6 +114,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListConfigurationsRequest: AWSShape {
@@ -120,6 +142,18 @@ extension Discovery {
             self.orderBy = orderBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationType = dictionary["configurationType"] as? String else { throw InitializableError.missingRequiredParam("configurationType") }
+            self.configurationType = configurationType
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            if let filters = dictionary["filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let orderBy = dictionary["orderBy"] as? [[String: Any]] {
+                self.orderBy = try orderBy.map({ try OrderByElement(dictionary: $0) })
+            }
+        }
     }
 
     public struct OrderByElement: AWSShape {
@@ -137,6 +171,11 @@ extension Discovery {
             self.sortOrder = sortOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fieldName = dictionary["fieldName"] as? String else { throw InitializableError.missingRequiredParam("fieldName") }
+            self.fieldName = fieldName
+            self.sortOrder = dictionary["sortOrder"] as? String
+        }
     }
 
     public struct AgentInfo: AWSShape {
@@ -178,6 +217,20 @@ extension Discovery {
             self.hostName = hostName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.health = dictionary["health"] as? String
+            if let agentNetworkInfoList = dictionary["agentNetworkInfoList"] as? [[String: Any]] {
+                self.agentNetworkInfoList = try agentNetworkInfoList.map({ try AgentNetworkInfo(dictionary: $0) })
+            }
+            self.lastHealthPingTime = dictionary["lastHealthPingTime"] as? String
+            self.agentType = dictionary["agentType"] as? String
+            self.collectionStatus = dictionary["collectionStatus"] as? String
+            self.version = dictionary["version"] as? String
+            self.connectorId = dictionary["connectorId"] as? String
+            self.agentId = dictionary["agentId"] as? String
+            self.registeredTime = dictionary["registeredTime"] as? String
+            self.hostName = dictionary["hostName"] as? String
+        }
     }
 
     public struct GetDiscoverySummaryResponse: AWSShape {
@@ -207,6 +260,14 @@ extension Discovery {
             self.serversMappedToApplications = serversMappedToApplications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.serversMappedtoTags = dictionary["serversMappedtoTags"] as? Int64
+            self.applications = dictionary["applications"] as? Int64
+            if let connectorSummary = dictionary["connectorSummary"] as? [String: Any] { self.connectorSummary = try Discovery.CustomerConnectorInfo(dictionary: connectorSummary) }
+            if let agentSummary = dictionary["agentSummary"] as? [String: Any] { self.agentSummary = try Discovery.CustomerAgentInfo(dictionary: agentSummary) }
+            self.servers = dictionary["servers"] as? Int64
+            self.serversMappedToApplications = dictionary["serversMappedToApplications"] as? Int64
+        }
     }
 
     public struct DescribeExportConfigurationsRequest: AWSShape {
@@ -227,6 +288,13 @@ extension Discovery {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let exportIds = dictionary["exportIds"] as? [String] {
+                self.exportIds = exportIds
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct ConfigurationTag: AWSShape {
@@ -253,6 +321,13 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timeOfCreation = dictionary["timeOfCreation"] as? Date
+            self.configurationType = dictionary["configurationType"] as? String
+            self.value = dictionary["value"] as? String
+            self.key = dictionary["key"] as? String
+            self.configurationId = dictionary["configurationId"] as? String
+        }
     }
 
     public struct ListConfigurationsResponse: AWSShape {
@@ -270,6 +345,12 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurations = dictionary["configurations"] as? [[String: String]] {
+                self.configurations = configurations
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct AgentConfigurationStatus: AWSShape {
@@ -290,6 +371,11 @@ extension Discovery {
             self.operationSucceeded = operationSucceeded
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.agentId = dictionary["agentId"] as? String
+            self.operationSucceeded = dictionary["operationSucceeded"] as? Bool
+        }
     }
 
     public struct DeleteApplicationsRequest: AWSShape {
@@ -304,6 +390,10 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
+            self.configurationIds = configurationIds
+        }
     }
 
     public struct CustomerConnectorInfo: AWSShape {
@@ -336,6 +426,22 @@ extension Discovery {
             self.blackListedConnectors = blackListedConnectors
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let unhealthyConnectors = dictionary["unhealthyConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("unhealthyConnectors") }
+            self.unhealthyConnectors = unhealthyConnectors
+            guard let healthyConnectors = dictionary["healthyConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("healthyConnectors") }
+            self.healthyConnectors = healthyConnectors
+            guard let activeConnectors = dictionary["activeConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("activeConnectors") }
+            self.activeConnectors = activeConnectors
+            guard let totalConnectors = dictionary["totalConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("totalConnectors") }
+            self.totalConnectors = totalConnectors
+            guard let shutdownConnectors = dictionary["shutdownConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("shutdownConnectors") }
+            self.shutdownConnectors = shutdownConnectors
+            guard let unknownConnectors = dictionary["unknownConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("unknownConnectors") }
+            self.unknownConnectors = unknownConnectors
+            guard let blackListedConnectors = dictionary["blackListedConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("blackListedConnectors") }
+            self.blackListedConnectors = blackListedConnectors
+        }
     }
 
     public struct NeighborConnectionDetail: AWSShape {
@@ -362,6 +468,16 @@ extension Discovery {
             self.sourceServerId = sourceServerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destinationServerId = dictionary["destinationServerId"] as? String else { throw InitializableError.missingRequiredParam("destinationServerId") }
+            self.destinationServerId = destinationServerId
+            self.transportProtocol = dictionary["transportProtocol"] as? String
+            guard let connectionsCount = dictionary["connectionsCount"] as? Int64 else { throw InitializableError.missingRequiredParam("connectionsCount") }
+            self.connectionsCount = connectionsCount
+            self.destinationPort = dictionary["destinationPort"] as? Int32
+            guard let sourceServerId = dictionary["sourceServerId"] as? String else { throw InitializableError.missingRequiredParam("sourceServerId") }
+            self.sourceServerId = sourceServerId
+        }
     }
 
     public struct StopDataCollectionByAgentIdsRequest: AWSShape {
@@ -376,6 +492,10 @@ extension Discovery {
             self.agentIds = agentIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let agentIds = dictionary["agentIds"] as? [String] else { throw InitializableError.missingRequiredParam("agentIds") }
+            self.agentIds = agentIds
+        }
     }
 
     public struct DescribeTagsRequest: AWSShape {
@@ -396,6 +516,13 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try TagFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteTagsRequest: AWSShape {
@@ -413,6 +540,13 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
+            self.configurationIds = configurationIds
+        }
     }
 
     public struct DescribeConfigurationsRequest: AWSShape {
@@ -427,6 +561,10 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
+            self.configurationIds = configurationIds
+        }
     }
 
     public struct ListServerNeighborsResponse: AWSShape {
@@ -447,6 +585,12 @@ extension Discovery {
             self.knownDependencyCount = knownDependencyCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let neighbors = dictionary["neighbors"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("neighbors") }
+            self.neighbors = try neighbors.map({ try NeighborConnectionDetail(dictionary: $0) })
+            self.nextToken = dictionary["nextToken"] as? String
+            self.knownDependencyCount = dictionary["knownDependencyCount"] as? Int64
+        }
     }
 
     public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
@@ -455,6 +599,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeExportConfigurationsResponse: AWSShape {
@@ -472,6 +618,12 @@ extension Discovery {
             self.exportsInfo = exportsInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let exportsInfo = dictionary["exportsInfo"] as? [[String: Any]] {
+                self.exportsInfo = try exportsInfo.map({ try ExportInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct StopDataCollectionByAgentIdsResponse: AWSShape {
@@ -486,6 +638,11 @@ extension Discovery {
             self.agentsConfigurationStatus = agentsConfigurationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let agentsConfigurationStatus = dictionary["agentsConfigurationStatus"] as? [[String: Any]] {
+                self.agentsConfigurationStatus = try agentsConfigurationStatus.map({ try AgentConfigurationStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartDataCollectionByAgentIdsResponse: AWSShape {
@@ -500,6 +657,11 @@ extension Discovery {
             self.agentsConfigurationStatus = agentsConfigurationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let agentsConfigurationStatus = dictionary["agentsConfigurationStatus"] as? [[String: Any]] {
+                self.agentsConfigurationStatus = try agentsConfigurationStatus.map({ try AgentConfigurationStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateApplicationResponse: AWSShape {
@@ -514,6 +676,9 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configurationId = dictionary["configurationId"] as? String
+        }
     }
 
     public struct TagFilter: AWSShape {
@@ -531,6 +696,12 @@ extension Discovery {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let values = dictionary["values"] as? [String] else { throw InitializableError.missingRequiredParam("values") }
+            self.values = values
+        }
     }
 
     public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
@@ -548,6 +719,12 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationConfigurationId = dictionary["applicationConfigurationId"] as? String else { throw InitializableError.missingRequiredParam("applicationConfigurationId") }
+            self.applicationConfigurationId = applicationConfigurationId
+            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
+            self.configurationIds = configurationIds
+        }
     }
 
     public struct Tag: AWSShape {
@@ -565,6 +742,12 @@ extension Discovery {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
     public struct DeleteApplicationsResponse: AWSShape {
@@ -573,6 +756,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ExportInfo: AWSShape {
@@ -599,6 +784,17 @@ extension Discovery {
             self.exportRequestTime = exportRequestTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let exportId = dictionary["exportId"] as? String else { throw InitializableError.missingRequiredParam("exportId") }
+            self.exportId = exportId
+            guard let exportStatus = dictionary["exportStatus"] as? String else { throw InitializableError.missingRequiredParam("exportStatus") }
+            self.exportStatus = exportStatus
+            self.configurationsDownloadUrl = dictionary["configurationsDownloadUrl"] as? String
+            guard let statusMessage = dictionary["statusMessage"] as? String else { throw InitializableError.missingRequiredParam("statusMessage") }
+            self.statusMessage = statusMessage
+            guard let exportRequestTime = dictionary["exportRequestTime"] as? Date else { throw InitializableError.missingRequiredParam("exportRequestTime") }
+            self.exportRequestTime = exportRequestTime
+        }
     }
 
     public struct DescribeAgentsResponse: AWSShape {
@@ -616,6 +812,12 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let agentsInfo = dictionary["agentsInfo"] as? [[String: Any]] {
+                self.agentsInfo = try agentsInfo.map({ try AgentInfo(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct GetDiscoverySummaryRequest: AWSShape {
@@ -624,6 +826,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeConfigurationsResponse: AWSShape {
@@ -638,6 +842,11 @@ extension Discovery {
             self.configurations = configurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurations = dictionary["configurations"] as? [[String: String]] {
+                self.configurations = configurations
+            }
+        }
     }
 
     public struct DescribeAgentsRequest: AWSShape {
@@ -661,6 +870,16 @@ extension Discovery {
             self.agentIds = agentIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            if let filters = dictionary["filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            if let agentIds = dictionary["agentIds"] as? [String] {
+                self.agentIds = agentIds
+            }
+        }
     }
 
     public struct ExportConfigurationsResponse: AWSShape {
@@ -675,6 +894,9 @@ extension Discovery {
             self.exportId = exportId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exportId = dictionary["exportId"] as? String
+        }
     }
 
     public struct CreateApplicationRequest: AWSShape {
@@ -692,6 +914,11 @@ extension Discovery {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct DisassociateConfigurationItemsFromApplicationResponse: AWSShape {
@@ -700,6 +927,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CustomerAgentInfo: AWSShape {
@@ -732,6 +961,22 @@ extension Discovery {
             self.shutdownAgents = shutdownAgents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let unhealthyAgents = dictionary["unhealthyAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("unhealthyAgents") }
+            self.unhealthyAgents = unhealthyAgents
+            guard let blackListedAgents = dictionary["blackListedAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("blackListedAgents") }
+            self.blackListedAgents = blackListedAgents
+            guard let totalAgents = dictionary["totalAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("totalAgents") }
+            self.totalAgents = totalAgents
+            guard let unknownAgents = dictionary["unknownAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("unknownAgents") }
+            self.unknownAgents = unknownAgents
+            guard let healthyAgents = dictionary["healthyAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("healthyAgents") }
+            self.healthyAgents = healthyAgents
+            guard let activeAgents = dictionary["activeAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("activeAgents") }
+            self.activeAgents = activeAgents
+            guard let shutdownAgents = dictionary["shutdownAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("shutdownAgents") }
+            self.shutdownAgents = shutdownAgents
+        }
     }
 
     public struct StartDataCollectionByAgentIdsRequest: AWSShape {
@@ -746,6 +991,10 @@ extension Discovery {
             self.agentIds = agentIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let agentIds = dictionary["agentIds"] as? [String] else { throw InitializableError.missingRequiredParam("agentIds") }
+            self.agentIds = agentIds
+        }
     }
 
     public struct ListServerNeighborsRequest: AWSShape {
@@ -772,6 +1021,16 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.portInformationNeeded = dictionary["portInformationNeeded"] as? Bool
+            self.nextToken = dictionary["nextToken"] as? String
+            if let neighborConfigurationIds = dictionary["neighborConfigurationIds"] as? [String] {
+                self.neighborConfigurationIds = neighborConfigurationIds
+            }
+            guard let configurationId = dictionary["configurationId"] as? String else { throw InitializableError.missingRequiredParam("configurationId") }
+            self.configurationId = configurationId
+        }
     }
 
     public struct UpdateApplicationRequest: AWSShape {
@@ -792,6 +1051,12 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.name = dictionary["name"] as? String
+            guard let configurationId = dictionary["configurationId"] as? String else { throw InitializableError.missingRequiredParam("configurationId") }
+            self.configurationId = configurationId
+        }
     }
 
     public struct Filter: AWSShape {
@@ -812,6 +1077,14 @@ extension Discovery {
             self.condition = condition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let values = dictionary["values"] as? [String] else { throw InitializableError.missingRequiredParam("values") }
+            self.values = values
+            guard let condition = dictionary["condition"] as? String else { throw InitializableError.missingRequiredParam("condition") }
+            self.condition = condition
+        }
     }
 
     public struct AgentNetworkInfo: AWSShape {
@@ -829,6 +1102,10 @@ extension Discovery {
             self.ipAddress = ipAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.macAddress = dictionary["macAddress"] as? String
+            self.ipAddress = dictionary["ipAddress"] as? String
+        }
     }
 
     public struct CreateTagsResponse: AWSShape {
@@ -837,6 +1114,8 @@ extension Discovery {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
 }

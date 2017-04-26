@@ -53,6 +53,12 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ascending = dictionary["Ascending"] as? String
+            guard let pipelineId = dictionary["PipelineId"] as? String else { throw InitializableError.missingRequiredParam("PipelineId") }
+            self.pipelineId = pipelineId
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct DeletePipelineRequest: AWSShape {
@@ -70,6 +76,10 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CaptionSource: AWSShape {
@@ -96,6 +106,13 @@ extension Elastictranscoder {
             self.language = language
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.label = dictionary["Label"] as? String
+            self.key = dictionary["Key"] as? String
+            self.timeOffset = dictionary["TimeOffset"] as? String
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            self.language = dictionary["Language"] as? String
+        }
     }
 
     public struct ReadPresetResponse: AWSShape {
@@ -110,6 +127,9 @@ extension Elastictranscoder {
             self.preset = preset
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let preset = dictionary["Preset"] as? [String: Any] { self.preset = try Elastictranscoder.Preset(dictionary: preset) }
+        }
     }
 
     public struct JobAlbumArt: AWSShape {
@@ -127,6 +147,12 @@ extension Elastictranscoder {
             self.artwork = artwork
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mergePolicy = dictionary["MergePolicy"] as? String
+            if let artwork = dictionary["Artwork"] as? [[String: Any]] {
+                self.artwork = try artwork.map({ try Artwork(dictionary: $0) })
+            }
+        }
     }
 
     public struct Preset: AWSShape {
@@ -165,6 +191,17 @@ extension Elastictranscoder {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let thumbnails = dictionary["Thumbnails"] as? [String: Any] { self.thumbnails = try Elastictranscoder.Thumbnails(dictionary: thumbnails) }
+            self.id = dictionary["Id"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.name = dictionary["Name"] as? String
+            if let audio = dictionary["Audio"] as? [String: Any] { self.audio = try Elastictranscoder.AudioParameters(dictionary: audio) }
+            if let video = dictionary["Video"] as? [String: Any] { self.video = try Elastictranscoder.VideoParameters(dictionary: video) }
+            self.type = dictionary["Type"] as? String
+            self.container = dictionary["Container"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct JobInput: AWSShape {
@@ -206,6 +243,18 @@ extension Elastictranscoder {
             self.frameRate = frameRate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let timeSpan = dictionary["TimeSpan"] as? [String: Any] { self.timeSpan = try Elastictranscoder.TimeSpan(dictionary: timeSpan) }
+            self.interlaced = dictionary["Interlaced"] as? String
+            if let detectedProperties = dictionary["DetectedProperties"] as? [String: Any] { self.detectedProperties = try Elastictranscoder.DetectedProperties(dictionary: detectedProperties) }
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            self.aspectRatio = dictionary["AspectRatio"] as? String
+            if let inputCaptions = dictionary["InputCaptions"] as? [String: Any] { self.inputCaptions = try Elastictranscoder.InputCaptions(dictionary: inputCaptions) }
+            self.resolution = dictionary["Resolution"] as? String
+            self.key = dictionary["Key"] as? String
+            self.container = dictionary["Container"] as? String
+            self.frameRate = dictionary["FrameRate"] as? String
+        }
     }
 
     public struct ListPipelinesRequest: AWSShape {
@@ -226,6 +275,10 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ascending = dictionary["Ascending"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct VideoParameters: AWSShape {
@@ -282,6 +335,27 @@ extension Elastictranscoder {
             self.maxWidth = maxWidth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.displayAspectRatio = dictionary["DisplayAspectRatio"] as? String
+            self.paddingPolicy = dictionary["PaddingPolicy"] as? String
+            self.fixedGOP = dictionary["FixedGOP"] as? String
+            self.sizingPolicy = dictionary["SizingPolicy"] as? String
+            self.maxHeight = dictionary["MaxHeight"] as? String
+            self.frameRate = dictionary["FrameRate"] as? String
+            self.codec = dictionary["Codec"] as? String
+            self.keyframesMaxDist = dictionary["KeyframesMaxDist"] as? String
+            self.aspectRatio = dictionary["AspectRatio"] as? String
+            self.resolution = dictionary["Resolution"] as? String
+            self.maxFrameRate = dictionary["MaxFrameRate"] as? String
+            if let codecOptions = dictionary["CodecOptions"] as? [String: String] {
+                self.codecOptions = codecOptions
+            }
+            self.bitRate = dictionary["BitRate"] as? String
+            if let watermarks = dictionary["Watermarks"] as? [[String: Any]] {
+                self.watermarks = try watermarks.map({ try PresetWatermark(dictionary: $0) })
+            }
+            self.maxWidth = dictionary["MaxWidth"] as? String
+        }
     }
 
     public struct DeletePresetResponse: AWSShape {
@@ -290,6 +364,8 @@ extension Elastictranscoder {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreatePresetRequest: AWSShape {
@@ -319,6 +395,16 @@ extension Elastictranscoder {
             self.video = video
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let audio = dictionary["Audio"] as? [String: Any] { self.audio = try Elastictranscoder.AudioParameters(dictionary: audio) }
+            guard let container = dictionary["Container"] as? String else { throw InitializableError.missingRequiredParam("Container") }
+            self.container = container
+            self.description = dictionary["Description"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let thumbnails = dictionary["Thumbnails"] as? [String: Any] { self.thumbnails = try Elastictranscoder.Thumbnails(dictionary: thumbnails) }
+            if let video = dictionary["Video"] as? [String: Any] { self.video = try Elastictranscoder.VideoParameters(dictionary: video) }
+        }
     }
 
     public struct ListJobsByStatusResponse: AWSShape {
@@ -336,6 +422,12 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobs = dictionary["Jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct CancelJobResponse: AWSShape {
@@ -344,6 +436,8 @@ extension Elastictranscoder {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListPresetsResponse: AWSShape {
@@ -361,6 +455,12 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let presets = dictionary["Presets"] as? [[String: Any]] {
+                self.presets = try presets.map({ try Preset(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct Playlist: AWSShape {
@@ -393,6 +493,17 @@ extension Elastictranscoder {
             self.playReadyDrm = playReadyDrm
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let hlsContentProtection = dictionary["HlsContentProtection"] as? [String: Any] { self.hlsContentProtection = try Elastictranscoder.HlsContentProtection(dictionary: hlsContentProtection) }
+            if let outputKeys = dictionary["OutputKeys"] as? [String] {
+                self.outputKeys = outputKeys
+            }
+            self.name = dictionary["Name"] as? String
+            self.format = dictionary["Format"] as? String
+            self.statusDetail = dictionary["StatusDetail"] as? String
+            if let playReadyDrm = dictionary["PlayReadyDrm"] as? [String: Any] { self.playReadyDrm = try Elastictranscoder.PlayReadyDrm(dictionary: playReadyDrm) }
+        }
     }
 
     public struct TimeSpan: AWSShape {
@@ -410,6 +521,10 @@ extension Elastictranscoder {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.duration = dictionary["Duration"] as? String
+            self.startTime = dictionary["StartTime"] as? String
+        }
     }
 
     public struct DeletePipelineResponse: AWSShape {
@@ -418,6 +533,8 @@ extension Elastictranscoder {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreatePipelineRequest: AWSShape {
@@ -453,6 +570,19 @@ extension Elastictranscoder {
             self.outputBucket = outputBucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let inputBucket = dictionary["InputBucket"] as? String else { throw InitializableError.missingRequiredParam("InputBucket") }
+            self.inputBucket = inputBucket
+            self.awsKmsKeyArn = dictionary["AwsKmsKeyArn"] as? String
+            if let thumbnailConfig = dictionary["ThumbnailConfig"] as? [String: Any] { self.thumbnailConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: thumbnailConfig) }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = role
+            if let notifications = dictionary["Notifications"] as? [String: Any] { self.notifications = try Elastictranscoder.Notifications(dictionary: notifications) }
+            if let contentConfig = dictionary["ContentConfig"] as? [String: Any] { self.contentConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: contentConfig) }
+            self.outputBucket = dictionary["OutputBucket"] as? String
+        }
     }
 
     public struct UpdatePipelineStatusRequest: AWSShape {
@@ -473,6 +603,12 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Thumbnails: AWSShape {
@@ -508,6 +644,16 @@ extension Elastictranscoder {
             self.maxWidth = maxWidth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.paddingPolicy = dictionary["PaddingPolicy"] as? String
+            self.interval = dictionary["Interval"] as? String
+            self.aspectRatio = dictionary["AspectRatio"] as? String
+            self.format = dictionary["Format"] as? String
+            self.resolution = dictionary["Resolution"] as? String
+            self.sizingPolicy = dictionary["SizingPolicy"] as? String
+            self.maxHeight = dictionary["MaxHeight"] as? String
+            self.maxWidth = dictionary["MaxWidth"] as? String
+        }
     }
 
     public struct Pipeline: AWSShape {
@@ -552,6 +698,19 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.inputBucket = dictionary["InputBucket"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.awsKmsKeyArn = dictionary["AwsKmsKeyArn"] as? String
+            if let thumbnailConfig = dictionary["ThumbnailConfig"] as? [String: Any] { self.thumbnailConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: thumbnailConfig) }
+            self.name = dictionary["Name"] as? String
+            self.role = dictionary["Role"] as? String
+            if let notifications = dictionary["Notifications"] as? [String: Any] { self.notifications = try Elastictranscoder.Notifications(dictionary: notifications) }
+            if let contentConfig = dictionary["ContentConfig"] as? [String: Any] { self.contentConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: contentConfig) }
+            self.outputBucket = dictionary["OutputBucket"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct TestRoleRequest: AWSShape {
@@ -575,6 +734,16 @@ extension Elastictranscoder {
             self.outputBucket = outputBucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = role
+            guard let inputBucket = dictionary["InputBucket"] as? String else { throw InitializableError.missingRequiredParam("InputBucket") }
+            self.inputBucket = inputBucket
+            guard let topics = dictionary["Topics"] as? [String] else { throw InitializableError.missingRequiredParam("Topics") }
+            self.topics = topics
+            guard let outputBucket = dictionary["OutputBucket"] as? String else { throw InitializableError.missingRequiredParam("OutputBucket") }
+            self.outputBucket = outputBucket
+        }
     }
 
     public struct ListJobsByPipelineResponse: AWSShape {
@@ -592,6 +761,12 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobs = dictionary["Jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct UpdatePipelineNotificationsRequest: AWSShape {
@@ -612,6 +787,12 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let notifications = dictionary["Notifications"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notifications") }
+            self.notifications = try Elastictranscoder.Notifications(dictionary: notifications)
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct PlayReadyDrm: AWSShape {
@@ -641,6 +822,14 @@ extension Elastictranscoder {
             self.licenseAcquisitionUrl = licenseAcquisitionUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.format = dictionary["Format"] as? String
+            self.initializationVector = dictionary["InitializationVector"] as? String
+            self.key = dictionary["Key"] as? String
+            self.keyId = dictionary["KeyId"] as? String
+            self.keyMd5 = dictionary["KeyMd5"] as? String
+            self.licenseAcquisitionUrl = dictionary["LicenseAcquisitionUrl"] as? String
+        }
     }
 
     public struct Captions: AWSShape {
@@ -661,6 +850,15 @@ extension Elastictranscoder {
             self.captionFormats = captionFormats
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mergePolicy = dictionary["MergePolicy"] as? String
+            if let captionSources = dictionary["CaptionSources"] as? [[String: Any]] {
+                self.captionSources = try captionSources.map({ try CaptionSource(dictionary: $0) })
+            }
+            if let captionFormats = dictionary["CaptionFormats"] as? [[String: Any]] {
+                self.captionFormats = try captionFormats.map({ try CaptionFormat(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateJobRequest: AWSShape {
@@ -696,6 +894,25 @@ extension Elastictranscoder {
             self.userMetadata = userMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputKeyPrefix = dictionary["OutputKeyPrefix"] as? String
+            if let input = dictionary["Input"] as? [String: Any] { self.input = try Elastictranscoder.JobInput(dictionary: input) }
+            if let playlists = dictionary["Playlists"] as? [[String: Any]] {
+                self.playlists = try playlists.map({ try CreateJobPlaylist(dictionary: $0) })
+            }
+            if let output = dictionary["Output"] as? [String: Any] { self.output = try Elastictranscoder.CreateJobOutput(dictionary: output) }
+            if let inputs = dictionary["Inputs"] as? [[String: Any]] {
+                self.inputs = try inputs.map({ try JobInput(dictionary: $0) })
+            }
+            guard let pipelineId = dictionary["PipelineId"] as? String else { throw InitializableError.missingRequiredParam("PipelineId") }
+            self.pipelineId = pipelineId
+            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
+                self.outputs = try outputs.map({ try CreateJobOutput(dictionary: $0) })
+            }
+            if let userMetadata = dictionary["UserMetadata"] as? [String: String] {
+                self.userMetadata = userMetadata
+            }
+        }
     }
 
     public struct Artwork: AWSShape {
@@ -728,6 +945,15 @@ extension Elastictranscoder {
             self.albumArtFormat = albumArtFormat
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.paddingPolicy = dictionary["PaddingPolicy"] as? String
+            self.inputKey = dictionary["InputKey"] as? String
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            self.sizingPolicy = dictionary["SizingPolicy"] as? String
+            self.maxHeight = dictionary["MaxHeight"] as? String
+            self.maxWidth = dictionary["MaxWidth"] as? String
+            self.albumArtFormat = dictionary["AlbumArtFormat"] as? String
+        }
     }
 
     public struct CreateJobResponse: AWSShape {
@@ -742,6 +968,9 @@ extension Elastictranscoder {
             self.job = job
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let job = dictionary["Job"] as? [String: Any] { self.job = try Elastictranscoder.Job(dictionary: job) }
+        }
     }
 
     public struct CreatePipelineResponse: AWSShape {
@@ -759,6 +988,12 @@ extension Elastictranscoder {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) }
+            if let warnings = dictionary["Warnings"] as? [[String: Any]] {
+                self.warnings = try warnings.map({ try Warning(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeletePresetRequest: AWSShape {
@@ -776,6 +1011,10 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListPipelinesResponse: AWSShape {
@@ -793,6 +1032,12 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipelines = dictionary["Pipelines"] as? [[String: Any]] {
+                self.pipelines = try pipelines.map({ try Pipeline(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
     }
 
     public struct ListPresetsRequest: AWSShape {
@@ -813,6 +1058,10 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ascending = dictionary["Ascending"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct ReadJobResponse: AWSShape {
@@ -827,6 +1076,9 @@ extension Elastictranscoder {
             self.job = job
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let job = dictionary["Job"] as? [String: Any] { self.job = try Elastictranscoder.Job(dictionary: job) }
+        }
     }
 
     public struct ListJobsByStatusRequest: AWSShape {
@@ -853,6 +1105,12 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            self.ascending = dictionary["Ascending"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
     }
 
     public struct UpdatePipelineRequest: AWSShape {
@@ -891,6 +1149,17 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.inputBucket = dictionary["InputBucket"] as? String
+            self.awsKmsKeyArn = dictionary["AwsKmsKeyArn"] as? String
+            if let thumbnailConfig = dictionary["ThumbnailConfig"] as? [String: Any] { self.thumbnailConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: thumbnailConfig) }
+            self.name = dictionary["Name"] as? String
+            self.role = dictionary["Role"] as? String
+            if let notifications = dictionary["Notifications"] as? [String: Any] { self.notifications = try Elastictranscoder.Notifications(dictionary: notifications) }
+            if let contentConfig = dictionary["ContentConfig"] as? [String: Any] { self.contentConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: contentConfig) }
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct HlsContentProtection: AWSShape {
@@ -920,6 +1189,14 @@ extension Elastictranscoder {
             self.method = method
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.initializationVector = dictionary["InitializationVector"] as? String
+            self.keyMd5 = dictionary["KeyMd5"] as? String
+            self.keyStoragePolicy = dictionary["KeyStoragePolicy"] as? String
+            self.key = dictionary["Key"] as? String
+            self.licenseAcquisitionUrl = dictionary["LicenseAcquisitionUrl"] as? String
+            self.method = dictionary["Method"] as? String
+        }
     }
 
     public struct JobOutput: AWSShape {
@@ -994,6 +1271,33 @@ extension Elastictranscoder {
             self.segmentDuration = segmentDuration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.presetId = dictionary["PresetId"] as? String
+            self.height = dictionary["Height"] as? Int32
+            self.durationMillis = dictionary["DurationMillis"] as? Int64
+            self.fileSize = dictionary["FileSize"] as? Int64
+            if let watermarks = dictionary["Watermarks"] as? [[String: Any]] {
+                self.watermarks = try watermarks.map({ try JobWatermark(dictionary: $0) })
+            }
+            self.width = dictionary["Width"] as? Int32
+            if let albumArt = dictionary["AlbumArt"] as? [String: Any] { self.albumArt = try Elastictranscoder.JobAlbumArt(dictionary: albumArt) }
+            if let captions = dictionary["Captions"] as? [String: Any] { self.captions = try Elastictranscoder.Captions(dictionary: captions) }
+            self.thumbnailPattern = dictionary["ThumbnailPattern"] as? String
+            self.id = dictionary["Id"] as? String
+            self.frameRate = dictionary["FrameRate"] as? String
+            self.rotate = dictionary["Rotate"] as? String
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            if let thumbnailEncryption = dictionary["ThumbnailEncryption"] as? [String: Any] { self.thumbnailEncryption = try Elastictranscoder.Encryption(dictionary: thumbnailEncryption) }
+            self.status = dictionary["Status"] as? String
+            self.key = dictionary["Key"] as? String
+            if let composition = dictionary["Composition"] as? [[String: Any]] {
+                self.composition = try composition.map({ try Clip(dictionary: $0) })
+            }
+            self.appliedColorSpaceConversion = dictionary["AppliedColorSpaceConversion"] as? String
+            self.duration = dictionary["Duration"] as? Int64
+            self.statusDetail = dictionary["StatusDetail"] as? String
+            self.segmentDuration = dictionary["SegmentDuration"] as? String
+        }
     }
 
     public struct InputCaptions: AWSShape {
@@ -1011,6 +1315,12 @@ extension Elastictranscoder {
             self.captionSources = captionSources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mergePolicy = dictionary["MergePolicy"] as? String
+            if let captionSources = dictionary["CaptionSources"] as? [[String: Any]] {
+                self.captionSources = try captionSources.map({ try CaptionSource(dictionary: $0) })
+            }
+        }
     }
 
     public struct PipelineOutputConfig: AWSShape {
@@ -1031,6 +1341,13 @@ extension Elastictranscoder {
             self.storageClass = storageClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let permissions = dictionary["Permissions"] as? [[String: Any]] {
+                self.permissions = try permissions.map({ try Permission(dictionary: $0) })
+            }
+            self.bucket = dictionary["Bucket"] as? String
+            self.storageClass = dictionary["StorageClass"] as? String
+        }
     }
 
     public struct UpdatePipelineResponse: AWSShape {
@@ -1048,6 +1365,12 @@ extension Elastictranscoder {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) }
+            if let warnings = dictionary["Warnings"] as? [[String: Any]] {
+                self.warnings = try warnings.map({ try Warning(dictionary: $0) })
+            }
+        }
     }
 
     public struct CaptionFormat: AWSShape {
@@ -1068,6 +1391,11 @@ extension Elastictranscoder {
             self.format = format
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pattern = dictionary["Pattern"] as? String
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            self.format = dictionary["Format"] as? String
+        }
     }
 
     public struct ReadPresetRequest: AWSShape {
@@ -1085,6 +1413,10 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ReadJobRequest: AWSShape {
@@ -1102,6 +1434,10 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct PresetWatermark: AWSShape {
@@ -1143,6 +1479,18 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.verticalOffset = dictionary["VerticalOffset"] as? String
+            self.target = dictionary["Target"] as? String
+            self.horizontalOffset = dictionary["HorizontalOffset"] as? String
+            self.verticalAlign = dictionary["VerticalAlign"] as? String
+            self.horizontalAlign = dictionary["HorizontalAlign"] as? String
+            self.sizingPolicy = dictionary["SizingPolicy"] as? String
+            self.maxHeight = dictionary["MaxHeight"] as? String
+            self.maxWidth = dictionary["MaxWidth"] as? String
+            self.opacity = dictionary["Opacity"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct JobWatermark: AWSShape {
@@ -1163,6 +1511,11 @@ extension Elastictranscoder {
             self.inputKey = inputKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.presetWatermarkId = dictionary["PresetWatermarkId"] as? String
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            self.inputKey = dictionary["InputKey"] as? String
+        }
     }
 
     public struct CreatePresetResponse: AWSShape {
@@ -1180,6 +1533,10 @@ extension Elastictranscoder {
             self.preset = preset
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.warning = dictionary["Warning"] as? String
+            if let preset = dictionary["Preset"] as? [String: Any] { self.preset = try Elastictranscoder.Preset(dictionary: preset) }
+        }
     }
 
     public struct TestRoleResponse: AWSShape {
@@ -1197,6 +1554,12 @@ extension Elastictranscoder {
             self.messages = messages
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.success = dictionary["Success"] as? String
+            if let messages = dictionary["Messages"] as? [String] {
+                self.messages = messages
+            }
+        }
     }
 
     public struct CreateJobPlaylist: AWSShape {
@@ -1223,6 +1586,15 @@ extension Elastictranscoder {
             self.outputKeys = outputKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.format = dictionary["Format"] as? String
+            if let hlsContentProtection = dictionary["HlsContentProtection"] as? [String: Any] { self.hlsContentProtection = try Elastictranscoder.HlsContentProtection(dictionary: hlsContentProtection) }
+            if let playReadyDrm = dictionary["PlayReadyDrm"] as? [String: Any] { self.playReadyDrm = try Elastictranscoder.PlayReadyDrm(dictionary: playReadyDrm) }
+            self.name = dictionary["Name"] as? String
+            if let outputKeys = dictionary["OutputKeys"] as? [String] {
+                self.outputKeys = outputKeys
+            }
+        }
     }
 
     public struct CreateJobOutput: AWSShape {
@@ -1267,6 +1639,23 @@ extension Elastictranscoder {
             self.albumArt = albumArt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let captions = dictionary["Captions"] as? [String: Any] { self.captions = try Elastictranscoder.Captions(dictionary: captions) }
+            self.thumbnailPattern = dictionary["ThumbnailPattern"] as? String
+            self.presetId = dictionary["PresetId"] as? String
+            if let thumbnailEncryption = dictionary["ThumbnailEncryption"] as? [String: Any] { self.thumbnailEncryption = try Elastictranscoder.Encryption(dictionary: thumbnailEncryption) }
+            self.rotate = dictionary["Rotate"] as? String
+            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) }
+            self.key = dictionary["Key"] as? String
+            if let composition = dictionary["Composition"] as? [[String: Any]] {
+                self.composition = try composition.map({ try Clip(dictionary: $0) })
+            }
+            if let watermarks = dictionary["Watermarks"] as? [[String: Any]] {
+                self.watermarks = try watermarks.map({ try JobWatermark(dictionary: $0) })
+            }
+            self.segmentDuration = dictionary["SegmentDuration"] as? String
+            if let albumArt = dictionary["AlbumArt"] as? [String: Any] { self.albumArt = try Elastictranscoder.JobAlbumArt(dictionary: albumArt) }
+        }
     }
 
     public struct DetectedProperties: AWSShape {
@@ -1293,6 +1682,13 @@ extension Elastictranscoder {
             self.frameRate = frameRate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.height = dictionary["Height"] as? Int32
+            self.durationMillis = dictionary["DurationMillis"] as? Int64
+            self.fileSize = dictionary["FileSize"] as? Int64
+            self.width = dictionary["Width"] as? Int32
+            self.frameRate = dictionary["FrameRate"] as? String
+        }
     }
 
     public struct ReadPipelineResponse: AWSShape {
@@ -1310,6 +1706,12 @@ extension Elastictranscoder {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) }
+            if let warnings = dictionary["Warnings"] as? [[String: Any]] {
+                self.warnings = try warnings.map({ try Warning(dictionary: $0) })
+            }
+        }
     }
 
     public struct Warning: AWSShape {
@@ -1327,6 +1729,10 @@ extension Elastictranscoder {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct UpdatePipelineNotificationsResponse: AWSShape {
@@ -1341,6 +1747,9 @@ extension Elastictranscoder {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) }
+        }
     }
 
     public struct AudioParameters: AWSShape {
@@ -1370,6 +1779,14 @@ extension Elastictranscoder {
             self.sampleRate = sampleRate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let codecOptions = dictionary["CodecOptions"] as? [String: Any] { self.codecOptions = try Elastictranscoder.AudioCodecOptions(dictionary: codecOptions) }
+            self.bitRate = dictionary["BitRate"] as? String
+            self.codec = dictionary["Codec"] as? String
+            self.audioPackingMode = dictionary["AudioPackingMode"] as? String
+            self.channels = dictionary["Channels"] as? String
+            self.sampleRate = dictionary["SampleRate"] as? String
+        }
     }
 
     public struct Notifications: AWSShape {
@@ -1393,6 +1810,12 @@ extension Elastictranscoder {
             self.progressing = progressing
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.completed = dictionary["Completed"] as? String
+            self.error = dictionary["Error"] as? String
+            self.warning = dictionary["Warning"] as? String
+            self.progressing = dictionary["Progressing"] as? String
+        }
     }
 
     public struct AudioCodecOptions: AWSShape {
@@ -1416,6 +1839,12 @@ extension Elastictranscoder {
             self.bitOrder = bitOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.signed = dictionary["Signed"] as? String
+            self.profile = dictionary["Profile"] as? String
+            self.bitDepth = dictionary["BitDepth"] as? String
+            self.bitOrder = dictionary["BitOrder"] as? String
+        }
     }
 
     public struct UpdatePipelineStatusResponse: AWSShape {
@@ -1430,6 +1859,9 @@ extension Elastictranscoder {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) }
+        }
     }
 
     public struct CancelJobRequest: AWSShape {
@@ -1447,6 +1879,10 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Job: AWSShape {
@@ -1494,6 +1930,28 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let timing = dictionary["Timing"] as? [String: Any] { self.timing = try Elastictranscoder.Timing(dictionary: timing) }
+            self.status = dictionary["Status"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.outputKeyPrefix = dictionary["OutputKeyPrefix"] as? String
+            if let input = dictionary["Input"] as? [String: Any] { self.input = try Elastictranscoder.JobInput(dictionary: input) }
+            if let userMetadata = dictionary["UserMetadata"] as? [String: String] {
+                self.userMetadata = userMetadata
+            }
+            if let playlists = dictionary["Playlists"] as? [[String: Any]] {
+                self.playlists = try playlists.map({ try Playlist(dictionary: $0) })
+            }
+            if let output = dictionary["Output"] as? [String: Any] { self.output = try Elastictranscoder.JobOutput(dictionary: output) }
+            if let inputs = dictionary["Inputs"] as? [[String: Any]] {
+                self.inputs = try inputs.map({ try JobInput(dictionary: $0) })
+            }
+            self.pipelineId = dictionary["PipelineId"] as? String
+            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
+                self.outputs = try outputs.map({ try JobOutput(dictionary: $0) })
+            }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct Permission: AWSShape {
@@ -1514,6 +1972,13 @@ extension Elastictranscoder {
             self.grantee = grantee
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.granteeType = dictionary["GranteeType"] as? String
+            if let access = dictionary["Access"] as? [String] {
+                self.access = access
+            }
+            self.grantee = dictionary["Grantee"] as? String
+        }
     }
 
     public struct Encryption: AWSShape {
@@ -1537,6 +2002,12 @@ extension Elastictranscoder {
             self.keyMd5 = keyMd5
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mode = dictionary["Mode"] as? String
+            self.initializationVector = dictionary["InitializationVector"] as? String
+            self.key = dictionary["Key"] as? String
+            self.keyMd5 = dictionary["KeyMd5"] as? String
+        }
     }
 
     public struct ReadPipelineRequest: AWSShape {
@@ -1554,6 +2025,10 @@ extension Elastictranscoder {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Clip: AWSShape {
@@ -1568,6 +2043,9 @@ extension Elastictranscoder {
             self.timeSpan = timeSpan
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let timeSpan = dictionary["TimeSpan"] as? [String: Any] { self.timeSpan = try Elastictranscoder.TimeSpan(dictionary: timeSpan) }
+        }
     }
 
     public struct Timing: AWSShape {
@@ -1588,6 +2066,11 @@ extension Elastictranscoder {
             self.finishTimeMillis = finishTimeMillis
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTimeMillis = dictionary["StartTimeMillis"] as? Int64
+            self.submitTimeMillis = dictionary["SubmitTimeMillis"] as? Int64
+            self.finishTimeMillis = dictionary["FinishTimeMillis"] as? Int64
+        }
     }
 
 }

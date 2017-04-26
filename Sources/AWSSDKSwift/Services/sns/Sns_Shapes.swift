@@ -44,6 +44,12 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
+            self.platformApplicationArn = platformApplicationArn
+            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = attributes
+        }
     }
 
     public struct RemovePermissionInput: AWSShape {
@@ -61,6 +67,12 @@ extension Sns {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
+            self.label = label
+        }
     }
 
     public struct ListSubscriptionsByTopicInput: AWSShape {
@@ -78,6 +90,11 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListPhoneNumbersOptedOutInput: AWSShape {
@@ -92,6 +109,9 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct PublishResponse: AWSShape {
@@ -106,6 +126,9 @@ extension Sns {
             self.messageId = messageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.messageId = dictionary["MessageId"] as? String
+        }
     }
 
     public struct ListEndpointsByPlatformApplicationInput: AWSShape {
@@ -123,6 +146,11 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
+            self.platformApplicationArn = platformApplicationArn
+        }
     }
 
     public struct OptInPhoneNumberInput: AWSShape {
@@ -137,6 +165,10 @@ extension Sns {
             self.phoneNumber = phoneNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let phoneNumber = dictionary["phoneNumber"] as? String else { throw InitializableError.missingRequiredParam("phoneNumber") }
+            self.phoneNumber = phoneNumber
+        }
     }
 
     public struct Subscription: AWSShape {
@@ -163,6 +195,13 @@ extension Sns {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+            self.owner = dictionary["Owner"] as? String
+            self.subscriptionArn = dictionary["SubscriptionArn"] as? String
+            self.`protocol` = dictionary["Protocol"] as? String
+            self.endpoint = dictionary["Endpoint"] as? String
+        }
     }
 
     public struct AddPermissionInput: AWSShape {
@@ -186,6 +225,16 @@ extension Sns {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            guard let aWSAccountId = dictionary["AWSAccountId"] as? [String] else { throw InitializableError.missingRequiredParam("AWSAccountId") }
+            self.aWSAccountId = aWSAccountId
+            guard let actionName = dictionary["ActionName"] as? [String] else { throw InitializableError.missingRequiredParam("ActionName") }
+            self.actionName = actionName
+            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
+            self.label = label
+        }
     }
 
     public struct ListTopicsInput: AWSShape {
@@ -200,6 +249,9 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Endpoint: AWSShape {
@@ -217,6 +269,12 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpointArn = dictionary["EndpointArn"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct UnsubscribeInput: AWSShape {
@@ -231,6 +289,10 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subscriptionArn = dictionary["SubscriptionArn"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionArn") }
+            self.subscriptionArn = subscriptionArn
+        }
     }
 
     public struct SetEndpointAttributesInput: AWSShape {
@@ -248,6 +310,12 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = attributes
+        }
     }
 
     public struct PlatformApplication: AWSShape {
@@ -265,6 +333,12 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platformApplicationArn = dictionary["PlatformApplicationArn"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct GetSubscriptionAttributesInput: AWSShape {
@@ -279,6 +353,10 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subscriptionArn = dictionary["SubscriptionArn"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionArn") }
+            self.subscriptionArn = subscriptionArn
+        }
     }
 
     public struct SetSubscriptionAttributesInput: AWSShape {
@@ -299,6 +377,13 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            self.attributeValue = dictionary["AttributeValue"] as? String
+            guard let subscriptionArn = dictionary["SubscriptionArn"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionArn") }
+            self.subscriptionArn = subscriptionArn
+        }
     }
 
     public struct GetSMSAttributesResponse: AWSShape {
@@ -313,6 +398,11 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct CreatePlatformEndpointInput: AWSShape {
@@ -336,6 +426,16 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customUserData = dictionary["CustomUserData"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            guard let token = dictionary["Token"] as? String else { throw InitializableError.missingRequiredParam("Token") }
+            self.token = token
+            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
+            self.platformApplicationArn = platformApplicationArn
+        }
     }
 
     public struct GetEndpointAttributesInput: AWSShape {
@@ -350,6 +450,10 @@ extension Sns {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+        }
     }
 
     public struct ListTopicsResponse: AWSShape {
@@ -367,6 +471,12 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let topics = dictionary["Topics"] as? [[String: Any]] {
+                self.topics = try topics.map({ try Topic(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetPlatformApplicationAttributesInput: AWSShape {
@@ -381,6 +491,10 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
+            self.platformApplicationArn = platformApplicationArn
+        }
     }
 
     public struct GetPlatformApplicationAttributesResponse: AWSShape {
@@ -395,6 +509,11 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct GetTopicAttributesInput: AWSShape {
@@ -409,6 +528,10 @@ extension Sns {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+        }
     }
 
     public struct CreatePlatformApplicationInput: AWSShape {
@@ -429,6 +552,14 @@ extension Sns {
             self.platform = platform
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = attributes
+            guard let platform = dictionary["Platform"] as? String else { throw InitializableError.missingRequiredParam("Platform") }
+            self.platform = platform
+        }
     }
 
     public struct CreatePlatformApplicationResponse: AWSShape {
@@ -443,6 +574,9 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platformApplicationArn = dictionary["PlatformApplicationArn"] as? String
+        }
     }
 
     public struct DeleteTopicInput: AWSShape {
@@ -457,6 +591,10 @@ extension Sns {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+        }
     }
 
     public struct ListEndpointsByPlatformApplicationResponse: AWSShape {
@@ -474,6 +612,12 @@ extension Sns {
             self.endpoints = endpoints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let endpoints = dictionary["Endpoints"] as? [[String: Any]] {
+                self.endpoints = try endpoints.map({ try Endpoint(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListPhoneNumbersOptedOutResponse: AWSShape {
@@ -491,6 +635,12 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let phoneNumbers = dictionary["phoneNumbers"] as? [String] {
+                self.phoneNumbers = phoneNumbers
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct CheckIfPhoneNumberIsOptedOutResponse: AWSShape {
@@ -505,6 +655,9 @@ extension Sns {
             self.isOptedOut = isOptedOut
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isOptedOut = dictionary["isOptedOut"] as? Bool
+        }
     }
 
     public struct ConfirmSubscriptionResponse: AWSShape {
@@ -519,6 +672,9 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subscriptionArn = dictionary["SubscriptionArn"] as? String
+        }
     }
 
     public struct SubscribeResponse: AWSShape {
@@ -533,6 +689,9 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subscriptionArn = dictionary["SubscriptionArn"] as? String
+        }
     }
 
     public struct ListSubscriptionsByTopicResponse: AWSShape {
@@ -550,6 +709,12 @@ extension Sns {
             self.subscriptions = subscriptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
+                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListSubscriptionsResponse: AWSShape {
@@ -567,6 +732,12 @@ extension Sns {
             self.subscriptions = subscriptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
+                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
+            }
+        }
     }
 
     public struct MessageAttributeValue: AWSShape {
@@ -587,6 +758,12 @@ extension Sns {
             self.stringValue = stringValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
+            self.dataType = dataType
+            self.binaryValue = dictionary["BinaryValue"] as? Data
+            self.stringValue = dictionary["StringValue"] as? String
+        }
     }
 
     public struct ListPlatformApplicationsResponse: AWSShape {
@@ -604,6 +781,12 @@ extension Sns {
             self.platformApplications = platformApplications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let platformApplications = dictionary["PlatformApplications"] as? [[String: Any]] {
+                self.platformApplications = try platformApplications.map({ try PlatformApplication(dictionary: $0) })
+            }
+        }
     }
 
     public struct ConfirmSubscriptionInput: AWSShape {
@@ -624,6 +807,13 @@ extension Sns {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.authenticateOnUnsubscribe = dictionary["AuthenticateOnUnsubscribe"] as? String
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            guard let token = dictionary["Token"] as? String else { throw InitializableError.missingRequiredParam("Token") }
+            self.token = token
+        }
     }
 
     public struct ListSubscriptionsInput: AWSShape {
@@ -638,6 +828,9 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Topic: AWSShape {
@@ -652,6 +845,9 @@ extension Sns {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+        }
     }
 
     public struct OptInPhoneNumberResponse: AWSShape {
@@ -660,6 +856,8 @@ extension Sns {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SetSMSAttributesInput: AWSShape {
@@ -674,6 +872,10 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributes = dictionary["attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("attributes") }
+            self.attributes = attributes
+        }
     }
 
     public struct SubscribeInput: AWSShape {
@@ -694,6 +896,13 @@ extension Sns {
             self.`protocol` = `protocol`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpoint = dictionary["Endpoint"] as? String
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+        }
     }
 
     public struct GetTopicAttributesResponse: AWSShape {
@@ -708,6 +917,11 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct CreateTopicResponse: AWSShape {
@@ -722,6 +936,9 @@ extension Sns {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+        }
     }
 
     public struct CreateEndpointResponse: AWSShape {
@@ -736,6 +953,9 @@ extension Sns {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpointArn = dictionary["EndpointArn"] as? String
+        }
     }
 
     public struct PublishInput: AWSShape {
@@ -768,6 +988,23 @@ extension Sns {
             self.subject = subject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+                var messageAttributesDict: [String: MessageAttributeValue] = [:]
+                for (key, value) in messageAttributes {
+                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
+                }
+                self.messageAttributes = messageAttributesDict
+            }
+            self.phoneNumber = dictionary["PhoneNumber"] as? String
+            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = message
+            self.targetArn = dictionary["TargetArn"] as? String
+            self.messageStructure = dictionary["MessageStructure"] as? String
+            self.topicArn = dictionary["TopicArn"] as? String
+            self.subject = dictionary["Subject"] as? String
+        }
     }
 
     public struct CheckIfPhoneNumberIsOptedOutInput: AWSShape {
@@ -782,6 +1019,10 @@ extension Sns {
             self.phoneNumber = phoneNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let phoneNumber = dictionary["phoneNumber"] as? String else { throw InitializableError.missingRequiredParam("phoneNumber") }
+            self.phoneNumber = phoneNumber
+        }
     }
 
     public struct GetEndpointAttributesResponse: AWSShape {
@@ -796,6 +1037,11 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct DeleteEndpointInput: AWSShape {
@@ -810,6 +1056,10 @@ extension Sns {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+        }
     }
 
     public struct SetSMSAttributesResponse: AWSShape {
@@ -818,6 +1068,8 @@ extension Sns {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SetTopicAttributesInput: AWSShape {
@@ -838,6 +1090,13 @@ extension Sns {
             self.attributeValue = attributeValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            self.topicArn = topicArn
+            self.attributeValue = dictionary["AttributeValue"] as? String
+        }
     }
 
     public struct GetSMSAttributesInput: AWSShape {
@@ -852,6 +1111,11 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["attributes"] as? [String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct CreateTopicInput: AWSShape {
@@ -866,6 +1130,10 @@ extension Sns {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListPlatformApplicationsInput: AWSShape {
@@ -880,6 +1148,9 @@ extension Sns {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetSubscriptionAttributesResponse: AWSShape {
@@ -894,6 +1165,11 @@ extension Sns {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct DeletePlatformApplicationInput: AWSShape {
@@ -908,6 +1184,10 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
+            self.platformApplicationArn = platformApplicationArn
+        }
     }
 
 }

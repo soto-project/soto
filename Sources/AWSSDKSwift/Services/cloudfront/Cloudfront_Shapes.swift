@@ -47,6 +47,10 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+        }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -67,6 +71,12 @@ extension Cloudfront {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
+            self.resource = resource
+            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try Cloudfront.Tags(dictionary: tags)
+        }
     }
 
     public struct Signer: AWSShape {
@@ -84,6 +94,10 @@ extension Cloudfront {
             self.keyPairIds = keyPairIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.awsAccountNumber = dictionary["AwsAccountNumber"] as? String
+            if let keyPairIds = dictionary["KeyPairIds"] as? [String: Any] { self.keyPairIds = try Cloudfront.KeyPairIds(dictionary: keyPairIds) }
+        }
     }
 
     public struct CreateStreamingDistributionWithTagsResult: AWSShape {
@@ -106,6 +120,11 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.location = dictionary["Location"] as? String
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+        }
     }
 
     public struct UpdateStreamingDistributionResult: AWSShape {
@@ -126,6 +145,10 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+        }
     }
 
     public struct InvalidationBatch: AWSShape {
@@ -143,6 +166,12 @@ extension Cloudfront {
             self.paths = paths
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            guard let paths = dictionary["Paths"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Paths") }
+            self.paths = try Cloudfront.Paths(dictionary: paths)
+        }
     }
 
     public struct TrustedSigners: AWSShape {
@@ -163,6 +192,15 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
@@ -177,6 +215,9 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cloudFrontOriginAccessIdentityList = dictionary["CloudFrontOriginAccessIdentityList"] as? [String: Any] { self.cloudFrontOriginAccessIdentityList = try Cloudfront.CloudFrontOriginAccessIdentityList(dictionary: cloudFrontOriginAccessIdentityList) }
+        }
     }
 
     public struct Headers: AWSShape {
@@ -194,6 +235,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
@@ -208,6 +256,10 @@ extension Cloudfront {
             self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamingDistributionConfigWithTags = dictionary["StreamingDistributionConfigWithTags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfigWithTags") }
+            self.streamingDistributionConfigWithTags = try Cloudfront.StreamingDistributionConfigWithTags(dictionary: streamingDistributionConfigWithTags)
+        }
     }
 
     public struct QueryStringCacheKeys: AWSShape {
@@ -225,6 +277,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct LambdaFunctionAssociations: AWSShape {
@@ -242,6 +301,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try LambdaFunctionAssociation(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct GetStreamingDistributionRequest: AWSShape {
@@ -259,6 +325,10 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Paths: AWSShape {
@@ -276,6 +346,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct DefaultCacheBehavior: AWSShape {
@@ -318,6 +395,24 @@ extension Cloudfront {
             self.allowedMethods = allowedMethods
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultTTL = dictionary["DefaultTTL"] as? Int64
+            guard let targetOriginId = dictionary["TargetOriginId"] as? String else { throw InitializableError.missingRequiredParam("TargetOriginId") }
+            self.targetOriginId = targetOriginId
+            guard let forwardedValues = dictionary["ForwardedValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ForwardedValues") }
+            self.forwardedValues = try Cloudfront.ForwardedValues(dictionary: forwardedValues)
+            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
+            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
+            self.compress = dictionary["Compress"] as? Bool
+            self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
+            self.maxTTL = dictionary["MaxTTL"] as? Int64
+            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) }
+            guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
+            self.minTTL = minTTL
+            guard let viewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) }
+        }
     }
 
     public struct Invalidation: AWSShape {
@@ -341,6 +436,16 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let invalidationBatch = dictionary["InvalidationBatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InvalidationBatch") }
+            self.invalidationBatch = try Cloudfront.InvalidationBatch(dictionary: invalidationBatch)
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let createTime = dictionary["CreateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreateTime") }
+            self.createTime = createTime
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Tag: AWSShape {
@@ -358,6 +463,11 @@ extension Cloudfront {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct CreateDistributionRequest: AWSShape {
@@ -372,6 +482,10 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
+            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        }
     }
 
     public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
@@ -389,6 +503,10 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
@@ -415,6 +533,13 @@ extension Cloudfront {
             self.ifMatch = ifMatch
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudFrontOriginAccessIdentityConfig") }
+            self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig)
+            self.ifMatch = dictionary["IfMatch"] as? String
+        }
     }
 
     public struct GetInvalidationResult: AWSShape {
@@ -429,6 +554,9 @@ extension Cloudfront {
             self.invalidation = invalidation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) }
+        }
     }
 
     public struct CreateInvalidationResult: AWSShape {
@@ -449,6 +577,10 @@ extension Cloudfront {
             self.invalidation = invalidation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.location = dictionary["Location"] as? String
+            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) }
+        }
     }
 
     public struct StreamingDistributionSummary: AWSShape {
@@ -492,6 +624,30 @@ extension Cloudfront {
             self.priceClass = priceClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
+            self.lastModifiedTime = lastModifiedTime
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let aliases = dictionary["Aliases"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Aliases") }
+            self.aliases = try Cloudfront.Aliases(dictionary: aliases)
+            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
+            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
+            guard let s3Origin = dictionary["S3Origin"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Origin") }
+            self.s3Origin = try Cloudfront.S3Origin(dictionary: s3Origin)
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            guard let priceClass = dictionary["PriceClass"] as? String else { throw InitializableError.missingRequiredParam("PriceClass") }
+            self.priceClass = priceClass
+        }
     }
 
     public struct CacheBehavior: AWSShape {
@@ -538,6 +694,26 @@ extension Cloudfront {
             self.defaultTTL = defaultTTL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetOriginId = dictionary["TargetOriginId"] as? String else { throw InitializableError.missingRequiredParam("TargetOriginId") }
+            self.targetOriginId = targetOriginId
+            guard let pathPattern = dictionary["PathPattern"] as? String else { throw InitializableError.missingRequiredParam("PathPattern") }
+            self.pathPattern = pathPattern
+            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) }
+            guard let forwardedValues = dictionary["ForwardedValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ForwardedValues") }
+            self.forwardedValues = try Cloudfront.ForwardedValues(dictionary: forwardedValues)
+            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
+            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
+            self.compress = dictionary["Compress"] as? Bool
+            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) }
+            self.maxTTL = dictionary["MaxTTL"] as? Int64
+            self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
+            guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
+            self.minTTL = minTTL
+            guard let viewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+            self.defaultTTL = dictionary["DefaultTTL"] as? Int64
+        }
     }
 
     public struct DistributionConfigWithTags: AWSShape {
@@ -555,6 +731,12 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try Cloudfront.Tags(dictionary: tags)
+            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
+            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        }
     }
 
     public struct ListStreamingDistributionsResult: AWSShape {
@@ -569,6 +751,9 @@ extension Cloudfront {
             self.streamingDistributionList = streamingDistributionList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let streamingDistributionList = dictionary["StreamingDistributionList"] as? [String: Any] { self.streamingDistributionList = try Cloudfront.StreamingDistributionList(dictionary: streamingDistributionList) }
+        }
     }
 
     public struct Origins: AWSShape {
@@ -586,6 +771,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try Origin(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct GetDistributionConfigResult: AWSShape {
@@ -606,6 +798,10 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] { self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig) }
+        }
     }
 
     public struct InvalidationList: AWSShape {
@@ -635,6 +831,20 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try InvalidationSummary(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct GetInvalidationRequest: AWSShape {
@@ -655,6 +865,12 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
+            self.distributionId = distributionId
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ForwardedValues: AWSShape {
@@ -678,6 +894,14 @@ extension Cloudfront {
             self.queryStringCacheKeys = queryStringCacheKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queryString = dictionary["QueryString"] as? Bool else { throw InitializableError.missingRequiredParam("QueryString") }
+            self.queryString = queryString
+            if let headers = dictionary["Headers"] as? [String: Any] { self.headers = try Cloudfront.Headers(dictionary: headers) }
+            guard let cookies = dictionary["Cookies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Cookies") }
+            self.cookies = try Cloudfront.CookiePreference(dictionary: cookies)
+            if let queryStringCacheKeys = dictionary["QueryStringCacheKeys"] as? [String: Any] { self.queryStringCacheKeys = try Cloudfront.QueryStringCacheKeys(dictionary: queryStringCacheKeys) }
+        }
     }
 
     public struct UpdateDistributionRequest: AWSShape {
@@ -704,6 +928,13 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            self.ifMatch = dictionary["IfMatch"] as? String
+            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
+            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        }
     }
 
     public struct LambdaFunctionAssociation: AWSShape {
@@ -721,6 +952,10 @@ extension Cloudfront {
             self.lambdaFunctionARN = lambdaFunctionARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventType = dictionary["EventType"] as? String
+            self.lambdaFunctionARN = dictionary["LambdaFunctionARN"] as? String
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -738,6 +973,10 @@ extension Cloudfront {
             self.resource = resource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
+            self.resource = resource
+        }
     }
 
     public struct OriginCustomHeader: AWSShape {
@@ -755,6 +994,12 @@ extension Cloudfront {
             self.headerValue = headerValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let headerName = dictionary["HeaderName"] as? String else { throw InitializableError.missingRequiredParam("HeaderName") }
+            self.headerName = headerName
+            guard let headerValue = dictionary["HeaderValue"] as? String else { throw InitializableError.missingRequiredParam("HeaderValue") }
+            self.headerValue = headerValue
+        }
     }
 
     public struct ListInvalidationsRequest: AWSShape {
@@ -781,6 +1026,12 @@ extension Cloudfront {
             self.distributionId = distributionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+            guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
+            self.distributionId = distributionId
+        }
     }
 
     public struct CacheBehaviors: AWSShape {
@@ -798,6 +1049,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try CacheBehavior(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
@@ -821,6 +1079,11 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.location = dictionary["Location"] as? String
+            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) }
+        }
     }
 
     public struct AllowedMethods: AWSShape {
@@ -840,6 +1103,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = items
+            if let cachedMethods = dictionary["CachedMethods"] as? [String: Any] { self.cachedMethods = try Cloudfront.CachedMethods(dictionary: cachedMethods) }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct CreateStreamingDistributionRequest: AWSShape {
@@ -854,6 +1124,10 @@ extension Cloudfront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
+            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
+        }
     }
 
     public struct ListStreamingDistributionsRequest: AWSShape {
@@ -874,6 +1148,10 @@ extension Cloudfront {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct ListDistributionsByWebACLIdResult: AWSShape {
@@ -888,6 +1166,9 @@ extension Cloudfront {
             self.distributionList = distributionList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) }
+        }
     }
 
     public struct ListDistributionsByWebACLIdRequest: AWSShape {
@@ -914,6 +1195,12 @@ extension Cloudfront {
             self.webACLId = webACLId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
     }
 
     public struct S3OriginConfig: AWSShape {
@@ -928,6 +1215,10 @@ extension Cloudfront {
             self.originAccessIdentity = originAccessIdentity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let originAccessIdentity = dictionary["OriginAccessIdentity"] as? String else { throw InitializableError.missingRequiredParam("OriginAccessIdentity") }
+            self.originAccessIdentity = originAccessIdentity
+        }
     }
 
     public struct CookiePreference: AWSShape {
@@ -945,6 +1236,11 @@ extension Cloudfront {
             self.whitelistedNames = whitelistedNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let forward = dictionary["Forward"] as? String else { throw InitializableError.missingRequiredParam("Forward") }
+            self.forward = forward
+            if let whitelistedNames = dictionary["WhitelistedNames"] as? [String: Any] { self.whitelistedNames = try Cloudfront.CookieNames(dictionary: whitelistedNames) }
+        }
     }
 
     public struct OriginSslProtocols: AWSShape {
@@ -962,6 +1258,12 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = items
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct CreateDistributionWithTagsRequest: AWSShape {
@@ -976,6 +1278,10 @@ extension Cloudfront {
             self.distributionConfigWithTags = distributionConfigWithTags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let distributionConfigWithTags = dictionary["DistributionConfigWithTags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfigWithTags") }
+            self.distributionConfigWithTags = try Cloudfront.DistributionConfigWithTags(dictionary: distributionConfigWithTags)
+        }
     }
 
     public struct CreateDistributionWithTagsResult: AWSShape {
@@ -999,6 +1305,11 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.location = dictionary["Location"] as? String
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+        }
     }
 
     public struct CreateDistributionResult: AWSShape {
@@ -1022,6 +1333,11 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.location = dictionary["Location"] as? String
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+        }
     }
 
     public struct ListDistributionsResult: AWSShape {
@@ -1036,6 +1352,9 @@ extension Cloudfront {
             self.distributionList = distributionList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) }
+        }
     }
 
     public struct DistributionList: AWSShape {
@@ -1065,6 +1384,20 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try DistributionSummary(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct TagKeys: AWSShape {
@@ -1079,6 +1412,11 @@ extension Cloudfront {
             self.items = items
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+        }
     }
 
     public struct LoggingConfig: AWSShape {
@@ -1102,6 +1440,16 @@ extension Cloudfront {
             self.includeCookies = includeCookies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
+            self.prefix = prefix
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let includeCookies = dictionary["IncludeCookies"] as? Bool else { throw InitializableError.missingRequiredParam("IncludeCookies") }
+            self.includeCookies = includeCookies
+        }
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
@@ -1122,6 +1470,10 @@ extension Cloudfront {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct ListTagsForResourceResult: AWSShape {
@@ -1136,6 +1488,10 @@ extension Cloudfront {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try Cloudfront.Tags(dictionary: tags)
+        }
     }
 
     public struct ListDistributionsRequest: AWSShape {
@@ -1156,6 +1512,10 @@ extension Cloudfront {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? String
+        }
     }
 
     public struct DistributionConfig: AWSShape {
@@ -1213,6 +1573,29 @@ extension Cloudfront {
             self.defaultCacheBehavior = defaultCacheBehavior
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.httpVersion = dictionary["HttpVersion"] as? String
+            self.defaultRootObject = dictionary["DefaultRootObject"] as? String
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            if let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] { self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses) }
+            guard let origins = dictionary["Origins"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Origins") }
+            self.origins = try Cloudfront.Origins(dictionary: origins)
+            self.webACLId = dictionary["WebACLId"] as? String
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            self.isIPV6Enabled = dictionary["IsIPV6Enabled"] as? Bool
+            self.priceClass = dictionary["PriceClass"] as? String
+            if let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] { self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate) }
+            if let restrictions = dictionary["Restrictions"] as? [String: Any] { self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions) }
+            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) }
+            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.LoggingConfig(dictionary: logging) }
+            if let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] { self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors) }
+            guard let defaultCacheBehavior = dictionary["DefaultCacheBehavior"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultCacheBehavior") }
+            self.defaultCacheBehavior = try Cloudfront.DefaultCacheBehavior(dictionary: defaultCacheBehavior)
+        }
     }
 
     public struct Restrictions: AWSShape {
@@ -1226,6 +1609,10 @@ extension Cloudfront {
             self.geoRestriction = geoRestriction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let geoRestriction = dictionary["GeoRestriction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GeoRestriction") }
+            self.geoRestriction = try Cloudfront.GeoRestriction(dictionary: geoRestriction)
+        }
     }
 
     public struct ViewerCertificate: AWSShape {
@@ -1255,6 +1642,15 @@ extension Cloudfront {
             self.certificateSource = certificateSource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sSLSupportMethod = dictionary["SSLSupportMethod"] as? String
+            self.iAMCertificateId = dictionary["IAMCertificateId"] as? String
+            self.minimumProtocolVersion = dictionary["MinimumProtocolVersion"] as? String
+            self.aCMCertificateArn = dictionary["ACMCertificateArn"] as? String
+            self.certificate = dictionary["Certificate"] as? String
+            self.cloudFrontDefaultCertificate = dictionary["CloudFrontDefaultCertificate"] as? Bool
+            self.certificateSource = dictionary["CertificateSource"] as? String
+        }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -1275,6 +1671,12 @@ extension Cloudfront {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
+            self.resource = resource
+            guard let tagKeys = dictionary["TagKeys"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = try Cloudfront.TagKeys(dictionary: tagKeys)
+        }
     }
 
     public struct GetStreamingDistributionConfigRequest: AWSShape {
@@ -1292,6 +1694,10 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct StreamingDistribution: AWSShape {
@@ -1323,6 +1729,21 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModifiedTime = dictionary["LastModifiedTime"] as? Date
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
+            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
+            guard let activeTrustedSigners = dictionary["ActiveTrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActiveTrustedSigners") }
+            self.activeTrustedSigners = try Cloudfront.ActiveTrustedSigners(dictionary: activeTrustedSigners)
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CustomHeaders: AWSShape {
@@ -1340,6 +1761,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try OriginCustomHeader(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct CachedMethods: AWSShape {
@@ -1357,6 +1785,12 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = items
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct DistributionSummary: AWSShape {
@@ -1419,6 +1853,44 @@ extension Cloudfront {
             self.defaultCacheBehavior = defaultCacheBehavior
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let httpVersion = dictionary["HttpVersion"] as? String else { throw InitializableError.missingRequiredParam("HttpVersion") }
+            self.httpVersion = httpVersion
+            guard let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CustomErrorResponses") }
+            self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses)
+            guard let origins = dictionary["Origins"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Origins") }
+            self.origins = try Cloudfront.Origins(dictionary: origins)
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            guard let isIPV6Enabled = dictionary["IsIPV6Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("IsIPV6Enabled") }
+            self.isIPV6Enabled = isIPV6Enabled
+            guard let restrictions = dictionary["Restrictions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Restrictions") }
+            self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions)
+            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
+            self.lastModifiedTime = lastModifiedTime
+            guard let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ViewerCertificate") }
+            self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate)
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let aliases = dictionary["Aliases"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Aliases") }
+            self.aliases = try Cloudfront.Aliases(dictionary: aliases)
+            guard let priceClass = dictionary["PriceClass"] as? String else { throw InitializableError.missingRequiredParam("PriceClass") }
+            self.priceClass = priceClass
+            guard let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CacheBehaviors") }
+            self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors)
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            guard let defaultCacheBehavior = dictionary["DefaultCacheBehavior"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultCacheBehavior") }
+            self.defaultCacheBehavior = try Cloudfront.DefaultCacheBehavior(dictionary: defaultCacheBehavior)
+        }
     }
 
     public struct CustomOriginConfig: AWSShape {
@@ -1442,6 +1914,15 @@ extension Cloudfront {
             self.originSslProtocols = originSslProtocols
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hTTPSPort = dictionary["HTTPSPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPSPort") }
+            self.hTTPSPort = hTTPSPort
+            guard let hTTPPort = dictionary["HTTPPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPPort") }
+            self.hTTPPort = hTTPPort
+            guard let originProtocolPolicy = dictionary["OriginProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("OriginProtocolPolicy") }
+            self.originProtocolPolicy = originProtocolPolicy
+            if let originSslProtocols = dictionary["OriginSslProtocols"] as? [String: Any] { self.originSslProtocols = try Cloudfront.OriginSslProtocols(dictionary: originSslProtocols) }
+        }
     }
 
     public struct CreateStreamingDistributionResult: AWSShape {
@@ -1465,6 +1946,11 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            self.location = dictionary["Location"] as? String
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+        }
     }
 
     public struct CustomErrorResponse: AWSShape {
@@ -1488,6 +1974,13 @@ extension Cloudfront {
             self.responsePagePath = responsePagePath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.responseCode = dictionary["ResponseCode"] as? String
+            self.errorCachingMinTTL = dictionary["ErrorCachingMinTTL"] as? Int64
+            guard let errorCode = dictionary["ErrorCode"] as? Int32 else { throw InitializableError.missingRequiredParam("ErrorCode") }
+            self.errorCode = errorCode
+            self.responsePagePath = dictionary["ResponsePagePath"] as? String
+        }
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
@@ -1508,6 +2001,10 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) }
+        }
     }
 
     public struct CloudFrontOriginAccessIdentity: AWSShape {
@@ -1528,6 +2025,13 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let s3CanonicalUserId = dictionary["S3CanonicalUserId"] as? String else { throw InitializableError.missingRequiredParam("S3CanonicalUserId") }
+            self.s3CanonicalUserId = s3CanonicalUserId
+            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) }
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetDistributionRequest: AWSShape {
@@ -1545,6 +2049,10 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct StreamingLoggingConfig: AWSShape {
@@ -1565,6 +2073,14 @@ extension Cloudfront {
             self.prefix = prefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
+            self.bucket = bucket
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
+            self.prefix = prefix
+        }
     }
 
     public struct GeoRestriction: AWSShape {
@@ -1585,6 +2101,15 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let restrictionType = dictionary["RestrictionType"] as? String else { throw InitializableError.missingRequiredParam("RestrictionType") }
+            self.restrictionType = restrictionType
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct StreamingDistributionList: AWSShape {
@@ -1614,6 +2139,20 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try StreamingDistributionSummary(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct S3Origin: AWSShape {
@@ -1631,6 +2170,12 @@ extension Cloudfront {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let originAccessIdentity = dictionary["OriginAccessIdentity"] as? String else { throw InitializableError.missingRequiredParam("OriginAccessIdentity") }
+            self.originAccessIdentity = originAccessIdentity
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct ListInvalidationsResult: AWSShape {
@@ -1645,6 +2190,9 @@ extension Cloudfront {
             self.invalidationList = invalidationList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let invalidationList = dictionary["InvalidationList"] as? [String: Any] { self.invalidationList = try Cloudfront.InvalidationList(dictionary: invalidationList) }
+        }
     }
 
     public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
@@ -1665,6 +2213,14 @@ extension Cloudfront {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let s3CanonicalUserId = dictionary["S3CanonicalUserId"] as? String else { throw InitializableError.missingRequiredParam("S3CanonicalUserId") }
+            self.s3CanonicalUserId = s3CanonicalUserId
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+        }
     }
 
     public struct InvalidationSummary: AWSShape {
@@ -1684,6 +2240,14 @@ extension Cloudfront {
             self.createTime = createTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let createTime = dictionary["CreateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreateTime") }
+            self.createTime = createTime
+        }
     }
 
     public struct ActiveTrustedSigners: AWSShape {
@@ -1704,6 +2268,15 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try Signer(dictionary: $0) })
+            }
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct StreamingDistributionConfig: AWSShape {
@@ -1739,6 +2312,21 @@ extension Cloudfront {
             self.priceClass = priceClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) }
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.StreamingLoggingConfig(dictionary: logging) }
+            guard let s3Origin = dictionary["S3Origin"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Origin") }
+            self.s3Origin = try Cloudfront.S3Origin(dictionary: s3Origin)
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
+            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
+            self.priceClass = dictionary["PriceClass"] as? String
+        }
     }
 
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
@@ -1762,6 +2350,11 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ifMatch = dictionary["IfMatch"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateInvalidationRequest: AWSShape {
@@ -1782,6 +2375,12 @@ extension Cloudfront {
             self.distributionId = distributionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let invalidationBatch = dictionary["InvalidationBatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InvalidationBatch") }
+            self.invalidationBatch = try Cloudfront.InvalidationBatch(dictionary: invalidationBatch)
+            guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
+            self.distributionId = distributionId
+        }
     }
 
     public struct GetDistributionConfigRequest: AWSShape {
@@ -1799,6 +2398,10 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct UpdateDistributionResult: AWSShape {
@@ -1819,6 +2422,10 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+        }
     }
 
     public struct GetStreamingDistributionConfigResult: AWSShape {
@@ -1839,6 +2446,10 @@ extension Cloudfront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] { self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig) }
+        }
     }
 
     public struct KeyPairIds: AWSShape {
@@ -1856,6 +2467,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct Origin: AWSShape {
@@ -1885,6 +2503,16 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let customHeaders = dictionary["CustomHeaders"] as? [String: Any] { self.customHeaders = try Cloudfront.CustomHeaders(dictionary: customHeaders) }
+            if let customOriginConfig = dictionary["CustomOriginConfig"] as? [String: Any] { self.customOriginConfig = try Cloudfront.CustomOriginConfig(dictionary: customOriginConfig) }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.originPath = dictionary["OriginPath"] as? String
+            if let s3OriginConfig = dictionary["S3OriginConfig"] as? [String: Any] { self.s3OriginConfig = try Cloudfront.S3OriginConfig(dictionary: s3OriginConfig) }
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct Tags: AWSShape {
@@ -1899,6 +2527,11 @@ extension Cloudfront {
             self.items = items
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
@@ -1919,6 +2552,10 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) }
+        }
     }
 
     public struct GetDistributionResult: AWSShape {
@@ -1939,6 +2576,10 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+        }
     }
 
     public struct UpdateStreamingDistributionRequest: AWSShape {
@@ -1965,6 +2606,13 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ifMatch = dictionary["IfMatch"] as? String
+            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
+            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
@@ -1994,6 +2642,20 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
+            self.isTruncated = isTruncated
+            self.nextMarker = dictionary["NextMarker"] as? String
+            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
+            self.marker = marker
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try CloudFrontOriginAccessIdentitySummary(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
@@ -2011,6 +2673,10 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
@@ -2025,6 +2691,10 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudFrontOriginAccessIdentityConfig") }
+            self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig)
+        }
     }
 
     public struct Distribution: AWSShape {
@@ -2060,6 +2730,24 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
+            self.lastModifiedTime = lastModifiedTime
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let activeTrustedSigners = dictionary["ActiveTrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActiveTrustedSigners") }
+            self.activeTrustedSigners = try Cloudfront.ActiveTrustedSigners(dictionary: activeTrustedSigners)
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
+            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            guard let inProgressInvalidationBatches = dictionary["InProgressInvalidationBatches"] as? Int32 else { throw InitializableError.missingRequiredParam("InProgressInvalidationBatches") }
+            self.inProgressInvalidationBatches = inProgressInvalidationBatches
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct StreamingDistributionConfigWithTags: AWSShape {
@@ -2077,6 +2765,12 @@ extension Cloudfront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try Cloudfront.Tags(dictionary: tags)
+            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
+            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
+        }
     }
 
     public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
@@ -2094,6 +2788,12 @@ extension Cloudfront {
             self.comment = comment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
+            self.callerReference = callerReference
+            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
+            self.comment = comment
+        }
     }
 
     public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
@@ -2114,6 +2814,10 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eTag = dictionary["ETag"] as? String
+            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) }
+        }
     }
 
     public struct DeleteStreamingDistributionRequest: AWSShape {
@@ -2137,6 +2841,11 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ifMatch = dictionary["IfMatch"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct CustomErrorResponses: AWSShape {
@@ -2154,6 +2863,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [[String: Any]] {
+                self.items = try items.map({ try CustomErrorResponse(dictionary: $0) })
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct CookieNames: AWSShape {
@@ -2171,6 +2887,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct Aliases: AWSShape {
@@ -2188,6 +2911,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["Items"] as? [String] {
+                self.items = items
+            }
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct DeleteDistributionRequest: AWSShape {
@@ -2211,6 +2941,11 @@ extension Cloudfront {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ifMatch = dictionary["IfMatch"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
 }

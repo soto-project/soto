@@ -56,6 +56,20 @@ extension Mobileanalytics {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metrics = dictionary["metrics"] as? [String: Double] {
+                self.metrics = metrics
+            }
+            if let session = dictionary["session"] as? [String: Any] { self.session = try Mobileanalytics.Session(dictionary: session) }
+            if let attributes = dictionary["attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
+            self.timestamp = timestamp
+            guard let eventType = dictionary["eventType"] as? String else { throw InitializableError.missingRequiredParam("eventType") }
+            self.eventType = eventType
+            self.version = dictionary["version"] as? String
+        }
     }
 
     public struct Session: AWSShape {
@@ -79,6 +93,12 @@ extension Mobileanalytics {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTimestamp = dictionary["startTimestamp"] as? String
+            self.id = dictionary["id"] as? String
+            self.stopTimestamp = dictionary["stopTimestamp"] as? String
+            self.duration = dictionary["duration"] as? Int64
+        }
     }
 
     public struct PutEventsInput: AWSShape {
@@ -102,6 +122,13 @@ extension Mobileanalytics {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientContext = dictionary["clientContext"] as? String else { throw InitializableError.missingRequiredParam("clientContext") }
+            self.clientContext = clientContext
+            self.clientContextEncoding = dictionary["clientContextEncoding"] as? String
+            guard let events = dictionary["events"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("events") }
+            self.events = try events.map({ try Event(dictionary: $0) })
+        }
     }
 
 }

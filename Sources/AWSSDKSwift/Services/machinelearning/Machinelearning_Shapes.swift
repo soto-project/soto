@@ -53,6 +53,17 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.batchPredictionName = dictionary["BatchPredictionName"] as? String
+            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
+            self.batchPredictionId = batchPredictionId
+            guard let outputUri = dictionary["OutputUri"] as? String else { throw InitializableError.missingRequiredParam("OutputUri") }
+            self.outputUri = outputUri
+            guard let batchPredictionDataSourceId = dictionary["BatchPredictionDataSourceId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionDataSourceId") }
+            self.batchPredictionDataSourceId = batchPredictionDataSourceId
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+        }
     }
 
     public struct CreateDataSourceFromRedshiftInput: AWSShape {
@@ -79,6 +90,16 @@ extension Machinelearning {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
+            self.dataSourceId = dataSourceId
+            self.dataSourceName = dictionary["DataSourceName"] as? String
+            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+            guard let dataSpec = dictionary["DataSpec"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DataSpec") }
+            self.dataSpec = try Machinelearning.RedshiftDataSpec(dictionary: dataSpec)
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
     }
 
     public struct CreateDataSourceFromS3Output: AWSShape {
@@ -93,6 +114,9 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+        }
     }
 
     public struct S3DataSpec: AWSShape {
@@ -116,6 +140,13 @@ extension Machinelearning {
             self.dataRearrangement = dataRearrangement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataLocationS3 = dictionary["DataLocationS3"] as? String else { throw InitializableError.missingRequiredParam("DataLocationS3") }
+            self.dataLocationS3 = dataLocationS3
+            self.dataSchema = dictionary["DataSchema"] as? String
+            self.dataSchemaLocationS3 = dictionary["DataSchemaLocationS3"] as? String
+            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+        }
     }
 
     public struct DescribeDataSourcesOutput: AWSShape {
@@ -133,6 +164,12 @@ extension Machinelearning {
             self.results = results
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let results = dictionary["Results"] as? [[String: Any]] {
+                self.results = try results.map({ try DataSource(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteBatchPredictionOutput: AWSShape {
@@ -147,6 +184,9 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+        }
     }
 
     public struct GetMLModelInput: AWSShape {
@@ -164,6 +204,11 @@ extension Machinelearning {
             self.verbose = verbose
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+            self.verbose = dictionary["Verbose"] as? Bool
+        }
     }
 
     public struct RedshiftMetadata: AWSShape {
@@ -182,6 +227,11 @@ extension Machinelearning {
             self.redshiftDatabase = redshiftDatabase
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.selectSqlQuery = dictionary["SelectSqlQuery"] as? String
+            self.databaseUserName = dictionary["DatabaseUserName"] as? String
+            if let redshiftDatabase = dictionary["RedshiftDatabase"] as? [String: Any] { self.redshiftDatabase = try Machinelearning.RedshiftDatabase(dictionary: redshiftDatabase) }
+        }
     }
 
     public struct RDSDatabase: AWSShape {
@@ -198,6 +248,12 @@ extension Machinelearning {
             self.databaseName = databaseName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceIdentifier = dictionary["InstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("InstanceIdentifier") }
+            self.instanceIdentifier = instanceIdentifier
+            guard let databaseName = dictionary["DatabaseName"] as? String else { throw InitializableError.missingRequiredParam("DatabaseName") }
+            self.databaseName = databaseName
+        }
     }
 
     public struct DeleteBatchPredictionInput: AWSShape {
@@ -212,6 +268,10 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
+            self.batchPredictionId = batchPredictionId
+        }
     }
 
     public struct UpdateMLModelInput: AWSShape {
@@ -232,6 +292,12 @@ extension Machinelearning {
             self.mLModelName = mLModelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+            self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
+            self.mLModelName = dictionary["MLModelName"] as? String
+        }
     }
 
     public struct DescribeMLModelsOutput: AWSShape {
@@ -249,6 +315,12 @@ extension Machinelearning {
             self.results = results
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let results = dictionary["Results"] as? [[String: Any]] {
+                self.results = try results.map({ try MLModel(dictionary: $0) })
+            }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -266,6 +338,10 @@ extension Machinelearning {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct CreateEvaluationInput: AWSShape {
@@ -289,6 +365,15 @@ extension Machinelearning {
             self.evaluationDataSourceId = evaluationDataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.evaluationName = dictionary["EvaluationName"] as? String
+            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
+            self.evaluationId = evaluationId
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+            guard let evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationDataSourceId") }
+            self.evaluationDataSourceId = evaluationDataSourceId
+        }
     }
 
     public struct RealtimeEndpointInfo: AWSShape {
@@ -312,6 +397,12 @@ extension Machinelearning {
             self.endpointStatus = endpointStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.peakRequestsPerSecond = dictionary["PeakRequestsPerSecond"] as? Int32
+            self.endpointUrl = dictionary["EndpointUrl"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.endpointStatus = dictionary["EndpointStatus"] as? String
+        }
     }
 
     public struct DescribeBatchPredictionsOutput: AWSShape {
@@ -329,6 +420,12 @@ extension Machinelearning {
             self.results = results
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let results = dictionary["Results"] as? [[String: Any]] {
+                self.results = try results.map({ try BatchPrediction(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetDataSourceOutput: AWSShape {
@@ -397,6 +494,28 @@ extension Machinelearning {
             self.computeStatistics = computeStatistics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSizeInBytes = dictionary["DataSizeInBytes"] as? Int64
+            self.message = dictionary["Message"] as? String
+            self.numberOfFiles = dictionary["NumberOfFiles"] as? Int64
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.dataSourceSchema = dictionary["DataSourceSchema"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            if let rDSMetadata = dictionary["RDSMetadata"] as? [String: Any] { self.rDSMetadata = try Machinelearning.RDSMetadata(dictionary: rDSMetadata) }
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.dataLocationS3 = dictionary["DataLocationS3"] as? String
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            if let redshiftMetadata = dictionary["RedshiftMetadata"] as? [String: Any] { self.redshiftMetadata = try Machinelearning.RedshiftMetadata(dictionary: redshiftMetadata) }
+            self.logUri = dictionary["LogUri"] as? String
+            self.startedAt = dictionary["StartedAt"] as? Date
+            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+        }
     }
 
     public struct PredictInput: AWSShape {
@@ -415,6 +534,14 @@ extension Machinelearning {
             self.record = record
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+            guard let predictEndpoint = dictionary["PredictEndpoint"] as? String else { throw InitializableError.missingRequiredParam("PredictEndpoint") }
+            self.predictEndpoint = predictEndpoint
+            guard let record = dictionary["Record"] as? [String: String] else { throw InitializableError.missingRequiredParam("Record") }
+            self.record = record
+        }
     }
 
     public struct DeleteRealtimeEndpointOutput: AWSShape {
@@ -432,6 +559,10 @@ extension Machinelearning {
             self.realtimeEndpointInfo = realtimeEndpointInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mLModelId = dictionary["MLModelId"] as? String
+            if let realtimeEndpointInfo = dictionary["RealtimeEndpointInfo"] as? [String: Any] { self.realtimeEndpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: realtimeEndpointInfo) }
+        }
     }
 
     public struct DescribeEvaluationsOutput: AWSShape {
@@ -449,6 +580,12 @@ extension Machinelearning {
             self.results = results
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let results = dictionary["Results"] as? [[String: Any]] {
+                self.results = try results.map({ try Evaluation(dictionary: $0) })
+            }
+        }
     }
 
     public struct RDSDataSpec: AWSShape {
@@ -493,6 +630,27 @@ extension Machinelearning {
             self.dataRearrangement = dataRearrangement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSchemaUri = dictionary["DataSchemaUri"] as? String
+            guard let databaseCredentials = dictionary["DatabaseCredentials"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseCredentials") }
+            self.databaseCredentials = try Machinelearning.RDSDatabaseCredentials(dictionary: databaseCredentials)
+            guard let s3StagingLocation = dictionary["S3StagingLocation"] as? String else { throw InitializableError.missingRequiredParam("S3StagingLocation") }
+            self.s3StagingLocation = s3StagingLocation
+            guard let resourceRole = dictionary["ResourceRole"] as? String else { throw InitializableError.missingRequiredParam("ResourceRole") }
+            self.resourceRole = resourceRole
+            guard let databaseInformation = dictionary["DatabaseInformation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseInformation") }
+            self.databaseInformation = try Machinelearning.RDSDatabase(dictionary: databaseInformation)
+            self.dataSchema = dictionary["DataSchema"] as? String
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            guard let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroupIds") }
+            self.securityGroupIds = securityGroupIds
+            guard let selectSqlQuery = dictionary["SelectSqlQuery"] as? String else { throw InitializableError.missingRequiredParam("SelectSqlQuery") }
+            self.selectSqlQuery = selectSqlQuery
+            guard let serviceRole = dictionary["ServiceRole"] as? String else { throw InitializableError.missingRequiredParam("ServiceRole") }
+            self.serviceRole = serviceRole
+            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+        }
     }
 
     public struct Prediction: AWSShape {
@@ -514,6 +672,16 @@ extension Machinelearning {
             self.predictedValue = predictedValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let details = dictionary["details"] as? [String: String] {
+                self.details = details
+            }
+            if let predictedScores = dictionary["predictedScores"] as? [String: Float] {
+                self.predictedScores = predictedScores
+            }
+            self.predictedLabel = dictionary["predictedLabel"] as? String
+            self.predictedValue = dictionary["predictedValue"] as? Float
+        }
     }
 
     public struct DeleteMLModelInput: AWSShape {
@@ -528,6 +696,10 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+        }
     }
 
     public struct GetBatchPredictionInput: AWSShape {
@@ -542,6 +714,10 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
+            self.batchPredictionId = batchPredictionId
+        }
     }
 
     public struct CreateDataSourceFromRDSInput: AWSShape {
@@ -568,6 +744,16 @@ extension Machinelearning {
             self.roleARN = roleARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
+            self.dataSourceId = dataSourceId
+            guard let rDSData = dictionary["RDSData"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RDSData") }
+            self.rDSData = try Machinelearning.RDSDataSpec(dictionary: rDSData)
+            self.dataSourceName = dictionary["DataSourceName"] as? String
+            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
     }
 
     public struct RedshiftDataSpec: AWSShape {
@@ -600,6 +786,19 @@ extension Machinelearning {
             self.dataRearrangement = dataRearrangement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSchemaUri = dictionary["DataSchemaUri"] as? String
+            guard let databaseCredentials = dictionary["DatabaseCredentials"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseCredentials") }
+            self.databaseCredentials = try Machinelearning.RedshiftDatabaseCredentials(dictionary: databaseCredentials)
+            guard let s3StagingLocation = dictionary["S3StagingLocation"] as? String else { throw InitializableError.missingRequiredParam("S3StagingLocation") }
+            self.s3StagingLocation = s3StagingLocation
+            guard let databaseInformation = dictionary["DatabaseInformation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseInformation") }
+            self.databaseInformation = try Machinelearning.RedshiftDatabase(dictionary: databaseInformation)
+            self.dataSchema = dictionary["DataSchema"] as? String
+            guard let selectSqlQuery = dictionary["SelectSqlQuery"] as? String else { throw InitializableError.missingRequiredParam("SelectSqlQuery") }
+            self.selectSqlQuery = selectSqlQuery
+            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+        }
     }
 
     public struct Evaluation: AWSShape {
@@ -650,6 +849,22 @@ extension Machinelearning {
             self.evaluationDataSourceId = evaluationDataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let performanceMetrics = dictionary["PerformanceMetrics"] as? [String: Any] { self.performanceMetrics = try Machinelearning.PerformanceMetrics(dictionary: performanceMetrics) }
+            self.evaluationId = dictionary["EvaluationId"] as? String
+            self.message = dictionary["Message"] as? String
+            self.mLModelId = dictionary["MLModelId"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.startedAt = dictionary["StartedAt"] as? Date
+            self.evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String
+        }
     }
 
     public struct CreateDataSourceFromRedshiftOutput: AWSShape {
@@ -664,6 +879,9 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+        }
     }
 
     public struct RDSMetadata: AWSShape {
@@ -692,6 +910,14 @@ extension Machinelearning {
             self.selectSqlQuery = selectSqlQuery
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.databaseUserName = dictionary["DatabaseUserName"] as? String
+            self.dataPipelineId = dictionary["DataPipelineId"] as? String
+            self.resourceRole = dictionary["ResourceRole"] as? String
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            if let database = dictionary["Database"] as? [String: Any] { self.database = try Machinelearning.RDSDatabase(dictionary: database) }
+            self.selectSqlQuery = dictionary["SelectSqlQuery"] as? String
+        }
     }
 
     public struct DescribeTagsOutput: AWSShape {
@@ -712,6 +938,13 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct CreateEvaluationOutput: AWSShape {
@@ -726,6 +959,9 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.evaluationId = dictionary["EvaluationId"] as? String
+        }
     }
 
     public struct AddTagsOutput: AWSShape {
@@ -743,6 +979,10 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct DeleteDataSourceInput: AWSShape {
@@ -757,6 +997,10 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
+            self.dataSourceId = dataSourceId
+        }
     }
 
     public struct UpdateDataSourceInput: AWSShape {
@@ -774,6 +1018,12 @@ extension Machinelearning {
             self.dataSourceName = dataSourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
+            self.dataSourceId = dataSourceId
+            guard let dataSourceName = dictionary["DataSourceName"] as? String else { throw InitializableError.missingRequiredParam("DataSourceName") }
+            self.dataSourceName = dataSourceName
+        }
     }
 
     public struct GetBatchPredictionOutput: AWSShape {
@@ -836,6 +1086,25 @@ extension Machinelearning {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+            self.mLModelId = dictionary["MLModelId"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            self.totalRecordCount = dictionary["TotalRecordCount"] as? Int64
+            self.invalidRecordCount = dictionary["InvalidRecordCount"] as? Int64
+            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.logUri = dictionary["LogUri"] as? String
+            self.startedAt = dictionary["StartedAt"] as? Date
+            self.outputUri = dictionary["OutputUri"] as? String
+            self.batchPredictionDataSourceId = dictionary["BatchPredictionDataSourceId"] as? String
+        }
     }
 
     public struct UpdateBatchPredictionInput: AWSShape {
@@ -853,6 +1122,12 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let batchPredictionName = dictionary["BatchPredictionName"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionName") }
+            self.batchPredictionName = batchPredictionName
+            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
+            self.batchPredictionId = batchPredictionId
+        }
     }
 
     public struct RedshiftDatabaseCredentials: AWSShape {
@@ -868,6 +1143,12 @@ extension Machinelearning {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct UpdateEvaluationOutput: AWSShape {
@@ -882,6 +1163,9 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.evaluationId = dictionary["EvaluationId"] as? String
+        }
     }
 
     public struct UpdateEvaluationInput: AWSShape {
@@ -899,6 +1183,12 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let evaluationName = dictionary["EvaluationName"] as? String else { throw InitializableError.missingRequiredParam("EvaluationName") }
+            self.evaluationName = evaluationName
+            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
+            self.evaluationId = evaluationId
+        }
     }
 
     public struct CreateBatchPredictionOutput: AWSShape {
@@ -913,6 +1203,9 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+        }
     }
 
     public struct DescribeEvaluationsInput: AWSShape {
@@ -957,6 +1250,19 @@ extension Machinelearning {
             self.gE = gE
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nE = dictionary["NE"] as? String
+            self.eQ = dictionary["EQ"] as? String
+            self.gT = dictionary["GT"] as? String
+            self.filterVariable = dictionary["FilterVariable"] as? String
+            self.lT = dictionary["LT"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.lE = dictionary["LE"] as? String
+            self.sortOrder = dictionary["SortOrder"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.gE = dictionary["GE"] as? String
+        }
     }
 
     public struct CreateMLModelOutput: AWSShape {
@@ -971,6 +1277,9 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mLModelId = dictionary["MLModelId"] as? String
+        }
     }
 
     public struct RedshiftDatabase: AWSShape {
@@ -986,6 +1295,12 @@ extension Machinelearning {
             self.databaseName = databaseName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            guard let databaseName = dictionary["DatabaseName"] as? String else { throw InitializableError.missingRequiredParam("DatabaseName") }
+            self.databaseName = databaseName
+        }
     }
 
     public struct UpdateMLModelOutput: AWSShape {
@@ -1000,6 +1315,9 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mLModelId = dictionary["MLModelId"] as? String
+        }
     }
 
     public struct BatchPrediction: AWSShape {
@@ -1054,6 +1372,24 @@ extension Machinelearning {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+            self.mLModelId = dictionary["MLModelId"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            self.totalRecordCount = dictionary["TotalRecordCount"] as? Int64
+            self.invalidRecordCount = dictionary["InvalidRecordCount"] as? Int64
+            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.startedAt = dictionary["StartedAt"] as? Date
+            self.outputUri = dictionary["OutputUri"] as? String
+            self.batchPredictionDataSourceId = dictionary["BatchPredictionDataSourceId"] as? String
+        }
     }
 
     public struct CreateDataSourceFromS3Input: AWSShape {
@@ -1077,6 +1413,14 @@ extension Machinelearning {
             self.computeStatistics = computeStatistics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
+            self.dataSourceId = dataSourceId
+            self.dataSourceName = dictionary["DataSourceName"] as? String
+            guard let dataSpec = dictionary["DataSpec"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DataSpec") }
+            self.dataSpec = try Machinelearning.S3DataSpec(dictionary: dataSpec)
+            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+        }
     }
 
     public struct GetEvaluationInput: AWSShape {
@@ -1091,6 +1435,10 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
+            self.evaluationId = evaluationId
+        }
     }
 
     public struct RDSDatabaseCredentials: AWSShape {
@@ -1106,6 +1454,12 @@ extension Machinelearning {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct DeleteRealtimeEndpointInput: AWSShape {
@@ -1120,6 +1474,10 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+        }
     }
 
     public struct CreateRealtimeEndpointInput: AWSShape {
@@ -1134,6 +1492,10 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+        }
     }
 
     public struct DeleteDataSourceOutput: AWSShape {
@@ -1148,6 +1510,9 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+        }
     }
 
     public struct GetMLModelOutput: AWSShape {
@@ -1221,6 +1586,31 @@ extension Machinelearning {
             self.trainingParameters = trainingParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.scoreThresholdLastUpdatedAt = dictionary["ScoreThresholdLastUpdatedAt"] as? Date
+            self.message = dictionary["Message"] as? String
+            self.trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String
+            self.mLModelId = dictionary["MLModelId"] as? String
+            self.recipe = dictionary["Recipe"] as? String
+            if let endpointInfo = dictionary["EndpointInfo"] as? [String: Any] { self.endpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: endpointInfo) }
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            self.schema = dictionary["Schema"] as? String
+            self.mLModelType = dictionary["MLModelType"] as? String
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
+            self.name = dictionary["Name"] as? String
+            self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
+            self.sizeInBytes = dictionary["SizeInBytes"] as? Int64
+            self.logUri = dictionary["LogUri"] as? String
+            self.startedAt = dictionary["StartedAt"] as? Date
+            if let trainingParameters = dictionary["TrainingParameters"] as? [String: String] {
+                self.trainingParameters = trainingParameters
+            }
+        }
     }
 
     public struct UpdateDataSourceOutput: AWSShape {
@@ -1235,6 +1625,9 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+        }
     }
 
     public struct DescribeTagsInput: AWSShape {
@@ -1252,6 +1645,12 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct DeleteEvaluationInput: AWSShape {
@@ -1266,6 +1665,10 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
+            self.evaluationId = evaluationId
+        }
     }
 
     public struct MLModel: AWSShape {
@@ -1329,6 +1732,29 @@ extension Machinelearning {
             self.trainingParameters = trainingParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.algorithm = dictionary["Algorithm"] as? String
+            self.scoreThresholdLastUpdatedAt = dictionary["ScoreThresholdLastUpdatedAt"] as? Date
+            self.message = dictionary["Message"] as? String
+            self.mLModelId = dictionary["MLModelId"] as? String
+            self.trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String
+            self.mLModelType = dictionary["MLModelType"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            if let endpointInfo = dictionary["EndpointInfo"] as? [String: Any] { self.endpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: endpointInfo) }
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
+            self.sizeInBytes = dictionary["SizeInBytes"] as? Int64
+            self.startedAt = dictionary["StartedAt"] as? Date
+            if let trainingParameters = dictionary["TrainingParameters"] as? [String: String] {
+                self.trainingParameters = trainingParameters
+            }
+        }
     }
 
     public struct DataSource: AWSShape {
@@ -1388,6 +1814,26 @@ extension Machinelearning {
             self.computeStatistics = computeStatistics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSizeInBytes = dictionary["DataSizeInBytes"] as? Int64
+            self.message = dictionary["Message"] as? String
+            self.numberOfFiles = dictionary["NumberOfFiles"] as? Int64
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            if let rDSMetadata = dictionary["RDSMetadata"] as? [String: Any] { self.rDSMetadata = try Machinelearning.RDSMetadata(dictionary: rDSMetadata) }
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.dataLocationS3 = dictionary["DataLocationS3"] as? String
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            if let redshiftMetadata = dictionary["RedshiftMetadata"] as? [String: Any] { self.redshiftMetadata = try Machinelearning.RedshiftMetadata(dictionary: redshiftMetadata) }
+            self.startedAt = dictionary["StartedAt"] as? Date
+            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+        }
     }
 
     public struct PredictOutput: AWSShape {
@@ -1401,6 +1847,9 @@ extension Machinelearning {
             self.prediction = prediction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let prediction = dictionary["Prediction"] as? [String: Any] { self.prediction = try Machinelearning.Prediction(dictionary: prediction) }
+        }
     }
 
     public struct PerformanceMetrics: AWSShape {
@@ -1414,6 +1863,11 @@ extension Machinelearning {
             self.properties = properties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let properties = dictionary["Properties"] as? [String: String] {
+                self.properties = properties
+            }
+        }
     }
 
     public struct DescribeMLModelsInput: AWSShape {
@@ -1458,6 +1912,19 @@ extension Machinelearning {
             self.gE = gE
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nE = dictionary["NE"] as? String
+            self.eQ = dictionary["EQ"] as? String
+            self.gT = dictionary["GT"] as? String
+            self.filterVariable = dictionary["FilterVariable"] as? String
+            self.lT = dictionary["LT"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.lE = dictionary["LE"] as? String
+            self.sortOrder = dictionary["SortOrder"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.gE = dictionary["GE"] as? String
+        }
     }
 
     public struct DeleteTagsInput: AWSShape {
@@ -1478,6 +1945,14 @@ extension Machinelearning {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct GetEvaluationOutput: AWSShape {
@@ -1534,6 +2009,23 @@ extension Machinelearning {
             self.evaluationDataSourceId = evaluationDataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let performanceMetrics = dictionary["PerformanceMetrics"] as? [String: Any] { self.performanceMetrics = try Machinelearning.PerformanceMetrics(dictionary: performanceMetrics) }
+            self.evaluationId = dictionary["EvaluationId"] as? String
+            self.message = dictionary["Message"] as? String
+            self.mLModelId = dictionary["MLModelId"] as? String
+            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
+            self.computeTime = dictionary["ComputeTime"] as? Int64
+            self.finishedAt = dictionary["FinishedAt"] as? Date
+            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
+            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
+            self.createdAt = dictionary["CreatedAt"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.logUri = dictionary["LogUri"] as? String
+            self.startedAt = dictionary["StartedAt"] as? Date
+            self.evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String
+        }
     }
 
     public struct AddTagsInput: AWSShape {
@@ -1554,6 +2046,14 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct DeleteMLModelOutput: AWSShape {
@@ -1568,6 +2068,9 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mLModelId = dictionary["MLModelId"] as? String
+        }
     }
 
     public struct CreateDataSourceFromRDSOutput: AWSShape {
@@ -1582,6 +2085,9 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSourceId = dictionary["DataSourceId"] as? String
+        }
     }
 
     public struct UpdateBatchPredictionOutput: AWSShape {
@@ -1596,6 +2102,9 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+        }
     }
 
     public struct CreateRealtimeEndpointOutput: AWSShape {
@@ -1613,6 +2122,10 @@ extension Machinelearning {
             self.realtimeEndpointInfo = realtimeEndpointInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mLModelId = dictionary["MLModelId"] as? String
+            if let realtimeEndpointInfo = dictionary["RealtimeEndpointInfo"] as? [String: Any] { self.realtimeEndpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: realtimeEndpointInfo) }
+        }
     }
 
     public struct CreateMLModelInput: AWSShape {
@@ -1645,6 +2158,20 @@ extension Machinelearning {
             self.mLModelName = mLModelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.recipeUri = dictionary["RecipeUri"] as? String
+            guard let trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String else { throw InitializableError.missingRequiredParam("TrainingDataSourceId") }
+            self.trainingDataSourceId = trainingDataSourceId
+            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
+            self.mLModelId = mLModelId
+            self.recipe = dictionary["Recipe"] as? String
+            guard let mLModelType = dictionary["MLModelType"] as? String else { throw InitializableError.missingRequiredParam("MLModelType") }
+            self.mLModelType = mLModelType
+            if let parameters = dictionary["Parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+            self.mLModelName = dictionary["MLModelName"] as? String
+        }
     }
 
     public struct DescribeBatchPredictionsInput: AWSShape {
@@ -1689,6 +2216,19 @@ extension Machinelearning {
             self.gE = gE
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nE = dictionary["NE"] as? String
+            self.eQ = dictionary["EQ"] as? String
+            self.gT = dictionary["GT"] as? String
+            self.filterVariable = dictionary["FilterVariable"] as? String
+            self.lT = dictionary["LT"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.lE = dictionary["LE"] as? String
+            self.sortOrder = dictionary["SortOrder"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.gE = dictionary["GE"] as? String
+        }
     }
 
     public struct DescribeDataSourcesInput: AWSShape {
@@ -1733,6 +2273,19 @@ extension Machinelearning {
             self.gE = gE
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nE = dictionary["NE"] as? String
+            self.eQ = dictionary["EQ"] as? String
+            self.gT = dictionary["GT"] as? String
+            self.filterVariable = dictionary["FilterVariable"] as? String
+            self.lT = dictionary["LT"] as? String
+            self.prefix = dictionary["Prefix"] as? String
+            self.lE = dictionary["LE"] as? String
+            self.sortOrder = dictionary["SortOrder"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.gE = dictionary["GE"] as? String
+        }
     }
 
     public struct DeleteTagsOutput: AWSShape {
@@ -1750,6 +2303,10 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct GetDataSourceInput: AWSShape {
@@ -1767,6 +2324,11 @@ extension Machinelearning {
             self.verbose = verbose
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
+            self.dataSourceId = dataSourceId
+            self.verbose = dictionary["Verbose"] as? Bool
+        }
     }
 
     public struct DeleteEvaluationOutput: AWSShape {
@@ -1781,6 +2343,9 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.evaluationId = dictionary["EvaluationId"] as? String
+        }
     }
 
 }

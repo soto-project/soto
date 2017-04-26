@@ -44,6 +44,12 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let xssMatchSets = dictionary["XssMatchSets"] as? [[String: Any]] {
+                self.xssMatchSets = try xssMatchSets.map({ try XssMatchSetSummary(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct WebACLUpdate: AWSShape {
@@ -61,6 +67,12 @@ extension Waf {
             self.activatedRule = activatedRule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let activatedRule = dictionary["ActivatedRule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActivatedRule") }
+            self.activatedRule = try Waf.ActivatedRule(dictionary: activatedRule)
+        }
     }
 
     public struct UpdateSqlInjectionMatchSetRequest: AWSShape {
@@ -81,6 +93,14 @@ extension Waf {
             self.updates = updates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
+            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try SqlInjectionMatchSetUpdate(dictionary: $0) })
+        }
     }
 
     public struct Rule: AWSShape {
@@ -104,6 +124,14 @@ extension Waf {
             self.predicates = predicates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metricName = dictionary["MetricName"] as? String
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            self.name = dictionary["Name"] as? String
+            guard let predicates = dictionary["Predicates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Predicates") }
+            self.predicates = try predicates.map({ try Predicate(dictionary: $0) })
+        }
     }
 
     public struct IPSetUpdate: AWSShape {
@@ -121,6 +149,12 @@ extension Waf {
             self.iPSetDescriptor = iPSetDescriptor
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let iPSetDescriptor = dictionary["IPSetDescriptor"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IPSetDescriptor") }
+            self.iPSetDescriptor = try Waf.IPSetDescriptor(dictionary: iPSetDescriptor)
+        }
     }
 
     public struct ListWebACLsRequest: AWSShape {
@@ -138,6 +172,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct UpdateSizeConstraintSetRequest: AWSShape {
@@ -158,6 +196,14 @@ extension Waf {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try SizeConstraintSetUpdate(dictionary: $0) })
+            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
     }
 
     public struct ActivatedRule: AWSShape {
@@ -178,6 +224,14 @@ extension Waf {
             self.ruleId = ruleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let priority = dictionary["Priority"] as? Int32 else { throw InitializableError.missingRequiredParam("Priority") }
+            self.priority = priority
+            guard let action = dictionary["Action"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = try Waf.WafAction(dictionary: action)
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
     }
 
     public struct GetIPSetRequest: AWSShape {
@@ -192,6 +246,10 @@ extension Waf {
             self.iPSetId = iPSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+        }
     }
 
     public struct ByteMatchSetUpdate: AWSShape {
@@ -209,6 +267,12 @@ extension Waf {
             self.byteMatchTuple = byteMatchTuple
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let byteMatchTuple = dictionary["ByteMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ByteMatchTuple") }
+            self.byteMatchTuple = try Waf.ByteMatchTuple(dictionary: byteMatchTuple)
+        }
     }
 
     public struct ListIPSetsRequest: AWSShape {
@@ -226,6 +290,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct CreateRuleRequest: AWSShape {
@@ -246,6 +314,14 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+        }
     }
 
     public struct SqlInjectionMatchTuple: AWSShape {
@@ -263,6 +339,12 @@ extension Waf {
             self.textTransformation = textTransformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
+            self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
+            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            self.textTransformation = textTransformation
+        }
     }
 
     public struct GetByteMatchSetResponse: AWSShape {
@@ -277,6 +359,9 @@ extension Waf {
             self.byteMatchSet = byteMatchSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let byteMatchSet = dictionary["ByteMatchSet"] as? [String: Any] { self.byteMatchSet = try Waf.ByteMatchSet(dictionary: byteMatchSet) }
+        }
     }
 
     public struct IPSet: AWSShape {
@@ -297,6 +382,13 @@ extension Waf {
             self.iPSetDescriptors = iPSetDescriptors
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+            self.name = dictionary["Name"] as? String
+            guard let iPSetDescriptors = dictionary["IPSetDescriptors"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IPSetDescriptors") }
+            self.iPSetDescriptors = try iPSetDescriptors.map({ try IPSetDescriptor(dictionary: $0) })
+        }
     }
 
     public struct DeleteRuleResponse: AWSShape {
@@ -311,6 +403,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct CreateIPSetRequest: AWSShape {
@@ -328,6 +423,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct UpdateSqlInjectionMatchSetResponse: AWSShape {
@@ -342,6 +443,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct UpdateIPSetResponse: AWSShape {
@@ -356,6 +460,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct WebACLSummary: AWSShape {
@@ -373,6 +480,12 @@ extension Waf {
             self.webACLId = webACLId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
     }
 
     public struct GetByteMatchSetRequest: AWSShape {
@@ -387,6 +500,10 @@ extension Waf {
             self.byteMatchSetId = byteMatchSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+        }
     }
 
     public struct CreateIPSetResponse: AWSShape {
@@ -404,6 +521,10 @@ extension Waf {
             self.iPSet = iPSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let iPSet = dictionary["IPSet"] as? [String: Any] { self.iPSet = try Waf.IPSet(dictionary: iPSet) }
+        }
     }
 
     public struct GetChangeTokenStatusRequest: AWSShape {
@@ -418,6 +539,10 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+        }
     }
 
     public struct DeleteIPSetRequest: AWSShape {
@@ -435,6 +560,12 @@ extension Waf {
             self.iPSetId = iPSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+        }
     }
 
     public struct GetChangeTokenRequest: AWSShape {
@@ -443,6 +574,8 @@ extension Waf {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateXssMatchSetResponse: AWSShape {
@@ -460,6 +593,10 @@ extension Waf {
             self.xssMatchSet = xssMatchSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let xssMatchSet = dictionary["XssMatchSet"] as? [String: Any] { self.xssMatchSet = try Waf.XssMatchSet(dictionary: xssMatchSet) }
+        }
     }
 
     public struct UpdateWebACLResponse: AWSShape {
@@ -474,6 +611,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct DeleteWebACLRequest: AWSShape {
@@ -491,6 +631,12 @@ extension Waf {
             self.webACLId = webACLId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
     }
 
     public struct CreateByteMatchSetRequest: AWSShape {
@@ -508,6 +654,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct TimeWindow: AWSShape {
@@ -525,6 +677,12 @@ extension Waf {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            self.endTime = endTime
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+        }
     }
 
     public struct CreateSizeConstraintSetResponse: AWSShape {
@@ -542,6 +700,10 @@ extension Waf {
             self.sizeConstraintSet = sizeConstraintSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let sizeConstraintSet = dictionary["SizeConstraintSet"] as? [String: Any] { self.sizeConstraintSet = try Waf.SizeConstraintSet(dictionary: sizeConstraintSet) }
+        }
     }
 
     public struct SizeConstraint: AWSShape {
@@ -565,6 +727,16 @@ extension Waf {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
+            self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
+            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            self.textTransformation = textTransformation
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            guard let size = dictionary["Size"] as? Int64 else { throw InitializableError.missingRequiredParam("Size") }
+            self.size = size
+        }
     }
 
     public struct IPSetDescriptor: AWSShape {
@@ -582,6 +754,12 @@ extension Waf {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+        }
     }
 
     public struct DeleteSizeConstraintSetResponse: AWSShape {
@@ -596,6 +774,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct SizeConstraintSetUpdate: AWSShape {
@@ -613,6 +794,12 @@ extension Waf {
             self.action = action
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sizeConstraint = dictionary["SizeConstraint"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SizeConstraint") }
+            self.sizeConstraint = try Waf.SizeConstraint(dictionary: sizeConstraint)
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+        }
     }
 
     public struct CreateRuleResponse: AWSShape {
@@ -630,6 +817,10 @@ extension Waf {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try Waf.Rule(dictionary: rule) }
+        }
     }
 
     public struct DeleteIPSetResponse: AWSShape {
@@ -644,6 +835,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct UpdateXssMatchSetRequest: AWSShape {
@@ -664,6 +858,14 @@ extension Waf {
             self.updates = updates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try XssMatchSetUpdate(dictionary: $0) })
+        }
     }
 
     public struct HTTPRequest: AWSShape {
@@ -693,6 +895,16 @@ extension Waf {
             self.hTTPVersion = hTTPVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientIP = dictionary["ClientIP"] as? String
+            if let headers = dictionary["Headers"] as? [[String: Any]] {
+                self.headers = try headers.map({ try HTTPHeader(dictionary: $0) })
+            }
+            self.country = dictionary["Country"] as? String
+            self.method = dictionary["Method"] as? String
+            self.uRI = dictionary["URI"] as? String
+            self.hTTPVersion = dictionary["HTTPVersion"] as? String
+        }
     }
 
     public struct HTTPHeader: AWSShape {
@@ -710,6 +922,10 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct ListRulesRequest: AWSShape {
@@ -727,6 +943,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct GetWebACLResponse: AWSShape {
@@ -741,6 +961,9 @@ extension Waf {
             self.webACL = webACL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let webACL = dictionary["WebACL"] as? [String: Any] { self.webACL = try Waf.WebACL(dictionary: webACL) }
+        }
     }
 
     public struct XssMatchSetSummary: AWSShape {
@@ -758,6 +981,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetXssMatchSetRequest: AWSShape {
@@ -772,6 +1001,10 @@ extension Waf {
             self.xssMatchSetId = xssMatchSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+        }
     }
 
     public struct UpdateIPSetRequest: AWSShape {
@@ -792,6 +1025,14 @@ extension Waf {
             self.updates = updates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try IPSetUpdate(dictionary: $0) })
+        }
     }
 
     public struct GetSizeConstraintSetRequest: AWSShape {
@@ -806,6 +1047,10 @@ extension Waf {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
     }
 
     public struct CreateWebACLRequest: AWSShape {
@@ -829,6 +1074,16 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let defaultAction = dictionary["DefaultAction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultAction") }
+            self.defaultAction = try Waf.WafAction(dictionary: defaultAction)
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct WafAction: AWSShape {
@@ -843,6 +1098,10 @@ extension Waf {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+        }
     }
 
     public struct CreateWebACLResponse: AWSShape {
@@ -860,6 +1119,10 @@ extension Waf {
             self.webACL = webACL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let webACL = dictionary["WebACL"] as? [String: Any] { self.webACL = try Waf.WebACL(dictionary: webACL) }
+        }
     }
 
     public struct CreateSqlInjectionMatchSetResponse: AWSShape {
@@ -877,6 +1140,10 @@ extension Waf {
             self.sqlInjectionMatchSet = sqlInjectionMatchSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let sqlInjectionMatchSet = dictionary["SqlInjectionMatchSet"] as? [String: Any] { self.sqlInjectionMatchSet = try Waf.SqlInjectionMatchSet(dictionary: sqlInjectionMatchSet) }
+        }
     }
 
     public struct GetChangeTokenResponse: AWSShape {
@@ -891,6 +1158,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct DeleteSqlInjectionMatchSetRequest: AWSShape {
@@ -908,6 +1178,12 @@ extension Waf {
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
+            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+        }
     }
 
     public struct CreateXssMatchSetRequest: AWSShape {
@@ -925,6 +1201,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ByteMatchTuple: AWSShape {
@@ -948,6 +1230,16 @@ extension Waf {
             self.positionalConstraint = positionalConstraint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
+            self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
+            guard let targetString = dictionary["TargetString"] as? Data else { throw InitializableError.missingRequiredParam("TargetString") }
+            self.targetString = targetString
+            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            self.textTransformation = textTransformation
+            guard let positionalConstraint = dictionary["PositionalConstraint"] as? String else { throw InitializableError.missingRequiredParam("PositionalConstraint") }
+            self.positionalConstraint = positionalConstraint
+        }
     }
 
     public struct RuleSummary: AWSShape {
@@ -965,6 +1257,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetSizeConstraintSetResponse: AWSShape {
@@ -979,6 +1277,9 @@ extension Waf {
             self.sizeConstraintSet = sizeConstraintSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sizeConstraintSet = dictionary["SizeConstraintSet"] as? [String: Any] { self.sizeConstraintSet = try Waf.SizeConstraintSet(dictionary: sizeConstraintSet) }
+        }
     }
 
     public struct XssMatchSetUpdate: AWSShape {
@@ -996,6 +1297,12 @@ extension Waf {
             self.action = action
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchTuple = dictionary["XssMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("XssMatchTuple") }
+            self.xssMatchTuple = try Waf.XssMatchTuple(dictionary: xssMatchTuple)
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+        }
     }
 
     public struct ListXssMatchSetsRequest: AWSShape {
@@ -1013,6 +1320,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct ListSqlInjectionMatchSetsResponse: AWSShape {
@@ -1030,6 +1341,12 @@ extension Waf {
             self.sqlInjectionMatchSets = sqlInjectionMatchSets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextMarker = dictionary["NextMarker"] as? String
+            if let sqlInjectionMatchSets = dictionary["SqlInjectionMatchSets"] as? [[String: Any]] {
+                self.sqlInjectionMatchSets = try sqlInjectionMatchSets.map({ try SqlInjectionMatchSetSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateRuleResponse: AWSShape {
@@ -1044,6 +1361,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct SqlInjectionMatchSetUpdate: AWSShape {
@@ -1061,6 +1381,12 @@ extension Waf {
             self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let sqlInjectionMatchTuple = dictionary["SqlInjectionMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SqlInjectionMatchTuple") }
+            self.sqlInjectionMatchTuple = try Waf.SqlInjectionMatchTuple(dictionary: sqlInjectionMatchTuple)
+        }
     }
 
     public struct UpdateRuleRequest: AWSShape {
@@ -1081,6 +1407,14 @@ extension Waf {
             self.updates = updates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try RuleUpdate(dictionary: $0) })
+        }
     }
 
     public struct GetSampledRequestsRequest: AWSShape {
@@ -1104,6 +1438,16 @@ extension Waf {
             self.webAclId = webAclId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let maxItems = dictionary["MaxItems"] as? Int64 else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let timeWindow = dictionary["TimeWindow"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimeWindow") }
+            self.timeWindow = try Waf.TimeWindow(dictionary: timeWindow)
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let webAclId = dictionary["WebAclId"] as? String else { throw InitializableError.missingRequiredParam("WebAclId") }
+            self.webAclId = webAclId
+        }
     }
 
     public struct UpdateXssMatchSetResponse: AWSShape {
@@ -1118,6 +1462,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct CreateSqlInjectionMatchSetRequest: AWSShape {
@@ -1135,6 +1482,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DeleteRuleRequest: AWSShape {
@@ -1152,6 +1505,12 @@ extension Waf {
             self.ruleId = ruleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
     }
 
     public struct DeleteWebACLResponse: AWSShape {
@@ -1166,6 +1525,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct UpdateSizeConstraintSetResponse: AWSShape {
@@ -1180,6 +1542,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct SqlInjectionMatchSetSummary: AWSShape {
@@ -1197,6 +1562,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
+            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListWebACLsResponse: AWSShape {
@@ -1214,6 +1585,12 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let webACLs = dictionary["WebACLs"] as? [[String: Any]] {
+                self.webACLs = try webACLs.map({ try WebACLSummary(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct DeleteXssMatchSetRequest: AWSShape {
@@ -1231,6 +1608,12 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+        }
     }
 
     public struct SizeConstraintSetSummary: AWSShape {
@@ -1248,6 +1631,12 @@ extension Waf {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
     }
 
     public struct DeleteByteMatchSetRequest: AWSShape {
@@ -1265,6 +1654,12 @@ extension Waf {
             self.byteMatchSetId = byteMatchSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+        }
     }
 
     public struct FieldToMatch: AWSShape {
@@ -1282,6 +1677,11 @@ extension Waf {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            self.data = dictionary["Data"] as? String
+        }
     }
 
     public struct UpdateByteMatchSetResponse: AWSShape {
@@ -1296,6 +1696,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct CreateByteMatchSetResponse: AWSShape {
@@ -1313,6 +1716,10 @@ extension Waf {
             self.byteMatchSet = byteMatchSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let byteMatchSet = dictionary["ByteMatchSet"] as? [String: Any] { self.byteMatchSet = try Waf.ByteMatchSet(dictionary: byteMatchSet) }
+        }
     }
 
     public struct SampledHTTPRequest: AWSShape {
@@ -1336,6 +1743,14 @@ extension Waf {
             self.action = action
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timestamp = dictionary["Timestamp"] as? Date
+            guard let request = dictionary["Request"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Request") }
+            self.request = try Waf.HTTPRequest(dictionary: request)
+            guard let weight = dictionary["Weight"] as? Int64 else { throw InitializableError.missingRequiredParam("Weight") }
+            self.weight = weight
+            self.action = dictionary["Action"] as? String
+        }
     }
 
     public struct IPSetSummary: AWSShape {
@@ -1353,6 +1768,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetIPSetResponse: AWSShape {
@@ -1367,6 +1788,9 @@ extension Waf {
             self.iPSet = iPSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let iPSet = dictionary["IPSet"] as? [String: Any] { self.iPSet = try Waf.IPSet(dictionary: iPSet) }
+        }
     }
 
     public struct ListByteMatchSetsRequest: AWSShape {
@@ -1384,6 +1808,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct XssMatchTuple: AWSShape {
@@ -1401,6 +1829,12 @@ extension Waf {
             self.textTransformation = textTransformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
+            self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
+            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            self.textTransformation = textTransformation
+        }
     }
 
     public struct DeleteByteMatchSetResponse: AWSShape {
@@ -1415,6 +1849,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct GetSqlInjectionMatchSetRequest: AWSShape {
@@ -1429,6 +1866,10 @@ extension Waf {
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
+            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+        }
     }
 
     public struct DeleteSizeConstraintSetRequest: AWSShape {
@@ -1446,6 +1887,12 @@ extension Waf {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
     }
 
     public struct GetSqlInjectionMatchSetResponse: AWSShape {
@@ -1460,6 +1907,9 @@ extension Waf {
             self.sqlInjectionMatchSet = sqlInjectionMatchSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sqlInjectionMatchSet = dictionary["SqlInjectionMatchSet"] as? [String: Any] { self.sqlInjectionMatchSet = try Waf.SqlInjectionMatchSet(dictionary: sqlInjectionMatchSet) }
+        }
     }
 
     public struct GetChangeTokenStatusResponse: AWSShape {
@@ -1474,6 +1924,9 @@ extension Waf {
             self.changeTokenStatus = changeTokenStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeTokenStatus = dictionary["ChangeTokenStatus"] as? String
+        }
     }
 
     public struct UpdateByteMatchSetRequest: AWSShape {
@@ -1494,6 +1947,14 @@ extension Waf {
             self.updates = updates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try ByteMatchSetUpdate(dictionary: $0) })
+        }
     }
 
     public struct SizeConstraintSet: AWSShape {
@@ -1514,6 +1975,13 @@ extension Waf {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sizeConstraints = dictionary["SizeConstraints"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SizeConstraints") }
+            self.sizeConstraints = try sizeConstraints.map({ try SizeConstraint(dictionary: $0) })
+            self.name = dictionary["Name"] as? String
+            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
     }
 
     public struct GetXssMatchSetResponse: AWSShape {
@@ -1528,6 +1996,9 @@ extension Waf {
             self.xssMatchSet = xssMatchSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let xssMatchSet = dictionary["XssMatchSet"] as? [String: Any] { self.xssMatchSet = try Waf.XssMatchSet(dictionary: xssMatchSet) }
+        }
     }
 
     public struct UpdateWebACLRequest: AWSShape {
@@ -1551,6 +2022,16 @@ extension Waf {
             self.webACLId = webACLId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let defaultAction = dictionary["DefaultAction"] as? [String: Any] { self.defaultAction = try Waf.WafAction(dictionary: defaultAction) }
+            if let updates = dictionary["Updates"] as? [[String: Any]] {
+                self.updates = try updates.map({ try WebACLUpdate(dictionary: $0) })
+            }
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
     }
 
     public struct GetWebACLRequest: AWSShape {
@@ -1565,6 +2046,10 @@ extension Waf {
             self.webACLId = webACLId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
     }
 
     public struct ListSqlInjectionMatchSetsRequest: AWSShape {
@@ -1582,6 +2067,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct ByteMatchSetSummary: AWSShape {
@@ -1599,6 +2088,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListRulesResponse: AWSShape {
@@ -1616,6 +2111,12 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try RuleSummary(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct ByteMatchSet: AWSShape {
@@ -1636,6 +2137,13 @@ extension Waf {
             self.byteMatchTuples = byteMatchTuples
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+            self.name = dictionary["Name"] as? String
+            guard let byteMatchTuples = dictionary["ByteMatchTuples"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ByteMatchTuples") }
+            self.byteMatchTuples = try byteMatchTuples.map({ try ByteMatchTuple(dictionary: $0) })
+        }
     }
 
     public struct ListSizeConstraintSetsResponse: AWSShape {
@@ -1653,6 +2161,12 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sizeConstraintSets = dictionary["SizeConstraintSets"] as? [[String: Any]] {
+                self.sizeConstraintSets = try sizeConstraintSets.map({ try SizeConstraintSetSummary(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct GetRuleResponse: AWSShape {
@@ -1667,6 +2181,9 @@ extension Waf {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try Waf.Rule(dictionary: rule) }
+        }
     }
 
     public struct CreateSizeConstraintSetRequest: AWSShape {
@@ -1684,6 +2201,12 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListByteMatchSetsResponse: AWSShape {
@@ -1701,6 +2224,12 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let byteMatchSets = dictionary["ByteMatchSets"] as? [[String: Any]] {
+                self.byteMatchSets = try byteMatchSets.map({ try ByteMatchSetSummary(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct Predicate: AWSShape {
@@ -1721,6 +2250,14 @@ extension Waf {
             self.dataId = dataId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let negated = dictionary["Negated"] as? Bool else { throw InitializableError.missingRequiredParam("Negated") }
+            self.negated = negated
+            guard let dataId = dictionary["DataId"] as? String else { throw InitializableError.missingRequiredParam("DataId") }
+            self.dataId = dataId
+        }
     }
 
     public struct RuleUpdate: AWSShape {
@@ -1738,6 +2275,12 @@ extension Waf {
             self.predicate = predicate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let predicate = dictionary["Predicate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Predicate") }
+            self.predicate = try Waf.Predicate(dictionary: predicate)
+        }
     }
 
     public struct DeleteSqlInjectionMatchSetResponse: AWSShape {
@@ -1752,6 +2295,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct GetSampledRequestsResponse: AWSShape {
@@ -1772,6 +2318,13 @@ extension Waf {
             self.timeWindow = timeWindow
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.populationSize = dictionary["PopulationSize"] as? Int64
+            if let sampledRequests = dictionary["SampledRequests"] as? [[String: Any]] {
+                self.sampledRequests = try sampledRequests.map({ try SampledHTTPRequest(dictionary: $0) })
+            }
+            if let timeWindow = dictionary["TimeWindow"] as? [String: Any] { self.timeWindow = try Waf.TimeWindow(dictionary: timeWindow) }
+        }
     }
 
     public struct ListIPSetsResponse: AWSShape {
@@ -1789,6 +2342,12 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let iPSets = dictionary["IPSets"] as? [[String: Any]] {
+                self.iPSets = try iPSets.map({ try IPSetSummary(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct DeleteXssMatchSetResponse: AWSShape {
@@ -1803,6 +2362,9 @@ extension Waf {
             self.changeToken = changeToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
     }
 
     public struct XssMatchSet: AWSShape {
@@ -1823,6 +2385,13 @@ extension Waf {
             self.xssMatchTuples = xssMatchTuples
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+            self.name = dictionary["Name"] as? String
+            guard let xssMatchTuples = dictionary["XssMatchTuples"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("XssMatchTuples") }
+            self.xssMatchTuples = try xssMatchTuples.map({ try XssMatchTuple(dictionary: $0) })
+        }
     }
 
     public struct GetRuleRequest: AWSShape {
@@ -1837,6 +2406,10 @@ extension Waf {
             self.ruleId = ruleId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
     }
 
     public struct WebACL: AWSShape {
@@ -1863,6 +2436,16 @@ extension Waf {
             self.webACLId = webACLId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metricName = dictionary["MetricName"] as? String
+            guard let defaultAction = dictionary["DefaultAction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultAction") }
+            self.defaultAction = try Waf.WafAction(dictionary: defaultAction)
+            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            self.rules = try rules.map({ try ActivatedRule(dictionary: $0) })
+            self.name = dictionary["Name"] as? String
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
     }
 
     public struct ListSizeConstraintSetsRequest: AWSShape {
@@ -1880,6 +2463,10 @@ extension Waf {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct SqlInjectionMatchSet: AWSShape {
@@ -1900,6 +2487,13 @@ extension Waf {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
+            self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+            guard let sqlInjectionMatchTuples = dictionary["SqlInjectionMatchTuples"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SqlInjectionMatchTuples") }
+            self.sqlInjectionMatchTuples = try sqlInjectionMatchTuples.map({ try SqlInjectionMatchTuple(dictionary: $0) })
+            self.name = dictionary["Name"] as? String
+        }
     }
 
 }

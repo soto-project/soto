@@ -44,6 +44,12 @@ extension Codecommit {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repositories = dictionary["repositories"] as? [[String: Any]] {
+                self.repositories = try repositories.map({ try RepositoryNameIdPair(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct UserInfo: AWSShape {
@@ -64,6 +70,11 @@ extension Codecommit {
             self.email = email
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.date = dictionary["date"] as? String
+            self.email = dictionary["email"] as? String
+        }
     }
 
     public struct BranchInfo: AWSShape {
@@ -81,6 +92,10 @@ extension Codecommit {
             self.commitId = commitId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.branchName = dictionary["branchName"] as? String
+            self.commitId = dictionary["commitId"] as? String
+        }
     }
 
     public struct GetCommitOutput: AWSShape {
@@ -95,6 +110,10 @@ extension Codecommit {
             self.commit = commit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let commit = dictionary["commit"] as? [String: Any] else { throw InitializableError.missingRequiredParam("commit") }
+            self.commit = try Codecommit.Commit(dictionary: commit)
+        }
     }
 
     public struct DeleteRepositoryOutput: AWSShape {
@@ -109,6 +128,9 @@ extension Codecommit {
             self.repositoryId = repositoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.repositoryId = dictionary["repositoryId"] as? String
+        }
     }
 
     public struct RepositoryMetadata: AWSShape {
@@ -150,6 +172,18 @@ extension Codecommit {
             self.defaultBranch = defaultBranch
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.repositoryDescription = dictionary["repositoryDescription"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+            self.creationDate = dictionary["creationDate"] as? Date
+            self.cloneUrlSsh = dictionary["cloneUrlSsh"] as? String
+            self.accountId = dictionary["accountId"] as? String
+            self.cloneUrlHttp = dictionary["cloneUrlHttp"] as? String
+            self.repositoryId = dictionary["repositoryId"] as? String
+            self.lastModifiedDate = dictionary["lastModifiedDate"] as? Date
+            self.defaultBranch = dictionary["defaultBranch"] as? String
+        }
     }
 
     public struct ListBranchesOutput: AWSShape {
@@ -167,6 +201,12 @@ extension Codecommit {
             self.branches = branches
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let branches = dictionary["branches"] as? [String] {
+                self.branches = branches
+            }
+        }
     }
 
     public struct RepositoryTrigger: AWSShape {
@@ -193,6 +233,18 @@ extension Codecommit {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destinationArn = dictionary["destinationArn"] as? String else { throw InitializableError.missingRequiredParam("destinationArn") }
+            self.destinationArn = destinationArn
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            if let branches = dictionary["branches"] as? [String] {
+                self.branches = branches
+            }
+            self.customData = dictionary["customData"] as? String
+            guard let events = dictionary["events"] as? [String] else { throw InitializableError.missingRequiredParam("events") }
+            self.events = events
+        }
     }
 
     public struct BlobMetadata: AWSShape {
@@ -213,6 +265,11 @@ extension Codecommit {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.blobId = dictionary["blobId"] as? String
+            self.mode = dictionary["mode"] as? String
+            self.path = dictionary["path"] as? String
+        }
     }
 
     public struct Commit: AWSShape {
@@ -242,6 +299,16 @@ extension Codecommit {
             self.committer = committer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parents = dictionary["parents"] as? [String] {
+                self.parents = parents
+            }
+            self.message = dictionary["message"] as? String
+            if let author = dictionary["author"] as? [String: Any] { self.author = try Codecommit.UserInfo(dictionary: author) }
+            self.treeId = dictionary["treeId"] as? String
+            self.additionalData = dictionary["additionalData"] as? String
+            if let committer = dictionary["committer"] as? [String: Any] { self.committer = try Codecommit.UserInfo(dictionary: committer) }
+        }
     }
 
     public struct UpdateDefaultBranchInput: AWSShape {
@@ -259,6 +326,12 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let defaultBranchName = dictionary["defaultBranchName"] as? String else { throw InitializableError.missingRequiredParam("defaultBranchName") }
+            self.defaultBranchName = defaultBranchName
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetRepositoryOutput: AWSShape {
@@ -273,6 +346,9 @@ extension Codecommit {
             self.repositoryMetadata = repositoryMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) }
+        }
     }
 
     public struct TestRepositoryTriggersOutput: AWSShape {
@@ -290,6 +366,14 @@ extension Codecommit {
             self.failedExecutions = failedExecutions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let successfulExecutions = dictionary["successfulExecutions"] as? [String] {
+                self.successfulExecutions = successfulExecutions
+            }
+            if let failedExecutions = dictionary["failedExecutions"] as? [[String: Any]] {
+                self.failedExecutions = try failedExecutions.map({ try RepositoryTriggerExecutionFailure(dictionary: $0) })
+            }
+        }
     }
 
     public struct TestRepositoryTriggersInput: AWSShape {
@@ -307,6 +391,12 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let triggers = dictionary["triggers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("triggers") }
+            self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct UpdateRepositoryDescriptionInput: AWSShape {
@@ -324,6 +414,11 @@ extension Codecommit {
             self.repositoryDescription = repositoryDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.repositoryDescription = dictionary["repositoryDescription"] as? String
+        }
     }
 
     public struct PutRepositoryTriggersOutput: AWSShape {
@@ -338,6 +433,9 @@ extension Codecommit {
             self.configurationId = configurationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configurationId = dictionary["configurationId"] as? String
+        }
     }
 
     public struct GetBranchInput: AWSShape {
@@ -355,6 +453,10 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.branchName = dictionary["branchName"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+        }
     }
 
     public struct CreateRepositoryOutput: AWSShape {
@@ -369,6 +471,9 @@ extension Codecommit {
             self.repositoryMetadata = repositoryMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) }
+        }
     }
 
     public struct Difference: AWSShape {
@@ -389,6 +494,11 @@ extension Codecommit {
             self.beforeBlob = beforeBlob
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.changeType = dictionary["changeType"] as? String
+            if let afterBlob = dictionary["afterBlob"] as? [String: Any] { self.afterBlob = try Codecommit.BlobMetadata(dictionary: afterBlob) }
+            if let beforeBlob = dictionary["beforeBlob"] as? [String: Any] { self.beforeBlob = try Codecommit.BlobMetadata(dictionary: beforeBlob) }
+        }
     }
 
     public struct RepositoryNameIdPair: AWSShape {
@@ -406,6 +516,10 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.repositoryId = dictionary["repositoryId"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+        }
     }
 
     public struct GetDifferencesInput: AWSShape {
@@ -438,6 +552,17 @@ extension Codecommit {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let afterCommitSpecifier = dictionary["afterCommitSpecifier"] as? String else { throw InitializableError.missingRequiredParam("afterCommitSpecifier") }
+            self.afterCommitSpecifier = afterCommitSpecifier
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.beforeCommitSpecifier = dictionary["beforeCommitSpecifier"] as? String
+            self.beforePath = dictionary["beforePath"] as? String
+            self.afterPath = dictionary["afterPath"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateBranchInput: AWSShape {
@@ -458,6 +583,14 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let branchName = dictionary["branchName"] as? String else { throw InitializableError.missingRequiredParam("branchName") }
+            self.branchName = branchName
+            guard let commitId = dictionary["commitId"] as? String else { throw InitializableError.missingRequiredParam("commitId") }
+            self.commitId = commitId
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct DeleteRepositoryInput: AWSShape {
@@ -472,6 +605,10 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct ListBranchesInput: AWSShape {
@@ -489,6 +626,11 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetBranchOutput: AWSShape {
@@ -503,6 +645,9 @@ extension Codecommit {
             self.branch = branch
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let branch = dictionary["branch"] as? [String: Any] { self.branch = try Codecommit.BranchInfo(dictionary: branch) }
+        }
     }
 
     public struct GetCommitInput: AWSShape {
@@ -520,6 +665,12 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let commitId = dictionary["commitId"] as? String else { throw InitializableError.missingRequiredParam("commitId") }
+            self.commitId = commitId
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetRepositoryInput: AWSShape {
@@ -534,6 +685,10 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetRepositoryTriggersOutput: AWSShape {
@@ -551,6 +706,12 @@ extension Codecommit {
             self.triggers = triggers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configurationId = dictionary["configurationId"] as? String
+            if let triggers = dictionary["triggers"] as? [[String: Any]] {
+                self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetRepositoryTriggersInput: AWSShape {
@@ -565,6 +726,10 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct UpdateRepositoryNameInput: AWSShape {
@@ -582,6 +747,12 @@ extension Codecommit {
             self.newName = newName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let oldName = dictionary["oldName"] as? String else { throw InitializableError.missingRequiredParam("oldName") }
+            self.oldName = oldName
+            guard let newName = dictionary["newName"] as? String else { throw InitializableError.missingRequiredParam("newName") }
+            self.newName = newName
+        }
     }
 
     public struct BatchGetRepositoriesOutput: AWSShape {
@@ -599,6 +770,14 @@ extension Codecommit {
             self.repositoriesNotFound = repositoriesNotFound
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repositories = dictionary["repositories"] as? [[String: Any]] {
+                self.repositories = try repositories.map({ try RepositoryMetadata(dictionary: $0) })
+            }
+            if let repositoriesNotFound = dictionary["repositoriesNotFound"] as? [String] {
+                self.repositoriesNotFound = repositoriesNotFound
+            }
+        }
     }
 
     public struct GetDifferencesOutput: AWSShape {
@@ -616,6 +795,12 @@ extension Codecommit {
             self.differences = differences
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let differences = dictionary["differences"] as? [[String: Any]] {
+                self.differences = try differences.map({ try Difference(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListRepositoriesInput: AWSShape {
@@ -636,6 +821,11 @@ extension Codecommit {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sortBy = dictionary["sortBy"] as? String
+            self.order = dictionary["order"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct GetBlobOutput: AWSShape {
@@ -650,6 +840,10 @@ extension Codecommit {
             self.content = content
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let content = dictionary["content"] as? Data else { throw InitializableError.missingRequiredParam("content") }
+            self.content = content
+        }
     }
 
     public struct RepositoryTriggerExecutionFailure: AWSShape {
@@ -667,6 +861,10 @@ extension Codecommit {
             self.trigger = trigger
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failureMessage = dictionary["failureMessage"] as? String
+            self.trigger = dictionary["trigger"] as? String
+        }
     }
 
     public struct GetBlobInput: AWSShape {
@@ -684,6 +882,12 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let blobId = dictionary["blobId"] as? String else { throw InitializableError.missingRequiredParam("blobId") }
+            self.blobId = blobId
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct CreateRepositoryInput: AWSShape {
@@ -701,6 +905,11 @@ extension Codecommit {
             self.repositoryDescription = repositoryDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.repositoryDescription = dictionary["repositoryDescription"] as? String
+        }
     }
 
     public struct PutRepositoryTriggersInput: AWSShape {
@@ -718,6 +927,12 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let triggers = dictionary["triggers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("triggers") }
+            self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct BatchGetRepositoriesInput: AWSShape {
@@ -732,6 +947,10 @@ extension Codecommit {
             self.repositoryNames = repositoryNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryNames = dictionary["repositoryNames"] as? [String] else { throw InitializableError.missingRequiredParam("repositoryNames") }
+            self.repositoryNames = repositoryNames
+        }
     }
 
 }

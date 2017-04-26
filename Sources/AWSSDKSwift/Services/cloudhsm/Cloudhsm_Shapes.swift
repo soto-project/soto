@@ -41,6 +41,9 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hapgArn = dictionary["HapgArn"] as? String
+        }
     }
 
     public struct DeleteHsmResponse: AWSShape {
@@ -55,6 +58,10 @@ extension Cloudhsm {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct DescribeHsmRequest: AWSShape {
@@ -72,6 +79,10 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hsmSerialNumber = dictionary["HsmSerialNumber"] as? String
+            self.hsmArn = dictionary["HsmArn"] as? String
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -86,6 +97,10 @@ extension Cloudhsm {
             self.resourceArn = resourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+        }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
@@ -100,6 +115,10 @@ extension Cloudhsm {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
+            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct CreateHapgRequest: AWSShape {
@@ -114,6 +133,10 @@ extension Cloudhsm {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
+            self.label = label
+        }
     }
 
     public struct GetConfigRequest: AWSShape {
@@ -134,6 +157,14 @@ extension Cloudhsm {
             self.clientVersion = clientVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientArn = dictionary["ClientArn"] as? String else { throw InitializableError.missingRequiredParam("ClientArn") }
+            self.clientArn = clientArn
+            guard let hapgList = dictionary["HapgList"] as? [String] else { throw InitializableError.missingRequiredParam("HapgList") }
+            self.hapgList = hapgList
+            guard let clientVersion = dictionary["ClientVersion"] as? String else { throw InitializableError.missingRequiredParam("ClientVersion") }
+            self.clientVersion = clientVersion
+        }
     }
 
     public struct ModifyHapgRequest: AWSShape {
@@ -154,6 +185,14 @@ extension Cloudhsm {
             self.partitionSerialList = partitionSerialList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.label = dictionary["Label"] as? String
+            guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
+            self.hapgArn = hapgArn
+            if let partitionSerialList = dictionary["PartitionSerialList"] as? [String] {
+                self.partitionSerialList = partitionSerialList
+            }
+        }
     }
 
     public struct ListLunaClientsRequest: AWSShape {
@@ -168,6 +207,9 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateLunaClientRequest: AWSShape {
@@ -185,6 +227,11 @@ extension Cloudhsm {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificate = dictionary["Certificate"] as? String else { throw InitializableError.missingRequiredParam("Certificate") }
+            self.certificate = certificate
+            self.label = dictionary["Label"] as? String
+        }
     }
 
     public struct ModifyLunaClientRequest: AWSShape {
@@ -202,6 +249,12 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificate = dictionary["Certificate"] as? String else { throw InitializableError.missingRequiredParam("Certificate") }
+            self.certificate = certificate
+            guard let clientArn = dictionary["ClientArn"] as? String else { throw InitializableError.missingRequiredParam("ClientArn") }
+            self.clientArn = clientArn
+        }
     }
 
     public struct DescribeLunaClientRequest: AWSShape {
@@ -219,6 +272,10 @@ extension Cloudhsm {
             self.certificateFingerprint = certificateFingerprint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientArn = dictionary["ClientArn"] as? String
+            self.certificateFingerprint = dictionary["CertificateFingerprint"] as? String
+        }
     }
 
     public struct GetConfigResponse: AWSShape {
@@ -239,6 +296,11 @@ extension Cloudhsm {
             self.configCred = configCred
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.configType = dictionary["ConfigType"] as? String
+            self.configFile = dictionary["ConfigFile"] as? String
+            self.configCred = dictionary["ConfigCred"] as? String
+        }
     }
 
     public struct DeleteHsmRequest: AWSShape {
@@ -253,6 +315,10 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hsmArn = dictionary["HsmArn"] as? String else { throw InitializableError.missingRequiredParam("HsmArn") }
+            self.hsmArn = hsmArn
+        }
     }
 
     public struct ListHsmsRequest: AWSShape {
@@ -267,6 +333,9 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ModifyHsmRequest: AWSShape {
@@ -296,6 +365,15 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.externalId = dictionary["ExternalId"] as? String
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.eniIp = dictionary["EniIp"] as? String
+            self.iamRoleArn = dictionary["IamRoleArn"] as? String
+            self.syslogIp = dictionary["SyslogIp"] as? String
+            guard let hsmArn = dictionary["HsmArn"] as? String else { throw InitializableError.missingRequiredParam("HsmArn") }
+            self.hsmArn = hsmArn
+        }
     }
 
     public struct DescribeHapgResponse: AWSShape {
@@ -331,6 +409,25 @@ extension Cloudhsm {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hsmsPendingDeletion = dictionary["HsmsPendingDeletion"] as? [String] {
+                self.hsmsPendingDeletion = hsmsPendingDeletion
+            }
+            self.state = dictionary["State"] as? String
+            self.hapgArn = dictionary["HapgArn"] as? String
+            self.hapgSerial = dictionary["HapgSerial"] as? String
+            if let hsmsLastActionFailed = dictionary["HsmsLastActionFailed"] as? [String] {
+                self.hsmsLastActionFailed = hsmsLastActionFailed
+            }
+            if let partitionSerialList = dictionary["PartitionSerialList"] as? [String] {
+                self.partitionSerialList = partitionSerialList
+            }
+            if let hsmsPendingRegistration = dictionary["HsmsPendingRegistration"] as? [String] {
+                self.hsmsPendingRegistration = hsmsPendingRegistration
+            }
+            self.lastModifiedTimestamp = dictionary["LastModifiedTimestamp"] as? String
+            self.label = dictionary["Label"] as? String
+        }
     }
 
     public struct DescribeLunaClientResponse: AWSShape {
@@ -357,6 +454,13 @@ extension Cloudhsm {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificate = dictionary["Certificate"] as? String
+            self.lastModifiedTimestamp = dictionary["LastModifiedTimestamp"] as? String
+            self.clientArn = dictionary["ClientArn"] as? String
+            self.certificateFingerprint = dictionary["CertificateFingerprint"] as? String
+            self.label = dictionary["Label"] as? String
+        }
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
@@ -371,6 +475,10 @@ extension Cloudhsm {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct Tag: AWSShape {
@@ -388,6 +496,12 @@ extension Cloudhsm {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
@@ -402,6 +516,10 @@ extension Cloudhsm {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct DeleteHapgRequest: AWSShape {
@@ -416,6 +534,10 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
+            self.hapgArn = hapgArn
+        }
     }
 
     public struct DescribeHsmResponse: AWSShape {
@@ -489,6 +611,31 @@ extension Cloudhsm {
             self.vendorName = vendorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusDetails = dictionary["StatusDetails"] as? String
+            self.subnetId = dictionary["SubnetId"] as? String
+            self.eniIp = dictionary["EniIp"] as? String
+            self.eniId = dictionary["EniId"] as? String
+            self.hsmArn = dictionary["HsmArn"] as? String
+            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+            self.subscriptionEndDate = dictionary["SubscriptionEndDate"] as? String
+            self.sshKeyLastUpdated = dictionary["SshKeyLastUpdated"] as? String
+            self.serialNumber = dictionary["SerialNumber"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.status = dictionary["Status"] as? String
+            self.iamRoleArn = dictionary["IamRoleArn"] as? String
+            self.serverCertLastUpdated = dictionary["ServerCertLastUpdated"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.subscriptionType = dictionary["SubscriptionType"] as? String
+            self.serverCertUri = dictionary["ServerCertUri"] as? String
+            if let partitions = dictionary["Partitions"] as? [String] {
+                self.partitions = partitions
+            }
+            self.softwareVersion = dictionary["SoftwareVersion"] as? String
+            self.hsmType = dictionary["HsmType"] as? String
+            self.subscriptionStartDate = dictionary["SubscriptionStartDate"] as? String
+            self.vendorName = dictionary["VendorName"] as? String
+        }
     }
 
     public struct ListLunaClientsResponse: AWSShape {
@@ -506,6 +653,11 @@ extension Cloudhsm {
             self.clientList = clientList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let clientList = dictionary["ClientList"] as? [String] else { throw InitializableError.missingRequiredParam("ClientList") }
+            self.clientList = clientList
+        }
     }
 
     public struct DeleteLunaClientResponse: AWSShape {
@@ -520,6 +672,10 @@ extension Cloudhsm {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct ListAvailableZonesResponse: AWSShape {
@@ -534,6 +690,11 @@ extension Cloudhsm {
             self.aZList = aZList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let aZList = dictionary["AZList"] as? [String] {
+                self.aZList = aZList
+            }
+        }
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
@@ -551,6 +712,12 @@ extension Cloudhsm {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
+            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct CreateLunaClientResponse: AWSShape {
@@ -565,6 +732,9 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientArn = dictionary["ClientArn"] as? String
+        }
     }
 
     public struct CreateHapgResponse: AWSShape {
@@ -579,6 +749,9 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hapgArn = dictionary["HapgArn"] as? String
+        }
     }
 
     public struct CreateHsmResponse: AWSShape {
@@ -593,6 +766,9 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hsmArn = dictionary["HsmArn"] as? String
+        }
     }
 
     public struct ListHapgsResponse: AWSShape {
@@ -610,6 +786,11 @@ extension Cloudhsm {
             self.hapgList = hapgList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let hapgList = dictionary["HapgList"] as? [String] else { throw InitializableError.missingRequiredParam("HapgList") }
+            self.hapgList = hapgList
+        }
     }
 
     public struct CreateHsmRequest: AWSShape {
@@ -644,6 +825,20 @@ extension Cloudhsm {
             self.externalId = externalId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
+            self.subnetId = subnetId
+            self.clientToken = dictionary["ClientToken"] as? String
+            self.eniIp = dictionary["EniIp"] as? String
+            guard let iamRoleArn = dictionary["IamRoleArn"] as? String else { throw InitializableError.missingRequiredParam("IamRoleArn") }
+            self.iamRoleArn = iamRoleArn
+            guard let sshKey = dictionary["SshKey"] as? String else { throw InitializableError.missingRequiredParam("SshKey") }
+            self.sshKey = sshKey
+            guard let subscriptionType = dictionary["SubscriptionType"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionType") }
+            self.subscriptionType = subscriptionType
+            self.syslogIp = dictionary["SyslogIp"] as? String
+            self.externalId = dictionary["ExternalId"] as? String
+        }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
@@ -661,6 +856,12 @@ extension Cloudhsm {
             self.resourceArn = resourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagKeyList = dictionary["TagKeyList"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeyList") }
+            self.tagKeyList = tagKeyList
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+        }
     }
 
     public struct ListAvailableZonesRequest: AWSShape {
@@ -669,6 +870,8 @@ extension Cloudhsm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteHapgResponse: AWSShape {
@@ -683,6 +886,10 @@ extension Cloudhsm {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct DeleteLunaClientRequest: AWSShape {
@@ -697,6 +904,10 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientArn = dictionary["ClientArn"] as? String else { throw InitializableError.missingRequiredParam("ClientArn") }
+            self.clientArn = clientArn
+        }
     }
 
     public struct ListHsmsResponse: AWSShape {
@@ -714,6 +925,12 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hsmList = dictionary["HsmList"] as? [String] {
+                self.hsmList = hsmList
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeHapgRequest: AWSShape {
@@ -728,6 +945,10 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
+            self.hapgArn = hapgArn
+        }
     }
 
     public struct ModifyLunaClientResponse: AWSShape {
@@ -742,6 +963,9 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientArn = dictionary["ClientArn"] as? String
+        }
     }
 
     public struct ModifyHsmResponse: AWSShape {
@@ -756,6 +980,9 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hsmArn = dictionary["HsmArn"] as? String
+        }
     }
 
     public struct ListHapgsRequest: AWSShape {
@@ -770,6 +997,9 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
 }

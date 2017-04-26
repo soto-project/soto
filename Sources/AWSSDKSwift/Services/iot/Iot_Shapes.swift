@@ -44,6 +44,10 @@ extension Iot {
             self.putItem = putItem
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["roleArn"] as? String
+            if let putItem = dictionary["putItem"] as? [String: Any] { self.putItem = try Iot.PutItemInput(dictionary: putItem) }
+        }
     }
 
     public struct CreatePolicyResponse: AWSShape {
@@ -67,6 +71,12 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyVersionId = dictionary["policyVersionId"] as? String
+            self.policyName = dictionary["policyName"] as? String
+            self.policyArn = dictionary["policyArn"] as? String
+            self.policyDocument = dictionary["policyDocument"] as? String
+        }
     }
 
     public struct TransferCertificateRequest: AWSShape {
@@ -93,6 +103,13 @@ extension Iot {
             self.targetAwsAccount = targetAwsAccount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+            self.transferMessage = dictionary["transferMessage"] as? String
+            guard let targetAwsAccount = dictionary["targetAwsAccount"] as? String else { throw InitializableError.missingRequiredParam("targetAwsAccount") }
+            self.targetAwsAccount = targetAwsAccount
+        }
     }
 
     public struct GetRegistrationCodeRequest: AWSShape {
@@ -101,6 +118,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListCertificatesByCARequest: AWSShape {
@@ -130,6 +149,13 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let caCertificateId = dictionary["caCertificateId"] as? String else { throw InitializableError.missingRequiredParam("caCertificateId") }
+            self.caCertificateId = caCertificateId
+            self.pageSize = dictionary["pageSize"] as? Int32
+            self.marker = dictionary["marker"] as? String
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+        }
     }
 
     public struct Policy: AWSShape {
@@ -147,6 +173,10 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyArn = dictionary["policyArn"] as? String
+            self.policyName = dictionary["policyName"] as? String
+        }
     }
 
     public struct SetLoggingOptionsRequest: AWSShape {
@@ -161,6 +191,10 @@ extension Iot {
             self.loggingOptionsPayload = loggingOptionsPayload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loggingOptionsPayload = dictionary["loggingOptionsPayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("loggingOptionsPayload") }
+            self.loggingOptionsPayload = try Iot.LoggingOptionsPayload(dictionary: loggingOptionsPayload)
+        }
     }
 
     public struct ListThingTypesResponse: AWSShape {
@@ -178,6 +212,12 @@ extension Iot {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let thingTypes = dictionary["thingTypes"] as? [[String: Any]] {
+                self.thingTypes = try thingTypes.map({ try ThingTypeDefinition(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct Action: AWSShape {
@@ -225,6 +265,20 @@ extension Iot {
             self.sns = sns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let kinesis = dictionary["kinesis"] as? [String: Any] { self.kinesis = try Iot.KinesisAction(dictionary: kinesis) }
+            if let elasticsearch = dictionary["elasticsearch"] as? [String: Any] { self.elasticsearch = try Iot.ElasticsearchAction(dictionary: elasticsearch) }
+            if let sqs = dictionary["sqs"] as? [String: Any] { self.sqs = try Iot.SqsAction(dictionary: sqs) }
+            if let cloudwatchMetric = dictionary["cloudwatchMetric"] as? [String: Any] { self.cloudwatchMetric = try Iot.CloudwatchMetricAction(dictionary: cloudwatchMetric) }
+            if let republish = dictionary["republish"] as? [String: Any] { self.republish = try Iot.RepublishAction(dictionary: republish) }
+            if let s3 = dictionary["s3"] as? [String: Any] { self.s3 = try Iot.S3Action(dictionary: s3) }
+            if let cloudwatchAlarm = dictionary["cloudwatchAlarm"] as? [String: Any] { self.cloudwatchAlarm = try Iot.CloudwatchAlarmAction(dictionary: cloudwatchAlarm) }
+            if let firehose = dictionary["firehose"] as? [String: Any] { self.firehose = try Iot.FirehoseAction(dictionary: firehose) }
+            if let dynamoDBv2 = dictionary["dynamoDBv2"] as? [String: Any] { self.dynamoDBv2 = try Iot.DynamoDBv2Action(dictionary: dynamoDBv2) }
+            if let dynamoDB = dictionary["dynamoDB"] as? [String: Any] { self.dynamoDB = try Iot.DynamoDBAction(dictionary: dynamoDB) }
+            if let lambda = dictionary["lambda"] as? [String: Any] { self.lambda = try Iot.LambdaAction(dictionary: lambda) }
+            if let sns = dictionary["sns"] as? [String: Any] { self.sns = try Iot.SnsAction(dictionary: sns) }
+        }
     }
 
     public struct DescribeCACertificateResponse: AWSShape {
@@ -239,6 +293,9 @@ extension Iot {
             self.certificateDescription = certificateDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CACertificateDescription(dictionary: certificateDescription) }
+        }
     }
 
     public struct RepublishAction: AWSShape {
@@ -256,6 +313,12 @@ extension Iot {
             self.topic = topic
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let topic = dictionary["topic"] as? String else { throw InitializableError.missingRequiredParam("topic") }
+            self.topic = topic
+        }
     }
 
     public struct GetTopicRuleRequest: AWSShape {
@@ -273,6 +336,10 @@ extension Iot {
             self.ruleName = ruleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            self.ruleName = ruleName
+        }
     }
 
     public struct ListPolicyPrincipalsResponse: AWSShape {
@@ -290,6 +357,12 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let principals = dictionary["principals"] as? [String] {
+                self.principals = principals
+            }
+            self.nextMarker = dictionary["nextMarker"] as? String
+        }
     }
 
     public struct ListCertificatesResponse: AWSShape {
@@ -307,6 +380,12 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificates = dictionary["certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["nextMarker"] as? String
+        }
     }
 
     public struct RegisterCACertificateRequest: AWSShape {
@@ -333,6 +412,14 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowAutoRegistration = dictionary["allowAutoRegistration"] as? Bool
+            guard let verificationCertificate = dictionary["verificationCertificate"] as? String else { throw InitializableError.missingRequiredParam("verificationCertificate") }
+            self.verificationCertificate = verificationCertificate
+            guard let caCertificate = dictionary["caCertificate"] as? String else { throw InitializableError.missingRequiredParam("caCertificate") }
+            self.caCertificate = caCertificate
+            self.setAsActive = dictionary["setAsActive"] as? Bool
+        }
     }
 
     public struct DetachThingPrincipalRequest: AWSShape {
@@ -356,6 +443,12 @@ extension Iot {
             self.principal = principal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.principal = principal
+        }
     }
 
     public struct CreateThingResponse: AWSShape {
@@ -373,6 +466,10 @@ extension Iot {
             self.thingArn = thingArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.thingName = dictionary["thingName"] as? String
+            self.thingArn = dictionary["thingArn"] as? String
+        }
     }
 
     public struct ListPrincipalThingsResponse: AWSShape {
@@ -390,6 +487,12 @@ extension Iot {
             self.things = things
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let things = dictionary["things"] as? [String] {
+                self.things = things
+            }
+        }
     }
 
     public struct LoggingOptionsPayload: AWSShape {
@@ -407,6 +510,11 @@ extension Iot {
             self.logLevel = logLevel
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            self.logLevel = dictionary["logLevel"] as? String
+        }
     }
 
     public struct ListThingsRequest: AWSShape {
@@ -436,6 +544,13 @@ extension Iot {
             self.attributeName = attributeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeValue = dictionary["attributeValue"] as? String
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.attributeName = dictionary["attributeName"] as? String
+        }
     }
 
     public struct ThingTypeDefinition: AWSShape {
@@ -455,6 +570,11 @@ extension Iot {
             self.thingTypeProperties = thingTypeProperties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) }
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) }
+        }
     }
 
     public struct CreateKeysAndCertificateResponse: AWSShape {
@@ -478,6 +598,12 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Iot.KeyPair(dictionary: keyPair) }
+            self.certificatePem = dictionary["certificatePem"] as? String
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct GetTopicRuleResponse: AWSShape {
@@ -495,6 +621,10 @@ extension Iot {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ruleArn = dictionary["ruleArn"] as? String
+            if let rule = dictionary["rule"] as? [String: Any] { self.rule = try Iot.TopicRule(dictionary: rule) }
+        }
     }
 
     public struct CreateThingTypeRequest: AWSShape {
@@ -515,6 +645,11 @@ extension Iot {
             self.thingTypeProperties = thingTypeProperties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            self.thingTypeName = thingTypeName
+            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) }
+        }
     }
 
     public struct DescribeCACertificateRequest: AWSShape {
@@ -532,6 +667,10 @@ extension Iot {
             self.certificateId = certificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+        }
     }
 
     public struct DescribeCertificateRequest: AWSShape {
@@ -549,6 +688,10 @@ extension Iot {
             self.certificateId = certificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+        }
     }
 
     public struct CreateCertificateFromCsrRequest: AWSShape {
@@ -569,6 +712,11 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateSigningRequest = dictionary["certificateSigningRequest"] as? String else { throw InitializableError.missingRequiredParam("certificateSigningRequest") }
+            self.certificateSigningRequest = certificateSigningRequest
+            self.setAsActive = dictionary["setAsActive"] as? Bool
+        }
     }
 
     public struct DescribeCertificateResponse: AWSShape {
@@ -583,6 +731,9 @@ extension Iot {
             self.certificateDescription = certificateDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CertificateDescription(dictionary: certificateDescription) }
+        }
     }
 
     public struct CreateKeysAndCertificateRequest: AWSShape {
@@ -600,6 +751,9 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.setAsActive = dictionary["setAsActive"] as? Bool
+        }
     }
 
     public struct ListPrincipalPoliciesResponse: AWSShape {
@@ -617,6 +771,12 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policies = dictionary["policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try Policy(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["nextMarker"] as? String
+        }
     }
 
     public struct DetachPrincipalPolicyRequest: AWSShape {
@@ -640,6 +800,12 @@ extension Iot {
             self.principal = principal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.principal = principal
+        }
     }
 
     public struct ThingTypeMetadata: AWSShape {
@@ -660,6 +826,11 @@ extension Iot {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deprecated = dictionary["deprecated"] as? Bool
+            self.deprecationDate = dictionary["deprecationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? Date
+        }
     }
 
     public struct EnableTopicRuleRequest: AWSShape {
@@ -677,6 +848,10 @@ extension Iot {
             self.ruleName = ruleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            self.ruleName = ruleName
+        }
     }
 
     public struct CreatePolicyVersionRequest: AWSShape {
@@ -703,6 +878,13 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+            self.setAsDefault = dictionary["setAsDefault"] as? Bool
+            guard let policyDocument = dictionary["policyDocument"] as? String else { throw InitializableError.missingRequiredParam("policyDocument") }
+            self.policyDocument = policyDocument
+        }
     }
 
     public struct KinesisAction: AWSShape {
@@ -723,6 +905,13 @@ extension Iot {
             self.partitionKey = partitionKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let streamName = dictionary["streamName"] as? String else { throw InitializableError.missingRequiredParam("streamName") }
+            self.streamName = streamName
+            self.partitionKey = dictionary["partitionKey"] as? String
+        }
     }
 
     public struct SqsAction: AWSShape {
@@ -743,6 +932,13 @@ extension Iot {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.useBase64 = dictionary["useBase64"] as? Bool
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let queueUrl = dictionary["queueUrl"] as? String else { throw InitializableError.missingRequiredParam("queueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct UpdateThingResponse: AWSShape {
@@ -751,6 +947,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListThingPrincipalsRequest: AWSShape {
@@ -768,6 +966,10 @@ extension Iot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
@@ -788,6 +990,12 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
+            self.policyVersionId = policyVersionId
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct UpdateCACertificateRequest: AWSShape {
@@ -814,6 +1022,12 @@ extension Iot {
             self.newAutoRegistrationStatus = newAutoRegistrationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+            self.newStatus = dictionary["newStatus"] as? String
+            self.newAutoRegistrationStatus = dictionary["newAutoRegistrationStatus"] as? String
+        }
     }
 
     public struct ListPoliciesResponse: AWSShape {
@@ -831,6 +1045,12 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policies = dictionary["policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try Policy(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["nextMarker"] as? String
+        }
     }
 
     public struct ElasticsearchAction: AWSShape {
@@ -857,6 +1077,18 @@ extension Iot {
             self.index = index
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let endpoint = dictionary["endpoint"] as? String else { throw InitializableError.missingRequiredParam("endpoint") }
+            self.endpoint = endpoint
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let index = dictionary["index"] as? String else { throw InitializableError.missingRequiredParam("index") }
+            self.index = index
+        }
     }
 
     public struct ListOutgoingCertificatesResponse: AWSShape {
@@ -874,6 +1106,12 @@ extension Iot {
             self.outgoingCertificates = outgoingCertificates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextMarker = dictionary["nextMarker"] as? String
+            if let outgoingCertificates = dictionary["outgoingCertificates"] as? [[String: Any]] {
+                self.outgoingCertificates = try outgoingCertificates.map({ try OutgoingCertificate(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateCertificateRequest: AWSShape {
@@ -897,6 +1135,12 @@ extension Iot {
             self.newStatus = newStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+            guard let newStatus = dictionary["newStatus"] as? String else { throw InitializableError.missingRequiredParam("newStatus") }
+            self.newStatus = newStatus
+        }
     }
 
     public struct TopicRuleListItem: AWSShape {
@@ -923,6 +1167,13 @@ extension Iot {
             self.createdAt = createdAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
+            self.topicPattern = dictionary["topicPattern"] as? String
+            self.ruleName = dictionary["ruleName"] as? String
+            self.ruleArn = dictionary["ruleArn"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+        }
     }
 
     public struct DeleteThingTypeRequest: AWSShape {
@@ -940,6 +1191,10 @@ extension Iot {
             self.thingTypeName = thingTypeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            self.thingTypeName = thingTypeName
+        }
     }
 
     public struct RegisterCertificateResponse: AWSShape {
@@ -957,6 +1212,10 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct PutItemInput: AWSShape {
@@ -971,6 +1230,10 @@ extension Iot {
             self.tableName = tableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tableName = dictionary["tableName"] as? String else { throw InitializableError.missingRequiredParam("tableName") }
+            self.tableName = tableName
+        }
     }
 
     public struct AttributePayload: AWSShape {
@@ -988,6 +1251,12 @@ extension Iot {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.merge = dictionary["merge"] as? Bool
+            if let attributes = dictionary["attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct CreatePolicyRequest: AWSShape {
@@ -1008,6 +1277,12 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyDocument = dictionary["policyDocument"] as? String else { throw InitializableError.missingRequiredParam("policyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct DeletePolicyVersionRequest: AWSShape {
@@ -1028,6 +1303,12 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
+            self.policyVersionId = policyVersionId
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct DeleteThingTypeResponse: AWSShape {
@@ -1036,6 +1317,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteRegistrationCodeRequest: AWSShape {
@@ -1044,6 +1327,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetLoggingOptionsRequest: AWSShape {
@@ -1052,6 +1337,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct LambdaAction: AWSShape {
@@ -1066,6 +1353,10 @@ extension Iot {
             self.functionArn = functionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let functionArn = dictionary["functionArn"] as? String else { throw InitializableError.missingRequiredParam("functionArn") }
+            self.functionArn = functionArn
+        }
     }
 
     public struct TopicRule: AWSShape {
@@ -1098,6 +1389,17 @@ extension Iot {
             self.sql = sql
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
+            self.ruleName = dictionary["ruleName"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.awsIotSqlVersion = dictionary["awsIotSqlVersion"] as? String
+            self.description = dictionary["description"] as? String
+            if let actions = dictionary["actions"] as? [[String: Any]] {
+                self.actions = try actions.map({ try Action(dictionary: $0) })
+            }
+            self.sql = dictionary["sql"] as? String
+        }
     }
 
     public struct CreateThingRequest: AWSShape {
@@ -1121,6 +1423,12 @@ extension Iot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) }
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
     public struct CertificateDescription: AWSShape {
@@ -1162,6 +1470,18 @@ extension Iot {
             self.lastModifiedDate = lastModifiedDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.caCertificateId = dictionary["caCertificateId"] as? String
+            self.status = dictionary["status"] as? String
+            self.creationDate = dictionary["creationDate"] as? Date
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificatePem = dictionary["certificatePem"] as? String
+            self.previousOwnedBy = dictionary["previousOwnedBy"] as? String
+            if let transferData = dictionary["transferData"] as? [String: Any] { self.transferData = try Iot.TransferData(dictionary: transferData) }
+            self.ownedBy = dictionary["ownedBy"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+            self.lastModifiedDate = dictionary["lastModifiedDate"] as? Date
+        }
     }
 
     public struct CloudwatchAlarmAction: AWSShape {
@@ -1185,6 +1505,16 @@ extension Iot {
             self.stateValue = stateValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let stateReason = dictionary["stateReason"] as? String else { throw InitializableError.missingRequiredParam("stateReason") }
+            self.stateReason = stateReason
+            guard let alarmName = dictionary["alarmName"] as? String else { throw InitializableError.missingRequiredParam("alarmName") }
+            self.alarmName = alarmName
+            guard let stateValue = dictionary["stateValue"] as? String else { throw InitializableError.missingRequiredParam("stateValue") }
+            self.stateValue = stateValue
+        }
     }
 
     public struct DisableTopicRuleRequest: AWSShape {
@@ -1202,6 +1532,10 @@ extension Iot {
             self.ruleName = ruleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            self.ruleName = ruleName
+        }
     }
 
     public struct ListPrincipalThingsRequest: AWSShape {
@@ -1228,6 +1562,12 @@ extension Iot {
             self.principal = principal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.principal = principal
+        }
     }
 
     public struct CreateTopicRuleRequest: AWSShape {
@@ -1248,6 +1588,12 @@ extension Iot {
             self.topicRulePayload = topicRulePayload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            self.ruleName = ruleName
+            guard let topicRulePayload = dictionary["topicRulePayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("topicRulePayload") }
+            self.topicRulePayload = try Iot.TopicRulePayload(dictionary: topicRulePayload)
+        }
     }
 
     public struct DeleteCACertificateRequest: AWSShape {
@@ -1265,6 +1611,10 @@ extension Iot {
             self.certificateId = certificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+        }
     }
 
     public struct CACertificate: AWSShape {
@@ -1288,6 +1638,12 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.creationDate = dictionary["creationDate"] as? Date
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct ListPolicyVersionsRequest: AWSShape {
@@ -1305,6 +1661,10 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ListPolicyPrincipalsRequest: AWSShape {
@@ -1334,6 +1694,13 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.pageSize = dictionary["pageSize"] as? Int32
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+        }
     }
 
     public struct PolicyVersion: AWSShape {
@@ -1354,6 +1721,11 @@ extension Iot {
             self.isDefaultVersion = isDefaultVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["createDate"] as? Date
+            self.versionId = dictionary["versionId"] as? String
+            self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
+        }
     }
 
     public struct AttachThingPrincipalRequest: AWSShape {
@@ -1377,6 +1749,12 @@ extension Iot {
             self.principal = principal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.principal = principal
+        }
     }
 
     public struct DeleteCACertificateResponse: AWSShape {
@@ -1385,6 +1763,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetRegistrationCodeResponse: AWSShape {
@@ -1399,6 +1779,9 @@ extension Iot {
             self.registrationCode = registrationCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.registrationCode = dictionary["registrationCode"] as? String
+        }
     }
 
     public struct ListCertificatesByCAResponse: AWSShape {
@@ -1416,6 +1799,12 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificates = dictionary["certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["nextMarker"] as? String
+        }
     }
 
     public struct ListPoliciesRequest: AWSShape {
@@ -1439,6 +1828,11 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.pageSize = dictionary["pageSize"] as? Int32
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+        }
     }
 
     public struct ListCACertificatesRequest: AWSShape {
@@ -1462,6 +1856,11 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.pageSize = dictionary["pageSize"] as? Int32
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+        }
     }
 
     public struct DeprecateThingTypeRequest: AWSShape {
@@ -1482,6 +1881,11 @@ extension Iot {
             self.undoDeprecate = undoDeprecate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            self.thingTypeName = thingTypeName
+            self.undoDeprecate = dictionary["undoDeprecate"] as? Bool
+        }
     }
 
     public struct TopicRulePayload: AWSShape {
@@ -1508,6 +1912,15 @@ extension Iot {
             self.sql = sql
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.awsIotSqlVersion = dictionary["awsIotSqlVersion"] as? String
+            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
+            self.description = dictionary["description"] as? String
+            guard let actions = dictionary["actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("actions") }
+            self.actions = try actions.map({ try Action(dictionary: $0) })
+            guard let sql = dictionary["sql"] as? String else { throw InitializableError.missingRequiredParam("sql") }
+            self.sql = sql
+        }
     }
 
     public struct SnsAction: AWSShape {
@@ -1528,6 +1941,13 @@ extension Iot {
             self.targetArn = targetArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.messageFormat = dictionary["messageFormat"] as? String
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let targetArn = dictionary["targetArn"] as? String else { throw InitializableError.missingRequiredParam("targetArn") }
+            self.targetArn = targetArn
+        }
     }
 
     public struct KeyPair: AWSShape {
@@ -1545,6 +1965,10 @@ extension Iot {
             self.privateKey = privateKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.publicKey = dictionary["PublicKey"] as? String
+            self.privateKey = dictionary["PrivateKey"] as? String
+        }
     }
 
     public struct DeleteRegistrationCodeResponse: AWSShape {
@@ -1553,6 +1977,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
@@ -1567,6 +1993,11 @@ extension Iot {
             self.policyVersions = policyVersions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policyVersions = dictionary["policyVersions"] as? [[String: Any]] {
+                self.policyVersions = try policyVersions.map({ try PolicyVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetPolicyVersionResponse: AWSShape {
@@ -1593,6 +2024,13 @@ extension Iot {
             self.policyArn = policyArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyDocument = dictionary["policyDocument"] as? String
+            self.policyVersionId = dictionary["policyVersionId"] as? String
+            self.policyName = dictionary["policyName"] as? String
+            self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
+            self.policyArn = dictionary["policyArn"] as? String
+        }
     }
 
     public struct ListThingTypesRequest: AWSShape {
@@ -1616,6 +2054,11 @@ extension Iot {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct CreateThingTypeResponse: AWSShape {
@@ -1633,6 +2076,10 @@ extension Iot {
             self.thingTypeArn = thingTypeArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            self.thingTypeArn = dictionary["thingTypeArn"] as? String
+        }
     }
 
     public struct DeleteTopicRuleRequest: AWSShape {
@@ -1650,6 +2097,10 @@ extension Iot {
             self.ruleName = ruleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            self.ruleName = ruleName
+        }
     }
 
     public struct GetPolicyVersionRequest: AWSShape {
@@ -1670,6 +2121,12 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
+            self.policyVersionId = policyVersionId
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ListTopicRulesResponse: AWSShape {
@@ -1687,6 +2144,12 @@ extension Iot {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try TopicRuleListItem(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct S3Action: AWSShape {
@@ -1710,6 +2173,15 @@ extension Iot {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucketName = dictionary["bucketName"] as? String else { throw InitializableError.missingRequiredParam("bucketName") }
+            self.bucketName = bucketName
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            self.cannedAcl = dictionary["cannedAcl"] as? String
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+        }
     }
 
     public struct OutgoingCertificate: AWSShape {
@@ -1739,6 +2211,14 @@ extension Iot {
             self.transferDate = transferDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.transferMessage = dictionary["transferMessage"] as? String
+            self.creationDate = dictionary["creationDate"] as? Date
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+            self.transferredTo = dictionary["transferredTo"] as? String
+            self.transferDate = dictionary["transferDate"] as? Date
+        }
     }
 
     public struct CreateCertificateFromCsrResponse: AWSShape {
@@ -1759,6 +2239,11 @@ extension Iot {
             self.certificatePem = certificatePem
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+            self.certificatePem = dictionary["certificatePem"] as? String
+        }
     }
 
     public struct TransferCertificateResponse: AWSShape {
@@ -1773,6 +2258,9 @@ extension Iot {
             self.transferredCertificateArn = transferredCertificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.transferredCertificateArn = dictionary["transferredCertificateArn"] as? String
+        }
     }
 
     public struct FirehoseAction: AWSShape {
@@ -1793,6 +2281,13 @@ extension Iot {
             self.separator = separator
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let deliveryStreamName = dictionary["deliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("deliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+            self.separator = dictionary["separator"] as? String
+        }
     }
 
     public struct CreatePolicyVersionResponse: AWSShape {
@@ -1816,6 +2311,12 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyArn = dictionary["policyArn"] as? String
+            self.policyVersionId = dictionary["policyVersionId"] as? String
+            self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
+            self.policyDocument = dictionary["policyDocument"] as? String
+        }
     }
 
     public struct AcceptCertificateTransferRequest: AWSShape {
@@ -1839,6 +2340,11 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+            self.setAsActive = dictionary["setAsActive"] as? Bool
+        }
     }
 
     public struct CancelCertificateTransferRequest: AWSShape {
@@ -1856,6 +2362,10 @@ extension Iot {
             self.certificateId = certificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+        }
     }
 
     public struct DeleteCertificateRequest: AWSShape {
@@ -1873,6 +2383,10 @@ extension Iot {
             self.certificateId = certificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+        }
     }
 
     public struct DetachThingPrincipalResponse: AWSShape {
@@ -1881,6 +2395,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeEndpointResponse: AWSShape {
@@ -1895,6 +2411,9 @@ extension Iot {
             self.endpointAddress = endpointAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpointAddress = dictionary["endpointAddress"] as? String
+        }
     }
 
     public struct RejectCertificateTransferRequest: AWSShape {
@@ -1915,6 +2434,11 @@ extension Iot {
             self.rejectReason = rejectReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            self.certificateId = certificateId
+            self.rejectReason = dictionary["rejectReason"] as? String
+        }
     }
 
     public struct TransferData: AWSShape {
@@ -1941,6 +2465,13 @@ extension Iot {
             self.rejectReason = rejectReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.rejectDate = dictionary["rejectDate"] as? Date
+            self.acceptDate = dictionary["acceptDate"] as? Date
+            self.transferMessage = dictionary["transferMessage"] as? String
+            self.transferDate = dictionary["transferDate"] as? Date
+            self.rejectReason = dictionary["rejectReason"] as? String
+        }
     }
 
     public struct GetPolicyRequest: AWSShape {
@@ -1958,6 +2489,10 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct Certificate: AWSShape {
@@ -1981,6 +2516,12 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.creationDate = dictionary["creationDate"] as? Date
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct RegisterCertificateRequest: AWSShape {
@@ -2006,6 +2547,13 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.caCertificatePem = dictionary["caCertificatePem"] as? String
+            self.status = dictionary["status"] as? String
+            guard let certificatePem = dictionary["certificatePem"] as? String else { throw InitializableError.missingRequiredParam("certificatePem") }
+            self.certificatePem = certificatePem
+            self.setAsActive = dictionary["setAsActive"] as? Bool
+        }
     }
 
     public struct ListThingPrincipalsResponse: AWSShape {
@@ -2020,6 +2568,11 @@ extension Iot {
             self.principals = principals
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let principals = dictionary["principals"] as? [String] {
+                self.principals = principals
+            }
+        }
     }
 
     public struct GetLoggingOptionsResponse: AWSShape {
@@ -2037,6 +2590,10 @@ extension Iot {
             self.logLevel = logLevel
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["roleArn"] as? String
+            self.logLevel = dictionary["logLevel"] as? String
+        }
     }
 
     public struct ListOutgoingCertificatesRequest: AWSShape {
@@ -2060,6 +2617,11 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.pageSize = dictionary["pageSize"] as? Int32
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+        }
     }
 
     public struct ListCACertificatesResponse: AWSShape {
@@ -2077,6 +2639,12 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificates = dictionary["certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try CACertificate(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["nextMarker"] as? String
+        }
     }
 
     public struct ThingTypeProperties: AWSShape {
@@ -2094,6 +2662,12 @@ extension Iot {
             self.searchableAttributes = searchableAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.thingTypeDescription = dictionary["thingTypeDescription"] as? String
+            if let searchableAttributes = dictionary["searchableAttributes"] as? [String] {
+                self.searchableAttributes = searchableAttributes
+            }
+        }
     }
 
     public struct GetPolicyResponse: AWSShape {
@@ -2117,6 +2691,12 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyName = dictionary["policyName"] as? String
+            self.defaultVersionId = dictionary["defaultVersionId"] as? String
+            self.policyArn = dictionary["policyArn"] as? String
+            self.policyDocument = dictionary["policyDocument"] as? String
+        }
     }
 
     public struct ListThingsResponse: AWSShape {
@@ -2134,6 +2714,12 @@ extension Iot {
             self.things = things
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let things = dictionary["things"] as? [[String: Any]] {
+                self.things = try things.map({ try ThingAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListPrincipalPoliciesRequest: AWSShape {
@@ -2163,6 +2749,13 @@ extension Iot {
             self.principal = principal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.pageSize = dictionary["pageSize"] as? Int32
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.principal = principal
+        }
     }
 
     public struct ThingAttribute: AWSShape {
@@ -2186,6 +2779,14 @@ extension Iot {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.thingName = dictionary["thingName"] as? String
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            if let attributes = dictionary["attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.version = dictionary["version"] as? Int64
+        }
     }
 
     public struct DeletePolicyRequest: AWSShape {
@@ -2203,6 +2804,10 @@ extension Iot {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct DescribeThingRequest: AWSShape {
@@ -2220,6 +2825,10 @@ extension Iot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
     public struct CACertificateDescription: AWSShape {
@@ -2252,6 +2861,15 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.autoRegistrationStatus = dictionary["autoRegistrationStatus"] as? String
+            self.creationDate = dictionary["creationDate"] as? Date
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificatePem = dictionary["certificatePem"] as? String
+            self.ownedBy = dictionary["ownedBy"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct ListTopicRulesRequest: AWSShape {
@@ -2278,6 +2896,12 @@ extension Iot {
             self.topic = topic
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            self.topic = dictionary["topic"] as? String
+        }
     }
 
     public struct DescribeThingResponse: AWSShape {
@@ -2304,6 +2928,15 @@ extension Iot {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultClientId = dictionary["defaultClientId"] as? String
+            self.thingName = dictionary["thingName"] as? String
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            if let attributes = dictionary["attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.version = dictionary["version"] as? Int64
+        }
     }
 
     public struct DescribeThingTypeRequest: AWSShape {
@@ -2321,6 +2954,10 @@ extension Iot {
             self.thingTypeName = thingTypeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            self.thingTypeName = thingTypeName
+        }
     }
 
     public struct AttachPrincipalPolicyRequest: AWSShape {
@@ -2344,6 +2981,12 @@ extension Iot {
             self.principal = principal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.policyName = policyName
+            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.principal = principal
+        }
     }
 
     public struct UpdateThingRequest: AWSShape {
@@ -2373,6 +3016,14 @@ extension Iot {
             self.attributePayload = attributePayload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.removeThingType = dictionary["removeThingType"] as? Bool
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            self.expectedVersion = dictionary["expectedVersion"] as? Int64
+            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) }
+        }
     }
 
     public struct DeprecateThingTypeResponse: AWSShape {
@@ -2381,6 +3032,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListCertificatesRequest: AWSShape {
@@ -2404,6 +3057,11 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            self.pageSize = dictionary["pageSize"] as? Int32
+            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+        }
     }
 
     public struct ReplaceTopicRuleRequest: AWSShape {
@@ -2424,6 +3082,12 @@ extension Iot {
             self.topicRulePayload = topicRulePayload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            self.ruleName = ruleName
+            guard let topicRulePayload = dictionary["topicRulePayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("topicRulePayload") }
+            self.topicRulePayload = try Iot.TopicRulePayload(dictionary: topicRulePayload)
+        }
     }
 
     public struct CloudwatchMetricAction: AWSShape {
@@ -2453,6 +3117,19 @@ extension Iot {
             self.metricUnit = metricUnit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metricValue = dictionary["metricValue"] as? String else { throw InitializableError.missingRequiredParam("metricValue") }
+            self.metricValue = metricValue
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            self.metricTimestamp = dictionary["metricTimestamp"] as? String
+            guard let metricNamespace = dictionary["metricNamespace"] as? String else { throw InitializableError.missingRequiredParam("metricNamespace") }
+            self.metricNamespace = metricNamespace
+            guard let metricName = dictionary["metricName"] as? String else { throw InitializableError.missingRequiredParam("metricName") }
+            self.metricName = metricName
+            guard let metricUnit = dictionary["metricUnit"] as? String else { throw InitializableError.missingRequiredParam("metricUnit") }
+            self.metricUnit = metricUnit
+        }
     }
 
     public struct RegisterCACertificateResponse: AWSShape {
@@ -2470,6 +3147,10 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateId = dictionary["certificateId"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct DescribeThingTypeResponse: AWSShape {
@@ -2489,6 +3170,11 @@ extension Iot {
             self.thingTypeProperties = thingTypeProperties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) }
+            self.thingTypeName = dictionary["thingTypeName"] as? String
+            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) }
+        }
     }
 
     public struct DynamoDBAction: AWSShape {
@@ -2530,6 +3216,22 @@ extension Iot {
             self.hashKeyType = hashKeyType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            self.rangeKeyType = dictionary["rangeKeyType"] as? String
+            self.rangeKeyValue = dictionary["rangeKeyValue"] as? String
+            guard let hashKeyValue = dictionary["hashKeyValue"] as? String else { throw InitializableError.missingRequiredParam("hashKeyValue") }
+            self.hashKeyValue = hashKeyValue
+            self.operation = dictionary["operation"] as? String
+            self.payloadField = dictionary["payloadField"] as? String
+            self.rangeKeyField = dictionary["rangeKeyField"] as? String
+            guard let tableName = dictionary["tableName"] as? String else { throw InitializableError.missingRequiredParam("tableName") }
+            self.tableName = tableName
+            guard let hashKeyField = dictionary["hashKeyField"] as? String else { throw InitializableError.missingRequiredParam("hashKeyField") }
+            self.hashKeyField = hashKeyField
+            self.hashKeyType = dictionary["hashKeyType"] as? String
+        }
     }
 
     public struct AttachThingPrincipalResponse: AWSShape {
@@ -2538,6 +3240,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteThingResponse: AWSShape {
@@ -2546,6 +3250,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeEndpointRequest: AWSShape {
@@ -2554,6 +3260,8 @@ extension Iot {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteThingRequest: AWSShape {
@@ -2577,6 +3285,11 @@ extension Iot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expectedVersion = dictionary["expectedVersion"] as? Int64
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
 }

@@ -44,6 +44,12 @@ extension Appstream2 {
             self.sessions = sessions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let sessions = dictionary["Sessions"] as? [[String: Any]] {
+                self.sessions = try sessions.map({ try Session(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListAssociatedFleetsRequest: AWSShape {
@@ -61,6 +67,11 @@ extension Appstream2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeStacksResult: AWSShape {
@@ -78,6 +89,12 @@ extension Appstream2 {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stacks = dictionary["Stacks"] as? [[String: Any]] {
+                self.stacks = try stacks.map({ try Stack(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteStackResult: AWSShape {
@@ -86,6 +103,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ComputeCapacity: AWSShape {
@@ -100,6 +119,10 @@ extension Appstream2 {
             self.desiredInstances = desiredInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let desiredInstances = dictionary["DesiredInstances"] as? Int32 else { throw InitializableError.missingRequiredParam("DesiredInstances") }
+            self.desiredInstances = desiredInstances
+        }
     }
 
     public struct DescribeImagesRequest: AWSShape {
@@ -114,6 +137,11 @@ extension Appstream2 {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct DescribeImagesResult: AWSShape {
@@ -128,6 +156,11 @@ extension Appstream2 {
             self.images = images
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let images = dictionary["Images"] as? [[String: Any]] {
+                self.images = try images.map({ try Image(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeSessionsRequest: AWSShape {
@@ -154,6 +187,15 @@ extension Appstream2 {
             self.fleetName = fleetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userId = dictionary["UserId"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
+            self.fleetName = fleetName
+        }
     }
 
     public struct Session: AWSShape {
@@ -180,6 +222,18 @@ extension Appstream2 {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
+            self.fleetName = fleetName
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct ListAssociatedFleetsResult: AWSShape {
@@ -197,6 +251,12 @@ extension Appstream2 {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct DescribeFleetsRequest: AWSShape {
@@ -214,6 +274,12 @@ extension Appstream2 {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct FleetError: AWSShape {
@@ -231,6 +297,10 @@ extension Appstream2 {
             self.errorCode = errorCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+        }
     }
 
     public struct ListAssociatedStacksResult: AWSShape {
@@ -248,6 +318,12 @@ extension Appstream2 {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct UpdateFleetResult: AWSShape {
@@ -262,6 +338,9 @@ extension Appstream2 {
             self.fleet = fleet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) }
+        }
     }
 
     public struct ExpireSessionResult: AWSShape {
@@ -270,6 +349,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DisassociateFleetResult: AWSShape {
@@ -278,6 +359,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteFleetResult: AWSShape {
@@ -286,6 +369,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateFleetRequest: AWSShape {
@@ -324,6 +409,21 @@ extension Appstream2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacity") }
+            self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity)
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.displayName = dictionary["DisplayName"] as? String
+            guard let imageName = dictionary["ImageName"] as? String else { throw InitializableError.missingRequiredParam("ImageName") }
+            self.imageName = imageName
+            self.disconnectTimeoutInSeconds = dictionary["DisconnectTimeoutInSeconds"] as? Int32
+            self.maxUserDurationInSeconds = dictionary["MaxUserDurationInSeconds"] as? Int32
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Stack: AWSShape {
@@ -350,6 +450,14 @@ extension Appstream2 {
             self.displayName = displayName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.arn = dictionary["Arn"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.displayName = dictionary["DisplayName"] as? String
+        }
     }
 
     public struct UpdateStackResult: AWSShape {
@@ -364,6 +472,9 @@ extension Appstream2 {
             self.stack = stack
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) }
+        }
     }
 
     public struct UpdateFleetRequest: AWSShape {
@@ -405,6 +516,19 @@ extension Appstream2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deleteVpcConfig = dictionary["DeleteVpcConfig"] as? Bool
+            if let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] { self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity) }
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.displayName = dictionary["DisplayName"] as? String
+            self.imageName = dictionary["ImageName"] as? String
+            self.disconnectTimeoutInSeconds = dictionary["DisconnectTimeoutInSeconds"] as? Int32
+            self.maxUserDurationInSeconds = dictionary["MaxUserDurationInSeconds"] as? Int32
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DisassociateFleetRequest: AWSShape {
@@ -422,6 +546,12 @@ extension Appstream2 {
             self.fleetName = fleetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
+            self.fleetName = fleetName
+        }
     }
 
     public struct Application: AWSShape {
@@ -454,6 +584,17 @@ extension Appstream2 {
             self.iconURL = iconURL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: String] {
+                self.metadata = metadata
+            }
+            self.name = dictionary["Name"] as? String
+            self.displayName = dictionary["DisplayName"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.launchPath = dictionary["LaunchPath"] as? String
+            self.launchParameters = dictionary["LaunchParameters"] as? String
+            self.iconURL = dictionary["IconURL"] as? String
+        }
     }
 
     public struct Fleet: AWSShape {
@@ -504,6 +645,29 @@ extension Appstream2 {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) }
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let computeCapacityStatus = dictionary["ComputeCapacityStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacityStatus") }
+            self.computeCapacityStatus = try Appstream2.ComputeCapacityStatus(dictionary: computeCapacityStatus)
+            self.displayName = dictionary["DisplayName"] as? String
+            if let fleetErrors = dictionary["FleetErrors"] as? [[String: Any]] {
+                self.fleetErrors = try fleetErrors.map({ try FleetError(dictionary: $0) })
+            }
+            guard let imageName = dictionary["ImageName"] as? String else { throw InitializableError.missingRequiredParam("ImageName") }
+            self.imageName = imageName
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.description = dictionary["Description"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.disconnectTimeoutInSeconds = dictionary["DisconnectTimeoutInSeconds"] as? Int32
+            self.maxUserDurationInSeconds = dictionary["MaxUserDurationInSeconds"] as? Int32
+        }
     }
 
     public struct StartFleetRequest: AWSShape {
@@ -518,6 +682,10 @@ extension Appstream2 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct StartFleetResult: AWSShape {
@@ -526,6 +694,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct VpcConfig: AWSShape {
@@ -540,6 +710,10 @@ extension Appstream2 {
             self.subnetIds = subnetIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+        }
     }
 
     public struct DescribeStacksRequest: AWSShape {
@@ -557,6 +731,12 @@ extension Appstream2 {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct ImageStateChangeReason: AWSShape {
@@ -574,6 +754,10 @@ extension Appstream2 {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["Code"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct ListAssociatedStacksRequest: AWSShape {
@@ -591,6 +775,11 @@ extension Appstream2 {
             self.fleetName = fleetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
+            self.fleetName = fleetName
+        }
     }
 
     public struct CreateStackRequest: AWSShape {
@@ -611,6 +800,12 @@ extension Appstream2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.displayName = dictionary["DisplayName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateStackRequest: AWSShape {
@@ -631,6 +826,12 @@ extension Appstream2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.displayName = dictionary["DisplayName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct StopFleetRequest: AWSShape {
@@ -645,6 +846,10 @@ extension Appstream2 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ExpireSessionRequest: AWSShape {
@@ -659,6 +864,10 @@ extension Appstream2 {
             self.sessionId = sessionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sessionId = dictionary["SessionId"] as? String else { throw InitializableError.missingRequiredParam("SessionId") }
+            self.sessionId = sessionId
+        }
     }
 
     public struct CreateFleetResult: AWSShape {
@@ -673,6 +882,9 @@ extension Appstream2 {
             self.fleet = fleet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) }
+        }
     }
 
     public struct CreateStreamingURLRequest: AWSShape {
@@ -702,6 +914,17 @@ extension Appstream2 {
             self.fleetName = fleetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.validity = dictionary["Validity"] as? Int64
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.sessionContext = dictionary["SessionContext"] as? String
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
+            self.fleetName = fleetName
+        }
     }
 
     public struct ComputeCapacityStatus: AWSShape {
@@ -725,6 +948,13 @@ extension Appstream2 {
             self.running = running
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.available = dictionary["Available"] as? Int32
+            self.inUse = dictionary["InUse"] as? Int32
+            guard let desired = dictionary["Desired"] as? Int32 else { throw InitializableError.missingRequiredParam("Desired") }
+            self.desired = desired
+            self.running = dictionary["Running"] as? Int32
+        }
     }
 
     public struct CreateStreamingURLResult: AWSShape {
@@ -742,6 +972,10 @@ extension Appstream2 {
             self.expires = expires
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.streamingURL = dictionary["StreamingURL"] as? String
+            self.expires = dictionary["Expires"] as? Date
+        }
     }
 
     public struct AssociateFleetRequest: AWSShape {
@@ -759,6 +993,12 @@ extension Appstream2 {
             self.fleetName = fleetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
+            self.stackName = stackName
+            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
+            self.fleetName = fleetName
+        }
     }
 
     public struct DescribeFleetsResult: AWSShape {
@@ -776,6 +1016,12 @@ extension Appstream2 {
             self.fleets = fleets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let fleets = dictionary["Fleets"] as? [[String: Any]] {
+                self.fleets = try fleets.map({ try Fleet(dictionary: $0) })
+            }
+        }
     }
 
     public struct Image: AWSShape {
@@ -820,6 +1066,22 @@ extension Appstream2 {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Appstream2.ImageStateChangeReason(dictionary: stateChangeReason) }
+            self.arn = dictionary["Arn"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.state = dictionary["State"] as? String
+            self.displayName = dictionary["DisplayName"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.baseImageArn = dictionary["BaseImageArn"] as? String
+            if let applications = dictionary["Applications"] as? [[String: Any]] {
+                self.applications = try applications.map({ try Application(dictionary: $0) })
+            }
+            self.visibility = dictionary["Visibility"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteStackRequest: AWSShape {
@@ -834,6 +1096,10 @@ extension Appstream2 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct StopFleetResult: AWSShape {
@@ -842,6 +1108,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateStackResult: AWSShape {
@@ -856,6 +1124,9 @@ extension Appstream2 {
             self.stack = stack
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) }
+        }
     }
 
     public struct DeleteFleetRequest: AWSShape {
@@ -870,6 +1141,10 @@ extension Appstream2 {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct AssociateFleetResult: AWSShape {
@@ -878,6 +1153,8 @@ extension Appstream2 {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
 }

@@ -100,6 +100,31 @@ extension MturkRequester {
             self.numberOfAssignmentsPending = numberOfAssignmentsPending
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
+            self.hITLayoutId = dictionary["HITLayoutId"] as? String
+            self.numberOfAssignmentsCompleted = dictionary["NumberOfAssignmentsCompleted"] as? Int32
+            self.numberOfAssignmentsAvailable = dictionary["NumberOfAssignmentsAvailable"] as? Int32
+            self.title = dictionary["Title"] as? String
+            self.assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.hITGroupId = dictionary["HITGroupId"] as? String
+            self.reward = dictionary["Reward"] as? String
+            self.hITReviewStatus = dictionary["HITReviewStatus"] as? String
+            self.hITTypeId = dictionary["HITTypeId"] as? String
+            self.description = dictionary["Description"] as? String
+            self.maxAssignments = dictionary["MaxAssignments"] as? Int32
+            self.hITId = dictionary["HITId"] as? String
+            self.hITStatus = dictionary["HITStatus"] as? String
+            self.expiration = dictionary["Expiration"] as? Date
+            if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
+                self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
+            }
+            self.keywords = dictionary["Keywords"] as? String
+            self.question = dictionary["Question"] as? String
+            self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
+            self.numberOfAssignmentsPending = dictionary["NumberOfAssignmentsPending"] as? Int32
+        }
     }
 
     public struct DeleteQualificationTypeRequest: AWSShape {
@@ -114,6 +139,10 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+        }
     }
 
     public struct ListAssignmentsForHITRequest: AWSShape {
@@ -136,6 +165,15 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+            self.nextToken = dictionary["NextToken"] as? String
+            if let assignmentStatuses = dictionary["AssignmentStatuses"] as? [String] {
+                self.assignmentStatuses = assignmentStatuses
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteHITResponse: AWSShape {
@@ -144,6 +182,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateHITReviewStatusResponse: AWSShape {
@@ -152,6 +192,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct NotifyWorkersRequest: AWSShape {
@@ -172,6 +214,14 @@ extension MturkRequester {
             self.workerIds = workerIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subject = dictionary["Subject"] as? String else { throw InitializableError.missingRequiredParam("Subject") }
+            self.subject = subject
+            guard let messageText = dictionary["MessageText"] as? String else { throw InitializableError.missingRequiredParam("MessageText") }
+            self.messageText = messageText
+            guard let workerIds = dictionary["WorkerIds"] as? [String] else { throw InitializableError.missingRequiredParam("WorkerIds") }
+            self.workerIds = workerIds
+        }
     }
 
     public struct CreateHITTypeResponse: AWSShape {
@@ -186,6 +236,9 @@ extension MturkRequester {
             self.hITTypeId = hITTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hITTypeId = dictionary["HITTypeId"] as? String
+        }
     }
 
     public struct ListAssignmentsForHITResponse: AWSShape {
@@ -205,6 +258,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let assignments = dictionary["Assignments"] as? [[String: Any]] {
+                self.assignments = try assignments.map({ try Assignment(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct ListQualificationTypesRequest: AWSShape {
@@ -230,6 +290,14 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mustBeOwnedByCaller = dictionary["MustBeOwnedByCaller"] as? Bool
+            guard let mustBeRequestable = dictionary["MustBeRequestable"] as? Bool else { throw InitializableError.missingRequiredParam("MustBeRequestable") }
+            self.mustBeRequestable = mustBeRequestable
+            self.query = dictionary["Query"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListQualificationRequestsRequest: AWSShape {
@@ -249,6 +317,11 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListReviewableHITsResponse: AWSShape {
@@ -268,6 +341,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hITs = dictionary["HITs"] as? [[String: Any]] {
+                self.hITs = try hITs.map({ try HIT(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct GetFileUploadURLResponse: AWSShape {
@@ -282,6 +362,9 @@ extension MturkRequester {
             self.fileUploadURL = fileUploadURL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileUploadURL = dictionary["FileUploadURL"] as? String
+        }
     }
 
     public struct HITLayoutParameter: AWSShape {
@@ -299,6 +382,10 @@ extension MturkRequester {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct QualificationType: AWSShape {
@@ -349,6 +436,21 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
+            self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
+            self.qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.answerKey = dictionary["AnswerKey"] as? String
+            self.description = dictionary["Description"] as? String
+            self.autoGranted = dictionary["AutoGranted"] as? Bool
+            self.test = dictionary["Test"] as? String
+            self.name = dictionary["Name"] as? String
+            self.keywords = dictionary["Keywords"] as? String
+            self.isRequestable = dictionary["IsRequestable"] as? Bool
+            self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
+            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
+        }
     }
 
     public struct UpdateExpirationForHITRequest: AWSShape {
@@ -366,6 +468,11 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expireAt = dictionary["ExpireAt"] as? Date
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+        }
     }
 
     public struct UpdateHITTypeOfHITResponse: AWSShape {
@@ -374,6 +481,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DisassociateQualificationFromWorkerResponse: AWSShape {
@@ -382,6 +491,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListQualificationTypesResponse: AWSShape {
@@ -401,6 +512,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let qualificationTypes = dictionary["QualificationTypes"] as? [[String: Any]] {
+                self.qualificationTypes = try qualificationTypes.map({ try QualificationType(dictionary: $0) })
+            }
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct SendBonusResponse: AWSShape {
@@ -409,6 +527,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ReviewPolicy: AWSShape {
@@ -426,6 +546,12 @@ extension MturkRequester {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try PolicyParameter(dictionary: $0) })
+            }
+            self.policyName = dictionary["PolicyName"] as? String
+        }
     }
 
     public struct GetHITResponse: AWSShape {
@@ -440,6 +566,9 @@ extension MturkRequester {
             self.hIT = hIT
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+        }
     }
 
     public struct NotifyWorkersFailureStatus: AWSShape {
@@ -460,6 +589,11 @@ extension MturkRequester {
             self.notifyWorkersFailureCode = notifyWorkersFailureCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notifyWorkersFailureMessage = dictionary["NotifyWorkersFailureMessage"] as? String
+            self.workerId = dictionary["WorkerId"] as? String
+            self.notifyWorkersFailureCode = dictionary["NotifyWorkersFailureCode"] as? String
+        }
     }
 
     public struct DeleteQualificationTypeResponse: AWSShape {
@@ -468,6 +602,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListHITsForQualificationTypeResponse: AWSShape {
@@ -487,6 +623,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hITs = dictionary["HITs"] as? [[String: Any]] {
+                self.hITs = try hITs.map({ try HIT(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct DeleteWorkerBlockResponse: AWSShape {
@@ -495,6 +638,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateHITRequest: AWSShape {
@@ -554,6 +699,33 @@ extension MturkRequester {
             self.requesterAnnotation = requesterAnnotation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
+            if let hITLayoutParameters = dictionary["HITLayoutParameters"] as? [[String: Any]] {
+                self.hITLayoutParameters = try hITLayoutParameters.map({ try HITLayoutParameter(dictionary: $0) })
+            }
+            self.hITLayoutId = dictionary["HITLayoutId"] as? String
+            guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
+            self.title = title
+            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) }
+            guard let assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("AssignmentDurationInSeconds") }
+            self.assignmentDurationInSeconds = assignmentDurationInSeconds
+            guard let reward = dictionary["Reward"] as? String else { throw InitializableError.missingRequiredParam("Reward") }
+            self.reward = reward
+            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+            self.maxAssignments = dictionary["MaxAssignments"] as? Int32
+            if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
+                self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
+            }
+            self.keywords = dictionary["Keywords"] as? String
+            self.question = dictionary["Question"] as? String
+            guard let lifetimeInSeconds = dictionary["LifetimeInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("LifetimeInSeconds") }
+            self.lifetimeInSeconds = lifetimeInSeconds
+            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) }
+            self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
+        }
     }
 
     public struct ListWorkerBlocksRequest: AWSShape {
@@ -570,6 +742,10 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct AcceptQualificationRequestResponse: AWSShape {
@@ -578,6 +754,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RejectQualificationRequestResponse: AWSShape {
@@ -586,6 +764,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SendTestEventNotificationResponse: AWSShape {
@@ -594,6 +774,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetQualificationScoreResponse: AWSShape {
@@ -608,6 +790,9 @@ extension MturkRequester {
             self.qualification = qualification
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let qualification = dictionary["Qualification"] as? [String: Any] { self.qualification = try MturkRequester.Qualification(dictionary: qualification) }
+        }
     }
 
     public struct UpdateNotificationSettingsResponse: AWSShape {
@@ -616,6 +801,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateHITReviewStatusRequest: AWSShape {
@@ -633,6 +820,11 @@ extension MturkRequester {
             self.revert = revert
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+            self.revert = dictionary["Revert"] as? Bool
+        }
     }
 
     public struct AssociateQualificationWithWorkerRequest: AWSShape {
@@ -656,6 +848,14 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.integerValue = dictionary["IntegerValue"] as? Int32
+            self.sendNotification = dictionary["SendNotification"] as? Bool
+            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
+            self.workerId = workerId
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+        }
     }
 
     public struct DeleteHITRequest: AWSShape {
@@ -670,6 +870,10 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+        }
     }
 
     public struct UpdateQualificationTypeRequest: AWSShape {
@@ -708,6 +912,18 @@ extension MturkRequester {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
+            self.autoGranted = dictionary["AutoGranted"] as? Bool
+            self.test = dictionary["Test"] as? String
+            self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
+            self.qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String
+            self.answerKey = dictionary["AnswerKey"] as? String
+            self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Qualification: AWSShape {
@@ -736,6 +952,14 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.integerValue = dictionary["IntegerValue"] as? Int32
+            self.status = dictionary["Status"] as? String
+            if let localeValue = dictionary["LocaleValue"] as? [String: Any] { self.localeValue = try MturkRequester.Locale(dictionary: localeValue) }
+            self.grantTime = dictionary["GrantTime"] as? Date
+            self.workerId = dictionary["WorkerId"] as? String
+            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
+        }
     }
 
     public struct AssociateQualificationWithWorkerResponse: AWSShape {
@@ -744,6 +968,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateExpirationForHITResponse: AWSShape {
@@ -752,6 +978,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateWorkerBlockRequest: AWSShape {
@@ -769,6 +997,12 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reason = dictionary["Reason"] as? String else { throw InitializableError.missingRequiredParam("Reason") }
+            self.reason = reason
+            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
+            self.workerId = workerId
+        }
     }
 
     public struct ListHITsResponse: AWSShape {
@@ -788,6 +1022,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hITs = dictionary["HITs"] as? [[String: Any]] {
+                self.hITs = try hITs.map({ try HIT(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
@@ -808,6 +1049,12 @@ extension MturkRequester {
             self.uniqueRequestToken = uniqueRequestToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+            self.numberOfAdditionalAssignments = dictionary["NumberOfAdditionalAssignments"] as? Int32
+            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
+        }
     }
 
     public struct GetFileUploadURLRequest: AWSShape {
@@ -825,6 +1072,12 @@ extension MturkRequester {
             self.questionIdentifier = questionIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
+            self.assignmentId = assignmentId
+            guard let questionIdentifier = dictionary["QuestionIdentifier"] as? String else { throw InitializableError.missingRequiredParam("QuestionIdentifier") }
+            self.questionIdentifier = questionIdentifier
+        }
     }
 
     public struct ListQualificationRequestsResponse: AWSShape {
@@ -844,6 +1097,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let qualificationRequests = dictionary["QualificationRequests"] as? [[String: Any]] {
+                self.qualificationRequests = try qualificationRequests.map({ try QualificationRequest(dictionary: $0) })
+            }
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct ReviewReport: AWSShape {
@@ -861,6 +1121,14 @@ extension MturkRequester {
             self.reviewActions = reviewActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reviewResults = dictionary["ReviewResults"] as? [[String: Any]] {
+                self.reviewResults = try reviewResults.map({ try ReviewResultDetail(dictionary: $0) })
+            }
+            if let reviewActions = dictionary["ReviewActions"] as? [[String: Any]] {
+                self.reviewActions = try reviewActions.map({ try ReviewActionDetail(dictionary: $0) })
+            }
+        }
     }
 
     public struct RejectAssignmentResponse: AWSShape {
@@ -869,6 +1137,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetAssignmentResponse: AWSShape {
@@ -886,6 +1156,10 @@ extension MturkRequester {
             self.assignment = assignment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+            if let assignment = dictionary["Assignment"] as? [String: Any] { self.assignment = try MturkRequester.Assignment(dictionary: assignment) }
+        }
     }
 
     public struct QualificationRequirement: AWSShape {
@@ -912,6 +1186,19 @@ extension MturkRequester {
             self.localeValues = localeValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+            if let integerValues = dictionary["IntegerValues"] as? [Int32] {
+                self.integerValues = integerValues
+            }
+            self.requiredToPreview = dictionary["RequiredToPreview"] as? Bool
+            guard let comparator = dictionary["Comparator"] as? String else { throw InitializableError.missingRequiredParam("Comparator") }
+            self.comparator = comparator
+            if let localeValues = dictionary["LocaleValues"] as? [[String: Any]] {
+                self.localeValues = try localeValues.map({ try Locale(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetAccountBalanceRequest: AWSShape {
@@ -920,6 +1207,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Locale: AWSShape {
@@ -937,6 +1226,11 @@ extension MturkRequester {
             self.subdivision = subdivision
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let country = dictionary["Country"] as? String else { throw InitializableError.missingRequiredParam("Country") }
+            self.country = country
+            self.subdivision = dictionary["Subdivision"] as? String
+        }
     }
 
     public struct WorkerBlock: AWSShape {
@@ -954,6 +1248,10 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            self.workerId = dictionary["WorkerId"] as? String
+        }
     }
 
     public struct ListWorkersWithQualificationTypeResponse: AWSShape {
@@ -973,6 +1271,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let qualifications = dictionary["Qualifications"] as? [[String: Any]] {
+                self.qualifications = try qualifications.map({ try Qualification(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct ParameterMapEntry: AWSShape {
@@ -990,6 +1295,12 @@ extension MturkRequester {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct CreateHITWithHITTypeResponse: AWSShape {
@@ -1004,6 +1315,9 @@ extension MturkRequester {
             self.hIT = hIT
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+        }
     }
 
     public struct GetHITRequest: AWSShape {
@@ -1018,6 +1332,10 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+        }
     }
 
     public struct ListWorkersWithQualificationTypeRequest: AWSShape {
@@ -1041,6 +1359,13 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateQualificationTypeRequest: AWSShape {
@@ -1082,6 +1407,21 @@ extension MturkRequester {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
+            self.autoGranted = dictionary["AutoGranted"] as? Bool
+            self.test = dictionary["Test"] as? String
+            self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.keywords = dictionary["Keywords"] as? String
+            guard let qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeStatus") }
+            self.qualificationTypeStatus = qualificationTypeStatus
+            self.answerKey = dictionary["AnswerKey"] as? String
+            self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct CreateAdditionalAssignmentsForHITResponse: AWSShape {
@@ -1090,6 +1430,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListHITsForQualificationTypeRequest: AWSShape {
@@ -1110,6 +1452,12 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct RejectQualificationRequestRequest: AWSShape {
@@ -1127,6 +1475,11 @@ extension MturkRequester {
             self.qualificationRequestId = qualificationRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            guard let qualificationRequestId = dictionary["QualificationRequestId"] as? String else { throw InitializableError.missingRequiredParam("QualificationRequestId") }
+            self.qualificationRequestId = qualificationRequestId
+        }
     }
 
     public struct CreateHITTypeRequest: AWSShape {
@@ -1159,6 +1512,21 @@ extension MturkRequester {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
+            if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
+                self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
+            }
+            guard let assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("AssignmentDurationInSeconds") }
+            self.assignmentDurationInSeconds = assignmentDurationInSeconds
+            guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
+            self.title = title
+            guard let reward = dictionary["Reward"] as? String else { throw InitializableError.missingRequiredParam("Reward") }
+            self.reward = reward
+            self.keywords = dictionary["Keywords"] as? String
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct Assignment: AWSShape {
@@ -1206,6 +1574,20 @@ extension MturkRequester {
             self.answer = answer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoApprovalTime = dictionary["AutoApprovalTime"] as? Date
+            self.submitTime = dictionary["SubmitTime"] as? Date
+            self.hITId = dictionary["HITId"] as? String
+            self.deadline = dictionary["Deadline"] as? Date
+            self.assignmentStatus = dictionary["AssignmentStatus"] as? String
+            self.approvalTime = dictionary["ApprovalTime"] as? Date
+            self.requesterFeedback = dictionary["RequesterFeedback"] as? String
+            self.acceptTime = dictionary["AcceptTime"] as? Date
+            self.rejectionTime = dictionary["RejectionTime"] as? Date
+            self.assignmentId = dictionary["AssignmentId"] as? String
+            self.workerId = dictionary["WorkerId"] as? String
+            self.answer = dictionary["Answer"] as? String
+        }
     }
 
     public struct SendBonusRequest: AWSShape {
@@ -1232,6 +1614,16 @@ extension MturkRequester {
             self.bonusAmount = bonusAmount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
+            self.assignmentId = assignmentId
+            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
+            self.reason = dictionary["Reason"] as? String
+            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
+            self.workerId = workerId
+            guard let bonusAmount = dictionary["BonusAmount"] as? String else { throw InitializableError.missingRequiredParam("BonusAmount") }
+            self.bonusAmount = bonusAmount
+        }
     }
 
     public struct CreateWorkerBlockResponse: AWSShape {
@@ -1240,6 +1632,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateQualificationTypeResponse: AWSShape {
@@ -1254,6 +1648,9 @@ extension MturkRequester {
             self.qualificationType = qualificationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) }
+        }
     }
 
     public struct ListReviewPolicyResultsForHITResponse: AWSShape {
@@ -1282,6 +1679,14 @@ extension MturkRequester {
             self.assignmentReviewReport = assignmentReviewReport
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) }
+            if let hITReviewReport = dictionary["HITReviewReport"] as? [String: Any] { self.hITReviewReport = try MturkRequester.ReviewReport(dictionary: hITReviewReport) }
+            self.hITId = dictionary["HITId"] as? String
+            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) }
+            self.nextToken = dictionary["NextToken"] as? String
+            if let assignmentReviewReport = dictionary["AssignmentReviewReport"] as? [String: Any] { self.assignmentReviewReport = try MturkRequester.ReviewReport(dictionary: assignmentReviewReport) }
+        }
     }
 
     public struct ListBonusPaymentsResponse: AWSShape {
@@ -1301,6 +1706,13 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let bonusPayments = dictionary["BonusPayments"] as? [[String: Any]] {
+                self.bonusPayments = try bonusPayments.map({ try BonusPayment(dictionary: $0) })
+            }
+            self.numResults = dictionary["NumResults"] as? Int32
+        }
     }
 
     public struct ListBonusPaymentsRequest: AWSShape {
@@ -1323,6 +1735,12 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.assignmentId = dictionary["AssignmentId"] as? String
+            self.hITId = dictionary["HITId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct BonusPayment: AWSShape {
@@ -1348,6 +1766,13 @@ extension MturkRequester {
             self.bonusAmount = bonusAmount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.assignmentId = dictionary["AssignmentId"] as? String
+            self.reason = dictionary["Reason"] as? String
+            self.grantTime = dictionary["GrantTime"] as? Date
+            self.workerId = dictionary["WorkerId"] as? String
+            self.bonusAmount = dictionary["BonusAmount"] as? String
+        }
     }
 
     public struct CreateHITResponse: AWSShape {
@@ -1362,6 +1787,9 @@ extension MturkRequester {
             self.hIT = hIT
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+        }
     }
 
     public struct CreateHITWithHITTypeRequest: AWSShape {
@@ -1403,6 +1831,22 @@ extension MturkRequester {
             self.hITTypeId = hITTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxAssignments = dictionary["MaxAssignments"] as? Int32
+            self.hITLayoutId = dictionary["HITLayoutId"] as? String
+            if let hITLayoutParameters = dictionary["HITLayoutParameters"] as? [[String: Any]] {
+                self.hITLayoutParameters = try hITLayoutParameters.map({ try HITLayoutParameter(dictionary: $0) })
+            }
+            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) }
+            self.question = dictionary["Question"] as? String
+            self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
+            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) }
+            guard let lifetimeInSeconds = dictionary["LifetimeInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("LifetimeInSeconds") }
+            self.lifetimeInSeconds = lifetimeInSeconds
+            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
+            guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
+            self.hITTypeId = hITTypeId
+        }
     }
 
     public struct ReviewActionDetail: AWSShape {
@@ -1438,6 +1882,16 @@ extension MturkRequester {
             self.completeTime = completeTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.actionName = dictionary["ActionName"] as? String
+            self.actionId = dictionary["ActionId"] as? String
+            self.targetId = dictionary["TargetId"] as? String
+            self.targetType = dictionary["TargetType"] as? String
+            self.result = dictionary["Result"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.completeTime = dictionary["CompleteTime"] as? Date
+        }
     }
 
     public struct UpdateHITTypeOfHITRequest: AWSShape {
@@ -1455,6 +1909,12 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
+            self.hITTypeId = hITTypeId
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+        }
     }
 
     public struct ApproveAssignmentResponse: AWSShape {
@@ -1463,6 +1923,8 @@ extension MturkRequester {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct QualificationRequest: AWSShape {
@@ -1492,6 +1954,14 @@ extension MturkRequester {
             self.qualificationRequestId = qualificationRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.submitTime = dictionary["SubmitTime"] as? Date
+            self.workerId = dictionary["WorkerId"] as? String
+            self.answer = dictionary["Answer"] as? String
+            self.test = dictionary["Test"] as? String
+            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
+            self.qualificationRequestId = dictionary["QualificationRequestId"] as? String
+        }
     }
 
     public struct DisassociateQualificationFromWorkerRequest: AWSShape {
@@ -1512,6 +1982,13 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
+            self.workerId = workerId
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+        }
     }
 
     public struct UpdateQualificationTypeResponse: AWSShape {
@@ -1526,6 +2003,9 @@ extension MturkRequester {
             self.qualificationType = qualificationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) }
+        }
     }
 
     public struct ReviewResultDetail: AWSShape {
@@ -1555,6 +2035,14 @@ extension MturkRequester {
             self.questionId = questionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            self.subjectType = dictionary["SubjectType"] as? String
+            self.subjectId = dictionary["SubjectId"] as? String
+            self.actionId = dictionary["ActionId"] as? String
+            self.value = dictionary["Value"] as? String
+            self.questionId = dictionary["QuestionId"] as? String
+        }
     }
 
     public struct GetAssignmentRequest: AWSShape {
@@ -1569,6 +2057,10 @@ extension MturkRequester {
             self.assignmentId = assignmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
+            self.assignmentId = assignmentId
+        }
     }
 
     public struct ListHITsRequest: AWSShape {
@@ -1585,6 +2077,10 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct NotifyWorkersResponse: AWSShape {
@@ -1599,6 +2095,11 @@ extension MturkRequester {
             self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let notifyWorkersFailureStatuses = dictionary["NotifyWorkersFailureStatuses"] as? [[String: Any]] {
+                self.notifyWorkersFailureStatuses = try notifyWorkersFailureStatuses.map({ try NotifyWorkersFailureStatus(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetQualificationTypeResponse: AWSShape {
@@ -1613,6 +2114,9 @@ extension MturkRequester {
             self.qualificationType = qualificationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) }
+        }
     }
 
     public struct PolicyParameter: AWSShape {
@@ -1633,6 +2137,15 @@ extension MturkRequester {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let mapEntries = dictionary["MapEntries"] as? [[String: Any]] {
+                self.mapEntries = try mapEntries.map({ try ParameterMapEntry(dictionary: $0) })
+            }
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct DeleteWorkerBlockRequest: AWSShape {
@@ -1650,6 +2163,11 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["Reason"] as? String
+            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
+            self.workerId = workerId
+        }
     }
 
     public struct RejectAssignmentRequest: AWSShape {
@@ -1667,6 +2185,11 @@ extension MturkRequester {
             self.assignmentId = assignmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requesterFeedback = dictionary["RequesterFeedback"] as? String
+            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
+            self.assignmentId = assignmentId
+        }
     }
 
     public struct AcceptQualificationRequestRequest: AWSShape {
@@ -1684,6 +2207,11 @@ extension MturkRequester {
             self.qualificationRequestId = qualificationRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.integerValue = dictionary["IntegerValue"] as? Int32
+            guard let qualificationRequestId = dictionary["QualificationRequestId"] as? String else { throw InitializableError.missingRequiredParam("QualificationRequestId") }
+            self.qualificationRequestId = qualificationRequestId
+        }
     }
 
     public struct ListReviewableHITsRequest: AWSShape {
@@ -1707,6 +2235,12 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.hITTypeId = dictionary["HITTypeId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct SendTestEventNotificationRequest: AWSShape {
@@ -1724,6 +2258,12 @@ extension MturkRequester {
             self.testEventType = testEventType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
+            self.notification = try MturkRequester.NotificationSpecification(dictionary: notification)
+            guard let testEventType = dictionary["TestEventType"] as? String else { throw InitializableError.missingRequiredParam("TestEventType") }
+            self.testEventType = testEventType
+        }
     }
 
     public struct ApproveAssignmentRequest: AWSShape {
@@ -1744,6 +2284,12 @@ extension MturkRequester {
             self.overrideRejection = overrideRejection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requesterFeedback = dictionary["RequesterFeedback"] as? String
+            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
+            self.assignmentId = assignmentId
+            self.overrideRejection = dictionary["OverrideRejection"] as? Bool
+        }
     }
 
     public struct GetAccountBalanceResponse: AWSShape {
@@ -1759,6 +2305,10 @@ extension MturkRequester {
             self.availableBalance = availableBalance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.onHoldBalance = dictionary["OnHoldBalance"] as? String
+            self.availableBalance = dictionary["AvailableBalance"] as? String
+        }
     }
 
     public struct GetQualificationScoreRequest: AWSShape {
@@ -1776,6 +2326,12 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
+            self.workerId = workerId
+        }
     }
 
     public struct ListWorkerBlocksResponse: AWSShape {
@@ -1795,6 +2351,13 @@ extension MturkRequester {
             self.workerBlocks = workerBlocks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.numResults = dictionary["NumResults"] as? Int32
+            if let workerBlocks = dictionary["WorkerBlocks"] as? [[String: Any]] {
+                self.workerBlocks = try workerBlocks.map({ try WorkerBlock(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateNotificationSettingsRequest: AWSShape {
@@ -1815,6 +2378,12 @@ extension MturkRequester {
             self.active = active
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try MturkRequester.NotificationSpecification(dictionary: notification) }
+            guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
+            self.hITTypeId = hITTypeId
+            self.active = dictionary["Active"] as? Bool
+        }
     }
 
     public struct GetQualificationTypeRequest: AWSShape {
@@ -1829,6 +2398,10 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
+            self.qualificationTypeId = qualificationTypeId
+        }
     }
 
     public struct NotificationSpecification: AWSShape {
@@ -1852,6 +2425,16 @@ extension MturkRequester {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventTypes = dictionary["EventTypes"] as? [String] {
+                self.eventTypes = eventTypes
+            }
+            guard let destination = dictionary["Destination"] as? String else { throw InitializableError.missingRequiredParam("Destination") }
+            self.destination = destination
+            guard let transport = dictionary["Transport"] as? String else { throw InitializableError.missingRequiredParam("Transport") }
+            self.transport = transport
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct ListReviewPolicyResultsForHITRequest: AWSShape {
@@ -1881,6 +2464,17 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let policyLevels = dictionary["PolicyLevels"] as? [String] {
+                self.policyLevels = policyLevels
+            }
+            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
+            self.hITId = hITId
+            self.retrieveResults = dictionary["RetrieveResults"] as? Bool
+            self.retrieveActions = dictionary["RetrieveActions"] as? Bool
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
 }

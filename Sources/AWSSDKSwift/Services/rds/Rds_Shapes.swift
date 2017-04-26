@@ -53,6 +53,16 @@ extension Rds {
             self.dBParameterGroupName = dBParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.source = dictionary["Source"] as? String
+            self.marker = dictionary["Marker"] as? String
+            guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
+            self.dBParameterGroupName = dBParameterGroupName
+        }
     }
 
     public struct EventsMessage: AWSShape {
@@ -70,6 +80,12 @@ extension Rds {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try Event(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateDBSubnetGroupResult: AWSShape {
@@ -83,6 +99,9 @@ extension Rds {
             self.dBSubnetGroup = dBSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) }
+        }
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
@@ -103,6 +122,14 @@ extension Rds {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
+            guard let dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBClusterParameterGroupName") }
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        }
     }
 
     public struct DescribeEngineDefaultParametersResult: AWSShape {
@@ -116,6 +143,9 @@ extension Rds {
             self.engineDefaults = engineDefaults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Rds.EngineDefaults(dictionary: engineDefaults) }
+        }
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSShape {
@@ -129,6 +159,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct PromoteReadReplicaDBClusterMessage: AWSShape {
@@ -143,6 +176,10 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
     }
 
     public struct CopyOptionGroupMessage: AWSShape {
@@ -165,6 +202,17 @@ extension Rds {
             self.sourceOptionGroupIdentifier = sourceOptionGroupIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetOptionGroupDescription = dictionary["TargetOptionGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("TargetOptionGroupDescription") }
+            self.targetOptionGroupDescription = targetOptionGroupDescription
+            guard let targetOptionGroupIdentifier = dictionary["TargetOptionGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetOptionGroupIdentifier") }
+            self.targetOptionGroupIdentifier = targetOptionGroupIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let sourceOptionGroupIdentifier = dictionary["SourceOptionGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceOptionGroupIdentifier") }
+            self.sourceOptionGroupIdentifier = sourceOptionGroupIdentifier
+        }
     }
 
     public struct DBClusterMember: AWSShape {
@@ -188,6 +236,12 @@ extension Rds {
             self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
+            self.promotionTier = dictionary["PromotionTier"] as? Int32
+            self.isClusterWriter = dictionary["IsClusterWriter"] as? Bool
+            self.dBClusterParameterGroupStatus = dictionary["DBClusterParameterGroupStatus"] as? String
+        }
     }
 
     public struct OptionGroupOption: AWSShape {
@@ -238,6 +292,29 @@ extension Rds {
             self.engineName = engineName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.portRequired = dictionary["PortRequired"] as? Bool
+            if let optionsConflictsWith = dictionary["OptionsConflictsWith"] as? [String] {
+                self.optionsConflictsWith = optionsConflictsWith
+            }
+            self.minimumRequiredMinorEngineVersion = dictionary["MinimumRequiredMinorEngineVersion"] as? String
+            self.majorEngineVersion = dictionary["MajorEngineVersion"] as? String
+            self.persistent = dictionary["Persistent"] as? Bool
+            if let optionGroupOptionSettings = dictionary["OptionGroupOptionSettings"] as? [[String: Any]] {
+                self.optionGroupOptionSettings = try optionGroupOptionSettings.map({ try OptionGroupOptionSetting(dictionary: $0) })
+            }
+            self.permanent = dictionary["Permanent"] as? Bool
+            if let optionsDependedOn = dictionary["OptionsDependedOn"] as? [String] {
+                self.optionsDependedOn = optionsDependedOn
+            }
+            self.description = dictionary["Description"] as? String
+            if let optionGroupOptionVersions = dictionary["OptionGroupOptionVersions"] as? [[String: Any]] {
+                self.optionGroupOptionVersions = try optionGroupOptionVersions.map({ try OptionVersion(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.defaultPort = dictionary["DefaultPort"] as? Int32
+            self.engineName = dictionary["EngineName"] as? String
+        }
     }
 
     public struct CreateDBClusterParameterGroupMessage: AWSShape {
@@ -260,6 +337,17 @@ extension Rds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupFamily") }
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            guard let dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBClusterParameterGroupName") }
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct DBClusterMessage: AWSShape {
@@ -277,6 +365,12 @@ extension Rds {
             self.dBClusters = dBClusters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBClusters = dictionary["DBClusters"] as? [[String: Any]] {
+                self.dBClusters = try dBClusters.map({ try DBCluster(dictionary: $0) })
+            }
+        }
     }
 
     public struct Endpoint: AWSShape {
@@ -297,6 +391,11 @@ extension Rds {
             self.hostedZoneId = hostedZoneId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.address = dictionary["Address"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+        }
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSShape {
@@ -311,6 +410,10 @@ extension Rds {
             self.dBSubnetGroupName = dBSubnetGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSubnetGroupName") }
+            self.dBSubnetGroupName = dBSubnetGroupName
+        }
     }
 
     public struct DBClusterSnapshotMessage: AWSShape {
@@ -328,6 +431,12 @@ extension Rds {
             self.dBClusterSnapshots = dBClusterSnapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBClusterSnapshots = dictionary["DBClusterSnapshots"] as? [[String: Any]] {
+                self.dBClusterSnapshots = try dBClusterSnapshots.map({ try DBClusterSnapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyDBClusterResult: AWSShape {
@@ -341,6 +450,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
@@ -354,6 +466,9 @@ extension Rds {
             self.engineDefaults = engineDefaults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Rds.EngineDefaults(dictionary: engineDefaults) }
+        }
     }
 
     public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
@@ -367,6 +482,9 @@ extension Rds {
             self.reservedDBInstance = reservedDBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedDBInstance = dictionary["ReservedDBInstance"] as? [String: Any] { self.reservedDBInstance = try Rds.ReservedDBInstance(dictionary: reservedDBInstance) }
+        }
     }
 
     public struct FailoverDBClusterResult: AWSShape {
@@ -380,6 +498,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct CreateDBClusterSnapshotMessage: AWSShape {
@@ -400,6 +521,15 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterSnapshotIdentifier") }
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
     }
 
     public struct DBClusterSnapshotAttribute: AWSShape {
@@ -417,6 +547,12 @@ extension Rds {
             self.attributeValues = attributeValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? String
+            if let attributeValues = dictionary["AttributeValues"] as? [String] {
+                self.attributeValues = attributeValues
+            }
+        }
     }
 
     public struct DomainMembership: AWSShape {
@@ -440,6 +576,12 @@ extension Rds {
             self.domain = domain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.iAMRoleName = dictionary["IAMRoleName"] as? String
+            self.fQDN = dictionary["FQDN"] as? String
+            self.domain = dictionary["Domain"] as? String
+        }
     }
 
     public struct RebootDBInstanceResult: AWSShape {
@@ -453,6 +595,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct ModifyOptionGroupResult: AWSShape {
@@ -466,6 +611,9 @@ extension Rds {
             self.optionGroup = optionGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -483,6 +631,10 @@ extension Rds {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
@@ -500,6 +652,13 @@ extension Rds {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+        }
     }
 
     public struct FailoverDBClusterMessage: AWSShape {
@@ -517,6 +676,10 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetDBInstanceIdentifier = dictionary["TargetDBInstanceIdentifier"] as? String
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+        }
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
@@ -548,6 +711,23 @@ extension Rds {
             self.sourceIds = sourceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snsTopicArn = dictionary["SnsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("SnsTopicArn") }
+            self.snsTopicArn = snsTopicArn
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+            self.sourceType = dictionary["SourceType"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.enabled = dictionary["Enabled"] as? Bool
+            if let sourceIds = dictionary["SourceIds"] as? [String] {
+                self.sourceIds = sourceIds
+            }
+        }
     }
 
     public struct DescribeDBSnapshotAttributesResult: AWSShape {
@@ -561,6 +741,9 @@ extension Rds {
             self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshotAttributesResult = dictionary["DBSnapshotAttributesResult"] as? [String: Any] { self.dBSnapshotAttributesResult = try Rds.DBSnapshotAttributesResult(dictionary: dBSnapshotAttributesResult) }
+        }
     }
 
     public struct CopyDBSnapshotMessage: AWSShape {
@@ -589,6 +772,18 @@ extension Rds {
             self.preSignedUrl = preSignedUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.copyTags = dictionary["CopyTags"] as? Bool
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            guard let targetDBSnapshotIdentifier = dictionary["TargetDBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetDBSnapshotIdentifier") }
+            self.targetDBSnapshotIdentifier = targetDBSnapshotIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let sourceDBSnapshotIdentifier = dictionary["SourceDBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBSnapshotIdentifier") }
+            self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
+            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+        }
     }
 
     public struct EventCategoriesMessage: AWSShape {
@@ -603,6 +798,11 @@ extension Rds {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventCategoriesMapList = dictionary["EventCategoriesMapList"] as? [[String: Any]] {
+                self.eventCategoriesMapList = try eventCategoriesMapList.map({ try EventCategoriesMap(dictionary: $0) })
+            }
+        }
     }
 
     public struct DBClusterParameterGroupDetails: AWSShape {
@@ -620,6 +820,12 @@ extension Rds {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct RecurringCharge: AWSShape {
@@ -637,6 +843,10 @@ extension Rds {
             self.recurringChargeFrequency = recurringChargeFrequency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.recurringChargeAmount = dictionary["RecurringChargeAmount"] as? Double
+            self.recurringChargeFrequency = dictionary["RecurringChargeFrequency"] as? String
+        }
     }
 
     public struct ModifyDBInstanceResult: AWSShape {
@@ -650,6 +860,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct OptionGroupMembership: AWSShape {
@@ -667,6 +880,10 @@ extension Rds {
             self.optionGroupName = optionGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+        }
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSShape {
@@ -681,6 +898,10 @@ extension Rds {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterSnapshotIdentifier") }
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        }
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSShape {
@@ -694,6 +915,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct DescribeEventsMessage: AWSShape {
@@ -732,6 +956,21 @@ extension Rds {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.sourceType = dictionary["SourceType"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.endTime = dictionary["EndTime"] as? Date
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+        }
     }
 
     public struct CopyOptionGroupResult: AWSShape {
@@ -745,6 +984,9 @@ extension Rds {
             self.optionGroup = optionGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) }
+        }
     }
 
     public struct CreateDBInstanceReadReplicaResult: AWSShape {
@@ -758,6 +1000,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct Option: AWSShape {
@@ -796,6 +1041,23 @@ extension Rds {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try OptionSetting(dictionary: $0) })
+            }
+            self.optionDescription = dictionary["OptionDescription"] as? String
+            self.optionVersion = dictionary["OptionVersion"] as? String
+            if let vpcSecurityGroupMemberships = dictionary["VpcSecurityGroupMemberships"] as? [[String: Any]] {
+                self.vpcSecurityGroupMemberships = try vpcSecurityGroupMemberships.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            }
+            if let dBSecurityGroupMemberships = dictionary["DBSecurityGroupMemberships"] as? [[String: Any]] {
+                self.dBSecurityGroupMemberships = try dBSecurityGroupMemberships.map({ try DBSecurityGroupMembership(dictionary: $0) })
+            }
+            self.persistent = dictionary["Persistent"] as? Bool
+            self.permanent = dictionary["Permanent"] as? Bool
+            self.optionName = dictionary["OptionName"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
@@ -813,6 +1075,12 @@ extension Rds {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct OptionGroup: AWSShape {
@@ -848,6 +1116,18 @@ extension Rds {
             self.optionGroupDescription = optionGroupDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let options = dictionary["Options"] as? [[String: Any]] {
+                self.options = try options.map({ try Option(dictionary: $0) })
+            }
+            self.allowsVpcAndNonVpcInstanceMemberships = dictionary["AllowsVpcAndNonVpcInstanceMemberships"] as? Bool
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.optionGroupArn = dictionary["OptionGroupArn"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.majorEngineVersion = dictionary["MajorEngineVersion"] as? String
+            self.engineName = dictionary["EngineName"] as? String
+            self.optionGroupDescription = dictionary["OptionGroupDescription"] as? String
+        }
     }
 
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
@@ -921,6 +1201,33 @@ extension Rds {
             self.dBInstanceClass = dBInstanceClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.port = dictionary["Port"] as? Int32
+            self.domain = dictionary["Domain"] as? String
+            self.dBName = dictionary["DBName"] as? String
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.storageType = dictionary["StorageType"] as? String
+            self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
+            self.engine = dictionary["Engine"] as? String
+            self.domainIAMRoleName = dictionary["DomainIAMRoleName"] as? String
+            guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+        }
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
@@ -938,6 +1245,12 @@ extension Rds {
             self.orderableDBInstanceOptions = orderableDBInstanceOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let orderableDBInstanceOptions = dictionary["OrderableDBInstanceOptions"] as? [[String: Any]] {
+                self.orderableDBInstanceOptions = try orderableDBInstanceOptions.map({ try OrderableDBInstanceOption(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
@@ -973,6 +1286,18 @@ extension Rds {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.includePublic = dictionary["IncludePublic"] as? Bool
+            self.snapshotType = dictionary["SnapshotType"] as? String
+            self.includeShared = dictionary["IncludeShared"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String
+        }
     }
 
     public struct DBClusterSnapshot: AWSShape {
@@ -1038,6 +1363,28 @@ extension Rds {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.snapshotType = dictionary["SnapshotType"] as? String
+            self.dBClusterSnapshotArn = dictionary["DBClusterSnapshotArn"] as? String
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.percentProgress = dictionary["PercentProgress"] as? Int32
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
+            self.dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct PromoteReadReplicaDBClusterResult: AWSShape {
@@ -1051,6 +1398,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct ModifyDBSubnetGroupResult: AWSShape {
@@ -1064,6 +1414,9 @@ extension Rds {
             self.dBSubnetGroup = dBSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) }
+        }
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
@@ -1078,6 +1431,10 @@ extension Rds {
             self.subscriptionName = subscriptionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+        }
     }
 
     public struct DeleteDBSnapshotMessage: AWSShape {
@@ -1092,6 +1449,10 @@ extension Rds {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+        }
     }
 
     public struct DBInstanceStatusInfo: AWSShape {
@@ -1115,6 +1476,12 @@ extension Rds {
             self.normal = normal
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.message = dictionary["Message"] as? String
+            self.statusType = dictionary["StatusType"] as? String
+            self.normal = dictionary["Normal"] as? Bool
+        }
     }
 
     public struct ReservedDBInstancesOfferingMessage: AWSShape {
@@ -1132,6 +1499,12 @@ extension Rds {
             self.reservedDBInstancesOfferings = reservedDBInstancesOfferings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let reservedDBInstancesOfferings = dictionary["ReservedDBInstancesOfferings"] as? [[String: Any]] {
+                self.reservedDBInstancesOfferings = try reservedDBInstancesOfferings.map({ try ReservedDBInstancesOffering(dictionary: $0) })
+            }
+        }
     }
 
     public struct Subnet: AWSShape {
@@ -1151,6 +1524,11 @@ extension Rds {
             self.subnetStatus = subnetStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
+            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Rds.AvailabilityZone(dictionary: subnetAvailabilityZone) }
+            self.subnetStatus = dictionary["SubnetStatus"] as? String
+        }
     }
 
     public struct EC2SecurityGroup: AWSShape {
@@ -1174,6 +1552,12 @@ extension Rds {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.eC2SecurityGroupId = dictionary["EC2SecurityGroupId"] as? String
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+        }
     }
 
     public struct Parameter: AWSShape {
@@ -1215,6 +1599,18 @@ extension Rds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterValue = dictionary["ParameterValue"] as? String
+            self.allowedValues = dictionary["AllowedValues"] as? String
+            self.dataType = dictionary["DataType"] as? String
+            self.parameterName = dictionary["ParameterName"] as? String
+            self.applyType = dictionary["ApplyType"] as? String
+            self.source = dictionary["Source"] as? String
+            self.isModifiable = dictionary["IsModifiable"] as? Bool
+            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
+            self.applyMethod = dictionary["ApplyMethod"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ResetDBParameterGroupMessage: AWSShape {
@@ -1235,6 +1631,14 @@ extension Rds {
             self.resetAllParameters = resetAllParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
+            self.dBParameterGroupName = dBParameterGroupName
+            self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
+        }
     }
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
@@ -1258,6 +1662,15 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupFamily") }
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DBEngineVersion: AWSShape {
@@ -1296,6 +1709,23 @@ extension Rds {
             self.dBEngineVersionDescription = dBEngineVersionDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            if let supportedCharacterSets = dictionary["SupportedCharacterSets"] as? [[String: Any]] {
+                self.supportedCharacterSets = try supportedCharacterSets.map({ try CharacterSet(dictionary: $0) })
+            }
+            if let defaultCharacterSet = dictionary["DefaultCharacterSet"] as? [String: Any] { self.defaultCharacterSet = try Rds.CharacterSet(dictionary: defaultCharacterSet) }
+            self.engine = dictionary["Engine"] as? String
+            if let supportedTimezones = dictionary["SupportedTimezones"] as? [[String: Any]] {
+                self.supportedTimezones = try supportedTimezones.map({ try Timezone(dictionary: $0) })
+            }
+            self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
+            if let validUpgradeTarget = dictionary["ValidUpgradeTarget"] as? [[String: Any]] {
+                self.validUpgradeTarget = try validUpgradeTarget.map({ try UpgradeTarget(dictionary: $0) })
+            }
+            self.dBEngineDescription = dictionary["DBEngineDescription"] as? String
+            self.dBEngineVersionDescription = dictionary["DBEngineVersionDescription"] as? String
+        }
     }
 
     public struct DescribeDBLogFilesMessage: AWSShape {
@@ -1328,6 +1758,18 @@ extension Rds {
             self.filenameContains = filenameContains
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.fileSize = dictionary["FileSize"] as? Int64
+            self.marker = dictionary["Marker"] as? String
+            self.fileLastWritten = dictionary["FileLastWritten"] as? Int64
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.filenameContains = dictionary["FilenameContains"] as? String
+        }
     }
 
     public struct AccountQuota: AWSShape {
@@ -1348,6 +1790,11 @@ extension Rds {
             self.accountQuotaName = accountQuotaName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.max = dictionary["Max"] as? Int64
+            self.used = dictionary["Used"] as? Int64
+            self.accountQuotaName = dictionary["AccountQuotaName"] as? String
+        }
     }
 
     public struct DescribeDBEngineVersionsMessage: AWSShape {
@@ -1386,6 +1833,19 @@ extension Rds {
             self.listSupportedCharacterSets = listSupportedCharacterSets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.defaultOnly = dictionary["DefaultOnly"] as? Bool
+            self.listSupportedTimezones = dictionary["ListSupportedTimezones"] as? Bool
+            self.engine = dictionary["Engine"] as? String
+            self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.listSupportedCharacterSets = dictionary["ListSupportedCharacterSets"] as? Bool
+        }
     }
 
     public struct DescribeDBLogFilesResponse: AWSShape {
@@ -1403,6 +1863,12 @@ extension Rds {
             self.describeDBLogFiles = describeDBLogFiles
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let describeDBLogFiles = dictionary["DescribeDBLogFiles"] as? [[String: Any]] {
+                self.describeDBLogFiles = try describeDBLogFiles.map({ try DescribeDBLogFilesDetails(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
@@ -1426,6 +1892,14 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceIdentifier = dictionary["ResourceIdentifier"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct Event: AWSShape {
@@ -1455,6 +1929,16 @@ extension Rds {
             self.sourceArn = sourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceType = dictionary["SourceType"] as? String
+            self.message = dictionary["Message"] as? String
+            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
+            self.date = dictionary["Date"] as? Date
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.sourceArn = dictionary["SourceArn"] as? String
+        }
     }
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
@@ -1469,6 +1953,10 @@ extension Rds {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterSnapshotIdentifier") }
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        }
     }
 
     public struct DBSecurityGroup: AWSShape {
@@ -1501,6 +1989,19 @@ extension Rds {
             self.dBSecurityGroupName = dBSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBSecurityGroupDescription = dictionary["DBSecurityGroupDescription"] as? String
+            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [[String: Any]] {
+                self.eC2SecurityGroups = try eC2SecurityGroups.map({ try EC2SecurityGroup(dictionary: $0) })
+            }
+            self.dBSecurityGroupArn = dictionary["DBSecurityGroupArn"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            if let iPRanges = dictionary["IPRanges"] as? [[String: Any]] {
+                self.iPRanges = try iPRanges.map({ try IPRange(dictionary: $0) })
+            }
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String
+        }
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
@@ -1524,6 +2025,14 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.subscriptionName = dictionary["SubscriptionName"] as? String
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct PromoteReadReplicaMessage: AWSShape {
@@ -1544,6 +2053,12 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
     }
 
     public struct EventCategoriesMap: AWSShape {
@@ -1561,6 +2076,12 @@ extension Rds {
             self.eventCategories = eventCategories
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceType = dictionary["SourceType"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+        }
     }
 
     public struct DescribeDBParameterGroupsMessage: AWSShape {
@@ -1584,6 +2105,14 @@ extension Rds {
             self.dBParameterGroupName = dBParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
+        }
     }
 
     public struct CopyDBSnapshotResult: AWSShape {
@@ -1597,6 +2126,9 @@ extension Rds {
             self.dBSnapshot = dBSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+        }
     }
 
     public struct ModifyEventSubscriptionResult: AWSShape {
@@ -1610,6 +2142,9 @@ extension Rds {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct ModifyOptionGroupMessage: AWSShape {
@@ -1633,6 +2168,17 @@ extension Rds {
             self.applyImmediately = applyImmediately
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let optionGroupName = dictionary["OptionGroupName"] as? String else { throw InitializableError.missingRequiredParam("OptionGroupName") }
+            self.optionGroupName = optionGroupName
+            if let optionsToInclude = dictionary["OptionsToInclude"] as? [[String: Any]] {
+                self.optionsToInclude = try optionsToInclude.map({ try OptionConfiguration(dictionary: $0) })
+            }
+            if let optionsToRemove = dictionary["OptionsToRemove"] as? [String] {
+                self.optionsToRemove = optionsToRemove
+            }
+            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
+        }
     }
 
     public struct DBParameterGroupStatus: AWSShape {
@@ -1650,6 +2196,10 @@ extension Rds {
             self.parameterApplyStatus = parameterApplyStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
+            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
+        }
     }
 
     public struct DBClusterParameterGroupsMessage: AWSShape {
@@ -1667,6 +2217,12 @@ extension Rds {
             self.dBClusterParameterGroups = dBClusterParameterGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBClusterParameterGroups = dictionary["DBClusterParameterGroups"] as? [[String: Any]] {
+                self.dBClusterParameterGroups = try dBClusterParameterGroups.map({ try DBClusterParameterGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct OptionGroups: AWSShape {
@@ -1684,6 +2240,12 @@ extension Rds {
             self.optionGroupsList = optionGroupsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let optionGroupsList = dictionary["OptionGroupsList"] as? [[String: Any]] {
+                self.optionGroupsList = try optionGroupsList.map({ try OptionGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateDBSubnetGroupMessage: AWSShape {
@@ -1706,6 +2268,17 @@ extension Rds {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let dBSubnetGroupDescription = dictionary["DBSubnetGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("DBSubnetGroupDescription") }
+            self.dBSubnetGroupDescription = dBSubnetGroupDescription
+            guard let dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSubnetGroupName") }
+            self.dBSubnetGroupName = dBSubnetGroupName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateOptionGroupResult: AWSShape {
@@ -1719,6 +2292,9 @@ extension Rds {
             self.optionGroup = optionGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) }
+        }
     }
 
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
@@ -1741,6 +2317,17 @@ extension Rds {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sourceDBClusterParameterGroupIdentifier = dictionary["SourceDBClusterParameterGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBClusterParameterGroupIdentifier") }
+            self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
+            guard let targetDBClusterParameterGroupDescription = dictionary["TargetDBClusterParameterGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("TargetDBClusterParameterGroupDescription") }
+            self.targetDBClusterParameterGroupDescription = targetDBClusterParameterGroupDescription
+            guard let targetDBClusterParameterGroupIdentifier = dictionary["TargetDBClusterParameterGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetDBClusterParameterGroupIdentifier") }
+            self.targetDBClusterParameterGroupIdentifier = targetDBClusterParameterGroupIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
@@ -1754,6 +2341,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct CreateDBParameterGroupResult: AWSShape {
@@ -1767,6 +2357,9 @@ extension Rds {
             self.dBParameterGroup = dBParameterGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBParameterGroup = dictionary["DBParameterGroup"] as? [String: Any] { self.dBParameterGroup = try Rds.DBParameterGroup(dictionary: dBParameterGroup) }
+        }
     }
 
     public struct OptionSetting: AWSShape {
@@ -1805,6 +2398,17 @@ extension Rds {
             self.isCollection = isCollection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.allowedValues = dictionary["AllowedValues"] as? String
+            self.dataType = dictionary["DataType"] as? String
+            self.name = dictionary["Name"] as? String
+            self.applyType = dictionary["ApplyType"] as? String
+            self.isModifiable = dictionary["IsModifiable"] as? Bool
+            self.value = dictionary["Value"] as? String
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.isCollection = dictionary["IsCollection"] as? Bool
+        }
     }
 
     public struct ModifyDBSubnetGroupMessage: AWSShape {
@@ -1825,6 +2429,13 @@ extension Rds {
             self.dBSubnetGroupName = dBSubnetGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            self.dBSubnetGroupDescription = dictionary["DBSubnetGroupDescription"] as? String
+            guard let dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSubnetGroupName") }
+            self.dBSubnetGroupName = dBSubnetGroupName
+        }
     }
 
     public struct DownloadDBLogFilePortionDetails: AWSShape {
@@ -1845,6 +2456,11 @@ extension Rds {
             self.logFileData = logFileData
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.additionalDataPending = dictionary["AdditionalDataPending"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.logFileData = dictionary["LogFileData"] as? String
+        }
     }
 
     public struct DBSnapshotAttribute: AWSShape {
@@ -1862,6 +2478,12 @@ extension Rds {
             self.attributeValues = attributeValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? String
+            if let attributeValues = dictionary["AttributeValues"] as? [String] {
+                self.attributeValues = attributeValues
+            }
+        }
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
@@ -1875,6 +2497,9 @@ extension Rds {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct DeleteOptionGroupMessage: AWSShape {
@@ -1889,6 +2514,10 @@ extension Rds {
             self.optionGroupName = optionGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let optionGroupName = dictionary["OptionGroupName"] as? String else { throw InitializableError.missingRequiredParam("OptionGroupName") }
+            self.optionGroupName = optionGroupName
+        }
     }
 
     public struct DeleteDBClusterResult: AWSShape {
@@ -1902,6 +2531,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
@@ -1919,6 +2551,12 @@ extension Rds {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+        }
     }
 
     public struct PendingMaintenanceAction: AWSShape {
@@ -1948,6 +2586,14 @@ extension Rds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoAppliedAfterDate = dictionary["AutoAppliedAfterDate"] as? Date
+            self.optInStatus = dictionary["OptInStatus"] as? String
+            self.action = dictionary["Action"] as? String
+            self.forcedApplyDate = dictionary["ForcedApplyDate"] as? Date
+            self.currentApplyDate = dictionary["CurrentApplyDate"] as? Date
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteDBSnapshotResult: AWSShape {
@@ -1961,6 +2607,9 @@ extension Rds {
             self.dBSnapshot = dBSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+        }
     }
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
@@ -1984,6 +2633,18 @@ extension Rds {
             self.valuesToRemove = valuesToRemove
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            if let valuesToAdd = dictionary["ValuesToAdd"] as? [String] {
+                self.valuesToAdd = valuesToAdd
+            }
+            guard let dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterSnapshotIdentifier") }
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            if let valuesToRemove = dictionary["ValuesToRemove"] as? [String] {
+                self.valuesToRemove = valuesToRemove
+            }
+        }
     }
 
     public struct EventSubscriptionsMessage: AWSShape {
@@ -2001,6 +2662,12 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [[String: Any]] {
+                self.eventSubscriptionsList = try eventSubscriptionsList.map({ try EventSubscription(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DBClusterParameterGroupNameMessage: AWSShape {
@@ -2015,6 +2682,9 @@ extension Rds {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
+        }
     }
 
     public struct ModifyDBSnapshotMessage: AWSShape {
@@ -2032,6 +2702,11 @@ extension Rds {
             self.engineVersion = engineVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+            self.engineVersion = dictionary["EngineVersion"] as? String
+        }
     }
 
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
@@ -2049,6 +2724,12 @@ extension Rds {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parameters = dictionary["Parameters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Parameters") }
+            self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            guard let dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBClusterParameterGroupName") }
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        }
     }
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
@@ -2066,6 +2747,12 @@ extension Rds {
             self.subscriptionName = subscriptionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sourceIdentifier = dictionary["SourceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceIdentifier") }
+            self.sourceIdentifier = sourceIdentifier
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+        }
     }
 
     public struct DescribeOptionGroupsMessage: AWSShape {
@@ -2095,6 +2782,16 @@ extension Rds {
             self.majorEngineVersion = majorEngineVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.engineName = dictionary["EngineName"] as? String
+            self.majorEngineVersion = dictionary["MajorEngineVersion"] as? String
+        }
     }
 
     public struct CreateEventSubscriptionResult: AWSShape {
@@ -2108,6 +2805,9 @@ extension Rds {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct DBParameterGroupDetails: AWSShape {
@@ -2125,6 +2825,12 @@ extension Rds {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
@@ -2142,6 +2848,10 @@ extension Rds {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? String
+        }
     }
 
     public struct PendingMaintenanceActionsMessage: AWSShape {
@@ -2159,6 +2869,12 @@ extension Rds {
             self.pendingMaintenanceActions = pendingMaintenanceActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let pendingMaintenanceActions = dictionary["PendingMaintenanceActions"] as? [[String: Any]] {
+                self.pendingMaintenanceActions = try pendingMaintenanceActions.map({ try ResourcePendingMaintenanceActions(dictionary: $0) })
+            }
+        }
     }
 
     public struct CopyDBClusterSnapshotResult: AWSShape {
@@ -2172,6 +2888,9 @@ extension Rds {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) }
+        }
     }
 
     public struct DBInstanceMessage: AWSShape {
@@ -2189,6 +2908,12 @@ extension Rds {
             self.dBInstances = dBInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBInstances = dictionary["DBInstances"] as? [[String: Any]] {
+                self.dBInstances = try dBInstances.map({ try DBInstance(dictionary: $0) })
+            }
+        }
     }
 
     public struct PromoteReadReplicaResult: AWSShape {
@@ -2202,6 +2927,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
@@ -2225,6 +2953,15 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupFamily") }
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DescribeReservedDBInstancesMessage: AWSShape {
@@ -2266,6 +3003,20 @@ extension Rds {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.reservedDBInstanceId = dictionary["ReservedDBInstanceId"] as? String
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct DeleteDBInstanceResult: AWSShape {
@@ -2279,6 +3030,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct OrderableDBInstanceOption: AWSShape {
@@ -2326,6 +3080,22 @@ extension Rds {
             self.supportsStorageEncryption = supportsStorageEncryption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.supportsIops = dictionary["SupportsIops"] as? Bool
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            }
+            self.multiAZCapable = dictionary["MultiAZCapable"] as? Bool
+            self.readReplicaCapable = dictionary["ReadReplicaCapable"] as? Bool
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.supportsEnhancedMonitoring = dictionary["SupportsEnhancedMonitoring"] as? Bool
+            self.storageType = dictionary["StorageType"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.vpc = dictionary["Vpc"] as? Bool
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.supportsStorageEncryption = dictionary["SupportsStorageEncryption"] as? Bool
+        }
     }
 
     public struct EngineDefaults: AWSShape {
@@ -2346,6 +3116,13 @@ extension Rds {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
+            self.marker = dictionary["Marker"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct CopyDBParameterGroupMessage: AWSShape {
@@ -2368,6 +3145,17 @@ extension Rds {
             self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetDBParameterGroupIdentifier = dictionary["TargetDBParameterGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetDBParameterGroupIdentifier") }
+            self.targetDBParameterGroupIdentifier = targetDBParameterGroupIdentifier
+            guard let sourceDBParameterGroupIdentifier = dictionary["SourceDBParameterGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBParameterGroupIdentifier") }
+            self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let targetDBParameterGroupDescription = dictionary["TargetDBParameterGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("TargetDBParameterGroupDescription") }
+            self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
+        }
     }
 
     public struct DeleteDBClusterMessage: AWSShape {
@@ -2388,6 +3176,12 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.finalDBSnapshotIdentifier = dictionary["FinalDBSnapshotIdentifier"] as? String
+            self.skipFinalSnapshot = dictionary["SkipFinalSnapshot"] as? Bool
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
     }
 
     public struct CreateDBInstanceReadReplicaMessage: AWSShape {
@@ -2449,6 +3243,29 @@ extension Rds {
             self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.storageType = dictionary["StorageType"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.monitoringRoleArn = dictionary["MonitoringRoleArn"] as? String
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
+            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+            self.monitoringInterval = dictionary["MonitoringInterval"] as? Int32
+            self.port = dictionary["Port"] as? Int32
+            guard let sourceDBInstanceIdentifier = dictionary["SourceDBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBInstanceIdentifier") }
+            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
+        }
     }
 
     public struct DescribeDBClustersMessage: AWSShape {
@@ -2472,6 +3289,14 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct OptionGroupOptionsMessage: AWSShape {
@@ -2488,6 +3313,12 @@ extension Rds {
             self.optionGroupOptions = optionGroupOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let optionGroupOptions = dictionary["OptionGroupOptions"] as? [[String: Any]] {
+                self.optionGroupOptions = try optionGroupOptions.map({ try OptionGroupOption(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteEventSubscriptionResult: AWSShape {
@@ -2501,6 +3332,9 @@ extension Rds {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct CreateDBParameterGroupMessage: AWSShape {
@@ -2523,6 +3357,17 @@ extension Rds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupFamily") }
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
+            self.dBParameterGroupName = dBParameterGroupName
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct CreateDBSecurityGroupResult: AWSShape {
@@ -2536,6 +3381,9 @@ extension Rds {
             self.dBSecurityGroup = dBSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) }
+        }
     }
 
     public struct CopyDBParameterGroupResult: AWSShape {
@@ -2549,6 +3397,9 @@ extension Rds {
             self.dBParameterGroup = dBParameterGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBParameterGroup = dictionary["DBParameterGroup"] as? [String: Any] { self.dBParameterGroup = try Rds.DBParameterGroup(dictionary: dBParameterGroup) }
+        }
     }
 
     public struct EventSubscription: AWSShape {
@@ -2590,6 +3441,22 @@ extension Rds {
             self.subscriptionCreationTime = subscriptionCreationTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
+            if let sourceIdsList = dictionary["SourceIdsList"] as? [String] {
+                self.sourceIdsList = sourceIdsList
+            }
+            self.sourceType = dictionary["SourceType"] as? String
+            self.custSubscriptionId = dictionary["CustSubscriptionId"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.eventSubscriptionArn = dictionary["EventSubscriptionArn"] as? String
+            self.customerAwsId = dictionary["CustomerAwsId"] as? String
+            if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String] {
+                self.eventCategoriesList = eventCategoriesList
+            }
+            self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? String
+        }
     }
 
     public struct AccountAttributesMessage: AWSShape {
@@ -2604,6 +3471,11 @@ extension Rds {
             self.accountQuotas = accountQuotas
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accountQuotas = dictionary["AccountQuotas"] as? [[String: Any]] {
+                self.accountQuotas = try accountQuotas.map({ try AccountQuota(dictionary: $0) })
+            }
+        }
     }
 
     public struct DBClusterRole: AWSShape {
@@ -2621,6 +3493,10 @@ extension Rds {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct CreateDBInstanceMessage: AWSShape {
@@ -2745,6 +3621,55 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBName = dictionary["DBName"] as? String
+            self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+            if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [String] {
+                self.dBSecurityGroups = dBSecurityGroups
+            }
+            self.characterSetName = dictionary["CharacterSetName"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.promotionTier = dictionary["PromotionTier"] as? Int32
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.domainIAMRoleName = dictionary["DomainIAMRoleName"] as? String
+            self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
+            guard let dBInstanceClass = dictionary["DBInstanceClass"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceClass") }
+            self.dBInstanceClass = dBInstanceClass
+            self.domain = dictionary["Domain"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.timezone = dictionary["Timezone"] as? String
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.storageType = dictionary["StorageType"] as? String
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
+            self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.monitoringRoleArn = dictionary["MonitoringRoleArn"] as? String
+            guard let engine = dictionary["Engine"] as? String else { throw InitializableError.missingRequiredParam("Engine") }
+            self.engine = engine
+            self.monitoringInterval = dictionary["MonitoringInterval"] as? Int32
+            self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
@@ -2765,6 +3690,14 @@ extension Rds {
             self.applyAction = applyAction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceIdentifier = dictionary["ResourceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ResourceIdentifier") }
+            self.resourceIdentifier = resourceIdentifier
+            guard let optInType = dictionary["OptInType"] as? String else { throw InitializableError.missingRequiredParam("OptInType") }
+            self.optInType = optInType
+            guard let applyAction = dictionary["ApplyAction"] as? String else { throw InitializableError.missingRequiredParam("ApplyAction") }
+            self.applyAction = applyAction
+        }
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSShape {
@@ -2778,6 +3711,9 @@ extension Rds {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? [String: Any] { self.dBClusterParameterGroup = try Rds.DBClusterParameterGroup(dictionary: dBClusterParameterGroup) }
+        }
     }
 
     public struct ModifyDBSnapshotAttributeMessage: AWSShape {
@@ -2801,6 +3737,18 @@ extension Rds {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            if let valuesToAdd = dictionary["ValuesToAdd"] as? [String] {
+                self.valuesToAdd = valuesToAdd
+            }
+            if let valuesToRemove = dictionary["ValuesToRemove"] as? [String] {
+                self.valuesToRemove = valuesToRemove
+            }
+            guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+        }
     }
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
@@ -2841,6 +3789,24 @@ extension Rds {
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.restoreToTime = dictionary["RestoreToTime"] as? Date
+            self.useLatestRestorableTime = dictionary["UseLatestRestorableTime"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+            guard let sourceDBClusterIdentifier = dictionary["SourceDBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBClusterIdentifier") }
+            self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+        }
     }
 
     public struct DBCluster: AWSShape {
@@ -2951,6 +3917,53 @@ extension Rds {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBClusterArn = dictionary["DBClusterArn"] as? String
+            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
+                self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            }
+            if let readReplicaIdentifiers = dictionary["ReadReplicaIdentifiers"] as? [String] {
+                self.readReplicaIdentifiers = readReplicaIdentifiers
+            }
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+            self.characterSetName = dictionary["CharacterSetName"] as? String
+            self.status = dictionary["Status"] as? String
+            self.latestRestorableTime = dictionary["LatestRestorableTime"] as? Date
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? String
+            self.replicationSourceIdentifier = dictionary["ReplicationSourceIdentifier"] as? String
+            self.percentProgress = dictionary["PercentProgress"] as? String
+            self.readerEndpoint = dictionary["ReaderEndpoint"] as? String
+            self.dbClusterResourceId = dictionary["DbClusterResourceId"] as? String
+            self.endpoint = dictionary["Endpoint"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            if let dBClusterOptionGroupMemberships = dictionary["DBClusterOptionGroupMemberships"] as? [[String: Any]] {
+                self.dBClusterOptionGroupMemberships = try dBClusterOptionGroupMemberships.map({ try DBClusterOptionGroupStatus(dictionary: $0) })
+            }
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            if let dBClusterMembers = dictionary["DBClusterMembers"] as? [[String: Any]] {
+                self.dBClusterMembers = try dBClusterMembers.map({ try DBClusterMember(dictionary: $0) })
+            }
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.earliestRestorableTime = dictionary["EarliestRestorableTime"] as? Date
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.dBSubnetGroup = dictionary["DBSubnetGroup"] as? String
+            self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
+            if let associatedRoles = dictionary["AssociatedRoles"] as? [[String: Any]] {
+                self.associatedRoles = try associatedRoles.map({ try DBClusterRole(dictionary: $0) })
+            }
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
@@ -2968,6 +3981,12 @@ extension Rds {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceType = dictionary["SourceType"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateDBClusterSnapshotResult: AWSShape {
@@ -2981,6 +4000,9 @@ extension Rds {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) }
+        }
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
@@ -2994,6 +4016,9 @@ extension Rds {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterSnapshotAttributesResult = dictionary["DBClusterSnapshotAttributesResult"] as? [String: Any] { self.dBClusterSnapshotAttributesResult = try Rds.DBClusterSnapshotAttributesResult(dictionary: dBClusterSnapshotAttributesResult) }
+        }
     }
 
     public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
@@ -3007,6 +4032,9 @@ extension Rds {
             self.dBSecurityGroup = dBSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) }
+        }
     }
 
     public struct ReservedDBInstanceMessage: AWSShape {
@@ -3024,6 +4052,12 @@ extension Rds {
             self.reservedDBInstances = reservedDBInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let reservedDBInstances = dictionary["ReservedDBInstances"] as? [[String: Any]] {
+                self.reservedDBInstances = try reservedDBInstances.map({ try ReservedDBInstance(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeDBClusterParametersMessage: AWSShape {
@@ -3050,6 +4084,16 @@ extension Rds {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.source = dictionary["Source"] as? String
+            self.marker = dictionary["Marker"] as? String
+            guard let dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBClusterParameterGroupName") }
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        }
     }
 
     public struct DeleteDBParameterGroupMessage: AWSShape {
@@ -3064,6 +4108,10 @@ extension Rds {
             self.dBParameterGroupName = dBParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
+            self.dBParameterGroupName = dBParameterGroupName
+        }
     }
 
     public struct DBSecurityGroupMembership: AWSShape {
@@ -3081,6 +4129,10 @@ extension Rds {
             self.dBSecurityGroupName = dBSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String
+        }
     }
 
     public struct OptionVersion: AWSShape {
@@ -3098,6 +4150,10 @@ extension Rds {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isDefault = dictionary["IsDefault"] as? Bool
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct DBClusterParameterGroup: AWSShape {
@@ -3121,6 +4177,12 @@ extension Rds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
+            self.dBClusterParameterGroupArn = dictionary["DBClusterParameterGroupArn"] as? String
+            self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateDBSecurityGroupMessage: AWSShape {
@@ -3140,6 +4202,15 @@ extension Rds {
             self.dBSecurityGroupName = dBSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let dBSecurityGroupDescription = dictionary["DBSecurityGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("DBSecurityGroupDescription") }
+            self.dBSecurityGroupDescription = dBSecurityGroupDescription
+            guard let dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSecurityGroupName") }
+            self.dBSecurityGroupName = dBSecurityGroupName
+        }
     }
 
     public struct OptionGroupOptionSetting: AWSShape {
@@ -3169,6 +4240,14 @@ extension Rds {
             self.settingDescription = settingDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.settingName = dictionary["SettingName"] as? String
+            self.allowedValues = dictionary["AllowedValues"] as? String
+            self.isModifiable = dictionary["IsModifiable"] as? Bool
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.applyType = dictionary["ApplyType"] as? String
+            self.settingDescription = dictionary["SettingDescription"] as? String
+        }
     }
 
     public struct CreateDBClusterResult: AWSShape {
@@ -3182,6 +4261,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct DeleteDBInstanceMessage: AWSShape {
@@ -3202,6 +4284,12 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.finalDBSnapshotIdentifier = dictionary["FinalDBSnapshotIdentifier"] as? String
+            self.skipFinalSnapshot = dictionary["SkipFinalSnapshot"] as? Bool
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
     }
 
     public struct Timezone: AWSShape {
@@ -3216,6 +4304,9 @@ extension Rds {
             self.timezoneName = timezoneName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timezoneName = dictionary["TimezoneName"] as? String
+        }
     }
 
     public struct RebootDBInstanceMessage: AWSShape {
@@ -3233,6 +4324,11 @@ extension Rds {
             self.forceFailover = forceFailover
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.forceFailover = dictionary["ForceFailover"] as? Bool
+        }
     }
 
     public struct DescribeDBSnapshotsMessage: AWSShape {
@@ -3268,6 +4364,18 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.includePublic = dictionary["IncludePublic"] as? Bool
+            self.snapshotType = dictionary["SnapshotType"] as? String
+            self.includeShared = dictionary["IncludeShared"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String
+            self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
+        }
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSShape {
@@ -3281,6 +4389,9 @@ extension Rds {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) }
+        }
     }
 
     public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
@@ -3294,6 +4405,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct DBClusterSnapshotAttributesResult: AWSShape {
@@ -3311,6 +4425,12 @@ extension Rds {
             self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String
+            if let dBClusterSnapshotAttributes = dictionary["DBClusterSnapshotAttributes"] as? [[String: Any]] {
+                self.dBClusterSnapshotAttributes = try dBClusterSnapshotAttributes.map({ try DBClusterSnapshotAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeDBLogFilesDetails: AWSShape {
@@ -3331,6 +4451,11 @@ extension Rds {
             self.logFileName = logFileName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastWritten = dictionary["LastWritten"] as? Int64
+            self.size = dictionary["Size"] as? Int64
+            self.logFileName = dictionary["LogFileName"] as? String
+        }
     }
 
     public struct DBClusterOptionGroupStatus: AWSShape {
@@ -3348,6 +4473,10 @@ extension Rds {
             self.dBClusterOptionGroupName = dBClusterOptionGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.dBClusterOptionGroupName = dictionary["DBClusterOptionGroupName"] as? String
+        }
     }
 
     public struct DBInstance: AWSShape {
@@ -3503,6 +4632,72 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
+                self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            }
+            self.dBName = dictionary["DBName"] as? String
+            self.enhancedMonitoringResourceArn = dictionary["EnhancedMonitoringResourceArn"] as? String
+            if let domainMemberships = dictionary["DomainMemberships"] as? [[String: Any]] {
+                self.domainMemberships = try domainMemberships.map({ try DomainMembership(dictionary: $0) })
+            }
+            self.dBInstanceStatus = dictionary["DBInstanceStatus"] as? String
+            if let dBParameterGroups = dictionary["DBParameterGroups"] as? [[String: Any]] {
+                self.dBParameterGroups = try dBParameterGroups.map({ try DBParameterGroupStatus(dictionary: $0) })
+            }
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [[String: Any]] {
+                self.dBSecurityGroups = try dBSecurityGroups.map({ try DBSecurityGroupMembership(dictionary: $0) })
+            }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            if let optionGroupMemberships = dictionary["OptionGroupMemberships"] as? [[String: Any]] {
+                self.optionGroupMemberships = try optionGroupMemberships.map({ try OptionGroupMembership(dictionary: $0) })
+            }
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.cACertificateIdentifier = dictionary["CACertificateIdentifier"] as? String
+            self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.latestRestorableTime = dictionary["LatestRestorableTime"] as? Date
+            self.promotionTier = dictionary["PromotionTier"] as? Int32
+            self.iops = dictionary["Iops"] as? Int32
+            self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
+            self.characterSetName = dictionary["CharacterSetName"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.dBInstanceArn = dictionary["DBInstanceArn"] as? String
+            self.dbiResourceId = dictionary["DbiResourceId"] as? String
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Rds.Endpoint(dictionary: endpoint) }
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Rds.PendingModifiedValues(dictionary: pendingModifiedValues) }
+            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.readReplicaSourceDBInstanceIdentifier = dictionary["ReadReplicaSourceDBInstanceIdentifier"] as? String
+            self.timezone = dictionary["Timezone"] as? String
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.storageType = dictionary["StorageType"] as? String
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.dbInstancePort = dictionary["DbInstancePort"] as? Int32
+            self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.monitoringRoleArn = dictionary["MonitoringRoleArn"] as? String
+            if let statusInfos = dictionary["StatusInfos"] as? [[String: Any]] {
+                self.statusInfos = try statusInfos.map({ try DBInstanceStatusInfo(dictionary: $0) })
+            }
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.secondaryAvailabilityZone = dictionary["SecondaryAvailabilityZone"] as? String
+            if let readReplicaDBClusterIdentifiers = dictionary["ReadReplicaDBClusterIdentifiers"] as? [String] {
+                self.readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers
+            }
+            if let readReplicaDBInstanceIdentifiers = dictionary["ReadReplicaDBInstanceIdentifiers"] as? [String] {
+                self.readReplicaDBInstanceIdentifiers = readReplicaDBInstanceIdentifiers
+            }
+            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) }
+            self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
+            self.monitoringInterval = dictionary["MonitoringInterval"] as? Int32
+            self.engine = dictionary["Engine"] as? String
+            self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
+        }
     }
 
     public struct ModifyDBSnapshotAttributeResult: AWSShape {
@@ -3516,6 +4711,9 @@ extension Rds {
             self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshotAttributesResult = dictionary["DBSnapshotAttributesResult"] as? [String: Any] { self.dBSnapshotAttributesResult = try Rds.DBSnapshotAttributesResult(dictionary: dBSnapshotAttributesResult) }
+        }
     }
 
     public struct RevokeDBSecurityGroupIngressResult: AWSShape {
@@ -3529,6 +4727,9 @@ extension Rds {
             self.dBSecurityGroup = dBSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) }
+        }
     }
 
     public struct UpgradeTarget: AWSShape {
@@ -3555,6 +4756,13 @@ extension Rds {
             self.isMajorVersionUpgrade = isMajorVersionUpgrade
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.engine = dictionary["Engine"] as? String
+            self.description = dictionary["Description"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.autoUpgrade = dictionary["AutoUpgrade"] as? Bool
+            self.isMajorVersionUpgrade = dictionary["IsMajorVersionUpgrade"] as? Bool
+        }
     }
 
     public struct DBSecurityGroupMessage: AWSShape {
@@ -3572,6 +4780,12 @@ extension Rds {
             self.dBSecurityGroups = dBSecurityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [[String: Any]] {
+                self.dBSecurityGroups = try dBSecurityGroups.map({ try DBSecurityGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct ApplyPendingMaintenanceActionResult: AWSShape {
@@ -3585,6 +4799,9 @@ extension Rds {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourcePendingMaintenanceActions = dictionary["ResourcePendingMaintenanceActions"] as? [String: Any] { self.resourcePendingMaintenanceActions = try Rds.ResourcePendingMaintenanceActions(dictionary: resourcePendingMaintenanceActions) }
+        }
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
@@ -3593,6 +4810,8 @@ extension Rds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeOptionGroupOptionsMessage: AWSShape {
@@ -3619,6 +4838,16 @@ extension Rds {
             self.majorEngineVersion = majorEngineVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            guard let engineName = dictionary["EngineName"] as? String else { throw InitializableError.missingRequiredParam("EngineName") }
+            self.engineName = engineName
+            self.marker = dictionary["Marker"] as? String
+            self.majorEngineVersion = dictionary["MajorEngineVersion"] as? String
+        }
     }
 
     public struct CreateDBSnapshotMessage: AWSShape {
@@ -3638,6 +4867,15 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
     }
 
     public struct CreateOptionGroupMessage: AWSShape {
@@ -3663,6 +4901,19 @@ extension Rds {
             self.majorEngineVersion = majorEngineVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let optionGroupName = dictionary["OptionGroupName"] as? String else { throw InitializableError.missingRequiredParam("OptionGroupName") }
+            self.optionGroupName = optionGroupName
+            guard let engineName = dictionary["EngineName"] as? String else { throw InitializableError.missingRequiredParam("EngineName") }
+            self.engineName = engineName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let optionGroupDescription = dictionary["OptionGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("OptionGroupDescription") }
+            self.optionGroupDescription = optionGroupDescription
+            guard let majorEngineVersion = dictionary["MajorEngineVersion"] as? String else { throw InitializableError.missingRequiredParam("MajorEngineVersion") }
+            self.majorEngineVersion = majorEngineVersion
+        }
     }
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
@@ -3686,6 +4937,14 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DescribeSourceRegionsMessage: AWSShape {
@@ -3709,6 +4968,14 @@ extension Rds {
             self.regionName = regionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.regionName = dictionary["RegionName"] as? String
+        }
     }
 
     public struct Certificate: AWSShape {
@@ -3738,6 +5005,14 @@ extension Rds {
             self.certificateType = certificateType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            self.thumbprint = dictionary["Thumbprint"] as? String
+            self.validFrom = dictionary["ValidFrom"] as? Date
+            self.validTill = dictionary["ValidTill"] as? Date
+            self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
+            self.certificateType = dictionary["CertificateType"] as? String
+        }
     }
 
     public struct ReservedDBInstancesOffering: AWSShape {
@@ -3779,6 +5054,20 @@ extension Rds {
             self.dBInstanceClass = dBInstanceClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.productDescription = dictionary["ProductDescription"] as? String
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.usagePrice = dictionary["UsagePrice"] as? Double
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Double
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -3793,6 +5082,9 @@ extension Rds {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct CharacterSet: AWSShape {
@@ -3810,6 +5102,10 @@ extension Rds {
             self.characterSetName = characterSetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.characterSetDescription = dictionary["CharacterSetDescription"] as? String
+            self.characterSetName = dictionary["CharacterSetName"] as? String
+        }
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
@@ -3836,6 +5132,16 @@ extension Rds {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+            self.sourceType = dictionary["SourceType"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
@@ -3915,6 +5221,35 @@ extension Rds {
             self.dBInstanceClass = dBInstanceClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domain = dictionary["Domain"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.dBName = dictionary["DBName"] as? String
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.storageType = dictionary["StorageType"] as? String
+            self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
+            self.restoreTime = dictionary["RestoreTime"] as? Date
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            guard let targetDBInstanceIdentifier = dictionary["TargetDBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetDBInstanceIdentifier") }
+            self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
+            self.engine = dictionary["Engine"] as? String
+            self.domainIAMRoleName = dictionary["DomainIAMRoleName"] as? String
+            self.useLatestRestorableTime = dictionary["UseLatestRestorableTime"] as? Bool
+            guard let sourceDBInstanceIdentifier = dictionary["SourceDBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBInstanceIdentifier") }
+            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+        }
     }
 
     public struct CreateDBInstanceResult: AWSShape {
@@ -3928,6 +5263,9 @@ extension Rds {
             self.dBInstance = dBInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+        }
     }
 
     public struct ReservedDBInstance: AWSShape {
@@ -3984,6 +5322,25 @@ extension Rds {
             self.fixedPrice = fixedPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.usagePrice = dictionary["UsagePrice"] as? Double
+            self.state = dictionary["State"] as? String
+            self.reservedDBInstanceArn = dictionary["ReservedDBInstanceArn"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+            self.startTime = dictionary["StartTime"] as? Date
+            self.reservedDBInstanceId = dictionary["ReservedDBInstanceId"] as? String
+            self.dBInstanceCount = dictionary["DBInstanceCount"] as? Int32
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Double
+        }
     }
 
     public struct ModifyDBParameterGroupMessage: AWSShape {
@@ -4001,6 +5358,12 @@ extension Rds {
             self.dBParameterGroupName = dBParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parameters = dictionary["Parameters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Parameters") }
+            self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
+            self.dBParameterGroupName = dBParameterGroupName
+        }
     }
 
     public struct DescribeCertificatesMessage: AWSShape {
@@ -4024,6 +5387,14 @@ extension Rds {
             self.certificateIdentifier = certificateIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
+        }
     }
 
     public struct DeleteDBClusterParameterGroupMessage: AWSShape {
@@ -4038,6 +5409,10 @@ extension Rds {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBClusterParameterGroupName") }
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        }
     }
 
     public struct RemoveRoleFromDBClusterMessage: AWSShape {
@@ -4055,6 +5430,12 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
+            self.roleArn = roleArn
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
     }
 
     public struct DescribeDBSubnetGroupsMessage: AWSShape {
@@ -4078,6 +5459,14 @@ extension Rds {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
@@ -4091,6 +5480,9 @@ extension Rds {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterSnapshotAttributesResult = dictionary["DBClusterSnapshotAttributesResult"] as? [String: Any] { self.dBClusterSnapshotAttributesResult = try Rds.DBClusterSnapshotAttributesResult(dictionary: dBClusterSnapshotAttributesResult) }
+        }
     }
 
     public struct SourceRegion: AWSShape {
@@ -4111,6 +5503,11 @@ extension Rds {
             self.regionName = regionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.endpoint = dictionary["Endpoint"] as? String
+            self.regionName = dictionary["RegionName"] as? String
+        }
     }
 
     public struct ResourcePendingMaintenanceActions: AWSShape {
@@ -4128,6 +5525,12 @@ extension Rds {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceIdentifier = dictionary["ResourceIdentifier"] as? String
+            if let pendingMaintenanceActionDetails = dictionary["PendingMaintenanceActionDetails"] as? [[String: Any]] {
+                self.pendingMaintenanceActionDetails = try pendingMaintenanceActionDetails.map({ try PendingMaintenanceAction(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteDBSecurityGroupMessage: AWSShape {
@@ -4142,6 +5545,10 @@ extension Rds {
             self.dBSecurityGroupName = dBSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSecurityGroupName") }
+            self.dBSecurityGroupName = dBSecurityGroupName
+        }
     }
 
     public struct CreateDBSnapshotResult: AWSShape {
@@ -4155,6 +5562,9 @@ extension Rds {
             self.dBSnapshot = dBSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+        }
     }
 
     public struct DBSubnetGroupMessage: AWSShape {
@@ -4172,6 +5582,12 @@ extension Rds {
             self.dBSubnetGroups = dBSubnetGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBSubnetGroups = dictionary["DBSubnetGroups"] as? [[String: Any]] {
+                self.dBSubnetGroups = try dBSubnetGroups.map({ try DBSubnetGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct RestoreDBClusterFromS3Result: AWSShape {
@@ -4185,6 +5601,9 @@ extension Rds {
             self.dBCluster = dBCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+        }
     }
 
     public struct DBSnapshotMessage: AWSShape {
@@ -4202,6 +5621,12 @@ extension Rds {
             self.dBSnapshots = dBSnapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBSnapshots = dictionary["DBSnapshots"] as? [[String: Any]] {
+                self.dBSnapshots = try dBSnapshots.map({ try DBSnapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSShape {
@@ -4215,6 +5640,9 @@ extension Rds {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? [String: Any] { self.dBClusterParameterGroup = try Rds.DBClusterParameterGroup(dictionary: dBClusterParameterGroup) }
+        }
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
@@ -4228,6 +5656,9 @@ extension Rds {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct DBSnapshotAttributesResult: AWSShape {
@@ -4245,6 +5676,12 @@ extension Rds {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshotAttributes = dictionary["DBSnapshotAttributes"] as? [[String: Any]] {
+                self.dBSnapshotAttributes = try dBSnapshotAttributes.map({ try DBSnapshotAttribute(dictionary: $0) })
+            }
+            self.dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String
+        }
     }
 
     public struct AddRoleToDBClusterMessage: AWSShape {
@@ -4262,6 +5699,12 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
+            self.roleArn = roleArn
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
     }
 
     public struct DBSubnetGroup: AWSShape {
@@ -4291,6 +5734,16 @@ extension Rds {
             self.subnets = subnets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBSubnetGroupArn = dictionary["DBSubnetGroupArn"] as? String
+            self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
+            self.dBSubnetGroupDescription = dictionary["DBSubnetGroupDescription"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
+                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
@@ -4308,6 +5761,12 @@ extension Rds {
             self.subscriptionName = subscriptionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sourceIdentifier = dictionary["SourceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceIdentifier") }
+            self.sourceIdentifier = sourceIdentifier
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+        }
     }
 
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
@@ -4334,6 +5793,14 @@ extension Rds {
             self.cIDRIP = cIDRIP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+            guard let dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSecurityGroupName") }
+            self.dBSecurityGroupName = dBSecurityGroupName
+            self.eC2SecurityGroupId = dictionary["EC2SecurityGroupId"] as? String
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            self.cIDRIP = dictionary["CIDRIP"] as? String
+        }
     }
 
     public struct RestoreDBClusterFromS3Message: AWSShape {
@@ -4416,6 +5883,46 @@ extension Rds {
             self.s3IngestionRoleArn = s3IngestionRoleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let sourceEngineVersion = dictionary["SourceEngineVersion"] as? String else { throw InitializableError.missingRequiredParam("SourceEngineVersion") }
+            self.sourceEngineVersion = sourceEngineVersion
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            guard let sourceEngine = dictionary["SourceEngine"] as? String else { throw InitializableError.missingRequiredParam("SourceEngine") }
+            self.sourceEngine = sourceEngine
+            self.s3Prefix = dictionary["S3Prefix"] as? String
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            guard let masterUserPassword = dictionary["MasterUserPassword"] as? String else { throw InitializableError.missingRequiredParam("MasterUserPassword") }
+            self.masterUserPassword = masterUserPassword
+            self.characterSetName = dictionary["CharacterSetName"] as? String
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            guard let masterUsername = dictionary["MasterUsername"] as? String else { throw InitializableError.missingRequiredParam("MasterUsername") }
+            self.masterUsername = masterUsername
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            guard let s3BucketName = dictionary["S3BucketName"] as? String else { throw InitializableError.missingRequiredParam("S3BucketName") }
+            self.s3BucketName = s3BucketName
+            guard let engine = dictionary["Engine"] as? String else { throw InitializableError.missingRequiredParam("Engine") }
+            self.engine = engine
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
+            self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
+            self.port = dictionary["Port"] as? Int32
+            guard let s3IngestionRoleArn = dictionary["S3IngestionRoleArn"] as? String else { throw InitializableError.missingRequiredParam("S3IngestionRoleArn") }
+            self.s3IngestionRoleArn = s3IngestionRoleArn
+        }
     }
 
     public struct ModifyDBClusterMessage: AWSShape {
@@ -4460,6 +5967,22 @@ extension Rds {
             self.newDBClusterIdentifier = newDBClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
+            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+            self.newDBClusterIdentifier = dictionary["NewDBClusterIdentifier"] as? String
+        }
     }
 
     public struct CertificateMessage: AWSShape {
@@ -4477,6 +6000,12 @@ extension Rds {
             self.certificates = certificates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+        }
     }
 
     public struct TagListMessage: AWSShape {
@@ -4491,6 +6020,11 @@ extension Rds {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagList = dictionary["TagList"] as? [[String: Any]] {
+                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct CopyDBClusterSnapshotMessage: AWSShape {
@@ -4518,6 +6052,18 @@ extension Rds {
             self.preSignedUrl = preSignedUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sourceDBClusterSnapshotIdentifier = dictionary["SourceDBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBClusterSnapshotIdentifier") }
+            self.sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifier
+            self.copyTags = dictionary["CopyTags"] as? Bool
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let targetDBClusterSnapshotIdentifier = dictionary["TargetDBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetDBClusterSnapshotIdentifier") }
+            self.targetDBClusterSnapshotIdentifier = targetDBClusterSnapshotIdentifier
+            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+        }
     }
 
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSShape {
@@ -4556,6 +6102,19 @@ extension Rds {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct DBEngineVersionMessage: AWSShape {
@@ -4573,6 +6132,12 @@ extension Rds {
             self.dBEngineVersions = dBEngineVersions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBEngineVersions = dictionary["DBEngineVersions"] as? [[String: Any]] {
+                self.dBEngineVersions = try dBEngineVersions.map({ try DBEngineVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct DBParameterGroupsMessage: AWSShape {
@@ -4590,6 +6155,12 @@ extension Rds {
             self.dBParameterGroups = dBParameterGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let dBParameterGroups = dictionary["DBParameterGroups"] as? [[String: Any]] {
+                self.dBParameterGroups = try dBParameterGroups.map({ try DBParameterGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct RevokeDBSecurityGroupIngressMessage: AWSShape {
@@ -4616,6 +6187,14 @@ extension Rds {
             self.cIDRIP = cIDRIP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+            guard let dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBSecurityGroupName") }
+            self.dBSecurityGroupName = dBSecurityGroupName
+            self.eC2SecurityGroupId = dictionary["EC2SecurityGroupId"] as? String
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            self.cIDRIP = dictionary["CIDRIP"] as? String
+        }
     }
 
     public struct OptionConfiguration: AWSShape {
@@ -4645,6 +6224,21 @@ extension Rds {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try OptionSetting(dictionary: $0) })
+            }
+            guard let optionName = dictionary["OptionName"] as? String else { throw InitializableError.missingRequiredParam("OptionName") }
+            self.optionName = optionName
+            if let dBSecurityGroupMemberships = dictionary["DBSecurityGroupMemberships"] as? [String] {
+                self.dBSecurityGroupMemberships = dBSecurityGroupMemberships
+            }
+            if let vpcSecurityGroupMemberships = dictionary["VpcSecurityGroupMemberships"] as? [String] {
+                self.vpcSecurityGroupMemberships = vpcSecurityGroupMemberships
+            }
+            self.optionVersion = dictionary["OptionVersion"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
@@ -4692,6 +6286,29 @@ extension Rds {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            guard let engine = dictionary["Engine"] as? String else { throw InitializableError.missingRequiredParam("Engine") }
+            self.engine = engine
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct CreateDBClusterMessage: AWSShape {
@@ -4765,6 +6382,37 @@ extension Rds {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            self.characterSetName = dictionary["CharacterSetName"] as? String
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+            self.replicationSourceIdentifier = dictionary["ReplicationSourceIdentifier"] as? String
+            guard let engine = dictionary["Engine"] as? String else { throw InitializableError.missingRequiredParam("Engine") }
+            self.engine = engine
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct DescribeDBInstancesMessage: AWSShape {
@@ -4788,6 +6436,14 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
+        }
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
@@ -4823,6 +6479,19 @@ extension Rds {
             self.dBInstanceClass = dBInstanceClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            guard let engine = dictionary["Engine"] as? String else { throw InitializableError.missingRequiredParam("Engine") }
+            self.engine = engine
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.vpc = dictionary["Vpc"] as? Bool
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+        }
     }
 
     public struct PendingModifiedValues: AWSShape {
@@ -4873,6 +6542,21 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.storageType = dictionary["StorageType"] as? String
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            self.iops = dictionary["Iops"] as? Int32
+            self.cACertificateIdentifier = dictionary["CACertificateIdentifier"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
+        }
     }
 
     public struct ModifyDBSnapshotResult: AWSShape {
@@ -4886,6 +6570,9 @@ extension Rds {
             self.dBSnapshot = dBSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+        }
     }
 
     public struct SourceRegionMessage: AWSShape {
@@ -4903,6 +6590,12 @@ extension Rds {
             self.sourceRegions = sourceRegions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let sourceRegions = dictionary["SourceRegions"] as? [[String: Any]] {
+                self.sourceRegions = try sourceRegions.map({ try SourceRegion(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyDBInstanceMessage: AWSShape {
@@ -5010,6 +6703,45 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowMajorVersionUpgrade = dictionary["AllowMajorVersionUpgrade"] as? Bool
+            self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
+            self.dBPortNumber = dictionary["DBPortNumber"] as? Int32
+            if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [String] {
+                self.dBSecurityGroups = dBSecurityGroups
+            }
+            self.iops = dictionary["Iops"] as? Int32
+            self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
+            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.cACertificateIdentifier = dictionary["CACertificateIdentifier"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.promotionTier = dictionary["PromotionTier"] as? Int32
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
+            self.domainIAMRoleName = dictionary["DomainIAMRoleName"] as? String
+            self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
+            self.domain = dictionary["Domain"] as? String
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.storageType = dictionary["StorageType"] as? String
+            self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.monitoringRoleArn = dictionary["MonitoringRoleArn"] as? String
+            self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
+            self.monitoringInterval = dictionary["MonitoringInterval"] as? Int32
+            self.newDBInstanceIdentifier = dictionary["NewDBInstanceIdentifier"] as? String
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
     }
 
     public struct IPRange: AWSShape {
@@ -5027,6 +6759,10 @@ extension Rds {
             self.cIDRIP = cIDRIP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.cIDRIP = dictionary["CIDRIP"] as? String
+        }
     }
 
     public struct DBSnapshot: AWSShape {
@@ -5113,6 +6849,33 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.port = dictionary["Port"] as? Int32
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            self.iops = dictionary["Iops"] as? Int32
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.sourceDBSnapshotIdentifier = dictionary["SourceDBSnapshotIdentifier"] as? String
+            self.status = dictionary["Status"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.percentProgress = dictionary["PercentProgress"] as? Int32
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            self.dBSnapshotArn = dictionary["DBSnapshotArn"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
+            self.sourceRegion = dictionary["SourceRegion"] as? String
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            self.storageType = dictionary["StorageType"] as? String
+            self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
+            self.timezone = dictionary["Timezone"] as? String
+            self.snapshotType = dictionary["SnapshotType"] as? String
+            self.licenseModel = dictionary["LicenseModel"] as? String
+            self.optionGroupName = dictionary["OptionGroupName"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String
+            self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
+        }
     }
 
     public struct DBParameterGroup: AWSShape {
@@ -5136,6 +6899,12 @@ extension Rds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
+            self.dBParameterGroupArn = dictionary["DBParameterGroupArn"] as? String
+            self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
@@ -5158,6 +6927,15 @@ extension Rds {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedDBInstanceId = dictionary["ReservedDBInstanceId"] as? String
+            guard let reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedDBInstancesOfferingId") }
+            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
+            self.dBInstanceCount = dictionary["DBInstanceCount"] as? Int32
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DBParameterGroupNameMessage: AWSShape {
@@ -5172,6 +6950,9 @@ extension Rds {
             self.dBParameterGroupName = dBParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
+        }
     }
 
     public struct DescribeDBSnapshotAttributesMessage: AWSShape {
@@ -5186,6 +6967,10 @@ extension Rds {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+        }
     }
 
     public struct DescribeDBSecurityGroupsMessage: AWSShape {
@@ -5209,6 +6994,14 @@ extension Rds {
             self.dBSecurityGroupName = dBSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String
+        }
     }
 
     public struct Filter: AWSShape {
@@ -5226,6 +7019,12 @@ extension Rds {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct DownloadDBLogFilePortionMessage: AWSShape {
@@ -5249,6 +7048,14 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.numberOfLines = dictionary["NumberOfLines"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            guard let logFileName = dictionary["LogFileName"] as? String else { throw InitializableError.missingRequiredParam("LogFileName") }
+            self.logFileName = logFileName
+            guard let dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBInstanceIdentifier") }
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
     }
 
 }

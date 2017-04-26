@@ -50,6 +50,16 @@ extension Meteringmarketplace {
             self.quantity = quantity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let customerIdentifier = dictionary["CustomerIdentifier"] as? String else { throw InitializableError.missingRequiredParam("CustomerIdentifier") }
+            self.customerIdentifier = customerIdentifier
+            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            self.timestamp = timestamp
+            guard let dimension = dictionary["Dimension"] as? String else { throw InitializableError.missingRequiredParam("Dimension") }
+            self.dimension = dimension
+            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
+            self.quantity = quantity
+        }
     }
 
     public struct ResolveCustomerRequest: AWSShape {
@@ -64,6 +74,10 @@ extension Meteringmarketplace {
             self.registrationToken = registrationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let registrationToken = dictionary["RegistrationToken"] as? String else { throw InitializableError.missingRequiredParam("RegistrationToken") }
+            self.registrationToken = registrationToken
+        }
     }
 
     public struct MeterUsageRequest: AWSShape {
@@ -90,6 +104,18 @@ extension Meteringmarketplace {
             self.productCode = productCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            self.timestamp = timestamp
+            guard let dryRun = dictionary["DryRun"] as? Bool else { throw InitializableError.missingRequiredParam("DryRun") }
+            self.dryRun = dryRun
+            guard let usageDimension = dictionary["UsageDimension"] as? String else { throw InitializableError.missingRequiredParam("UsageDimension") }
+            self.usageDimension = usageDimension
+            guard let usageQuantity = dictionary["UsageQuantity"] as? Int32 else { throw InitializableError.missingRequiredParam("UsageQuantity") }
+            self.usageQuantity = usageQuantity
+            guard let productCode = dictionary["ProductCode"] as? String else { throw InitializableError.missingRequiredParam("ProductCode") }
+            self.productCode = productCode
+        }
     }
 
     public struct BatchMeterUsageResult: AWSShape {
@@ -107,6 +133,14 @@ extension Meteringmarketplace {
             self.results = results
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let unprocessedRecords = dictionary["UnprocessedRecords"] as? [[String: Any]] {
+                self.unprocessedRecords = try unprocessedRecords.map({ try UsageRecord(dictionary: $0) })
+            }
+            if let results = dictionary["Results"] as? [[String: Any]] {
+                self.results = try results.map({ try UsageRecordResult(dictionary: $0) })
+            }
+        }
     }
 
     public struct ResolveCustomerResult: AWSShape {
@@ -124,6 +158,10 @@ extension Meteringmarketplace {
             self.productCode = productCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerIdentifier = dictionary["CustomerIdentifier"] as? String
+            self.productCode = dictionary["ProductCode"] as? String
+        }
     }
 
     public struct MeterUsageResult: AWSShape {
@@ -137,6 +175,9 @@ extension Meteringmarketplace {
             self.meteringRecordId = meteringRecordId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.meteringRecordId = dictionary["MeteringRecordId"] as? String
+        }
     }
 
     public struct BatchMeterUsageRequest: AWSShape {
@@ -154,6 +195,12 @@ extension Meteringmarketplace {
             self.usageRecords = usageRecords
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let productCode = dictionary["ProductCode"] as? String else { throw InitializableError.missingRequiredParam("ProductCode") }
+            self.productCode = productCode
+            guard let usageRecords = dictionary["UsageRecords"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("UsageRecords") }
+            self.usageRecords = try usageRecords.map({ try UsageRecord(dictionary: $0) })
+        }
     }
 
     public struct UsageRecordResult: AWSShape {
@@ -174,6 +221,11 @@ extension Meteringmarketplace {
             self.usageRecord = usageRecord
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.meteringRecordId = dictionary["MeteringRecordId"] as? String
+            self.status = dictionary["Status"] as? String
+            if let usageRecord = dictionary["UsageRecord"] as? [String: Any] { self.usageRecord = try Meteringmarketplace.UsageRecord(dictionary: usageRecord) }
+        }
     }
 
 }

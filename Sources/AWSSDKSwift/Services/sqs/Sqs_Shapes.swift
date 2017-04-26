@@ -59,6 +59,20 @@ extension Sqs {
             self.waitTimeSeconds = waitTimeSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let messageAttributeNames = dictionary["MessageAttributeNames"] as? [String] {
+                self.messageAttributeNames = messageAttributeNames
+            }
+            self.visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32
+            self.maxNumberOfMessages = dictionary["MaxNumberOfMessages"] as? Int32
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+            self.receiveRequestAttemptId = dictionary["ReceiveRequestAttemptId"] as? String
+            if let attributeNames = dictionary["AttributeNames"] as? [String] {
+                self.attributeNames = attributeNames
+            }
+            self.waitTimeSeconds = dictionary["WaitTimeSeconds"] as? Int32
+        }
     }
 
     public struct GetQueueUrlRequest: AWSShape {
@@ -76,6 +90,11 @@ extension Sqs {
             self.queueOwnerAWSAccountId = queueOwnerAWSAccountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueName = dictionary["QueueName"] as? String else { throw InitializableError.missingRequiredParam("QueueName") }
+            self.queueName = queueName
+            self.queueOwnerAWSAccountId = dictionary["QueueOwnerAWSAccountId"] as? String
+        }
     }
 
     public struct SendMessageResult: AWSShape {
@@ -99,6 +118,12 @@ extension Sqs {
             self.messageId = messageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
+            self.mD5OfMessageBody = dictionary["MD5OfMessageBody"] as? String
+            self.sequenceNumber = dictionary["SequenceNumber"] as? String
+            self.messageId = dictionary["MessageId"] as? String
+        }
     }
 
     public struct MessageAttributeValue: AWSShape {
@@ -125,6 +150,18 @@ extension Sqs {
             self.stringListValues = stringListValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let binaryListValues = dictionary["BinaryListValues"] as? [Data] {
+                self.binaryListValues = binaryListValues
+            }
+            self.binaryValue = dictionary["BinaryValue"] as? Data
+            self.stringValue = dictionary["StringValue"] as? String
+            guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
+            self.dataType = dataType
+            if let stringListValues = dictionary["StringListValues"] as? [String] {
+                self.stringListValues = stringListValues
+            }
+        }
     }
 
     public struct ChangeMessageVisibilityBatchRequestEntry: AWSShape {
@@ -145,6 +182,13 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32
+            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
+            self.receiptHandle = receiptHandle
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetQueueUrlResult: AWSShape {
@@ -159,6 +203,9 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.queueUrl = dictionary["QueueUrl"] as? String
+        }
     }
 
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
@@ -176,6 +223,12 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try entries.map({ try ChangeMessageVisibilityBatchRequestEntry(dictionary: $0) })
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct Message: AWSShape {
@@ -208,6 +261,24 @@ extension Sqs {
             self.messageAttributes = messageAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.receiptHandle = dictionary["ReceiptHandle"] as? String
+            self.messageId = dictionary["MessageId"] as? String
+            self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+            self.body = dictionary["Body"] as? String
+            self.mD5OfBody = dictionary["MD5OfBody"] as? String
+            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+                var messageAttributesDict: [String: MessageAttributeValue] = [:]
+                for (key, value) in messageAttributes {
+                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
+                }
+                self.messageAttributes = messageAttributesDict
+            }
+        }
     }
 
     public struct DeleteMessageBatchResult: AWSShape {
@@ -225,6 +296,12 @@ extension Sqs {
             self.failed = failed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let successful = dictionary["Successful"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Successful") }
+            self.successful = try successful.map({ try DeleteMessageBatchResultEntry(dictionary: $0) })
+            guard let failed = dictionary["Failed"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Failed") }
+            self.failed = try failed.map({ try BatchResultErrorEntry(dictionary: $0) })
+        }
     }
 
     public struct ReceiveMessageResult: AWSShape {
@@ -239,6 +316,11 @@ extension Sqs {
             self.messages = messages
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let messages = dictionary["Messages"] as? [[String: Any]] {
+                self.messages = try messages.map({ try Message(dictionary: $0) })
+            }
+        }
     }
 
     public struct SendMessageRequest: AWSShape {
@@ -268,6 +350,23 @@ extension Sqs {
             self.messageAttributes = messageAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.delaySeconds = dictionary["DelaySeconds"] as? Int32
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+            self.messageGroupId = dictionary["MessageGroupId"] as? String
+            self.messageDeduplicationId = dictionary["MessageDeduplicationId"] as? String
+            guard let messageBody = dictionary["MessageBody"] as? String else { throw InitializableError.missingRequiredParam("MessageBody") }
+            self.messageBody = messageBody
+            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+                var messageAttributesDict: [String: MessageAttributeValue] = [:]
+                for (key, value) in messageAttributes {
+                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
+                }
+                self.messageAttributes = messageAttributesDict
+            }
+        }
     }
 
     public struct AddPermissionRequest: AWSShape {
@@ -291,6 +390,16 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
+            self.label = label
+            guard let aWSAccountIds = dictionary["AWSAccountIds"] as? [String] else { throw InitializableError.missingRequiredParam("AWSAccountIds") }
+            self.aWSAccountIds = aWSAccountIds
+            guard let actions = dictionary["Actions"] as? [String] else { throw InitializableError.missingRequiredParam("Actions") }
+            self.actions = actions
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct CreateQueueRequest: AWSShape {
@@ -308,6 +417,13 @@ extension Sqs {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueName = dictionary["QueueName"] as? String else { throw InitializableError.missingRequiredParam("QueueName") }
+            self.queueName = queueName
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct ListDeadLetterSourceQueuesResult: AWSShape {
@@ -322,6 +438,10 @@ extension Sqs {
             self.queueUrls = queueUrls
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueUrls = dictionary["queueUrls"] as? [String] else { throw InitializableError.missingRequiredParam("queueUrls") }
+            self.queueUrls = queueUrls
+        }
     }
 
     public struct ListQueuesRequest: AWSShape {
@@ -336,6 +456,9 @@ extension Sqs {
             self.queueNamePrefix = queueNamePrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.queueNamePrefix = dictionary["QueueNamePrefix"] as? String
+        }
     }
 
     public struct RemovePermissionRequest: AWSShape {
@@ -353,6 +476,12 @@ extension Sqs {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
+            self.label = label
+        }
     }
 
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
@@ -370,6 +499,12 @@ extension Sqs {
             self.failed = failed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let successful = dictionary["Successful"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Successful") }
+            self.successful = try successful.map({ try ChangeMessageVisibilityBatchResultEntry(dictionary: $0) })
+            guard let failed = dictionary["Failed"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Failed") }
+            self.failed = try failed.map({ try BatchResultErrorEntry(dictionary: $0) })
+        }
     }
 
     public struct ListDeadLetterSourceQueuesRequest: AWSShape {
@@ -384,6 +519,10 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct SendMessageBatchResultEntry: AWSShape {
@@ -410,6 +549,16 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
+            guard let mD5OfMessageBody = dictionary["MD5OfMessageBody"] as? String else { throw InitializableError.missingRequiredParam("MD5OfMessageBody") }
+            self.mD5OfMessageBody = mD5OfMessageBody
+            self.sequenceNumber = dictionary["SequenceNumber"] as? String
+            guard let messageId = dictionary["MessageId"] as? String else { throw InitializableError.missingRequiredParam("MessageId") }
+            self.messageId = messageId
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct SetQueueAttributesRequest: AWSShape {
@@ -427,6 +576,12 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = attributes
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct GetQueueAttributesResult: AWSShape {
@@ -441,6 +596,11 @@ extension Sqs {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [String: String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct CreateQueueResult: AWSShape {
@@ -455,6 +615,9 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.queueUrl = dictionary["QueueUrl"] as? String
+        }
     }
 
     public struct ListQueuesResult: AWSShape {
@@ -469,6 +632,11 @@ extension Sqs {
             self.queueUrls = queueUrls
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let queueUrls = dictionary["QueueUrls"] as? [String] {
+                self.queueUrls = queueUrls
+            }
+        }
     }
 
     public struct ChangeMessageVisibilityRequest: AWSShape {
@@ -489,6 +657,14 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32 else { throw InitializableError.missingRequiredParam("VisibilityTimeout") }
+            self.visibilityTimeout = visibilityTimeout
+            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
+            self.receiptHandle = receiptHandle
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct DeleteMessageBatchRequestEntry: AWSShape {
@@ -506,6 +682,12 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
+            self.receiptHandle = receiptHandle
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct BatchResultErrorEntry: AWSShape {
@@ -529,6 +711,15 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let code = dictionary["Code"] as? String else { throw InitializableError.missingRequiredParam("Code") }
+            self.code = code
+            self.message = dictionary["Message"] as? String
+            guard let senderFault = dictionary["SenderFault"] as? Bool else { throw InitializableError.missingRequiredParam("SenderFault") }
+            self.senderFault = senderFault
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteMessageRequest: AWSShape {
@@ -546,6 +737,12 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
+            self.receiptHandle = receiptHandle
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct ChangeMessageVisibilityBatchResultEntry: AWSShape {
@@ -560,6 +757,10 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct SendMessageBatchRequest: AWSShape {
@@ -577,6 +778,12 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try entries.map({ try SendMessageBatchRequestEntry(dictionary: $0) })
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct PurgeQueueRequest: AWSShape {
@@ -591,6 +798,10 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct DeleteMessageBatchRequest: AWSShape {
@@ -608,6 +819,12 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try entries.map({ try DeleteMessageBatchRequestEntry(dictionary: $0) })
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct GetQueueAttributesRequest: AWSShape {
@@ -625,6 +842,13 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributeNames = dictionary["AttributeNames"] as? [String] {
+                self.attributeNames = attributeNames
+            }
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct DeleteQueueRequest: AWSShape {
@@ -639,6 +863,10 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
+            self.queueUrl = queueUrl
+        }
     }
 
     public struct SendMessageBatchRequestEntry: AWSShape {
@@ -668,6 +896,23 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.delaySeconds = dictionary["DelaySeconds"] as? Int32
+            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+                var messageAttributesDict: [String: MessageAttributeValue] = [:]
+                for (key, value) in messageAttributes {
+                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
+                }
+                self.messageAttributes = messageAttributesDict
+            }
+            self.messageGroupId = dictionary["MessageGroupId"] as? String
+            self.messageDeduplicationId = dictionary["MessageDeduplicationId"] as? String
+            guard let messageBody = dictionary["MessageBody"] as? String else { throw InitializableError.missingRequiredParam("MessageBody") }
+            self.messageBody = messageBody
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DeleteMessageBatchResultEntry: AWSShape {
@@ -682,6 +927,10 @@ extension Sqs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct SendMessageBatchResult: AWSShape {
@@ -699,6 +948,12 @@ extension Sqs {
             self.failed = failed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let successful = dictionary["Successful"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Successful") }
+            self.successful = try successful.map({ try SendMessageBatchResultEntry(dictionary: $0) })
+            guard let failed = dictionary["Failed"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Failed") }
+            self.failed = try failed.map({ try BatchResultErrorEntry(dictionary: $0) })
+        }
     }
 
 }

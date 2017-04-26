@@ -50,6 +50,14 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let repositoryNames = dictionary["repositoryNames"] as? [String] {
+                self.repositoryNames = repositoryNames
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct ListImagesResponse: AWSShape {
@@ -67,6 +75,12 @@ extension Ecr {
             self.imageIds = imageIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
+                self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            }
+        }
     }
 
     public struct AuthorizationData: AWSShape {
@@ -87,6 +101,11 @@ extension Ecr {
             self.proxyEndpoint = proxyEndpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.authorizationToken = dictionary["authorizationToken"] as? String
+            self.expiresAt = dictionary["expiresAt"] as? Date
+            self.proxyEndpoint = dictionary["proxyEndpoint"] as? String
+        }
     }
 
     public struct BatchDeleteImageResponse: AWSShape {
@@ -104,6 +123,14 @@ extension Ecr {
             self.imageIds = imageIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try ImageFailure(dictionary: $0) })
+            }
+            if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
+                self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeImagesResponse: AWSShape {
@@ -121,6 +148,12 @@ extension Ecr {
             self.imageDetails = imageDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let imageDetails = dictionary["imageDetails"] as? [[String: Any]] {
+                self.imageDetails = try imageDetails.map({ try ImageDetail(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteRepositoryResponse: AWSShape {
@@ -135,6 +168,9 @@ extension Ecr {
             self.repository = repository
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) }
+        }
     }
 
     public struct Layer: AWSShape {
@@ -158,6 +194,12 @@ extension Ecr {
             self.layerDigest = layerDigest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.layerSize = dictionary["layerSize"] as? Int64
+            self.layerAvailability = dictionary["layerAvailability"] as? String
+            self.mediaType = dictionary["mediaType"] as? String
+            self.layerDigest = dictionary["layerDigest"] as? String
+        }
     }
 
     public struct DescribeImagesRequest: AWSShape {
@@ -187,6 +229,17 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
+                self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            }
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.DescribeImagesFilter(dictionary: filter) }
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct ImageIdentifier: AWSShape {
@@ -204,6 +257,10 @@ extension Ecr {
             self.imageDigest = imageDigest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageTag = dictionary["imageTag"] as? String
+            self.imageDigest = dictionary["imageDigest"] as? String
+        }
     }
 
     public struct DeleteRepositoryPolicyResponse: AWSShape {
@@ -224,6 +281,11 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyText = dictionary["policyText"] as? String
+            self.registryId = dictionary["registryId"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+        }
     }
 
     public struct LayerFailure: AWSShape {
@@ -244,6 +306,11 @@ extension Ecr {
             self.failureReason = failureReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.layerDigest = dictionary["layerDigest"] as? String
+            self.failureCode = dictionary["failureCode"] as? String
+            self.failureReason = dictionary["failureReason"] as? String
+        }
     }
 
     public struct ImageFailure: AWSShape {
@@ -264,6 +331,11 @@ extension Ecr {
             self.failureReason = failureReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) }
+            self.failureCode = dictionary["failureCode"] as? String
+            self.failureReason = dictionary["failureReason"] as? String
+        }
     }
 
     public struct BatchGetImageResponse: AWSShape {
@@ -281,6 +353,14 @@ extension Ecr {
             self.images = images
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try ImageFailure(dictionary: $0) })
+            }
+            if let images = dictionary["images"] as? [[String: Any]] {
+                self.images = try images.map({ try Image(dictionary: $0) })
+            }
+        }
     }
 
     public struct SetRepositoryPolicyResponse: AWSShape {
@@ -301,6 +381,11 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyText = dictionary["policyText"] as? String
+            self.registryId = dictionary["registryId"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+        }
     }
 
     public struct GetAuthorizationTokenRequest: AWSShape {
@@ -315,6 +400,11 @@ extension Ecr {
             self.registryIds = registryIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let registryIds = dictionary["registryIds"] as? [String] {
+                self.registryIds = registryIds
+            }
+        }
     }
 
     public struct ImageDetail: AWSShape {
@@ -344,6 +434,16 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageSizeInBytes = dictionary["imageSizeInBytes"] as? Int64
+            self.repositoryName = dictionary["repositoryName"] as? String
+            self.imageDigest = dictionary["imageDigest"] as? String
+            if let imageTags = dictionary["imageTags"] as? [String] {
+                self.imageTags = imageTags
+            }
+            self.imagePushedAt = dictionary["imagePushedAt"] as? Date
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct GetAuthorizationTokenResponse: AWSShape {
@@ -358,6 +458,11 @@ extension Ecr {
             self.authorizationData = authorizationData
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let authorizationData = dictionary["authorizationData"] as? [[String: Any]] {
+                self.authorizationData = try authorizationData.map({ try AuthorizationData(dictionary: $0) })
+            }
+        }
     }
 
     public struct InitiateLayerUploadResponse: AWSShape {
@@ -375,6 +480,10 @@ extension Ecr {
             self.partSize = partSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uploadId = dictionary["uploadId"] as? String
+            self.partSize = dictionary["partSize"] as? Int64
+        }
     }
 
     public struct BatchGetImageRequest: AWSShape {
@@ -398,6 +507,16 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let acceptedMediaTypes = dictionary["acceptedMediaTypes"] as? [String] {
+                self.acceptedMediaTypes = acceptedMediaTypes
+            }
+            guard let imageIds = dictionary["imageIds"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("imageIds") }
+            self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct DeleteRepositoryPolicyRequest: AWSShape {
@@ -415,6 +534,11 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.registryId = dictionary["registryId"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetDownloadUrlForLayerResponse: AWSShape {
@@ -432,6 +556,10 @@ extension Ecr {
             self.downloadUrl = downloadUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.layerDigest = dictionary["layerDigest"] as? String
+            self.downloadUrl = dictionary["downloadUrl"] as? String
+        }
     }
 
     public struct Image: AWSShape {
@@ -455,6 +583,12 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageManifest = dictionary["imageManifest"] as? String
+            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) }
+            self.repositoryName = dictionary["repositoryName"] as? String
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct CreateRepositoryRequest: AWSShape {
@@ -469,6 +603,10 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetRepositoryPolicyResponse: AWSShape {
@@ -489,6 +627,11 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyText = dictionary["policyText"] as? String
+            self.registryId = dictionary["registryId"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+        }
     }
 
     public struct GetDownloadUrlForLayerRequest: AWSShape {
@@ -509,6 +652,13 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerDigest = dictionary["layerDigest"] as? String else { throw InitializableError.missingRequiredParam("layerDigest") }
+            self.layerDigest = layerDigest
+            self.registryId = dictionary["registryId"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct ListImagesFilter: AWSShape {
@@ -523,6 +673,9 @@ extension Ecr {
             self.tagStatus = tagStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tagStatus = dictionary["tagStatus"] as? String
+        }
     }
 
     public struct SetRepositoryPolicyRequest: AWSShape {
@@ -546,6 +699,14 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.force = dictionary["force"] as? Bool
+            guard let policyText = dictionary["policyText"] as? String else { throw InitializableError.missingRequiredParam("policyText") }
+            self.policyText = policyText
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct CreateRepositoryResponse: AWSShape {
@@ -560,6 +721,9 @@ extension Ecr {
             self.repository = repository
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) }
+        }
     }
 
     public struct BatchCheckLayerAvailabilityRequest: AWSShape {
@@ -580,6 +744,13 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let layerDigests = dictionary["layerDigests"] as? [String] else { throw InitializableError.missingRequiredParam("layerDigests") }
+            self.layerDigests = layerDigests
+            self.registryId = dictionary["registryId"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct GetRepositoryPolicyRequest: AWSShape {
@@ -597,6 +768,11 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.registryId = dictionary["registryId"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct UploadLayerPartResponse: AWSShape {
@@ -620,6 +796,12 @@ extension Ecr {
             self.lastByteReceived = lastByteReceived
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uploadId = dictionary["uploadId"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+            self.registryId = dictionary["registryId"] as? String
+            self.lastByteReceived = dictionary["lastByteReceived"] as? Int64
+        }
     }
 
     public struct BatchCheckLayerAvailabilityResponse: AWSShape {
@@ -637,6 +819,14 @@ extension Ecr {
             self.layers = layers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failures = dictionary["failures"] as? [[String: Any]] {
+                self.failures = try failures.map({ try LayerFailure(dictionary: $0) })
+            }
+            if let layers = dictionary["layers"] as? [[String: Any]] {
+                self.layers = try layers.map({ try Layer(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutImageRequest: AWSShape {
@@ -660,6 +850,14 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.imageTag = dictionary["imageTag"] as? String
+            guard let imageManifest = dictionary["imageManifest"] as? String else { throw InitializableError.missingRequiredParam("imageManifest") }
+            self.imageManifest = imageManifest
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
     public struct DescribeRepositoriesResponse: AWSShape {
@@ -677,6 +875,12 @@ extension Ecr {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let repositories = dictionary["repositories"] as? [[String: Any]] {
+                self.repositories = try repositories.map({ try Repository(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct InitiateLayerUploadRequest: AWSShape {
@@ -694,6 +898,11 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.registryId = dictionary["registryId"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct DeleteRepositoryRequest: AWSShape {
@@ -714,6 +923,12 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.force = dictionary["force"] as? Bool
+            self.registryId = dictionary["registryId"] as? String
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct PutImageResponse: AWSShape {
@@ -728,6 +943,9 @@ extension Ecr {
             self.image = image
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let image = dictionary["image"] as? [String: Any] { self.image = try Ecr.Image(dictionary: image) }
+        }
     }
 
     public struct Repository: AWSShape {
@@ -754,6 +972,13 @@ extension Ecr {
             self.repositoryArn = repositoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.repositoryName = dictionary["repositoryName"] as? String
+            self.repositoryUri = dictionary["repositoryUri"] as? String
+            self.registryId = dictionary["registryId"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.repositoryArn = dictionary["repositoryArn"] as? String
+        }
     }
 
     public struct BatchDeleteImageRequest: AWSShape {
@@ -774,6 +999,13 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.registryId = dictionary["registryId"] as? String
+            guard let imageIds = dictionary["imageIds"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("imageIds") }
+            self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+        }
     }
 
     public struct CompleteLayerUploadResponse: AWSShape {
@@ -797,6 +1029,12 @@ extension Ecr {
             self.layerDigest = layerDigest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uploadId = dictionary["uploadId"] as? String
+            self.repositoryName = dictionary["repositoryName"] as? String
+            self.registryId = dictionary["registryId"] as? String
+            self.layerDigest = dictionary["layerDigest"] as? String
+        }
     }
 
     public struct UploadLayerPartRequest: AWSShape {
@@ -826,6 +1064,19 @@ extension Ecr {
             self.partFirstByte = partFirstByte
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            self.uploadId = uploadId
+            guard let layerPartBlob = dictionary["layerPartBlob"] as? Data else { throw InitializableError.missingRequiredParam("layerPartBlob") }
+            self.layerPartBlob = layerPartBlob
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            guard let partLastByte = dictionary["partLastByte"] as? Int64 else { throw InitializableError.missingRequiredParam("partLastByte") }
+            self.partLastByte = partLastByte
+            self.registryId = dictionary["registryId"] as? String
+            guard let partFirstByte = dictionary["partFirstByte"] as? Int64 else { throw InitializableError.missingRequiredParam("partFirstByte") }
+            self.partFirstByte = partFirstByte
+        }
     }
 
     public struct CompleteLayerUploadRequest: AWSShape {
@@ -849,6 +1100,15 @@ extension Ecr {
             self.layerDigests = layerDigests
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            self.uploadId = uploadId
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.registryId = dictionary["registryId"] as? String
+            guard let layerDigests = dictionary["layerDigests"] as? [String] else { throw InitializableError.missingRequiredParam("layerDigests") }
+            self.layerDigests = layerDigests
+        }
     }
 
     public struct DescribeImagesFilter: AWSShape {
@@ -863,6 +1123,9 @@ extension Ecr {
             self.tagStatus = tagStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tagStatus = dictionary["tagStatus"] as? String
+        }
     }
 
     public struct ListImagesRequest: AWSShape {
@@ -889,6 +1152,14 @@ extension Ecr {
             self.registryId = registryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.ListImagesFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
+            self.repositoryName = repositoryName
+            self.registryId = dictionary["registryId"] as? String
+        }
     }
 
 }

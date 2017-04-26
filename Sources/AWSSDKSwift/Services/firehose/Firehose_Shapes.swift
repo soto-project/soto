@@ -41,6 +41,10 @@ extension Firehose {
             self.deliveryStreamDescription = deliveryStreamDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deliveryStreamDescription = dictionary["DeliveryStreamDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DeliveryStreamDescription") }
+            self.deliveryStreamDescription = try Firehose.DeliveryStreamDescription(dictionary: deliveryStreamDescription)
+        }
     }
 
     public struct ProcessingConfiguration: AWSShape {
@@ -58,6 +62,12 @@ extension Firehose {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let processors = dictionary["Processors"] as? [[String: Any]] {
+                self.processors = try processors.map({ try Processor(dictionary: $0) })
+            }
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct RedshiftDestinationConfiguration: AWSShape {
@@ -102,6 +112,25 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let copyCommand = dictionary["CopyCommand"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CopyCommand") }
+            self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand)
+            guard let s3Configuration = dictionary["S3Configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Configuration") }
+            self.s3Configuration = try Firehose.S3DestinationConfiguration(dictionary: s3Configuration)
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) }
+            guard let clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String else { throw InitializableError.missingRequiredParam("ClusterJDBCURL") }
+            self.clusterJDBCURL = clusterJDBCURL
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) }
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+        }
     }
 
     public struct CopyCommand: AWSShape {
@@ -122,6 +151,12 @@ extension Firehose {
             self.copyOptions = copyOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataTableName = dictionary["DataTableName"] as? String else { throw InitializableError.missingRequiredParam("DataTableName") }
+            self.dataTableName = dataTableName
+            self.dataTableColumns = dictionary["DataTableColumns"] as? String
+            self.copyOptions = dictionary["CopyOptions"] as? String
+        }
     }
 
     public struct ExtendedS3DestinationConfiguration: AWSShape {
@@ -163,6 +198,20 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
+            self.bucketARN = bucketARN
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            self.prefix = dictionary["Prefix"] as? String
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            self.compressionFormat = dictionary["CompressionFormat"] as? String
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct ElasticsearchRetryOptions: AWSShape {
@@ -177,6 +226,9 @@ extension Firehose {
             self.durationInSeconds = durationInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.durationInSeconds = dictionary["DurationInSeconds"] as? Int32
+        }
     }
 
     public struct PutRecordOutput: AWSShape {
@@ -191,6 +243,10 @@ extension Firehose {
             self.recordId = recordId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recordId = dictionary["RecordId"] as? String else { throw InitializableError.missingRequiredParam("RecordId") }
+            self.recordId = recordId
+        }
     }
 
     public struct DestinationDescription: AWSShape {
@@ -217,6 +273,14 @@ extension Firehose {
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) }
+            guard let destinationId = dictionary["DestinationId"] as? String else { throw InitializableError.missingRequiredParam("DestinationId") }
+            self.destinationId = destinationId
+            if let redshiftDestinationDescription = dictionary["RedshiftDestinationDescription"] as? [String: Any] { self.redshiftDestinationDescription = try Firehose.RedshiftDestinationDescription(dictionary: redshiftDestinationDescription) }
+            if let extendedS3DestinationDescription = dictionary["ExtendedS3DestinationDescription"] as? [String: Any] { self.extendedS3DestinationDescription = try Firehose.ExtendedS3DestinationDescription(dictionary: extendedS3DestinationDescription) }
+            if let elasticsearchDestinationDescription = dictionary["ElasticsearchDestinationDescription"] as? [String: Any] { self.elasticsearchDestinationDescription = try Firehose.ElasticsearchDestinationDescription(dictionary: elasticsearchDestinationDescription) }
+        }
     }
 
     public struct UpdateDestinationInput: AWSShape {
@@ -249,6 +313,18 @@ extension Firehose {
             self.s3DestinationUpdate = s3DestinationUpdate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elasticsearchDestinationUpdate = dictionary["ElasticsearchDestinationUpdate"] as? [String: Any] { self.elasticsearchDestinationUpdate = try Firehose.ElasticsearchDestinationUpdate(dictionary: elasticsearchDestinationUpdate) }
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+            guard let currentDeliveryStreamVersionId = dictionary["CurrentDeliveryStreamVersionId"] as? String else { throw InitializableError.missingRequiredParam("CurrentDeliveryStreamVersionId") }
+            self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
+            guard let destinationId = dictionary["DestinationId"] as? String else { throw InitializableError.missingRequiredParam("DestinationId") }
+            self.destinationId = destinationId
+            if let extendedS3DestinationUpdate = dictionary["ExtendedS3DestinationUpdate"] as? [String: Any] { self.extendedS3DestinationUpdate = try Firehose.ExtendedS3DestinationUpdate(dictionary: extendedS3DestinationUpdate) }
+            if let redshiftDestinationUpdate = dictionary["RedshiftDestinationUpdate"] as? [String: Any] { self.redshiftDestinationUpdate = try Firehose.RedshiftDestinationUpdate(dictionary: redshiftDestinationUpdate) }
+            if let s3DestinationUpdate = dictionary["S3DestinationUpdate"] as? [String: Any] { self.s3DestinationUpdate = try Firehose.S3DestinationUpdate(dictionary: s3DestinationUpdate) }
+        }
     }
 
     public struct ListDeliveryStreamsOutput: AWSShape {
@@ -266,6 +342,12 @@ extension Firehose {
             self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deliveryStreamNames = dictionary["DeliveryStreamNames"] as? [String] else { throw InitializableError.missingRequiredParam("DeliveryStreamNames") }
+            self.deliveryStreamNames = deliveryStreamNames
+            guard let hasMoreDeliveryStreams = dictionary["HasMoreDeliveryStreams"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreDeliveryStreams") }
+            self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
+        }
     }
 
     public struct RedshiftDestinationDescription: AWSShape {
@@ -307,6 +389,23 @@ extension Firehose {
             self.retryOptions = retryOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) }
+            guard let copyCommand = dictionary["CopyCommand"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CopyCommand") }
+            self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand)
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            guard let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3DestinationDescription") }
+            self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription)
+            guard let clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String else { throw InitializableError.missingRequiredParam("ClusterJDBCURL") }
+            self.clusterJDBCURL = clusterJDBCURL
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) }
+        }
     }
 
     public struct ListDeliveryStreamsInput: AWSShape {
@@ -324,6 +423,10 @@ extension Firehose {
             self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.exclusiveStartDeliveryStreamName = dictionary["ExclusiveStartDeliveryStreamName"] as? String
+        }
     }
 
     public struct S3DestinationConfiguration: AWSShape {
@@ -356,6 +459,17 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
+            self.bucketARN = bucketARN
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            self.prefix = dictionary["Prefix"] as? String
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            self.compressionFormat = dictionary["CompressionFormat"] as? String
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct S3DestinationDescription: AWSShape {
@@ -388,6 +502,20 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
+            self.bucketARN = bucketARN
+            guard let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EncryptionConfiguration") }
+            self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration)
+            self.prefix = dictionary["Prefix"] as? String
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            guard let compressionFormat = dictionary["CompressionFormat"] as? String else { throw InitializableError.missingRequiredParam("CompressionFormat") }
+            self.compressionFormat = compressionFormat
+            guard let bufferingHints = dictionary["BufferingHints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BufferingHints") }
+            self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints)
+        }
     }
 
     public struct DeleteDeliveryStreamInput: AWSShape {
@@ -402,6 +530,10 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+        }
     }
 
     public struct UpdateDestinationOutput: AWSShape {
@@ -410,6 +542,8 @@ extension Firehose {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RedshiftDestinationUpdate: AWSShape {
@@ -454,6 +588,19 @@ extension Firehose {
             self.retryOptions = retryOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let copyCommand = dictionary["CopyCommand"] as? [String: Any] { self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand) }
+            self.username = dictionary["Username"] as? String
+            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) }
+            self.clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) }
+            self.password = dictionary["Password"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) }
+        }
     }
 
     public struct BufferingHints: AWSShape {
@@ -471,6 +618,10 @@ extension Firehose {
             self.sizeInMBs = sizeInMBs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.intervalInSeconds = dictionary["IntervalInSeconds"] as? Int32
+            self.sizeInMBs = dictionary["SizeInMBs"] as? Int32
+        }
     }
 
     public struct RedshiftRetryOptions: AWSShape {
@@ -485,6 +636,9 @@ extension Firehose {
             self.durationInSeconds = durationInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.durationInSeconds = dictionary["DurationInSeconds"] as? Int32
+        }
     }
 
     public struct S3DestinationUpdate: AWSShape {
@@ -517,6 +671,15 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucketARN = dictionary["BucketARN"] as? String
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            self.prefix = dictionary["Prefix"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            self.compressionFormat = dictionary["CompressionFormat"] as? String
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct PutRecordBatchOutput: AWSShape {
@@ -534,6 +697,12 @@ extension Firehose {
             self.failedPutCount = failedPutCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let requestResponses = dictionary["RequestResponses"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RequestResponses") }
+            self.requestResponses = try requestResponses.map({ try PutRecordBatchResponseEntry(dictionary: $0) })
+            guard let failedPutCount = dictionary["FailedPutCount"] as? Int32 else { throw InitializableError.missingRequiredParam("FailedPutCount") }
+            self.failedPutCount = failedPutCount
+        }
     }
 
     public struct CreateDeliveryStreamOutput: AWSShape {
@@ -548,6 +717,9 @@ extension Firehose {
             self.deliveryStreamARN = deliveryStreamARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String
+        }
     }
 
     public struct ElasticsearchDestinationUpdate: AWSShape {
@@ -589,6 +761,18 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.typeName = dictionary["TypeName"] as? String
+            self.indexName = dictionary["IndexName"] as? String
+            self.indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String
+            self.domainARN = dictionary["DomainARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct CreateDeliveryStreamInput: AWSShape {
@@ -615,6 +799,14 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elasticsearchDestinationConfiguration = dictionary["ElasticsearchDestinationConfiguration"] as? [String: Any] { self.elasticsearchDestinationConfiguration = try Firehose.ElasticsearchDestinationConfiguration(dictionary: elasticsearchDestinationConfiguration) }
+            if let extendedS3DestinationConfiguration = dictionary["ExtendedS3DestinationConfiguration"] as? [String: Any] { self.extendedS3DestinationConfiguration = try Firehose.ExtendedS3DestinationConfiguration(dictionary: extendedS3DestinationConfiguration) }
+            if let s3DestinationConfiguration = dictionary["S3DestinationConfiguration"] as? [String: Any] { self.s3DestinationConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3DestinationConfiguration) }
+            if let redshiftDestinationConfiguration = dictionary["RedshiftDestinationConfiguration"] as? [String: Any] { self.redshiftDestinationConfiguration = try Firehose.RedshiftDestinationConfiguration(dictionary: redshiftDestinationConfiguration) }
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+        }
     }
 
     public struct ElasticsearchDestinationConfiguration: AWSShape {
@@ -659,6 +851,24 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
+            self.typeName = typeName
+            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
+            self.indexName = indexName
+            guard let s3Configuration = dictionary["S3Configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Configuration") }
+            self.s3Configuration = try Firehose.S3DestinationConfiguration(dictionary: s3Configuration)
+            self.indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String
+            guard let domainARN = dictionary["DomainARN"] as? String else { throw InitializableError.missingRequiredParam("DomainARN") }
+            self.domainARN = domainARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct Record: AWSShape {
@@ -673,6 +883,10 @@ extension Firehose {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
+            self.data = data
+        }
     }
 
     public struct PutRecordBatchInput: AWSShape {
@@ -690,6 +904,12 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
+            self.records = try records.map({ try Record(dictionary: $0) })
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+        }
     }
 
     public struct ProcessorParameter: AWSShape {
@@ -707,6 +927,12 @@ extension Firehose {
             self.parameterValue = parameterValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parameterName = dictionary["ParameterName"] as? String else { throw InitializableError.missingRequiredParam("ParameterName") }
+            self.parameterName = parameterName
+            guard let parameterValue = dictionary["ParameterValue"] as? String else { throw InitializableError.missingRequiredParam("ParameterValue") }
+            self.parameterValue = parameterValue
+        }
     }
 
     public struct KMSEncryptionConfig: AWSShape {
@@ -721,6 +947,10 @@ extension Firehose {
             self.aWSKMSKeyARN = aWSKMSKeyARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aWSKMSKeyARN = dictionary["AWSKMSKeyARN"] as? String else { throw InitializableError.missingRequiredParam("AWSKMSKeyARN") }
+            self.aWSKMSKeyARN = aWSKMSKeyARN
+        }
     }
 
     public struct ExtendedS3DestinationDescription: AWSShape {
@@ -762,6 +992,23 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) }
+            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
+            self.bucketARN = bucketARN
+            guard let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EncryptionConfiguration") }
+            self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration)
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            self.prefix = dictionary["Prefix"] as? String
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            guard let compressionFormat = dictionary["CompressionFormat"] as? String else { throw InitializableError.missingRequiredParam("CompressionFormat") }
+            self.compressionFormat = compressionFormat
+            guard let bufferingHints = dictionary["BufferingHints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BufferingHints") }
+            self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints)
+        }
     }
 
     public struct PutRecordInput: AWSShape {
@@ -779,6 +1026,12 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let record = dictionary["Record"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Record") }
+            self.record = try Firehose.Record(dictionary: record)
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+        }
     }
 
     public struct DeleteDeliveryStreamOutput: AWSShape {
@@ -787,6 +1040,8 @@ extension Firehose {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Processor: AWSShape {
@@ -804,6 +1059,13 @@ extension Firehose {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try ProcessorParameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct ExtendedS3DestinationUpdate: AWSShape {
@@ -845,6 +1107,18 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucketARN = dictionary["BucketARN"] as? String
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            self.prefix = dictionary["Prefix"] as? String
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            self.compressionFormat = dictionary["CompressionFormat"] as? String
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct CloudWatchLoggingOptions: AWSShape {
@@ -865,6 +1139,11 @@ extension Firehose {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.logStreamName = dictionary["LogStreamName"] as? String
+            self.logGroupName = dictionary["LogGroupName"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct DescribeDeliveryStreamInput: AWSShape {
@@ -885,6 +1164,12 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exclusiveStartDestinationId = dictionary["ExclusiveStartDestinationId"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+        }
     }
 
     public struct EncryptionConfiguration: AWSShape {
@@ -902,6 +1187,10 @@ extension Firehose {
             self.noEncryptionConfig = noEncryptionConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let kMSEncryptionConfig = dictionary["KMSEncryptionConfig"] as? [String: Any] { self.kMSEncryptionConfig = try Firehose.KMSEncryptionConfig(dictionary: kMSEncryptionConfig) }
+            self.noEncryptionConfig = dictionary["NoEncryptionConfig"] as? String
+        }
     }
 
     public struct DeliveryStreamDescription: AWSShape {
@@ -937,6 +1226,22 @@ extension Firehose {
             self.hasMoreDestinations = hasMoreDestinations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destinations = dictionary["Destinations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Destinations") }
+            self.destinations = try destinations.map({ try DestinationDescription(dictionary: $0) })
+            guard let deliveryStreamStatus = dictionary["DeliveryStreamStatus"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamStatus") }
+            self.deliveryStreamStatus = deliveryStreamStatus
+            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? Date
+            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
+            self.deliveryStreamName = deliveryStreamName
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+            self.createTimestamp = dictionary["CreateTimestamp"] as? Date
+            guard let deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamARN") }
+            self.deliveryStreamARN = deliveryStreamARN
+            guard let hasMoreDestinations = dictionary["HasMoreDestinations"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreDestinations") }
+            self.hasMoreDestinations = hasMoreDestinations
+        }
     }
 
     public struct ElasticsearchDestinationDescription: AWSShape {
@@ -981,6 +1286,19 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.typeName = dictionary["TypeName"] as? String
+            self.indexName = dictionary["IndexName"] as? String
+            self.indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String
+            self.domainARN = dictionary["DomainARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            self.s3BackupMode = dictionary["S3BackupMode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) }
+        }
     }
 
     public struct ElasticsearchBufferingHints: AWSShape {
@@ -998,6 +1316,10 @@ extension Firehose {
             self.intervalInSeconds = intervalInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sizeInMBs = dictionary["SizeInMBs"] as? Int32
+            self.intervalInSeconds = dictionary["IntervalInSeconds"] as? Int32
+        }
     }
 
     public struct PutRecordBatchResponseEntry: AWSShape {
@@ -1018,6 +1340,11 @@ extension Firehose {
             self.errorMessage = errorMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.recordId = dictionary["RecordId"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+        }
     }
 
 }

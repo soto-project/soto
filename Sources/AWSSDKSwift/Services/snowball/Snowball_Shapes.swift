@@ -44,6 +44,10 @@ extension Snowball {
             self.bucketArn = bucketArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyRange = dictionary["KeyRange"] as? [String: Any] { self.keyRange = try Snowball.KeyRange(dictionary: keyRange) }
+            self.bucketArn = dictionary["BucketArn"] as? String
+        }
     }
 
     public struct UpdateJobRequest: AWSShape {
@@ -79,6 +83,17 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shippingOption = dictionary["ShippingOption"] as? String
+            self.snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String
+            self.addressId = dictionary["AddressId"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) }
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) }
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct JobResource: AWSShape {
@@ -96,6 +111,14 @@ extension Snowball {
             self.lambdaResources = lambdaResources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3Resources = dictionary["S3Resources"] as? [[String: Any]] {
+                self.s3Resources = try s3Resources.map({ try S3Resource(dictionary: $0) })
+            }
+            if let lambdaResources = dictionary["LambdaResources"] as? [[String: Any]] {
+                self.lambdaResources = try lambdaResources.map({ try LambdaResource(dictionary: $0) })
+            }
+        }
     }
 
     public struct CancelClusterRequest: AWSShape {
@@ -110,6 +133,10 @@ extension Snowball {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct ShippingDetails: AWSShape {
@@ -130,6 +157,11 @@ extension Snowball {
             self.outboundShipment = outboundShipment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shippingOption = dictionary["ShippingOption"] as? String
+            if let inboundShipment = dictionary["InboundShipment"] as? [String: Any] { self.inboundShipment = try Snowball.Shipment(dictionary: inboundShipment) }
+            if let outboundShipment = dictionary["OutboundShipment"] as? [String: Any] { self.outboundShipment = try Snowball.Shipment(dictionary: outboundShipment) }
+        }
     }
 
     public struct ListClusterJobsRequest: AWSShape {
@@ -150,6 +182,12 @@ extension Snowball {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UpdateJobResult: AWSShape {
@@ -158,6 +196,8 @@ extension Snowball {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct EventTriggerDefinition: AWSShape {
@@ -172,6 +212,9 @@ extension Snowball {
             self.eventResourceARN = eventResourceARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventResourceARN = dictionary["EventResourceARN"] as? String
+        }
     }
 
     public struct GetJobUnlockCodeRequest: AWSShape {
@@ -186,6 +229,10 @@ extension Snowball {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct KeyRange: AWSShape {
@@ -203,6 +250,10 @@ extension Snowball {
             self.endMarker = endMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.beginMarker = dictionary["BeginMarker"] as? String
+            self.endMarker = dictionary["EndMarker"] as? String
+        }
     }
 
     public struct DescribeClusterResult: AWSShape {
@@ -217,6 +268,9 @@ extension Snowball {
             self.clusterMetadata = clusterMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterMetadata = dictionary["ClusterMetadata"] as? [String: Any] { self.clusterMetadata = try Snowball.ClusterMetadata(dictionary: clusterMetadata) }
+        }
     }
 
     public struct Address: AWSShape {
@@ -267,6 +321,21 @@ extension Snowball {
             self.company = company
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.landmark = dictionary["Landmark"] as? String
+            self.phoneNumber = dictionary["PhoneNumber"] as? String
+            self.country = dictionary["Country"] as? String
+            self.street1 = dictionary["Street1"] as? String
+            self.postalCode = dictionary["PostalCode"] as? String
+            self.street2 = dictionary["Street2"] as? String
+            self.stateOrProvince = dictionary["StateOrProvince"] as? String
+            self.prefectureOrDistrict = dictionary["PrefectureOrDistrict"] as? String
+            self.addressId = dictionary["AddressId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.city = dictionary["City"] as? String
+            self.street3 = dictionary["Street3"] as? String
+            self.company = dictionary["Company"] as? String
+        }
     }
 
     public struct ListClustersResult: AWSShape {
@@ -284,6 +353,12 @@ extension Snowball {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterListEntries = dictionary["ClusterListEntries"] as? [[String: Any]] {
+                self.clusterListEntries = try clusterListEntries.map({ try ClusterListEntry(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetSnowballUsageRequest: AWSShape {
@@ -292,6 +367,8 @@ extension Snowball {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CancelJobResult: AWSShape {
@@ -300,6 +377,8 @@ extension Snowball {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateClusterResult: AWSShape {
@@ -314,6 +393,9 @@ extension Snowball {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterId = dictionary["ClusterId"] as? String
+        }
     }
 
     public struct CreateClusterRequest: AWSShape {
@@ -352,6 +434,22 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shippingOption = dictionary["ShippingOption"] as? String else { throw InitializableError.missingRequiredParam("ShippingOption") }
+            self.shippingOption = shippingOption
+            guard let addressId = dictionary["AddressId"] as? String else { throw InitializableError.missingRequiredParam("AddressId") }
+            self.addressId = addressId
+            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
+            guard let jobType = dictionary["JobType"] as? String else { throw InitializableError.missingRequiredParam("JobType") }
+            self.jobType = jobType
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) }
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+            self.snowballType = dictionary["SnowballType"] as? String
+            guard let resources = dictionary["Resources"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Resources") }
+            self.resources = try Snowball.JobResource(dictionary: resources)
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeClusterRequest: AWSShape {
@@ -366,6 +464,10 @@ extension Snowball {
             self.clusterId = clusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+        }
     }
 
     public struct ListClustersRequest: AWSShape {
@@ -383,6 +485,10 @@ extension Snowball {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateAddressRequest: AWSShape {
@@ -397,6 +503,10 @@ extension Snowball {
             self.address = address
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let address = dictionary["Address"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Address") }
+            self.address = try Snowball.Address(dictionary: address)
+        }
     }
 
     public struct DescribeAddressesResult: AWSShape {
@@ -414,6 +524,12 @@ extension Snowball {
             self.addresses = addresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let addresses = dictionary["Addresses"] as? [[String: Any]] {
+                self.addresses = try addresses.map({ try Address(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateClusterResult: AWSShape {
@@ -422,6 +538,8 @@ extension Snowball {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetJobUnlockCodeResult: AWSShape {
@@ -436,6 +554,9 @@ extension Snowball {
             self.unlockCode = unlockCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.unlockCode = dictionary["UnlockCode"] as? String
+        }
     }
 
     public struct DataTransfer: AWSShape {
@@ -459,6 +580,12 @@ extension Snowball {
             self.totalObjects = totalObjects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectsTransferred = dictionary["ObjectsTransferred"] as? Int64
+            self.bytesTransferred = dictionary["BytesTransferred"] as? Int64
+            self.totalBytes = dictionary["TotalBytes"] as? Int64
+            self.totalObjects = dictionary["TotalObjects"] as? Int64
+        }
     }
 
     public struct GetJobManifestRequest: AWSShape {
@@ -473,6 +600,10 @@ extension Snowball {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct DescribeAddressRequest: AWSShape {
@@ -487,6 +618,10 @@ extension Snowball {
             self.addressId = addressId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let addressId = dictionary["AddressId"] as? String else { throw InitializableError.missingRequiredParam("AddressId") }
+            self.addressId = addressId
+        }
     }
 
     public struct DescribeJobRequest: AWSShape {
@@ -501,6 +636,10 @@ extension Snowball {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct ListJobsResult: AWSShape {
@@ -518,6 +657,12 @@ extension Snowball {
             self.jobListEntries = jobListEntries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let jobListEntries = dictionary["JobListEntries"] as? [[String: Any]] {
+                self.jobListEntries = try jobListEntries.map({ try JobListEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateJobResult: AWSShape {
@@ -532,6 +677,9 @@ extension Snowball {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobId = dictionary["JobId"] as? String
+        }
     }
 
     public struct DescribeAddressResult: AWSShape {
@@ -546,6 +694,9 @@ extension Snowball {
             self.address = address
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let address = dictionary["Address"] as? [String: Any] { self.address = try Snowball.Address(dictionary: address) }
+        }
     }
 
     public struct CancelClusterResult: AWSShape {
@@ -554,6 +705,8 @@ extension Snowball {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct LambdaResource: AWSShape {
@@ -571,6 +724,12 @@ extension Snowball {
             self.eventTriggers = eventTriggers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lambdaArn = dictionary["LambdaArn"] as? String
+            if let eventTriggers = dictionary["EventTriggers"] as? [[String: Any]] {
+                self.eventTriggers = try eventTriggers.map({ try EventTriggerDefinition(dictionary: $0) })
+            }
+        }
     }
 
     public struct ClusterMetadata: AWSShape {
@@ -618,6 +777,20 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterState = dictionary["ClusterState"] as? String
+            self.shippingOption = dictionary["ShippingOption"] as? String
+            self.addressId = dictionary["AddressId"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.jobType = dictionary["JobType"] as? String
+            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.snowballType = dictionary["SnowballType"] as? String
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) }
+            self.clusterId = dictionary["ClusterId"] as? String
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Notification: AWSShape {
@@ -638,6 +811,13 @@ extension Snowball {
             self.snsTopicARN = snsTopicARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notifyAll = dictionary["NotifyAll"] as? Bool
+            if let jobStatesToNotify = dictionary["JobStatesToNotify"] as? [String] {
+                self.jobStatesToNotify = jobStatesToNotify
+            }
+            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
+        }
     }
 
     public struct ListJobsRequest: AWSShape {
@@ -655,6 +835,10 @@ extension Snowball {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct Shipment: AWSShape {
@@ -672,6 +856,10 @@ extension Snowball {
             self.trackingNumber = trackingNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.trackingNumber = dictionary["TrackingNumber"] as? String
+        }
     }
 
     public struct DescribeAddressesRequest: AWSShape {
@@ -689,6 +877,10 @@ extension Snowball {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UpdateClusterRequest: AWSShape {
@@ -721,6 +913,16 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shippingOption = dictionary["ShippingOption"] as? String
+            self.addressId = dictionary["AddressId"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) }
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) }
+            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
+            self.clusterId = clusterId
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeJobResult: AWSShape {
@@ -738,6 +940,12 @@ extension Snowball {
             self.subJobMetadata = subJobMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobMetadata = dictionary["JobMetadata"] as? [String: Any] { self.jobMetadata = try Snowball.JobMetadata(dictionary: jobMetadata) }
+            if let subJobMetadata = dictionary["SubJobMetadata"] as? [[String: Any]] {
+                self.subJobMetadata = try subJobMetadata.map({ try JobMetadata(dictionary: $0) })
+            }
+        }
     }
 
     public struct JobListEntry: AWSShape {
@@ -770,6 +978,15 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isMaster = dictionary["IsMaster"] as? Bool
+            self.jobType = dictionary["JobType"] as? String
+            self.jobState = dictionary["JobState"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.snowballType = dictionary["SnowballType"] as? String
+            self.jobId = dictionary["JobId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListClusterJobsResult: AWSShape {
@@ -787,6 +1004,12 @@ extension Snowball {
             self.jobListEntries = jobListEntries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let jobListEntries = dictionary["JobListEntries"] as? [[String: Any]] {
+                self.jobListEntries = try jobListEntries.map({ try JobListEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateAddressResult: AWSShape {
@@ -801,6 +1024,9 @@ extension Snowball {
             self.addressId = addressId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.addressId = dictionary["AddressId"] as? String
+        }
     }
 
     public struct CancelJobRequest: AWSShape {
@@ -815,6 +1041,10 @@ extension Snowball {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct ClusterListEntry: AWSShape {
@@ -838,6 +1068,12 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterState = dictionary["ClusterState"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.clusterId = dictionary["ClusterId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct JobMetadata: AWSShape {
@@ -897,6 +1133,24 @@ extension Snowball {
             self.resources = resources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dataTransferProgress = dictionary["DataTransferProgress"] as? [String: Any] { self.dataTransferProgress = try Snowball.DataTransfer(dictionary: dataTransferProgress) }
+            self.snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.jobState = dictionary["JobState"] as? String
+            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.jobId = dictionary["JobId"] as? String
+            self.description = dictionary["Description"] as? String
+            if let shippingDetails = dictionary["ShippingDetails"] as? [String: Any] { self.shippingDetails = try Snowball.ShippingDetails(dictionary: shippingDetails) }
+            self.addressId = dictionary["AddressId"] as? String
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) }
+            self.jobType = dictionary["JobType"] as? String
+            self.snowballType = dictionary["SnowballType"] as? String
+            if let jobLogInfo = dictionary["JobLogInfo"] as? [String: Any] { self.jobLogInfo = try Snowball.JobLogs(dictionary: jobLogInfo) }
+            self.clusterId = dictionary["ClusterId"] as? String
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) }
+        }
     }
 
     public struct JobLogs: AWSShape {
@@ -917,6 +1171,11 @@ extension Snowball {
             self.jobCompletionReportURI = jobCompletionReportURI
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobFailureLogURI = dictionary["JobFailureLogURI"] as? String
+            self.jobSuccessLogURI = dictionary["JobSuccessLogURI"] as? String
+            self.jobCompletionReportURI = dictionary["JobCompletionReportURI"] as? String
+        }
     }
 
     public struct GetSnowballUsageResult: AWSShape {
@@ -934,6 +1193,10 @@ extension Snowball {
             self.snowballsInUse = snowballsInUse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snowballLimit = dictionary["SnowballLimit"] as? Int32
+            self.snowballsInUse = dictionary["SnowballsInUse"] as? Int32
+        }
     }
 
     public struct CreateJobRequest: AWSShape {
@@ -978,6 +1241,19 @@ extension Snowball {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shippingOption = dictionary["ShippingOption"] as? String
+            self.snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String
+            self.addressId = dictionary["AddressId"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.jobType = dictionary["JobType"] as? String
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) }
+            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
+            self.snowballType = dictionary["SnowballType"] as? String
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) }
+            self.clusterId = dictionary["ClusterId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct GetJobManifestResult: AWSShape {
@@ -992,6 +1268,9 @@ extension Snowball {
             self.manifestURI = manifestURI
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.manifestURI = dictionary["ManifestURI"] as? String
+        }
     }
 
 }

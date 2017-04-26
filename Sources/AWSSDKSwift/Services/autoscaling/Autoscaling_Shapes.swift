@@ -44,6 +44,11 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let launchConfigurations = dictionary["LaunchConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("LaunchConfigurations") }
+            self.launchConfigurations = try launchConfigurations.map({ try LaunchConfiguration(dictionary: $0) })
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ActivityType: AWSShape {
@@ -58,6 +63,9 @@ extension Autoscaling {
             self.activity = activity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let activity = dictionary["Activity"] as? [String: Any] { self.activity = try Autoscaling.Activity(dictionary: activity) }
+        }
     }
 
     public struct ProcessType: AWSShape {
@@ -72,6 +80,10 @@ extension Autoscaling {
             self.processName = processName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let processName = dictionary["ProcessName"] as? String else { throw InitializableError.missingRequiredParam("ProcessName") }
+            self.processName = processName
+        }
     }
 
     public struct DeleteLifecycleHookAnswer: AWSShape {
@@ -80,6 +92,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PutLifecycleHookType: AWSShape {
@@ -115,6 +129,18 @@ extension Autoscaling {
             self.lifecycleHookName = lifecycleHookName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notificationTargetARN = dictionary["NotificationTargetARN"] as? String
+            self.notificationMetadata = dictionary["NotificationMetadata"] as? String
+            self.defaultResult = dictionary["DefaultResult"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.heartbeatTimeout = dictionary["HeartbeatTimeout"] as? Int32
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            self.lifecycleTransition = dictionary["LifecycleTransition"] as? String
+            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
+            self.lifecycleHookName = lifecycleHookName
+        }
     }
 
     public struct LaunchConfigurationNamesType: AWSShape {
@@ -135,6 +161,13 @@ extension Autoscaling {
             self.launchConfigurationNames = launchConfigurationNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let launchConfigurationNames = dictionary["LaunchConfigurationNames"] as? [String] {
+                self.launchConfigurationNames = launchConfigurationNames
+            }
+        }
     }
 
     public struct DescribeNotificationConfigurationsAnswer: AWSShape {
@@ -152,6 +185,11 @@ extension Autoscaling {
             self.notificationConfigurations = notificationConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let notificationConfigurations = dictionary["NotificationConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("NotificationConfigurations") }
+            self.notificationConfigurations = try notificationConfigurations.map({ try NotificationConfiguration(dictionary: $0) })
+        }
     }
 
     public struct ScalingPolicy: AWSShape {
@@ -202,6 +240,25 @@ extension Autoscaling {
             self.stepAdjustments = stepAdjustments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minAdjustmentStep = dictionary["MinAdjustmentStep"] as? Int32
+            self.policyType = dictionary["PolicyType"] as? String
+            self.adjustmentType = dictionary["AdjustmentType"] as? String
+            self.cooldown = dictionary["Cooldown"] as? Int32
+            self.minAdjustmentMagnitude = dictionary["MinAdjustmentMagnitude"] as? Int32
+            self.policyName = dictionary["PolicyName"] as? String
+            self.metricAggregationType = dictionary["MetricAggregationType"] as? String
+            self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
+            self.policyARN = dictionary["PolicyARN"] as? String
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            if let alarms = dictionary["Alarms"] as? [[String: Any]] {
+                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
+            }
+            self.estimatedInstanceWarmup = dictionary["EstimatedInstanceWarmup"] as? Int32
+            if let stepAdjustments = dictionary["StepAdjustments"] as? [[String: Any]] {
+                self.stepAdjustments = try stepAdjustments.map({ try StepAdjustment(dictionary: $0) })
+            }
+        }
     }
 
     public struct DetachLoadBalancersType: AWSShape {
@@ -219,6 +276,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
+            self.loadBalancerNames = loadBalancerNames
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct AdjustmentType: AWSShape {
@@ -233,6 +296,9 @@ extension Autoscaling {
             self.adjustmentType = adjustmentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.adjustmentType = dictionary["AdjustmentType"] as? String
+        }
     }
 
     public struct AutoScalingInstanceDetails: AWSShape {
@@ -265,6 +331,22 @@ extension Autoscaling {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
+            self.launchConfigurationName = launchConfigurationName
+            guard let lifecycleState = dictionary["LifecycleState"] as? String else { throw InitializableError.missingRequiredParam("LifecycleState") }
+            self.lifecycleState = lifecycleState
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let protectedFromScaleIn = dictionary["ProtectedFromScaleIn"] as? Bool else { throw InitializableError.missingRequiredParam("ProtectedFromScaleIn") }
+            self.protectedFromScaleIn = protectedFromScaleIn
+            guard let healthStatus = dictionary["HealthStatus"] as? String else { throw InitializableError.missingRequiredParam("HealthStatus") }
+            self.healthStatus = healthStatus
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+        }
     }
 
     public struct PutScheduledUpdateGroupActionType: AWSShape {
@@ -303,6 +385,19 @@ extension Autoscaling {
             self.recurrence = recurrence
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.minSize = dictionary["MinSize"] as? Int32
+            self.time = dictionary["Time"] as? Date
+            self.maxSize = dictionary["MaxSize"] as? Int32
+            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
+            self.endTime = dictionary["EndTime"] as? Date
+            guard let scheduledActionName = dictionary["ScheduledActionName"] as? String else { throw InitializableError.missingRequiredParam("ScheduledActionName") }
+            self.scheduledActionName = scheduledActionName
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            self.recurrence = dictionary["Recurrence"] as? String
+        }
     }
 
     public struct AutoScalingGroupNamesType: AWSShape {
@@ -323,6 +418,13 @@ extension Autoscaling {
             self.autoScalingGroupNames = autoScalingGroupNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let autoScalingGroupNames = dictionary["AutoScalingGroupNames"] as? [String] {
+                self.autoScalingGroupNames = autoScalingGroupNames
+            }
+        }
     }
 
     public struct DescribeScheduledActionsType: AWSShape {
@@ -352,6 +454,16 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.startTime = dictionary["StartTime"] as? Date
+            if let scheduledActionNames = dictionary["ScheduledActionNames"] as? [String] {
+                self.scheduledActionNames = scheduledActionNames
+            }
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct LoadBalancerState: AWSShape {
@@ -369,6 +481,10 @@ extension Autoscaling {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct ExecutePolicyType: AWSShape {
@@ -395,6 +511,14 @@ extension Autoscaling {
             self.metricValue = metricValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+            self.breachThreshold = dictionary["BreachThreshold"] as? Double
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            self.honorCooldown = dictionary["HonorCooldown"] as? Bool
+            self.metricValue = dictionary["MetricValue"] as? Double
+        }
     }
 
     public struct DisableMetricsCollectionQuery: AWSShape {
@@ -412,6 +536,13 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metrics = dictionary["Metrics"] as? [String] {
+                self.metrics = metrics
+            }
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
@@ -426,6 +557,11 @@ extension Autoscaling {
             self.autoScalingNotificationTypes = autoScalingNotificationTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let autoScalingNotificationTypes = dictionary["AutoScalingNotificationTypes"] as? [String] {
+                self.autoScalingNotificationTypes = autoScalingNotificationTypes
+            }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -452,6 +588,14 @@ extension Autoscaling {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.propagateAtLaunch = dictionary["PropagateAtLaunch"] as? Bool
+            self.value = dictionary["Value"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.resourceId = dictionary["ResourceId"] as? String
+        }
     }
 
     public struct AttachLoadBalancersType: AWSShape {
@@ -469,6 +613,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
+            self.loadBalancerNames = loadBalancerNames
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct LoadBalancerTargetGroupState: AWSShape {
@@ -486,6 +636,10 @@ extension Autoscaling {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.loadBalancerTargetGroupARN = dictionary["LoadBalancerTargetGroupARN"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct TagDescription: AWSShape {
@@ -512,6 +666,13 @@ extension Autoscaling {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            self.propagateAtLaunch = dictionary["PropagateAtLaunch"] as? Bool
+            self.value = dictionary["Value"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.resourceId = dictionary["ResourceId"] as? String
+        }
     }
 
     public struct CompleteLifecycleActionType: AWSShape {
@@ -538,6 +699,16 @@ extension Autoscaling {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
+            self.lifecycleHookName = lifecycleHookName
+            self.lifecycleActionToken = dictionary["LifecycleActionToken"] as? String
+            guard let lifecycleActionResult = dictionary["LifecycleActionResult"] as? String else { throw InitializableError.missingRequiredParam("LifecycleActionResult") }
+            self.lifecycleActionResult = lifecycleActionResult
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct StepAdjustment: AWSShape {
@@ -558,6 +729,12 @@ extension Autoscaling {
             self.metricIntervalLowerBound = metricIntervalLowerBound
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
+            self.scalingAdjustment = scalingAdjustment
+            self.metricIntervalUpperBound = dictionary["MetricIntervalUpperBound"] as? Double
+            self.metricIntervalLowerBound = dictionary["MetricIntervalLowerBound"] as? Double
+        }
     }
 
     public struct SetInstanceProtectionAnswer: AWSShape {
@@ -566,6 +743,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Alarm: AWSShape {
@@ -583,6 +762,10 @@ extension Autoscaling {
             self.alarmARN = alarmARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.alarmName = dictionary["AlarmName"] as? String
+            self.alarmARN = dictionary["AlarmARN"] as? String
+        }
     }
 
     public struct Instance: AWSShape {
@@ -612,6 +795,20 @@ extension Autoscaling {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let protectedFromScaleIn = dictionary["ProtectedFromScaleIn"] as? Bool else { throw InitializableError.missingRequiredParam("ProtectedFromScaleIn") }
+            self.protectedFromScaleIn = protectedFromScaleIn
+            guard let healthStatus = dictionary["HealthStatus"] as? String else { throw InitializableError.missingRequiredParam("HealthStatus") }
+            self.healthStatus = healthStatus
+            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
+            self.launchConfigurationName = launchConfigurationName
+            guard let lifecycleState = dictionary["LifecycleState"] as? String else { throw InitializableError.missingRequiredParam("LifecycleState") }
+            self.lifecycleState = lifecycleState
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
+            self.availabilityZone = availabilityZone
+        }
     }
 
     public struct ScalingProcessQuery: AWSShape {
@@ -629,6 +826,13 @@ extension Autoscaling {
             self.scalingProcesses = scalingProcesses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            if let scalingProcesses = dictionary["ScalingProcesses"] as? [String] {
+                self.scalingProcesses = scalingProcesses
+            }
+        }
     }
 
     public struct ExitStandbyQuery: AWSShape {
@@ -646,6 +850,13 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct CreateAutoScalingGroupType: AWSShape {
@@ -708,6 +919,38 @@ extension Autoscaling {
             self.healthCheckType = healthCheckType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.launchConfigurationName = dictionary["LaunchConfigurationName"] as? String
+            self.newInstancesProtectedFromScaleIn = dictionary["NewInstancesProtectedFromScaleIn"] as? Bool
+            self.vPCZoneIdentifier = dictionary["VPCZoneIdentifier"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let maxSize = dictionary["MaxSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxSize") }
+            self.maxSize = maxSize
+            if let targetGroupARNs = dictionary["TargetGroupARNs"] as? [String] {
+                self.targetGroupARNs = targetGroupARNs
+            }
+            guard let minSize = dictionary["MinSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MinSize") }
+            self.minSize = minSize
+            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
+            self.placementGroup = dictionary["PlacementGroup"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.defaultCooldown = dictionary["DefaultCooldown"] as? Int32
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            self.healthCheckGracePeriod = dictionary["HealthCheckGracePeriod"] as? Int32
+            if let terminationPolicies = dictionary["TerminationPolicies"] as? [String] {
+                self.terminationPolicies = terminationPolicies
+            }
+            if let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] {
+                self.loadBalancerNames = loadBalancerNames
+            }
+            self.healthCheckType = dictionary["HealthCheckType"] as? String
+        }
     }
 
     public struct TagsType: AWSShape {
@@ -725,6 +968,12 @@ extension Autoscaling {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try TagDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutNotificationConfigurationType: AWSShape {
@@ -745,6 +994,14 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let notificationTypes = dictionary["NotificationTypes"] as? [String] else { throw InitializableError.missingRequiredParam("NotificationTypes") }
+            self.notificationTypes = notificationTypes
+            guard let topicARN = dictionary["TopicARN"] as? String else { throw InitializableError.missingRequiredParam("TopicARN") }
+            self.topicARN = topicARN
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct EnabledMetric: AWSShape {
@@ -762,6 +1019,10 @@ extension Autoscaling {
             self.metric = metric
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.granularity = dictionary["Granularity"] as? String
+            self.metric = dictionary["Metric"] as? String
+        }
     }
 
     public struct MetricGranularityType: AWSShape {
@@ -776,6 +1037,9 @@ extension Autoscaling {
             self.granularity = granularity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.granularity = dictionary["Granularity"] as? String
+        }
     }
 
     public struct ScheduledUpdateGroupAction: AWSShape {
@@ -817,6 +1081,18 @@ extension Autoscaling {
             self.recurrence = recurrence
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.scheduledActionARN = dictionary["ScheduledActionARN"] as? String
+            self.time = dictionary["Time"] as? Date
+            self.minSize = dictionary["MinSize"] as? Int32
+            self.maxSize = dictionary["MaxSize"] as? Int32
+            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
+            self.endTime = dictionary["EndTime"] as? Date
+            self.scheduledActionName = dictionary["ScheduledActionName"] as? String
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            self.recurrence = dictionary["Recurrence"] as? String
+        }
     }
 
     public struct DeletePolicyType: AWSShape {
@@ -834,6 +1110,11 @@ extension Autoscaling {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ProcessesType: AWSShape {
@@ -848,6 +1129,11 @@ extension Autoscaling {
             self.processes = processes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let processes = dictionary["Processes"] as? [[String: Any]] {
+                self.processes = try processes.map({ try ProcessType(dictionary: $0) })
+            }
+        }
     }
 
     public struct AttachInstancesQuery: AWSShape {
@@ -865,6 +1151,13 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct AutoScalingGroupsType: AWSShape {
@@ -882,6 +1175,11 @@ extension Autoscaling {
             self.autoScalingGroups = autoScalingGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let autoScalingGroups = dictionary["AutoScalingGroups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AutoScalingGroups") }
+            self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
+        }
     }
 
     public struct AutoScalingGroup: AWSShape {
@@ -959,6 +1257,52 @@ extension Autoscaling {
             self.healthCheckType = healthCheckType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
+            self.availabilityZones = availabilityZones
+            if let enabledMetrics = dictionary["EnabledMetrics"] as? [[String: Any]] {
+                self.enabledMetrics = try enabledMetrics.map({ try EnabledMetric(dictionary: $0) })
+            }
+            self.launchConfigurationName = dictionary["LaunchConfigurationName"] as? String
+            self.newInstancesProtectedFromScaleIn = dictionary["NewInstancesProtectedFromScaleIn"] as? Bool
+            self.vPCZoneIdentifier = dictionary["VPCZoneIdentifier"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try TagDescription(dictionary: $0) })
+            }
+            guard let maxSize = dictionary["MaxSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxSize") }
+            self.maxSize = maxSize
+            if let suspendedProcesses = dictionary["SuspendedProcesses"] as? [[String: Any]] {
+                self.suspendedProcesses = try suspendedProcesses.map({ try SuspendedProcess(dictionary: $0) })
+            }
+            if let targetGroupARNs = dictionary["TargetGroupARNs"] as? [String] {
+                self.targetGroupARNs = targetGroupARNs
+            }
+            guard let createdTime = dictionary["CreatedTime"] as? Date else { throw InitializableError.missingRequiredParam("CreatedTime") }
+            self.createdTime = createdTime
+            self.status = dictionary["Status"] as? String
+            guard let minSize = dictionary["MinSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MinSize") }
+            self.minSize = minSize
+            guard let desiredCapacity = dictionary["DesiredCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("DesiredCapacity") }
+            self.desiredCapacity = desiredCapacity
+            self.autoScalingGroupARN = dictionary["AutoScalingGroupARN"] as? String
+            self.placementGroup = dictionary["PlacementGroup"] as? String
+            guard let defaultCooldown = dictionary["DefaultCooldown"] as? Int32 else { throw InitializableError.missingRequiredParam("DefaultCooldown") }
+            self.defaultCooldown = defaultCooldown
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+            if let terminationPolicies = dictionary["TerminationPolicies"] as? [String] {
+                self.terminationPolicies = terminationPolicies
+            }
+            self.healthCheckGracePeriod = dictionary["HealthCheckGracePeriod"] as? Int32
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            if let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] {
+                self.loadBalancerNames = loadBalancerNames
+            }
+            guard let healthCheckType = dictionary["HealthCheckType"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckType") }
+            self.healthCheckType = healthCheckType
+        }
     }
 
     public struct DescribeLifecycleHookTypesAnswer: AWSShape {
@@ -973,6 +1317,11 @@ extension Autoscaling {
             self.lifecycleHookTypes = lifecycleHookTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lifecycleHookTypes = dictionary["LifecycleHookTypes"] as? [String] {
+                self.lifecycleHookTypes = lifecycleHookTypes
+            }
+        }
     }
 
     public struct DescribeNotificationConfigurationsType: AWSShape {
@@ -993,6 +1342,13 @@ extension Autoscaling {
             self.autoScalingGroupNames = autoScalingGroupNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let autoScalingGroupNames = dictionary["AutoScalingGroupNames"] as? [String] {
+                self.autoScalingGroupNames = autoScalingGroupNames
+            }
+        }
     }
 
     public struct Ebs: AWSShape {
@@ -1022,6 +1378,14 @@ extension Autoscaling {
             self.encrypted = encrypted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.iops = dictionary["Iops"] as? Int32
+            self.encrypted = dictionary["Encrypted"] as? Bool
+        }
     }
 
     public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
@@ -1042,6 +1406,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct DescribeScalingActivitiesType: AWSShape {
@@ -1065,6 +1435,14 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            if let activityIds = dictionary["ActivityIds"] as? [String] {
+                self.activityIds = activityIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DetachInstancesQuery: AWSShape {
@@ -1085,6 +1463,15 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shouldDecrementDesiredCapacity = dictionary["ShouldDecrementDesiredCapacity"] as? Bool else { throw InitializableError.missingRequiredParam("ShouldDecrementDesiredCapacity") }
+            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+        }
     }
 
     public struct DescribePoliciesType: AWSShape {
@@ -1111,6 +1498,17 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            if let policyTypes = dictionary["PolicyTypes"] as? [String] {
+                self.policyTypes = policyTypes
+            }
+            if let policyNames = dictionary["PolicyNames"] as? [String] {
+                self.policyNames = policyNames
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteNotificationConfigurationType: AWSShape {
@@ -1128,6 +1526,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicARN = dictionary["TopicARN"] as? String else { throw InitializableError.missingRequiredParam("TopicARN") }
+            self.topicARN = topicARN
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct PoliciesType: AWSShape {
@@ -1145,6 +1549,12 @@ extension Autoscaling {
             self.scalingPolicies = scalingPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let scalingPolicies = dictionary["ScalingPolicies"] as? [[String: Any]] {
+                self.scalingPolicies = try scalingPolicies.map({ try ScalingPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutLifecycleHookAnswer: AWSShape {
@@ -1153,6 +1563,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct LaunchConfigurationNameType: AWSShape {
@@ -1167,6 +1579,10 @@ extension Autoscaling {
             self.launchConfigurationName = launchConfigurationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
+            self.launchConfigurationName = launchConfigurationName
+        }
     }
 
     public struct DescribeAccountLimitsAnswer: AWSShape {
@@ -1190,6 +1606,12 @@ extension Autoscaling {
             self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxNumberOfLaunchConfigurations = dictionary["MaxNumberOfLaunchConfigurations"] as? Int32
+            self.numberOfLaunchConfigurations = dictionary["NumberOfLaunchConfigurations"] as? Int32
+            self.numberOfAutoScalingGroups = dictionary["NumberOfAutoScalingGroups"] as? Int32
+            self.maxNumberOfAutoScalingGroups = dictionary["MaxNumberOfAutoScalingGroups"] as? Int32
+        }
     }
 
     public struct CompleteLifecycleActionAnswer: AWSShape {
@@ -1198,6 +1620,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PolicyARNType: AWSShape {
@@ -1212,6 +1636,9 @@ extension Autoscaling {
             self.policyARN = policyARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyARN = dictionary["PolicyARN"] as? String
+        }
     }
 
     public struct SuspendedProcess: AWSShape {
@@ -1229,6 +1656,10 @@ extension Autoscaling {
             self.suspensionReason = suspensionReason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.processName = dictionary["ProcessName"] as? String
+            self.suspensionReason = dictionary["SuspensionReason"] as? String
+        }
     }
 
     public struct CreateLaunchConfigurationType: AWSShape {
@@ -1294,6 +1725,33 @@ extension Autoscaling {
             self.ramdiskId = ramdiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
+            self.launchConfigurationName = launchConfigurationName
+            self.userData = dictionary["UserData"] as? String
+            if let classicLinkVPCSecurityGroups = dictionary["ClassicLinkVPCSecurityGroups"] as? [String] {
+                self.classicLinkVPCSecurityGroups = classicLinkVPCSecurityGroups
+            }
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.spotPrice = dictionary["SpotPrice"] as? String
+            self.kernelId = dictionary["KernelId"] as? String
+            if let instanceMonitoring = dictionary["InstanceMonitoring"] as? [String: Any] { self.instanceMonitoring = try Autoscaling.InstanceMonitoring(dictionary: instanceMonitoring) }
+            self.classicLinkVPCId = dictionary["ClassicLinkVPCId"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.placementTenancy = dictionary["PlacementTenancy"] as? String
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            self.keyName = dictionary["KeyName"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+        }
     }
 
     public struct DescribeLifecycleHooksAnswer: AWSShape {
@@ -1308,6 +1766,11 @@ extension Autoscaling {
             self.lifecycleHooks = lifecycleHooks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lifecycleHooks = dictionary["LifecycleHooks"] as? [[String: Any]] {
+                self.lifecycleHooks = try lifecycleHooks.map({ try LifecycleHook(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAutoScalingInstancesType: AWSShape {
@@ -1328,6 +1791,13 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+        }
     }
 
     public struct AutoScalingInstancesType: AWSShape {
@@ -1345,6 +1815,12 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let autoScalingInstances = dictionary["AutoScalingInstances"] as? [[String: Any]] {
+                self.autoScalingInstances = try autoScalingInstances.map({ try AutoScalingInstanceDetails(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct NotificationConfiguration: AWSShape {
@@ -1365,6 +1841,11 @@ extension Autoscaling {
             self.notificationType = notificationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicARN = dictionary["TopicARN"] as? String
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            self.notificationType = dictionary["NotificationType"] as? String
+        }
     }
 
     public struct DescribeMetricCollectionTypesAnswer: AWSShape {
@@ -1382,6 +1863,14 @@ extension Autoscaling {
             self.metrics = metrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let granularities = dictionary["Granularities"] as? [[String: Any]] {
+                self.granularities = try granularities.map({ try MetricGranularityType(dictionary: $0) })
+            }
+            if let metrics = dictionary["Metrics"] as? [[String: Any]] {
+                self.metrics = try metrics.map({ try MetricCollectionType(dictionary: $0) })
+            }
+        }
     }
 
     public struct DetachInstancesAnswer: AWSShape {
@@ -1396,6 +1885,11 @@ extension Autoscaling {
             self.activities = activities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let activities = dictionary["Activities"] as? [[String: Any]] {
+                self.activities = try activities.map({ try Activity(dictionary: $0) })
+            }
+        }
     }
 
     public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
@@ -1404,6 +1898,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
@@ -1412,6 +1908,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct InstanceMonitoring: AWSShape {
@@ -1426,6 +1924,9 @@ extension Autoscaling {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct ExitStandbyAnswer: AWSShape {
@@ -1440,6 +1941,11 @@ extension Autoscaling {
             self.activities = activities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let activities = dictionary["Activities"] as? [[String: Any]] {
+                self.activities = try activities.map({ try Activity(dictionary: $0) })
+            }
+        }
     }
 
     public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
@@ -1457,6 +1963,12 @@ extension Autoscaling {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shouldDecrementDesiredCapacity = dictionary["ShouldDecrementDesiredCapacity"] as? Bool else { throw InitializableError.missingRequiredParam("ShouldDecrementDesiredCapacity") }
+            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct SetDesiredCapacityType: AWSShape {
@@ -1477,6 +1989,13 @@ extension Autoscaling {
             self.honorCooldown = honorCooldown
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let desiredCapacity = dictionary["DesiredCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("DesiredCapacity") }
+            self.desiredCapacity = desiredCapacity
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            self.honorCooldown = dictionary["HonorCooldown"] as? Bool
+        }
     }
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
@@ -1491,6 +2010,11 @@ extension Autoscaling {
             self.terminationPolicyTypes = terminationPolicyTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let terminationPolicyTypes = dictionary["TerminationPolicyTypes"] as? [String] {
+                self.terminationPolicyTypes = terminationPolicyTypes
+            }
+        }
     }
 
     public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
@@ -1499,6 +2023,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Activity: AWSShape {
@@ -1540,6 +2066,23 @@ extension Autoscaling {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+            self.details = dictionary["Details"] as? String
+            self.progress = dictionary["Progress"] as? Int32
+            guard let cause = dictionary["Cause"] as? String else { throw InitializableError.missingRequiredParam("Cause") }
+            self.cause = cause
+            self.endTime = dictionary["EndTime"] as? Date
+            guard let statusCode = dictionary["StatusCode"] as? String else { throw InitializableError.missingRequiredParam("StatusCode") }
+            self.statusCode = statusCode
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            guard let activityId = dictionary["ActivityId"] as? String else { throw InitializableError.missingRequiredParam("ActivityId") }
+            self.activityId = activityId
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct SetInstanceHealthQuery: AWSShape {
@@ -1560,6 +2103,13 @@ extension Autoscaling {
             self.shouldRespectGracePeriod = shouldRespectGracePeriod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let healthStatus = dictionary["HealthStatus"] as? String else { throw InitializableError.missingRequiredParam("HealthStatus") }
+            self.healthStatus = healthStatus
+            self.shouldRespectGracePeriod = dictionary["ShouldRespectGracePeriod"] as? Bool
+        }
     }
 
     public struct DescribeAdjustmentTypesAnswer: AWSShape {
@@ -1574,6 +2124,11 @@ extension Autoscaling {
             self.adjustmentTypes = adjustmentTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let adjustmentTypes = dictionary["AdjustmentTypes"] as? [[String: Any]] {
+                self.adjustmentTypes = try adjustmentTypes.map({ try AdjustmentType(dictionary: $0) })
+            }
+        }
     }
 
     public struct ScheduledActionsType: AWSShape {
@@ -1591,6 +2146,12 @@ extension Autoscaling {
             self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let scheduledUpdateGroupActions = dictionary["ScheduledUpdateGroupActions"] as? [[String: Any]] {
+                self.scheduledUpdateGroupActions = try scheduledUpdateGroupActions.map({ try ScheduledUpdateGroupAction(dictionary: $0) })
+            }
+        }
     }
 
     public struct ActivitiesType: AWSShape {
@@ -1608,6 +2169,11 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activities = dictionary["Activities"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Activities") }
+            self.activities = try activities.map({ try Activity(dictionary: $0) })
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct EnterStandbyAnswer: AWSShape {
@@ -1622,6 +2188,11 @@ extension Autoscaling {
             self.activities = activities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let activities = dictionary["Activities"] as? [[String: Any]] {
+                self.activities = try activities.map({ try Activity(dictionary: $0) })
+            }
+        }
     }
 
     public struct MetricCollectionType: AWSShape {
@@ -1636,6 +2207,9 @@ extension Autoscaling {
             self.metric = metric
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.metric = dictionary["Metric"] as? String
+        }
     }
 
     public struct UpdateAutoScalingGroupType: AWSShape {
@@ -1686,6 +2260,26 @@ extension Autoscaling {
             self.healthCheckType = healthCheckType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.launchConfigurationName = dictionary["LaunchConfigurationName"] as? String
+            self.newInstancesProtectedFromScaleIn = dictionary["NewInstancesProtectedFromScaleIn"] as? Bool
+            self.vPCZoneIdentifier = dictionary["VPCZoneIdentifier"] as? String
+            self.maxSize = dictionary["MaxSize"] as? Int32
+            self.minSize = dictionary["MinSize"] as? Int32
+            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
+            self.placementGroup = dictionary["PlacementGroup"] as? String
+            self.defaultCooldown = dictionary["DefaultCooldown"] as? Int32
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            self.healthCheckGracePeriod = dictionary["HealthCheckGracePeriod"] as? Int32
+            if let terminationPolicies = dictionary["TerminationPolicies"] as? [String] {
+                self.terminationPolicies = terminationPolicies
+            }
+            self.healthCheckType = dictionary["HealthCheckType"] as? String
+        }
     }
 
     public struct DeleteLifecycleHookType: AWSShape {
@@ -1703,6 +2297,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
+            self.lifecycleHookName = lifecycleHookName
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct DescribeLoadBalancersResponse: AWSShape {
@@ -1720,6 +2320,12 @@ extension Autoscaling {
             self.loadBalancers = loadBalancers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
+                self.loadBalancers = try loadBalancers.map({ try LoadBalancerState(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteTagsType: AWSShape {
@@ -1734,6 +2340,10 @@ extension Autoscaling {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
@@ -1751,6 +2361,12 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loadBalancerTargetGroups = dictionary["LoadBalancerTargetGroups"] as? [[String: Any]] {
+                self.loadBalancerTargetGroups = try loadBalancerTargetGroups.map({ try LoadBalancerTargetGroupState(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DetachLoadBalancersResultType: AWSShape {
@@ -1759,6 +2375,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct EnterStandbyQuery: AWSShape {
@@ -1779,6 +2397,15 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shouldDecrementDesiredCapacity = dictionary["ShouldDecrementDesiredCapacity"] as? Bool else { throw InitializableError.missingRequiredParam("ShouldDecrementDesiredCapacity") }
+            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+        }
     }
 
     public struct DetachLoadBalancerTargetGroupsType: AWSShape {
@@ -1796,6 +2423,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetGroupARNs = dictionary["TargetGroupARNs"] as? [String] else { throw InitializableError.missingRequiredParam("TargetGroupARNs") }
+            self.targetGroupARNs = targetGroupARNs
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct AttachLoadBalancerTargetGroupsType: AWSShape {
@@ -1813,6 +2446,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetGroupARNs = dictionary["TargetGroupARNs"] as? [String] else { throw InitializableError.missingRequiredParam("TargetGroupARNs") }
+            self.targetGroupARNs = targetGroupARNs
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct DeleteScheduledActionType: AWSShape {
@@ -1830,6 +2469,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let scheduledActionName = dictionary["ScheduledActionName"] as? String else { throw InitializableError.missingRequiredParam("ScheduledActionName") }
+            self.scheduledActionName = scheduledActionName
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct LifecycleHook: AWSShape {
@@ -1868,6 +2513,17 @@ extension Autoscaling {
             self.globalTimeout = globalTimeout
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notificationTargetARN = dictionary["NotificationTargetARN"] as? String
+            self.notificationMetadata = dictionary["NotificationMetadata"] as? String
+            self.defaultResult = dictionary["DefaultResult"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+            self.heartbeatTimeout = dictionary["HeartbeatTimeout"] as? Int32
+            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
+            self.lifecycleTransition = dictionary["LifecycleTransition"] as? String
+            self.lifecycleHookName = dictionary["LifecycleHookName"] as? String
+            self.globalTimeout = dictionary["GlobalTimeout"] as? Int32
+        }
     }
 
     public struct EnableMetricsCollectionQuery: AWSShape {
@@ -1888,6 +2544,15 @@ extension Autoscaling {
             self.metrics = metrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let granularity = dictionary["Granularity"] as? String else { throw InitializableError.missingRequiredParam("Granularity") }
+            self.granularity = granularity
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            if let metrics = dictionary["Metrics"] as? [String] {
+                self.metrics = metrics
+            }
+        }
     }
 
     public struct LaunchConfiguration: AWSShape {
@@ -1956,6 +2621,37 @@ extension Autoscaling {
             self.associatePublicIpAddress = associatePublicIpAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.launchConfigurationARN = dictionary["LaunchConfigurationARN"] as? String
+            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
+            self.launchConfigurationName = launchConfigurationName
+            self.userData = dictionary["UserData"] as? String
+            if let classicLinkVPCSecurityGroups = dictionary["ClassicLinkVPCSecurityGroups"] as? [String] {
+                self.classicLinkVPCSecurityGroups = classicLinkVPCSecurityGroups
+            }
+            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
+                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            }
+            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
+            self.spotPrice = dictionary["SpotPrice"] as? String
+            self.kernelId = dictionary["KernelId"] as? String
+            if let instanceMonitoring = dictionary["InstanceMonitoring"] as? [String: Any] { self.instanceMonitoring = try Autoscaling.InstanceMonitoring(dictionary: instanceMonitoring) }
+            self.classicLinkVPCId = dictionary["ClassicLinkVPCId"] as? String
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            guard let createdTime = dictionary["CreatedTime"] as? Date else { throw InitializableError.missingRequiredParam("CreatedTime") }
+            self.createdTime = createdTime
+            self.placementTenancy = dictionary["PlacementTenancy"] as? String
+            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
+                self.securityGroups = securityGroups
+            }
+            self.keyName = dictionary["KeyName"] as? String
+            self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
+            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
+            self.imageId = imageId
+            self.ramdiskId = dictionary["RamdiskId"] as? String
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+        }
     }
 
     public struct DescribeTagsType: AWSShape {
@@ -1976,6 +2672,13 @@ extension Autoscaling {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct BlockDeviceMapping: AWSShape {
@@ -1999,6 +2702,13 @@ extension Autoscaling {
             self.ebs = ebs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.noDevice = dictionary["NoDevice"] as? Bool
+            self.virtualName = dictionary["VirtualName"] as? String
+            guard let deviceName = dictionary["DeviceName"] as? String else { throw InitializableError.missingRequiredParam("DeviceName") }
+            self.deviceName = deviceName
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Autoscaling.Ebs(dictionary: ebs) }
+        }
     }
 
     public struct DeleteAutoScalingGroupType: AWSShape {
@@ -2016,6 +2726,11 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.forceDelete = dictionary["ForceDelete"] as? Bool
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct RecordLifecycleActionHeartbeatType: AWSShape {
@@ -2039,6 +2754,14 @@ extension Autoscaling {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
+            self.lifecycleHookName = lifecycleHookName
+            self.lifecycleActionToken = dictionary["LifecycleActionToken"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct DescribeLoadBalancersRequest: AWSShape {
@@ -2059,6 +2782,12 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct PutScalingPolicyType: AWSShape {
@@ -2103,6 +2832,24 @@ extension Autoscaling {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minAdjustmentStep = dictionary["MinAdjustmentStep"] as? Int32
+            self.metricAggregationType = dictionary["MetricAggregationType"] as? String
+            if let stepAdjustments = dictionary["StepAdjustments"] as? [[String: Any]] {
+                self.stepAdjustments = try stepAdjustments.map({ try StepAdjustment(dictionary: $0) })
+            }
+            self.policyType = dictionary["PolicyType"] as? String
+            guard let adjustmentType = dictionary["AdjustmentType"] as? String else { throw InitializableError.missingRequiredParam("AdjustmentType") }
+            self.adjustmentType = adjustmentType
+            self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
+            self.cooldown = dictionary["Cooldown"] as? Int32
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            self.minAdjustmentMagnitude = dictionary["MinAdjustmentMagnitude"] as? Int32
+            self.estimatedInstanceWarmup = dictionary["EstimatedInstanceWarmup"] as? Int32
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct SetInstanceProtectionQuery: AWSShape {
@@ -2123,6 +2870,14 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let protectedFromScaleIn = dictionary["ProtectedFromScaleIn"] as? Bool else { throw InitializableError.missingRequiredParam("ProtectedFromScaleIn") }
+            self.protectedFromScaleIn = protectedFromScaleIn
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+        }
     }
 
     public struct AttachLoadBalancersResultType: AWSShape {
@@ -2131,6 +2886,8 @@ extension Autoscaling {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Filter: AWSShape {
@@ -2148,6 +2905,12 @@ extension Autoscaling {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct DescribeLifecycleHooksType: AWSShape {
@@ -2165,6 +2928,13 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lifecycleHookNames = dictionary["LifecycleHookNames"] as? [String] {
+                self.lifecycleHookNames = lifecycleHookNames
+            }
+            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
+            self.autoScalingGroupName = autoScalingGroupName
+        }
     }
 
     public struct CreateOrUpdateTagsType: AWSShape {
@@ -2179,6 +2949,10 @@ extension Autoscaling {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
 }

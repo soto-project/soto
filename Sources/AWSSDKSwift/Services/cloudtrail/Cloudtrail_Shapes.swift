@@ -50,6 +50,12 @@ extension Cloudtrail {
             self.validityStartTime = validityStartTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.validityEndTime = dictionary["ValidityEndTime"] as? Date
+            self.fingerprint = dictionary["Fingerprint"] as? String
+            self.value = dictionary["Value"] as? Data
+            self.validityStartTime = dictionary["ValidityStartTime"] as? Date
+        }
     }
 
     public struct CreateTrailResponse: AWSShape {
@@ -97,6 +103,20 @@ extension Cloudtrail {
             self.logFileValidationEnabled = logFileValidationEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
+            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
+            self.s3BucketName = dictionary["S3BucketName"] as? String
+            self.snsTopicName = dictionary["SnsTopicName"] as? String
+            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
+            self.trailARN = dictionary["TrailARN"] as? String
+            self.logFileValidationEnabled = dictionary["LogFileValidationEnabled"] as? Bool
+        }
     }
 
     public struct RemoveTagsResponse: AWSShape {
@@ -105,6 +125,8 @@ extension Cloudtrail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AddTagsRequest: AWSShape {
@@ -122,6 +144,13 @@ extension Cloudtrail {
             self.tagsList = tagsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
+                self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartLoggingResponse: AWSShape {
@@ -130,6 +159,8 @@ extension Cloudtrail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListPublicKeysRequest: AWSShape {
@@ -150,6 +181,11 @@ extension Cloudtrail {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endTime = dictionary["EndTime"] as? Date
+            self.nextToken = dictionary["NextToken"] as? String
+            self.startTime = dictionary["StartTime"] as? Date
+        }
     }
 
     public struct LookupEventsRequest: AWSShape {
@@ -176,6 +212,15 @@ extension Cloudtrail {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? Date
+            if let lookupAttributes = dictionary["LookupAttributes"] as? [[String: Any]] {
+                self.lookupAttributes = try lookupAttributes.map({ try LookupAttribute(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DataResource: AWSShape {
@@ -193,6 +238,12 @@ extension Cloudtrail {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct PutEventSelectorsRequest: AWSShape {
@@ -210,6 +261,12 @@ extension Cloudtrail {
             self.trailName = trailName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
+                self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            }
+            self.trailName = dictionary["TrailName"] as? String
+        }
     }
 
     public struct RemoveTagsRequest: AWSShape {
@@ -227,6 +284,13 @@ extension Cloudtrail {
             self.tagsList = tagsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
+                self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListTagsResponse: AWSShape {
@@ -243,6 +307,12 @@ extension Cloudtrail {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceTagList = dictionary["ResourceTagList"] as? [[String: Any]] {
+                self.resourceTagList = try resourceTagList.map({ try ResourceTag(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct UpdateTrailResponse: AWSShape {
@@ -290,6 +360,20 @@ extension Cloudtrail {
             self.logFileValidationEnabled = logFileValidationEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
+            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
+            self.s3BucketName = dictionary["S3BucketName"] as? String
+            self.snsTopicName = dictionary["SnsTopicName"] as? String
+            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
+            self.trailARN = dictionary["TrailARN"] as? String
+            self.logFileValidationEnabled = dictionary["LogFileValidationEnabled"] as? Bool
+        }
     }
 
     public struct Trail: AWSShape {
@@ -343,6 +427,22 @@ extension Cloudtrail {
             self.snsTopicARN = snsTopicARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.logFileValidationEnabled = dictionary["LogFileValidationEnabled"] as? Bool
+            self.homeRegion = dictionary["HomeRegion"] as? String
+            self.trailARN = dictionary["TrailARN"] as? String
+            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
+            self.s3BucketName = dictionary["S3BucketName"] as? String
+            self.snsTopicName = dictionary["SnsTopicName"] as? String
+            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
+            self.hasCustomEventSelectors = dictionary["HasCustomEventSelectors"] as? Bool
+            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
+        }
     }
 
     public struct GetTrailStatusResponse: AWSShape {
@@ -405,6 +505,25 @@ extension Cloudtrail {
             self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.latestNotificationError = dictionary["LatestNotificationError"] as? String
+            self.latestDeliveryTime = dictionary["LatestDeliveryTime"] as? Date
+            self.timeLoggingStarted = dictionary["TimeLoggingStarted"] as? String
+            self.timeLoggingStopped = dictionary["TimeLoggingStopped"] as? String
+            self.latestDigestDeliveryError = dictionary["LatestDigestDeliveryError"] as? String
+            self.latestDeliveryAttemptSucceeded = dictionary["LatestDeliveryAttemptSucceeded"] as? String
+            self.latestCloudWatchLogsDeliveryTime = dictionary["LatestCloudWatchLogsDeliveryTime"] as? Date
+            self.latestNotificationTime = dictionary["LatestNotificationTime"] as? Date
+            self.latestNotificationAttemptSucceeded = dictionary["LatestNotificationAttemptSucceeded"] as? String
+            self.latestDigestDeliveryTime = dictionary["LatestDigestDeliveryTime"] as? Date
+            self.isLogging = dictionary["IsLogging"] as? Bool
+            self.latestDeliveryAttemptTime = dictionary["LatestDeliveryAttemptTime"] as? String
+            self.latestNotificationAttemptTime = dictionary["LatestNotificationAttemptTime"] as? String
+            self.latestDeliveryError = dictionary["LatestDeliveryError"] as? String
+            self.stopLoggingTime = dictionary["StopLoggingTime"] as? Date
+            self.startLoggingTime = dictionary["StartLoggingTime"] as? Date
+            self.latestCloudWatchLogsDeliveryError = dictionary["LatestCloudWatchLogsDeliveryError"] as? String
+        }
     }
 
     public struct GetEventSelectorsResponse: AWSShape {
@@ -422,6 +541,12 @@ extension Cloudtrail {
             self.trailARN = trailARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
+                self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            }
+            self.trailARN = dictionary["TrailARN"] as? String
+        }
     }
 
     public struct Event: AWSShape {
@@ -454,6 +579,17 @@ extension Cloudtrail {
             self.cloudTrailEvent = cloudTrailEvent
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventSource = dictionary["EventSource"] as? String
+            self.eventTime = dictionary["EventTime"] as? Date
+            self.username = dictionary["Username"] as? String
+            self.eventId = dictionary["EventId"] as? String
+            self.eventName = dictionary["EventName"] as? String
+            if let resources = dictionary["Resources"] as? [[String: Any]] {
+                self.resources = try resources.map({ try Resource(dictionary: $0) })
+            }
+            self.cloudTrailEvent = dictionary["CloudTrailEvent"] as? String
+        }
     }
 
     public struct DescribeTrailsRequest: AWSShape {
@@ -471,6 +607,12 @@ extension Cloudtrail {
             self.includeShadowTrails = includeShadowTrails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let trailNameList = dictionary["trailNameList"] as? [String] {
+                self.trailNameList = trailNameList
+            }
+            self.includeShadowTrails = dictionary["includeShadowTrails"] as? Bool
+        }
     }
 
     public struct PutEventSelectorsResponse: AWSShape {
@@ -488,6 +630,12 @@ extension Cloudtrail {
             self.trailARN = trailARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
+                self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            }
+            self.trailARN = dictionary["TrailARN"] as? String
+        }
     }
 
     public struct ListPublicKeysResponse: AWSShape {
@@ -505,6 +653,12 @@ extension Cloudtrail {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let publicKeyList = dictionary["PublicKeyList"] as? [[String: Any]] {
+                self.publicKeyList = try publicKeyList.map({ try PublicKey(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Tag: AWSShape {
@@ -522,6 +676,11 @@ extension Cloudtrail {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct LookupAttribute: AWSShape {
@@ -539,6 +698,12 @@ extension Cloudtrail {
             self.attributeValue = attributeValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeKey = dictionary["AttributeKey"] as? String else { throw InitializableError.missingRequiredParam("AttributeKey") }
+            self.attributeKey = attributeKey
+            guard let attributeValue = dictionary["AttributeValue"] as? String else { throw InitializableError.missingRequiredParam("AttributeValue") }
+            self.attributeValue = attributeValue
+        }
     }
 
     public struct UpdateTrailRequest: AWSShape {
@@ -580,6 +745,19 @@ extension Cloudtrail {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enableLogFileValidation = dictionary["EnableLogFileValidation"] as? Bool
+            self.s3BucketName = dictionary["S3BucketName"] as? String
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
+            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
+            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
+            self.snsTopicName = dictionary["SnsTopicName"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct CreateTrailRequest: AWSShape {
@@ -621,6 +799,20 @@ extension Cloudtrail {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enableLogFileValidation = dictionary["EnableLogFileValidation"] as? Bool
+            guard let s3BucketName = dictionary["S3BucketName"] as? String else { throw InitializableError.missingRequiredParam("S3BucketName") }
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
+            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
+            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
+            self.snsTopicName = dictionary["SnsTopicName"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct StopLoggingResponse: AWSShape {
@@ -629,6 +821,8 @@ extension Cloudtrail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteTrailRequest: AWSShape {
@@ -643,6 +837,10 @@ extension Cloudtrail {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetEventSelectorsRequest: AWSShape {
@@ -657,6 +855,9 @@ extension Cloudtrail {
             self.trailName = trailName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.trailName = dictionary["TrailName"] as? String
+        }
     }
 
     public struct Resource: AWSShape {
@@ -674,6 +875,10 @@ extension Cloudtrail {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceName = dictionary["ResourceName"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct DescribeTrailsResponse: AWSShape {
@@ -688,6 +893,11 @@ extension Cloudtrail {
             self.trailList = trailList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let trailList = dictionary["trailList"] as? [[String: Any]] {
+                self.trailList = try trailList.map({ try Trail(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartLoggingRequest: AWSShape {
@@ -702,6 +912,10 @@ extension Cloudtrail {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct StopLoggingRequest: AWSShape {
@@ -716,6 +930,10 @@ extension Cloudtrail {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct EventSelector: AWSShape {
@@ -736,6 +954,13 @@ extension Cloudtrail {
             self.includeManagementEvents = includeManagementEvents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.readWriteType = dictionary["ReadWriteType"] as? String
+            if let dataResources = dictionary["DataResources"] as? [[String: Any]] {
+                self.dataResources = try dataResources.map({ try DataResource(dictionary: $0) })
+            }
+            self.includeManagementEvents = dictionary["IncludeManagementEvents"] as? Bool
+        }
     }
 
     public struct GetTrailStatusRequest: AWSShape {
@@ -750,6 +975,10 @@ extension Cloudtrail {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ResourceTag: AWSShape {
@@ -766,6 +995,12 @@ extension Cloudtrail {
             self.tagsList = tagsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceId = dictionary["ResourceId"] as? String
+            if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
+                self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddTagsResponse: AWSShape {
@@ -774,6 +1009,8 @@ extension Cloudtrail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListTagsRequest: AWSShape {
@@ -791,6 +1028,11 @@ extension Cloudtrail {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceIdList = dictionary["ResourceIdList"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceIdList") }
+            self.resourceIdList = resourceIdList
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct LookupEventsResponse: AWSShape {
@@ -808,6 +1050,12 @@ extension Cloudtrail {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try Event(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteTrailResponse: AWSShape {
@@ -816,6 +1064,8 @@ extension Cloudtrail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
 }

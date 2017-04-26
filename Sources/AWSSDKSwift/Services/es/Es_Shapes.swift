@@ -42,6 +42,10 @@ extension Es {
             self.maximumInstanceCount = maximumInstanceCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minimumInstanceCount = dictionary["MinimumInstanceCount"] as? Int32
+            self.maximumInstanceCount = dictionary["MaximumInstanceCount"] as? Int32
+        }
     }
 
     public struct DescribeElasticsearchDomainsRequest: AWSShape {
@@ -56,6 +60,10 @@ extension Es {
             self.domainNames = domainNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainNames = dictionary["DomainNames"] as? [String] else { throw InitializableError.missingRequiredParam("DomainNames") }
+            self.domainNames = domainNames
+        }
     }
 
     public struct DescribeElasticsearchDomainRequest: AWSShape {
@@ -73,6 +81,10 @@ extension Es {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct AddTagsRequest: AWSShape {
@@ -90,6 +102,12 @@ extension Es {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
+            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct ListElasticsearchInstanceTypesRequest: AWSShape {
@@ -119,6 +137,13 @@ extension Es {
             self.elasticsearchVersion = elasticsearchVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.domainName = dictionary["DomainName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String else { throw InitializableError.missingRequiredParam("ElasticsearchVersion") }
+            self.elasticsearchVersion = elasticsearchVersion
+        }
     }
 
     public struct UpdateElasticsearchDomainConfigRequest: AWSShape {
@@ -151,6 +176,17 @@ extension Es {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) }
+            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) }
+            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
+                self.advancedOptions = advancedOptions
+            }
+            self.accessPolicies = dictionary["AccessPolicies"] as? String
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct CreateElasticsearchDomainResponse: AWSShape {
@@ -165,6 +201,9 @@ extension Es {
             self.domainStatus = domainStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) }
+        }
     }
 
     public struct ElasticsearchClusterConfigStatus: AWSShape {
@@ -182,6 +221,12 @@ extension Es {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Es.ElasticsearchClusterConfig(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Es.OptionStatus(dictionary: status)
+        }
     }
 
     public struct ListTagsResponse: AWSShape {
@@ -196,6 +241,11 @@ extension Es {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagList = dictionary["TagList"] as? [[String: Any]] {
+                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSShape {
@@ -222,6 +272,13 @@ extension Es {
             self.elasticsearchVersion = elasticsearchVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            self.instanceType = instanceType
+            self.domainName = dictionary["DomainName"] as? String
+            guard let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String else { throw InitializableError.missingRequiredParam("ElasticsearchVersion") }
+            self.elasticsearchVersion = elasticsearchVersion
+        }
     }
 
     public struct RemoveTagsRequest: AWSShape {
@@ -239,6 +296,12 @@ extension Es {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct OptionStatus: AWSShape {
@@ -265,6 +328,16 @@ extension Es {
             self.updateDate = updateDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.updateVersion = dictionary["UpdateVersion"] as? Int32
+            self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
+            guard let creationDate = dictionary["CreationDate"] as? Date else { throw InitializableError.missingRequiredParam("CreationDate") }
+            self.creationDate = creationDate
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let updateDate = dictionary["UpdateDate"] as? Date else { throw InitializableError.missingRequiredParam("UpdateDate") }
+            self.updateDate = updateDate
+        }
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
@@ -278,6 +351,16 @@ extension Es {
             self.limitsByRole = limitsByRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let limitsByRole = dictionary["LimitsByRole"] as? [String: Any] {
+                var limitsByRoleDict: [String: Limits] = [:]
+                for (key, value) in limitsByRole {
+                    guard let limitsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    limitsByRoleDict[key] = try Limits(dictionary: limitsDict)
+                }
+                self.limitsByRole = limitsByRoleDict
+            }
+        }
     }
 
     public struct DescribeElasticsearchDomainResponse: AWSShape {
@@ -292,6 +375,10 @@ extension Es {
             self.domainStatus = domainStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainStatus = dictionary["DomainStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainStatus") }
+            self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus)
+        }
     }
 
     public struct AdditionalLimit: AWSShape {
@@ -309,6 +396,12 @@ extension Es {
             self.limitValues = limitValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limitName = dictionary["LimitName"] as? String
+            if let limitValues = dictionary["LimitValues"] as? [String] {
+                self.limitValues = limitValues
+            }
+        }
     }
 
     public struct ListDomainNamesResponse: AWSShape {
@@ -323,6 +416,11 @@ extension Es {
             self.domainNames = domainNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainNames = dictionary["DomainNames"] as? [[String: Any]] {
+                self.domainNames = try domainNames.map({ try DomainInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct SnapshotOptions: AWSShape {
@@ -337,6 +435,9 @@ extension Es {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.automatedSnapshotStartHour = dictionary["AutomatedSnapshotStartHour"] as? Int32
+        }
     }
 
     public struct EBSOptions: AWSShape {
@@ -360,6 +461,12 @@ extension Es {
             self.eBSEnabled = eBSEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.iops = dictionary["Iops"] as? Int32
+            self.eBSEnabled = dictionary["EBSEnabled"] as? Bool
+        }
     }
 
     public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
@@ -377,6 +484,10 @@ extension Es {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct DescribeElasticsearchDomainConfigResponse: AWSShape {
@@ -391,6 +502,10 @@ extension Es {
             self.domainConfig = domainConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainConfig = dictionary["DomainConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainConfig") }
+            self.domainConfig = try Es.ElasticsearchDomainConfig(dictionary: domainConfig)
+        }
     }
 
     public struct ListElasticsearchVersionsRequest: AWSShape {
@@ -410,6 +525,10 @@ extension Es {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListElasticsearchInstanceTypesResponse: AWSShape {
@@ -427,6 +546,12 @@ extension Es {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elasticsearchInstanceTypes = dictionary["ElasticsearchInstanceTypes"] as? [String] {
+                self.elasticsearchInstanceTypes = elasticsearchInstanceTypes
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Tag: AWSShape {
@@ -444,6 +569,12 @@ extension Es {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct SnapshotOptionsStatus: AWSShape {
@@ -461,6 +592,12 @@ extension Es {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Es.SnapshotOptions(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Es.OptionStatus(dictionary: status)
+        }
     }
 
     public struct DomainInfo: AWSShape {
@@ -475,6 +612,9 @@ extension Es {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.domainName = dictionary["DomainName"] as? String
+        }
     }
 
     public struct DescribeElasticsearchDomainsResponse: AWSShape {
@@ -489,6 +629,10 @@ extension Es {
             self.domainStatusList = domainStatusList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainStatusList = dictionary["DomainStatusList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainStatusList") }
+            self.domainStatusList = try domainStatusList.map({ try ElasticsearchDomainStatus(dictionary: $0) })
+        }
     }
 
     public struct UpdateElasticsearchDomainConfigResponse: AWSShape {
@@ -503,6 +647,10 @@ extension Es {
             self.domainConfig = domainConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainConfig = dictionary["DomainConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainConfig") }
+            self.domainConfig = try Es.ElasticsearchDomainConfig(dictionary: domainConfig)
+        }
     }
 
     public struct StorageTypeLimit: AWSShape {
@@ -520,6 +668,12 @@ extension Es {
             self.limitValues = limitValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limitName = dictionary["LimitName"] as? String
+            if let limitValues = dictionary["LimitValues"] as? [String] {
+                self.limitValues = limitValues
+            }
+        }
     }
 
     public struct ElasticsearchVersionStatus: AWSShape {
@@ -537,6 +691,12 @@ extension Es {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? String else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = options
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Es.OptionStatus(dictionary: status)
+        }
     }
 
     public struct ListElasticsearchVersionsResponse: AWSShape {
@@ -552,6 +712,12 @@ extension Es {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elasticsearchVersions = dictionary["ElasticsearchVersions"] as? [String] {
+                self.elasticsearchVersions = elasticsearchVersions
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct InstanceLimits: AWSShape {
@@ -565,6 +731,9 @@ extension Es {
             self.instanceCountLimits = instanceCountLimits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceCountLimits = dictionary["InstanceCountLimits"] as? [String: Any] { self.instanceCountLimits = try Es.InstanceCountLimits(dictionary: instanceCountLimits) }
+        }
     }
 
     public struct DeleteElasticsearchDomainRequest: AWSShape {
@@ -582,6 +751,10 @@ extension Es {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct AdvancedOptionsStatus: AWSShape {
@@ -599,6 +772,12 @@ extension Es {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: String] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = options
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Es.OptionStatus(dictionary: status)
+        }
     }
 
     public struct Limits: AWSShape {
@@ -618,6 +797,15 @@ extension Es {
             self.instanceLimits = instanceLimits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let additionalLimits = dictionary["AdditionalLimits"] as? [[String: Any]] {
+                self.additionalLimits = try additionalLimits.map({ try AdditionalLimit(dictionary: $0) })
+            }
+            if let storageTypes = dictionary["StorageTypes"] as? [[String: Any]] {
+                self.storageTypes = try storageTypes.map({ try StorageType(dictionary: $0) })
+            }
+            if let instanceLimits = dictionary["InstanceLimits"] as? [String: Any] { self.instanceLimits = try Es.InstanceLimits(dictionary: instanceLimits) }
+        }
     }
 
     public struct ElasticsearchDomainConfig: AWSShape {
@@ -647,6 +835,14 @@ extension Es {
             self.elasticsearchVersion = elasticsearchVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptionsStatus(dictionary: snapshotOptions) }
+            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfigStatus(dictionary: elasticsearchClusterConfig) }
+            if let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] { self.accessPolicies = try Es.AccessPoliciesStatus(dictionary: accessPolicies) }
+            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: Any] { self.advancedOptions = try Es.AdvancedOptionsStatus(dictionary: advancedOptions) }
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptionsStatus(dictionary: eBSOptions) }
+            if let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? [String: Any] { self.elasticsearchVersion = try Es.ElasticsearchVersionStatus(dictionary: elasticsearchVersion) }
+        }
     }
 
     public struct CreateElasticsearchDomainRequest: AWSShape {
@@ -679,6 +875,18 @@ extension Es {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) }
+            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) }
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) }
+            self.elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String
+            self.accessPolicies = dictionary["AccessPolicies"] as? String
+            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
+                self.advancedOptions = advancedOptions
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct StorageType: AWSShape {
@@ -697,6 +905,13 @@ extension Es {
             self.storageTypeName = storageTypeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let storageTypeLimits = dictionary["StorageTypeLimits"] as? [[String: Any]] {
+                self.storageTypeLimits = try storageTypeLimits.map({ try StorageTypeLimit(dictionary: $0) })
+            }
+            self.storageSubTypeName = dictionary["StorageSubTypeName"] as? String
+            self.storageTypeName = dictionary["StorageTypeName"] as? String
+        }
     }
 
     public struct DeleteElasticsearchDomainResponse: AWSShape {
@@ -711,6 +926,9 @@ extension Es {
             self.domainStatus = domainStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) }
+        }
     }
 
     public struct EBSOptionsStatus: AWSShape {
@@ -728,6 +946,12 @@ extension Es {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = try Es.EBSOptions(dictionary: options)
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Es.OptionStatus(dictionary: status)
+        }
     }
 
     public struct ListTagsRequest: AWSShape {
@@ -745,6 +969,10 @@ extension Es {
             self.aRN = aRN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+        }
     }
 
     public struct ElasticsearchClusterConfig: AWSShape {
@@ -774,6 +1002,14 @@ extension Es {
             self.zoneAwarenessEnabled = zoneAwarenessEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dedicatedMasterCount = dictionary["DedicatedMasterCount"] as? Int32
+            self.instanceCount = dictionary["InstanceCount"] as? Int32
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.dedicatedMasterEnabled = dictionary["DedicatedMasterEnabled"] as? Bool
+            self.dedicatedMasterType = dictionary["DedicatedMasterType"] as? String
+            self.zoneAwarenessEnabled = dictionary["ZoneAwarenessEnabled"] as? Bool
+        }
     }
 
     public struct AccessPoliciesStatus: AWSShape {
@@ -791,6 +1027,12 @@ extension Es {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let options = dictionary["Options"] as? String else { throw InitializableError.missingRequiredParam("Options") }
+            self.options = options
+            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = try Es.OptionStatus(dictionary: status)
+        }
     }
 
     public struct ElasticsearchDomainStatus: AWSShape {
@@ -840,6 +1082,27 @@ extension Es {
             self.deleted = deleted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.processing = dictionary["Processing"] as? Bool
+            self.elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String
+            self.created = dictionary["Created"] as? Bool
+            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.aRN = aRN
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) }
+            guard let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ElasticsearchClusterConfig") }
+            self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig)
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) }
+            self.accessPolicies = dictionary["AccessPolicies"] as? String
+            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
+                self.advancedOptions = advancedOptions
+            }
+            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
+            self.domainName = domainName
+            self.endpoint = dictionary["Endpoint"] as? String
+            guard let domainId = dictionary["DomainId"] as? String else { throw InitializableError.missingRequiredParam("DomainId") }
+            self.domainId = domainId
+            self.deleted = dictionary["Deleted"] as? Bool
+        }
     }
 
 }

@@ -35,6 +35,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteDirectoryResult: AWSShape {
@@ -49,6 +51,9 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct DeleteTrustRequest: AWSShape {
@@ -66,6 +71,11 @@ extension Ds {
             self.trustId = trustId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deleteAssociatedConditionalForwarder = dictionary["DeleteAssociatedConditionalForwarder"] as? Bool
+            guard let trustId = dictionary["TrustId"] as? String else { throw InitializableError.missingRequiredParam("TrustId") }
+            self.trustId = trustId
+        }
     }
 
     public struct DescribeTrustsRequest: AWSShape {
@@ -89,6 +99,14 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let trustIds = dictionary["TrustIds"] as? [String] {
+                self.trustIds = trustIds
+            }
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct CreateTrustResult: AWSShape {
@@ -103,6 +121,9 @@ extension Ds {
             self.trustId = trustId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.trustId = dictionary["TrustId"] as? String
+        }
     }
 
     public struct RemoveIpRoutesRequest: AWSShape {
@@ -120,6 +141,12 @@ extension Ds {
             self.cidrIps = cidrIps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            guard let cidrIps = dictionary["CidrIps"] as? [String] else { throw InitializableError.missingRequiredParam("CidrIps") }
+            self.cidrIps = cidrIps
+        }
     }
 
     public struct Tag: AWSShape {
@@ -137,6 +164,12 @@ extension Ds {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct CreateConditionalForwarderResult: AWSShape {
@@ -145,6 +178,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Computer: AWSShape {
@@ -165,6 +200,13 @@ extension Ds {
             self.computerAttributes = computerAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.computerId = dictionary["ComputerId"] as? String
+            self.computerName = dictionary["ComputerName"] as? String
+            if let computerAttributes = dictionary["ComputerAttributes"] as? [[String: Any]] {
+                self.computerAttributes = try computerAttributes.map({ try Attribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct Attribute: AWSShape {
@@ -182,6 +224,10 @@ extension Ds {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct CreateAliasRequest: AWSShape {
@@ -199,6 +245,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let alias = dictionary["Alias"] as? String else { throw InitializableError.missingRequiredParam("Alias") }
+            self.alias = alias
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct DirectoryConnectSettingsDescription: AWSShape {
@@ -228,6 +280,20 @@ extension Ds {
             self.connectIps = connectIps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            self.securityGroupId = dictionary["SecurityGroupId"] as? String
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.vpcId = dictionary["VpcId"] as? String
+            self.customerUserName = dictionary["CustomerUserName"] as? String
+            if let connectIps = dictionary["ConnectIps"] as? [String] {
+                self.connectIps = connectIps
+            }
+        }
     }
 
     public struct DescribeSnapshotsResult: AWSShape {
@@ -245,6 +311,12 @@ extension Ds {
             self.snapshots = snapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
+                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
@@ -262,6 +334,12 @@ extension Ds {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct DeleteDirectoryRequest: AWSShape {
@@ -276,6 +354,10 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct IpRoute: AWSShape {
@@ -293,6 +375,10 @@ extension Ds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidrIp = dictionary["CidrIp"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DirectoryDescription: AWSShape {
@@ -358,6 +444,28 @@ extension Ds {
             self.dnsIpAddrs = dnsIpAddrs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shortName = dictionary["ShortName"] as? String
+            self.launchTime = dictionary["LaunchTime"] as? Date
+            self.directoryId = dictionary["DirectoryId"] as? String
+            self.stage = dictionary["Stage"] as? String
+            self.description = dictionary["Description"] as? String
+            self.stageLastUpdatedDateTime = dictionary["StageLastUpdatedDateTime"] as? Date
+            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettingsDescription(dictionary: vpcSettings) }
+            self.ssoEnabled = dictionary["SsoEnabled"] as? Bool
+            if let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] { self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings) }
+            self.stageReason = dictionary["StageReason"] as? String
+            self.name = dictionary["Name"] as? String
+            self.accessUrl = dictionary["AccessUrl"] as? String
+            self.size = dictionary["Size"] as? String
+            self.alias = dictionary["Alias"] as? String
+            self.radiusStatus = dictionary["RadiusStatus"] as? String
+            self.type = dictionary["Type"] as? String
+            if let connectSettings = dictionary["ConnectSettings"] as? [String: Any] { self.connectSettings = try Ds.DirectoryConnectSettingsDescription(dictionary: connectSettings) }
+            if let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] {
+                self.dnsIpAddrs = dnsIpAddrs
+            }
+        }
     }
 
     public struct UpdateConditionalForwarderRequest: AWSShape {
@@ -378,6 +486,14 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            guard let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] else { throw InitializableError.missingRequiredParam("DnsIpAddrs") }
+            self.dnsIpAddrs = dnsIpAddrs
+            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
+            self.remoteDomainName = remoteDomainName
+        }
     }
 
     public struct Trust: AWSShape {
@@ -419,6 +535,18 @@ extension Ds {
             self.trustDirection = trustDirection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.remoteDomainName = dictionary["RemoteDomainName"] as? String
+            self.lastUpdatedDateTime = dictionary["LastUpdatedDateTime"] as? Date
+            self.trustType = dictionary["TrustType"] as? String
+            self.trustStateReason = dictionary["TrustStateReason"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+            self.trustState = dictionary["TrustState"] as? String
+            self.createdDateTime = dictionary["CreatedDateTime"] as? Date
+            self.trustId = dictionary["TrustId"] as? String
+            self.stateLastUpdatedDateTime = dictionary["StateLastUpdatedDateTime"] as? Date
+            self.trustDirection = dictionary["TrustDirection"] as? String
+        }
     }
 
     public struct ListIpRoutesRequest: AWSShape {
@@ -439,6 +567,12 @@ extension Ds {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
@@ -447,6 +581,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct EventTopic: AWSShape {
@@ -473,6 +609,13 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicArn = dictionary["TopicArn"] as? String
+            self.topicName = dictionary["TopicName"] as? String
+            self.createdDateTime = dictionary["CreatedDateTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct DirectoryVpcSettings: AWSShape {
@@ -490,6 +633,12 @@ extension Ds {
             self.subnetIds = subnetIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -510,6 +659,12 @@ extension Ds {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct DescribeTrustsResult: AWSShape {
@@ -527,6 +682,12 @@ extension Ds {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let trusts = dictionary["Trusts"] as? [[String: Any]] {
+                self.trusts = try trusts.map({ try Trust(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateMicrosoftADRequest: AWSShape {
@@ -552,6 +713,16 @@ extension Ds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vpcSettings = dictionary["VpcSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VpcSettings") }
+            self.vpcSettings = try Ds.DirectoryVpcSettings(dictionary: vpcSettings)
+            self.shortName = dictionary["ShortName"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct AddTagsToResourceResult: AWSShape {
@@ -560,6 +731,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DirectoryLimits: AWSShape {
@@ -598,6 +771,17 @@ extension Ds {
             self.connectedDirectoriesLimit = connectedDirectoriesLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cloudOnlyDirectoriesLimit = dictionary["CloudOnlyDirectoriesLimit"] as? Int32
+            self.cloudOnlyDirectoriesLimitReached = dictionary["CloudOnlyDirectoriesLimitReached"] as? Bool
+            self.connectedDirectoriesCurrentCount = dictionary["ConnectedDirectoriesCurrentCount"] as? Int32
+            self.cloudOnlyMicrosoftADCurrentCount = dictionary["CloudOnlyMicrosoftADCurrentCount"] as? Int32
+            self.cloudOnlyDirectoriesCurrentCount = dictionary["CloudOnlyDirectoriesCurrentCount"] as? Int32
+            self.cloudOnlyMicrosoftADLimit = dictionary["CloudOnlyMicrosoftADLimit"] as? Int32
+            self.cloudOnlyMicrosoftADLimitReached = dictionary["CloudOnlyMicrosoftADLimitReached"] as? Bool
+            self.connectedDirectoriesLimitReached = dictionary["ConnectedDirectoriesLimitReached"] as? Bool
+            self.connectedDirectoriesLimit = dictionary["ConnectedDirectoriesLimit"] as? Int32
+        }
     }
 
     public struct ListSchemaExtensionsRequest: AWSShape {
@@ -618,6 +802,12 @@ extension Ds {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct DeregisterEventTopicRequest: AWSShape {
@@ -635,6 +825,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicName = dictionary["TopicName"] as? String else { throw InitializableError.missingRequiredParam("TopicName") }
+            self.topicName = topicName
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct EnableSsoResult: AWSShape {
@@ -643,6 +839,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetDirectoryLimitsResult: AWSShape {
@@ -657,6 +855,9 @@ extension Ds {
             self.directoryLimits = directoryLimits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let directoryLimits = dictionary["DirectoryLimits"] as? [String: Any] { self.directoryLimits = try Ds.DirectoryLimits(dictionary: directoryLimits) }
+        }
     }
 
     public struct ConnectDirectoryResult: AWSShape {
@@ -671,6 +872,9 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct DescribeConditionalForwardersRequest: AWSShape {
@@ -688,6 +892,13 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let remoteDomainNames = dictionary["RemoteDomainNames"] as? [String] {
+                self.remoteDomainNames = remoteDomainNames
+            }
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct GetDirectoryLimitsRequest: AWSShape {
@@ -696,6 +907,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct EnableSsoRequest: AWSShape {
@@ -716,6 +929,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.password = dictionary["Password"] as? String
+            self.userName = dictionary["UserName"] as? String
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct StartSchemaExtensionRequest: AWSShape {
@@ -739,6 +958,16 @@ extension Ds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            guard let createSnapshotBeforeSchemaExtension = dictionary["CreateSnapshotBeforeSchemaExtension"] as? Bool else { throw InitializableError.missingRequiredParam("CreateSnapshotBeforeSchemaExtension") }
+            self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
+            guard let ldifContent = dictionary["LdifContent"] as? String else { throw InitializableError.missingRequiredParam("LdifContent") }
+            self.ldifContent = ldifContent
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct RestoreFromSnapshotResult: AWSShape {
@@ -747,6 +976,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteConditionalForwarderResult: AWSShape {
@@ -755,6 +986,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RemoveIpRoutesResult: AWSShape {
@@ -763,6 +996,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ConditionalForwarder: AWSShape {
@@ -783,6 +1018,13 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] {
+                self.dnsIpAddrs = dnsIpAddrs
+            }
+            self.replicationScope = dictionary["ReplicationScope"] as? String
+            self.remoteDomainName = dictionary["RemoteDomainName"] as? String
+        }
     }
 
     public struct EnableRadiusRequest: AWSShape {
@@ -800,6 +1042,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RadiusSettings") }
+            self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings)
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct CreateSnapshotRequest: AWSShape {
@@ -817,6 +1065,11 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct ListTagsForResourceResult: AWSShape {
@@ -834,6 +1087,12 @@ extension Ds {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetSnapshotLimitsResult: AWSShape {
@@ -848,6 +1107,9 @@ extension Ds {
             self.snapshotLimits = snapshotLimits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotLimits = dictionary["SnapshotLimits"] as? [String: Any] { self.snapshotLimits = try Ds.SnapshotLimits(dictionary: snapshotLimits) }
+        }
     }
 
     public struct SchemaExtensionInfo: AWSShape {
@@ -880,6 +1142,15 @@ extension Ds {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaExtensionId = dictionary["SchemaExtensionId"] as? String
+            self.schemaExtensionStatusReason = dictionary["SchemaExtensionStatusReason"] as? String
+            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.directoryId = dictionary["DirectoryId"] as? String
+            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.schemaExtensionStatus = dictionary["SchemaExtensionStatus"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeDirectoriesRequest: AWSShape {
@@ -900,6 +1171,13 @@ extension Ds {
             self.directoryIds = directoryIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let directoryIds = dictionary["DirectoryIds"] as? [String] {
+                self.directoryIds = directoryIds
+            }
+        }
     }
 
     public struct CreateComputerResult: AWSShape {
@@ -914,6 +1192,9 @@ extension Ds {
             self.computer = computer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let computer = dictionary["Computer"] as? [String: Any] { self.computer = try Ds.Computer(dictionary: computer) }
+        }
     }
 
     public struct UpdateRadiusResult: AWSShape {
@@ -922,6 +1203,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteConditionalForwarderRequest: AWSShape {
@@ -939,6 +1222,12 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
+            self.remoteDomainName = remoteDomainName
+        }
     }
 
     public struct StartSchemaExtensionResult: AWSShape {
@@ -953,6 +1242,9 @@ extension Ds {
             self.schemaExtensionId = schemaExtensionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaExtensionId = dictionary["SchemaExtensionId"] as? String
+        }
     }
 
     public struct DescribeConditionalForwardersResult: AWSShape {
@@ -967,6 +1259,11 @@ extension Ds {
             self.conditionalForwarders = conditionalForwarders
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let conditionalForwarders = dictionary["ConditionalForwarders"] as? [[String: Any]] {
+                self.conditionalForwarders = try conditionalForwarders.map({ try ConditionalForwarder(dictionary: $0) })
+            }
+        }
     }
 
     public struct SnapshotLimits: AWSShape {
@@ -987,6 +1284,11 @@ extension Ds {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.manualSnapshotsLimit = dictionary["ManualSnapshotsLimit"] as? Int32
+            self.manualSnapshotsLimitReached = dictionary["ManualSnapshotsLimitReached"] as? Bool
+            self.manualSnapshotsCurrentCount = dictionary["ManualSnapshotsCurrentCount"] as? Int32
+        }
     }
 
     public struct CreateComputerRequest: AWSShape {
@@ -1013,6 +1315,18 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.organizationalUnitDistinguishedName = dictionary["OrganizationalUnitDistinguishedName"] as? String
+            guard let computerName = dictionary["ComputerName"] as? String else { throw InitializableError.missingRequiredParam("ComputerName") }
+            self.computerName = computerName
+            if let computerAttributes = dictionary["ComputerAttributes"] as? [[String: Any]] {
+                self.computerAttributes = try computerAttributes.map({ try Attribute(dictionary: $0) })
+            }
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct DescribeSnapshotsRequest: AWSShape {
@@ -1036,6 +1350,14 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotIds = dictionary["SnapshotIds"] as? [String] {
+                self.snapshotIds = snapshotIds
+            }
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct DescribeEventTopicsRequest: AWSShape {
@@ -1053,6 +1375,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let topicNames = dictionary["TopicNames"] as? [String] {
+                self.topicNames = topicNames
+            }
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct DirectoryVpcSettingsDescription: AWSShape {
@@ -1076,6 +1404,16 @@ extension Ds {
             self.vpcId = vpcId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            self.securityGroupId = dictionary["SecurityGroupId"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+        }
     }
 
     public struct DeleteTrustResult: AWSShape {
@@ -1090,6 +1428,9 @@ extension Ds {
             self.trustId = trustId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.trustId = dictionary["TrustId"] as? String
+        }
     }
 
     public struct CreateAliasResult: AWSShape {
@@ -1107,6 +1448,10 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.alias = dictionary["Alias"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct RadiusSettings: AWSShape {
@@ -1142,6 +1487,18 @@ extension Ds {
             self.radiusServers = radiusServers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.radiusPort = dictionary["RadiusPort"] as? Int32
+            self.authenticationProtocol = dictionary["AuthenticationProtocol"] as? String
+            self.radiusRetries = dictionary["RadiusRetries"] as? Int32
+            self.radiusTimeout = dictionary["RadiusTimeout"] as? Int32
+            self.useSameUsername = dictionary["UseSameUsername"] as? Bool
+            self.sharedSecret = dictionary["SharedSecret"] as? String
+            self.displayLabel = dictionary["DisplayLabel"] as? String
+            if let radiusServers = dictionary["RadiusServers"] as? [String] {
+                self.radiusServers = radiusServers
+            }
+        }
     }
 
     public struct RegisterEventTopicResult: AWSShape {
@@ -1150,6 +1507,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Snapshot: AWSShape {
@@ -1179,6 +1538,14 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.status = dictionary["Status"] as? String
+            self.startTime = dictionary["StartTime"] as? Date
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct RestoreFromSnapshotRequest: AWSShape {
@@ -1193,6 +1560,10 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+        }
     }
 
     public struct DeleteSnapshotResult: AWSShape {
@@ -1207,6 +1578,9 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+        }
     }
 
     public struct CreateDirectoryRequest: AWSShape {
@@ -1236,6 +1610,17 @@ extension Ds {
             self.password = password
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettings(dictionary: vpcSettings) }
+            self.shortName = dictionary["ShortName"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let size = dictionary["Size"] as? String else { throw InitializableError.missingRequiredParam("Size") }
+            self.size = size
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+        }
     }
 
     public struct UpdateRadiusRequest: AWSShape {
@@ -1253,6 +1638,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RadiusSettings") }
+            self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings)
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct DisableSsoRequest: AWSShape {
@@ -1273,6 +1664,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.password = dictionary["Password"] as? String
+            self.userName = dictionary["UserName"] as? String
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct DeleteSnapshotRequest: AWSShape {
@@ -1287,6 +1684,10 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+        }
     }
 
     public struct CreateTrustRequest: AWSShape {
@@ -1316,6 +1717,20 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
+            self.remoteDomainName = remoteDomainName
+            guard let trustDirection = dictionary["TrustDirection"] as? String else { throw InitializableError.missingRequiredParam("TrustDirection") }
+            self.trustDirection = trustDirection
+            if let conditionalForwarderIpAddrs = dictionary["ConditionalForwarderIpAddrs"] as? [String] {
+                self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
+            }
+            self.trustType = dictionary["TrustType"] as? String
+            guard let trustPassword = dictionary["TrustPassword"] as? String else { throw InitializableError.missingRequiredParam("TrustPassword") }
+            self.trustPassword = trustPassword
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct VerifyTrustRequest: AWSShape {
@@ -1330,6 +1745,10 @@ extension Ds {
             self.trustId = trustId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let trustId = dictionary["TrustId"] as? String else { throw InitializableError.missingRequiredParam("TrustId") }
+            self.trustId = trustId
+        }
     }
 
     public struct RegisterEventTopicRequest: AWSShape {
@@ -1347,6 +1766,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let topicName = dictionary["TopicName"] as? String else { throw InitializableError.missingRequiredParam("TopicName") }
+            self.topicName = topicName
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct CreateSnapshotResult: AWSShape {
@@ -1361,6 +1786,9 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+        }
     }
 
     public struct AddIpRoutesRequest: AWSShape {
@@ -1381,6 +1809,13 @@ extension Ds {
             self.ipRoutes = ipRoutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.updateSecurityGroupForDirectoryControllers = dictionary["UpdateSecurityGroupForDirectoryControllers"] as? Bool
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            guard let ipRoutes = dictionary["IpRoutes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IpRoutes") }
+            self.ipRoutes = try ipRoutes.map({ try IpRoute(dictionary: $0) })
+        }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
@@ -1398,6 +1833,12 @@ extension Ds {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct AddIpRoutesResult: AWSShape {
@@ -1406,6 +1847,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CancelSchemaExtensionRequest: AWSShape {
@@ -1423,6 +1866,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaExtensionId = dictionary["SchemaExtensionId"] as? String else { throw InitializableError.missingRequiredParam("SchemaExtensionId") }
+            self.schemaExtensionId = schemaExtensionId
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct DescribeDirectoriesResult: AWSShape {
@@ -1440,6 +1889,12 @@ extension Ds {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let directoryDescriptions = dictionary["DirectoryDescriptions"] as? [[String: Any]] {
+                self.directoryDescriptions = try directoryDescriptions.map({ try DirectoryDescription(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateMicrosoftADResult: AWSShape {
@@ -1454,6 +1909,9 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct GetSnapshotLimitsRequest: AWSShape {
@@ -1468,6 +1926,10 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct DisableRadiusResult: AWSShape {
@@ -1476,6 +1938,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListSchemaExtensionsResult: AWSShape {
@@ -1493,6 +1957,12 @@ extension Ds {
             self.schemaExtensionsInfo = schemaExtensionsInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let schemaExtensionsInfo = dictionary["SchemaExtensionsInfo"] as? [[String: Any]] {
+                self.schemaExtensionsInfo = try schemaExtensionsInfo.map({ try SchemaExtensionInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeregisterEventTopicResult: AWSShape {
@@ -1501,6 +1971,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeEventTopicsResult: AWSShape {
@@ -1515,6 +1987,11 @@ extension Ds {
             self.eventTopics = eventTopics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventTopics = dictionary["EventTopics"] as? [[String: Any]] {
+                self.eventTopics = try eventTopics.map({ try EventTopic(dictionary: $0) })
+            }
+        }
     }
 
     public struct IpRouteInfo: AWSShape {
@@ -1544,6 +2021,14 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.ipRouteStatusMsg = dictionary["IpRouteStatusMsg"] as? String
+            self.addedDateTime = dictionary["AddedDateTime"] as? Date
+            self.cidrIp = dictionary["CidrIp"] as? String
+            self.ipRouteStatusReason = dictionary["IpRouteStatusReason"] as? String
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct ConnectDirectoryRequest: AWSShape {
@@ -1573,6 +2058,18 @@ extension Ds {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            self.description = dictionary["Description"] as? String
+            self.shortName = dictionary["ShortName"] as? String
+            guard let connectSettings = dictionary["ConnectSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConnectSettings") }
+            self.connectSettings = try Ds.DirectoryConnectSettings(dictionary: connectSettings)
+            guard let size = dictionary["Size"] as? String else { throw InitializableError.missingRequiredParam("Size") }
+            self.size = size
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct VerifyTrustResult: AWSShape {
@@ -1587,6 +2084,9 @@ extension Ds {
             self.trustId = trustId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.trustId = dictionary["TrustId"] as? String
+        }
     }
 
     public struct DisableSsoResult: AWSShape {
@@ -1595,6 +2095,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateConditionalForwarderRequest: AWSShape {
@@ -1615,6 +2117,14 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+            guard let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] else { throw InitializableError.missingRequiredParam("DnsIpAddrs") }
+            self.dnsIpAddrs = dnsIpAddrs
+            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
+            self.remoteDomainName = remoteDomainName
+        }
     }
 
     public struct CancelSchemaExtensionResult: AWSShape {
@@ -1623,6 +2133,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateConditionalForwarderResult: AWSShape {
@@ -1631,6 +2143,8 @@ extension Ds {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DisableRadiusRequest: AWSShape {
@@ -1645,6 +2159,10 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
+            self.directoryId = directoryId
+        }
     }
 
     public struct CreateDirectoryResult: AWSShape {
@@ -1659,6 +2177,9 @@ extension Ds {
             self.directoryId = directoryId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.directoryId = dictionary["DirectoryId"] as? String
+        }
     }
 
     public struct ListIpRoutesResult: AWSShape {
@@ -1676,6 +2197,12 @@ extension Ds {
             self.ipRoutesInfo = ipRoutesInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let ipRoutesInfo = dictionary["IpRoutesInfo"] as? [[String: Any]] {
+                self.ipRoutesInfo = try ipRoutesInfo.map({ try IpRouteInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct DirectoryConnectSettings: AWSShape {
@@ -1699,6 +2226,16 @@ extension Ds {
             self.customerDnsIps = customerDnsIps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
+            self.vpcId = vpcId
+            guard let customerUserName = dictionary["CustomerUserName"] as? String else { throw InitializableError.missingRequiredParam("CustomerUserName") }
+            self.customerUserName = customerUserName
+            guard let customerDnsIps = dictionary["CustomerDnsIps"] as? [String] else { throw InitializableError.missingRequiredParam("CustomerDnsIps") }
+            self.customerDnsIps = customerDnsIps
+        }
     }
 
 }

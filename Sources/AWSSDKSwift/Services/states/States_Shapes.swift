@@ -44,6 +44,11 @@ extension States {
             self.input = input
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.input = dictionary["input"] as? String
+        }
     }
 
     public struct SendTaskHeartbeatOutput: AWSShape {
@@ -52,6 +57,8 @@ extension States {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct StopExecutionOutput: AWSShape {
@@ -66,6 +73,10 @@ extension States {
             self.stopDate = stopDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stopDate = dictionary["stopDate"] as? Date else { throw InitializableError.missingRequiredParam("stopDate") }
+            self.stopDate = stopDate
+        }
     }
 
     public struct CreateActivityOutput: AWSShape {
@@ -83,6 +94,12 @@ extension States {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
+            self.activityArn = activityArn
+            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.creationDate = creationDate
+        }
     }
 
     public struct ListActivitiesInput: AWSShape {
@@ -100,6 +117,10 @@ extension States {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct GetExecutionHistoryOutput: AWSShape {
@@ -117,6 +138,11 @@ extension States {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let events = dictionary["events"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("events") }
+            self.events = try events.map({ try HistoryEvent(dictionary: $0) })
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ActivityFailedEventDetails: AWSShape {
@@ -134,6 +160,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ActivityListItem: AWSShape {
@@ -154,6 +184,14 @@ extension States {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
+            self.activityArn = activityArn
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.creationDate = creationDate
+        }
     }
 
     public struct DescribeActivityOutput: AWSShape {
@@ -174,6 +212,14 @@ extension States {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
+            self.activityArn = activityArn
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.creationDate = creationDate
+        }
     }
 
     public struct ExecutionListItem: AWSShape {
@@ -203,6 +249,19 @@ extension States {
             self.executionArn = executionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+            guard let startDate = dictionary["startDate"] as? Date else { throw InitializableError.missingRequiredParam("startDate") }
+            self.startDate = startDate
+            self.stopDate = dictionary["stopDate"] as? Date
+            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
+            self.executionArn = executionArn
+        }
     }
 
     public struct StartExecutionInput: AWSShape {
@@ -223,6 +282,12 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.input = dictionary["input"] as? String
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+        }
     }
 
     public struct DeleteActivityOutput: AWSShape {
@@ -231,6 +296,8 @@ extension States {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeStateMachineOutput: AWSShape {
@@ -260,6 +327,19 @@ extension States {
             self.roleArn = roleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.creationDate = creationDate
+            guard let definition = dictionary["definition"] as? String else { throw InitializableError.missingRequiredParam("definition") }
+            self.definition = definition
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+        }
     }
 
     public struct LambdaFunctionStartFailedEventDetails: AWSShape {
@@ -277,6 +357,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ActivityTimedOutEventDetails: AWSShape {
@@ -294,6 +378,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct StartExecutionOutput: AWSShape {
@@ -311,6 +399,12 @@ extension States {
             self.executionArn = executionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startDate = dictionary["startDate"] as? Date else { throw InitializableError.missingRequiredParam("startDate") }
+            self.startDate = startDate
+            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
+            self.executionArn = executionArn
+        }
     }
 
     public struct HistoryEvent: AWSShape {
@@ -372,6 +466,34 @@ extension States {
             self.lambdaFunctionStartFailedEventDetails = lambdaFunctionStartFailedEventDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lambdaFunctionSucceededEventDetails = dictionary["lambdaFunctionSucceededEventDetails"] as? [String: Any] { self.lambdaFunctionSucceededEventDetails = try States.LambdaFunctionSucceededEventDetails(dictionary: lambdaFunctionSucceededEventDetails) }
+            if let lambdaFunctionFailedEventDetails = dictionary["lambdaFunctionFailedEventDetails"] as? [String: Any] { self.lambdaFunctionFailedEventDetails = try States.LambdaFunctionFailedEventDetails(dictionary: lambdaFunctionFailedEventDetails) }
+            if let executionSucceededEventDetails = dictionary["executionSucceededEventDetails"] as? [String: Any] { self.executionSucceededEventDetails = try States.ExecutionSucceededEventDetails(dictionary: executionSucceededEventDetails) }
+            if let activityFailedEventDetails = dictionary["activityFailedEventDetails"] as? [String: Any] { self.activityFailedEventDetails = try States.ActivityFailedEventDetails(dictionary: activityFailedEventDetails) }
+            if let executionTimedOutEventDetails = dictionary["executionTimedOutEventDetails"] as? [String: Any] { self.executionTimedOutEventDetails = try States.ExecutionTimedOutEventDetails(dictionary: executionTimedOutEventDetails) }
+            if let lambdaFunctionTimedOutEventDetails = dictionary["lambdaFunctionTimedOutEventDetails"] as? [String: Any] { self.lambdaFunctionTimedOutEventDetails = try States.LambdaFunctionTimedOutEventDetails(dictionary: lambdaFunctionTimedOutEventDetails) }
+            if let executionAbortedEventDetails = dictionary["executionAbortedEventDetails"] as? [String: Any] { self.executionAbortedEventDetails = try States.ExecutionAbortedEventDetails(dictionary: executionAbortedEventDetails) }
+            if let executionFailedEventDetails = dictionary["executionFailedEventDetails"] as? [String: Any] { self.executionFailedEventDetails = try States.ExecutionFailedEventDetails(dictionary: executionFailedEventDetails) }
+            if let activityScheduledEventDetails = dictionary["activityScheduledEventDetails"] as? [String: Any] { self.activityScheduledEventDetails = try States.ActivityScheduledEventDetails(dictionary: activityScheduledEventDetails) }
+            if let activityStartedEventDetails = dictionary["activityStartedEventDetails"] as? [String: Any] { self.activityStartedEventDetails = try States.ActivityStartedEventDetails(dictionary: activityStartedEventDetails) }
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            if let stateEnteredEventDetails = dictionary["stateEnteredEventDetails"] as? [String: Any] { self.stateEnteredEventDetails = try States.StateEnteredEventDetails(dictionary: stateEnteredEventDetails) }
+            if let executionStartedEventDetails = dictionary["executionStartedEventDetails"] as? [String: Any] { self.executionStartedEventDetails = try States.ExecutionStartedEventDetails(dictionary: executionStartedEventDetails) }
+            if let activityScheduleFailedEventDetails = dictionary["activityScheduleFailedEventDetails"] as? [String: Any] { self.activityScheduleFailedEventDetails = try States.ActivityScheduleFailedEventDetails(dictionary: activityScheduleFailedEventDetails) }
+            guard let timestamp = dictionary["timestamp"] as? Date else { throw InitializableError.missingRequiredParam("timestamp") }
+            self.timestamp = timestamp
+            self.previousEventId = dictionary["previousEventId"] as? Int64
+            guard let id = dictionary["id"] as? Int64 else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            if let activityTimedOutEventDetails = dictionary["activityTimedOutEventDetails"] as? [String: Any] { self.activityTimedOutEventDetails = try States.ActivityTimedOutEventDetails(dictionary: activityTimedOutEventDetails) }
+            if let lambdaFunctionScheduledEventDetails = dictionary["lambdaFunctionScheduledEventDetails"] as? [String: Any] { self.lambdaFunctionScheduledEventDetails = try States.LambdaFunctionScheduledEventDetails(dictionary: lambdaFunctionScheduledEventDetails) }
+            if let activitySucceededEventDetails = dictionary["activitySucceededEventDetails"] as? [String: Any] { self.activitySucceededEventDetails = try States.ActivitySucceededEventDetails(dictionary: activitySucceededEventDetails) }
+            if let stateExitedEventDetails = dictionary["stateExitedEventDetails"] as? [String: Any] { self.stateExitedEventDetails = try States.StateExitedEventDetails(dictionary: stateExitedEventDetails) }
+            if let lambdaFunctionScheduleFailedEventDetails = dictionary["lambdaFunctionScheduleFailedEventDetails"] as? [String: Any] { self.lambdaFunctionScheduleFailedEventDetails = try States.LambdaFunctionScheduleFailedEventDetails(dictionary: lambdaFunctionScheduleFailedEventDetails) }
+            if let lambdaFunctionStartFailedEventDetails = dictionary["lambdaFunctionStartFailedEventDetails"] as? [String: Any] { self.lambdaFunctionStartFailedEventDetails = try States.LambdaFunctionStartFailedEventDetails(dictionary: lambdaFunctionStartFailedEventDetails) }
+        }
     }
 
     public struct ListActivitiesOutput: AWSShape {
@@ -389,6 +511,11 @@ extension States {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activities = dictionary["activities"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("activities") }
+            self.activities = try activities.map({ try ActivityListItem(dictionary: $0) })
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct SendTaskFailureOutput: AWSShape {
@@ -397,6 +524,8 @@ extension States {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListStateMachinesInput: AWSShape {
@@ -414,6 +543,10 @@ extension States {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListExecutionsOutput: AWSShape {
@@ -431,6 +564,11 @@ extension States {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let executions = dictionary["executions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("executions") }
+            self.executions = try executions.map({ try ExecutionListItem(dictionary: $0) })
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct CreateStateMachineInput: AWSShape {
@@ -451,6 +589,14 @@ extension States {
             self.roleArn = roleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let definition = dictionary["definition"] as? String else { throw InitializableError.missingRequiredParam("definition") }
+            self.definition = definition
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+        }
     }
 
     public struct SendTaskHeartbeatInput: AWSShape {
@@ -465,6 +611,10 @@ extension States {
             self.taskToken = taskToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
+            self.taskToken = taskToken
+        }
     }
 
     public struct ActivityScheduleFailedEventDetails: AWSShape {
@@ -482,6 +632,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ActivitySucceededEventDetails: AWSShape {
@@ -496,6 +650,9 @@ extension States {
             self.output = output
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.output = dictionary["output"] as? String
+        }
     }
 
     public struct SendTaskFailureInput: AWSShape {
@@ -516,6 +673,12 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
+            self.taskToken = taskToken
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct GetActivityTaskInput: AWSShape {
@@ -533,6 +696,11 @@ extension States {
             self.activityArn = activityArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.workerName = dictionary["workerName"] as? String
+            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
+            self.activityArn = activityArn
+        }
     }
 
     public struct DescribeActivityInput: AWSShape {
@@ -547,6 +715,10 @@ extension States {
             self.activityArn = activityArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
+            self.activityArn = activityArn
+        }
     }
 
     public struct LambdaFunctionScheduledEventDetails: AWSShape {
@@ -567,6 +739,12 @@ extension States {
             self.resource = resource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timeoutInSeconds = dictionary["timeoutInSeconds"] as? Int64
+            self.input = dictionary["input"] as? String
+            guard let resource = dictionary["resource"] as? String else { throw InitializableError.missingRequiredParam("resource") }
+            self.resource = resource
+        }
     }
 
     public struct DeleteStateMachineOutput: AWSShape {
@@ -575,6 +753,8 @@ extension States {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetActivityTaskOutput: AWSShape {
@@ -592,6 +772,10 @@ extension States {
             self.input = input
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.taskToken = dictionary["taskToken"] as? String
+            self.input = dictionary["input"] as? String
+        }
     }
 
     public struct StateExitedEventDetails: AWSShape {
@@ -609,6 +793,11 @@ extension States {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.output = dictionary["output"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct LambdaFunctionSucceededEventDetails: AWSShape {
@@ -623,6 +812,9 @@ extension States {
             self.output = output
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.output = dictionary["output"] as? String
+        }
     }
 
     public struct ActivityScheduledEventDetails: AWSShape {
@@ -646,6 +838,13 @@ extension States {
             self.resource = resource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timeoutInSeconds = dictionary["timeoutInSeconds"] as? Int64
+            self.input = dictionary["input"] as? String
+            self.heartbeatInSeconds = dictionary["heartbeatInSeconds"] as? Int64
+            guard let resource = dictionary["resource"] as? String else { throw InitializableError.missingRequiredParam("resource") }
+            self.resource = resource
+        }
     }
 
     public struct CreateStateMachineOutput: AWSShape {
@@ -663,6 +862,12 @@ extension States {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.creationDate = creationDate
+        }
     }
 
     public struct DescribeExecutionInput: AWSShape {
@@ -677,6 +882,10 @@ extension States {
             self.executionArn = executionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
+            self.executionArn = executionArn
+        }
     }
 
     public struct DeleteActivityInput: AWSShape {
@@ -691,6 +900,10 @@ extension States {
             self.activityArn = activityArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
+            self.activityArn = activityArn
+        }
     }
 
     public struct DeleteStateMachineInput: AWSShape {
@@ -705,6 +918,10 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+        }
     }
 
     public struct DescribeStateMachineInput: AWSShape {
@@ -719,6 +936,10 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+        }
     }
 
     public struct SendTaskSuccessInput: AWSShape {
@@ -736,6 +957,12 @@ extension States {
             self.taskToken = taskToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let output = dictionary["output"] as? String else { throw InitializableError.missingRequiredParam("output") }
+            self.output = output
+            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
+            self.taskToken = taskToken
+        }
     }
 
     public struct LambdaFunctionScheduleFailedEventDetails: AWSShape {
@@ -753,6 +980,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ExecutionFailedEventDetails: AWSShape {
@@ -770,6 +1001,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ListStateMachinesOutput: AWSShape {
@@ -786,6 +1021,11 @@ extension States {
             self.stateMachines = stateMachines
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let stateMachines = dictionary["stateMachines"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stateMachines") }
+            self.stateMachines = try stateMachines.map({ try StateMachineListItem(dictionary: $0) })
+        }
     }
 
     public struct CreateActivityInput: AWSShape {
@@ -800,6 +1040,10 @@ extension States {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct ListExecutionsInput: AWSShape {
@@ -823,6 +1067,13 @@ extension States {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusFilter = dictionary["statusFilter"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct LambdaFunctionTimedOutEventDetails: AWSShape {
@@ -840,6 +1091,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct GetExecutionHistoryInput: AWSShape {
@@ -863,6 +1118,13 @@ extension States {
             self.executionArn = executionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.reverseOrder = dictionary["reverseOrder"] as? Bool
+            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
+            self.executionArn = executionArn
+        }
     }
 
     public struct ExecutionStartedEventDetails: AWSShape {
@@ -880,6 +1142,10 @@ extension States {
             self.input = input
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleArn = dictionary["roleArn"] as? String
+            self.input = dictionary["input"] as? String
+        }
     }
 
     public struct LambdaFunctionFailedEventDetails: AWSShape {
@@ -897,6 +1163,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ActivityStartedEventDetails: AWSShape {
@@ -911,6 +1181,9 @@ extension States {
             self.workerName = workerName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.workerName = dictionary["workerName"] as? String
+        }
     }
 
     public struct StateMachineListItem: AWSShape {
@@ -931,6 +1204,14 @@ extension States {
             self.creationDate = creationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.creationDate = creationDate
+        }
     }
 
     public struct SendTaskSuccessOutput: AWSShape {
@@ -939,6 +1220,8 @@ extension States {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ExecutionTimedOutEventDetails: AWSShape {
@@ -956,6 +1239,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ExecutionAbortedEventDetails: AWSShape {
@@ -973,6 +1260,10 @@ extension States {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cause = dictionary["cause"] as? String
+            self.error = dictionary["error"] as? String
+        }
     }
 
     public struct ExecutionSucceededEventDetails: AWSShape {
@@ -987,6 +1278,9 @@ extension States {
             self.output = output
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.output = dictionary["output"] as? String
+        }
     }
 
     public struct DescribeExecutionOutput: AWSShape {
@@ -1022,6 +1316,21 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            self.name = dictionary["name"] as? String
+            self.stopDate = dictionary["stopDate"] as? Date
+            guard let startDate = dictionary["startDate"] as? Date else { throw InitializableError.missingRequiredParam("startDate") }
+            self.startDate = startDate
+            self.output = dictionary["output"] as? String
+            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
+            self.executionArn = executionArn
+            guard let input = dictionary["input"] as? String else { throw InitializableError.missingRequiredParam("input") }
+            self.input = input
+            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
+            self.stateMachineArn = stateMachineArn
+        }
     }
 
     public struct StopExecutionInput: AWSShape {
@@ -1042,6 +1351,12 @@ extension States {
             self.cause = cause
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.error = dictionary["error"] as? String
+            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
+            self.executionArn = executionArn
+            self.cause = dictionary["cause"] as? String
+        }
     }
 
 }

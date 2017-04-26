@@ -44,6 +44,10 @@ extension Polly {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.content = dictionary["Content"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct DescribeVoicesInput: AWSShape {
@@ -64,6 +68,10 @@ extension Polly {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.languageCode = dictionary["LanguageCode"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct SynthesizeSpeechOutput: AWSShape {
@@ -87,6 +95,11 @@ extension Polly {
             self.requestCharacters = requestCharacters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentType = dictionary["ContentType"] as? String
+            self.audioStream = dictionary["AudioStream"] as? Data
+            self.requestCharacters = dictionary["RequestCharacters"] as? Int32
+        }
     }
 
     public struct PutLexiconInput: AWSShape {
@@ -107,6 +120,12 @@ extension Polly {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
+            self.content = content
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetLexiconOutput: AWSShape {
@@ -124,6 +143,10 @@ extension Polly {
             self.lexiconAttributes = lexiconAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lexicon = dictionary["Lexicon"] as? [String: Any] { self.lexicon = try Polly.Lexicon(dictionary: lexicon) }
+            if let lexiconAttributes = dictionary["LexiconAttributes"] as? [String: Any] { self.lexiconAttributes = try Polly.LexiconAttributes(dictionary: lexiconAttributes) }
+        }
     }
 
     public struct ListLexiconsOutput: AWSShape {
@@ -141,6 +164,12 @@ extension Polly {
             self.lexicons = lexicons
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let lexicons = dictionary["Lexicons"] as? [[String: Any]] {
+                self.lexicons = try lexicons.map({ try LexiconDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetLexiconInput: AWSShape {
@@ -158,6 +187,10 @@ extension Polly {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DeleteLexiconOutput: AWSShape {
@@ -166,6 +199,8 @@ extension Polly {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct SynthesizeSpeechInput: AWSShape {
@@ -195,6 +230,19 @@ extension Polly {
             self.sampleRate = sampleRate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let outputFormat = dictionary["OutputFormat"] as? String else { throw InitializableError.missingRequiredParam("OutputFormat") }
+            self.outputFormat = outputFormat
+            guard let voiceId = dictionary["VoiceId"] as? String else { throw InitializableError.missingRequiredParam("VoiceId") }
+            self.voiceId = voiceId
+            if let lexiconNames = dictionary["LexiconNames"] as? [String] {
+                self.lexiconNames = lexiconNames
+            }
+            self.textType = dictionary["TextType"] as? String
+            guard let text = dictionary["Text"] as? String else { throw InitializableError.missingRequiredParam("Text") }
+            self.text = text
+            self.sampleRate = dictionary["SampleRate"] as? String
+        }
     }
 
     public struct DescribeVoicesOutput: AWSShape {
@@ -212,6 +260,12 @@ extension Polly {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let voices = dictionary["Voices"] as? [[String: Any]] {
+                self.voices = try voices.map({ try Voice(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListLexiconsInput: AWSShape {
@@ -229,6 +283,9 @@ extension Polly {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct LexiconAttributes: AWSShape {
@@ -258,6 +315,14 @@ extension Polly {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lexiconArn = dictionary["LexiconArn"] as? String
+            self.lastModified = dictionary["LastModified"] as? Date
+            self.lexemesCount = dictionary["LexemesCount"] as? Int32
+            self.languageCode = dictionary["LanguageCode"] as? String
+            self.alphabet = dictionary["Alphabet"] as? String
+            self.size = dictionary["Size"] as? Int32
+        }
     }
 
     public struct LexiconDescription: AWSShape {
@@ -275,6 +340,10 @@ extension Polly {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Polly.LexiconAttributes(dictionary: attributes) }
+        }
     }
 
     public struct PutLexiconOutput: AWSShape {
@@ -283,6 +352,8 @@ extension Polly {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteLexiconInput: AWSShape {
@@ -300,6 +371,10 @@ extension Polly {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct Voice: AWSShape {
@@ -326,6 +401,13 @@ extension Polly {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.languageName = dictionary["LanguageName"] as? String
+            self.languageCode = dictionary["LanguageCode"] as? String
+            self.name = dictionary["Name"] as? String
+            self.gender = dictionary["Gender"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
 }

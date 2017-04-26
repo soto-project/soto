@@ -47,6 +47,14 @@ extension Batch {
             self.jobDefinitionName = jobDefinitionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let revision = dictionary["revision"] as? Int32 else { throw InitializableError.missingRequiredParam("revision") }
+            self.revision = revision
+            guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
+            self.jobDefinitionArn = jobDefinitionArn
+            guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
+            self.jobDefinitionName = jobDefinitionName
+        }
     }
 
     public struct TerminateJobRequest: AWSShape {
@@ -64,6 +72,12 @@ extension Batch {
             self.reason = reason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+            guard let reason = dictionary["reason"] as? String else { throw InitializableError.missingRequiredParam("reason") }
+            self.reason = reason
+        }
     }
 
     public struct JobSummary: AWSShape {
@@ -81,6 +95,12 @@ extension Batch {
             self.jobName = jobName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
+            self.jobName = jobName
+        }
     }
 
     public struct DeregisterJobDefinitionResponse: AWSShape {
@@ -89,6 +109,8 @@ extension Batch {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct JobQueueDetail: AWSShape {
@@ -121,6 +143,20 @@ extension Batch {
             self.priority = priority
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let state = dictionary["state"] as? String else { throw InitializableError.missingRequiredParam("state") }
+            self.state = state
+            self.status = dictionary["status"] as? String
+            guard let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("computeEnvironmentOrder") }
+            self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
+            guard let jobQueueArn = dictionary["jobQueueArn"] as? String else { throw InitializableError.missingRequiredParam("jobQueueArn") }
+            self.jobQueueArn = jobQueueArn
+            self.statusReason = dictionary["statusReason"] as? String
+            guard let jobQueueName = dictionary["jobQueueName"] as? String else { throw InitializableError.missingRequiredParam("jobQueueName") }
+            self.jobQueueName = jobQueueName
+            guard let priority = dictionary["priority"] as? Int32 else { throw InitializableError.missingRequiredParam("priority") }
+            self.priority = priority
+        }
     }
 
     public struct SubmitJobResponse: AWSShape {
@@ -138,6 +174,12 @@ extension Batch {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
+            self.jobName = jobName
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct ContainerProperties: AWSShape {
@@ -185,6 +227,33 @@ extension Batch {
             self.memory = memory
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.user = dictionary["user"] as? String
+            self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
+            if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
+                self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
+            }
+            guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
+            self.image = image
+            if let volumes = dictionary["volumes"] as? [[String: Any]] {
+                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            }
+            guard let vcpus = dictionary["vcpus"] as? Int32 else { throw InitializableError.missingRequiredParam("vcpus") }
+            self.vcpus = vcpus
+            self.privileged = dictionary["privileged"] as? Bool
+            if let environment = dictionary["environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            }
+            if let command = dictionary["command"] as? [String] {
+                self.command = command
+            }
+            self.jobRoleArn = dictionary["jobRoleArn"] as? String
+            if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
+                self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
+            }
+            guard let memory = dictionary["memory"] as? Int32 else { throw InitializableError.missingRequiredParam("memory") }
+            self.memory = memory
+        }
     }
 
     public struct ComputeResource: AWSShape {
@@ -232,6 +301,29 @@ extension Batch {
             self.desiredvCpus = desiredvCpus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ec2KeyPair = dictionary["ec2KeyPair"] as? String
+            self.bidPercentage = dictionary["bidPercentage"] as? Int32
+            guard let subnets = dictionary["subnets"] as? [String] else { throw InitializableError.missingRequiredParam("subnets") }
+            self.subnets = subnets
+            self.spotIamFleetRole = dictionary["spotIamFleetRole"] as? String
+            guard let instanceTypes = dictionary["instanceTypes"] as? [String] else { throw InitializableError.missingRequiredParam("instanceTypes") }
+            self.instanceTypes = instanceTypes
+            guard let maxvCpus = dictionary["maxvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("maxvCpus") }
+            self.maxvCpus = maxvCpus
+            guard let securityGroupIds = dictionary["securityGroupIds"] as? [String] else { throw InitializableError.missingRequiredParam("securityGroupIds") }
+            self.securityGroupIds = securityGroupIds
+            guard let instanceRole = dictionary["instanceRole"] as? String else { throw InitializableError.missingRequiredParam("instanceRole") }
+            self.instanceRole = instanceRole
+            if let tags = dictionary["tags"] as? [String: String] {
+                self.tags = tags
+            }
+            guard let minvCpus = dictionary["minvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("minvCpus") }
+            self.minvCpus = minvCpus
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            self.desiredvCpus = dictionary["desiredvCpus"] as? Int32
+        }
     }
 
     public struct ComputeEnvironmentDetail: AWSShape {
@@ -270,6 +362,20 @@ extension Batch {
             self.serviceRole = serviceRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            self.status = dictionary["status"] as? String
+            guard let computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentArn") }
+            self.computeEnvironmentArn = computeEnvironmentArn
+            guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
+            self.computeEnvironmentName = computeEnvironmentName
+            self.statusReason = dictionary["statusReason"] as? String
+            guard let ecsClusterArn = dictionary["ecsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("ecsClusterArn") }
+            self.ecsClusterArn = ecsClusterArn
+            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) }
+            self.type = dictionary["type"] as? String
+            self.serviceRole = dictionary["serviceRole"] as? String
+        }
     }
 
     public struct DeleteJobQueueResponse: AWSShape {
@@ -278,6 +384,8 @@ extension Batch {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateComputeEnvironmentResponse: AWSShape {
@@ -295,6 +403,10 @@ extension Batch {
             self.computeEnvironmentArn = computeEnvironmentArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.computeEnvironmentName = dictionary["computeEnvironmentName"] as? String
+            self.computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String
+        }
     }
 
     public struct UpdateJobQueueRequest: AWSShape {
@@ -318,6 +430,15 @@ extension Batch {
             self.priority = priority
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
+            self.jobQueue = jobQueue
+            if let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] {
+                self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
+            }
+            self.priority = dictionary["priority"] as? Int32
+        }
     }
 
     public struct CreateComputeEnvironmentRequest: AWSShape {
@@ -344,6 +465,16 @@ extension Batch {
             self.computeResources = computeResources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let serviceRole = dictionary["serviceRole"] as? String else { throw InitializableError.missingRequiredParam("serviceRole") }
+            self.serviceRole = serviceRole
+            guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
+            self.computeEnvironmentName = computeEnvironmentName
+            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) }
+        }
     }
 
     public struct TerminateJobResponse: AWSShape {
@@ -352,6 +483,8 @@ extension Batch {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeComputeEnvironmentsRequest: AWSShape {
@@ -372,6 +505,13 @@ extension Batch {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let computeEnvironments = dictionary["computeEnvironments"] as? [String] {
+                self.computeEnvironments = computeEnvironments
+            }
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteComputeEnvironmentRequest: AWSShape {
@@ -386,6 +526,10 @@ extension Batch {
             self.computeEnvironment = computeEnvironment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
+            self.computeEnvironment = computeEnvironment
+        }
     }
 
     public struct DescribeComputeEnvironmentsResponse: AWSShape {
@@ -403,6 +547,12 @@ extension Batch {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let computeEnvironments = dictionary["computeEnvironments"] as? [[String: Any]] {
+                self.computeEnvironments = try computeEnvironments.map({ try ComputeEnvironmentDetail(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeregisterJobDefinitionRequest: AWSShape {
@@ -417,6 +567,10 @@ extension Batch {
             self.jobDefinition = jobDefinition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
+            self.jobDefinition = jobDefinition
+        }
     }
 
     public struct CancelJobResponse: AWSShape {
@@ -425,6 +579,8 @@ extension Batch {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ContainerDetail: AWSShape {
@@ -481,6 +637,33 @@ extension Batch {
             self.jobRoleArn = jobRoleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["reason"] as? String
+            self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
+            if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
+                self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
+            }
+            self.user = dictionary["user"] as? String
+            self.vcpus = dictionary["vcpus"] as? Int32
+            if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
+                self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
+            }
+            self.memory = dictionary["memory"] as? Int32
+            if let environment = dictionary["environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            }
+            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
+            self.image = dictionary["image"] as? String
+            if let volumes = dictionary["volumes"] as? [[String: Any]] {
+                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            }
+            self.privileged = dictionary["privileged"] as? Bool
+            self.exitCode = dictionary["exitCode"] as? Int32
+            if let command = dictionary["command"] as? [String] {
+                self.command = command
+            }
+            self.jobRoleArn = dictionary["jobRoleArn"] as? String
+        }
     }
 
     public struct MountPoint: AWSShape {
@@ -501,6 +684,11 @@ extension Batch {
             self.containerPath = containerPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceVolume = dictionary["sourceVolume"] as? String
+            self.readOnly = dictionary["readOnly"] as? Bool
+            self.containerPath = dictionary["containerPath"] as? String
+        }
     }
 
     public struct UpdateComputeEnvironmentRequest: AWSShape {
@@ -524,6 +712,13 @@ extension Batch {
             self.serviceRole = serviceRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
+            self.computeEnvironment = computeEnvironment
+            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResourceUpdate(dictionary: computeResources) }
+            self.serviceRole = dictionary["serviceRole"] as? String
+        }
     }
 
     public struct CreateJobQueueResponse: AWSShape {
@@ -541,6 +736,12 @@ extension Batch {
             self.jobQueueArn = jobQueueArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobQueueName = dictionary["jobQueueName"] as? String else { throw InitializableError.missingRequiredParam("jobQueueName") }
+            self.jobQueueName = jobQueueName
+            guard let jobQueueArn = dictionary["jobQueueArn"] as? String else { throw InitializableError.missingRequiredParam("jobQueueArn") }
+            self.jobQueueArn = jobQueueArn
+        }
     }
 
     public struct Host: AWSShape {
@@ -555,6 +756,9 @@ extension Batch {
             self.sourcePath = sourcePath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourcePath = dictionary["sourcePath"] as? String
+        }
     }
 
     public struct DescribeJobsRequest: AWSShape {
@@ -569,6 +773,10 @@ extension Batch {
             self.jobs = jobs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobs = dictionary["jobs"] as? [String] else { throw InitializableError.missingRequiredParam("jobs") }
+            self.jobs = jobs
+        }
     }
 
     public struct ContainerOverrides: AWSShape {
@@ -592,6 +800,16 @@ extension Batch {
             self.memory = memory
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vcpus = dictionary["vcpus"] as? Int32
+            if let environment = dictionary["environment"] as? [[String: Any]] {
+                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            }
+            if let command = dictionary["command"] as? [String] {
+                self.command = command
+            }
+            self.memory = dictionary["memory"] as? Int32
+        }
     }
 
     public struct JobDetail: AWSShape {
@@ -639,6 +857,30 @@ extension Batch {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
+            self.jobQueue = jobQueue
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
+            self.jobName = jobName
+            self.createdAt = dictionary["createdAt"] as? Int64
+            self.stoppedAt = dictionary["stoppedAt"] as? Int64
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+            guard let startedAt = dictionary["startedAt"] as? Int64 else { throw InitializableError.missingRequiredParam("startedAt") }
+            self.startedAt = startedAt
+            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.ContainerDetail(dictionary: container) }
+            self.statusReason = dictionary["statusReason"] as? String
+            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
+            self.jobDefinition = jobDefinition
+            if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
+                self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
+            }
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct SubmitJobRequest: AWSShape {
@@ -668,6 +910,21 @@ extension Batch {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
+            self.jobQueue = jobQueue
+            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
+            self.jobName = jobName
+            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
+            self.jobDefinition = jobDefinition
+            if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
+                self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
+            }
+            if let containerOverrides = dictionary["containerOverrides"] as? [String: Any] { self.containerOverrides = try Batch.ContainerOverrides(dictionary: containerOverrides) }
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct DescribeJobsResponse: AWSShape {
@@ -682,6 +939,11 @@ extension Batch {
             self.jobs = jobs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobs = dictionary["jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try JobDetail(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteComputeEnvironmentResponse: AWSShape {
@@ -690,6 +952,8 @@ extension Batch {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListJobsResponse: AWSShape {
@@ -707,6 +971,11 @@ extension Batch {
             self.jobSummaryList = jobSummaryList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let jobSummaryList = dictionary["jobSummaryList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("jobSummaryList") }
+            self.jobSummaryList = try jobSummaryList.map({ try JobSummary(dictionary: $0) })
+        }
     }
 
     public struct DescribeJobDefinitionsRequest: AWSShape {
@@ -733,6 +1002,15 @@ extension Batch {
             self.jobDefinitions = jobDefinitions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobDefinitionName = dictionary["jobDefinitionName"] as? String
+            self.status = dictionary["status"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+            if let jobDefinitions = dictionary["jobDefinitions"] as? [String] {
+                self.jobDefinitions = jobDefinitions
+            }
+        }
     }
 
     public struct RegisterJobDefinitionRequest: AWSShape {
@@ -756,6 +1034,16 @@ extension Batch {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
+            self.jobDefinitionName = jobDefinitionName
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) }
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct ListJobsRequest: AWSShape {
@@ -779,6 +1067,13 @@ extension Batch {
             self.jobStatus = jobStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
+            self.jobQueue = jobQueue
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.jobStatus = dictionary["jobStatus"] as? String
+        }
     }
 
     public struct DescribeJobQueuesRequest: AWSShape {
@@ -799,6 +1094,13 @@ extension Batch {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobQueues = dictionary["jobQueues"] as? [String] {
+                self.jobQueues = jobQueues
+            }
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeJobQueuesResponse: AWSShape {
@@ -816,6 +1118,12 @@ extension Batch {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobQueues = dictionary["jobQueues"] as? [[String: Any]] {
+                self.jobQueues = try jobQueues.map({ try JobQueueDetail(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeJobDefinitionsResponse: AWSShape {
@@ -833,6 +1141,12 @@ extension Batch {
             self.jobDefinitions = jobDefinitions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let jobDefinitions = dictionary["jobDefinitions"] as? [[String: Any]] {
+                self.jobDefinitions = try jobDefinitions.map({ try JobDefinition(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteJobQueueRequest: AWSShape {
@@ -847,6 +1161,10 @@ extension Batch {
             self.jobQueue = jobQueue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
+            self.jobQueue = jobQueue
+        }
     }
 
     public struct JobDefinition: AWSShape {
@@ -879,6 +1197,21 @@ extension Batch {
             self.containerProperties = containerProperties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let revision = dictionary["revision"] as? Int32 else { throw InitializableError.missingRequiredParam("revision") }
+            self.revision = revision
+            self.status = dictionary["status"] as? String
+            guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
+            self.jobDefinitionName = jobDefinitionName
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+            guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
+            self.jobDefinitionArn = jobDefinitionArn
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) }
+        }
     }
 
     public struct KeyValuePair: AWSShape {
@@ -896,6 +1229,10 @@ extension Batch {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct CreateJobQueueRequest: AWSShape {
@@ -919,6 +1256,15 @@ extension Batch {
             self.jobQueueName = jobQueueName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            guard let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("computeEnvironmentOrder") }
+            self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
+            guard let priority = dictionary["priority"] as? Int32 else { throw InitializableError.missingRequiredParam("priority") }
+            self.priority = priority
+            guard let jobQueueName = dictionary["jobQueueName"] as? String else { throw InitializableError.missingRequiredParam("jobQueueName") }
+            self.jobQueueName = jobQueueName
+        }
     }
 
     public struct CancelJobRequest: AWSShape {
@@ -936,6 +1282,12 @@ extension Batch {
             self.reason = reason
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+            guard let reason = dictionary["reason"] as? String else { throw InitializableError.missingRequiredParam("reason") }
+            self.reason = reason
+        }
     }
 
     public struct CreateComputeEnvironmentResponse: AWSShape {
@@ -953,6 +1305,10 @@ extension Batch {
             self.computeEnvironmentArn = computeEnvironmentArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.computeEnvironmentName = dictionary["computeEnvironmentName"] as? String
+            self.computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String
+        }
     }
 
     public struct UpdateJobQueueResponse: AWSShape {
@@ -970,6 +1326,10 @@ extension Batch {
             self.jobQueueArn = jobQueueArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobQueueName = dictionary["jobQueueName"] as? String
+            self.jobQueueArn = dictionary["jobQueueArn"] as? String
+        }
     }
 
     public struct Volume: AWSShape {
@@ -987,6 +1347,10 @@ extension Batch {
             self.host = host
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let host = dictionary["host"] as? [String: Any] { self.host = try Batch.Host(dictionary: host) }
+        }
     }
 
     public struct ComputeResourceUpdate: AWSShape {
@@ -1007,6 +1371,11 @@ extension Batch {
             self.desiredvCpus = desiredvCpus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxvCpus = dictionary["maxvCpus"] as? Int32
+            self.minvCpus = dictionary["minvCpus"] as? Int32
+            self.desiredvCpus = dictionary["desiredvCpus"] as? Int32
+        }
     }
 
     public struct JobDependency: AWSShape {
@@ -1021,6 +1390,9 @@ extension Batch {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobId = dictionary["jobId"] as? String
+        }
     }
 
     public struct Ulimit: AWSShape {
@@ -1041,6 +1413,14 @@ extension Batch {
             self.hardLimit = hardLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let softLimit = dictionary["softLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("softLimit") }
+            self.softLimit = softLimit
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let hardLimit = dictionary["hardLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("hardLimit") }
+            self.hardLimit = hardLimit
+        }
     }
 
     public struct ComputeEnvironmentOrder: AWSShape {
@@ -1058,6 +1438,12 @@ extension Batch {
             self.order = order
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
+            self.computeEnvironment = computeEnvironment
+            guard let order = dictionary["order"] as? Int32 else { throw InitializableError.missingRequiredParam("order") }
+            self.order = order
+        }
     }
 
 }

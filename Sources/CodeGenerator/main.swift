@@ -11,6 +11,26 @@ let group = DispatchGroup()
 
 var errorShapeMap: [String: String] = [:]
 
+let stringShape = Shape(name: "Key", type: ShapeType.string(max: 0, min: 0, pattern: nil))
+
+let member = Member(
+    name: "member",
+    required: true,
+    shape: stringShape,
+    location: nil,
+    xmlNamespace: nil,
+    isStreaming: false
+)
+
+let structureShape = StructureShape(members: [member], payload: nil)
+let valueShape = Shape(name: "Value", type: ShapeType.structure(structureShape))
+
+let mapShape = Shape(name: "MapShape", type: ShapeType.map(key: stringShape, value: valueShape))
+
+let listShape = Shape(name: "ListShape", type: ShapeType.list(mapShape))
+
+let root = Shape(name: "Root", type: ShapeType.map(key: stringShape, value: listShape))
+
 for index in 0..<apis.count {
     let api = apis[index]
     let doc = docs[index]
@@ -38,6 +58,13 @@ for index in 0..<apis.count {
                     atomically: true,
                     encoding: .utf8
                 )
+            
+//            try service.generateInitializableFromDictionary()
+//                .write(
+//                    toFile: "\(basePath)/\(service.serviceName)_ShapesInitializableFromDictionary.swift",
+//                    atomically: true,
+//                    encoding: .utf8
+//                )
             
             if !service.errorShapeNames.isEmpty {
                 errorShapeMap[service.endpointPrefix] = service.serviceErrorName

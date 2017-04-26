@@ -47,6 +47,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try PatchOrchestratorFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeActivationsResult: AWSShape {
@@ -64,6 +71,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let activationList = dictionary["ActivationList"] as? [[String: Any]] {
+                self.activationList = try activationList.map({ try Activation(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeEffectivePatchesForPatchBaselineResult: AWSShape {
@@ -81,6 +94,12 @@ extension Ssm {
             self.effectivePatches = effectivePatches
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let effectivePatches = dictionary["EffectivePatches"] as? [[String: Any]] {
+                self.effectivePatches = try effectivePatches.map({ try EffectivePatch(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateAssociationStatusRequest: AWSShape {
@@ -101,6 +120,14 @@ extension Ssm {
             self.associationStatus = associationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let associationStatus = dictionary["AssociationStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AssociationStatus") }
+            self.associationStatus = try Ssm.AssociationStatus(dictionary: associationStatus)
+        }
     }
 
     public struct DeregisterTargetFromMaintenanceWindowResult: AWSShape {
@@ -118,6 +145,10 @@ extension Ssm {
             self.windowTargetId = windowTargetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            self.windowTargetId = dictionary["WindowTargetId"] as? String
+        }
     }
 
     public struct ParametersFilter: AWSShape {
@@ -135,6 +166,11 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct ResultAttribute: AWSShape {
@@ -149,6 +185,10 @@ extension Ssm {
             self.typeName = typeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
+            self.typeName = typeName
+        }
     }
 
     public struct DescribePatchGroupsResult: AWSShape {
@@ -166,6 +206,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let mappings = dictionary["Mappings"] as? [[String: Any]] {
+                self.mappings = try mappings.map({ try PatchGroupPatchBaselineMapping(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct RegisterTargetWithMaintenanceWindowRequest: AWSShape {
@@ -192,6 +238,16 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
+            self.targets = try targets.map({ try Target(dictionary: $0) })
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        }
     }
 
     public struct GetDocumentRequest: AWSShape {
@@ -209,6 +265,11 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct DescribeMaintenanceWindowTargetsRequest: AWSShape {
@@ -232,6 +293,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListAssociationsRequest: AWSShape {
@@ -252,6 +322,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let associationFilterList = dictionary["AssociationFilterList"] as? [[String: Any]] {
+                self.associationFilterList = try associationFilterList.map({ try AssociationFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetInventorySchemaRequest: AWSShape {
@@ -272,6 +349,11 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.typeName = dictionary["TypeName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreatePatchBaselineRequest: AWSShape {
@@ -304,6 +386,20 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let approvedPatches = dictionary["ApprovedPatches"] as? [String] {
+                self.approvedPatches = approvedPatches
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let rejectedPatches = dictionary["RejectedPatches"] as? [String] {
+                self.rejectedPatches = rejectedPatches
+            }
+            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) }
+            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsRequest: AWSShape {
@@ -330,6 +426,17 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
+            self.windowExecutionId = windowExecutionId
+            guard let taskId = dictionary["TaskId"] as? String else { throw InitializableError.missingRequiredParam("TaskId") }
+            self.taskId = taskId
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeInstancePatchesRequest: AWSShape {
@@ -353,6 +460,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try PatchOrchestratorFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeregisterTargetFromMaintenanceWindowRequest: AWSShape {
@@ -370,6 +486,12 @@ extension Ssm {
             self.windowTargetId = windowTargetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            guard let windowTargetId = dictionary["WindowTargetId"] as? String else { throw InitializableError.missingRequiredParam("WindowTargetId") }
+            self.windowTargetId = windowTargetId
+        }
     }
 
     public struct DescribeMaintenanceWindowExecutionTasksRequest: AWSShape {
@@ -393,6 +515,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
+            self.windowExecutionId = windowExecutionId
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeInstancePatchStatesRequest: AWSShape {
@@ -413,6 +544,12 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
+            self.instanceIds = instanceIds
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct SendCommandRequest: AWSShape {
@@ -469,6 +606,35 @@ extension Ssm {
             self.timeoutSeconds = timeoutSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
+            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
+            if let notificationConfig = dictionary["NotificationConfig"] as? [String: Any] { self.notificationConfig = try Ssm.NotificationConfig(dictionary: notificationConfig) }
+            self.comment = dictionary["Comment"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
+            self.outputS3Region = dictionary["OutputS3Region"] as? String
+            self.documentHashType = dictionary["DocumentHashType"] as? String
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.maxErrors = dictionary["MaxErrors"] as? String
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = parameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            guard let documentName = dictionary["DocumentName"] as? String else { throw InitializableError.missingRequiredParam("DocumentName") }
+            self.documentName = documentName
+            self.documentHash = dictionary["DocumentHash"] as? String
+            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
+            self.timeoutSeconds = dictionary["TimeoutSeconds"] as? Int32
+        }
     }
 
     public struct GetMaintenanceWindowExecutionTaskRequest: AWSShape {
@@ -486,6 +652,12 @@ extension Ssm {
             self.taskId = taskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
+            self.windowExecutionId = windowExecutionId
+            guard let taskId = dictionary["TaskId"] as? String else { throw InitializableError.missingRequiredParam("TaskId") }
+            self.taskId = taskId
+        }
     }
 
     public struct CommandPlugin: AWSShape {
@@ -533,6 +705,20 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.responseStartDateTime = dictionary["ResponseStartDateTime"] as? Date
+            self.responseFinishDateTime = dictionary["ResponseFinishDateTime"] as? Date
+            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
+            self.name = dictionary["Name"] as? String
+            self.output = dictionary["Output"] as? String
+            self.standardErrorUrl = dictionary["StandardErrorUrl"] as? String
+            self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
+            self.outputS3Region = dictionary["OutputS3Region"] as? String
+            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
+            self.responseCode = dictionary["ResponseCode"] as? Int32
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct GetDeployablePatchSnapshotForInstanceResult: AWSShape {
@@ -553,6 +739,11 @@ extension Ssm {
             self.snapshotDownloadUrl = snapshotDownloadUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.snapshotDownloadUrl = dictionary["SnapshotDownloadUrl"] as? String
+        }
     }
 
     public struct DeleteActivationResult: AWSShape {
@@ -561,6 +752,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeParametersResult: AWSShape {
@@ -578,6 +771,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try ParameterMetadata(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeDocumentRequest: AWSShape {
@@ -595,6 +794,11 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct DescribeInstanceAssociationsStatusResult: AWSShape {
@@ -612,6 +816,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceAssociationStatusInfos = dictionary["InstanceAssociationStatusInfos"] as? [[String: Any]] {
+                self.instanceAssociationStatusInfos = try instanceAssociationStatusInfos.map({ try InstanceAssociationStatusInfo(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeletePatchBaselineRequest: AWSShape {
@@ -626,6 +836,10 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+        }
     }
 
     public struct GetInventoryResult: AWSShape {
@@ -643,6 +857,12 @@ extension Ssm {
             self.entities = entities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let entities = dictionary["Entities"] as? [[String: Any]] {
+                self.entities = try entities.map({ try InventoryResultEntity(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeInstancePatchStatesForPatchGroupResult: AWSShape {
@@ -660,6 +880,12 @@ extension Ssm {
             self.instancePatchStates = instancePatchStates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let instancePatchStates = dictionary["InstancePatchStates"] as? [[String: Any]] {
+                self.instancePatchStates = try instancePatchStates.map({ try InstancePatchState(dictionary: $0) })
+            }
+        }
     }
 
     public struct Command: AWSShape {
@@ -731,6 +957,39 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
+            if let notificationConfig = dictionary["NotificationConfig"] as? [String: Any] { self.notificationConfig = try Ssm.NotificationConfig(dictionary: notificationConfig) }
+            self.completedCount = dictionary["CompletedCount"] as? Int32
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
+            self.comment = dictionary["Comment"] as? String
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            self.outputS3Region = dictionary["OutputS3Region"] as? String
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+            self.targetCount = dictionary["TargetCount"] as? Int32
+            self.status = dictionary["Status"] as? String
+            self.maxErrors = dictionary["MaxErrors"] as? String
+            self.requestedDateTime = dictionary["RequestedDateTime"] as? Date
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = parameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            self.documentName = dictionary["DocumentName"] as? String
+            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
+            self.expiresAfter = dictionary["ExpiresAfter"] as? Date
+            self.errorCount = dictionary["ErrorCount"] as? Int32
+            self.commandId = dictionary["CommandId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct CreateAssociationRequest: AWSShape {
@@ -763,6 +1022,25 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = parameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            self.instanceId = dictionary["InstanceId"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) }
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        }
     }
 
     public struct ModifyDocumentPermissionRequest: AWSShape {
@@ -786,6 +1064,18 @@ extension Ssm {
             self.accountIdsToAdd = accountIdsToAdd
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let permissionType = dictionary["PermissionType"] as? String else { throw InitializableError.missingRequiredParam("PermissionType") }
+            self.permissionType = permissionType
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let accountIdsToRemove = dictionary["AccountIdsToRemove"] as? [String] {
+                self.accountIdsToRemove = accountIdsToRemove
+            }
+            if let accountIdsToAdd = dictionary["AccountIdsToAdd"] as? [String] {
+                self.accountIdsToAdd = accountIdsToAdd
+            }
+        }
     }
 
     public struct RegisterDefaultPatchBaselineRequest: AWSShape {
@@ -800,6 +1090,10 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+        }
     }
 
     public struct AddTagsToResourceResult: AWSShape {
@@ -808,6 +1102,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PatchComplianceData: AWSShape {
@@ -837,6 +1133,20 @@ extension Ssm {
             self.kBId = kBId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let severity = dictionary["Severity"] as? String else { throw InitializableError.missingRequiredParam("Severity") }
+            self.severity = severity
+            guard let classification = dictionary["Classification"] as? String else { throw InitializableError.missingRequiredParam("Classification") }
+            self.classification = classification
+            guard let installedTime = dictionary["InstalledTime"] as? Date else { throw InitializableError.missingRequiredParam("InstalledTime") }
+            self.installedTime = installedTime
+            guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
+            self.title = title
+            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            self.state = state
+            guard let kBId = dictionary["KBId"] as? String else { throw InitializableError.missingRequiredParam("KBId") }
+            self.kBId = kBId
+        }
     }
 
     public struct DeregisterTaskFromMaintenanceWindowResult: AWSShape {
@@ -854,6 +1164,10 @@ extension Ssm {
             self.windowTaskId = windowTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            self.windowTaskId = dictionary["WindowTaskId"] as? String
+        }
     }
 
     public struct PatchRuleGroup: AWSShape {
@@ -868,6 +1182,10 @@ extension Ssm {
             self.patchRules = patchRules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let patchRules = dictionary["PatchRules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PatchRules") }
+            self.patchRules = try patchRules.map({ try PatchRule(dictionary: $0) })
+        }
     }
 
     public struct DescribeMaintenanceWindowTasksRequest: AWSShape {
@@ -891,6 +1209,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeAutomationExecutionsRequest: AWSShape {
@@ -911,6 +1238,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try AutomationExecutionFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetMaintenanceWindowResult: AWSShape {
@@ -949,6 +1283,17 @@ extension Ssm {
             self.createdDate = createdDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            self.modifiedDate = dictionary["ModifiedDate"] as? Date
+            self.name = dictionary["Name"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool
+            self.schedule = dictionary["Schedule"] as? String
+            self.cutoff = dictionary["Cutoff"] as? Int32
+            self.duration = dictionary["Duration"] as? Int32
+            self.createdDate = dictionary["CreatedDate"] as? Date
+        }
     }
 
     public struct LoggingInfo: AWSShape {
@@ -969,6 +1314,13 @@ extension Ssm {
             self.s3BucketName = s3BucketName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            guard let s3Region = dictionary["S3Region"] as? String else { throw InitializableError.missingRequiredParam("S3Region") }
+            self.s3Region = s3Region
+            guard let s3BucketName = dictionary["S3BucketName"] as? String else { throw InitializableError.missingRequiredParam("S3BucketName") }
+            self.s3BucketName = s3BucketName
+        }
     }
 
     public struct InventoryResultItem: AWSShape {
@@ -995,6 +1347,16 @@ extension Ssm {
             self.typeName = typeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.captureTime = dictionary["CaptureTime"] as? String
+            guard let content = dictionary["Content"] as? [[String: String]] else { throw InitializableError.missingRequiredParam("Content") }
+            self.content = content
+            guard let schemaVersion = dictionary["SchemaVersion"] as? String else { throw InitializableError.missingRequiredParam("SchemaVersion") }
+            self.schemaVersion = schemaVersion
+            self.contentHash = dictionary["ContentHash"] as? String
+            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
+            self.typeName = typeName
+        }
     }
 
     public struct GetPatchBaselineRequest: AWSShape {
@@ -1009,6 +1371,10 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+        }
     }
 
     public struct DeleteDocumentResult: AWSShape {
@@ -1017,6 +1383,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AutomationExecutionMetadata: AWSShape {
@@ -1055,6 +1423,24 @@ extension Ssm {
             self.executionEndTime = executionEndTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.executedBy = dictionary["ExecutedBy"] as? String
+            self.automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String
+            self.documentName = dictionary["DocumentName"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            self.executionStartTime = dictionary["ExecutionStartTime"] as? Date
+            if let outputs = dictionary["Outputs"] as? [String: Any] {
+                var outputsDict: [String: [String]] = [:]
+                for (key, value) in outputs {
+                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    outputsDict[key] = automationParameterValueList
+                }
+                self.outputs = outputsDict
+            }
+            self.logFile = dictionary["LogFile"] as? String
+            self.automationExecutionId = dictionary["AutomationExecutionId"] as? String
+            self.executionEndTime = dictionary["ExecutionEndTime"] as? Date
+        }
     }
 
     public struct DescribeAssociationResult: AWSShape {
@@ -1069,6 +1455,9 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) }
+        }
     }
 
     public struct CreateAssociationBatchRequest: AWSShape {
@@ -1083,6 +1472,10 @@ extension Ssm {
             self.entries = entries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try entries.map({ try CreateAssociationBatchRequestEntry(dictionary: $0) })
+        }
     }
 
     public struct StopAutomationExecutionResult: AWSShape {
@@ -1091,6 +1484,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct MaintenanceWindowFilter: AWSShape {
@@ -1108,6 +1503,12 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct InventoryItem: AWSShape {
@@ -1134,6 +1535,18 @@ extension Ssm {
             self.typeName = typeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let captureTime = dictionary["CaptureTime"] as? String else { throw InitializableError.missingRequiredParam("CaptureTime") }
+            self.captureTime = captureTime
+            if let content = dictionary["Content"] as? [[String: String]] {
+                self.content = content
+            }
+            guard let schemaVersion = dictionary["SchemaVersion"] as? String else { throw InitializableError.missingRequiredParam("SchemaVersion") }
+            self.schemaVersion = schemaVersion
+            self.contentHash = dictionary["ContentHash"] as? String
+            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
+            self.typeName = typeName
+        }
     }
 
     public struct DeletePatchBaselineResult: AWSShape {
@@ -1148,6 +1561,9 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+        }
     }
 
     public struct CancelCommandRequest: AWSShape {
@@ -1165,6 +1581,13 @@ extension Ssm {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let commandId = dictionary["CommandId"] as? String else { throw InitializableError.missingRequiredParam("CommandId") }
+            self.commandId = commandId
+            if let instanceIds = dictionary["InstanceIds"] as? [String] {
+                self.instanceIds = instanceIds
+            }
+        }
     }
 
     public struct InstanceInformation: AWSShape {
@@ -1233,6 +1656,27 @@ extension Ssm {
             self.lastPingDateTime = lastPingDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastSuccessfulAssociationExecutionDate = dictionary["LastSuccessfulAssociationExecutionDate"] as? Date
+            self.isLatestVersion = dictionary["IsLatestVersion"] as? Bool
+            if let associationOverview = dictionary["AssociationOverview"] as? [String: Any] { self.associationOverview = try Ssm.InstanceAggregatedAssociationOverview(dictionary: associationOverview) }
+            self.iPAddress = dictionary["IPAddress"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.platformVersion = dictionary["PlatformVersion"] as? String
+            self.computerName = dictionary["ComputerName"] as? String
+            self.associationStatus = dictionary["AssociationStatus"] as? String
+            self.lastAssociationExecutionDate = dictionary["LastAssociationExecutionDate"] as? Date
+            self.iamRole = dictionary["IamRole"] as? String
+            self.platformName = dictionary["PlatformName"] as? String
+            self.agentVersion = dictionary["AgentVersion"] as? String
+            self.name = dictionary["Name"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.pingStatus = dictionary["PingStatus"] as? String
+            self.registrationDate = dictionary["RegistrationDate"] as? Date
+            self.platformType = dictionary["PlatformType"] as? String
+            self.activationId = dictionary["ActivationId"] as? String
+            self.lastPingDateTime = dictionary["LastPingDateTime"] as? Date
+        }
     }
 
     public struct DescribeActivationsRequest: AWSShape {
@@ -1253,6 +1697,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try DescribeActivationsFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateMaintenanceWindowRequest: AWSShape {
@@ -1282,6 +1733,19 @@ extension Ssm {
             self.clientToken = clientToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool else { throw InitializableError.missingRequiredParam("AllowUnassociatedTargets") }
+            self.allowUnassociatedTargets = allowUnassociatedTargets
+            guard let schedule = dictionary["Schedule"] as? String else { throw InitializableError.missingRequiredParam("Schedule") }
+            self.schedule = schedule
+            guard let cutoff = dictionary["Cutoff"] as? Int32 else { throw InitializableError.missingRequiredParam("Cutoff") }
+            self.cutoff = cutoff
+            guard let duration = dictionary["Duration"] as? Int32 else { throw InitializableError.missingRequiredParam("Duration") }
+            self.duration = duration
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.clientToken = dictionary["ClientToken"] as? String
+        }
     }
 
     public struct CommandInvocation: AWSShape {
@@ -1334,6 +1798,24 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let commandPlugins = dictionary["CommandPlugins"] as? [[String: Any]] {
+                self.commandPlugins = try commandPlugins.map({ try CommandPlugin(dictionary: $0) })
+            }
+            if let notificationConfig = dictionary["NotificationConfig"] as? [String: Any] { self.notificationConfig = try Ssm.NotificationConfig(dictionary: notificationConfig) }
+            self.comment = dictionary["Comment"] as? String
+            self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            self.traceOutput = dictionary["TraceOutput"] as? String
+            self.status = dictionary["Status"] as? String
+            self.instanceName = dictionary["InstanceName"] as? String
+            self.requestedDateTime = dictionary["RequestedDateTime"] as? Date
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.documentName = dictionary["DocumentName"] as? String
+            self.standardErrorUrl = dictionary["StandardErrorUrl"] as? String
+            self.commandId = dictionary["CommandId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct DeregisterManagedInstanceResult: AWSShape {
@@ -1342,6 +1824,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct FailedCreateAssociation: AWSShape {
@@ -1362,6 +1846,11 @@ extension Ssm {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fault = dictionary["Fault"] as? String
+            if let entry = dictionary["Entry"] as? [String: Any] { self.entry = try Ssm.CreateAssociationBatchRequestEntry(dictionary: entry) }
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct DocumentIdentifier: AWSShape {
@@ -1391,6 +1880,16 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaVersion = dictionary["SchemaVersion"] as? String
+            self.documentType = dictionary["DocumentType"] as? String
+            self.owner = dictionary["Owner"] as? String
+            self.name = dictionary["Name"] as? String
+            if let platformTypes = dictionary["PlatformTypes"] as? [String] {
+                self.platformTypes = platformTypes
+            }
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct GetInventorySchemaResult: AWSShape {
@@ -1408,6 +1907,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let schemas = dictionary["Schemas"] as? [[String: Any]] {
+                self.schemas = try schemas.map({ try InventoryItemSchema(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteMaintenanceWindowResult: AWSShape {
@@ -1422,6 +1927,9 @@ extension Ssm {
             self.windowId = windowId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+        }
     }
 
     public struct GetParameterHistoryRequest: AWSShape {
@@ -1445,6 +1953,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.withDecryption = dictionary["WithDecryption"] as? Bool
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetParameterHistoryResult: AWSShape {
@@ -1462,6 +1977,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try ParameterHistory(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListDocumentVersionsRequest: AWSShape {
@@ -1482,6 +2003,12 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct Target: AWSShape {
@@ -1499,6 +2026,12 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct AssociationDescription: AWSShape {
@@ -1552,6 +2085,31 @@ extension Ssm {
             self.lastSuccessfulExecutionDate = lastSuccessfulExecutionDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastExecutionDate = dictionary["LastExecutionDate"] as? Date
+            self.lastUpdateAssociationDate = dictionary["LastUpdateAssociationDate"] as? Date
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ssm.AssociationStatus(dictionary: status) }
+            self.associationId = dictionary["AssociationId"] as? String
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = parameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            self.name = dictionary["Name"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) }
+            if let overview = dictionary["Overview"] as? [String: Any] { self.overview = try Ssm.AssociationOverview(dictionary: overview) }
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+            self.date = dictionary["Date"] as? Date
+            self.lastSuccessfulExecutionDate = dictionary["LastSuccessfulExecutionDate"] as? Date
+        }
     }
 
     public struct InstanceAssociation: AWSShape {
@@ -1572,6 +2130,11 @@ extension Ssm {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.content = dictionary["Content"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct DeleteParameterResult: AWSShape {
@@ -1580,6 +2143,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct InstanceInformationStringFilter: AWSShape {
@@ -1597,6 +2162,12 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct DeleteDocumentRequest: AWSShape {
@@ -1611,6 +2182,10 @@ extension Ssm {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DescribeMaintenanceWindowTargetsResult: AWSShape {
@@ -1628,6 +2203,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try MaintenanceWindowTarget(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribePatchGroupStateRequest: AWSShape {
@@ -1642,6 +2223,10 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
+            self.patchGroup = patchGroup
+        }
     }
 
     public struct UpdatePatchBaselineRequest: AWSShape {
@@ -1674,6 +2259,20 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+            if let approvedPatches = dictionary["ApprovedPatches"] as? [String] {
+                self.approvedPatches = approvedPatches
+            }
+            self.name = dictionary["Name"] as? String
+            if let rejectedPatches = dictionary["RejectedPatches"] as? [String] {
+                self.rejectedPatches = rejectedPatches
+            }
+            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) }
+            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct InventoryFilter: AWSShape {
@@ -1694,6 +2293,13 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct ListCommandsResult: AWSShape {
@@ -1711,6 +2317,12 @@ extension Ssm {
             self.commands = commands
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let commands = dictionary["Commands"] as? [[String: Any]] {
+                self.commands = try commands.map({ try Command(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetPatchBaselineForPatchGroupResult: AWSShape {
@@ -1728,6 +2340,10 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+            self.patchGroup = dictionary["PatchGroup"] as? String
+        }
     }
 
     public struct DescribeEffectivePatchesForPatchBaselineRequest: AWSShape {
@@ -1748,6 +2364,12 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct RegisterPatchBaselineForPatchGroupRequest: AWSShape {
@@ -1765,6 +2387,12 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
+            self.patchGroup = patchGroup
+        }
     }
 
     public struct AssociationStatus: AWSShape {
@@ -1788,6 +2416,15 @@ extension Ssm {
             self.additionalInfo = additionalInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
+            self.message = message
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let date = dictionary["Date"] as? Date else { throw InitializableError.missingRequiredParam("Date") }
+            self.date = date
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+        }
     }
 
     public struct DescribeInstancePatchStatesForPatchGroupRequest: AWSShape {
@@ -1811,6 +2448,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try InstancePatchStateFilter(dictionary: $0) })
+            }
+            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
+            self.patchGroup = patchGroup
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeMaintenanceWindowTasksResult: AWSShape {
@@ -1828,6 +2474,12 @@ extension Ssm {
             self.tasks = tasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let tasks = dictionary["Tasks"] as? [[String: Any]] {
+                self.tasks = try tasks.map({ try MaintenanceWindowTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct AutomationExecution: AWSShape {
@@ -1869,6 +2521,34 @@ extension Ssm {
             self.executionEndTime = executionEndTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = automationParameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            self.automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String
+            self.documentName = dictionary["DocumentName"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            self.executionStartTime = dictionary["ExecutionStartTime"] as? Date
+            if let outputs = dictionary["Outputs"] as? [String: Any] {
+                var outputsDict: [String: [String]] = [:]
+                for (key, value) in outputs {
+                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    outputsDict[key] = automationParameterValueList
+                }
+                self.outputs = outputsDict
+            }
+            self.failureMessage = dictionary["FailureMessage"] as? String
+            self.automationExecutionId = dictionary["AutomationExecutionId"] as? String
+            if let stepExecutions = dictionary["StepExecutions"] as? [[String: Any]] {
+                self.stepExecutions = try stepExecutions.map({ try StepExecution(dictionary: $0) })
+            }
+            self.executionEndTime = dictionary["ExecutionEndTime"] as? Date
+        }
     }
 
     public struct MaintenanceWindowTaskParameterValueExpression: AWSShape {
@@ -1883,6 +2563,11 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct Patch: AWSShape {
@@ -1933,6 +2618,21 @@ extension Ssm {
             self.msrcSeverity = msrcSeverity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.classification = dictionary["Classification"] as? String
+            self.product = dictionary["Product"] as? String
+            self.language = dictionary["Language"] as? String
+            self.releaseDate = dictionary["ReleaseDate"] as? Date
+            self.title = dictionary["Title"] as? String
+            self.id = dictionary["Id"] as? String
+            self.description = dictionary["Description"] as? String
+            self.productFamily = dictionary["ProductFamily"] as? String
+            self.vendor = dictionary["Vendor"] as? String
+            self.msrcNumber = dictionary["MsrcNumber"] as? String
+            self.kbNumber = dictionary["KbNumber"] as? String
+            self.contentUrl = dictionary["ContentUrl"] as? String
+            self.msrcSeverity = dictionary["MsrcSeverity"] as? String
+        }
     }
 
     public struct DescribeDocumentResult: AWSShape {
@@ -1947,6 +2647,9 @@ extension Ssm {
             self.document = document
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let document = dictionary["Document"] as? [String: Any] { self.document = try Ssm.DocumentDescription(dictionary: document) }
+        }
     }
 
     public struct DescribeAutomationExecutionsResult: AWSShape {
@@ -1964,6 +2667,12 @@ extension Ssm {
             self.automationExecutionMetadataList = automationExecutionMetadataList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let automationExecutionMetadataList = dictionary["AutomationExecutionMetadataList"] as? [[String: Any]] {
+                self.automationExecutionMetadataList = try automationExecutionMetadataList.map({ try AutomationExecutionMetadata(dictionary: $0) })
+            }
+        }
     }
 
     public struct RegisterTaskWithMaintenanceWindowRequest: AWSShape {
@@ -2008,6 +2717,33 @@ extension Ssm {
             self.maxConcurrency = maxConcurrency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            guard let taskArn = dictionary["TaskArn"] as? String else { throw InitializableError.missingRequiredParam("TaskArn") }
+            self.taskArn = taskArn
+            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
+            self.serviceRoleArn = serviceRoleArn
+            guard let maxErrors = dictionary["MaxErrors"] as? String else { throw InitializableError.missingRequiredParam("MaxErrors") }
+            self.maxErrors = maxErrors
+            guard let taskType = dictionary["TaskType"] as? String else { throw InitializableError.missingRequiredParam("TaskType") }
+            self.taskType = taskType
+            self.clientToken = dictionary["ClientToken"] as? String
+            if let taskParameters = dictionary["TaskParameters"] as? [String: Any] {
+                var taskParametersDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
+                for (key, value) in taskParameters {
+                    guard let maintenanceWindowTaskParameterValueExpressionDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    taskParametersDict[key] = try MaintenanceWindowTaskParameterValueExpression(dictionary: maintenanceWindowTaskParameterValueExpressionDict)
+                }
+                self.taskParameters = taskParametersDict
+            }
+            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
+            self.targets = try targets.map({ try Target(dictionary: $0) })
+            if let loggingInfo = dictionary["LoggingInfo"] as? [String: Any] { self.loggingInfo = try Ssm.LoggingInfo(dictionary: loggingInfo) }
+            self.priority = dictionary["Priority"] as? Int32
+            guard let maxConcurrency = dictionary["MaxConcurrency"] as? String else { throw InitializableError.missingRequiredParam("MaxConcurrency") }
+            self.maxConcurrency = maxConcurrency
+        }
     }
 
     public struct CreateAssociationBatchRequestEntry: AWSShape {
@@ -2040,6 +2776,25 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = parameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            self.instanceId = dictionary["InstanceId"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) }
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        }
     }
 
     public struct CancelCommandResult: AWSShape {
@@ -2048,6 +2803,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetDefaultPatchBaselineRequest: AWSShape {
@@ -2056,6 +2813,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ParameterHistory: AWSShape {
@@ -2088,6 +2847,15 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyId = dictionary["KeyId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.type = dictionary["Type"] as? String
+            self.value = dictionary["Value"] as? String
+            self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct PatchOrchestratorFilter: AWSShape {
@@ -2105,6 +2873,12 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct UpdateDocumentResult: AWSShape {
@@ -2119,6 +2893,9 @@ extension Ssm {
             self.documentDescription = documentDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let documentDescription = dictionary["DocumentDescription"] as? [String: Any] { self.documentDescription = try Ssm.DocumentDescription(dictionary: documentDescription) }
+        }
     }
 
     public struct InventoryItemAttribute: AWSShape {
@@ -2136,6 +2913,12 @@ extension Ssm {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
+            self.dataType = dataType
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DocumentDescription: AWSShape {
@@ -2192,6 +2975,27 @@ extension Ssm {
             self.hashType = hashType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sha1 = dictionary["Sha1"] as? String
+            self.defaultVersion = dictionary["DefaultVersion"] as? String
+            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.owner = dictionary["Owner"] as? String
+            self.documentType = dictionary["DocumentType"] as? String
+            self.description = dictionary["Description"] as? String
+            self.status = dictionary["Status"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try DocumentParameter(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            self.schemaVersion = dictionary["SchemaVersion"] as? String
+            self.latestVersion = dictionary["LatestVersion"] as? String
+            if let platformTypes = dictionary["PlatformTypes"] as? [String] {
+                self.platformTypes = platformTypes
+            }
+            self.hash = dictionary["Hash"] as? String
+            self.hashType = dictionary["HashType"] as? String
+        }
     }
 
     public struct DeregisterPatchBaselineForPatchGroupRequest: AWSShape {
@@ -2209,6 +3013,12 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
+            self.patchGroup = patchGroup
+        }
     }
 
     public struct InstanceInformationFilter: AWSShape {
@@ -2226,6 +3036,12 @@ extension Ssm {
             self.valueSet = valueSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let valueSet = dictionary["valueSet"] as? [String] else { throw InitializableError.missingRequiredParam("valueSet") }
+            self.valueSet = valueSet
+        }
     }
 
     public struct DescribeEffectiveInstanceAssociationsRequest: AWSShape {
@@ -2246,6 +3062,12 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ModifyDocumentPermissionResponse: AWSShape {
@@ -2254,6 +3076,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PatchFilterGroup: AWSShape {
@@ -2268,6 +3092,10 @@ extension Ssm {
             self.patchFilters = patchFilters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let patchFilters = dictionary["PatchFilters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PatchFilters") }
+            self.patchFilters = try patchFilters.map({ try PatchFilter(dictionary: $0) })
+        }
     }
 
     public struct DescribeDocumentPermissionRequest: AWSShape {
@@ -2285,6 +3113,12 @@ extension Ssm {
             self.permissionType = permissionType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let permissionType = dictionary["PermissionType"] as? String else { throw InitializableError.missingRequiredParam("PermissionType") }
+            self.permissionType = permissionType
+        }
     }
 
     public struct RegisterPatchBaselineForPatchGroupResult: AWSShape {
@@ -2302,6 +3136,10 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+            self.patchGroup = dictionary["PatchGroup"] as? String
+        }
     }
 
     public struct CommandFilter: AWSShape {
@@ -2319,6 +3157,12 @@ extension Ssm {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
     public struct CreateDocumentRequest: AWSShape {
@@ -2339,6 +3183,13 @@ extension Ssm {
             self.documentType = documentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
+            self.content = content
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.documentType = dictionary["DocumentType"] as? String
+        }
     }
 
     public struct RegisterDefaultPatchBaselineResult: AWSShape {
@@ -2353,6 +3204,9 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+        }
     }
 
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSShape {
@@ -2370,6 +3224,12 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
+            self.snapshotId = snapshotId
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct SendCommandResult: AWSShape {
@@ -2384,6 +3244,9 @@ extension Ssm {
             self.command = command
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let command = dictionary["Command"] as? [String: Any] { self.command = try Ssm.Command(dictionary: command) }
+        }
     }
 
     public struct DeregisterTaskFromMaintenanceWindowRequest: AWSShape {
@@ -2401,6 +3264,12 @@ extension Ssm {
             self.windowTaskId = windowTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            guard let windowTaskId = dictionary["WindowTaskId"] as? String else { throw InitializableError.missingRequiredParam("WindowTaskId") }
+            self.windowTaskId = windowTaskId
+        }
     }
 
     public struct GetParametersRequest: AWSShape {
@@ -2418,6 +3287,11 @@ extension Ssm {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.withDecryption = dictionary["WithDecryption"] as? Bool
+            guard let names = dictionary["Names"] as? [String] else { throw InitializableError.missingRequiredParam("Names") }
+            self.names = names
+        }
     }
 
     public struct ListCommandInvocationsResult: AWSShape {
@@ -2435,6 +3309,12 @@ extension Ssm {
             self.commandInvocations = commandInvocations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let commandInvocations = dictionary["CommandInvocations"] as? [[String: Any]] {
+                self.commandInvocations = try commandInvocations.map({ try CommandInvocation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeMaintenanceWindowExecutionsRequest: AWSShape {
@@ -2458,6 +3338,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListCommandsRequest: AWSShape {
@@ -2484,6 +3373,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try CommandFilter(dictionary: $0) })
+            }
+            self.commandId = dictionary["CommandId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ParameterMetadata: AWSShape {
@@ -2513,6 +3411,14 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.keyId = dictionary["KeyId"] as? String
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeMaintenanceWindowsRequest: AWSShape {
@@ -2533,6 +3439,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UpdatePatchBaselineResult: AWSShape {
@@ -2571,6 +3484,21 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+            if let approvedPatches = dictionary["ApprovedPatches"] as? [String] {
+                self.approvedPatches = approvedPatches
+            }
+            self.modifiedDate = dictionary["ModifiedDate"] as? Date
+            self.name = dictionary["Name"] as? String
+            if let rejectedPatches = dictionary["RejectedPatches"] as? [String] {
+                self.rejectedPatches = rejectedPatches
+            }
+            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) }
+            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) }
+            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeInstanceInformationRequest: AWSShape {
@@ -2594,6 +3522,16 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceInformationFilterList = dictionary["InstanceInformationFilterList"] as? [[String: Any]] {
+                self.instanceInformationFilterList = try instanceInformationFilterList.map({ try InstanceInformationFilter(dictionary: $0) })
+            }
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try InstanceInformationStringFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetInventoryRequest: AWSShape {
@@ -2617,6 +3555,16 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try InventoryFilter(dictionary: $0) })
+            }
+            if let resultAttributes = dictionary["ResultAttributes"] as? [[String: Any]] {
+                self.resultAttributes = try resultAttributes.map({ try ResultAttribute(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribePatchBaselinesResult: AWSShape {
@@ -2634,6 +3582,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let baselineIdentities = dictionary["BaselineIdentities"] as? [[String: Any]] {
+                self.baselineIdentities = try baselineIdentities.map({ try PatchBaselineIdentity(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct InstanceAggregatedAssociationOverview: AWSShape {
@@ -2651,6 +3605,12 @@ extension Ssm {
             self.detailedStatus = detailedStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceAssociationStatusAggregatedCount = dictionary["InstanceAssociationStatusAggregatedCount"] as? [String: Int32] {
+                self.instanceAssociationStatusAggregatedCount = instanceAssociationStatusAggregatedCount
+            }
+            self.detailedStatus = dictionary["DetailedStatus"] as? String
+        }
     }
 
     public struct GetCommandInvocationResult: AWSShape {
@@ -2707,6 +3667,23 @@ extension Ssm {
             self.executionStartDateTime = executionStartDateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pluginName = dictionary["PluginName"] as? String
+            self.executionElapsedTime = dictionary["ExecutionElapsedTime"] as? String
+            self.comment = dictionary["Comment"] as? String
+            self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
+            self.status = dictionary["Status"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.standardErrorContent = dictionary["StandardErrorContent"] as? String
+            self.documentName = dictionary["DocumentName"] as? String
+            self.standardErrorUrl = dictionary["StandardErrorUrl"] as? String
+            self.executionEndDateTime = dictionary["ExecutionEndDateTime"] as? String
+            self.responseCode = dictionary["ResponseCode"] as? Int32
+            self.standardOutputContent = dictionary["StandardOutputContent"] as? String
+            self.commandId = dictionary["CommandId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+            self.executionStartDateTime = dictionary["ExecutionStartDateTime"] as? String
+        }
     }
 
     public struct InventoryItemSchema: AWSShape {
@@ -2727,6 +3704,13 @@ extension Ssm {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
+            self.typeName = typeName
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try InventoryItemAttribute(dictionary: $0) })
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct UpdateAssociationResult: AWSShape {
@@ -2741,6 +3725,9 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) }
+        }
     }
 
     public struct UpdateManagedInstanceRoleResult: AWSShape {
@@ -2749,6 +3736,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeInstanceInformationResult: AWSShape {
@@ -2766,6 +3755,12 @@ extension Ssm {
             self.instanceInformationList = instanceInformationList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let instanceInformationList = dictionary["InstanceInformationList"] as? [[String: Any]] {
+                self.instanceInformationList = try instanceInformationList.map({ try InstanceInformation(dictionary: $0) })
+            }
+        }
     }
 
     public struct PatchStatus: AWSShape {
@@ -2783,6 +3778,10 @@ extension Ssm {
             self.deploymentStatus = deploymentStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.approvalDate = dictionary["ApprovalDate"] as? Date
+            self.deploymentStatus = dictionary["DeploymentStatus"] as? String
+        }
     }
 
     public struct StartAutomationExecutionRequest: AWSShape {
@@ -2803,6 +3802,19 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = automationParameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            guard let documentName = dictionary["DocumentName"] as? String else { throw InitializableError.missingRequiredParam("DocumentName") }
+            self.documentName = documentName
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct UpdateDocumentRequest: AWSShape {
@@ -2823,6 +3835,13 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
+            self.content = content
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct GetMaintenanceWindowExecutionResult: AWSShape {
@@ -2852,6 +3871,16 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endTime = dictionary["EndTime"] as? Date
+            if let taskIds = dictionary["TaskIds"] as? [String] {
+                self.taskIds = taskIds
+            }
+            self.startTime = dictionary["StartTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct DescribePatchGroupStateResult: AWSShape {
@@ -2881,6 +3910,14 @@ extension Ssm {
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instancesWithMissingPatches = dictionary["InstancesWithMissingPatches"] as? Int32
+            self.instances = dictionary["Instances"] as? Int32
+            self.instancesWithNotApplicablePatches = dictionary["InstancesWithNotApplicablePatches"] as? Int32
+            self.instancesWithInstalledPatches = dictionary["InstancesWithInstalledPatches"] as? Int32
+            self.instancesWithFailedPatches = dictionary["InstancesWithFailedPatches"] as? Int32
+            self.instancesWithInstalledOtherPatches = dictionary["InstancesWithInstalledOtherPatches"] as? Int32
+        }
     }
 
     public struct Tag: AWSShape {
@@ -2898,6 +3935,12 @@ extension Ssm {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct RegisterTaskWithMaintenanceWindowResult: AWSShape {
@@ -2912,6 +3955,9 @@ extension Ssm {
             self.windowTaskId = windowTaskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowTaskId = dictionary["WindowTaskId"] as? String
+        }
     }
 
     public struct DescribeAssociationRequest: AWSShape {
@@ -2932,6 +3978,11 @@ extension Ssm {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct MaintenanceWindowIdentity: AWSShape {
@@ -2958,6 +4009,13 @@ extension Ssm {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            self.cutoff = dictionary["Cutoff"] as? Int32
+            self.duration = dictionary["Duration"] as? Int32
+            self.name = dictionary["Name"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+        }
     }
 
     public struct DeregisterManagedInstanceRequest: AWSShape {
@@ -2972,6 +4030,10 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct DocumentDefaultVersionDescription: AWSShape {
@@ -2989,6 +4051,10 @@ extension Ssm {
             self.defaultVersion = defaultVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.defaultVersion = dictionary["DefaultVersion"] as? String
+        }
     }
 
     public struct AutomationExecutionFilter: AWSShape {
@@ -3006,6 +4072,12 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct CreateActivationRequest: AWSShape {
@@ -3032,6 +4104,14 @@ extension Ssm {
             self.expirationDate = expirationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let iamRole = dictionary["IamRole"] as? String else { throw InitializableError.missingRequiredParam("IamRole") }
+            self.iamRole = iamRole
+            self.description = dictionary["Description"] as? String
+            self.registrationLimit = dictionary["RegistrationLimit"] as? Int32
+            self.defaultInstanceName = dictionary["DefaultInstanceName"] as? String
+            self.expirationDate = dictionary["ExpirationDate"] as? Date
+        }
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
@@ -3052,6 +4132,14 @@ extension Ssm {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct MaintenanceWindowTask: AWSShape {
@@ -3096,6 +4184,28 @@ extension Ssm {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            self.taskArn = dictionary["TaskArn"] as? String
+            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
+            self.maxErrors = dictionary["MaxErrors"] as? String
+            if let taskParameters = dictionary["TaskParameters"] as? [String: Any] {
+                var taskParametersDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
+                for (key, value) in taskParameters {
+                    guard let maintenanceWindowTaskParameterValueExpressionDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    taskParametersDict[key] = try MaintenanceWindowTaskParameterValueExpression(dictionary: maintenanceWindowTaskParameterValueExpressionDict)
+                }
+                self.taskParameters = taskParametersDict
+            }
+            self.windowTaskId = dictionary["WindowTaskId"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            self.priority = dictionary["Priority"] as? Int32
+            if let loggingInfo = dictionary["LoggingInfo"] as? [String: Any] { self.loggingInfo = try Ssm.LoggingInfo(dictionary: loggingInfo) }
+            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsResult: AWSShape {
@@ -3113,6 +4223,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let windowExecutionTaskInvocationIdentities = dictionary["WindowExecutionTaskInvocationIdentities"] as? [[String: Any]] {
+                self.windowExecutionTaskInvocationIdentities = try windowExecutionTaskInvocationIdentities.map({ try MaintenanceWindowExecutionTaskInvocationIdentity(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeInstancePatchesResult: AWSShape {
@@ -3130,6 +4246,12 @@ extension Ssm {
             self.patches = patches
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let patches = dictionary["Patches"] as? [[String: Any]] {
+                self.patches = try patches.map({ try PatchComplianceData(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
@@ -3138,6 +4260,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PatchGroupPatchBaselineMapping: AWSShape {
@@ -3155,6 +4279,10 @@ extension Ssm {
             self.baselineIdentity = baselineIdentity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.patchGroup = dictionary["PatchGroup"] as? String
+            if let baselineIdentity = dictionary["BaselineIdentity"] as? [String: Any] { self.baselineIdentity = try Ssm.PatchBaselineIdentity(dictionary: baselineIdentity) }
+        }
     }
 
     public struct CreatePatchBaselineResult: AWSShape {
@@ -3169,6 +4297,9 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+        }
     }
 
     public struct DeleteMaintenanceWindowRequest: AWSShape {
@@ -3183,6 +4314,10 @@ extension Ssm {
             self.windowId = windowId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+        }
     }
 
     public struct DescribePatchGroupsRequest: AWSShape {
@@ -3200,6 +4335,10 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetPatchBaselineForPatchGroupRequest: AWSShape {
@@ -3214,6 +4353,10 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
+            self.patchGroup = patchGroup
+        }
     }
 
     public struct DescribeActivationsFilter: AWSShape {
@@ -3231,6 +4374,12 @@ extension Ssm {
             self.filterValues = filterValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.filterKey = dictionary["FilterKey"] as? String
+            if let filterValues = dictionary["FilterValues"] as? [String] {
+                self.filterValues = filterValues
+            }
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -3248,6 +4397,12 @@ extension Ssm {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+        }
     }
 
     public struct GetAutomationExecutionRequest: AWSShape {
@@ -3262,6 +4417,10 @@ extension Ssm {
             self.automationExecutionId = automationExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let automationExecutionId = dictionary["AutomationExecutionId"] as? String else { throw InitializableError.missingRequiredParam("AutomationExecutionId") }
+            self.automationExecutionId = automationExecutionId
+        }
     }
 
     public struct Parameter: AWSShape {
@@ -3282,6 +4441,11 @@ extension Ssm {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct CreateActivationResult: AWSShape {
@@ -3299,6 +4463,10 @@ extension Ssm {
             self.activationCode = activationCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.activationId = dictionary["ActivationId"] as? String
+            self.activationCode = dictionary["ActivationCode"] as? String
+        }
     }
 
     public struct DescribeMaintenanceWindowExecutionTasksResult: AWSShape {
@@ -3316,6 +4484,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let windowExecutionTaskIdentities = dictionary["WindowExecutionTaskIdentities"] as? [[String: Any]] {
+                self.windowExecutionTaskIdentities = try windowExecutionTaskIdentities.map({ try MaintenanceWindowExecutionTaskIdentity(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeInstanceAssociationsStatusRequest: AWSShape {
@@ -3336,6 +4510,12 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct PutParameterResult: AWSShape {
@@ -3344,6 +4524,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListDocumentVersionsResult: AWSShape {
@@ -3361,6 +4543,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let documentVersions = dictionary["DocumentVersions"] as? [[String: Any]] {
+                self.documentVersions = try documentVersions.map({ try DocumentVersionInfo(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListInventoryEntriesRequest: AWSShape {
@@ -3387,6 +4575,17 @@ extension Ssm {
             self.typeName = typeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try InventoryFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
+            self.typeName = typeName
+        }
     }
 
     public struct UpdateAssociationRequest: AWSShape {
@@ -3413,6 +4612,21 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) }
+            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
+            self.associationId = associationId
+            if let parameters = dictionary["Parameters"] as? [String: Any] {
+                var parametersDict: [String: [String]] = [:]
+                for (key, value) in parameters {
+                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    parametersDict[key] = parameterValueList
+                }
+                self.parameters = parametersDict
+            }
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct GetCommandInvocationRequest: AWSShape {
@@ -3433,6 +4647,13 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let commandId = dictionary["CommandId"] as? String else { throw InitializableError.missingRequiredParam("CommandId") }
+            self.commandId = commandId
+            self.pluginName = dictionary["PluginName"] as? String
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct MaintenanceWindowExecutionTaskInvocationIdentity: AWSShape {
@@ -3477,6 +4698,19 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
+            self.invocationId = dictionary["InvocationId"] as? String
+            self.parameters = dictionary["Parameters"] as? String
+            self.executionId = dictionary["ExecutionId"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.windowTargetId = dictionary["WindowTargetId"] as? String
+            self.taskExecutionId = dictionary["TaskExecutionId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        }
     }
 
     public struct DeleteAssociationResult: AWSShape {
@@ -3485,6 +4719,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateDocumentDefaultVersionResult: AWSShape {
@@ -3499,6 +4735,9 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ssm.DocumentDefaultVersionDescription(dictionary: description) }
+        }
     }
 
     public struct CreateAssociationBatchResult: AWSShape {
@@ -3516,6 +4755,14 @@ extension Ssm {
             self.failed = failed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let successful = dictionary["Successful"] as? [[String: Any]] {
+                self.successful = try successful.map({ try AssociationDescription(dictionary: $0) })
+            }
+            if let failed = dictionary["Failed"] as? [[String: Any]] {
+                self.failed = try failed.map({ try FailedCreateAssociation(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstancePatchState: AWSShape {
@@ -3566,6 +4813,27 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.installedOtherCount = dictionary["InstalledOtherCount"] as? Int32
+            self.failedCount = dictionary["FailedCount"] as? Int32
+            guard let operationEndTime = dictionary["OperationEndTime"] as? Date else { throw InitializableError.missingRequiredParam("OperationEndTime") }
+            self.operationEndTime = operationEndTime
+            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
+            self.patchGroup = patchGroup
+            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
+            self.baselineId = baselineId
+            self.missingCount = dictionary["MissingCount"] as? Int32
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let operation = dictionary["Operation"] as? String else { throw InitializableError.missingRequiredParam("Operation") }
+            self.operation = operation
+            self.notApplicableCount = dictionary["NotApplicableCount"] as? Int32
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.installedCount = dictionary["InstalledCount"] as? Int32
+            guard let operationStartTime = dictionary["OperationStartTime"] as? Date else { throw InitializableError.missingRequiredParam("OperationStartTime") }
+            self.operationStartTime = operationStartTime
+            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        }
     }
 
     public struct MaintenanceWindowExecutionTaskIdentity: AWSShape {
@@ -3601,6 +4869,16 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
+            self.taskArn = dictionary["TaskArn"] as? String
+            self.taskType = dictionary["TaskType"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.taskExecutionId = dictionary["TaskExecutionId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct MaintenanceWindowExecution: AWSShape {
@@ -3630,6 +4908,14 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endTime = dictionary["EndTime"] as? Date
+            self.windowId = dictionary["WindowId"] as? String
+            self.startTime = dictionary["StartTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct PutInventoryResult: AWSShape {
@@ -3638,6 +4924,8 @@ extension Ssm {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListDocumentsResult: AWSShape {
@@ -3655,6 +4943,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let documentIdentifiers = dictionary["DocumentIdentifiers"] as? [[String: Any]] {
+                self.documentIdentifiers = try documentIdentifiers.map({ try DocumentIdentifier(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeAvailablePatchesRequest: AWSShape {
@@ -3675,6 +4969,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try PatchOrchestratorFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListTagsForResourceResult: AWSShape {
@@ -3689,6 +4990,11 @@ extension Ssm {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagList = dictionary["TagList"] as? [[String: Any]] {
+                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct StepExecution: AWSShape {
@@ -3730,6 +5036,27 @@ extension Ssm {
             self.response = response
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.executionEndTime = dictionary["ExecutionEndTime"] as? Date
+            self.stepName = dictionary["StepName"] as? String
+            self.action = dictionary["Action"] as? String
+            if let inputs = dictionary["Inputs"] as? [String: String] {
+                self.inputs = inputs
+            }
+            self.executionStartTime = dictionary["ExecutionStartTime"] as? Date
+            if let outputs = dictionary["Outputs"] as? [String: Any] {
+                var outputsDict: [String: [String]] = [:]
+                for (key, value) in outputs {
+                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    outputsDict[key] = automationParameterValueList
+                }
+                self.outputs = outputsDict
+            }
+            self.responseCode = dictionary["ResponseCode"] as? String
+            self.failureMessage = dictionary["FailureMessage"] as? String
+            self.stepStatus = dictionary["StepStatus"] as? String
+            self.response = dictionary["Response"] as? String
+        }
     }
 
     public struct AssociationOverview: AWSShape {
@@ -3750,6 +5077,13 @@ extension Ssm {
             self.detailedStatus = detailedStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let associationStatusAggregatedCount = dictionary["AssociationStatusAggregatedCount"] as? [String: Int32] {
+                self.associationStatusAggregatedCount = associationStatusAggregatedCount
+            }
+            self.detailedStatus = dictionary["DetailedStatus"] as? String
+        }
     }
 
     public struct GetMaintenanceWindowExecutionTaskResult: AWSShape {
@@ -3800,6 +5134,31 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.priority = dictionary["Priority"] as? Int32
+            self.serviceRole = dictionary["ServiceRole"] as? String
+            self.taskExecutionId = dictionary["TaskExecutionId"] as? String
+            self.startTime = dictionary["StartTime"] as? Date
+            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
+            self.taskArn = dictionary["TaskArn"] as? String
+            self.maxErrors = dictionary["MaxErrors"] as? String
+            self.status = dictionary["Status"] as? String
+            if let taskParameters = dictionary["TaskParameters"] as? [[String: [String: Any]]] {
+                var taskParametersList: [[String: MaintenanceWindowTaskParameterValueExpression]] = []
+                var maintenanceWindowTaskParameterValueExpressionDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
+                for item in taskParameters {
+                    for (key, value) in item {
+                        maintenanceWindowTaskParameterValueExpressionDict[key] = try MaintenanceWindowTaskParameterValueExpression(dictionary: value)
+                    }
+                    taskParametersList.append(maintenanceWindowTaskParameterValueExpressionDict)
+                }
+                self.taskParameters = taskParametersList
+            }
+            self.endTime = dictionary["EndTime"] as? Date
+            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
+            self.type = dictionary["Type"] as? String
+            self.statusDetails = dictionary["StatusDetails"] as? String
+        }
     }
 
     public struct CreateDocumentResult: AWSShape {
@@ -3814,6 +5173,9 @@ extension Ssm {
             self.documentDescription = documentDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let documentDescription = dictionary["DocumentDescription"] as? [String: Any] { self.documentDescription = try Ssm.DocumentDescription(dictionary: documentDescription) }
+        }
     }
 
     public struct DescribeMaintenanceWindowExecutionsResult: AWSShape {
@@ -3831,6 +5193,12 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let windowExecutions = dictionary["WindowExecutions"] as? [[String: Any]] {
+                self.windowExecutions = try windowExecutions.map({ try MaintenanceWindowExecution(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListCommandInvocationsRequest: AWSShape {
@@ -3860,6 +5228,16 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.details = dictionary["Details"] as? Bool
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try CommandFilter(dictionary: $0) })
+            }
+            self.commandId = dictionary["CommandId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct GetPatchBaselineResult: AWSShape {
@@ -3901,6 +5279,24 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+            if let approvedPatches = dictionary["ApprovedPatches"] as? [String] {
+                self.approvedPatches = approvedPatches
+            }
+            self.modifiedDate = dictionary["ModifiedDate"] as? Date
+            self.name = dictionary["Name"] as? String
+            if let rejectedPatches = dictionary["RejectedPatches"] as? [String] {
+                self.rejectedPatches = rejectedPatches
+            }
+            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) }
+            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) }
+            self.createdDate = dictionary["CreatedDate"] as? Date
+            if let patchGroups = dictionary["PatchGroups"] as? [String] {
+                self.patchGroups = patchGroups
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateAssociationResult: AWSShape {
@@ -3915,6 +5311,9 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) }
+        }
     }
 
     public struct DescribeMaintenanceWindowsResult: AWSShape {
@@ -3932,6 +5331,12 @@ extension Ssm {
             self.windowIdentities = windowIdentities
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let windowIdentities = dictionary["WindowIdentities"] as? [[String: Any]] {
+                self.windowIdentities = try windowIdentities.map({ try MaintenanceWindowIdentity(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAvailablePatchesResult: AWSShape {
@@ -3949,6 +5354,12 @@ extension Ssm {
             self.patches = patches
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let patches = dictionary["Patches"] as? [[String: Any]] {
+                self.patches = try patches.map({ try Patch(dictionary: $0) })
+            }
+        }
     }
 
     public struct InventoryResultEntity: AWSShape {
@@ -3966,6 +5377,17 @@ extension Ssm {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+            if let data = dictionary["Data"] as? [String: Any] {
+                var dataDict: [String: InventoryResultItem] = [:]
+                for (key, value) in data {
+                    guard let inventoryResultItemDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    dataDict[key] = try InventoryResultItem(dictionary: inventoryResultItemDict)
+                }
+                self.data = dataDict
+            }
+        }
     }
 
     public struct UpdateMaintenanceWindowRequest: AWSShape {
@@ -3998,6 +5420,16 @@ extension Ssm {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+            self.name = dictionary["Name"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool
+            self.schedule = dictionary["Schedule"] as? String
+            self.cutoff = dictionary["Cutoff"] as? Int32
+            self.duration = dictionary["Duration"] as? Int32
+        }
     }
 
     public struct DescribeParametersRequest: AWSShape {
@@ -4018,6 +5450,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try ParametersFilter(dictionary: $0) })
+            }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct InstancePatchStateFilter: AWSShape {
@@ -4038,6 +5477,14 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct GetDocumentResult: AWSShape {
@@ -4061,6 +5508,12 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.content = dictionary["Content"] as? String
+            self.documentType = dictionary["DocumentType"] as? String
+            self.name = dictionary["Name"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
     public struct UpdateManagedInstanceRoleRequest: AWSShape {
@@ -4078,6 +5531,12 @@ extension Ssm {
             self.iamRole = iamRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+            guard let iamRole = dictionary["IamRole"] as? String else { throw InitializableError.missingRequiredParam("IamRole") }
+            self.iamRole = iamRole
+        }
     }
 
     public struct PatchRule: AWSShape {
@@ -4095,6 +5554,12 @@ extension Ssm {
             self.approveAfterDays = approveAfterDays
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let patchFilterGroup = dictionary["PatchFilterGroup"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PatchFilterGroup") }
+            self.patchFilterGroup = try Ssm.PatchFilterGroup(dictionary: patchFilterGroup)
+            guard let approveAfterDays = dictionary["ApproveAfterDays"] as? Int32 else { throw InitializableError.missingRequiredParam("ApproveAfterDays") }
+            self.approveAfterDays = approveAfterDays
+        }
     }
 
     public struct DeregisterPatchBaselineForPatchGroupResult: AWSShape {
@@ -4112,6 +5577,10 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+            self.patchGroup = dictionary["PatchGroup"] as? String
+        }
     }
 
     public struct GetAutomationExecutionResult: AWSShape {
@@ -4126,6 +5595,9 @@ extension Ssm {
             self.automationExecution = automationExecution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let automationExecution = dictionary["AutomationExecution"] as? [String: Any] { self.automationExecution = try Ssm.AutomationExecution(dictionary: automationExecution) }
+        }
     }
 
     public struct DescribeEffectiveInstanceAssociationsResult: AWSShape {
@@ -4143,6 +5615,12 @@ extension Ssm {
             self.associations = associations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let associations = dictionary["Associations"] as? [[String: Any]] {
+                self.associations = try associations.map({ try InstanceAssociation(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateAssociationStatusResult: AWSShape {
@@ -4157,6 +5635,9 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) }
+        }
     }
 
     public struct InstanceAssociationOutputUrl: AWSShape {
@@ -4171,6 +5652,9 @@ extension Ssm {
             self.s3OutputUrl = s3OutputUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3OutputUrl = dictionary["S3OutputUrl"] as? [String: Any] { self.s3OutputUrl = try Ssm.S3OutputUrl(dictionary: s3OutputUrl) }
+        }
     }
 
     public struct InstanceAssociationStatusInfo: AWSShape {
@@ -4212,6 +5696,18 @@ extension Ssm {
             self.detailedStatus = detailedStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            self.executionDate = dictionary["ExecutionDate"] as? Date
+            self.executionSummary = dictionary["ExecutionSummary"] as? String
+            if let outputUrl = dictionary["OutputUrl"] as? [String: Any] { self.outputUrl = try Ssm.InstanceAssociationOutputUrl(dictionary: outputUrl) }
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.detailedStatus = dictionary["DetailedStatus"] as? String
+        }
     }
 
     public struct S3OutputUrl: AWSShape {
@@ -4226,6 +5722,9 @@ extension Ssm {
             self.outputUrl = outputUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputUrl = dictionary["OutputUrl"] as? String
+        }
     }
 
     public struct GetMaintenanceWindowExecutionRequest: AWSShape {
@@ -4240,6 +5739,10 @@ extension Ssm {
             self.windowExecutionId = windowExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
+            self.windowExecutionId = windowExecutionId
+        }
     }
 
     public struct PatchFilter: AWSShape {
@@ -4257,6 +5760,12 @@ extension Ssm {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct GetParametersResult: AWSShape {
@@ -4274,6 +5783,14 @@ extension Ssm {
             self.invalidParameters = invalidParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            if let invalidParameters = dictionary["InvalidParameters"] as? [String] {
+                self.invalidParameters = invalidParameters
+            }
+        }
     }
 
     public struct MaintenanceWindowTarget: AWSShape {
@@ -4300,6 +5817,15 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            self.windowTargetId = dictionary["WindowTargetId"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        }
     }
 
     public struct UpdateDocumentDefaultVersionRequest: AWSShape {
@@ -4317,6 +5843,12 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let documentVersion = dictionary["DocumentVersion"] as? String else { throw InitializableError.missingRequiredParam("DocumentVersion") }
+            self.documentVersion = documentVersion
+        }
     }
 
     public struct ListAssociationsResult: AWSShape {
@@ -4334,6 +5866,12 @@ extension Ssm {
             self.associations = associations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let associations = dictionary["Associations"] as? [[String: Any]] {
+                self.associations = try associations.map({ try Association(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeInstancePatchStatesResult: AWSShape {
@@ -4351,6 +5889,12 @@ extension Ssm {
             self.instancePatchStates = instancePatchStates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let instancePatchStates = dictionary["InstancePatchStates"] as? [[String: Any]] {
+                self.instancePatchStates = try instancePatchStates.map({ try InstancePatchState(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
@@ -4371,6 +5915,14 @@ extension Ssm {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            self.resourceType = resourceType
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct S3OutputLocation: AWSShape {
@@ -4391,6 +5943,11 @@ extension Ssm {
             self.outputS3Region = outputS3Region
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
+            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
+            self.outputS3Region = dictionary["OutputS3Region"] as? String
+        }
     }
 
     public struct GetMaintenanceWindowRequest: AWSShape {
@@ -4405,6 +5962,10 @@ extension Ssm {
             self.windowId = windowId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
+            self.windowId = windowId
+        }
     }
 
     public struct UpdateMaintenanceWindowResult: AWSShape {
@@ -4437,6 +5998,15 @@ extension Ssm {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool
+            self.schedule = dictionary["Schedule"] as? String
+            self.cutoff = dictionary["Cutoff"] as? Int32
+            self.duration = dictionary["Duration"] as? Int32
+        }
     }
 
     public struct DeleteActivationRequest: AWSShape {
@@ -4451,6 +6021,10 @@ extension Ssm {
             self.activationId = activationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activationId = dictionary["ActivationId"] as? String else { throw InitializableError.missingRequiredParam("ActivationId") }
+            self.activationId = activationId
+        }
     }
 
     public struct PutInventoryRequest: AWSShape {
@@ -4468,6 +6042,12 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let items = dictionary["Items"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try items.map({ try InventoryItem(dictionary: $0) })
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct DescribeDocumentPermissionResponse: AWSShape {
@@ -4482,6 +6062,11 @@ extension Ssm {
             self.accountIds = accountIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accountIds = dictionary["AccountIds"] as? [String] {
+                self.accountIds = accountIds
+            }
+        }
     }
 
     public struct AssociationFilter: AWSShape {
@@ -4499,6 +6084,12 @@ extension Ssm {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
     public struct NotificationConfig: AWSShape {
@@ -4519,6 +6110,13 @@ extension Ssm {
             self.notificationEvents = notificationEvents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notificationArn = dictionary["NotificationArn"] as? String
+            self.notificationType = dictionary["NotificationType"] as? String
+            if let notificationEvents = dictionary["NotificationEvents"] as? [String] {
+                self.notificationEvents = notificationEvents
+            }
+        }
     }
 
     public struct PutParameterRequest: AWSShape {
@@ -4548,6 +6146,17 @@ extension Ssm {
             self.overwrite = overwrite
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.keyId = dictionary["KeyId"] as? String
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            self.overwrite = dictionary["Overwrite"] as? Bool
+        }
     }
 
     public struct PatchBaselineIdentity: AWSShape {
@@ -4571,6 +6180,12 @@ extension Ssm {
             self.baselineDescription = baselineDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultBaseline = dictionary["DefaultBaseline"] as? Bool
+            self.baselineId = dictionary["BaselineId"] as? String
+            self.baselineName = dictionary["BaselineName"] as? String
+            self.baselineDescription = dictionary["BaselineDescription"] as? String
+        }
     }
 
     public struct Association: AWSShape {
@@ -4606,6 +6221,18 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastExecutionDate = dictionary["LastExecutionDate"] as? Date
+            self.associationId = dictionary["AssociationId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            if let overview = dictionary["Overview"] as? [String: Any] { self.overview = try Ssm.AssociationOverview(dictionary: overview) }
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        }
     }
 
     public struct Activation: AWSShape {
@@ -4644,6 +6271,17 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamRole = dictionary["IamRole"] as? String
+            self.expired = dictionary["Expired"] as? Bool
+            self.registrationLimit = dictionary["RegistrationLimit"] as? Int32
+            self.expirationDate = dictionary["ExpirationDate"] as? Date
+            self.activationId = dictionary["ActivationId"] as? String
+            self.registrationsCount = dictionary["RegistrationsCount"] as? Int32
+            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.defaultInstanceName = dictionary["DefaultInstanceName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct StartAutomationExecutionResult: AWSShape {
@@ -4658,6 +6296,9 @@ extension Ssm {
             self.automationExecutionId = automationExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.automationExecutionId = dictionary["AutomationExecutionId"] as? String
+        }
     }
 
     public struct ListDocumentsRequest: AWSShape {
@@ -4678,6 +6319,13 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let documentFilterList = dictionary["DocumentFilterList"] as? [[String: Any]] {
+                self.documentFilterList = try documentFilterList.map({ try DocumentFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListInventoryEntriesResult: AWSShape {
@@ -4707,6 +6355,16 @@ extension Ssm {
             self.typeName = typeName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.captureTime = dictionary["CaptureTime"] as? String
+            if let entries = dictionary["Entries"] as? [[String: String]] {
+                self.entries = entries
+            }
+            self.schemaVersion = dictionary["SchemaVersion"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.typeName = dictionary["TypeName"] as? String
+        }
     }
 
     public struct DeleteAssociationRequest: AWSShape {
@@ -4727,6 +6385,11 @@ extension Ssm {
             self.associationId = associationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.associationId = dictionary["AssociationId"] as? String
+        }
     }
 
     public struct EffectivePatch: AWSShape {
@@ -4744,6 +6407,10 @@ extension Ssm {
             self.patchStatus = patchStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let patch = dictionary["Patch"] as? [String: Any] { self.patch = try Ssm.Patch(dictionary: patch) }
+            if let patchStatus = dictionary["PatchStatus"] as? [String: Any] { self.patchStatus = try Ssm.PatchStatus(dictionary: patchStatus) }
+        }
     }
 
     public struct DocumentParameter: AWSShape {
@@ -4767,6 +6434,12 @@ extension Ssm {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteParameterRequest: AWSShape {
@@ -4781,6 +6454,10 @@ extension Ssm {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct StopAutomationExecutionRequest: AWSShape {
@@ -4795,6 +6472,10 @@ extension Ssm {
             self.automationExecutionId = automationExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let automationExecutionId = dictionary["AutomationExecutionId"] as? String else { throw InitializableError.missingRequiredParam("AutomationExecutionId") }
+            self.automationExecutionId = automationExecutionId
+        }
     }
 
     public struct DocumentFilter: AWSShape {
@@ -4812,6 +6493,12 @@ extension Ssm {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
+            self.value = value
+        }
     }
 
     public struct GetDefaultPatchBaselineResult: AWSShape {
@@ -4826,6 +6513,9 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+        }
     }
 
     public struct InstanceAssociationOutputLocation: AWSShape {
@@ -4840,6 +6530,9 @@ extension Ssm {
             self.s3Location = s3Location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3Location = dictionary["S3Location"] as? [String: Any] { self.s3Location = try Ssm.S3OutputLocation(dictionary: s3Location) }
+        }
     }
 
     public struct RegisterTargetWithMaintenanceWindowResult: AWSShape {
@@ -4854,6 +6547,9 @@ extension Ssm {
             self.windowTargetId = windowTargetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowTargetId = dictionary["WindowTargetId"] as? String
+        }
     }
 
     public struct CreateMaintenanceWindowResult: AWSShape {
@@ -4868,6 +6564,9 @@ extension Ssm {
             self.windowId = windowId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.windowId = dictionary["WindowId"] as? String
+        }
     }
 
     public struct DocumentVersionInfo: AWSShape {
@@ -4891,6 +6590,12 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.name = dictionary["Name"] as? String
+            self.isDefaultVersion = dictionary["IsDefaultVersion"] as? Bool
+            self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
     }
 
 }

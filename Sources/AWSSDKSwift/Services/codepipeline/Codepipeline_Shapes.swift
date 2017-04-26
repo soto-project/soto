@@ -41,6 +41,9 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+        }
     }
 
     public struct PipelineSummary: AWSShape {
@@ -64,6 +67,12 @@ extension Codepipeline {
             self.created = created
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.updated = dictionary["updated"] as? Date
+            self.name = dictionary["name"] as? String
+            self.version = dictionary["version"] as? Int32
+            self.created = dictionary["created"] as? Date
+        }
     }
 
     public struct FailureDetails: AWSShape {
@@ -84,6 +93,13 @@ extension Codepipeline {
             self.externalExecutionId = externalExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let message = dictionary["message"] as? String else { throw InitializableError.missingRequiredParam("message") }
+            self.message = message
+            self.externalExecutionId = dictionary["externalExecutionId"] as? String
+        }
     }
 
     public struct ListActionTypesOutput: AWSShape {
@@ -101,6 +117,11 @@ extension Codepipeline {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let actionTypes = dictionary["actionTypes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("actionTypes") }
+            self.actionTypes = try actionTypes.map({ try ActionType(dictionary: $0) })
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct GetJobDetailsInput: AWSShape {
@@ -115,6 +136,10 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct CurrentRevision: AWSShape {
@@ -138,6 +163,14 @@ extension Codepipeline {
             self.revisionSummary = revisionSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let revision = dictionary["revision"] as? String else { throw InitializableError.missingRequiredParam("revision") }
+            self.revision = revision
+            guard let changeIdentifier = dictionary["changeIdentifier"] as? String else { throw InitializableError.missingRequiredParam("changeIdentifier") }
+            self.changeIdentifier = changeIdentifier
+            self.created = dictionary["created"] as? Date
+            self.revisionSummary = dictionary["revisionSummary"] as? String
+        }
     }
 
     public struct PutActionRevisionOutput: AWSShape {
@@ -155,6 +188,10 @@ extension Codepipeline {
             self.newRevision = newRevision
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+            self.newRevision = dictionary["newRevision"] as? Bool
+        }
     }
 
     public struct RetryStageExecutionOutput: AWSShape {
@@ -169,6 +206,9 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+        }
     }
 
     public struct ArtifactDetails: AWSShape {
@@ -186,6 +226,12 @@ extension Codepipeline {
             self.maximumCount = maximumCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let minimumCount = dictionary["minimumCount"] as? Int32 else { throw InitializableError.missingRequiredParam("minimumCount") }
+            self.minimumCount = minimumCount
+            guard let maximumCount = dictionary["maximumCount"] as? Int32 else { throw InitializableError.missingRequiredParam("maximumCount") }
+            self.maximumCount = maximumCount
+        }
     }
 
     public struct ErrorDetails: AWSShape {
@@ -203,6 +249,10 @@ extension Codepipeline {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["code"] as? String
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct ActionConfigurationProperty: AWSShape {
@@ -235,6 +285,19 @@ extension Codepipeline {
             self.queryable = queryable
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let key = dictionary["key"] as? Bool else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            guard let secret = dictionary["secret"] as? Bool else { throw InitializableError.missingRequiredParam("secret") }
+            self.secret = secret
+            self.description = dictionary["description"] as? String
+            guard let required = dictionary["required"] as? Bool else { throw InitializableError.missingRequiredParam("required") }
+            self.required = required
+            self.type = dictionary["type"] as? String
+            self.queryable = dictionary["queryable"] as? Bool
+        }
     }
 
     public struct StageContext: AWSShape {
@@ -249,6 +312,9 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+        }
     }
 
     public struct StageExecution: AWSShape {
@@ -266,6 +332,12 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
+            self.pipelineExecutionId = pipelineExecutionId
+        }
     }
 
     public struct ActionExecution: AWSShape {
@@ -304,6 +376,17 @@ extension Codepipeline {
             self.lastStatusChange = lastStatusChange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.summary = dictionary["summary"] as? String
+            self.status = dictionary["status"] as? String
+            self.lastUpdatedBy = dictionary["lastUpdatedBy"] as? String
+            self.externalExecutionId = dictionary["externalExecutionId"] as? String
+            self.externalExecutionUrl = dictionary["externalExecutionUrl"] as? String
+            self.token = dictionary["token"] as? String
+            if let errorDetails = dictionary["errorDetails"] as? [String: Any] { self.errorDetails = try Codepipeline.ErrorDetails(dictionary: errorDetails) }
+            self.percentComplete = dictionary["percentComplete"] as? Int32
+            self.lastStatusChange = dictionary["lastStatusChange"] as? Date
+        }
     }
 
     public struct StartPipelineExecutionInput: AWSShape {
@@ -318,6 +401,10 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct StageState: AWSShape {
@@ -341,6 +428,14 @@ extension Codepipeline {
             self.latestExecution = latestExecution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inboundTransitionState = dictionary["inboundTransitionState"] as? [String: Any] { self.inboundTransitionState = try Codepipeline.TransitionState(dictionary: inboundTransitionState) }
+            if let actionStates = dictionary["actionStates"] as? [[String: Any]] {
+                self.actionStates = try actionStates.map({ try ActionState(dictionary: $0) })
+            }
+            self.stageName = dictionary["stageName"] as? String
+            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.StageExecution(dictionary: latestExecution) }
+        }
     }
 
     public struct PutActionRevisionInput: AWSShape {
@@ -363,6 +458,16 @@ extension Codepipeline {
             self.actionRevision = actionRevision
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            guard let actionName = dictionary["actionName"] as? String else { throw InitializableError.missingRequiredParam("actionName") }
+            self.actionName = actionName
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+            guard let actionRevision = dictionary["actionRevision"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionRevision") }
+            self.actionRevision = try Codepipeline.ActionRevision(dictionary: actionRevision)
+        }
     }
 
     public struct PutThirdPartyJobFailureResultInput: AWSShape {
@@ -382,6 +487,14 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failureDetails = dictionary["failureDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failureDetails") }
+            self.failureDetails = try Codepipeline.FailureDetails(dictionary: failureDetails)
+            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
+            self.clientToken = clientToken
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct Artifact: AWSShape {
@@ -402,6 +515,11 @@ extension Codepipeline {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.revision = dictionary["revision"] as? String
+            self.name = dictionary["name"] as? String
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Codepipeline.ArtifactLocation(dictionary: location) }
+        }
     }
 
     public struct JobData: AWSShape {
@@ -432,6 +550,20 @@ extension Codepipeline {
             self.pipelineContext = pipelineContext
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) }
+            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) }
+            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) }
+            if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
+                self.outputArtifacts = try outputArtifacts.map({ try Artifact(dictionary: $0) })
+            }
+            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) }
+            self.continuationToken = dictionary["continuationToken"] as? String
+            if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
+                self.inputArtifacts = try inputArtifacts.map({ try Artifact(dictionary: $0) })
+            }
+            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) }
+        }
     }
 
     public struct PutApprovalResultInput: AWSShape {
@@ -458,6 +590,18 @@ extension Codepipeline {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            guard let actionName = dictionary["actionName"] as? String else { throw InitializableError.missingRequiredParam("actionName") }
+            self.actionName = actionName
+            guard let result = dictionary["result"] as? [String: Any] else { throw InitializableError.missingRequiredParam("result") }
+            self.result = try Codepipeline.ApprovalResult(dictionary: result)
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+            guard let token = dictionary["token"] as? String else { throw InitializableError.missingRequiredParam("token") }
+            self.token = token
+        }
     }
 
     public struct ArtifactLocation: AWSShape {
@@ -475,6 +619,10 @@ extension Codepipeline {
             self.s3Location = s3Location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codepipeline.S3ArtifactLocation(dictionary: s3Location) }
+        }
     }
 
     public struct GetPipelineExecutionInput: AWSShape {
@@ -492,6 +640,12 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+            guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
+            self.pipelineExecutionId = pipelineExecutionId
+        }
     }
 
     public struct DisableStageTransitionInput: AWSShape {
@@ -515,6 +669,16 @@ extension Codepipeline {
             self.pipelineName = pipelineName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let transitionType = dictionary["transitionType"] as? String else { throw InitializableError.missingRequiredParam("transitionType") }
+            self.transitionType = transitionType
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            guard let reason = dictionary["reason"] as? String else { throw InitializableError.missingRequiredParam("reason") }
+            self.reason = reason
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+        }
     }
 
     public struct GetJobDetailsOutput: AWSShape {
@@ -529,6 +693,9 @@ extension Codepipeline {
             self.jobDetails = jobDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.JobDetails(dictionary: jobDetails) }
+        }
     }
 
     public struct AcknowledgeJobOutput: AWSShape {
@@ -543,6 +710,9 @@ extension Codepipeline {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+        }
     }
 
     public struct PipelineExecution: AWSShape {
@@ -569,6 +739,15 @@ extension Codepipeline {
             self.artifactRevisions = artifactRevisions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
+            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+            self.pipelineName = dictionary["pipelineName"] as? String
+            if let artifactRevisions = dictionary["artifactRevisions"] as? [[String: Any]] {
+                self.artifactRevisions = try artifactRevisions.map({ try ArtifactRevision(dictionary: $0) })
+            }
+        }
     }
 
     public struct AcknowledgeJobInput: AWSShape {
@@ -586,6 +765,12 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let nonce = dictionary["nonce"] as? String else { throw InitializableError.missingRequiredParam("nonce") }
+            self.nonce = nonce
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct JobDetails: AWSShape {
@@ -605,6 +790,11 @@ extension Codepipeline {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            self.accountId = dictionary["accountId"] as? String
+            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) }
+        }
     }
 
     public struct S3ArtifactLocation: AWSShape {
@@ -622,6 +812,12 @@ extension Codepipeline {
             self.objectKey = objectKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bucketName = dictionary["bucketName"] as? String else { throw InitializableError.missingRequiredParam("bucketName") }
+            self.bucketName = bucketName
+            guard let objectKey = dictionary["objectKey"] as? String else { throw InitializableError.missingRequiredParam("objectKey") }
+            self.objectKey = objectKey
+        }
     }
 
     public struct CreateCustomActionTypeOutput: AWSShape {
@@ -635,6 +831,10 @@ extension Codepipeline {
             self.actionType = actionType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let actionType = dictionary["actionType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionType") }
+            self.actionType = try Codepipeline.ActionType(dictionary: actionType)
+        }
     }
 
     public struct ActionTypeId: AWSShape {
@@ -658,6 +858,16 @@ extension Codepipeline {
             self.category = category
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let owner = dictionary["owner"] as? String else { throw InitializableError.missingRequiredParam("owner") }
+            self.owner = owner
+            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
+            self.version = version
+            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
+            self.provider = provider
+            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            self.category = category
+        }
     }
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
@@ -675,6 +885,12 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
+            self.clientToken = clientToken
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct PutThirdPartyJobSuccessResultInput: AWSShape {
@@ -699,6 +915,15 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) }
+            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
+            self.clientToken = clientToken
+            self.continuationToken = dictionary["continuationToken"] as? String
+            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) }
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct DeleteCustomActionTypeInput: AWSShape {
@@ -719,6 +944,14 @@ extension Codepipeline {
             self.category = category
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
+            self.provider = provider
+            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
+            self.version = version
+            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            self.category = category
+        }
     }
 
     public struct StageDeclaration: AWSShape {
@@ -739,6 +972,15 @@ extension Codepipeline {
             self.actions = actions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let blockers = dictionary["blockers"] as? [[String: Any]] {
+                self.blockers = try blockers.map({ try BlockerDeclaration(dictionary: $0) })
+            }
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let actions = dictionary["actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("actions") }
+            self.actions = try actions.map({ try ActionDeclaration(dictionary: $0) })
+        }
     }
 
     public struct AWSSessionCredentials: AWSShape {
@@ -759,6 +1001,14 @@ extension Codepipeline {
             self.secretAccessKey = secretAccessKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sessionToken = dictionary["sessionToken"] as? String else { throw InitializableError.missingRequiredParam("sessionToken") }
+            self.sessionToken = sessionToken
+            guard let accessKeyId = dictionary["accessKeyId"] as? String else { throw InitializableError.missingRequiredParam("accessKeyId") }
+            self.accessKeyId = accessKeyId
+            guard let secretAccessKey = dictionary["secretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("secretAccessKey") }
+            self.secretAccessKey = secretAccessKey
+        }
     }
 
     public struct EncryptionKey: AWSShape {
@@ -776,6 +1026,12 @@ extension Codepipeline {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+        }
     }
 
     public struct EnableStageTransitionInput: AWSShape {
@@ -796,6 +1052,14 @@ extension Codepipeline {
             self.stageName = stageName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+            guard let transitionType = dictionary["transitionType"] as? String else { throw InitializableError.missingRequiredParam("transitionType") }
+            self.transitionType = transitionType
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+        }
     }
 
     public struct InputArtifact: AWSShape {
@@ -810,6 +1074,10 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct PollForJobsOutput: AWSShape {
@@ -824,6 +1092,11 @@ extension Codepipeline {
             self.jobs = jobs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobs = dictionary["jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            }
+        }
     }
 
     public struct ActionDeclaration: AWSShape {
@@ -856,6 +1129,23 @@ extension Codepipeline {
             self.configuration = configuration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let actionTypeId = dictionary["actionTypeId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionTypeId") }
+            self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
+            self.roleArn = dictionary["roleArn"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.runOrder = dictionary["runOrder"] as? Int32
+            if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
+                self.outputArtifacts = try outputArtifacts.map({ try OutputArtifact(dictionary: $0) })
+            }
+            if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
+                self.inputArtifacts = try inputArtifacts.map({ try InputArtifact(dictionary: $0) })
+            }
+            if let configuration = dictionary["configuration"] as? [String: String] {
+                self.configuration = configuration
+            }
+        }
     }
 
     public struct GetPipelineStateOutput: AWSShape {
@@ -882,6 +1172,15 @@ extension Codepipeline {
             self.pipelineName = pipelineName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.updated = dictionary["updated"] as? Date
+            self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
+            if let stageStates = dictionary["stageStates"] as? [[String: Any]] {
+                self.stageStates = try stageStates.map({ try StageState(dictionary: $0) })
+            }
+            self.created = dictionary["created"] as? Date
+            self.pipelineName = dictionary["pipelineName"] as? String
+        }
     }
 
     public struct PutJobSuccessResultInput: AWSShape {
@@ -905,6 +1204,13 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) }
+            self.continuationToken = dictionary["continuationToken"] as? String
+            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) }
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct OutputArtifact: AWSShape {
@@ -919,6 +1225,10 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct DeletePipelineInput: AWSShape {
@@ -933,6 +1243,10 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct PipelineDeclaration: AWSShape {
@@ -958,6 +1272,17 @@ extension Codepipeline {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let artifactStore = dictionary["artifactStore"] as? [String: Any] else { throw InitializableError.missingRequiredParam("artifactStore") }
+            self.artifactStore = try Codepipeline.ArtifactStore(dictionary: artifactStore)
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let stages = dictionary["stages"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stages") }
+            self.stages = try stages.map({ try StageDeclaration(dictionary: $0) })
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            self.version = dictionary["version"] as? Int32
+        }
     }
 
     public struct ThirdPartyJobDetails: AWSShape {
@@ -978,6 +1303,11 @@ extension Codepipeline {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            self.nonce = dictionary["nonce"] as? String
+            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.ThirdPartyJobData(dictionary: data) }
+        }
     }
 
     public struct ActionState: AWSShape {
@@ -1002,6 +1332,13 @@ extension Codepipeline {
             self.latestExecution = latestExecution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.entityUrl = dictionary["entityUrl"] as? String
+            self.actionName = dictionary["actionName"] as? String
+            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.ActionRevision(dictionary: currentRevision) }
+            self.revisionUrl = dictionary["revisionUrl"] as? String
+            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.ActionExecution(dictionary: latestExecution) }
+        }
     }
 
     public struct PollForJobsInput: AWSShape {
@@ -1021,6 +1358,14 @@ extension Codepipeline {
             self.maxBatchSize = maxBatchSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let actionTypeId = dictionary["actionTypeId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionTypeId") }
+            self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
+            if let queryParam = dictionary["queryParam"] as? [String: String] {
+                self.queryParam = queryParam
+            }
+            self.maxBatchSize = dictionary["maxBatchSize"] as? Int32
+        }
     }
 
     public struct ThirdPartyJob: AWSShape {
@@ -1038,6 +1383,10 @@ extension Codepipeline {
             self.clientId = clientId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobId = dictionary["jobId"] as? String
+            self.clientId = dictionary["clientId"] as? String
+        }
     }
 
     public struct ArtifactRevision: AWSShape {
@@ -1067,6 +1416,14 @@ extension Codepipeline {
             self.revisionUrl = revisionUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.revisionSummary = dictionary["revisionSummary"] as? String
+            self.name = dictionary["name"] as? String
+            self.created = dictionary["created"] as? Date
+            self.revisionChangeIdentifier = dictionary["revisionChangeIdentifier"] as? String
+            self.revisionId = dictionary["revisionId"] as? String
+            self.revisionUrl = dictionary["revisionUrl"] as? String
+        }
     }
 
     public struct ListPipelinesInput: AWSShape {
@@ -1081,6 +1438,9 @@ extension Codepipeline {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ActionRevision: AWSShape {
@@ -1101,6 +1461,14 @@ extension Codepipeline {
             self.revisionId = revisionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let created = dictionary["created"] as? Date else { throw InitializableError.missingRequiredParam("created") }
+            self.created = created
+            guard let revisionChangeId = dictionary["revisionChangeId"] as? String else { throw InitializableError.missingRequiredParam("revisionChangeId") }
+            self.revisionChangeId = revisionChangeId
+            guard let revisionId = dictionary["revisionId"] as? String else { throw InitializableError.missingRequiredParam("revisionId") }
+            self.revisionId = revisionId
+        }
     }
 
     public struct RetryStageExecutionInput: AWSShape {
@@ -1124,6 +1492,16 @@ extension Codepipeline {
             self.pipelineName = pipelineName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let retryMode = dictionary["retryMode"] as? String else { throw InitializableError.missingRequiredParam("retryMode") }
+            self.retryMode = retryMode
+            guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
+            self.pipelineExecutionId = pipelineExecutionId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+        }
     }
 
     public struct TransitionState: AWSShape {
@@ -1147,6 +1525,12 @@ extension Codepipeline {
             self.lastChangedBy = lastChangedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enabled = dictionary["enabled"] as? Bool
+            self.disabledReason = dictionary["disabledReason"] as? String
+            self.lastChangedAt = dictionary["lastChangedAt"] as? Date
+            self.lastChangedBy = dictionary["lastChangedBy"] as? String
+        }
     }
 
     public struct PipelineContext: AWSShape {
@@ -1166,6 +1550,11 @@ extension Codepipeline {
             self.stage = stage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pipelineName = dictionary["pipelineName"] as? String
+            if let action = dictionary["action"] as? [String: Any] { self.action = try Codepipeline.ActionContext(dictionary: action) }
+            if let stage = dictionary["stage"] as? [String: Any] { self.stage = try Codepipeline.StageContext(dictionary: stage) }
+        }
     }
 
     public struct PollForThirdPartyJobsInput: AWSShape {
@@ -1182,6 +1571,11 @@ extension Codepipeline {
             self.maxBatchSize = maxBatchSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let actionTypeId = dictionary["actionTypeId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionTypeId") }
+            self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
+            self.maxBatchSize = dictionary["maxBatchSize"] as? Int32
+        }
     }
 
     public struct PollForThirdPartyJobsOutput: AWSShape {
@@ -1196,6 +1590,11 @@ extension Codepipeline {
             self.jobs = jobs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobs = dictionary["jobs"] as? [[String: Any]] {
+                self.jobs = try jobs.map({ try ThirdPartyJob(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutJobFailureResultInput: AWSShape {
@@ -1213,6 +1612,12 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failureDetails = dictionary["failureDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failureDetails") }
+            self.failureDetails = try Codepipeline.FailureDetails(dictionary: failureDetails)
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct ArtifactStore: AWSShape {
@@ -1233,6 +1638,13 @@ extension Codepipeline {
             self.encryptionKey = encryptionKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
+            self.location = location
+            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) }
+        }
     }
 
     public struct PutApprovalResultOutput: AWSShape {
@@ -1247,6 +1659,9 @@ extension Codepipeline {
             self.approvedAt = approvedAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.approvedAt = dictionary["approvedAt"] as? Date
+        }
     }
 
     public struct GetPipelineInput: AWSShape {
@@ -1264,6 +1679,11 @@ extension Codepipeline {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.version = dictionary["version"] as? Int32
+        }
     }
 
     public struct ActionType: AWSShape {
@@ -1289,6 +1709,18 @@ extension Codepipeline {
             self.outputArtifactDetails = outputArtifactDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let inputArtifactDetails = dictionary["inputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("inputArtifactDetails") }
+            self.inputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: inputArtifactDetails)
+            guard let id = dictionary["id"] as? [String: Any] else { throw InitializableError.missingRequiredParam("id") }
+            self.id = try Codepipeline.ActionTypeId(dictionary: id)
+            if let actionConfigurationProperties = dictionary["actionConfigurationProperties"] as? [[String: Any]] {
+                self.actionConfigurationProperties = try actionConfigurationProperties.map({ try ActionConfigurationProperty(dictionary: $0) })
+            }
+            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) }
+            guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
+            self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
+        }
     }
 
     public struct GetPipelineExecutionOutput: AWSShape {
@@ -1303,6 +1735,9 @@ extension Codepipeline {
             self.pipelineExecution = pipelineExecution
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipelineExecution = dictionary["pipelineExecution"] as? [String: Any] { self.pipelineExecution = try Codepipeline.PipelineExecution(dictionary: pipelineExecution) }
+        }
     }
 
     public struct ThirdPartyJobData: AWSShape {
@@ -1334,6 +1769,20 @@ extension Codepipeline {
             self.pipelineContext = pipelineContext
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) }
+            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) }
+            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) }
+            if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
+                self.outputArtifacts = try outputArtifacts.map({ try Artifact(dictionary: $0) })
+            }
+            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) }
+            self.continuationToken = dictionary["continuationToken"] as? String
+            if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
+                self.inputArtifacts = try inputArtifacts.map({ try Artifact(dictionary: $0) })
+            }
+            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) }
+        }
     }
 
     public struct GetPipelineOutput: AWSShape {
@@ -1347,6 +1796,9 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) }
+        }
     }
 
     public struct ActionConfiguration: AWSShape {
@@ -1361,6 +1813,11 @@ extension Codepipeline {
             self.configuration = configuration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configuration = dictionary["configuration"] as? [String: String] {
+                self.configuration = configuration
+            }
+        }
     }
 
     public struct CreatePipelineOutput: AWSShape {
@@ -1374,6 +1831,9 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) }
+        }
     }
 
     public struct StartPipelineExecutionOutput: AWSShape {
@@ -1388,6 +1848,9 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+        }
     }
 
     public struct GetPipelineStateInput: AWSShape {
@@ -1402,6 +1865,10 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct ActionTypeSettings: AWSShape {
@@ -1425,6 +1892,12 @@ extension Codepipeline {
             self.entityUrlTemplate = entityUrlTemplate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.revisionUrlTemplate = dictionary["revisionUrlTemplate"] as? String
+            self.thirdPartyConfigurationUrl = dictionary["thirdPartyConfigurationUrl"] as? String
+            self.executionUrlTemplate = dictionary["executionUrlTemplate"] as? String
+            self.entityUrlTemplate = dictionary["entityUrlTemplate"] as? String
+        }
     }
 
     public struct AcknowledgeThirdPartyJobOutput: AWSShape {
@@ -1439,6 +1912,9 @@ extension Codepipeline {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+        }
     }
 
     public struct CreateCustomActionTypeInput: AWSShape {
@@ -1468,6 +1944,22 @@ extension Codepipeline {
             self.category = category
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let inputArtifactDetails = dictionary["inputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("inputArtifactDetails") }
+            self.inputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: inputArtifactDetails)
+            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) }
+            guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
+            self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
+            if let configurationProperties = dictionary["configurationProperties"] as? [[String: Any]] {
+                self.configurationProperties = try configurationProperties.map({ try ActionConfigurationProperty(dictionary: $0) })
+            }
+            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
+            self.version = version
+            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
+            self.provider = provider
+            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            self.category = category
+        }
     }
 
     public struct ApprovalResult: AWSShape {
@@ -1485,6 +1977,12 @@ extension Codepipeline {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let summary = dictionary["summary"] as? String else { throw InitializableError.missingRequiredParam("summary") }
+            self.summary = summary
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+        }
     }
 
     public struct BlockerDeclaration: AWSShape {
@@ -1502,6 +2000,12 @@ extension Codepipeline {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+        }
     }
 
     public struct ListActionTypesInput: AWSShape {
@@ -1519,6 +2023,10 @@ extension Codepipeline {
             self.actionOwnerFilter = actionOwnerFilter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.actionOwnerFilter = dictionary["actionOwnerFilter"] as? String
+        }
     }
 
     public struct CreatePipelineInput: AWSShape {
@@ -1532,6 +2040,10 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipeline = dictionary["pipeline"] as? [String: Any] else { throw InitializableError.missingRequiredParam("pipeline") }
+            self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline)
+        }
     }
 
     public struct UpdatePipelineInput: AWSShape {
@@ -1546,6 +2058,10 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let pipeline = dictionary["pipeline"] as? [String: Any] else { throw InitializableError.missingRequiredParam("pipeline") }
+            self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline)
+        }
     }
 
     public struct Job: AWSShape {
@@ -1569,6 +2085,12 @@ extension Codepipeline {
             self.nonce = nonce
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accountId = dictionary["accountId"] as? String
+            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) }
+            self.id = dictionary["id"] as? String
+            self.nonce = dictionary["nonce"] as? String
+        }
     }
 
     public struct UpdatePipelineOutput: AWSShape {
@@ -1583,6 +2105,9 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) }
+        }
     }
 
     public struct ExecutionDetails: AWSShape {
@@ -1603,6 +2128,11 @@ extension Codepipeline {
             self.externalExecutionId = externalExecutionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.summary = dictionary["summary"] as? String
+            self.percentComplete = dictionary["percentComplete"] as? Int32
+            self.externalExecutionId = dictionary["externalExecutionId"] as? String
+        }
     }
 
     public struct GetThirdPartyJobDetailsOutput: AWSShape {
@@ -1617,6 +2147,9 @@ extension Codepipeline {
             self.jobDetails = jobDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.ThirdPartyJobDetails(dictionary: jobDetails) }
+        }
     }
 
     public struct AcknowledgeThirdPartyJobInput: AWSShape {
@@ -1637,6 +2170,14 @@ extension Codepipeline {
             self.clientToken = clientToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let nonce = dictionary["nonce"] as? String else { throw InitializableError.missingRequiredParam("nonce") }
+            self.nonce = nonce
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
+            self.clientToken = clientToken
+        }
     }
 
     public struct ListPipelinesOutput: AWSShape {
@@ -1654,6 +2195,12 @@ extension Codepipeline {
             self.pipelines = pipelines
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let pipelines = dictionary["pipelines"] as? [[String: Any]] {
+                self.pipelines = try pipelines.map({ try PipelineSummary(dictionary: $0) })
+            }
+        }
     }
 
 }

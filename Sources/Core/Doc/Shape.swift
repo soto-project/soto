@@ -30,6 +30,14 @@ public struct Shape {
             return false
         }
     }
+    
+    public var isOutputType: Bool {
+        if name.characters.count <= 6 {
+            return false
+        }
+        let suffix = name.substring(from: name.index(name.endIndex, offsetBy: -6))
+        return suffix.lowercased() == "output"
+    }
 }
 
 public struct StructureShape {

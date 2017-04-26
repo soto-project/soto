@@ -41,6 +41,10 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+        }
     }
 
     public struct UpdateFleetCapacityInput: AWSShape {
@@ -64,6 +68,13 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minSize = dictionary["MinSize"] as? Int32
+            self.maxSize = dictionary["MaxSize"] as? Int32
+            self.desiredInstances = dictionary["DesiredInstances"] as? Int32
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+        }
     }
 
     public struct DescribePlayerSessionsInput: AWSShape {
@@ -93,6 +104,14 @@ extension Gamelift {
             self.playerSessionId = playerSessionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.playerId = dictionary["PlayerId"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.gameSessionId = dictionary["GameSessionId"] as? String
+            self.playerSessionStatusFilter = dictionary["PlayerSessionStatusFilter"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.playerSessionId = dictionary["PlayerSessionId"] as? String
+        }
     }
 
     public struct SearchGameSessionsInput: AWSShape {
@@ -122,6 +141,14 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sortExpression = dictionary["SortExpression"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.filterExpression = dictionary["FilterExpression"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+            self.aliasId = dictionary["AliasId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct PutScalingPolicyOutput: AWSShape {
@@ -136,6 +163,9 @@ extension Gamelift {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct ScalingPolicy: AWSShape {
@@ -174,6 +204,17 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.threshold = dictionary["Threshold"] as? Double
+            self.status = dictionary["Status"] as? String
+            self.metricName = dictionary["MetricName"] as? String
+            self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
+            self.name = dictionary["Name"] as? String
+            self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
+            self.comparisonOperator = dictionary["ComparisonOperator"] as? String
+            self.scalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct GetGameSessionLogUrlOutput: AWSShape {
@@ -188,6 +229,9 @@ extension Gamelift {
             self.preSignedUrl = preSignedUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+        }
     }
 
     public struct Build: AWSShape {
@@ -220,6 +264,15 @@ extension Gamelift {
             self.buildId = buildId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.sizeOnDisk = dictionary["SizeOnDisk"] as? Int64
+            self.buildId = dictionary["BuildId"] as? String
+        }
     }
 
     public struct DescribeBuildInput: AWSShape {
@@ -234,6 +287,10 @@ extension Gamelift {
             self.buildId = buildId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
+            self.buildId = buildId
+        }
     }
 
     public struct DescribeFleetPortSettingsInput: AWSShape {
@@ -248,6 +305,10 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+        }
     }
 
     public struct DescribeFleetUtilizationOutput: AWSShape {
@@ -265,6 +326,12 @@ extension Gamelift {
             self.fleetUtilization = fleetUtilization
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let fleetUtilization = dictionary["FleetUtilization"] as? [[String: Any]] {
+                self.fleetUtilization = try fleetUtilization.map({ try FleetUtilization(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateGameSessionOutput: AWSShape {
@@ -279,6 +346,9 @@ extension Gamelift {
             self.gameSession = gameSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) }
+        }
     }
 
     public struct ResolveAliasOutput: AWSShape {
@@ -293,6 +363,9 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct DescribeAliasInput: AWSShape {
@@ -307,6 +380,10 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
+            self.aliasId = aliasId
+        }
     }
 
     public struct UpdateGameSessionQueueInput: AWSShape {
@@ -327,6 +404,14 @@ extension Gamelift {
             self.timeoutInSeconds = timeoutInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let destinations = dictionary["Destinations"] as? [[String: Any]] {
+                self.destinations = try destinations.map({ try GameSessionQueueDestination(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.timeoutInSeconds = dictionary["TimeoutInSeconds"] as? Int32
+        }
     }
 
     public struct DescribeGameSessionPlacementOutput: AWSShape {
@@ -341,6 +426,9 @@ extension Gamelift {
             self.gameSessionPlacement = gameSessionPlacement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) }
+        }
     }
 
     public struct GameSession: AWSShape {
@@ -391,6 +479,23 @@ extension Gamelift {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.terminationTime = dictionary["TerminationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.gameSessionId = dictionary["GameSessionId"] as? String
+            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.ipAddress = dictionary["IpAddress"] as? String
+            self.creatorId = dictionary["CreatorId"] as? String
+            self.playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String
+            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
+                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
+            }
+            self.fleetId = dictionary["FleetId"] as? String
+            self.currentPlayerSessionCount = dictionary["CurrentPlayerSessionCount"] as? Int32
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct ListBuildsOutput: AWSShape {
@@ -408,6 +513,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let builds = dictionary["Builds"] as? [[String: Any]] {
+                self.builds = try builds.map({ try Build(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeScalingPoliciesOutput: AWSShape {
@@ -425,6 +536,12 @@ extension Gamelift {
             self.scalingPolicies = scalingPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let scalingPolicies = dictionary["ScalingPolicies"] as? [[String: Any]] {
+                self.scalingPolicies = try scalingPolicies.map({ try ScalingPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct GameSessionPlacement: AWSShape {
@@ -469,6 +586,23 @@ extension Gamelift {
             self.gameSessionName = gameSessionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.gameSessionRegion = dictionary["GameSessionRegion"] as? String
+            self.gameSessionArn = dictionary["GameSessionArn"] as? String
+            self.placementId = dictionary["PlacementId"] as? String
+            if let playerLatencies = dictionary["PlayerLatencies"] as? [[String: Any]] {
+                self.playerLatencies = try playerLatencies.map({ try PlayerLatency(dictionary: $0) })
+            }
+            self.endTime = dictionary["EndTime"] as? Date
+            self.gameSessionQueueName = dictionary["GameSessionQueueName"] as? String
+            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
+                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
+            }
+            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
+            self.gameSessionName = dictionary["GameSessionName"] as? String
+        }
     }
 
     public struct ListBuildsInput: AWSShape {
@@ -489,6 +623,11 @@ extension Gamelift {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct RuntimeConfiguration: AWSShape {
@@ -503,6 +642,11 @@ extension Gamelift {
             self.serverProcesses = serverProcesses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serverProcesses = dictionary["ServerProcesses"] as? [[String: Any]] {
+                self.serverProcesses = try serverProcesses.map({ try ServerProcess(dictionary: $0) })
+            }
+        }
     }
 
     public struct Instance: AWSShape {
@@ -535,6 +679,15 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.ipAddress = dictionary["IpAddress"] as? String
+            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.type = dictionary["Type"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct EC2InstanceLimit: AWSShape {
@@ -555,6 +708,11 @@ extension Gamelift {
             self.instanceLimit = instanceLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.currentInstances = dictionary["CurrentInstances"] as? Int32
+            self.eC2InstanceType = dictionary["EC2InstanceType"] as? String
+            self.instanceLimit = dictionary["InstanceLimit"] as? Int32
+        }
     }
 
     public struct DeleteGameSessionQueueOutput: AWSShape {
@@ -563,6 +721,8 @@ extension Gamelift {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeFleetAttributesOutput: AWSShape {
@@ -580,6 +740,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleetAttributes = dictionary["FleetAttributes"] as? [[String: Any]] {
+                self.fleetAttributes = try fleetAttributes.map({ try FleetAttributes(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetInstanceAccessOutput: AWSShape {
@@ -594,6 +760,9 @@ extension Gamelift {
             self.instanceAccess = instanceAccess
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceAccess = dictionary["InstanceAccess"] as? [String: Any] { self.instanceAccess = try Gamelift.InstanceAccess(dictionary: instanceAccess) }
+        }
     }
 
     public struct StartGameSessionPlacementOutput: AWSShape {
@@ -608,6 +777,9 @@ extension Gamelift {
             self.gameSessionPlacement = gameSessionPlacement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) }
+        }
     }
 
     public struct CreateGameSessionOutput: AWSShape {
@@ -622,6 +794,9 @@ extension Gamelift {
             self.gameSession = gameSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) }
+        }
     }
 
     public struct ListAliasesInput: AWSShape {
@@ -645,6 +820,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.routingStrategyType = dictionary["RoutingStrategyType"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.name = dictionary["Name"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct UpdateRuntimeConfigurationOutput: AWSShape {
@@ -659,6 +840,9 @@ extension Gamelift {
             self.runtimeConfiguration = runtimeConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] { self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration) }
+        }
     }
 
     public struct RequestUploadCredentialsInput: AWSShape {
@@ -673,6 +857,10 @@ extension Gamelift {
             self.buildId = buildId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
+            self.buildId = buildId
+        }
     }
 
     public struct StopGameSessionPlacementInput: AWSShape {
@@ -687,6 +875,10 @@ extension Gamelift {
             self.placementId = placementId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let placementId = dictionary["PlacementId"] as? String else { throw InitializableError.missingRequiredParam("PlacementId") }
+            self.placementId = placementId
+        }
     }
 
     public struct CreateFleetInput: AWSShape {
@@ -731,6 +923,26 @@ extension Gamelift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) }
+            guard let eC2InstanceType = dictionary["EC2InstanceType"] as? String else { throw InitializableError.missingRequiredParam("EC2InstanceType") }
+            self.eC2InstanceType = eC2InstanceType
+            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
+            self.buildId = buildId
+            self.serverLaunchParameters = dictionary["ServerLaunchParameters"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String
+            if let eC2InboundPermissions = dictionary["EC2InboundPermissions"] as? [[String: Any]] {
+                self.eC2InboundPermissions = try eC2InboundPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+            if let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] { self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration) }
+            if let logPaths = dictionary["LogPaths"] as? [String] {
+                self.logPaths = logPaths
+            }
+            self.serverLaunchPath = dictionary["ServerLaunchPath"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateBuildInput: AWSShape {
@@ -751,6 +963,12 @@ extension Gamelift {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
+            self.buildId = buildId
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct ResolveAliasInput: AWSShape {
@@ -765,6 +983,10 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
+            self.aliasId = aliasId
+        }
     }
 
     public struct PlayerLatency: AWSShape {
@@ -785,6 +1007,11 @@ extension Gamelift {
             self.latencyInMilliseconds = latencyInMilliseconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.playerId = dictionary["PlayerId"] as? String
+            self.regionIdentifier = dictionary["RegionIdentifier"] as? String
+            self.latencyInMilliseconds = dictionary["LatencyInMilliseconds"] as? Float
+        }
     }
 
     public struct CreatePlayerSessionsInput: AWSShape {
@@ -805,6 +1032,15 @@ extension Gamelift {
             self.playerDataMap = playerDataMap
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
+            self.gameSessionId = gameSessionId
+            guard let playerIds = dictionary["PlayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("PlayerIds") }
+            self.playerIds = playerIds
+            if let playerDataMap = dictionary["PlayerDataMap"] as? [String: String] {
+                self.playerDataMap = playerDataMap
+            }
+        }
     }
 
     public struct DescribeFleetPortSettingsOutput: AWSShape {
@@ -819,6 +1055,11 @@ extension Gamelift {
             self.inboundPermissions = inboundPermissions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inboundPermissions = dictionary["InboundPermissions"] as? [[String: Any]] {
+                self.inboundPermissions = try inboundPermissions.map({ try IpPermission(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteAliasInput: AWSShape {
@@ -833,6 +1074,10 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
+            self.aliasId = aliasId
+        }
     }
 
     public struct DescribeGameSessionQueuesInput: AWSShape {
@@ -853,6 +1098,13 @@ extension Gamelift {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct Alias: AWSShape {
@@ -885,6 +1137,15 @@ extension Gamelift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
+            if let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] { self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy) }
+            self.name = dictionary["Name"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.aliasArn = dictionary["AliasArn"] as? String
+            self.aliasId = dictionary["AliasId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreatePlayerSessionInput: AWSShape {
@@ -905,6 +1166,13 @@ extension Gamelift {
             self.playerId = playerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
+            self.gameSessionId = gameSessionId
+            self.playerData = dictionary["PlayerData"] as? String
+            guard let playerId = dictionary["PlayerId"] as? String else { throw InitializableError.missingRequiredParam("PlayerId") }
+            self.playerId = playerId
+        }
     }
 
     public struct Event: AWSShape {
@@ -931,6 +1199,13 @@ extension Gamelift {
             self.eventId = eventId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+            self.resourceId = dictionary["ResourceId"] as? String
+            self.eventCode = dictionary["EventCode"] as? String
+            self.eventTime = dictionary["EventTime"] as? Date
+            self.eventId = dictionary["EventId"] as? String
+        }
     }
 
     public struct UpdateGameSessionQueueOutput: AWSShape {
@@ -945,6 +1220,9 @@ extension Gamelift {
             self.gameSessionQueue = gameSessionQueue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessionQueue = dictionary["GameSessionQueue"] as? [String: Any] { self.gameSessionQueue = try Gamelift.GameSessionQueue(dictionary: gameSessionQueue) }
+        }
     }
 
     public struct GameSessionQueueDestination: AWSShape {
@@ -959,6 +1237,9 @@ extension Gamelift {
             self.destinationArn = destinationArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.destinationArn = dictionary["DestinationArn"] as? String
+        }
     }
 
     public struct DesiredPlayerSession: AWSShape {
@@ -976,6 +1257,10 @@ extension Gamelift {
             self.playerId = playerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.playerData = dictionary["PlayerData"] as? String
+            self.playerId = dictionary["PlayerId"] as? String
+        }
     }
 
     public struct DescribeFleetUtilizationInput: AWSShape {
@@ -996,6 +1281,13 @@ extension Gamelift {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleetIds = dictionary["FleetIds"] as? [String] {
+                self.fleetIds = fleetIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct CreateAliasInput: AWSShape {
@@ -1016,6 +1308,13 @@ extension Gamelift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RoutingStrategy") }
+            self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy)
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ResourceCreationLimitPolicy: AWSShape {
@@ -1033,6 +1332,10 @@ extension Gamelift {
             self.policyPeriodInMinutes = policyPeriodInMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newGameSessionsPerCreator = dictionary["NewGameSessionsPerCreator"] as? Int32
+            self.policyPeriodInMinutes = dictionary["PolicyPeriodInMinutes"] as? Int32
+        }
     }
 
     public struct PutScalingPolicyInput: AWSShape {
@@ -1068,6 +1371,24 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
+            self.threshold = threshold
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
+            self.evaluationPeriods = evaluationPeriods
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
+            self.scalingAdjustment = scalingAdjustment
+            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            self.comparisonOperator = comparisonOperator
+            guard let scalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String else { throw InitializableError.missingRequiredParam("ScalingAdjustmentType") }
+            self.scalingAdjustmentType = scalingAdjustmentType
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+        }
     }
 
     public struct DeleteBuildInput: AWSShape {
@@ -1082,6 +1403,10 @@ extension Gamelift {
             self.buildId = buildId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
+            self.buildId = buildId
+        }
     }
 
     public struct UpdateFleetAttributesOutput: AWSShape {
@@ -1096,6 +1421,9 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct DescribeGameSessionsInput: AWSShape {
@@ -1125,6 +1453,14 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusFilter = dictionary["StatusFilter"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.gameSessionId = dictionary["GameSessionId"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+            self.aliasId = dictionary["AliasId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateFleetOutput: AWSShape {
@@ -1139,6 +1475,9 @@ extension Gamelift {
             self.fleetAttributes = fleetAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleetAttributes = dictionary["FleetAttributes"] as? [String: Any] { self.fleetAttributes = try Gamelift.FleetAttributes(dictionary: fleetAttributes) }
+        }
     }
 
     public struct GameSessionQueue: AWSShape {
@@ -1159,6 +1498,13 @@ extension Gamelift {
             self.timeoutInSeconds = timeoutInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let destinations = dictionary["Destinations"] as? [[String: Any]] {
+                self.destinations = try destinations.map({ try GameSessionQueueDestination(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.timeoutInSeconds = dictionary["TimeoutInSeconds"] as? Int32
+        }
     }
 
     public struct DescribeFleetCapacityOutput: AWSShape {
@@ -1176,6 +1522,12 @@ extension Gamelift {
             self.fleetCapacity = fleetCapacity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let fleetCapacity = dictionary["FleetCapacity"] as? [[String: Any]] {
+                self.fleetCapacity = try fleetCapacity.map({ try FleetCapacity(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeGameSessionDetailsInput: AWSShape {
@@ -1205,6 +1557,14 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusFilter = dictionary["StatusFilter"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.gameSessionId = dictionary["GameSessionId"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+            self.aliasId = dictionary["AliasId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct UpdateFleetPortSettingsInput: AWSShape {
@@ -1225,6 +1585,16 @@ extension Gamelift {
             self.inboundPermissionRevocations = inboundPermissionRevocations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inboundPermissionAuthorizations = dictionary["InboundPermissionAuthorizations"] as? [[String: Any]] {
+                self.inboundPermissionAuthorizations = try inboundPermissionAuthorizations.map({ try IpPermission(dictionary: $0) })
+            }
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            if let inboundPermissionRevocations = dictionary["InboundPermissionRevocations"] as? [[String: Any]] {
+                self.inboundPermissionRevocations = try inboundPermissionRevocations.map({ try IpPermission(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeFleetCapacityInput: AWSShape {
@@ -1245,6 +1615,13 @@ extension Gamelift {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleetIds = dictionary["FleetIds"] as? [String] {
+                self.fleetIds = fleetIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct InstanceCredentials: AWSShape {
@@ -1262,6 +1639,10 @@ extension Gamelift {
             self.secret = secret
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            self.secret = dictionary["Secret"] as? String
+        }
     }
 
     public struct ServerProcess: AWSShape {
@@ -1282,6 +1663,13 @@ extension Gamelift {
             self.concurrentExecutions = concurrentExecutions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameters = dictionary["Parameters"] as? String
+            guard let launchPath = dictionary["LaunchPath"] as? String else { throw InitializableError.missingRequiredParam("LaunchPath") }
+            self.launchPath = launchPath
+            guard let concurrentExecutions = dictionary["ConcurrentExecutions"] as? Int32 else { throw InitializableError.missingRequiredParam("ConcurrentExecutions") }
+            self.concurrentExecutions = concurrentExecutions
+        }
     }
 
     public struct RequestUploadCredentialsOutput: AWSShape {
@@ -1299,6 +1687,10 @@ extension Gamelift {
             self.uploadCredentials = uploadCredentials
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) }
+            if let uploadCredentials = dictionary["UploadCredentials"] as? [String: Any] { self.uploadCredentials = try Gamelift.AwsCredentials(dictionary: uploadCredentials) }
+        }
     }
 
     public struct GameProperty: AWSShape {
@@ -1316,6 +1708,12 @@ extension Gamelift {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct UpdateBuildOutput: AWSShape {
@@ -1330,6 +1728,9 @@ extension Gamelift {
             self.build = build
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let build = dictionary["Build"] as? [String: Any] { self.build = try Gamelift.Build(dictionary: build) }
+        }
     }
 
     public struct DescribeFleetAttributesInput: AWSShape {
@@ -1350,6 +1751,13 @@ extension Gamelift {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fleetIds = dictionary["FleetIds"] as? [String] {
+                self.fleetIds = fleetIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct DescribeEC2InstanceLimitsInput: AWSShape {
@@ -1364,6 +1772,9 @@ extension Gamelift {
             self.eC2InstanceType = eC2InstanceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eC2InstanceType = dictionary["EC2InstanceType"] as? String
+        }
     }
 
     public struct CreatePlayerSessionsOutput: AWSShape {
@@ -1378,6 +1789,11 @@ extension Gamelift {
             self.playerSessions = playerSessions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let playerSessions = dictionary["PlayerSessions"] as? [[String: Any]] {
+                self.playerSessions = try playerSessions.map({ try PlayerSession(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetGameSessionLogUrlInput: AWSShape {
@@ -1392,6 +1808,10 @@ extension Gamelift {
             self.gameSessionId = gameSessionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
+            self.gameSessionId = gameSessionId
+        }
     }
 
     public struct DescribeEC2InstanceLimitsOutput: AWSShape {
@@ -1406,6 +1826,11 @@ extension Gamelift {
             self.eC2InstanceLimits = eC2InstanceLimits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eC2InstanceLimits = dictionary["EC2InstanceLimits"] as? [[String: Any]] {
+                self.eC2InstanceLimits = try eC2InstanceLimits.map({ try EC2InstanceLimit(dictionary: $0) })
+            }
+        }
     }
 
     public struct EC2InstanceCounts: AWSShape {
@@ -1438,6 +1863,15 @@ extension Gamelift {
             self.aCTIVE = aCTIVE
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tERMINATING = dictionary["TERMINATING"] as? Int32
+            self.mINIMUM = dictionary["MINIMUM"] as? Int32
+            self.pENDING = dictionary["PENDING"] as? Int32
+            self.mAXIMUM = dictionary["MAXIMUM"] as? Int32
+            self.iDLE = dictionary["IDLE"] as? Int32
+            self.dESIRED = dictionary["DESIRED"] as? Int32
+            self.aCTIVE = dictionary["ACTIVE"] as? Int32
+        }
     }
 
     public struct DescribePlayerSessionsOutput: AWSShape {
@@ -1455,6 +1889,12 @@ extension Gamelift {
             self.playerSessions = playerSessions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let playerSessions = dictionary["PlayerSessions"] as? [[String: Any]] {
+                self.playerSessions = try playerSessions.map({ try PlayerSession(dictionary: $0) })
+            }
+        }
     }
 
     public struct FleetCapacity: AWSShape {
@@ -1475,6 +1915,11 @@ extension Gamelift {
             self.instanceCounts = instanceCounts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceType = dictionary["InstanceType"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+            if let instanceCounts = dictionary["InstanceCounts"] as? [String: Any] { self.instanceCounts = try Gamelift.EC2InstanceCounts(dictionary: instanceCounts) }
+        }
     }
 
     public struct GameSessionDetail: AWSShape {
@@ -1492,6 +1937,10 @@ extension Gamelift {
             self.gameSession = gameSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.protectionPolicy = dictionary["ProtectionPolicy"] as? String
+            if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) }
+        }
     }
 
     public struct CreateBuildInput: AWSShape {
@@ -1515,6 +1964,12 @@ extension Gamelift {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) }
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct DescribeInstancesOutput: AWSShape {
@@ -1532,6 +1987,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeInstancesInput: AWSShape {
@@ -1555,6 +2016,13 @@ extension Gamelift {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
     }
 
     public struct AwsCredentials: AWSShape {
@@ -1575,6 +2043,11 @@ extension Gamelift {
             self.sessionToken = sessionToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accessKeyId = dictionary["AccessKeyId"] as? String
+            self.secretAccessKey = dictionary["SecretAccessKey"] as? String
+            self.sessionToken = dictionary["SessionToken"] as? String
+        }
     }
 
     public struct ListFleetsInput: AWSShape {
@@ -1595,6 +2068,11 @@ extension Gamelift {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.buildId = dictionary["BuildId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct DeleteScalingPolicyInput: AWSShape {
@@ -1612,6 +2090,12 @@ extension Gamelift {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct PlayerSession: AWSShape {
@@ -1653,6 +2137,18 @@ extension Gamelift {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.playerSessionId = dictionary["PlayerSessionId"] as? String
+            self.ipAddress = dictionary["IpAddress"] as? String
+            self.playerData = dictionary["PlayerData"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.terminationTime = dictionary["TerminationTime"] as? Date
+            self.playerId = dictionary["PlayerId"] as? String
+            self.gameSessionId = dictionary["GameSessionId"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct FleetUtilization: AWSShape {
@@ -1679,6 +2175,13 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
+            self.activeServerProcessCount = dictionary["ActiveServerProcessCount"] as? Int32
+            self.activeGameSessionCount = dictionary["ActiveGameSessionCount"] as? Int32
+            self.currentPlayerSessionCount = dictionary["CurrentPlayerSessionCount"] as? Int32
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct DescribeGameSessionQueuesOutput: AWSShape {
@@ -1696,6 +2199,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessionQueues = dictionary["GameSessionQueues"] as? [[String: Any]] {
+                self.gameSessionQueues = try gameSessionQueues.map({ try GameSessionQueue(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeGameSessionsOutput: AWSShape {
@@ -1713,6 +2222,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessions = dictionary["GameSessions"] as? [[String: Any]] {
+                self.gameSessions = try gameSessions.map({ try GameSession(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeFleetEventsInput: AWSShape {
@@ -1739,6 +2254,14 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? Date
+            self.limit = dictionary["Limit"] as? Int32
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct S3Location: AWSShape {
@@ -1759,6 +2282,11 @@ extension Gamelift {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct CreateGameSessionInput: AWSShape {
@@ -1791,6 +2319,18 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fleetId = dictionary["FleetId"] as? String
+            self.name = dictionary["Name"] as? String
+            self.creatorId = dictionary["CreatorId"] as? String
+            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
+                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
+            }
+            self.gameSessionId = dictionary["GameSessionId"] as? String
+            guard let maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumPlayerSessionCount") }
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.aliasId = dictionary["AliasId"] as? String
+        }
     }
 
     public struct UpdateGameSessionInput: AWSShape {
@@ -1817,6 +2357,14 @@ extension Gamelift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String
+            self.protectionPolicy = dictionary["ProtectionPolicy"] as? String
+            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
+            self.gameSessionId = gameSessionId
+            self.name = dictionary["Name"] as? String
+            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
+        }
     }
 
     public struct CreateBuildOutput: AWSShape {
@@ -1837,6 +2385,11 @@ extension Gamelift {
             self.build = build
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) }
+            if let uploadCredentials = dictionary["UploadCredentials"] as? [String: Any] { self.uploadCredentials = try Gamelift.AwsCredentials(dictionary: uploadCredentials) }
+            if let build = dictionary["Build"] as? [String: Any] { self.build = try Gamelift.Build(dictionary: build) }
+        }
     }
 
     public struct FleetAttributes: AWSShape {
@@ -1890,6 +2443,24 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.terminationTime = dictionary["TerminationTime"] as? Date
+            self.fleetArn = dictionary["FleetArn"] as? String
+            self.creationTime = dictionary["CreationTime"] as? Date
+            self.newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String
+            if let logPaths = dictionary["LogPaths"] as? [String] {
+                self.logPaths = logPaths
+            }
+            self.serverLaunchPath = dictionary["ServerLaunchPath"] as? String
+            self.description = dictionary["Description"] as? String
+            if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) }
+            self.status = dictionary["Status"] as? String
+            self.buildId = dictionary["BuildId"] as? String
+            self.serverLaunchParameters = dictionary["ServerLaunchParameters"] as? String
+            self.name = dictionary["Name"] as? String
+            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct InstanceAccess: AWSShape {
@@ -1916,6 +2487,13 @@ extension Gamelift {
             self.ipAddress = ipAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Gamelift.InstanceCredentials(dictionary: credentials) }
+            self.fleetId = dictionary["FleetId"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            self.ipAddress = dictionary["IpAddress"] as? String
+        }
     }
 
     public struct StopGameSessionPlacementOutput: AWSShape {
@@ -1930,6 +2508,9 @@ extension Gamelift {
             self.gameSessionPlacement = gameSessionPlacement
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) }
+        }
     }
 
     public struct CreateGameSessionQueueOutput: AWSShape {
@@ -1944,6 +2525,9 @@ extension Gamelift {
             self.gameSessionQueue = gameSessionQueue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessionQueue = dictionary["GameSessionQueue"] as? [String: Any] { self.gameSessionQueue = try Gamelift.GameSessionQueue(dictionary: gameSessionQueue) }
+        }
     }
 
     public struct CreatePlayerSessionOutput: AWSShape {
@@ -1958,6 +2542,9 @@ extension Gamelift {
             self.playerSession = playerSession
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let playerSession = dictionary["PlayerSession"] as? [String: Any] { self.playerSession = try Gamelift.PlayerSession(dictionary: playerSession) }
+        }
     }
 
     public struct DescribeGameSessionDetailsOutput: AWSShape {
@@ -1975,6 +2562,12 @@ extension Gamelift {
             self.gameSessionDetails = gameSessionDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let gameSessionDetails = dictionary["GameSessionDetails"] as? [[String: Any]] {
+                self.gameSessionDetails = try gameSessionDetails.map({ try GameSessionDetail(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartGameSessionPlacementInput: AWSShape {
@@ -2007,6 +2600,24 @@ extension Gamelift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let desiredPlayerSessions = dictionary["DesiredPlayerSessions"] as? [[String: Any]] {
+                self.desiredPlayerSessions = try desiredPlayerSessions.map({ try DesiredPlayerSession(dictionary: $0) })
+            }
+            guard let placementId = dictionary["PlacementId"] as? String else { throw InitializableError.missingRequiredParam("PlacementId") }
+            self.placementId = placementId
+            if let playerLatencies = dictionary["PlayerLatencies"] as? [[String: Any]] {
+                self.playerLatencies = try playerLatencies.map({ try PlayerLatency(dictionary: $0) })
+            }
+            guard let gameSessionQueueName = dictionary["GameSessionQueueName"] as? String else { throw InitializableError.missingRequiredParam("GameSessionQueueName") }
+            self.gameSessionQueueName = gameSessionQueueName
+            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
+                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
+            }
+            self.gameSessionName = dictionary["GameSessionName"] as? String
+            guard let maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumPlayerSessionCount") }
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+        }
     }
 
     public struct CreateAliasOutput: AWSShape {
@@ -2021,6 +2632,9 @@ extension Gamelift {
             self.alias = alias
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let alias = dictionary["Alias"] as? [String: Any] { self.alias = try Gamelift.Alias(dictionary: alias) }
+        }
     }
 
     public struct DescribeScalingPoliciesInput: AWSShape {
@@ -2044,6 +2658,13 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusFilter = dictionary["StatusFilter"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DescribeBuildOutput: AWSShape {
@@ -2058,6 +2679,9 @@ extension Gamelift {
             self.build = build
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let build = dictionary["Build"] as? [String: Any] { self.build = try Gamelift.Build(dictionary: build) }
+        }
     }
 
     public struct UpdateFleetCapacityOutput: AWSShape {
@@ -2072,6 +2696,9 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct UpdateFleetAttributesInput: AWSShape {
@@ -2098,6 +2725,14 @@ extension Gamelift {
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) }
+            self.description = dictionary["Description"] as? String
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            self.name = dictionary["Name"] as? String
+            self.newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String
+        }
     }
 
     public struct DeleteGameSessionQueueInput: AWSShape {
@@ -2112,6 +2747,10 @@ extension Gamelift {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct ListAliasesOutput: AWSShape {
@@ -2129,6 +2768,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
+                self.aliases = try aliases.map({ try Alias(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct IpPermission: AWSShape {
@@ -2152,6 +2797,16 @@ extension Gamelift {
             self.ipRange = ipRange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fromPort = dictionary["FromPort"] as? Int32 else { throw InitializableError.missingRequiredParam("FromPort") }
+            self.fromPort = fromPort
+            guard let toPort = dictionary["ToPort"] as? Int32 else { throw InitializableError.missingRequiredParam("ToPort") }
+            self.toPort = toPort
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            guard let ipRange = dictionary["IpRange"] as? String else { throw InitializableError.missingRequiredParam("IpRange") }
+            self.ipRange = ipRange
+        }
     }
 
     public struct DescribeFleetEventsOutput: AWSShape {
@@ -2169,6 +2824,12 @@ extension Gamelift {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try Event(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAliasOutput: AWSShape {
@@ -2183,6 +2844,9 @@ extension Gamelift {
             self.alias = alias
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let alias = dictionary["Alias"] as? [String: Any] { self.alias = try Gamelift.Alias(dictionary: alias) }
+        }
     }
 
     public struct GetInstanceAccessInput: AWSShape {
@@ -2200,6 +2864,12 @@ extension Gamelift {
             self.instanceId = instanceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
+            self.instanceId = instanceId
+        }
     }
 
     public struct DescribeRuntimeConfigurationInput: AWSShape {
@@ -2214,6 +2884,10 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+        }
     }
 
     public struct DescribeGameSessionPlacementInput: AWSShape {
@@ -2228,6 +2902,10 @@ extension Gamelift {
             self.placementId = placementId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let placementId = dictionary["PlacementId"] as? String else { throw InitializableError.missingRequiredParam("PlacementId") }
+            self.placementId = placementId
+        }
     }
 
     public struct RoutingStrategy: AWSShape {
@@ -2248,6 +2926,11 @@ extension Gamelift {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.fleetId = dictionary["FleetId"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct UpdateAliasInput: AWSShape {
@@ -2271,6 +2954,13 @@ extension Gamelift {
             self.routingStrategy = routingStrategy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.name = dictionary["Name"] as? String
+            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
+            self.aliasId = aliasId
+            if let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] { self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy) }
+        }
     }
 
     public struct UpdateFleetPortSettingsOutput: AWSShape {
@@ -2285,6 +2975,9 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fleetId = dictionary["FleetId"] as? String
+        }
     }
 
     public struct UpdateRuntimeConfigurationInput: AWSShape {
@@ -2302,6 +2995,12 @@ extension Gamelift {
             self.runtimeConfiguration = runtimeConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
+            self.fleetId = fleetId
+            guard let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RuntimeConfiguration") }
+            self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration)
+        }
     }
 
     public struct CreateGameSessionQueueInput: AWSShape {
@@ -2322,6 +3021,14 @@ extension Gamelift {
             self.timeoutInSeconds = timeoutInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let destinations = dictionary["Destinations"] as? [[String: Any]] {
+                self.destinations = try destinations.map({ try GameSessionQueueDestination(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.timeoutInSeconds = dictionary["TimeoutInSeconds"] as? Int32
+        }
     }
 
     public struct SearchGameSessionsOutput: AWSShape {
@@ -2339,6 +3046,12 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gameSessions = dictionary["GameSessions"] as? [[String: Any]] {
+                self.gameSessions = try gameSessions.map({ try GameSession(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct UpdateAliasOutput: AWSShape {
@@ -2353,6 +3066,9 @@ extension Gamelift {
             self.alias = alias
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let alias = dictionary["Alias"] as? [String: Any] { self.alias = try Gamelift.Alias(dictionary: alias) }
+        }
     }
 
     public struct DescribeRuntimeConfigurationOutput: AWSShape {
@@ -2367,6 +3083,9 @@ extension Gamelift {
             self.runtimeConfiguration = runtimeConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] { self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration) }
+        }
     }
 
     public struct ListFleetsOutput: AWSShape {
@@ -2384,6 +3103,12 @@ extension Gamelift {
             self.fleetIds = fleetIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let fleetIds = dictionary["FleetIds"] as? [String] {
+                self.fleetIds = fleetIds
+            }
+        }
     }
 
 }

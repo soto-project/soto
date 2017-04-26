@@ -41,6 +41,9 @@ extension Dms {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) }
+        }
     }
 
     public struct CreateReplicationTaskResponse: AWSShape {
@@ -55,6 +58,9 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+        }
     }
 
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
@@ -78,6 +84,17 @@ extension Dms {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupIdentifier") }
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+            guard let replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupDescription") }
+            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyEndpointResponse: AWSShape {
@@ -92,6 +109,9 @@ extension Dms {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) }
+        }
     }
 
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
@@ -112,6 +132,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeEndpointsMessage: AWSShape {
@@ -132,6 +159,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteEndpointMessage: AWSShape {
@@ -146,6 +180,10 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+        }
     }
 
     public struct Endpoint: AWSShape {
@@ -196,6 +234,21 @@ extension Dms {
             self.extraConnectionAttributes = extraConnectionAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
+            self.username = dictionary["Username"] as? String
+            self.endpointArn = dictionary["EndpointArn"] as? String
+            self.status = dictionary["Status"] as? String
+            self.endpointType = dictionary["EndpointType"] as? String
+            self.serverName = dictionary["ServerName"] as? String
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.sslMode = dictionary["SslMode"] as? String
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            self.engineName = dictionary["EngineName"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.extraConnectionAttributes = dictionary["ExtraConnectionAttributes"] as? String
+        }
     }
 
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
@@ -213,6 +266,12 @@ extension Dms {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let orderableReplicationInstances = dictionary["OrderableReplicationInstances"] as? [[String: Any]] {
+                self.orderableReplicationInstances = try orderableReplicationInstances.map({ try OrderableReplicationInstance(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DescribeTableStatisticsResponse: AWSShape {
@@ -233,6 +292,13 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let tableStatistics = dictionary["TableStatistics"] as? [[String: Any]] {
+                self.tableStatistics = try tableStatistics.map({ try TableStatistics(dictionary: $0) })
+            }
+            self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
+        }
     }
 
     public struct DescribeEndpointTypesMessage: AWSShape {
@@ -253,6 +319,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteReplicationInstanceMessage: AWSShape {
@@ -267,6 +340,10 @@ extension Dms {
             self.replicationInstanceArn = replicationInstanceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
+            self.replicationInstanceArn = replicationInstanceArn
+        }
     }
 
     public struct SupportedEndpointType: AWSShape {
@@ -287,6 +364,11 @@ extension Dms {
             self.supportsCDC = supportsCDC
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.engineName = dictionary["EngineName"] as? String
+            self.endpointType = dictionary["EndpointType"] as? String
+            self.supportsCDC = dictionary["SupportsCDC"] as? Bool
+        }
     }
 
     public struct DescribeCertificatesResponse: AWSShape {
@@ -304,6 +386,12 @@ extension Dms {
             self.certificates = certificates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
@@ -312,6 +400,8 @@ extension Dms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeReplicationTasksMessage: AWSShape {
@@ -332,6 +422,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteReplicationInstanceResponse: AWSShape {
@@ -346,6 +443,9 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -363,6 +463,10 @@ extension Dms {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
@@ -371,6 +475,8 @@ extension Dms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
@@ -385,6 +491,10 @@ extension Dms {
             self.resourceArn = resourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+        }
     }
 
     public struct DescribeEndpointTypesResponse: AWSShape {
@@ -402,6 +512,12 @@ extension Dms {
             self.supportedEndpointTypes = supportedEndpointTypes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let supportedEndpointTypes = dictionary["SupportedEndpointTypes"] as? [[String: Any]] {
+                self.supportedEndpointTypes = try supportedEndpointTypes.map({ try SupportedEndpointType(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartReplicationTaskMessage: AWSShape {
@@ -422,6 +538,13 @@ extension Dms {
             self.startReplicationTaskType = startReplicationTaskType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
+            self.replicationTaskArn = replicationTaskArn
+            self.cdcStartTime = dictionary["CdcStartTime"] as? Date
+            guard let startReplicationTaskType = dictionary["StartReplicationTaskType"] as? String else { throw InitializableError.missingRequiredParam("StartReplicationTaskType") }
+            self.startReplicationTaskType = startReplicationTaskType
+        }
     }
 
     public struct CreateReplicationInstanceMessage: AWSShape {
@@ -472,6 +595,27 @@ extension Dms {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            guard let replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceIdentifier") }
+            self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            guard let replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceClass") }
+            self.replicationInstanceClass = replicationInstanceClass
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct DeleteCertificateResponse: AWSShape {
@@ -486,6 +630,9 @@ extension Dms {
             self.certificate = certificate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) }
+        }
     }
 
     public struct DescribeConnectionsResponse: AWSShape {
@@ -503,6 +650,12 @@ extension Dms {
             self.connections = connections
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let connections = dictionary["Connections"] as? [[String: Any]] {
+                self.connections = try connections.map({ try Connection(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeTableStatisticsMessage: AWSShape {
@@ -523,6 +676,12 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
+            self.replicationTaskArn = replicationTaskArn
+        }
     }
 
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
@@ -537,6 +696,10 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+        }
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
@@ -554,6 +717,12 @@ extension Dms {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct ModifyReplicationInstanceResponse: AWSShape {
@@ -568,6 +737,9 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) }
+        }
     }
 
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
@@ -585,6 +757,12 @@ extension Dms {
             self.replicationSubnetGroups = replicationSubnetGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let replicationSubnetGroups = dictionary["ReplicationSubnetGroups"] as? [[String: Any]] {
+                self.replicationSubnetGroups = try replicationSubnetGroups.map({ try ReplicationSubnetGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
@@ -599,6 +777,11 @@ extension Dms {
             self.accountQuotas = accountQuotas
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accountQuotas = dictionary["AccountQuotas"] as? [[String: Any]] {
+                self.accountQuotas = try accountQuotas.map({ try AccountQuota(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeSchemasResponse: AWSShape {
@@ -616,6 +799,12 @@ extension Dms {
             self.schemas = schemas
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let schemas = dictionary["Schemas"] as? [String] {
+                self.schemas = schemas
+            }
+        }
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
@@ -624,6 +813,8 @@ extension Dms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Certificate: AWSShape {
@@ -665,6 +856,18 @@ extension Dms {
             self.certificateCreationDate = certificateCreationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.validFromDate = dictionary["ValidFromDate"] as? Date
+            self.keyLength = dictionary["KeyLength"] as? Int32
+            self.signingAlgorithm = dictionary["SigningAlgorithm"] as? String
+            self.certificateWallet = dictionary["CertificateWallet"] as? Data
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            self.certificatePem = dictionary["CertificatePem"] as? String
+            self.validToDate = dictionary["ValidToDate"] as? Date
+            self.certificateOwner = dictionary["CertificateOwner"] as? String
+            self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
+            self.certificateCreationDate = dictionary["CertificateCreationDate"] as? Date
+        }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
@@ -679,6 +882,11 @@ extension Dms {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagList = dictionary["TagList"] as? [[String: Any]] {
+                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct Subnet: AWSShape {
@@ -699,6 +907,11 @@ extension Dms {
             self.subnetStatus = subnetStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
+            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Dms.AvailabilityZone(dictionary: subnetAvailabilityZone) }
+            self.subnetStatus = dictionary["SubnetStatus"] as? String
+        }
     }
 
     public struct StartReplicationTaskResponse: AWSShape {
@@ -713,6 +926,9 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -727,6 +943,9 @@ extension Dms {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct Connection: AWSShape {
@@ -756,6 +975,14 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
+            self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
+            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
+            self.status = dictionary["Status"] as? String
+            self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
+            self.endpointArn = dictionary["EndpointArn"] as? String
+        }
     }
 
     public struct RefreshSchemasStatus: AWSShape {
@@ -782,6 +1009,13 @@ extension Dms {
             self.lastRefreshDate = lastRefreshDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
+            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
+            self.status = dictionary["Status"] as? String
+            self.endpointArn = dictionary["EndpointArn"] as? String
+            self.lastRefreshDate = dictionary["LastRefreshDate"] as? Date
+        }
     }
 
     public struct DeleteReplicationTaskMessage: AWSShape {
@@ -796,6 +1030,10 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
+            self.replicationTaskArn = replicationTaskArn
+        }
     }
 
     public struct DescribeReplicationInstancesMessage: AWSShape {
@@ -816,6 +1054,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct RefreshSchemasMessage: AWSShape {
@@ -833,6 +1078,12 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
+            self.replicationInstanceArn = replicationInstanceArn
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+        }
     }
 
     public struct ModifyReplicationInstanceMessage: AWSShape {
@@ -877,6 +1128,22 @@ extension Dms {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowMajorVersionUpgrade = dictionary["AllowMajorVersionUpgrade"] as? Bool
+            self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
+            self.replicationInstanceArn = replicationInstanceArn
+            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+        }
     }
 
     public struct AccountQuota: AWSShape {
@@ -897,6 +1164,11 @@ extension Dms {
             self.accountQuotaName = accountQuotaName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.max = dictionary["Max"] as? Int64
+            self.used = dictionary["Used"] as? Int64
+            self.accountQuotaName = dictionary["AccountQuotaName"] as? String
+        }
     }
 
     public struct DescribeCertificatesMessage: AWSShape {
@@ -917,6 +1189,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateEndpointMessage: AWSShape {
@@ -967,6 +1246,26 @@ extension Dms {
             self.extraConnectionAttributes = extraConnectionAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            guard let endpointIdentifier = dictionary["EndpointIdentifier"] as? String else { throw InitializableError.missingRequiredParam("EndpointIdentifier") }
+            self.endpointIdentifier = endpointIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.username = dictionary["Username"] as? String
+            guard let endpointType = dictionary["EndpointType"] as? String else { throw InitializableError.missingRequiredParam("EndpointType") }
+            self.endpointType = endpointType
+            self.serverName = dictionary["ServerName"] as? String
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.sslMode = dictionary["SslMode"] as? String
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            guard let engineName = dictionary["EngineName"] as? String else { throw InitializableError.missingRequiredParam("EngineName") }
+            self.engineName = engineName
+            self.password = dictionary["Password"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.extraConnectionAttributes = dictionary["ExtraConnectionAttributes"] as? String
+        }
     }
 
     public struct ReplicationSubnetGroup: AWSShape {
@@ -993,6 +1292,15 @@ extension Dms {
             self.vpcId = vpcId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
+            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
+                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            }
+            self.replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String
+            self.replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+        }
     }
 
     public struct TestConnectionResponse: AWSShape {
@@ -1007,6 +1315,9 @@ extension Dms {
             self.connection = connection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let connection = dictionary["Connection"] as? [String: Any] { self.connection = try Dms.Connection(dictionary: connection) }
+        }
     }
 
     public struct DeleteReplicationTaskResponse: AWSShape {
@@ -1021,6 +1332,9 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+        }
     }
 
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
@@ -1035,6 +1349,9 @@ extension Dms {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) }
+        }
     }
 
     public struct TableStatistics: AWSShape {
@@ -1073,6 +1390,17 @@ extension Dms {
             self.ddls = ddls
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deletes = dictionary["Deletes"] as? Int64
+            self.updates = dictionary["Updates"] as? Int64
+            self.tableState = dictionary["TableState"] as? String
+            self.schemaName = dictionary["SchemaName"] as? String
+            self.fullLoadRows = dictionary["FullLoadRows"] as? Int64
+            self.inserts = dictionary["Inserts"] as? Int64
+            self.tableName = dictionary["TableName"] as? String
+            self.lastUpdateTime = dictionary["LastUpdateTime"] as? Date
+            self.ddls = dictionary["Ddls"] as? Int64
+        }
     }
 
     public struct ImportCertificateMessage: AWSShape {
@@ -1093,6 +1421,12 @@ extension Dms {
             self.certificatePem = certificatePem
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateWallet = dictionary["CertificateWallet"] as? Data
+            guard let certificateIdentifier = dictionary["CertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("CertificateIdentifier") }
+            self.certificateIdentifier = certificateIdentifier
+            self.certificatePem = dictionary["CertificatePem"] as? String
+        }
     }
 
     public struct TestConnectionMessage: AWSShape {
@@ -1110,6 +1444,12 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
+            self.replicationInstanceArn = replicationInstanceArn
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+        }
     }
 
     public struct CreateEndpointResponse: AWSShape {
@@ -1124,6 +1464,9 @@ extension Dms {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) }
+        }
     }
 
     public struct CreateReplicationInstanceResponse: AWSShape {
@@ -1138,6 +1481,9 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) }
+        }
     }
 
     public struct ModifyReplicationTaskMessage: AWSShape {
@@ -1167,6 +1513,15 @@ extension Dms {
             self.replicationTaskSettings = replicationTaskSettings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tableMappings = dictionary["TableMappings"] as? String
+            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
+            self.migrationType = dictionary["MigrationType"] as? String
+            self.cdcStartTime = dictionary["CdcStartTime"] as? Date
+            self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
+        }
     }
 
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
@@ -1187,6 +1542,13 @@ extension Dms {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupIdentifier") }
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+            self.replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String
+        }
     }
 
     public struct OrderableReplicationInstance: AWSShape {
@@ -1219,6 +1581,15 @@ extension Dms {
             self.maxAllocatedStorage = maxAllocatedStorage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
+            self.defaultAllocatedStorage = dictionary["DefaultAllocatedStorage"] as? Int32
+            self.storageType = dictionary["StorageType"] as? String
+            self.minAllocatedStorage = dictionary["MinAllocatedStorage"] as? Int32
+            self.includedAllocatedStorage = dictionary["IncludedAllocatedStorage"] as? Int32
+            self.maxAllocatedStorage = dictionary["MaxAllocatedStorage"] as? Int32
+        }
     }
 
     public struct ReplicationTaskStats: AWSShape {
@@ -1248,6 +1619,14 @@ extension Dms {
             self.tablesLoading = tablesLoading
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tablesLoaded = dictionary["TablesLoaded"] as? Int32
+            self.elapsedTimeMillis = dictionary["ElapsedTimeMillis"] as? Int64
+            self.fullLoadProgressPercent = dictionary["FullLoadProgressPercent"] as? Int32
+            self.tablesQueued = dictionary["TablesQueued"] as? Int32
+            self.tablesErrored = dictionary["TablesErrored"] as? Int32
+            self.tablesLoading = dictionary["TablesLoading"] as? Int32
+        }
     }
 
     public struct ModifyReplicationTaskResponse: AWSShape {
@@ -1262,6 +1641,9 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+        }
     }
 
     public struct DeleteEndpointResponse: AWSShape {
@@ -1276,6 +1658,9 @@ extension Dms {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) }
+        }
     }
 
     public struct StopReplicationTaskResponse: AWSShape {
@@ -1290,6 +1675,9 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+        }
     }
 
     public struct ReplicationTask: AWSShape {
@@ -1343,6 +1731,22 @@ extension Dms {
             self.replicationTaskSettings = replicationTaskSettings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationTaskStats = dictionary["ReplicationTaskStats"] as? [String: Any] { self.replicationTaskStats = try Dms.ReplicationTaskStats(dictionary: replicationTaskStats) }
+            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
+            self.replicationTaskStartDate = dictionary["ReplicationTaskStartDate"] as? Date
+            self.replicationTaskCreationDate = dictionary["ReplicationTaskCreationDate"] as? Date
+            self.sourceEndpointArn = dictionary["SourceEndpointArn"] as? String
+            self.tableMappings = dictionary["TableMappings"] as? String
+            self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
+            self.status = dictionary["Status"] as? String
+            self.stopReason = dictionary["StopReason"] as? String
+            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
+            self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
+            self.migrationType = dictionary["MigrationType"] as? String
+            self.targetEndpointArn = dictionary["TargetEndpointArn"] as? String
+            self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
+        }
     }
 
     public struct RefreshSchemasResponse: AWSShape {
@@ -1357,6 +1761,9 @@ extension Dms {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) }
+        }
     }
 
     public struct DeleteCertificateMessage: AWSShape {
@@ -1371,6 +1778,10 @@ extension Dms {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
+            self.certificateArn = certificateArn
+        }
     }
 
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
@@ -1385,6 +1796,9 @@ extension Dms {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) }
+        }
     }
 
     public struct DescribeSchemasMessage: AWSShape {
@@ -1405,6 +1819,12 @@ extension Dms {
             self.maxRecords = maxRecords
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+        }
     }
 
     public struct StopReplicationTaskMessage: AWSShape {
@@ -1419,6 +1839,10 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
+            self.replicationTaskArn = replicationTaskArn
+        }
     }
 
     public struct DescribeReplicationTasksResponse: AWSShape {
@@ -1436,6 +1860,12 @@ extension Dms {
             self.replicationTasks = replicationTasks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let replicationTasks = dictionary["ReplicationTasks"] as? [[String: Any]] {
+                self.replicationTasks = try replicationTasks.map({ try ReplicationTask(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
@@ -1453,6 +1883,12 @@ extension Dms {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct DescribeConnectionsMessage: AWSShape {
@@ -1473,6 +1909,13 @@ extension Dms {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try Filter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
@@ -1481,6 +1924,8 @@ extension Dms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
@@ -1495,6 +1940,10 @@ extension Dms {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupIdentifier") }
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+        }
     }
 
     public struct ReplicationPendingModifiedValues: AWSShape {
@@ -1518,6 +1967,12 @@ extension Dms {
             self.allocatedStorage = allocatedStorage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+        }
     }
 
     public struct ReplicationInstance: AWSShape {
@@ -1592,6 +2047,35 @@ extension Dms {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Dms.ReplicationPendingModifiedValues(dictionary: pendingModifiedValues) }
+            self.replicationInstanceStatus = dictionary["ReplicationInstanceStatus"] as? String
+            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
+                self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            }
+            self.multiAZ = dictionary["MultiAZ"] as? Bool
+            if let replicationInstancePublicIpAddresses = dictionary["ReplicationInstancePublicIpAddresses"] as? [String] {
+                self.replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses
+            }
+            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) }
+            self.replicationInstancePrivateIpAddress = dictionary["ReplicationInstancePrivateIpAddress"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
+            if let replicationInstancePrivateIpAddresses = dictionary["ReplicationInstancePrivateIpAddresses"] as? [String] {
+                self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
+            }
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
+            self.replicationInstancePublicIpAddress = dictionary["ReplicationInstancePublicIpAddress"] as? String
+            self.secondaryAvailabilityZone = dictionary["SecondaryAvailabilityZone"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct ImportCertificateResponse: AWSShape {
@@ -1606,6 +2090,9 @@ extension Dms {
             self.certificate = certificate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) }
+        }
     }
 
     public struct DescribeEndpointsResponse: AWSShape {
@@ -1623,6 +2110,12 @@ extension Dms {
             self.endpoints = endpoints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let endpoints = dictionary["Endpoints"] as? [[String: Any]] {
+                self.endpoints = try endpoints.map({ try Endpoint(dictionary: $0) })
+            }
+        }
     }
 
     public struct ModifyEndpointMessage: AWSShape {
@@ -1670,6 +2163,21 @@ extension Dms {
             self.extraConnectionAttributes = extraConnectionAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpointType = dictionary["EndpointType"] as? String
+            self.serverName = dictionary["ServerName"] as? String
+            self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
+            self.databaseName = dictionary["DatabaseName"] as? String
+            self.username = dictionary["Username"] as? String
+            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
+            self.endpointArn = endpointArn
+            self.sslMode = dictionary["SslMode"] as? String
+            self.certificateArn = dictionary["CertificateArn"] as? String
+            self.engineName = dictionary["EngineName"] as? String
+            self.password = dictionary["Password"] as? String
+            self.port = dictionary["Port"] as? Int32
+            self.extraConnectionAttributes = dictionary["ExtraConnectionAttributes"] as? String
+        }
     }
 
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
@@ -1687,6 +2195,10 @@ extension Dms {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
@@ -1704,6 +2216,10 @@ extension Dms {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? String
+        }
     }
 
     public struct CreateReplicationTaskMessage: AWSShape {
@@ -1742,6 +2258,25 @@ extension Dms {
             self.replicationTaskSettings = replicationTaskSettings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tableMappings = dictionary["TableMappings"] as? String else { throw InitializableError.missingRequiredParam("TableMappings") }
+            self.tableMappings = tableMappings
+            guard let sourceEndpointArn = dictionary["SourceEndpointArn"] as? String else { throw InitializableError.missingRequiredParam("SourceEndpointArn") }
+            self.sourceEndpointArn = sourceEndpointArn
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
+            self.replicationInstanceArn = replicationInstanceArn
+            guard let replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskIdentifier") }
+            self.replicationTaskIdentifier = replicationTaskIdentifier
+            guard let migrationType = dictionary["MigrationType"] as? String else { throw InitializableError.missingRequiredParam("MigrationType") }
+            self.migrationType = migrationType
+            guard let targetEndpointArn = dictionary["TargetEndpointArn"] as? String else { throw InitializableError.missingRequiredParam("TargetEndpointArn") }
+            self.targetEndpointArn = targetEndpointArn
+            self.cdcStartTime = dictionary["CdcStartTime"] as? Date
+            self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
+        }
     }
 
     public struct Filter: AWSShape {
@@ -1759,6 +2294,12 @@ extension Dms {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct DescribeReplicationInstancesResponse: AWSShape {
@@ -1776,6 +2317,12 @@ extension Dms {
             self.replicationInstances = replicationInstances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let replicationInstances = dictionary["ReplicationInstances"] as? [[String: Any]] {
+                self.replicationInstances = try replicationInstances.map({ try ReplicationInstance(dictionary: $0) })
+            }
+        }
     }
 
 }

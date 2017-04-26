@@ -40,6 +40,9 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeARN = dictionary["VolumeARN"] as? String
+        }
     }
 
     public struct DeleteTapeArchiveOutput: AWSShape {
@@ -54,6 +57,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct ResetCacheInput: AWSShape {
@@ -67,6 +73,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeGatewayInformationInput: AWSShape {
@@ -80,6 +90,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct SetLocalConsolePasswordInput: AWSShape {
@@ -96,6 +110,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let localConsolePassword = dictionary["LocalConsolePassword"] as? String else { throw InitializableError.missingRequiredParam("LocalConsolePassword") }
+            self.localConsolePassword = localConsolePassword
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeTapesOutput: AWSShape {
@@ -113,6 +133,12 @@ extension Storagegateway {
             self.tapes = tapes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let tapes = dictionary["Tapes"] as? [[String: Any]] {
+                self.tapes = try tapes.map({ try Tape(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddUploadBufferOutput: AWSShape {
@@ -126,6 +152,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct RetrieveTapeArchiveInput: AWSShape {
@@ -143,6 +172,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
+            self.tapeARN = tapeARN
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct CreateTapeWithBarcodeInput: AWSShape {
@@ -163,6 +198,14 @@ extension Storagegateway {
             self.tapeBarcode = tapeBarcode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64 else { throw InitializableError.missingRequiredParam("TapeSizeInBytes") }
+            self.tapeSizeInBytes = tapeSizeInBytes
+            guard let tapeBarcode = dictionary["TapeBarcode"] as? String else { throw InitializableError.missingRequiredParam("TapeBarcode") }
+            self.tapeBarcode = tapeBarcode
+        }
     }
 
     public struct CancelArchivalInput: AWSShape {
@@ -179,6 +222,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
+            self.tapeARN = tapeARN
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DeleteGatewayOutput: AWSShape {
@@ -192,6 +241,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct DescribeCacheOutput: AWSShape {
@@ -217,6 +269,17 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheAllocatedInBytes = dictionary["CacheAllocatedInBytes"] as? Int64
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.cacheUsedPercentage = dictionary["CacheUsedPercentage"] as? Double
+            self.cacheDirtyPercentage = dictionary["CacheDirtyPercentage"] as? Double
+            self.cacheHitPercentage = dictionary["CacheHitPercentage"] as? Double
+            self.cacheMissPercentage = dictionary["CacheMissPercentage"] as? Double
+            if let diskIds = dictionary["DiskIds"] as? [String] {
+                self.diskIds = diskIds
+            }
+        }
     }
 
     public struct DescribeNFSFileSharesOutput: AWSShape {
@@ -231,6 +294,11 @@ extension Storagegateway {
             self.nFSFileShareInfoList = nFSFileShareInfoList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nFSFileShareInfoList = dictionary["NFSFileShareInfoList"] as? [[String: Any]] {
+                self.nFSFileShareInfoList = try nFSFileShareInfoList.map({ try NFSFileShareInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct NFSFileShareDefaults: AWSShape {
@@ -254,6 +322,12 @@ extension Storagegateway {
             self.directoryMode = directoryMode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ownerId = dictionary["OwnerId"] as? Int64
+            self.fileMode = dictionary["FileMode"] as? String
+            self.groupId = dictionary["GroupId"] as? Int64
+            self.directoryMode = dictionary["DirectoryMode"] as? String
+        }
     }
 
     public struct DescribeTapesInput: AWSShape {
@@ -276,6 +350,15 @@ extension Storagegateway {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            if let tapeARNs = dictionary["TapeARNs"] as? [String] {
+                self.tapeARNs = tapeARNs
+            }
+            self.limit = dictionary["Limit"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DescribeTapeRecoveryPointsInput: AWSShape {
@@ -295,6 +378,12 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
@@ -310,6 +399,12 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotDescription = dictionary["SnapshotDescription"] as? String else { throw InitializableError.missingRequiredParam("SnapshotDescription") }
+            self.snapshotDescription = snapshotDescription
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+        }
     }
 
     public struct AddUploadBufferInput: AWSShape {
@@ -325,6 +420,12 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let diskIds = dictionary["DiskIds"] as? [String] else { throw InitializableError.missingRequiredParam("DiskIds") }
+            self.diskIds = diskIds
+        }
     }
 
     public struct ListVolumeRecoveryPointsInput: AWSShape {
@@ -338,6 +439,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct ListTagsForResourceInput: AWSShape {
@@ -358,6 +463,12 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct UpdateVTLDeviceTypeInput: AWSShape {
@@ -375,6 +486,12 @@ extension Storagegateway {
             self.vTLDeviceARN = vTLDeviceARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceType = dictionary["DeviceType"] as? String else { throw InitializableError.missingRequiredParam("DeviceType") }
+            self.deviceType = deviceType
+            guard let vTLDeviceARN = dictionary["VTLDeviceARN"] as? String else { throw InitializableError.missingRequiredParam("VTLDeviceARN") }
+            self.vTLDeviceARN = vTLDeviceARN
+        }
     }
 
     public struct TapeRecoveryPointInfo: AWSShape {
@@ -397,6 +514,12 @@ extension Storagegateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+            self.tapeRecoveryPointTime = dictionary["TapeRecoveryPointTime"] as? Date
+            self.tapeStatus = dictionary["TapeStatus"] as? String
+            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+        }
     }
 
     public struct RetrieveTapeArchiveOutput: AWSShape {
@@ -411,6 +534,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct Tag: AWSShape {
@@ -426,6 +552,12 @@ extension Storagegateway {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct AddCacheOutput: AWSShape {
@@ -439,6 +571,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct StartGatewayInput: AWSShape {
@@ -452,6 +587,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct ListTapesOutput: AWSShape {
@@ -468,6 +607,12 @@ extension Storagegateway {
             self.tapeInfos = tapeInfos
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let tapeInfos = dictionary["TapeInfos"] as? [[String: Any]] {
+                self.tapeInfos = try tapeInfos.map({ try TapeInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct TapeInfo: AWSShape {
@@ -494,6 +639,13 @@ extension Storagegateway {
             self.tapeBarcode = tapeBarcode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.tapeStatus = dictionary["TapeStatus"] as? String
+            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+            self.tapeBarcode = dictionary["TapeBarcode"] as? String
+        }
     }
 
     public struct UpdateGatewayInformationInput: AWSShape {
@@ -511,6 +663,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayTimezone = dictionary["GatewayTimezone"] as? String
+            self.gatewayName = dictionary["GatewayName"] as? String
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct UpdateMaintenanceStartTimeInput: AWSShape {
@@ -533,6 +691,16 @@ extension Storagegateway {
             self.dayOfWeek = dayOfWeek
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let hourOfDay = dictionary["HourOfDay"] as? Int32 else { throw InitializableError.missingRequiredParam("HourOfDay") }
+            self.hourOfDay = hourOfDay
+            guard let minuteOfHour = dictionary["MinuteOfHour"] as? Int32 else { throw InitializableError.missingRequiredParam("MinuteOfHour") }
+            self.minuteOfHour = minuteOfHour
+            guard let dayOfWeek = dictionary["DayOfWeek"] as? Int32 else { throw InitializableError.missingRequiredParam("DayOfWeek") }
+            self.dayOfWeek = dayOfWeek
+        }
     }
 
     public struct DeleteVolumeInput: AWSShape {
@@ -547,6 +715,10 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+        }
     }
 
     public struct DescribeSnapshotScheduleInput: AWSShape {
@@ -561,6 +733,10 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+        }
     }
 
     public struct RemoveTagsFromResourceInput: AWSShape {
@@ -578,6 +754,12 @@ extension Storagegateway {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct DescribeWorkingStorageInput: AWSShape {
@@ -591,6 +773,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeWorkingStorageOutput: AWSShape {
@@ -613,6 +799,14 @@ extension Storagegateway {
             self.workingStorageAllocatedInBytes = workingStorageAllocatedInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let diskIds = dictionary["DiskIds"] as? [String] {
+                self.diskIds = diskIds
+            }
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.workingStorageUsedInBytes = dictionary["WorkingStorageUsedInBytes"] as? Int64
+            self.workingStorageAllocatedInBytes = dictionary["WorkingStorageAllocatedInBytes"] as? Int64
+        }
     }
 
     public struct DeleteTapeArchiveInput: AWSShape {
@@ -627,6 +821,10 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
+            self.tapeARN = tapeARN
+        }
     }
 
     public struct Disk: AWSShape {
@@ -652,6 +850,15 @@ extension Storagegateway {
             self.diskAllocationResource = diskAllocationResource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.diskStatus = dictionary["DiskStatus"] as? String
+            self.diskSizeInBytes = dictionary["DiskSizeInBytes"] as? Int64
+            self.diskId = dictionary["DiskId"] as? String
+            self.diskNode = dictionary["DiskNode"] as? String
+            self.diskPath = dictionary["DiskPath"] as? String
+            self.diskAllocationType = dictionary["DiskAllocationType"] as? String
+            self.diskAllocationResource = dictionary["DiskAllocationResource"] as? String
+        }
     }
 
     public struct UpdateVTLDeviceTypeOutput: AWSShape {
@@ -666,6 +873,9 @@ extension Storagegateway {
             self.vTLDeviceARN = vTLDeviceARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vTLDeviceARN = dictionary["VTLDeviceARN"] as? String
+        }
     }
 
     public struct UpdateChapCredentialsOutput: AWSShape {
@@ -683,6 +893,10 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.initiatorName = dictionary["InitiatorName"] as? String
+        }
     }
 
     public struct ActivateGatewayInput: AWSShape {
@@ -715,6 +929,19 @@ extension Storagegateway {
             self.tapeDriveType = tapeDriveType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activationKey = dictionary["ActivationKey"] as? String else { throw InitializableError.missingRequiredParam("ActivationKey") }
+            self.activationKey = activationKey
+            self.gatewayType = dictionary["GatewayType"] as? String
+            self.mediumChangerType = dictionary["MediumChangerType"] as? String
+            guard let gatewayTimezone = dictionary["GatewayTimezone"] as? String else { throw InitializableError.missingRequiredParam("GatewayTimezone") }
+            self.gatewayTimezone = gatewayTimezone
+            guard let gatewayRegion = dictionary["GatewayRegion"] as? String else { throw InitializableError.missingRequiredParam("GatewayRegion") }
+            self.gatewayRegion = gatewayRegion
+            guard let gatewayName = dictionary["GatewayName"] as? String else { throw InitializableError.missingRequiredParam("GatewayName") }
+            self.gatewayName = gatewayName
+            self.tapeDriveType = dictionary["TapeDriveType"] as? String
+        }
     }
 
     public struct NFSFileShareInfo: AWSShape {
@@ -752,6 +979,22 @@ extension Storagegateway {
             self.defaultStorageClass = defaultStorageClass
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
+            self.fileShareStatus = dictionary["FileShareStatus"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.kMSKey = dictionary["KMSKey"] as? String
+            self.fileShareId = dictionary["FileShareId"] as? String
+            self.role = dictionary["Role"] as? String
+            self.path = dictionary["Path"] as? String
+            if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) }
+            if let clientList = dictionary["ClientList"] as? [String] {
+                self.clientList = clientList
+            }
+            self.fileShareARN = dictionary["FileShareARN"] as? String
+            self.locationARN = dictionary["LocationARN"] as? String
+            self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
+        }
     }
 
     public struct AddTagsToResourceInput: AWSShape {
@@ -769,6 +1012,12 @@ extension Storagegateway {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
+            self.resourceARN = resourceARN
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct UpdateMaintenanceStartTimeOutput: AWSShape {
@@ -782,6 +1031,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct UpdateGatewaySoftwareNowOutput: AWSShape {
@@ -795,6 +1047,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct CancelArchivalOutput: AWSShape {
@@ -809,6 +1064,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct NetworkInterface: AWSShape {
@@ -829,6 +1087,11 @@ extension Storagegateway {
             self.ipv4Address = ipv4Address
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ipv6Address = dictionary["Ipv6Address"] as? String
+            self.macAddress = dictionary["MacAddress"] as? String
+            self.ipv4Address = dictionary["Ipv4Address"] as? String
+        }
     }
 
     public struct DeviceiSCSIAttributes: AWSShape {
@@ -852,6 +1115,12 @@ extension Storagegateway {
             self.networkInterfacePort = networkInterfacePort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.chapEnabled = dictionary["ChapEnabled"] as? Bool
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.networkInterfacePort = dictionary["NetworkInterfacePort"] as? Int32
+        }
     }
 
     public struct CancelRetrievalInput: AWSShape {
@@ -868,6 +1137,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
+            self.tapeARN = tapeARN
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct ResetCacheOutput: AWSShape {
@@ -881,6 +1156,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct DescribeCachediSCSIVolumesInput: AWSShape {
@@ -894,6 +1172,10 @@ extension Storagegateway {
             self.volumeARNs = volumeARNs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeARNs = dictionary["VolumeARNs"] as? [String] else { throw InitializableError.missingRequiredParam("VolumeARNs") }
+            self.volumeARNs = volumeARNs
+        }
     }
 
     public struct TapeArchive: AWSShape {
@@ -925,6 +1207,15 @@ extension Storagegateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+            self.completionTime = dictionary["CompletionTime"] as? Date
+            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? Date
+            self.tapeBarcode = dictionary["TapeBarcode"] as? String
+            self.retrievedTo = dictionary["RetrievedTo"] as? String
+            self.tapeStatus = dictionary["TapeStatus"] as? String
+            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+        }
     }
 
     public struct ListTapesInput: AWSShape {
@@ -944,6 +1235,13 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let tapeARNs = dictionary["TapeARNs"] as? [String] {
+                self.tapeARNs = tapeARNs
+            }
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct ListVolumeInitiatorsInput: AWSShape {
@@ -958,6 +1256,10 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+        }
     }
 
     public struct CreateSnapshotOutput: AWSShape {
@@ -975,6 +1277,10 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            self.volumeARN = dictionary["VolumeARN"] as? String
+        }
     }
 
     public struct CreateNFSFileShareInput: AWSShape {
@@ -1013,6 +1319,23 @@ extension Storagegateway {
             self.kMSEncrypted = kMSEncrypted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
+            self.clientToken = clientToken
+            self.kMSKey = dictionary["KMSKey"] as? String
+            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = role
+            if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) }
+            if let clientList = dictionary["ClientList"] as? [String] {
+                self.clientList = clientList
+            }
+            guard let locationARN = dictionary["LocationARN"] as? String else { throw InitializableError.missingRequiredParam("LocationARN") }
+            self.locationARN = locationARN
+            self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
+            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
+        }
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
@@ -1033,6 +1356,13 @@ extension Storagegateway {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct CreateCachediSCSIVolumeOutput: AWSShape {
@@ -1048,6 +1378,10 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.volumeARN = dictionary["VolumeARN"] as? String
+        }
     }
 
     public struct ListVolumesInput: AWSShape {
@@ -1067,6 +1401,11 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct RemoveTagsFromResourceOutput: AWSShape {
@@ -1081,6 +1420,9 @@ extension Storagegateway {
             self.resourceARN = resourceARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+        }
     }
 
     public struct UpdateChapCredentialsInput: AWSShape {
@@ -1104,6 +1446,15 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetARN = dictionary["TargetARN"] as? String else { throw InitializableError.missingRequiredParam("TargetARN") }
+            self.targetARN = targetARN
+            self.secretToAuthenticateTarget = dictionary["SecretToAuthenticateTarget"] as? String
+            guard let secretToAuthenticateInitiator = dictionary["SecretToAuthenticateInitiator"] as? String else { throw InitializableError.missingRequiredParam("SecretToAuthenticateInitiator") }
+            self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
+            guard let initiatorName = dictionary["InitiatorName"] as? String else { throw InitializableError.missingRequiredParam("InitiatorName") }
+            self.initiatorName = initiatorName
+        }
     }
 
     public struct CreateNFSFileShareOutput: AWSShape {
@@ -1118,6 +1469,9 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileShareARN = dictionary["FileShareARN"] as? String
+        }
     }
 
     public struct DeleteVolumeOutput: AWSShape {
@@ -1132,6 +1486,9 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeARN = dictionary["VolumeARN"] as? String
+        }
     }
 
     public struct RetrieveTapeRecoveryPointInput: AWSShape {
@@ -1148,6 +1505,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
+            self.tapeARN = tapeARN
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeBandwidthRateLimitOutput: AWSShape {
@@ -1167,6 +1530,11 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.averageDownloadRateLimitInBitsPerSec = dictionary["AverageDownloadRateLimitInBitsPerSec"] as? Int64
+            self.averageUploadRateLimitInBitsPerSec = dictionary["AverageUploadRateLimitInBitsPerSec"] as? Int64
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct SetLocalConsolePasswordOutput: AWSShape {
@@ -1180,6 +1548,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct UpdateSnapshotScheduleOutput: AWSShape {
@@ -1193,6 +1564,9 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeARN = dictionary["VolumeARN"] as? String
+        }
     }
 
     public struct DescribeChapCredentialsOutput: AWSShape {
@@ -1207,6 +1581,11 @@ extension Storagegateway {
             self.chapCredentials = chapCredentials
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let chapCredentials = dictionary["ChapCredentials"] as? [[String: Any]] {
+                self.chapCredentials = try chapCredentials.map({ try ChapInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateNFSFileShareInput: AWSShape {
@@ -1236,6 +1615,17 @@ extension Storagegateway {
             self.kMSEncrypted = kMSEncrypted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.kMSKey = dictionary["KMSKey"] as? String
+            if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) }
+            guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
+            self.fileShareARN = fileShareARN
+            if let clientList = dictionary["ClientList"] as? [String] {
+                self.clientList = clientList
+            }
+            self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
+            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
+        }
     }
 
     public struct ListLocalDisksOutput: AWSShape {
@@ -1251,6 +1641,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let disks = dictionary["Disks"] as? [[String: Any]] {
+                self.disks = try disks.map({ try Disk(dictionary: $0) })
+            }
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct DeleteBandwidthRateLimitOutput: AWSShape {
@@ -1264,6 +1660,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct DeleteBandwidthRateLimitInput: AWSShape {
@@ -1280,6 +1679,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bandwidthType = dictionary["BandwidthType"] as? String else { throw InitializableError.missingRequiredParam("BandwidthType") }
+            self.bandwidthType = bandwidthType
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DeleteTapeInput: AWSShape {
@@ -1297,6 +1702,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
+            self.tapeARN = tapeARN
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct UpdateBandwidthRateLimitOutput: AWSShape {
@@ -1310,6 +1721,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct VTLDevice: AWSShape {
@@ -1333,6 +1747,13 @@ extension Storagegateway {
             self.vTLDeviceProductIdentifier = vTLDeviceProductIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vTLDeviceVendor = dictionary["VTLDeviceVendor"] as? String
+            self.vTLDeviceType = dictionary["VTLDeviceType"] as? String
+            self.vTLDeviceARN = dictionary["VTLDeviceARN"] as? String
+            if let deviceiSCSIAttributes = dictionary["DeviceiSCSIAttributes"] as? [String: Any] { self.deviceiSCSIAttributes = try Storagegateway.DeviceiSCSIAttributes(dictionary: deviceiSCSIAttributes) }
+            self.vTLDeviceProductIdentifier = dictionary["VTLDeviceProductIdentifier"] as? String
+        }
     }
 
     public struct GatewayInfo: AWSShape {
@@ -1359,6 +1780,13 @@ extension Storagegateway {
             self.gatewayId = gatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.gatewayType = dictionary["GatewayType"] as? String
+            self.gatewayOperationalState = dictionary["GatewayOperationalState"] as? String
+            self.gatewayName = dictionary["GatewayName"] as? String
+            self.gatewayId = dictionary["GatewayId"] as? String
+        }
     }
 
     public struct CreateSnapshotInput: AWSShape {
@@ -1376,6 +1804,12 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotDescription = dictionary["SnapshotDescription"] as? String else { throw InitializableError.missingRequiredParam("SnapshotDescription") }
+            self.snapshotDescription = snapshotDescription
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+        }
     }
 
     public struct UpdateBandwidthRateLimitInput: AWSShape {
@@ -1395,6 +1829,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.averageDownloadRateLimitInBitsPerSec = dictionary["AverageDownloadRateLimitInBitsPerSec"] as? Int64
+            self.averageUploadRateLimitInBitsPerSec = dictionary["AverageUploadRateLimitInBitsPerSec"] as? Int64
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeMaintenanceStartTimeInput: AWSShape {
@@ -1408,6 +1848,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct StartGatewayOutput: AWSShape {
@@ -1421,6 +1865,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct ListFileSharesInput: AWSShape {
@@ -1441,6 +1888,11 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct ActivateGatewayOutput: AWSShape {
@@ -1454,6 +1906,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct VolumeRecoveryPointInfo: AWSShape {
@@ -1473,6 +1928,12 @@ extension Storagegateway {
             self.volumeSizeInBytes = volumeSizeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeRecoveryPointTime = dictionary["VolumeRecoveryPointTime"] as? String
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.volumeUsageInBytes = dictionary["VolumeUsageInBytes"] as? Int64
+            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+        }
     }
 
     public struct DescribeTapeArchivesOutput: AWSShape {
@@ -1490,6 +1951,12 @@ extension Storagegateway {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tapeArchives = dictionary["TapeArchives"] as? [[String: Any]] {
+                self.tapeArchives = try tapeArchives.map({ try TapeArchive(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct StorediSCSIVolume: AWSShape {
@@ -1533,6 +2000,19 @@ extension Storagegateway {
             self.volumeDiskId = volumeDiskId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let volumeiSCSIAttributes = dictionary["VolumeiSCSIAttributes"] as? [String: Any] { self.volumeiSCSIAttributes = try Storagegateway.VolumeiSCSIAttributes(dictionary: volumeiSCSIAttributes) }
+            self.sourceSnapshotId = dictionary["SourceSnapshotId"] as? String
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.volumeStatus = dictionary["VolumeStatus"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+            self.preservedExistingData = dictionary["PreservedExistingData"] as? Bool
+            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.volumeProgress = dictionary["VolumeProgress"] as? Double
+            self.volumeDiskId = dictionary["VolumeDiskId"] as? String
+        }
     }
 
     public struct CreateTapesInput: AWSShape {
@@ -1559,6 +2039,18 @@ extension Storagegateway {
             self.tapeBarcodePrefix = tapeBarcodePrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let numTapesToCreate = dictionary["NumTapesToCreate"] as? Int32 else { throw InitializableError.missingRequiredParam("NumTapesToCreate") }
+            self.numTapesToCreate = numTapesToCreate
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
+            self.clientToken = clientToken
+            guard let tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64 else { throw InitializableError.missingRequiredParam("TapeSizeInBytes") }
+            self.tapeSizeInBytes = tapeSizeInBytes
+            guard let tapeBarcodePrefix = dictionary["TapeBarcodePrefix"] as? String else { throw InitializableError.missingRequiredParam("TapeBarcodePrefix") }
+            self.tapeBarcodePrefix = tapeBarcodePrefix
+        }
     }
 
     public struct CachediSCSIVolume: AWSShape {
@@ -1596,6 +2088,17 @@ extension Storagegateway {
             self.createdDate = createdDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceSnapshotId = dictionary["SourceSnapshotId"] as? String
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.volumeStatus = dictionary["VolumeStatus"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.volumeProgress = dictionary["VolumeProgress"] as? Double
+            if let volumeiSCSIAttributes = dictionary["VolumeiSCSIAttributes"] as? [String: Any] { self.volumeiSCSIAttributes = try Storagegateway.VolumeiSCSIAttributes(dictionary: volumeiSCSIAttributes) }
+            self.createdDate = dictionary["CreatedDate"] as? Date
+        }
     }
 
     public struct AddTagsToResourceOutput: AWSShape {
@@ -1610,6 +2113,9 @@ extension Storagegateway {
             self.resourceARN = resourceARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+        }
     }
 
     public struct DescribeChapCredentialsInput: AWSShape {
@@ -1624,6 +2130,10 @@ extension Storagegateway {
             self.targetARN = targetARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetARN = dictionary["TargetARN"] as? String else { throw InitializableError.missingRequiredParam("TargetARN") }
+            self.targetARN = targetARN
+        }
     }
 
     public struct DeleteFileShareOutput: AWSShape {
@@ -1638,6 +2148,9 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileShareARN = dictionary["FileShareARN"] as? String
+        }
     }
 
     public struct DeleteGatewayInput: AWSShape {
@@ -1651,6 +2164,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct Tape: AWSShape {
@@ -1682,6 +2199,15 @@ extension Storagegateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+            self.vTLDevice = dictionary["VTLDevice"] as? String
+            self.progress = dictionary["Progress"] as? Double
+            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? Date
+            self.tapeBarcode = dictionary["TapeBarcode"] as? String
+            self.tapeStatus = dictionary["TapeStatus"] as? String
+            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+        }
     }
 
     public struct DeleteTapeOutput: AWSShape {
@@ -1696,6 +2222,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct DescribeStorediSCSIVolumesInput: AWSShape {
@@ -1710,6 +2239,10 @@ extension Storagegateway {
             self.volumeARNs = volumeARNs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeARNs = dictionary["VolumeARNs"] as? [String] else { throw InitializableError.missingRequiredParam("VolumeARNs") }
+            self.volumeARNs = volumeARNs
+        }
     }
 
     public struct DescribeTapeArchivesInput: AWSShape {
@@ -1730,6 +2263,13 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let tapeARNs = dictionary["TapeARNs"] as? [String] {
+                self.tapeARNs = tapeARNs
+            }
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct UpdateGatewaySoftwareNowInput: AWSShape {
@@ -1743,6 +2283,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct CreateTapeWithBarcodeOutput: AWSShape {
@@ -1757,6 +2301,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct AddWorkingStorageInput: AWSShape {
@@ -1773,6 +2320,12 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let diskIds = dictionary["DiskIds"] as? [String] else { throw InitializableError.missingRequiredParam("DiskIds") }
+            self.diskIds = diskIds
+        }
     }
 
     public struct DeleteChapCredentialsInput: AWSShape {
@@ -1790,6 +2343,12 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetARN = dictionary["TargetARN"] as? String else { throw InitializableError.missingRequiredParam("TargetARN") }
+            self.targetARN = targetARN
+            guard let initiatorName = dictionary["InitiatorName"] as? String else { throw InitializableError.missingRequiredParam("InitiatorName") }
+            self.initiatorName = initiatorName
+        }
     }
 
     public struct DescribeNFSFileSharesInput: AWSShape {
@@ -1804,6 +2363,10 @@ extension Storagegateway {
             self.fileShareARNList = fileShareARNList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fileShareARNList = dictionary["FileShareARNList"] as? [String] else { throw InitializableError.missingRequiredParam("FileShareARNList") }
+            self.fileShareARNList = fileShareARNList
+        }
     }
 
     public struct DescribeStorediSCSIVolumesOutput: AWSShape {
@@ -1817,6 +2380,11 @@ extension Storagegateway {
             self.storediSCSIVolumes = storediSCSIVolumes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let storediSCSIVolumes = dictionary["StorediSCSIVolumes"] as? [[String: Any]] {
+                self.storediSCSIVolumes = try storediSCSIVolumes.map({ try StorediSCSIVolume(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeUploadBufferOutput: AWSShape {
@@ -1836,6 +2404,14 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.uploadBufferUsedInBytes = dictionary["UploadBufferUsedInBytes"] as? Int64
+            self.uploadBufferAllocatedInBytes = dictionary["UploadBufferAllocatedInBytes"] as? Int64
+            if let diskIds = dictionary["DiskIds"] as? [String] {
+                self.diskIds = diskIds
+            }
+        }
     }
 
     public struct UpdateNFSFileShareOutput: AWSShape {
@@ -1850,6 +2426,9 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileShareARN = dictionary["FileShareARN"] as? String
+        }
     }
 
     public struct ListVolumesOutput: AWSShape {
@@ -1867,6 +2446,13 @@ extension Storagegateway {
             self.volumeInfos = volumeInfos
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            if let volumeInfos = dictionary["VolumeInfos"] as? [[String: Any]] {
+                self.volumeInfos = try volumeInfos.map({ try VolumeInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeCachediSCSIVolumesOutput: AWSShape {
@@ -1881,6 +2467,11 @@ extension Storagegateway {
             self.cachediSCSIVolumes = cachediSCSIVolumes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cachediSCSIVolumes = dictionary["CachediSCSIVolumes"] as? [[String: Any]] {
+                self.cachediSCSIVolumes = try cachediSCSIVolumes.map({ try CachediSCSIVolume(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteSnapshotScheduleInput: AWSShape {
@@ -1894,6 +2485,10 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+        }
     }
 
     public struct CreateTapesOutput: AWSShape {
@@ -1908,6 +2503,11 @@ extension Storagegateway {
             self.tapeARNs = tapeARNs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tapeARNs = dictionary["TapeARNs"] as? [String] {
+                self.tapeARNs = tapeARNs
+            }
+        }
     }
 
     public struct CreateStorediSCSIVolumeOutput: AWSShape {
@@ -1928,6 +2528,11 @@ extension Storagegateway {
             self.volumeSizeInBytes = volumeSizeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+        }
     }
 
     public struct ListLocalDisksInput: AWSShape {
@@ -1941,6 +2546,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
@@ -1958,6 +2567,11 @@ extension Storagegateway {
             self.snapshotId = snapshotId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.volumeRecoveryPointTime = dictionary["VolumeRecoveryPointTime"] as? String
+            self.snapshotId = dictionary["SnapshotId"] as? String
+        }
     }
 
     public struct DescribeGatewayInformationOutput: AWSShape {
@@ -1995,6 +2609,19 @@ extension Storagegateway {
             self.gatewayId = gatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayState = dictionary["GatewayState"] as? String
+            self.gatewayType = dictionary["GatewayType"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.gatewayTimezone = dictionary["GatewayTimezone"] as? String
+            self.lastSoftwareUpdate = dictionary["LastSoftwareUpdate"] as? String
+            if let gatewayNetworkInterfaces = dictionary["GatewayNetworkInterfaces"] as? [[String: Any]] {
+                self.gatewayNetworkInterfaces = try gatewayNetworkInterfaces.map({ try NetworkInterface(dictionary: $0) })
+            }
+            self.nextUpdateAvailabilityDate = dictionary["NextUpdateAvailabilityDate"] as? String
+            self.gatewayName = dictionary["GatewayName"] as? String
+            self.gatewayId = dictionary["GatewayId"] as? String
+        }
     }
 
     public struct FileShareInfo: AWSShape {
@@ -2014,6 +2641,12 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileShareId = dictionary["FileShareId"] as? String
+            self.fileShareStatus = dictionary["FileShareStatus"] as? String
+            self.fileShareARN = dictionary["FileShareARN"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct UpdateSnapshotScheduleInput: AWSShape {
@@ -2037,6 +2670,15 @@ extension Storagegateway {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let recurrenceInHours = dictionary["RecurrenceInHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RecurrenceInHours") }
+            self.recurrenceInHours = recurrenceInHours
+            guard let startAt = dictionary["StartAt"] as? Int32 else { throw InitializableError.missingRequiredParam("StartAt") }
+            self.startAt = startAt
+            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
+            self.volumeARN = volumeARN
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DescribeVTLDevicesOutput: AWSShape {
@@ -2056,6 +2698,13 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let vTLDevices = dictionary["VTLDevices"] as? [[String: Any]] {
+                self.vTLDevices = try vTLDevices.map({ try VTLDevice(dictionary: $0) })
+            }
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct DeleteChapCredentialsOutput: AWSShape {
@@ -2073,6 +2722,10 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.initiatorName = dictionary["InitiatorName"] as? String
+        }
     }
 
     public struct UpdateGatewayInformationOutput: AWSShape {
@@ -2088,6 +2741,10 @@ extension Storagegateway {
             self.gatewayName = gatewayName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.gatewayName = dictionary["GatewayName"] as? String
+        }
     }
 
     public struct DescribeMaintenanceStartTimeOutput: AWSShape {
@@ -2112,6 +2769,13 @@ extension Storagegateway {
             self.dayOfWeek = dayOfWeek
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.hourOfDay = dictionary["HourOfDay"] as? Int32
+            self.minuteOfHour = dictionary["MinuteOfHour"] as? Int32
+            self.timezone = dictionary["Timezone"] as? String
+            self.dayOfWeek = dictionary["DayOfWeek"] as? Int32
+        }
     }
 
     public struct DescribeSnapshotScheduleOutput: AWSShape {
@@ -2133,6 +2797,13 @@ extension Storagegateway {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startAt = dictionary["StartAt"] as? Int32
+            self.recurrenceInHours = dictionary["RecurrenceInHours"] as? Int32
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.timezone = dictionary["Timezone"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteFileShareInput: AWSShape {
@@ -2147,6 +2818,10 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
+            self.fileShareARN = fileShareARN
+        }
     }
 
     public struct DescribeTapeRecoveryPointsOutput: AWSShape {
@@ -2166,6 +2841,13 @@ extension Storagegateway {
             self.tapeRecoveryPointInfos = tapeRecoveryPointInfos
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            if let tapeRecoveryPointInfos = dictionary["TapeRecoveryPointInfos"] as? [[String: Any]] {
+                self.tapeRecoveryPointInfos = try tapeRecoveryPointInfos.map({ try TapeRecoveryPointInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeCacheInput: AWSShape {
@@ -2179,6 +2861,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct ShutdownGatewayOutput: AWSShape {
@@ -2192,6 +2878,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct ListFileSharesOutput: AWSShape {
@@ -2212,6 +2901,13 @@ extension Storagegateway {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let fileShareInfoList = dictionary["FileShareInfoList"] as? [[String: Any]] {
+                self.fileShareInfoList = try fileShareInfoList.map({ try FileShareInfo(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct DisableGatewayInput: AWSShape {
@@ -2225,6 +2921,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeVTLDevicesInput: AWSShape {
@@ -2247,6 +2947,15 @@ extension Storagegateway {
             self.vTLDeviceARNs = vTLDeviceARNs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            self.limit = dictionary["Limit"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let vTLDeviceARNs = dictionary["VTLDeviceARNs"] as? [String] {
+                self.vTLDeviceARNs = vTLDeviceARNs
+            }
+        }
     }
 
     public struct VolumeiSCSIAttributes: AWSShape {
@@ -2273,6 +2982,13 @@ extension Storagegateway {
             self.lunNumber = lunNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.chapEnabled = dictionary["ChapEnabled"] as? Bool
+            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
+            self.networkInterfacePort = dictionary["NetworkInterfacePort"] as? Int32
+            self.lunNumber = dictionary["LunNumber"] as? Int32
+        }
     }
 
     public struct ListVolumeRecoveryPointsOutput: AWSShape {
@@ -2288,6 +3004,12 @@ extension Storagegateway {
             self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            if let volumeRecoveryPointInfos = dictionary["VolumeRecoveryPointInfos"] as? [[String: Any]] {
+                self.volumeRecoveryPointInfos = try volumeRecoveryPointInfos.map({ try VolumeRecoveryPointInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListGatewaysInput: AWSShape {
@@ -2305,6 +3027,10 @@ extension Storagegateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct CreateStorediSCSIVolumeInput: AWSShape {
@@ -2333,6 +3059,19 @@ extension Storagegateway {
             self.targetName = targetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let preserveExistingData = dictionary["PreserveExistingData"] as? Bool else { throw InitializableError.missingRequiredParam("PreserveExistingData") }
+            self.preserveExistingData = preserveExistingData
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            guard let diskId = dictionary["DiskId"] as? String else { throw InitializableError.missingRequiredParam("DiskId") }
+            self.diskId = diskId
+            guard let targetName = dictionary["TargetName"] as? String else { throw InitializableError.missingRequiredParam("TargetName") }
+            self.targetName = targetName
+        }
     }
 
     public struct ChapInfo: AWSShape {
@@ -2356,6 +3095,12 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetARN = dictionary["TargetARN"] as? String
+            self.secretToAuthenticateTarget = dictionary["SecretToAuthenticateTarget"] as? String
+            self.secretToAuthenticateInitiator = dictionary["SecretToAuthenticateInitiator"] as? String
+            self.initiatorName = dictionary["InitiatorName"] as? String
+        }
     }
 
     public struct StorageGatewayError: AWSShape {
@@ -2373,6 +3118,12 @@ extension Storagegateway {
             self.errorDetails = errorDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorCode = dictionary["errorCode"] as? String
+            if let errorDetails = dictionary["errorDetails"] as? [String: String] {
+                self.errorDetails = errorDetails
+            }
+        }
     }
 
     public struct VolumeInfo: AWSShape {
@@ -2400,6 +3151,14 @@ extension Storagegateway {
             self.gatewayId = gatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.volumeType = dictionary["VolumeType"] as? String
+            self.volumeARN = dictionary["VolumeARN"] as? String
+            self.volumeId = dictionary["VolumeId"] as? String
+            self.gatewayId = dictionary["GatewayId"] as? String
+        }
     }
 
     public struct AddWorkingStorageOutput: AWSShape {
@@ -2413,6 +3172,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct CancelRetrievalOutput: AWSShape {
@@ -2427,6 +3189,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct ListVolumeInitiatorsOutput: AWSShape {
@@ -2441,6 +3206,11 @@ extension Storagegateway {
             self.initiators = initiators
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let initiators = dictionary["Initiators"] as? [String] {
+                self.initiators = initiators
+            }
+        }
     }
 
     public struct DescribeBandwidthRateLimitInput: AWSShape {
@@ -2454,6 +3224,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct DescribeUploadBufferInput: AWSShape {
@@ -2467,6 +3241,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct CreateCachediSCSIVolumeInput: AWSShape {
@@ -2493,6 +3271,20 @@ extension Storagegateway {
             self.sourceVolumeARN = sourceVolumeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
+            self.networkInterfaceId = networkInterfaceId
+            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
+            self.clientToken = clientToken
+            guard let volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64 else { throw InitializableError.missingRequiredParam("VolumeSizeInBytes") }
+            self.volumeSizeInBytes = volumeSizeInBytes
+            self.snapshotId = dictionary["SnapshotId"] as? String
+            guard let targetName = dictionary["TargetName"] as? String else { throw InitializableError.missingRequiredParam("TargetName") }
+            self.targetName = targetName
+            self.sourceVolumeARN = dictionary["SourceVolumeARN"] as? String
+        }
     }
 
     public struct ListGatewaysOutput: AWSShape {
@@ -2508,6 +3300,12 @@ extension Storagegateway {
             self.gateways = gateways
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let gateways = dictionary["Gateways"] as? [[String: Any]] {
+                self.gateways = try gateways.map({ try GatewayInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct ShutdownGatewayInput: AWSShape {
@@ -2521,6 +3319,10 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+        }
     }
 
     public struct RetrieveTapeRecoveryPointOutput: AWSShape {
@@ -2535,6 +3337,9 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tapeARN = dictionary["TapeARN"] as? String
+        }
     }
 
     public struct DisableGatewayOutput: AWSShape {
@@ -2549,6 +3354,9 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+        }
     }
 
     public struct AddCacheInput: AWSShape {
@@ -2564,6 +3372,12 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
+            self.gatewayARN = gatewayARN
+            guard let diskIds = dictionary["DiskIds"] as? [String] else { throw InitializableError.missingRequiredParam("DiskIds") }
+            self.diskIds = diskIds
+        }
     }
 
 }

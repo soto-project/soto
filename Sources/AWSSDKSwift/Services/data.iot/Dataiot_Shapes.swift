@@ -44,6 +44,10 @@ extension Dataiot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
     public struct DeleteThingShadowRequest: AWSShape {
@@ -61,6 +65,10 @@ extension Dataiot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
     public struct DeleteThingShadowResponse: AWSShape {
@@ -75,6 +83,10 @@ extension Dataiot {
             self.payload = payload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let payload = dictionary["payload"] as? Data else { throw InitializableError.missingRequiredParam("payload") }
+            self.payload = payload
+        }
     }
 
     public struct PublishRequest: AWSShape {
@@ -101,6 +113,12 @@ extension Dataiot {
             self.topic = topic
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.qos = dictionary["qos"] as? Int32
+            self.payload = dictionary["payload"] as? Data
+            guard let topic = dictionary["topic"] as? String else { throw InitializableError.missingRequiredParam("topic") }
+            self.topic = topic
+        }
     }
 
     public struct GetThingShadowResponse: AWSShape {
@@ -115,6 +133,9 @@ extension Dataiot {
             self.payload = payload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.payload = dictionary["payload"] as? Data
+        }
     }
 
     public struct UpdateThingShadowResponse: AWSShape {
@@ -129,6 +150,9 @@ extension Dataiot {
             self.payload = payload
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.payload = dictionary["payload"] as? Data
+        }
     }
 
     public struct UpdateThingShadowRequest: AWSShape {
@@ -149,6 +173,12 @@ extension Dataiot {
             self.thingName = thingName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let payload = dictionary["payload"] as? Data else { throw InitializableError.missingRequiredParam("payload") }
+            self.payload = payload
+            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.thingName = thingName
+        }
     }
 
 }

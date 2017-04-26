@@ -44,6 +44,12 @@ extension Elasticbeanstalk {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try EventDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct SolutionStackDescription: AWSShape {
@@ -61,6 +67,12 @@ extension Elasticbeanstalk {
             self.solutionStackName = solutionStackName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let permittedFileTypes = dictionary["PermittedFileTypes"] as? [String] {
+                self.permittedFileTypes = permittedFileTypes
+            }
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+        }
     }
 
     public struct RequestEnvironmentInfoMessage: AWSShape {
@@ -81,6 +93,12 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            guard let infoType = dictionary["InfoType"] as? String else { throw InitializableError.missingRequiredParam("InfoType") }
+            self.infoType = infoType
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct PlatformProgrammingLanguage: AWSShape {
@@ -98,6 +116,10 @@ extension Elasticbeanstalk {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct ManagedAction: AWSShape {
@@ -124,6 +146,13 @@ extension Elasticbeanstalk {
             self.windowStartTime = windowStartTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionType = dictionary["ActionType"] as? String
+            self.status = dictionary["Status"] as? String
+            self.actionDescription = dictionary["ActionDescription"] as? String
+            self.actionId = dictionary["ActionId"] as? String
+            self.windowStartTime = dictionary["WindowStartTime"] as? Date
+        }
     }
 
     public struct RestartAppServerMessage: AWSShape {
@@ -141,6 +170,10 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct CPUUtilization: AWSShape {
@@ -173,6 +206,15 @@ extension Elasticbeanstalk {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nice = dictionary["Nice"] as? Double
+            self.iRQ = dictionary["IRQ"] as? Double
+            self.softIRQ = dictionary["SoftIRQ"] as? Double
+            self.idle = dictionary["Idle"] as? Double
+            self.iOWait = dictionary["IOWait"] as? Double
+            self.system = dictionary["System"] as? Double
+            self.user = dictionary["User"] as? Double
+        }
     }
 
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
@@ -190,6 +232,12 @@ extension Elasticbeanstalk {
             self.managedActionHistoryItems = managedActionHistoryItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let managedActionHistoryItems = dictionary["ManagedActionHistoryItems"] as? [[String: Any]] {
+                self.managedActionHistoryItems = try managedActionHistoryItems.map({ try ManagedActionHistoryItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct TerminateEnvironmentMessage: AWSShape {
@@ -213,6 +261,12 @@ extension Elasticbeanstalk {
             self.forceTerminate = forceTerminate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.terminateResources = dictionary["TerminateResources"] as? Bool
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            self.forceTerminate = dictionary["ForceTerminate"] as? Bool
+        }
     }
 
     public struct CreateStorageLocationResultMessage: AWSShape {
@@ -227,6 +281,9 @@ extension Elasticbeanstalk {
             self.s3Bucket = s3Bucket
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+        }
     }
 
     public struct StatusCodes: AWSShape {
@@ -250,6 +307,12 @@ extension Elasticbeanstalk {
             self.status4xx = status4xx
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status5xx = dictionary["Status5xx"] as? Int32
+            self.status3xx = dictionary["Status3xx"] as? Int32
+            self.status2xx = dictionary["Status2xx"] as? Int32
+            self.status4xx = dictionary["Status4xx"] as? Int32
+        }
     }
 
     public struct ApplyEnvironmentManagedActionResult: AWSShape {
@@ -273,6 +336,12 @@ extension Elasticbeanstalk {
             self.actionId = actionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionType = dictionary["ActionType"] as? String
+            self.status = dictionary["Status"] as? String
+            self.actionDescription = dictionary["ActionDescription"] as? String
+            self.actionId = dictionary["ActionId"] as? String
+        }
     }
 
     public struct EventDescription: AWSShape {
@@ -311,6 +380,17 @@ extension Elasticbeanstalk {
             self.eventDate = eventDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.severity = dictionary["Severity"] as? String
+            self.templateName = dictionary["TemplateName"] as? String
+            self.message = dictionary["Message"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.requestId = dictionary["RequestId"] as? String
+            self.eventDate = dictionary["EventDate"] as? Date
+        }
     }
 
     public struct Tag: AWSShape {
@@ -328,6 +408,10 @@ extension Elasticbeanstalk {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DescribeEnvironmentManagedActionsResult: AWSShape {
@@ -342,6 +426,11 @@ extension Elasticbeanstalk {
             self.managedActions = managedActions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let managedActions = dictionary["ManagedActions"] as? [[String: Any]] {
+                self.managedActions = try managedActions.map({ try ManagedAction(dictionary: $0) })
+            }
+        }
     }
 
     public struct PlatformSummary: AWSShape {
@@ -377,6 +466,20 @@ extension Elasticbeanstalk {
             self.supportedTierList = supportedTierList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.operatingSystemVersion = dictionary["OperatingSystemVersion"] as? String
+            self.platformStatus = dictionary["PlatformStatus"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            if let supportedAddonList = dictionary["SupportedAddonList"] as? [String] {
+                self.supportedAddonList = supportedAddonList
+            }
+            self.platformCategory = dictionary["PlatformCategory"] as? String
+            self.operatingSystemName = dictionary["OperatingSystemName"] as? String
+            self.platformOwner = dictionary["PlatformOwner"] as? String
+            if let supportedTierList = dictionary["SupportedTierList"] as? [String] {
+                self.supportedTierList = supportedTierList
+            }
+        }
     }
 
     public struct DescribeEnvironmentManagedActionHistoryRequest: AWSShape {
@@ -400,6 +503,12 @@ extension Elasticbeanstalk {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct PlatformFramework: AWSShape {
@@ -417,6 +526,10 @@ extension Elasticbeanstalk {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct DescribeEnvironmentHealthRequest: AWSShape {
@@ -437,6 +550,13 @@ extension Elasticbeanstalk {
             self.attributeNames = attributeNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            if let attributeNames = dictionary["AttributeNames"] as? [String] {
+                self.attributeNames = attributeNames
+            }
+        }
     }
 
     public struct Trigger: AWSShape {
@@ -451,6 +571,9 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct Instance: AWSShape {
@@ -465,6 +588,9 @@ extension Elasticbeanstalk {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeEventsMessage: AWSShape {
@@ -512,6 +638,20 @@ extension Elasticbeanstalk {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.templateName = dictionary["TemplateName"] as? String
+            self.severity = dictionary["Severity"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.requestId = dictionary["RequestId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct CreateApplicationVersionMessage: AWSShape {
@@ -547,6 +687,18 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
+            self.versionLabel = versionLabel
+            self.autoCreateApplication = dictionary["AutoCreateApplication"] as? Bool
+            if let buildConfiguration = dictionary["BuildConfiguration"] as? [String: Any] { self.buildConfiguration = try Elasticbeanstalk.BuildConfiguration(dictionary: buildConfiguration) }
+            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) }
+            self.process = dictionary["Process"] as? Bool
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct SwapEnvironmentCNAMEsMessage: AWSShape {
@@ -570,6 +722,12 @@ extension Elasticbeanstalk {
             self.destinationEnvironmentId = destinationEnvironmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.destinationEnvironmentName = dictionary["DestinationEnvironmentName"] as? String
+            self.sourceEnvironmentName = dictionary["SourceEnvironmentName"] as? String
+            self.sourceEnvironmentId = dictionary["SourceEnvironmentId"] as? String
+            self.destinationEnvironmentId = dictionary["DestinationEnvironmentId"] as? String
+        }
     }
 
     public struct ComposeEnvironmentsMessage: AWSShape {
@@ -590,6 +748,13 @@ extension Elasticbeanstalk {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let versionLabels = dictionary["VersionLabels"] as? [String] {
+                self.versionLabels = versionLabels
+            }
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct EnvironmentResourcesDescription: AWSShape {
@@ -604,6 +769,9 @@ extension Elasticbeanstalk {
             self.loadBalancer = loadBalancer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loadBalancer = dictionary["LoadBalancer"] as? [String: Any] { self.loadBalancer = try Elasticbeanstalk.LoadBalancerDescription(dictionary: loadBalancer) }
+        }
     }
 
     public struct CheckDNSAvailabilityMessage: AWSShape {
@@ -618,6 +786,10 @@ extension Elasticbeanstalk {
             self.cNAMEPrefix = cNAMEPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cNAMEPrefix = dictionary["CNAMEPrefix"] as? String else { throw InitializableError.missingRequiredParam("CNAMEPrefix") }
+            self.cNAMEPrefix = cNAMEPrefix
+        }
     }
 
     public struct BuildConfiguration: AWSShape {
@@ -644,6 +816,15 @@ extension Elasticbeanstalk {
             self.timeoutInMinutes = timeoutInMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? String else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = image
+            self.computeType = dictionary["ComputeType"] as? String
+            self.artifactName = dictionary["ArtifactName"] as? String
+            guard let codeBuildServiceRole = dictionary["CodeBuildServiceRole"] as? String else { throw InitializableError.missingRequiredParam("CodeBuildServiceRole") }
+            self.codeBuildServiceRole = codeBuildServiceRole
+            self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
+        }
     }
 
     public struct Latency: AWSShape {
@@ -679,6 +860,16 @@ extension Elasticbeanstalk {
             self.p999 = p999
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.p95 = dictionary["P95"] as? Double
+            self.p10 = dictionary["P10"] as? Double
+            self.p90 = dictionary["P90"] as? Double
+            self.p85 = dictionary["P85"] as? Double
+            self.p50 = dictionary["P50"] as? Double
+            self.p75 = dictionary["P75"] as? Double
+            self.p99 = dictionary["P99"] as? Double
+            self.p999 = dictionary["P999"] as? Double
+        }
     }
 
     public struct LoadBalancer: AWSShape {
@@ -693,6 +884,9 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct RebuildEnvironmentMessage: AWSShape {
@@ -710,6 +904,10 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct ManagedActionHistoryItem: AWSShape {
@@ -745,6 +943,16 @@ extension Elasticbeanstalk {
             self.actionDescription = actionDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionType = dictionary["ActionType"] as? String
+            self.status = dictionary["Status"] as? String
+            self.finishedTime = dictionary["FinishedTime"] as? Date
+            self.failureType = dictionary["FailureType"] as? String
+            self.actionId = dictionary["ActionId"] as? String
+            self.failureDescription = dictionary["FailureDescription"] as? String
+            self.executedTime = dictionary["ExecutedTime"] as? Date
+            self.actionDescription = dictionary["ActionDescription"] as? String
+        }
     }
 
     public struct DescribePlatformVersionResult: AWSShape {
@@ -759,6 +967,9 @@ extension Elasticbeanstalk {
             self.platformDescription = platformDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let platformDescription = dictionary["PlatformDescription"] as? [String: Any] { self.platformDescription = try Elasticbeanstalk.PlatformDescription(dictionary: platformDescription) }
+        }
     }
 
     public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
@@ -773,6 +984,11 @@ extension Elasticbeanstalk {
             self.environmentInfo = environmentInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let environmentInfo = dictionary["EnvironmentInfo"] as? [[String: Any]] {
+                self.environmentInfo = try environmentInfo.map({ try EnvironmentInfoDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceHealthSummary: AWSShape {
@@ -808,6 +1024,16 @@ extension Elasticbeanstalk {
             self.severe = severe
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pending = dictionary["Pending"] as? Int32
+            self.degraded = dictionary["Degraded"] as? Int32
+            self.warning = dictionary["Warning"] as? Int32
+            self.ok = dictionary["Ok"] as? Int32
+            self.info = dictionary["Info"] as? Int32
+            self.noData = dictionary["NoData"] as? Int32
+            self.unknown = dictionary["Unknown"] as? Int32
+            self.severe = dictionary["Severe"] as? Int32
+        }
     }
 
     public struct ApplicationDescription: AWSShape {
@@ -840,6 +1066,19 @@ extension Elasticbeanstalk {
             self.versions = versions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationTemplates = dictionary["ConfigurationTemplates"] as? [String] {
+                self.configurationTemplates = configurationTemplates
+            }
+            self.description = dictionary["Description"] as? String
+            self.dateUpdated = dictionary["DateUpdated"] as? Date
+            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) }
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.dateCreated = dictionary["DateCreated"] as? Date
+            if let versions = dictionary["Versions"] as? [String] {
+                self.versions = versions
+            }
+        }
     }
 
     public struct Builder: AWSShape {
@@ -854,6 +1093,9 @@ extension Elasticbeanstalk {
             self.aRN = aRN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.aRN = dictionary["ARN"] as? String
+        }
     }
 
     public struct DescribeInstancesHealthRequest: AWSShape {
@@ -877,6 +1119,14 @@ extension Elasticbeanstalk {
             self.attributeNames = attributeNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            if let attributeNames = dictionary["AttributeNames"] as? [String] {
+                self.attributeNames = attributeNames
+            }
+        }
     }
 
     public struct AutoScalingGroup: AWSShape {
@@ -891,6 +1141,9 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct CreatePlatformVersionResult: AWSShape {
@@ -908,6 +1161,10 @@ extension Elasticbeanstalk {
             self.builder = builder
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) }
+            if let builder = dictionary["Builder"] as? [String: Any] { self.builder = try Elasticbeanstalk.Builder(dictionary: builder) }
+        }
     }
 
     public struct EnvironmentDescriptionsMessage: AWSShape {
@@ -922,6 +1179,11 @@ extension Elasticbeanstalk {
             self.environments = environments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let environments = dictionary["Environments"] as? [[String: Any]] {
+                self.environments = try environments.map({ try EnvironmentDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct SourceConfiguration: AWSShape {
@@ -939,6 +1201,10 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.templateName = dictionary["TemplateName"] as? String
+            self.applicationName = dictionary["ApplicationName"] as? String
+        }
     }
 
     public struct CreateConfigurationTemplateMessage: AWSShape {
@@ -974,6 +1240,20 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            }
+            if let sourceConfiguration = dictionary["SourceConfiguration"] as? [String: Any] { self.sourceConfiguration = try Elasticbeanstalk.SourceConfiguration(dictionary: sourceConfiguration) }
+            guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
+            self.templateName = templateName
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ConfigurationSettingsDescription: AWSShape {
@@ -1015,6 +1295,20 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            }
+            self.dateUpdated = dictionary["DateUpdated"] as? Date
+            self.templateName = dictionary["TemplateName"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.deploymentStatus = dictionary["DeploymentStatus"] as? String
+            self.dateCreated = dictionary["DateCreated"] as? Date
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateConfigurationTemplateMessage: AWSShape {
@@ -1041,6 +1335,19 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            }
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
+                self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
+            }
+            guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
+            self.templateName = templateName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct EnvironmentDescription: AWSShape {
@@ -1109,6 +1416,29 @@ extension Elasticbeanstalk {
             self.tier = tier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.templateName = dictionary["TemplateName"] as? String
+            self.dateUpdated = dictionary["DateUpdated"] as? Date
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.cNAME = dictionary["CNAME"] as? String
+            self.healthStatus = dictionary["HealthStatus"] as? String
+            self.endpointURL = dictionary["EndpointURL"] as? String
+            if let environmentLinks = dictionary["EnvironmentLinks"] as? [[String: Any]] {
+                self.environmentLinks = try environmentLinks.map({ try EnvironmentLink(dictionary: $0) })
+            }
+            self.dateCreated = dictionary["DateCreated"] as? Date
+            self.abortableOperationInProgress = dictionary["AbortableOperationInProgress"] as? Bool
+            self.description = dictionary["Description"] as? String
+            self.health = dictionary["Health"] as? String
+            self.status = dictionary["Status"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Elasticbeanstalk.EnvironmentResourcesDescription(dictionary: resources) }
+            self.applicationName = dictionary["ApplicationName"] as? String
+            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) }
+        }
     }
 
     public struct ConfigurationOptionDescription: AWSShape {
@@ -1153,6 +1483,21 @@ extension Elasticbeanstalk {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let regex = dictionary["Regex"] as? [String: Any] { self.regex = try Elasticbeanstalk.OptionRestrictionRegex(dictionary: regex) }
+            self.maxValue = dictionary["MaxValue"] as? Int32
+            self.changeSeverity = dictionary["ChangeSeverity"] as? String
+            if let valueOptions = dictionary["ValueOptions"] as? [String] {
+                self.valueOptions = valueOptions
+            }
+            self.maxLength = dictionary["MaxLength"] as? Int32
+            self.valueType = dictionary["ValueType"] as? String
+            self.name = dictionary["Name"] as? String
+            self.minValue = dictionary["MinValue"] as? Int32
+            self.userDefined = dictionary["UserDefined"] as? Bool
+            self.namespace = dictionary["Namespace"] as? String
+            self.defaultValue = dictionary["DefaultValue"] as? String
+        }
     }
 
     public struct ConfigurationSettingsValidationMessages: AWSShape {
@@ -1167,6 +1512,11 @@ extension Elasticbeanstalk {
             self.messages = messages
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let messages = dictionary["Messages"] as? [[String: Any]] {
+                self.messages = try messages.map({ try ValidationMessage(dictionary: $0) })
+            }
+        }
     }
 
     public struct SourceBuildInformation: AWSShape {
@@ -1187,6 +1537,14 @@ extension Elasticbeanstalk {
             self.sourceRepository = sourceRepository
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sourceLocation = dictionary["SourceLocation"] as? String else { throw InitializableError.missingRequiredParam("SourceLocation") }
+            self.sourceLocation = sourceLocation
+            guard let sourceType = dictionary["SourceType"] as? String else { throw InitializableError.missingRequiredParam("SourceType") }
+            self.sourceType = sourceType
+            guard let sourceRepository = dictionary["SourceRepository"] as? String else { throw InitializableError.missingRequiredParam("SourceRepository") }
+            self.sourceRepository = sourceRepository
+        }
     }
 
     public struct ApplicationResourceLifecycleDescriptionMessage: AWSShape {
@@ -1204,6 +1562,10 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) }
+            self.applicationName = dictionary["ApplicationName"] as? String
+        }
     }
 
     public struct ApplicationMetrics: AWSShape {
@@ -1227,6 +1589,12 @@ extension Elasticbeanstalk {
             self.statusCodes = statusCodes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let latency = dictionary["Latency"] as? [String: Any] { self.latency = try Elasticbeanstalk.Latency(dictionary: latency) }
+            self.requestCount = dictionary["RequestCount"] as? Int32
+            self.duration = dictionary["Duration"] as? Int32
+            if let statusCodes = dictionary["StatusCodes"] as? [String: Any] { self.statusCodes = try Elasticbeanstalk.StatusCodes(dictionary: statusCodes) }
+        }
     }
 
     public struct ApplicationDescriptionsMessage: AWSShape {
@@ -1241,6 +1609,11 @@ extension Elasticbeanstalk {
             self.applications = applications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let applications = dictionary["Applications"] as? [[String: Any]] {
+                self.applications = try applications.map({ try ApplicationDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeConfigurationOptionsMessage: AWSShape {
@@ -1270,6 +1643,16 @@ extension Elasticbeanstalk {
             self.templateName = templateName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            if let options = dictionary["Options"] as? [[String: Any]] {
+                self.options = try options.map({ try OptionSpecification(dictionary: $0) })
+            }
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.templateName = dictionary["TemplateName"] as? String
+        }
     }
 
     public struct UpdateApplicationMessage: AWSShape {
@@ -1287,6 +1670,11 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct OptionRestrictionRegex: AWSShape {
@@ -1304,6 +1692,10 @@ extension Elasticbeanstalk {
             self.label = label
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pattern = dictionary["Pattern"] as? String
+            self.label = dictionary["Label"] as? String
+        }
     }
 
     public struct Deployment: AWSShape {
@@ -1327,6 +1719,12 @@ extension Elasticbeanstalk {
             self.versionLabel = versionLabel
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentTime = dictionary["DeploymentTime"] as? Date
+            self.deploymentId = dictionary["DeploymentId"] as? Int64
+            self.status = dictionary["Status"] as? String
+            self.versionLabel = dictionary["VersionLabel"] as? String
+        }
     }
 
     public struct ApplicationResourceLifecycleConfig: AWSShape {
@@ -1344,6 +1742,10 @@ extension Elasticbeanstalk {
             self.serviceRole = serviceRole
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let versionLifecycleConfig = dictionary["VersionLifecycleConfig"] as? [String: Any] { self.versionLifecycleConfig = try Elasticbeanstalk.ApplicationVersionLifecycleConfig(dictionary: versionLifecycleConfig) }
+            self.serviceRole = dictionary["ServiceRole"] as? String
+        }
     }
 
     public struct DescribeApplicationsMessage: AWSShape {
@@ -1358,6 +1760,11 @@ extension Elasticbeanstalk {
             self.applicationNames = applicationNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let applicationNames = dictionary["ApplicationNames"] as? [String] {
+                self.applicationNames = applicationNames
+            }
+        }
     }
 
     public struct EnvironmentResourceDescriptionsMessage: AWSShape {
@@ -1372,6 +1779,9 @@ extension Elasticbeanstalk {
             self.environmentResources = environmentResources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let environmentResources = dictionary["EnvironmentResources"] as? [String: Any] { self.environmentResources = try Elasticbeanstalk.EnvironmentResourceDescription(dictionary: environmentResources) }
+        }
     }
 
     public struct SystemStatus: AWSShape {
@@ -1389,6 +1799,12 @@ extension Elasticbeanstalk {
             self.cPUUtilization = cPUUtilization
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loadAverage = dictionary["LoadAverage"] as? [Double] {
+                self.loadAverage = loadAverage
+            }
+            if let cPUUtilization = dictionary["CPUUtilization"] as? [String: Any] { self.cPUUtilization = try Elasticbeanstalk.CPUUtilization(dictionary: cPUUtilization) }
+        }
     }
 
     public struct ApplyEnvironmentManagedActionRequest: AWSShape {
@@ -1409,6 +1825,12 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            guard let actionId = dictionary["ActionId"] as? String else { throw InitializableError.missingRequiredParam("ActionId") }
+            self.actionId = actionId
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct DescribePlatformVersionRequest: AWSShape {
@@ -1423,6 +1845,9 @@ extension Elasticbeanstalk {
             self.platformArn = platformArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platformArn = dictionary["PlatformArn"] as? String
+        }
     }
 
     public struct ConfigurationOptionsDescription: AWSShape {
@@ -1443,6 +1868,13 @@ extension Elasticbeanstalk {
             self.solutionStackName = solutionStackName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let options = dictionary["Options"] as? [[String: Any]] {
+                self.options = try options.map({ try ConfigurationOptionDescription(dictionary: $0) })
+            }
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+        }
     }
 
     public struct ApplicationVersionDescriptionsMessage: AWSShape {
@@ -1460,6 +1892,12 @@ extension Elasticbeanstalk {
             self.applicationVersions = applicationVersions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let applicationVersions = dictionary["ApplicationVersions"] as? [[String: Any]] {
+                self.applicationVersions = try applicationVersions.map({ try ApplicationVersionDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct ApplicationVersionDescription: AWSShape {
@@ -1498,6 +1936,17 @@ extension Elasticbeanstalk {
             self.dateCreated = dateCreated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.status = dictionary["Status"] as? String
+            self.dateUpdated = dictionary["DateUpdated"] as? Date
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) }
+            self.applicationName = dictionary["ApplicationName"] as? String
+            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) }
+            self.buildArn = dictionary["BuildArn"] as? String
+            self.dateCreated = dictionary["DateCreated"] as? Date
+        }
     }
 
     public struct DescribeConfigurationSettingsMessage: AWSShape {
@@ -1518,6 +1967,12 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.templateName = dictionary["TemplateName"] as? String
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct OptionSpecification: AWSShape {
@@ -1538,6 +1993,11 @@ extension Elasticbeanstalk {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namespace = dictionary["Namespace"] as? String
+            self.optionName = dictionary["OptionName"] as? String
+            self.resourceName = dictionary["ResourceName"] as? String
+        }
     }
 
     public struct Listener: AWSShape {
@@ -1555,6 +2015,10 @@ extension Elasticbeanstalk {
             self.`protocol` = `protocol`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.port = dictionary["Port"] as? Int32
+            self.`protocol` = dictionary["Protocol"] as? String
+        }
     }
 
     public struct ApplicationVersionLifecycleConfig: AWSShape {
@@ -1572,6 +2036,10 @@ extension Elasticbeanstalk {
             self.maxAgeRule = maxAgeRule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let maxCountRule = dictionary["MaxCountRule"] as? [String: Any] { self.maxCountRule = try Elasticbeanstalk.MaxCountRule(dictionary: maxCountRule) }
+            if let maxAgeRule = dictionary["MaxAgeRule"] as? [String: Any] { self.maxAgeRule = try Elasticbeanstalk.MaxAgeRule(dictionary: maxAgeRule) }
+        }
     }
 
     public struct DescribeInstancesHealthResult: AWSShape {
@@ -1592,6 +2060,13 @@ extension Elasticbeanstalk {
             self.refreshedAt = refreshedAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceHealthList = dictionary["InstanceHealthList"] as? [[String: Any]] {
+                self.instanceHealthList = try instanceHealthList.map({ try SingleInstanceHealth(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.refreshedAt = dictionary["RefreshedAt"] as? Date
+        }
     }
 
     public struct ApplicationDescriptionMessage: AWSShape {
@@ -1606,6 +2081,9 @@ extension Elasticbeanstalk {
             self.application = application
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let application = dictionary["Application"] as? [String: Any] { self.application = try Elasticbeanstalk.ApplicationDescription(dictionary: application) }
+        }
     }
 
     public struct DescribeEnvironmentHealthResult: AWSShape {
@@ -1641,6 +2119,18 @@ extension Elasticbeanstalk {
             self.refreshedAt = refreshedAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.color = dictionary["Color"] as? String
+            if let instancesHealth = dictionary["InstancesHealth"] as? [String: Any] { self.instancesHealth = try Elasticbeanstalk.InstanceHealthSummary(dictionary: instancesHealth) }
+            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) }
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.healthStatus = dictionary["HealthStatus"] as? String
+            if let causes = dictionary["Causes"] as? [String] {
+                self.causes = causes
+            }
+            self.refreshedAt = dictionary["RefreshedAt"] as? Date
+        }
     }
 
     public struct RetrieveEnvironmentInfoMessage: AWSShape {
@@ -1661,6 +2151,12 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            guard let infoType = dictionary["InfoType"] as? String else { throw InitializableError.missingRequiredParam("InfoType") }
+            self.infoType = infoType
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct ConfigurationSettingsDescriptions: AWSShape {
@@ -1675,6 +2171,11 @@ extension Elasticbeanstalk {
             self.configurationSettings = configurationSettings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let configurationSettings = dictionary["ConfigurationSettings"] as? [[String: Any]] {
+                self.configurationSettings = try configurationSettings.map({ try ConfigurationSettingsDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct AbortEnvironmentUpdateMessage: AWSShape {
@@ -1692,6 +2193,10 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct MaxCountRule: AWSShape {
@@ -1712,6 +2217,12 @@ extension Elasticbeanstalk {
             self.deleteSourceFromS3 = deleteSourceFromS3
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+            self.maxCount = dictionary["MaxCount"] as? Int32
+            self.deleteSourceFromS3 = dictionary["DeleteSourceFromS3"] as? Bool
+        }
     }
 
     public struct DescribeEnvironmentResourcesMessage: AWSShape {
@@ -1729,6 +2240,10 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct ListAvailableSolutionStacksResultMessage: AWSShape {
@@ -1746,6 +2261,14 @@ extension Elasticbeanstalk {
             self.solutionStacks = solutionStacks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let solutionStackDetails = dictionary["SolutionStackDetails"] as? [[String: Any]] {
+                self.solutionStackDetails = try solutionStackDetails.map({ try SolutionStackDescription(dictionary: $0) })
+            }
+            if let solutionStacks = dictionary["SolutionStacks"] as? [String] {
+                self.solutionStacks = solutionStacks
+            }
+        }
     }
 
     public struct S3Location: AWSShape {
@@ -1763,6 +2286,10 @@ extension Elasticbeanstalk {
             self.s3Key = s3Key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Bucket = dictionary["S3Bucket"] as? String
+            self.s3Key = dictionary["S3Key"] as? String
+        }
     }
 
     public struct ValidateConfigurationSettingsMessage: AWSShape {
@@ -1786,6 +2313,14 @@ extension Elasticbeanstalk {
             self.templateName = templateName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            guard let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("OptionSettings") }
+            self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            self.templateName = dictionary["TemplateName"] as? String
+        }
     }
 
     public struct CreatePlatformVersionRequest: AWSShape {
@@ -1812,6 +2347,18 @@ extension Elasticbeanstalk {
             self.platformDefinitionBundle = platformDefinitionBundle
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let platformVersion = dictionary["PlatformVersion"] as? String else { throw InitializableError.missingRequiredParam("PlatformVersion") }
+            self.platformVersion = platformVersion
+            guard let platformName = dictionary["PlatformName"] as? String else { throw InitializableError.missingRequiredParam("PlatformName") }
+            self.platformName = platformName
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            }
+            guard let platformDefinitionBundle = dictionary["PlatformDefinitionBundle"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PlatformDefinitionBundle") }
+            self.platformDefinitionBundle = try Elasticbeanstalk.S3Location(dictionary: platformDefinitionBundle)
+        }
     }
 
     public struct CreateEnvironmentMessage: AWSShape {
@@ -1862,6 +2409,28 @@ extension Elasticbeanstalk {
             self.tier = tier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            }
+            self.templateName = dictionary["TemplateName"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.description = dictionary["Description"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            self.cNAMEPrefix = dictionary["CNAMEPrefix"] as? String
+            if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
+                self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
+            }
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) }
+        }
     }
 
     public struct DeletePlatformVersionResult: AWSShape {
@@ -1876,6 +2445,9 @@ extension Elasticbeanstalk {
             self.platformSummary = platformSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) }
+        }
     }
 
     public struct CustomAmi: AWSShape {
@@ -1893,6 +2465,10 @@ extension Elasticbeanstalk {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualizationType = dictionary["VirtualizationType"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+        }
     }
 
     public struct CheckDNSAvailabilityResultMessage: AWSShape {
@@ -1910,6 +2486,10 @@ extension Elasticbeanstalk {
             self.available = available
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fullyQualifiedCNAME = dictionary["FullyQualifiedCNAME"] as? String
+            self.available = dictionary["Available"] as? Bool
+        }
     }
 
     public struct DeleteConfigurationTemplateMessage: AWSShape {
@@ -1927,6 +2507,12 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
+            self.templateName = templateName
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct PlatformFilter: AWSShape {
@@ -1947,6 +2533,13 @@ extension Elasticbeanstalk {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.`operator` = dictionary["Operator"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct PlatformDescription: AWSShape {
@@ -2012,6 +2605,36 @@ extension Elasticbeanstalk {
             self.programmingLanguages = programmingLanguages
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dateUpdated = dictionary["DateUpdated"] as? Date
+            self.platformStatus = dictionary["PlatformStatus"] as? String
+            if let supportedAddonList = dictionary["SupportedAddonList"] as? [String] {
+                self.supportedAddonList = supportedAddonList
+            }
+            self.platformVersion = dictionary["PlatformVersion"] as? String
+            if let customAmiList = dictionary["CustomAmiList"] as? [[String: Any]] {
+                self.customAmiList = try customAmiList.map({ try CustomAmi(dictionary: $0) })
+            }
+            self.platformCategory = dictionary["PlatformCategory"] as? String
+            self.maintainer = dictionary["Maintainer"] as? String
+            self.operatingSystemName = dictionary["OperatingSystemName"] as? String
+            self.dateCreated = dictionary["DateCreated"] as? Date
+            self.platformOwner = dictionary["PlatformOwner"] as? String
+            self.description = dictionary["Description"] as? String
+            self.platformName = dictionary["PlatformName"] as? String
+            self.operatingSystemVersion = dictionary["OperatingSystemVersion"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            if let supportedTierList = dictionary["SupportedTierList"] as? [String] {
+                self.supportedTierList = supportedTierList
+            }
+            if let frameworks = dictionary["Frameworks"] as? [[String: Any]] {
+                self.frameworks = try frameworks.map({ try PlatformFramework(dictionary: $0) })
+            }
+            if let programmingLanguages = dictionary["ProgrammingLanguages"] as? [[String: Any]] {
+                self.programmingLanguages = try programmingLanguages.map({ try PlatformProgrammingLanguage(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateEnvironmentMessage: AWSShape {
@@ -2059,6 +2682,24 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
+                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            }
+            self.templateName = dictionary["TemplateName"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            self.solutionStackName = dictionary["SolutionStackName"] as? String
+            self.platformArn = dictionary["PlatformArn"] as? String
+            if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
+                self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
+            }
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+            self.applicationName = dictionary["ApplicationName"] as? String
+            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteApplicationMessage: AWSShape {
@@ -2076,6 +2717,11 @@ extension Elasticbeanstalk {
             self.terminateEnvByForce = terminateEnvByForce
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            self.terminateEnvByForce = dictionary["TerminateEnvByForce"] as? Bool
+        }
     }
 
     public struct EnvironmentTier: AWSShape {
@@ -2096,6 +2742,11 @@ extension Elasticbeanstalk {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct ListPlatformVersionsResult: AWSShape {
@@ -2113,6 +2764,12 @@ extension Elasticbeanstalk {
             self.platformSummaryList = platformSummaryList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let platformSummaryList = dictionary["PlatformSummaryList"] as? [[String: Any]] {
+                self.platformSummaryList = try platformSummaryList.map({ try PlatformSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct ApplicationVersionDescriptionMessage: AWSShape {
@@ -2127,6 +2784,9 @@ extension Elasticbeanstalk {
             self.applicationVersion = applicationVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let applicationVersion = dictionary["ApplicationVersion"] as? [String: Any] { self.applicationVersion = try Elasticbeanstalk.ApplicationVersionDescription(dictionary: applicationVersion) }
+        }
     }
 
     public struct EnvironmentLink: AWSShape {
@@ -2144,6 +2804,10 @@ extension Elasticbeanstalk {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.linkName = dictionary["LinkName"] as? String
+        }
     }
 
     public struct LaunchConfiguration: AWSShape {
@@ -2158,6 +2822,9 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct MaxAgeRule: AWSShape {
@@ -2178,6 +2845,12 @@ extension Elasticbeanstalk {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxAgeInDays = dictionary["MaxAgeInDays"] as? Int32
+            self.deleteSourceFromS3 = dictionary["DeleteSourceFromS3"] as? Bool
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+        }
     }
 
     public struct ListPlatformVersionsRequest: AWSShape {
@@ -2198,6 +2871,13 @@ extension Elasticbeanstalk {
             self.filters = filters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filters = dictionary["Filters"] as? [[String: Any]] {
+                self.filters = try filters.map({ try PlatformFilter(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateApplicationVersionMessage: AWSShape {
@@ -2218,6 +2898,13 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
+            self.versionLabel = versionLabel
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DeleteEnvironmentConfigurationMessage: AWSShape {
@@ -2235,6 +2922,12 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let environmentName = dictionary["EnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("EnvironmentName") }
+            self.environmentName = environmentName
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct EnvironmentInfoDescription: AWSShape {
@@ -2258,6 +2951,12 @@ extension Elasticbeanstalk {
             self.sampleTimestamp = sampleTimestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+            self.infoType = dictionary["InfoType"] as? String
+            self.ec2InstanceId = dictionary["Ec2InstanceId"] as? String
+            self.sampleTimestamp = dictionary["SampleTimestamp"] as? Date
+        }
     }
 
     public struct DeleteApplicationVersionMessage: AWSShape {
@@ -2278,6 +2977,13 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
+            self.versionLabel = versionLabel
+            self.deleteSourceBundle = dictionary["DeleteSourceBundle"] as? Bool
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct ValidationMessage: AWSShape {
@@ -2301,6 +3007,12 @@ extension Elasticbeanstalk {
             self.optionName = optionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namespace = dictionary["Namespace"] as? String
+            self.severity = dictionary["Severity"] as? String
+            self.message = dictionary["Message"] as? String
+            self.optionName = dictionary["OptionName"] as? String
+        }
     }
 
     public struct Queue: AWSShape {
@@ -2318,6 +3030,10 @@ extension Elasticbeanstalk {
             self.uRL = uRL
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.uRL = dictionary["URL"] as? String
+        }
     }
 
     public struct DescribeEnvironmentManagedActionsRequest: AWSShape {
@@ -2338,6 +3054,11 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            self.status = dictionary["Status"] as? String
+            self.environmentId = dictionary["EnvironmentId"] as? String
+        }
     }
 
     public struct DeletePlatformVersionRequest: AWSShape {
@@ -2352,6 +3073,9 @@ extension Elasticbeanstalk {
             self.platformArn = platformArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.platformArn = dictionary["PlatformArn"] as? String
+        }
     }
 
     public struct ConfigurationOptionSetting: AWSShape {
@@ -2375,6 +3099,12 @@ extension Elasticbeanstalk {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namespace = dictionary["Namespace"] as? String
+            self.optionName = dictionary["OptionName"] as? String
+            self.value = dictionary["Value"] as? String
+            self.resourceName = dictionary["ResourceName"] as? String
+        }
     }
 
     public struct CreateApplicationMessage: AWSShape {
@@ -2395,6 +3125,12 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) }
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct LoadBalancerDescription: AWSShape {
@@ -2415,6 +3151,13 @@ extension Elasticbeanstalk {
             self.listeners = listeners
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
+            self.domain = dictionary["Domain"] as? String
+            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
+                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateApplicationResourceLifecycleMessage: AWSShape {
@@ -2432,6 +3175,12 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceLifecycleConfig") }
+            self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig)
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct SingleInstanceHealth: AWSShape {
@@ -2473,6 +3222,20 @@ extension Elasticbeanstalk {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.color = dictionary["Color"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
+            if let deployment = dictionary["Deployment"] as? [String: Any] { self.deployment = try Elasticbeanstalk.Deployment(dictionary: deployment) }
+            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) }
+            self.launchedAt = dictionary["LaunchedAt"] as? Date
+            self.healthStatus = dictionary["HealthStatus"] as? String
+            self.instanceType = dictionary["InstanceType"] as? String
+            if let system = dictionary["System"] as? [String: Any] { self.system = try Elasticbeanstalk.SystemStatus(dictionary: system) }
+            if let causes = dictionary["Causes"] as? [String] {
+                self.causes = causes
+            }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+        }
     }
 
     public struct EnvironmentResourceDescription: AWSShape {
@@ -2505,6 +3268,27 @@ extension Elasticbeanstalk {
             self.loadBalancers = loadBalancers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let autoScalingGroups = dictionary["AutoScalingGroups"] as? [[String: Any]] {
+                self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
+            }
+            if let launchConfigurations = dictionary["LaunchConfigurations"] as? [[String: Any]] {
+                self.launchConfigurations = try launchConfigurations.map({ try LaunchConfiguration(dictionary: $0) })
+            }
+            if let triggers = dictionary["Triggers"] as? [[String: Any]] {
+                self.triggers = try triggers.map({ try Trigger(dictionary: $0) })
+            }
+            if let queues = dictionary["Queues"] as? [[String: Any]] {
+                self.queues = try queues.map({ try Queue(dictionary: $0) })
+            }
+            self.environmentName = dictionary["EnvironmentName"] as? String
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
+                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeEnvironmentsMessage: AWSShape {
@@ -2534,6 +3318,18 @@ extension Elasticbeanstalk {
             self.environmentNames = environmentNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.includedDeletedBackTo = dictionary["IncludedDeletedBackTo"] as? Date
+            if let environmentIds = dictionary["EnvironmentIds"] as? [String] {
+                self.environmentIds = environmentIds
+            }
+            self.applicationName = dictionary["ApplicationName"] as? String
+            self.includeDeleted = dictionary["IncludeDeleted"] as? Bool
+            self.versionLabel = dictionary["VersionLabel"] as? String
+            if let environmentNames = dictionary["EnvironmentNames"] as? [String] {
+                self.environmentNames = environmentNames
+            }
+        }
     }
 
     public struct DescribeApplicationVersionsMessage: AWSShape {
@@ -2557,6 +3353,14 @@ extension Elasticbeanstalk {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.applicationName = dictionary["ApplicationName"] as? String
+            if let versionLabels = dictionary["VersionLabels"] as? [String] {
+                self.versionLabels = versionLabels
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
 }

@@ -53,6 +53,17 @@ extension Directconnect {
             self.lagName = lagName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
+            self.location = location
+            guard let connectionsBandwidth = dictionary["connectionsBandwidth"] as? String else { throw InitializableError.missingRequiredParam("connectionsBandwidth") }
+            self.connectionsBandwidth = connectionsBandwidth
+            self.connectionId = dictionary["connectionId"] as? String
+            guard let numberOfConnections = dictionary["numberOfConnections"] as? Int32 else { throw InitializableError.missingRequiredParam("numberOfConnections") }
+            self.numberOfConnections = numberOfConnections
+            guard let lagName = dictionary["lagName"] as? String else { throw InitializableError.missingRequiredParam("lagName") }
+            self.lagName = lagName
+        }
     }
 
     public struct DescribeTagsResponse: AWSShape {
@@ -67,6 +78,11 @@ extension Directconnect {
             self.resourceTags = resourceTags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let resourceTags = dictionary["resourceTags"] as? [[String: Any]] {
+                self.resourceTags = try resourceTags.map({ try ResourceTag(dictionary: $0) })
+            }
+        }
     }
 
     public struct VirtualGateways: AWSShape {
@@ -81,6 +97,11 @@ extension Directconnect {
             self.virtualGateways = virtualGateways
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let virtualGateways = dictionary["virtualGateways"] as? [[String: Any]] {
+                self.virtualGateways = try virtualGateways.map({ try VirtualGateway(dictionary: $0) })
+            }
+        }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -98,6 +119,12 @@ extension Directconnect {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct AllocateHostedConnectionRequest: AWSShape {
@@ -124,6 +151,18 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
+            self.ownerAccount = ownerAccount
+            guard let connectionName = dictionary["connectionName"] as? String else { throw InitializableError.missingRequiredParam("connectionName") }
+            self.connectionName = connectionName
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
+            self.vlan = vlan
+            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
+            self.bandwidth = bandwidth
+        }
     }
 
     public struct Lag: AWSShape {
@@ -167,6 +206,22 @@ extension Directconnect {
             self.lagName = lagName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let connections = dictionary["connections"] as? [[String: Any]] {
+                self.connections = try connections.map({ try Connection(dictionary: $0) })
+            }
+            self.location = dictionary["location"] as? String
+            self.lagId = dictionary["lagId"] as? String
+            self.lagState = dictionary["lagState"] as? String
+            self.awsDevice = dictionary["awsDevice"] as? String
+            self.numberOfConnections = dictionary["numberOfConnections"] as? Int32
+            self.ownerAccount = dictionary["ownerAccount"] as? String
+            self.region = dictionary["region"] as? String
+            self.minimumLinks = dictionary["minimumLinks"] as? Int32
+            self.allowsHostedConnections = dictionary["allowsHostedConnections"] as? Bool
+            self.connectionsBandwidth = dictionary["connectionsBandwidth"] as? String
+            self.lagName = dictionary["lagName"] as? String
+        }
     }
 
     public struct DeleteVirtualInterfaceResponse: AWSShape {
@@ -180,6 +235,9 @@ extension Directconnect {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+        }
     }
 
     public struct AssociateVirtualInterfaceRequest: AWSShape {
@@ -197,6 +255,12 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
+            self.virtualInterfaceId = virtualInterfaceId
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+        }
     }
 
     public struct CreateBGPPeerResponse: AWSShape {
@@ -210,6 +274,9 @@ extension Directconnect {
             self.virtualInterface = virtualInterface
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) }
+        }
     }
 
     public struct DescribeLagsRequest: AWSShape {
@@ -224,6 +291,9 @@ extension Directconnect {
             self.lagId = lagId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lagId = dictionary["lagId"] as? String
+        }
     }
 
     public struct DescribeTagsRequest: AWSShape {
@@ -238,6 +308,10 @@ extension Directconnect {
             self.resourceArns = resourceArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArns = dictionary["resourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("resourceArns") }
+            self.resourceArns = resourceArns
+        }
     }
 
     public struct DescribeConnectionLoaResponse: AWSShape {
@@ -251,6 +325,9 @@ extension Directconnect {
             self.loa = loa
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) }
+        }
     }
 
     public struct NewPublicVirtualInterfaceAllocation: AWSShape {
@@ -278,6 +355,21 @@ extension Directconnect {
             self.vlan = vlan
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerAddress = dictionary["customerAddress"] as? String
+            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
+            self.virtualInterfaceName = virtualInterfaceName
+            self.authKey = dictionary["authKey"] as? String
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
+            self.asn = asn
+            self.addressFamily = dictionary["addressFamily"] as? String
+            if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
+                self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
+            }
+            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
+            self.vlan = vlan
+        }
     }
 
     public struct Tag: AWSShape {
@@ -295,6 +387,11 @@ extension Directconnect {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
@@ -311,6 +408,12 @@ extension Directconnect {
             self.newPrivateVirtualInterface = newPrivateVirtualInterface
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let newPrivateVirtualInterface = dictionary["newPrivateVirtualInterface"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPrivateVirtualInterface") }
+            self.newPrivateVirtualInterface = try Directconnect.NewPrivateVirtualInterface(dictionary: newPrivateVirtualInterface)
+        }
     }
 
     public struct AssociateHostedConnectionRequest: AWSShape {
@@ -328,6 +431,12 @@ extension Directconnect {
             self.parentConnectionId = parentConnectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let parentConnectionId = dictionary["parentConnectionId"] as? String else { throw InitializableError.missingRequiredParam("parentConnectionId") }
+            self.parentConnectionId = parentConnectionId
+        }
     }
 
     public struct DeleteInterconnectRequest: AWSShape {
@@ -341,6 +450,10 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
+            self.interconnectId = interconnectId
+        }
     }
 
     public struct DescribeInterconnectLoaRequest: AWSShape {
@@ -359,6 +472,12 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.providerName = dictionary["providerName"] as? String
+            self.loaContentType = dictionary["loaContentType"] as? String
+            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
+            self.interconnectId = interconnectId
+        }
     }
 
     public struct NewPublicVirtualInterface: AWSShape {
@@ -386,6 +505,21 @@ extension Directconnect {
             self.vlan = vlan
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerAddress = dictionary["customerAddress"] as? String
+            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
+            self.virtualInterfaceName = virtualInterfaceName
+            self.authKey = dictionary["authKey"] as? String
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
+            self.asn = asn
+            self.addressFamily = dictionary["addressFamily"] as? String
+            if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
+                self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
+            }
+            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
+            self.vlan = vlan
+        }
     }
 
     public struct Interconnects: AWSShape {
@@ -400,6 +534,11 @@ extension Directconnect {
             self.interconnects = interconnects
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let interconnects = dictionary["interconnects"] as? [[String: Any]] {
+                self.interconnects = try interconnects.map({ try Interconnect(dictionary: $0) })
+            }
+        }
     }
 
     public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
@@ -420,6 +559,14 @@ extension Directconnect {
             self.ownerAccount = ownerAccount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let newPrivateVirtualInterfaceAllocation = dictionary["newPrivateVirtualInterfaceAllocation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPrivateVirtualInterfaceAllocation") }
+            self.newPrivateVirtualInterfaceAllocation = try Directconnect.NewPrivateVirtualInterfaceAllocation(dictionary: newPrivateVirtualInterfaceAllocation)
+            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
+            self.ownerAccount = ownerAccount
+        }
     }
 
     public struct DeleteLagRequest: AWSShape {
@@ -434,6 +581,10 @@ extension Directconnect {
             self.lagId = lagId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
+            self.lagId = lagId
+        }
     }
 
     public struct UpdateLagRequest: AWSShape {
@@ -454,6 +605,12 @@ extension Directconnect {
             self.lagName = lagName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minimumLinks = dictionary["minimumLinks"] as? Int32
+            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
+            self.lagId = lagId
+            self.lagName = dictionary["lagName"] as? String
+        }
     }
 
     public struct NewPrivateVirtualInterface: AWSShape {
@@ -481,6 +638,20 @@ extension Directconnect {
             self.vlan = vlan
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerAddress = dictionary["customerAddress"] as? String
+            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
+            self.virtualInterfaceName = virtualInterfaceName
+            self.authKey = dictionary["authKey"] as? String
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
+            self.asn = asn
+            self.addressFamily = dictionary["addressFamily"] as? String
+            guard let virtualGatewayId = dictionary["virtualGatewayId"] as? String else { throw InitializableError.missingRequiredParam("virtualGatewayId") }
+            self.virtualGatewayId = virtualGatewayId
+            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
+            self.vlan = vlan
+        }
     }
 
     public struct DescribeHostedConnectionsRequest: AWSShape {
@@ -495,6 +666,10 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+        }
     }
 
     public struct DeleteConnectionRequest: AWSShape {
@@ -508,6 +683,10 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+        }
     }
 
     public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
@@ -533,6 +712,18 @@ extension Directconnect {
             self.vlan = vlan
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerAddress = dictionary["customerAddress"] as? String
+            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
+            self.virtualInterfaceName = virtualInterfaceName
+            self.authKey = dictionary["authKey"] as? String
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
+            self.asn = asn
+            self.addressFamily = dictionary["addressFamily"] as? String
+            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
+            self.vlan = vlan
+        }
     }
 
     public struct CreatePublicVirtualInterfaceRequest: AWSShape {
@@ -549,6 +740,12 @@ extension Directconnect {
             self.newPublicVirtualInterface = newPublicVirtualInterface
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let newPublicVirtualInterface = dictionary["newPublicVirtualInterface"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPublicVirtualInterface") }
+            self.newPublicVirtualInterface = try Directconnect.NewPublicVirtualInterface(dictionary: newPublicVirtualInterface)
+        }
     }
 
     public struct DescribeInterconnectsRequest: AWSShape {
@@ -562,6 +759,9 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.interconnectId = dictionary["interconnectId"] as? String
+        }
     }
 
     public struct ResourceTag: AWSShape {
@@ -579,6 +779,12 @@ extension Directconnect {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceArn = dictionary["resourceArn"] as? String
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct ConfirmConnectionRequest: AWSShape {
@@ -592,6 +798,10 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+        }
     }
 
     public struct AssociateConnectionWithLagRequest: AWSShape {
@@ -609,6 +819,12 @@ extension Directconnect {
             self.lagId = lagId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
+            self.lagId = lagId
+        }
     }
 
     public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
@@ -629,6 +845,14 @@ extension Directconnect {
             self.ownerAccount = ownerAccount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let newPublicVirtualInterfaceAllocation = dictionary["newPublicVirtualInterfaceAllocation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPublicVirtualInterfaceAllocation") }
+            self.newPublicVirtualInterfaceAllocation = try Directconnect.NewPublicVirtualInterfaceAllocation(dictionary: newPublicVirtualInterfaceAllocation)
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
+            self.ownerAccount = ownerAccount
+        }
     }
 
     public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
@@ -642,6 +866,10 @@ extension Directconnect {
             self.virtualInterfaceId = virtualInterfaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
+            self.virtualInterfaceId = virtualInterfaceId
+        }
     }
 
     public struct CreateInterconnectRequest: AWSShape {
@@ -664,6 +892,15 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
+            self.location = location
+            self.lagId = dictionary["lagId"] as? String
+            guard let interconnectName = dictionary["interconnectName"] as? String else { throw InitializableError.missingRequiredParam("interconnectName") }
+            self.interconnectName = interconnectName
+            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
+            self.bandwidth = bandwidth
+        }
     }
 
     public struct Connections: AWSShape {
@@ -678,6 +915,11 @@ extension Directconnect {
             self.connections = connections
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let connections = dictionary["connections"] as? [[String: Any]] {
+                self.connections = try connections.map({ try Connection(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeInterconnectLoaResponse: AWSShape {
@@ -691,6 +933,9 @@ extension Directconnect {
             self.loa = loa
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) }
+        }
     }
 
     public struct Connection: AWSShape {
@@ -731,6 +976,20 @@ extension Directconnect {
             self.partnerName = partnerName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.loaIssueTime = dictionary["loaIssueTime"] as? Date
+            self.bandwidth = dictionary["bandwidth"] as? String
+            self.location = dictionary["location"] as? String
+            self.lagId = dictionary["lagId"] as? String
+            self.awsDevice = dictionary["awsDevice"] as? String
+            self.connectionId = dictionary["connectionId"] as? String
+            self.region = dictionary["region"] as? String
+            self.ownerAccount = dictionary["ownerAccount"] as? String
+            self.connectionState = dictionary["connectionState"] as? String
+            self.connectionName = dictionary["connectionName"] as? String
+            self.vlan = dictionary["vlan"] as? Int32
+            self.partnerName = dictionary["partnerName"] as? String
+        }
     }
 
     public struct DescribeConnectionsRequest: AWSShape {
@@ -744,6 +1003,9 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.connectionId = dictionary["connectionId"] as? String
+        }
     }
 
     public struct Lags: AWSShape {
@@ -758,6 +1020,11 @@ extension Directconnect {
             self.lags = lags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let lags = dictionary["lags"] as? [[String: Any]] {
+                self.lags = try lags.map({ try Lag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteInterconnectResponse: AWSShape {
@@ -771,6 +1038,9 @@ extension Directconnect {
             self.interconnectState = interconnectState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.interconnectState = dictionary["interconnectState"] as? String
+        }
     }
 
     public struct TagResourceResponse: AWSShape {
@@ -779,6 +1049,8 @@ extension Directconnect {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BGPPeer: AWSShape {
@@ -804,6 +1076,15 @@ extension Directconnect {
             self.addressFamily = addressFamily
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bgpPeerState = dictionary["bgpPeerState"] as? String
+            self.customerAddress = dictionary["customerAddress"] as? String
+            self.bgpStatus = dictionary["bgpStatus"] as? String
+            self.authKey = dictionary["authKey"] as? String
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            self.asn = dictionary["asn"] as? Int32
+            self.addressFamily = dictionary["addressFamily"] as? String
+        }
     }
 
     public struct DisassociateConnectionFromLagRequest: AWSShape {
@@ -821,6 +1102,12 @@ extension Directconnect {
             self.lagId = lagId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
+            self.lagId = lagId
+        }
     }
 
     public struct CreateBGPPeerRequest: AWSShape {
@@ -838,6 +1125,10 @@ extension Directconnect {
             self.newBGPPeer = newBGPPeer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
+            if let newBGPPeer = dictionary["newBGPPeer"] as? [String: Any] { self.newBGPPeer = try Directconnect.NewBGPPeer(dictionary: newBGPPeer) }
+        }
     }
 
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
@@ -851,6 +1142,9 @@ extension Directconnect {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+        }
     }
 
     public struct DeleteBGPPeerResponse: AWSShape {
@@ -864,6 +1158,9 @@ extension Directconnect {
             self.virtualInterface = virtualInterface
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) }
+        }
     }
 
     public struct DescribeVirtualInterfacesRequest: AWSShape {
@@ -879,6 +1176,10 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
+            self.connectionId = dictionary["connectionId"] as? String
+        }
     }
 
     public struct DescribeLoaRequest: AWSShape {
@@ -899,6 +1200,12 @@ extension Directconnect {
             self.loaContentType = loaContentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.providerName = dictionary["providerName"] as? String
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            self.loaContentType = dictionary["loaContentType"] as? String
+        }
     }
 
     public struct DeleteBGPPeerRequest: AWSShape {
@@ -917,6 +1224,11 @@ extension Directconnect {
             self.customerAddress = customerAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
+            self.asn = dictionary["asn"] as? Int32
+            self.customerAddress = dictionary["customerAddress"] as? String
+        }
     }
 
     public struct Interconnect: AWSShape {
@@ -948,6 +1260,17 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.loaIssueTime = dictionary["loaIssueTime"] as? Date
+            self.interconnectState = dictionary["interconnectState"] as? String
+            self.location = dictionary["location"] as? String
+            self.awsDevice = dictionary["awsDevice"] as? String
+            self.lagId = dictionary["lagId"] as? String
+            self.region = dictionary["region"] as? String
+            self.interconnectName = dictionary["interconnectName"] as? String
+            self.interconnectId = dictionary["interconnectId"] as? String
+            self.bandwidth = dictionary["bandwidth"] as? String
+        }
     }
 
     public struct AllocateConnectionOnInterconnectRequest: AWSShape {
@@ -974,6 +1297,18 @@ extension Directconnect {
             self.ownerAccount = ownerAccount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
+            self.bandwidth = bandwidth
+            guard let connectionName = dictionary["connectionName"] as? String else { throw InitializableError.missingRequiredParam("connectionName") }
+            self.connectionName = connectionName
+            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
+            self.interconnectId = interconnectId
+            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
+            self.vlan = vlan
+            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
+            self.ownerAccount = ownerAccount
+        }
     }
 
     public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
@@ -988,6 +1323,10 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
+            self.interconnectId = interconnectId
+        }
     }
 
     public struct VirtualInterfaces: AWSShape {
@@ -1002,6 +1341,11 @@ extension Directconnect {
             self.virtualInterfaces = virtualInterfaces
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let virtualInterfaces = dictionary["virtualInterfaces"] as? [[String: Any]] {
+                self.virtualInterfaces = try virtualInterfaces.map({ try VirtualInterface(dictionary: $0) })
+            }
+        }
     }
 
     public struct UntagResourceResponse: AWSShape {
@@ -1010,6 +1354,8 @@ extension Directconnect {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct Location: AWSShape {
@@ -1027,6 +1373,10 @@ extension Directconnect {
             self.locationName = locationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.locationCode = dictionary["locationCode"] as? String
+            self.locationName = dictionary["locationName"] as? String
+        }
     }
 
     public struct Loa: AWSShape {
@@ -1042,6 +1392,10 @@ extension Directconnect {
             self.loaContent = loaContent
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.loaContentType = dictionary["loaContentType"] as? String
+            self.loaContent = dictionary["loaContent"] as? Data
+        }
     }
 
     public struct VirtualInterface: AWSShape {
@@ -1089,6 +1443,29 @@ extension Directconnect {
             self.vlan = vlan
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.customerAddress = dictionary["customerAddress"] as? String
+            self.virtualInterfaceType = dictionary["virtualInterfaceType"] as? String
+            self.connectionId = dictionary["connectionId"] as? String
+            self.ownerAccount = dictionary["ownerAccount"] as? String
+            self.asn = dictionary["asn"] as? Int32
+            self.addressFamily = dictionary["addressFamily"] as? String
+            if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
+                self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
+            }
+            self.location = dictionary["location"] as? String
+            self.virtualInterfaceName = dictionary["virtualInterfaceName"] as? String
+            self.authKey = dictionary["authKey"] as? String
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            self.customerRouterConfig = dictionary["customerRouterConfig"] as? String
+            if let bgpPeers = dictionary["bgpPeers"] as? [[String: Any]] {
+                self.bgpPeers = try bgpPeers.map({ try BGPPeer(dictionary: $0) })
+            }
+            self.virtualGatewayId = dictionary["virtualGatewayId"] as? String
+            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
+            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+            self.vlan = dictionary["vlan"] as? Int32
+        }
     }
 
     public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
@@ -1102,6 +1479,9 @@ extension Directconnect {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+        }
     }
 
     public struct Locations: AWSShape {
@@ -1116,6 +1496,11 @@ extension Directconnect {
             self.locations = locations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let locations = dictionary["locations"] as? [[String: Any]] {
+                self.locations = try locations.map({ try Location(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateConnectionRequest: AWSShape {
@@ -1135,6 +1520,15 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let connectionName = dictionary["connectionName"] as? String else { throw InitializableError.missingRequiredParam("connectionName") }
+            self.connectionName = connectionName
+            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
+            self.location = location
+            self.lagId = dictionary["lagId"] as? String
+            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
+            self.bandwidth = bandwidth
+        }
     }
 
     public struct DescribeConnectionLoaRequest: AWSShape {
@@ -1153,6 +1547,12 @@ extension Directconnect {
             self.loaContentType = loaContentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.providerName = dictionary["providerName"] as? String
+            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
+            self.connectionId = connectionId
+            self.loaContentType = dictionary["loaContentType"] as? String
+        }
     }
 
     public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
@@ -1169,6 +1569,12 @@ extension Directconnect {
             self.virtualGatewayId = virtualGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
+            self.virtualInterfaceId = virtualInterfaceId
+            guard let virtualGatewayId = dictionary["virtualGatewayId"] as? String else { throw InitializableError.missingRequiredParam("virtualGatewayId") }
+            self.virtualGatewayId = virtualGatewayId
+        }
     }
 
     public struct NewBGPPeer: AWSShape {
@@ -1190,6 +1596,13 @@ extension Directconnect {
             self.authKey = authKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.amazonAddress = dictionary["amazonAddress"] as? String
+            self.customerAddress = dictionary["customerAddress"] as? String
+            self.addressFamily = dictionary["addressFamily"] as? String
+            self.asn = dictionary["asn"] as? Int32
+            self.authKey = dictionary["authKey"] as? String
+        }
     }
 
     public struct ConfirmConnectionResponse: AWSShape {
@@ -1203,6 +1616,9 @@ extension Directconnect {
             self.connectionState = connectionState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.connectionState = dictionary["connectionState"] as? String
+        }
     }
 
     public struct RouteFilterPrefix: AWSShape {
@@ -1217,6 +1633,9 @@ extension Directconnect {
             self.cidr = cidr
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cidr = dictionary["cidr"] as? String
+        }
     }
 
     public struct DeleteVirtualInterfaceRequest: AWSShape {
@@ -1230,6 +1649,10 @@ extension Directconnect {
             self.virtualInterfaceId = virtualInterfaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
+            self.virtualInterfaceId = virtualInterfaceId
+        }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -1247,6 +1670,12 @@ extension Directconnect {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+            guard let tagKeys = dictionary["tagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("tagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct VirtualGateway: AWSShape {
@@ -1262,6 +1691,10 @@ extension Directconnect {
             self.virtualGatewayId = virtualGatewayId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.virtualGatewayState = dictionary["virtualGatewayState"] as? String
+            self.virtualGatewayId = dictionary["virtualGatewayId"] as? String
+        }
     }
 
 }

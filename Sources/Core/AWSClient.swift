@@ -87,54 +87,54 @@ public struct AWSClient {
     }
     
     public func request(_ request: AWSRequest) throws -> Prorsum.Response {
-        var prosumRequest = try request.toProrsumRequest()
+        var prorsumRequest = try request.toProrsumRequest()
         switch request.httpMethod {
         case "GET":
-            // http://docs.aws.amazon.com/ja_jp/AmazonS3/latest/API/sigv4-query-string-auth.html
-            prosumRequest.url = signer.signedURL(url: prosumRequest.url)
-            prosumRequest.headers["Host"] = prosumRequest.url.hostWithPort!
+            prorsumRequest.url = signer.signedURL(url: prorsumRequest.url)
+            prorsumRequest.headers["Host"] = prorsumRequest.url.hostWithPort!
             
         default:
             // TODO avoid copying
             var headers: [String: String] = [:]
-            for (key, value) in prosumRequest.headers {
+            for (key, value) in prorsumRequest.headers {
                 headers[key.description] = value
             }
             
             let signedHeaders = signer.signedHeaders(
-                url: prosumRequest.url,
+                url: prorsumRequest.url,
                 headers: headers,
-                method: prosumRequest.method.rawValue,
-                bodyData: prosumRequest.body.asData()
+                method: prorsumRequest.method.rawValue,
+                bodyData: prorsumRequest.body.asData()
             )
             
             for (key, value) in signedHeaders {
-                prosumRequest.headers[key] = value
+                prorsumRequest.headers[key] = value
             }
         }
         
         // TODO implement Keep-alive
-        let client = try HTTPClient(url: prosumRequest.url)
+        let client = try HTTPClient(url: prorsumRequest.url)
         try client.open()
-        let response = try client.request(prosumRequest)
+        let response = try client.request(prorsumRequest)
         client.close()
+
         return response
     }
     
     private func validate<Output: AWSShape>(response: Prorsum.Response) throws -> Output {
         var responseBody: Body = .empty
         let data = response.body.asData()
+        
         if !data.isEmpty, let contentType = response.contentType?.subtype {
-            switch contentType {
-            case "json":
+            if contentType.contains("json") {
                 if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                     responseBody = .json(dictionary)
                 }
-            case "xml", "html":
+            }
+            else if contentType.contains("xml") || contentType.contains("html") {
                 let xmlNode = try XML2Parser(data: data).parse()
                 responseBody = .xml(xmlNode)
-                
-            default:
+            } else {
                 responseBody = .buffer(data)
             }
         }
@@ -181,7 +181,7 @@ public struct AWSClient {
         }
         
         var outputDict: [String: Any] = [:]
-        var output = Output()
+        let output = Output() // TODO avoid creating object
         switch responseBody {
         case .json(let dictionary):
             outputDict = dictionary
@@ -210,11 +210,7 @@ public struct AWSClient {
             }
         }
         
-        for (key, value) in outputDict {
-            do { try set(value, key: key.toSwiftVariableCase(), for: &output) } catch {}
-        }
-        
-        return output
+        return try Output(dictionary: outputDict)
     }
     
     private func createRequest(operation operationName: String, path: String, httpMethod: String, input: AWSShape? = nil) throws -> AWSRequest {

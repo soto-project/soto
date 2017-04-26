@@ -44,6 +44,12 @@ extension Kinesis {
             self.shardCount = shardCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            guard let shardCount = dictionary["ShardCount"] as? Int32 else { throw InitializableError.missingRequiredParam("ShardCount") }
+            self.shardCount = shardCount
+        }
     }
 
     public struct AddTagsToStreamInput: AWSShape {
@@ -61,6 +67,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = tags
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct DescribeLimitsInput: AWSShape {
@@ -69,6 +81,8 @@ extension Kinesis {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeStreamInput: AWSShape {
@@ -89,6 +103,12 @@ extension Kinesis {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            self.exclusiveStartShardId = dictionary["ExclusiveStartShardId"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct UpdateShardCountOutput: AWSShape {
@@ -109,6 +129,11 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.targetShardCount = dictionary["TargetShardCount"] as? Int32
+            self.currentShardCount = dictionary["CurrentShardCount"] as? Int32
+            self.streamName = dictionary["StreamName"] as? String
+        }
     }
 
     public struct DecreaseStreamRetentionPeriodInput: AWSShape {
@@ -126,6 +151,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let retentionPeriodHours = dictionary["RetentionPeriodHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriodHours") }
+            self.retentionPeriodHours = retentionPeriodHours
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct IncreaseStreamRetentionPeriodInput: AWSShape {
@@ -143,6 +174,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let retentionPeriodHours = dictionary["RetentionPeriodHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriodHours") }
+            self.retentionPeriodHours = retentionPeriodHours
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct Shard: AWSShape {
@@ -169,6 +206,16 @@ extension Kinesis {
             self.parentShardId = parentShardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
+            self.shardId = shardId
+            guard let sequenceNumberRange = dictionary["SequenceNumberRange"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SequenceNumberRange") }
+            self.sequenceNumberRange = try Kinesis.SequenceNumberRange(dictionary: sequenceNumberRange)
+            self.adjacentParentShardId = dictionary["AdjacentParentShardId"] as? String
+            guard let hashKeyRange = dictionary["HashKeyRange"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HashKeyRange") }
+            self.hashKeyRange = try Kinesis.HashKeyRange(dictionary: hashKeyRange)
+            self.parentShardId = dictionary["ParentShardId"] as? String
+        }
     }
 
     public struct PutRecordsOutput: AWSShape {
@@ -186,6 +233,11 @@ extension Kinesis {
             self.records = records
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failedRecordCount = dictionary["FailedRecordCount"] as? Int32
+            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
+            self.records = try records.map({ try PutRecordsResultEntry(dictionary: $0) })
+        }
     }
 
     public struct DescribeStreamOutput: AWSShape {
@@ -200,6 +252,10 @@ extension Kinesis {
             self.streamDescription = streamDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamDescription = dictionary["StreamDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamDescription") }
+            self.streamDescription = try Kinesis.StreamDescription(dictionary: streamDescription)
+        }
     }
 
     public struct EnhancedMonitoringOutput: AWSShape {
@@ -220,6 +276,15 @@ extension Kinesis {
             self.currentShardLevelMetrics = currentShardLevelMetrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let desiredShardLevelMetrics = dictionary["DesiredShardLevelMetrics"] as? [String] {
+                self.desiredShardLevelMetrics = desiredShardLevelMetrics
+            }
+            self.streamName = dictionary["StreamName"] as? String
+            if let currentShardLevelMetrics = dictionary["CurrentShardLevelMetrics"] as? [String] {
+                self.currentShardLevelMetrics = currentShardLevelMetrics
+            }
+        }
     }
 
     public struct PutRecordOutput: AWSShape {
@@ -237,6 +302,12 @@ extension Kinesis {
             self.shardId = shardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sequenceNumber = dictionary["SequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("SequenceNumber") }
+            self.sequenceNumber = sequenceNumber
+            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
+            self.shardId = shardId
+        }
     }
 
     public struct Record: AWSShape {
@@ -260,6 +331,15 @@ extension Kinesis {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.approximateArrivalTimestamp = dictionary["ApproximateArrivalTimestamp"] as? Date
+            guard let sequenceNumber = dictionary["SequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("SequenceNumber") }
+            self.sequenceNumber = sequenceNumber
+            guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
+            self.partitionKey = partitionKey
+            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
+            self.data = data
+        }
     }
 
     public struct DisableEnhancedMonitoringInput: AWSShape {
@@ -277,6 +357,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] else { throw InitializableError.missingRequiredParam("ShardLevelMetrics") }
+            self.shardLevelMetrics = shardLevelMetrics
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct HashKeyRange: AWSShape {
@@ -294,6 +380,12 @@ extension Kinesis {
             self.endingHashKey = endingHashKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startingHashKey = dictionary["StartingHashKey"] as? String else { throw InitializableError.missingRequiredParam("StartingHashKey") }
+            self.startingHashKey = startingHashKey
+            guard let endingHashKey = dictionary["EndingHashKey"] as? String else { throw InitializableError.missingRequiredParam("EndingHashKey") }
+            self.endingHashKey = endingHashKey
+        }
     }
 
     public struct SequenceNumberRange: AWSShape {
@@ -311,6 +403,11 @@ extension Kinesis {
             self.startingSequenceNumber = startingSequenceNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endingSequenceNumber = dictionary["EndingSequenceNumber"] as? String
+            guard let startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("StartingSequenceNumber") }
+            self.startingSequenceNumber = startingSequenceNumber
+        }
     }
 
     public struct DescribeLimitsOutput: AWSShape {
@@ -328,6 +425,12 @@ extension Kinesis {
             self.openShardCount = openShardCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shardLimit = dictionary["ShardLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("ShardLimit") }
+            self.shardLimit = shardLimit
+            guard let openShardCount = dictionary["OpenShardCount"] as? Int32 else { throw InitializableError.missingRequiredParam("OpenShardCount") }
+            self.openShardCount = openShardCount
+        }
     }
 
     public struct PutRecordsInput: AWSShape {
@@ -345,6 +448,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
+            self.records = try records.map({ try PutRecordsRequestEntry(dictionary: $0) })
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct GetShardIteratorInput: AWSShape {
@@ -371,6 +480,16 @@ extension Kinesis {
             self.shardId = shardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
+            self.timestamp = dictionary["Timestamp"] as? Date
+            guard let shardIteratorType = dictionary["ShardIteratorType"] as? String else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
+            self.shardIteratorType = shardIteratorType
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
+            self.shardId = shardId
+        }
     }
 
     public struct ListTagsForStreamOutput: AWSShape {
@@ -388,6 +507,12 @@ extension Kinesis {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hasMoreTags = dictionary["HasMoreTags"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreTags") }
+            self.hasMoreTags = hasMoreTags
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct PutRecordsRequestEntry: AWSShape {
@@ -408,6 +533,13 @@ extension Kinesis {
             self.partitionKey = partitionKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
+            self.data = data
+            self.explicitHashKey = dictionary["ExplicitHashKey"] as? String
+            guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
+            self.partitionKey = partitionKey
+        }
     }
 
     public struct GetRecordsInput: AWSShape {
@@ -425,6 +557,11 @@ extension Kinesis {
             self.shardIterator = shardIterator
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            guard let shardIterator = dictionary["ShardIterator"] as? String else { throw InitializableError.missingRequiredParam("ShardIterator") }
+            self.shardIterator = shardIterator
+        }
     }
 
     public struct UpdateShardCountInput: AWSShape {
@@ -445,6 +582,14 @@ extension Kinesis {
             self.scalingType = scalingType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetShardCount = dictionary["TargetShardCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TargetShardCount") }
+            self.targetShardCount = targetShardCount
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            guard let scalingType = dictionary["ScalingType"] as? String else { throw InitializableError.missingRequiredParam("ScalingType") }
+            self.scalingType = scalingType
+        }
     }
 
     public struct Tag: AWSShape {
@@ -462,6 +607,11 @@ extension Kinesis {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
     }
 
     public struct DeleteStreamInput: AWSShape {
@@ -476,6 +626,10 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct GetShardIteratorOutput: AWSShape {
@@ -490,6 +644,9 @@ extension Kinesis {
             self.shardIterator = shardIterator
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shardIterator = dictionary["ShardIterator"] as? String
+        }
     }
 
     public struct PutRecordInput: AWSShape {
@@ -516,6 +673,16 @@ extension Kinesis {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
+            self.partitionKey = partitionKey
+            self.explicitHashKey = dictionary["ExplicitHashKey"] as? String
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            self.sequenceNumberForOrdering = dictionary["SequenceNumberForOrdering"] as? String
+            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
+            self.data = data
+        }
     }
 
     public struct PutRecordsResultEntry: AWSShape {
@@ -539,6 +706,12 @@ extension Kinesis {
             self.shardId = shardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sequenceNumber = dictionary["SequenceNumber"] as? String
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.shardId = dictionary["ShardId"] as? String
+        }
     }
 
     public struct ListTagsForStreamInput: AWSShape {
@@ -559,6 +732,12 @@ extension Kinesis {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exclusiveStartTagKey = dictionary["ExclusiveStartTagKey"] as? String
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct ListStreamsOutput: AWSShape {
@@ -576,6 +755,12 @@ extension Kinesis {
             self.hasMoreStreams = hasMoreStreams
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamNames = dictionary["StreamNames"] as? [String] else { throw InitializableError.missingRequiredParam("StreamNames") }
+            self.streamNames = streamNames
+            guard let hasMoreStreams = dictionary["HasMoreStreams"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreStreams") }
+            self.hasMoreStreams = hasMoreStreams
+        }
     }
 
     public struct EnableEnhancedMonitoringInput: AWSShape {
@@ -593,6 +778,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] else { throw InitializableError.missingRequiredParam("ShardLevelMetrics") }
+            self.shardLevelMetrics = shardLevelMetrics
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct MergeShardsInput: AWSShape {
@@ -613,6 +804,14 @@ extension Kinesis {
             self.streamName = streamName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let adjacentShardToMerge = dictionary["AdjacentShardToMerge"] as? String else { throw InitializableError.missingRequiredParam("AdjacentShardToMerge") }
+            self.adjacentShardToMerge = adjacentShardToMerge
+            guard let shardToMerge = dictionary["ShardToMerge"] as? String else { throw InitializableError.missingRequiredParam("ShardToMerge") }
+            self.shardToMerge = shardToMerge
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+        }
     }
 
     public struct RemoveTagsFromStreamInput: AWSShape {
@@ -630,6 +829,12 @@ extension Kinesis {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct ListStreamsInput: AWSShape {
@@ -647,6 +852,10 @@ extension Kinesis {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exclusiveStartStreamName = dictionary["ExclusiveStartStreamName"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct GetRecordsOutput: AWSShape {
@@ -667,6 +876,12 @@ extension Kinesis {
             self.records = records
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextShardIterator = dictionary["NextShardIterator"] as? String
+            self.millisBehindLatest = dictionary["MillisBehindLatest"] as? Int64
+            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
+            self.records = try records.map({ try Record(dictionary: $0) })
+        }
     }
 
     public struct SplitShardInput: AWSShape {
@@ -687,6 +902,14 @@ extension Kinesis {
             self.newStartingHashKey = newStartingHashKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            guard let shardToSplit = dictionary["ShardToSplit"] as? String else { throw InitializableError.missingRequiredParam("ShardToSplit") }
+            self.shardToSplit = shardToSplit
+            guard let newStartingHashKey = dictionary["NewStartingHashKey"] as? String else { throw InitializableError.missingRequiredParam("NewStartingHashKey") }
+            self.newStartingHashKey = newStartingHashKey
+        }
     }
 
     public struct EnhancedMetrics: AWSShape {
@@ -701,6 +924,11 @@ extension Kinesis {
             self.shardLevelMetrics = shardLevelMetrics
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] {
+                self.shardLevelMetrics = shardLevelMetrics
+            }
+        }
     }
 
     public struct StreamDescription: AWSShape {
@@ -736,6 +964,24 @@ extension Kinesis {
             self.streamStatus = streamStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamARN = dictionary["StreamARN"] as? String else { throw InitializableError.missingRequiredParam("StreamARN") }
+            self.streamARN = streamARN
+            guard let retentionPeriodHours = dictionary["RetentionPeriodHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriodHours") }
+            self.retentionPeriodHours = retentionPeriodHours
+            guard let enhancedMonitoring = dictionary["EnhancedMonitoring"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("EnhancedMonitoring") }
+            self.enhancedMonitoring = try enhancedMonitoring.map({ try EnhancedMetrics(dictionary: $0) })
+            guard let hasMoreShards = dictionary["HasMoreShards"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreShards") }
+            self.hasMoreShards = hasMoreShards
+            guard let shards = dictionary["Shards"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Shards") }
+            self.shards = try shards.map({ try Shard(dictionary: $0) })
+            guard let streamCreationTimestamp = dictionary["StreamCreationTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("StreamCreationTimestamp") }
+            self.streamCreationTimestamp = streamCreationTimestamp
+            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
+            self.streamName = streamName
+            guard let streamStatus = dictionary["StreamStatus"] as? String else { throw InitializableError.missingRequiredParam("StreamStatus") }
+            self.streamStatus = streamStatus
+        }
     }
 
 }

@@ -44,6 +44,10 @@ extension Organizations {
             self.parentHandshakeId = parentHandshakeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionType = dictionary["ActionType"] as? String
+            self.parentHandshakeId = dictionary["ParentHandshakeId"] as? String
+        }
     }
 
     public struct CreatePolicyResponse: AWSShape {
@@ -58,6 +62,9 @@ extension Organizations {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) }
+        }
     }
 
     public struct ListAccountsResponse: AWSShape {
@@ -75,6 +82,12 @@ extension Organizations {
             self.accounts = accounts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let accounts = dictionary["Accounts"] as? [[String: Any]] {
+                self.accounts = try accounts.map({ try Account(dictionary: $0) })
+            }
+        }
     }
 
     public struct Policy: AWSShape {
@@ -92,6 +105,10 @@ extension Organizations {
             self.policySummary = policySummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.content = dictionary["Content"] as? String
+            if let policySummary = dictionary["PolicySummary"] as? [String: Any] { self.policySummary = try Organizations.PolicySummary(dictionary: policySummary) }
+        }
     }
 
     public struct InviteAccountToOrganizationRequest: AWSShape {
@@ -109,6 +126,11 @@ extension Organizations {
             self.target = target
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.notes = dictionary["Notes"] as? String
+            guard let target = dictionary["Target"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Target") }
+            self.target = try Organizations.HandshakeParty(dictionary: target)
+        }
     }
 
     public struct CancelHandshakeResponse: AWSShape {
@@ -123,6 +145,9 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+        }
     }
 
     public struct CreateAccountStatus: AWSShape {
@@ -155,6 +180,15 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accountId = dictionary["AccountId"] as? String
+            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? Date
+            self.state = dictionary["State"] as? String
+            self.accountName = dictionary["AccountName"] as? String
+            self.completedTimestamp = dictionary["CompletedTimestamp"] as? Date
+            self.failureReason = dictionary["FailureReason"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DeclineHandshakeResponse: AWSShape {
@@ -169,6 +203,9 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+        }
     }
 
     public struct ListTargetsForPolicyResponse: AWSShape {
@@ -186,6 +223,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try PolicyTargetSummary(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListPoliciesRequest: AWSShape {
@@ -206,6 +249,12 @@ extension Organizations {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let filter = dictionary["Filter"] as? String else { throw InitializableError.missingRequiredParam("Filter") }
+            self.filter = filter
+        }
     }
 
     public struct ListPoliciesForTargetRequest: AWSShape {
@@ -229,6 +278,14 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let filter = dictionary["Filter"] as? String else { throw InitializableError.missingRequiredParam("Filter") }
+            self.filter = filter
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
+            self.targetId = targetId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListTargetsForPolicyRequest: AWSShape {
@@ -249,6 +306,12 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
+            self.policyId = policyId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListOrganizationalUnitsForParentResponse: AWSShape {
@@ -266,6 +329,12 @@ extension Organizations {
             self.organizationalUnits = organizationalUnits
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let organizationalUnits = dictionary["OrganizationalUnits"] as? [[String: Any]] {
+                self.organizationalUnits = try organizationalUnits.map({ try OrganizationalUnit(dictionary: $0) })
+            }
+        }
     }
 
     public struct HandshakeResource: AWSShape {
@@ -286,6 +355,13 @@ extension Organizations {
             self.resources = resources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.value = dictionary["Value"] as? String
+            if let resources = dictionary["Resources"] as? [[String: Any]] {
+                self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
+            }
+        }
     }
 
     public struct EnableAllFeaturesResponse: AWSShape {
@@ -300,6 +376,9 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+        }
     }
 
     public struct DescribeOrganizationalUnitResponse: AWSShape {
@@ -314,6 +393,9 @@ extension Organizations {
             self.organizationalUnit = organizationalUnit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) }
+        }
     }
 
     public struct InviteAccountToOrganizationResponse: AWSShape {
@@ -328,6 +410,9 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+        }
     }
 
     public struct DescribeOrganizationalUnitRequest: AWSShape {
@@ -342,6 +427,10 @@ extension Organizations {
             self.organizationalUnitId = organizationalUnitId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let organizationalUnitId = dictionary["OrganizationalUnitId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationalUnitId") }
+            self.organizationalUnitId = organizationalUnitId
+        }
     }
 
     public struct UpdateOrganizationalUnitResponse: AWSShape {
@@ -356,6 +445,9 @@ extension Organizations {
             self.organizationalUnit = organizationalUnit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) }
+        }
     }
 
     public struct CreateAccountResponse: AWSShape {
@@ -370,6 +462,9 @@ extension Organizations {
             self.createAccountStatus = createAccountStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) }
+        }
     }
 
     public struct EnablePolicyTypeRequest: AWSShape {
@@ -387,6 +482,12 @@ extension Organizations {
             self.rootId = rootId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyType = dictionary["PolicyType"] as? String else { throw InitializableError.missingRequiredParam("PolicyType") }
+            self.policyType = policyType
+            guard let rootId = dictionary["RootId"] as? String else { throw InitializableError.missingRequiredParam("RootId") }
+            self.rootId = rootId
+        }
     }
 
     public struct CreateOrganizationalUnitRequest: AWSShape {
@@ -404,6 +505,12 @@ extension Organizations {
             self.parentId = parentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
+            self.parentId = parentId
+        }
     }
 
     public struct DescribeCreateAccountStatusResponse: AWSShape {
@@ -418,6 +525,9 @@ extension Organizations {
             self.createAccountStatus = createAccountStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) }
+        }
     }
 
     public struct ListRootsResponse: AWSShape {
@@ -435,6 +545,12 @@ extension Organizations {
             self.roots = roots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let roots = dictionary["Roots"] as? [[String: Any]] {
+                self.roots = try roots.map({ try Root(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListCreateAccountStatusRequest: AWSShape {
@@ -455,6 +571,13 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let states = dictionary["States"] as? [String] {
+                self.states = states
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateOrganizationResponse: AWSShape {
@@ -469,6 +592,9 @@ extension Organizations {
             self.organization = organization
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) }
+        }
     }
 
     public struct MoveAccountRequest: AWSShape {
@@ -489,6 +615,14 @@ extension Organizations {
             self.destinationParentId = destinationParentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+            guard let sourceParentId = dictionary["SourceParentId"] as? String else { throw InitializableError.missingRequiredParam("SourceParentId") }
+            self.sourceParentId = sourceParentId
+            guard let destinationParentId = dictionary["DestinationParentId"] as? String else { throw InitializableError.missingRequiredParam("DestinationParentId") }
+            self.destinationParentId = destinationParentId
+        }
     }
 
     public struct AttachPolicyRequest: AWSShape {
@@ -506,6 +640,12 @@ extension Organizations {
             self.targetId = targetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
+            self.policyId = policyId
+            guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
+            self.targetId = targetId
+        }
     }
 
     public struct ListParentsResponse: AWSShape {
@@ -523,6 +663,12 @@ extension Organizations {
             self.parents = parents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let parents = dictionary["Parents"] as? [[String: Any]] {
+                self.parents = try parents.map({ try Parent(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdatePolicyRequest: AWSShape {
@@ -546,6 +692,13 @@ extension Organizations {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.content = dictionary["Content"] as? String
+            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
+            self.policyId = policyId
+            self.name = dictionary["Name"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Organization: AWSShape {
@@ -578,6 +731,17 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.masterAccountEmail = dictionary["MasterAccountEmail"] as? String
+            self.arn = dictionary["Arn"] as? String
+            if let availablePolicyTypes = dictionary["AvailablePolicyTypes"] as? [[String: Any]] {
+                self.availablePolicyTypes = try availablePolicyTypes.map({ try PolicyTypeSummary(dictionary: $0) })
+            }
+            self.masterAccountArn = dictionary["MasterAccountArn"] as? String
+            self.featureSet = dictionary["FeatureSet"] as? String
+            self.masterAccountId = dictionary["MasterAccountId"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct Child: AWSShape {
@@ -595,6 +759,10 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct ListChildrenRequest: AWSShape {
@@ -618,6 +786,14 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let childType = dictionary["ChildType"] as? String else { throw InitializableError.missingRequiredParam("ChildType") }
+            self.childType = childType
+            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
+            self.parentId = parentId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct PolicyTypeSummary: AWSShape {
@@ -635,6 +811,10 @@ extension Organizations {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct DeclineHandshakeRequest: AWSShape {
@@ -649,6 +829,10 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
+            self.handshakeId = handshakeId
+        }
     }
 
     public struct AcceptHandshakeRequest: AWSShape {
@@ -663,6 +847,10 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
+            self.handshakeId = handshakeId
+        }
     }
 
     public struct Account: AWSShape {
@@ -692,6 +880,14 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.joinedTimestamp = dictionary["JoinedTimestamp"] as? Date
+            self.status = dictionary["Status"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.name = dictionary["Name"] as? String
+            self.joinedMethod = dictionary["JoinedMethod"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct ListAccountsRequest: AWSShape {
@@ -709,6 +905,10 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct HandshakeParty: AWSShape {
@@ -726,6 +926,10 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct ListHandshakesForAccountRequest: AWSShape {
@@ -746,6 +950,11 @@ extension Organizations {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) }
+        }
     }
 
     public struct ListCreateAccountStatusResponse: AWSShape {
@@ -763,6 +972,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let createAccountStatuses = dictionary["CreateAccountStatuses"] as? [[String: Any]] {
+                self.createAccountStatuses = try createAccountStatuses.map({ try CreateAccountStatus(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Parent: AWSShape {
@@ -780,6 +995,10 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribePolicyResponse: AWSShape {
@@ -794,6 +1013,9 @@ extension Organizations {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) }
+        }
     }
 
     public struct UpdateOrganizationalUnitRequest: AWSShape {
@@ -811,6 +1033,11 @@ extension Organizations {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let organizationalUnitId = dictionary["OrganizationalUnitId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationalUnitId") }
+            self.organizationalUnitId = organizationalUnitId
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct ListPoliciesResponse: AWSShape {
@@ -828,6 +1055,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policies = dictionary["Policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try PolicySummary(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListChildrenResponse: AWSShape {
@@ -845,6 +1078,12 @@ extension Organizations {
             self.children = children
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let children = dictionary["Children"] as? [[String: Any]] {
+                self.children = try children.map({ try Child(dictionary: $0) })
+            }
+        }
     }
 
     public struct DisablePolicyTypeRequest: AWSShape {
@@ -862,6 +1101,12 @@ extension Organizations {
             self.rootId = rootId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyType = dictionary["PolicyType"] as? String else { throw InitializableError.missingRequiredParam("PolicyType") }
+            self.policyType = policyType
+            guard let rootId = dictionary["RootId"] as? String else { throw InitializableError.missingRequiredParam("RootId") }
+            self.rootId = rootId
+        }
     }
 
     public struct DetachPolicyRequest: AWSShape {
@@ -879,6 +1124,12 @@ extension Organizations {
             self.targetId = targetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
+            self.policyId = policyId
+            guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
+            self.targetId = targetId
+        }
     }
 
     public struct CreateAccountRequest: AWSShape {
@@ -902,6 +1153,14 @@ extension Organizations {
             self.iamUserAccessToBilling = iamUserAccessToBilling
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountName = dictionary["AccountName"] as? String else { throw InitializableError.missingRequiredParam("AccountName") }
+            self.accountName = accountName
+            guard let email = dictionary["Email"] as? String else { throw InitializableError.missingRequiredParam("Email") }
+            self.email = email
+            self.roleName = dictionary["RoleName"] as? String
+            self.iamUserAccessToBilling = dictionary["IamUserAccessToBilling"] as? String
+        }
     }
 
     public struct ListParentsRequest: AWSShape {
@@ -922,6 +1181,12 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let childId = dictionary["ChildId"] as? String else { throw InitializableError.missingRequiredParam("ChildId") }
+            self.childId = childId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeCreateAccountStatusRequest: AWSShape {
@@ -936,6 +1201,10 @@ extension Organizations {
             self.createAccountRequestId = createAccountRequestId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let createAccountRequestId = dictionary["CreateAccountRequestId"] as? String else { throw InitializableError.missingRequiredParam("CreateAccountRequestId") }
+            self.createAccountRequestId = createAccountRequestId
+        }
     }
 
     public struct DeletePolicyRequest: AWSShape {
@@ -950,6 +1219,10 @@ extension Organizations {
             self.policyId = policyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
+            self.policyId = policyId
+        }
     }
 
     public struct EnablePolicyTypeResponse: AWSShape {
@@ -964,6 +1237,9 @@ extension Organizations {
             self.root = root
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) }
+        }
     }
 
     public struct CreateOrganizationalUnitResponse: AWSShape {
@@ -978,6 +1254,9 @@ extension Organizations {
             self.organizationalUnit = organizationalUnit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) }
+        }
     }
 
     public struct DescribeHandshakeRequest: AWSShape {
@@ -992,6 +1271,10 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
+            self.handshakeId = handshakeId
+        }
     }
 
     public struct EnableAllFeaturesRequest: AWSShape {
@@ -1000,6 +1283,8 @@ extension Organizations {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdatePolicyResponse: AWSShape {
@@ -1014,6 +1299,9 @@ extension Organizations {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) }
+        }
     }
 
     public struct ListPoliciesForTargetResponse: AWSShape {
@@ -1031,6 +1319,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policies = dictionary["Policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try PolicySummary(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct ListAccountsForParentResponse: AWSShape {
@@ -1048,6 +1342,12 @@ extension Organizations {
             self.accounts = accounts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let accounts = dictionary["Accounts"] as? [[String: Any]] {
+                self.accounts = try accounts.map({ try Account(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListHandshakesForOrganizationRequest: AWSShape {
@@ -1068,6 +1368,11 @@ extension Organizations {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) }
+        }
     }
 
     public struct RemoveAccountFromOrganizationRequest: AWSShape {
@@ -1082,6 +1387,10 @@ extension Organizations {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+        }
     }
 
     public struct CreatePolicyRequest: AWSShape {
@@ -1105,6 +1414,16 @@ extension Organizations {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
+            self.content = content
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct PolicySummary: AWSShape {
@@ -1134,6 +1453,14 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.awsManaged = dictionary["AwsManaged"] as? Bool
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DisablePolicyTypeResponse: AWSShape {
@@ -1148,6 +1475,9 @@ extension Organizations {
             self.root = root
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) }
+        }
     }
 
     public struct ListHandshakesForOrganizationResponse: AWSShape {
@@ -1165,6 +1495,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshakes = dictionary["Handshakes"] as? [[String: Any]] {
+                self.handshakes = try handshakes.map({ try Handshake(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Handshake: AWSShape {
@@ -1200,6 +1536,20 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? Date
+            self.arn = dictionary["Arn"] as? String
+            self.action = dictionary["Action"] as? String
+            self.state = dictionary["State"] as? String
+            self.expirationTimestamp = dictionary["ExpirationTimestamp"] as? Date
+            if let resources = dictionary["Resources"] as? [[String: Any]] {
+                self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
+            }
+            if let parties = dictionary["Parties"] as? [[String: Any]] {
+                self.parties = try parties.map({ try HandshakeParty(dictionary: $0) })
+            }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeHandshakeResponse: AWSShape {
@@ -1214,6 +1564,9 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+        }
     }
 
     public struct CancelHandshakeRequest: AWSShape {
@@ -1228,6 +1581,10 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
+            self.handshakeId = handshakeId
+        }
     }
 
     public struct CreateOrganizationRequest: AWSShape {
@@ -1242,6 +1599,9 @@ extension Organizations {
             self.featureSet = featureSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.featureSet = dictionary["FeatureSet"] as? String
+        }
     }
 
     public struct ListOrganizationalUnitsForParentRequest: AWSShape {
@@ -1262,6 +1622,12 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
+            self.parentId = parentId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct PolicyTargetSummary: AWSShape {
@@ -1285,6 +1651,12 @@ extension Organizations {
             self.targetId = targetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            self.targetId = dictionary["TargetId"] as? String
+        }
     }
 
     public struct AcceptHandshakeResponse: AWSShape {
@@ -1299,6 +1671,9 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+        }
     }
 
     public struct ListHandshakesForAccountResponse: AWSShape {
@@ -1316,6 +1691,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let handshakes = dictionary["Handshakes"] as? [[String: Any]] {
+                self.handshakes = try handshakes.map({ try Handshake(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct OrganizationalUnit: AWSShape {
@@ -1336,6 +1717,11 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeAccountRequest: AWSShape {
@@ -1350,6 +1736,10 @@ extension Organizations {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
+            self.accountId = accountId
+        }
     }
 
     public struct Root: AWSShape {
@@ -1373,6 +1763,14 @@ extension Organizations {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            if let policyTypes = dictionary["PolicyTypes"] as? [[String: Any]] {
+                self.policyTypes = try policyTypes.map({ try PolicyTypeSummary(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeAccountResponse: AWSShape {
@@ -1387,6 +1785,9 @@ extension Organizations {
             self.account = account
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let account = dictionary["Account"] as? [String: Any] { self.account = try Organizations.Account(dictionary: account) }
+        }
     }
 
     public struct DescribePolicyRequest: AWSShape {
@@ -1401,6 +1802,10 @@ extension Organizations {
             self.policyId = policyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
+            self.policyId = policyId
+        }
     }
 
     public struct DeleteOrganizationalUnitRequest: AWSShape {
@@ -1415,6 +1820,10 @@ extension Organizations {
             self.organizationalUnitId = organizationalUnitId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let organizationalUnitId = dictionary["OrganizationalUnitId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationalUnitId") }
+            self.organizationalUnitId = organizationalUnitId
+        }
     }
 
     public struct ListAccountsForParentRequest: AWSShape {
@@ -1435,6 +1844,12 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
+            self.parentId = parentId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListRootsRequest: AWSShape {
@@ -1452,6 +1867,10 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeOrganizationResponse: AWSShape {
@@ -1466,6 +1885,9 @@ extension Organizations {
             self.organization = organization
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) }
+        }
     }
 
 }

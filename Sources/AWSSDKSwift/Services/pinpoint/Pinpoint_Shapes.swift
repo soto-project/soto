@@ -41,6 +41,11 @@ extension Pinpoint {
             self.item = item
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try EndpointBatchItem(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateEndpointsBatchResponse: AWSShape {
@@ -54,6 +59,10 @@ extension Pinpoint {
             self.messageBody = messageBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let messageBody = dictionary["MessageBody"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MessageBody") }
+            self.messageBody = try Pinpoint.MessageBody(dictionary: messageBody)
+        }
     }
 
     public struct GetCampaignActivitiesRequest: AWSShape {
@@ -79,6 +88,14 @@ extension Pinpoint {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.campaignId = campaignId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            self.token = dictionary["Token"] as? String
+        }
     }
 
     public struct EndpointRequest: AWSShape {
@@ -120,6 +137,28 @@ extension Pinpoint {
             self.channelType = channelType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endpointStatus = dictionary["EndpointStatus"] as? String
+            self.optOut = dictionary["OptOut"] as? String
+            if let metrics = dictionary["Metrics"] as? [String: Double] {
+                self.metrics = metrics
+            }
+            self.effectiveDate = dictionary["EffectiveDate"] as? String
+            self.address = dictionary["Address"] as? String
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) }
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: [String]] = [:]
+                for (key, value) in attributes {
+                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
+                    attributesDict[key] = listOfString
+                }
+                self.attributes = attributesDict
+            }
+            self.requestId = dictionary["RequestId"] as? String
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) }
+            self.channelType = dictionary["ChannelType"] as? String
+        }
     }
 
     public struct UpdateApplicationSettingsResponse: AWSShape {
@@ -133,6 +172,10 @@ extension Pinpoint {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationSettingsResource = dictionary["ApplicationSettingsResource"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationSettingsResource") }
+            self.applicationSettingsResource = try Pinpoint.ApplicationSettingsResource(dictionary: applicationSettingsResource)
+        }
     }
 
     public struct GetGcmChannelRequest: AWSShape {
@@ -149,6 +192,10 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct GCMChannelRequest: AWSShape {
@@ -163,6 +210,9 @@ extension Pinpoint {
             self.apiKey = apiKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.apiKey = dictionary["ApiKey"] as? String
+        }
     }
 
     public struct CreateCampaignRequest: AWSShape {
@@ -181,6 +231,12 @@ extension Pinpoint {
             self.writeCampaignRequest = writeCampaignRequest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let writeCampaignRequest = dictionary["WriteCampaignRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteCampaignRequest") }
+            self.writeCampaignRequest = try Pinpoint.WriteCampaignRequest(dictionary: writeCampaignRequest)
+        }
     }
 
     public struct GetSegmentRequest: AWSShape {
@@ -199,6 +255,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            self.segmentId = segmentId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct QuietTime: AWSShape {
@@ -216,6 +278,10 @@ extension Pinpoint {
             self.start = start
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.end = dictionary["End"] as? String
+            self.start = dictionary["Start"] as? String
+        }
     }
 
     public struct DeleteApnsChannelRequest: AWSShape {
@@ -232,6 +298,10 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct DeleteCampaignRequest: AWSShape {
@@ -250,6 +320,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.campaignId = campaignId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct DeleteGcmChannelResponse: AWSShape {
@@ -263,6 +339,10 @@ extension Pinpoint {
             self.gCMChannelResponse = gCMChannelResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gCMChannelResponse = dictionary["GCMChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelResponse") }
+            self.gCMChannelResponse = try Pinpoint.GCMChannelResponse(dictionary: gCMChannelResponse)
+        }
     }
 
     public struct GetSegmentsRequest: AWSShape {
@@ -286,6 +366,12 @@ extension Pinpoint {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            self.token = dictionary["Token"] as? String
+        }
     }
 
     public struct GetImportJobResponse: AWSShape {
@@ -299,6 +385,10 @@ extension Pinpoint {
             self.importJobResponse = importJobResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let importJobResponse = dictionary["ImportJobResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobResponse") }
+            self.importJobResponse = try Pinpoint.ImportJobResponse(dictionary: importJobResponse)
+        }
     }
 
     public struct CreateSegmentRequest: AWSShape {
@@ -317,6 +407,12 @@ extension Pinpoint {
             self.writeSegmentRequest = writeSegmentRequest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let writeSegmentRequest = dictionary["WriteSegmentRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteSegmentRequest") }
+            self.writeSegmentRequest = try Pinpoint.WriteSegmentRequest(dictionary: writeSegmentRequest)
+        }
     }
 
     public struct GetSegmentVersionsRequest: AWSShape {
@@ -342,6 +438,14 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            self.token = dictionary["Token"] as? String
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            self.segmentId = segmentId
+        }
     }
 
     public struct Message: AWSShape {
@@ -379,6 +483,17 @@ extension Pinpoint {
             self.imageIconUrl = imageIconUrl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.action = dictionary["Action"] as? String
+            self.url = dictionary["Url"] as? String
+            self.mediaUrl = dictionary["MediaUrl"] as? String
+            self.title = dictionary["Title"] as? String
+            self.imageUrl = dictionary["ImageUrl"] as? String
+            self.silentPush = dictionary["SilentPush"] as? Bool
+            self.jsonBody = dictionary["JsonBody"] as? String
+            self.body = dictionary["Body"] as? String
+            self.imageIconUrl = dictionary["ImageIconUrl"] as? String
+        }
     }
 
     public struct GetApplicationSettingsRequest: AWSShape {
@@ -395,6 +510,10 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct GetSegmentVersionRequest: AWSShape {
@@ -415,6 +534,14 @@ extension Pinpoint {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            self.segmentId = segmentId
+            guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+        }
     }
 
     public struct SegmentLocation: AWSShape {
@@ -429,6 +556,9 @@ extension Pinpoint {
             self.country = country
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let country = dictionary["Country"] as? [String: Any] { self.country = try Pinpoint.SetDimension(dictionary: country) }
+        }
     }
 
     public struct WriteCampaignRequest: AWSShape {
@@ -476,6 +606,22 @@ extension Pinpoint {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.treatmentName = dictionary["TreatmentName"] as? String
+            self.segmentVersion = dictionary["SegmentVersion"] as? Int32
+            if let additionalTreatments = dictionary["AdditionalTreatments"] as? [[String: Any]] {
+                self.additionalTreatments = try additionalTreatments.map({ try WriteTreatmentResource(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
+            self.holdoutPercent = dictionary["HoldoutPercent"] as? Int32
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            self.segmentId = dictionary["SegmentId"] as? String
+            self.isPaused = dictionary["IsPaused"] as? Bool
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UpdateApplicationSettingsRequest: AWSShape {
@@ -494,6 +640,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let writeApplicationSettingsRequest = dictionary["WriteApplicationSettingsRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteApplicationSettingsRequest") }
+            self.writeApplicationSettingsRequest = try Pinpoint.WriteApplicationSettingsRequest(dictionary: writeApplicationSettingsRequest)
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct WriteTreatmentResource: AWSShape {
@@ -520,6 +672,13 @@ extension Pinpoint {
             self.treatmentName = treatmentName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
+            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            self.sizePercent = dictionary["SizePercent"] as? Int32
+            self.treatmentName = dictionary["TreatmentName"] as? String
+        }
     }
 
     public struct TreatmentResource: AWSShape {
@@ -552,6 +711,15 @@ extension Pinpoint {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.treatmentName = dictionary["TreatmentName"] as? String
+            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
+            self.sizePercent = dictionary["SizePercent"] as? Int32
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) }
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct EndpointResponse: AWSShape {
@@ -608,6 +776,33 @@ extension Pinpoint {
             self.endpointStatus = endpointStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) }
+            self.shardId = dictionary["ShardId"] as? String
+            self.optOut = dictionary["OptOut"] as? String
+            if let metrics = dictionary["Metrics"] as? [String: Double] {
+                self.metrics = metrics
+            }
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.cohortId = dictionary["CohortId"] as? String
+            self.id = dictionary["Id"] as? String
+            self.effectiveDate = dictionary["EffectiveDate"] as? String
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) }
+            self.address = dictionary["Address"] as? String
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: [String]] = [:]
+                for (key, value) in attributes {
+                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
+                    attributesDict[key] = listOfString
+                }
+                self.attributes = attributesDict
+            }
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.requestId = dictionary["RequestId"] as? String
+            self.channelType = dictionary["ChannelType"] as? String
+            self.endpointStatus = dictionary["EndpointStatus"] as? String
+        }
     }
 
     public struct GetImportJobRequest: AWSShape {
@@ -626,6 +821,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct CampaignResponse: AWSShape {
@@ -694,6 +895,29 @@ extension Pinpoint {
             self.defaultState = defaultState
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
+            self.treatmentName = dictionary["TreatmentName"] as? String
+            self.segmentVersion = dictionary["SegmentVersion"] as? Int32
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) }
+            self.creationDate = dictionary["CreationDate"] as? String
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            self.segmentId = dictionary["SegmentId"] as? String
+            self.id = dictionary["Id"] as? String
+            self.description = dictionary["Description"] as? String
+            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
+            if let additionalTreatments = dictionary["AdditionalTreatments"] as? [[String: Any]] {
+                self.additionalTreatments = try additionalTreatments.map({ try TreatmentResource(dictionary: $0) })
+            }
+            self.name = dictionary["Name"] as? String
+            self.holdoutPercent = dictionary["HoldoutPercent"] as? Int32
+            self.version = dictionary["Version"] as? Int32
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.isPaused = dictionary["IsPaused"] as? Bool
+            if let defaultState = dictionary["DefaultState"] as? [String: Any] { self.defaultState = try Pinpoint.CampaignState(dictionary: defaultState) }
+        }
     }
 
     public struct WriteApplicationSettingsRequest: AWSShape {
@@ -711,6 +935,10 @@ extension Pinpoint {
             self.quietTime = quietTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
+            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) }
+        }
     }
 
     public struct GetCampaignRequest: AWSShape {
@@ -729,6 +957,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.campaignId = campaignId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct UpdateEndpointRequest: AWSShape {
@@ -749,6 +983,14 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointRequest = dictionary["EndpointRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointRequest") }
+            self.endpointRequest = try Pinpoint.EndpointRequest(dictionary: endpointRequest)
+            guard let endpointId = dictionary["EndpointId"] as? String else { throw InitializableError.missingRequiredParam("EndpointId") }
+            self.endpointId = endpointId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct GetSegmentImportJobsResponse: AWSShape {
@@ -762,6 +1004,10 @@ extension Pinpoint {
             self.importJobsResponse = importJobsResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let importJobsResponse = dictionary["ImportJobsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobsResponse") }
+            self.importJobsResponse = try Pinpoint.ImportJobsResponse(dictionary: importJobsResponse)
+        }
     }
 
     public struct UpdateGcmChannelResponse: AWSShape {
@@ -775,6 +1021,10 @@ extension Pinpoint {
             self.gCMChannelResponse = gCMChannelResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gCMChannelResponse = dictionary["GCMChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelResponse") }
+            self.gCMChannelResponse = try Pinpoint.GCMChannelResponse(dictionary: gCMChannelResponse)
+        }
     }
 
     public struct EndpointBatchItem: AWSShape {
@@ -818,6 +1068,29 @@ extension Pinpoint {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.channelType = dictionary["ChannelType"] as? String
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) }
+            self.effectiveDate = dictionary["EffectiveDate"] as? String
+            self.optOut = dictionary["OptOut"] as? String
+            if let metrics = dictionary["Metrics"] as? [String: Double] {
+                self.metrics = metrics
+            }
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) }
+            self.address = dictionary["Address"] as? String
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: [String]] = [:]
+                for (key, value) in attributes {
+                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
+                    attributesDict[key] = listOfString
+                }
+                self.attributes = attributesDict
+            }
+            self.requestId = dictionary["RequestId"] as? String
+            self.endpointStatus = dictionary["EndpointStatus"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct CampaignsResponse: AWSShape {
@@ -835,6 +1108,12 @@ extension Pinpoint {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try CampaignResponse(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GCMChannelResponse: AWSShape {
@@ -871,6 +1150,17 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.version = dictionary["Version"] as? Int32
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.credential = dictionary["Credential"] as? String
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.isArchived = dictionary["IsArchived"] as? Bool
+            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        }
     }
 
     public struct ActivitiesResponse: AWSShape {
@@ -885,6 +1175,11 @@ extension Pinpoint {
             self.item = item
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try ActivityResponse(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetEndpointResponse: AWSShape {
@@ -898,6 +1193,10 @@ extension Pinpoint {
             self.endpointResponse = endpointResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointResponse = dictionary["EndpointResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointResponse") }
+            self.endpointResponse = try Pinpoint.EndpointResponse(dictionary: endpointResponse)
+        }
     }
 
     public struct EndpointLocation: AWSShape {
@@ -927,6 +1226,14 @@ extension Pinpoint {
             self.region = region
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.longitude = dictionary["Longitude"] as? Double
+            self.country = dictionary["Country"] as? String
+            self.postalCode = dictionary["PostalCode"] as? String
+            self.city = dictionary["City"] as? String
+            self.latitude = dictionary["Latitude"] as? Double
+            self.region = dictionary["Region"] as? String
+        }
     }
 
     public struct GetApnsChannelRequest: AWSShape {
@@ -943,6 +1250,10 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct RecencyDimension: AWSShape {
@@ -958,6 +1269,10 @@ extension Pinpoint {
             self.recencyType = recencyType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.duration = dictionary["Duration"] as? String
+            self.recencyType = dictionary["RecencyType"] as? String
+        }
     }
 
     public struct Schedule: AWSShape {
@@ -986,6 +1301,14 @@ extension Pinpoint {
             self.timezone = timezone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? String
+            self.endTime = dictionary["EndTime"] as? String
+            self.frequency = dictionary["Frequency"] as? String
+            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) }
+            self.isLocalTime = dictionary["IsLocalTime"] as? Bool
+            self.timezone = dictionary["Timezone"] as? String
+        }
     }
 
     public struct GetApnsChannelResponse: AWSShape {
@@ -999,6 +1322,10 @@ extension Pinpoint {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aPNSChannelResponse = dictionary["APNSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelResponse") }
+            self.aPNSChannelResponse = try Pinpoint.APNSChannelResponse(dictionary: aPNSChannelResponse)
+        }
     }
 
     public struct SegmentImportResource: AWSShape {
@@ -1024,6 +1351,13 @@ extension Pinpoint {
             self.size = size
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.externalId = dictionary["ExternalId"] as? String
+            self.format = dictionary["Format"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.s3Url = dictionary["S3Url"] as? String
+            self.size = dictionary["Size"] as? Int32
+        }
     }
 
     public struct ImportJobRequest: AWSShape {
@@ -1058,6 +1392,16 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Url = dictionary["S3Url"] as? String
+            self.defineSegment = dictionary["DefineSegment"] as? Bool
+            self.format = dictionary["Format"] as? String
+            self.externalId = dictionary["ExternalId"] as? String
+            self.registerEndpoints = dictionary["RegisterEndpoints"] as? Bool
+            self.segmentName = dictionary["SegmentName"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.segmentId = dictionary["SegmentId"] as? String
+        }
     }
 
     public struct GetCampaignsRequest: AWSShape {
@@ -1081,6 +1425,12 @@ extension Pinpoint {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            self.token = dictionary["Token"] as? String
+        }
     }
 
     public struct CreateImportJobRequest: AWSShape {
@@ -1099,6 +1449,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let importJobRequest = dictionary["ImportJobRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobRequest") }
+            self.importJobRequest = try Pinpoint.ImportJobRequest(dictionary: importJobRequest)
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct ImportJobResource: AWSShape {
@@ -1133,6 +1489,16 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.s3Url = dictionary["S3Url"] as? String
+            self.defineSegment = dictionary["DefineSegment"] as? Bool
+            self.format = dictionary["Format"] as? String
+            self.externalId = dictionary["ExternalId"] as? String
+            self.registerEndpoints = dictionary["RegisterEndpoints"] as? Bool
+            self.segmentName = dictionary["SegmentName"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.segmentId = dictionary["SegmentId"] as? String
+        }
     }
 
     public struct SetDimension: AWSShape {
@@ -1148,6 +1514,12 @@ extension Pinpoint {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dimensionType = dictionary["DimensionType"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct APNSChannelRequest: AWSShape {
@@ -1165,6 +1537,10 @@ extension Pinpoint {
             self.privateKey = privateKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificate = dictionary["Certificate"] as? String
+            self.privateKey = dictionary["PrivateKey"] as? String
+        }
     }
 
     public struct GetCampaignVersionResponse: AWSShape {
@@ -1178,6 +1554,10 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
+            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        }
     }
 
     public struct EndpointUser: AWSShape {
@@ -1194,6 +1574,17 @@ extension Pinpoint {
             self.userAttributes = userAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userId = dictionary["UserId"] as? String
+            if let userAttributes = dictionary["UserAttributes"] as? [String: Any] {
+                var userAttributesDict: [String: [String]] = [:]
+                for (key, value) in userAttributes {
+                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
+                    userAttributesDict[key] = listOfString
+                }
+                self.userAttributes = userAttributesDict
+            }
+        }
     }
 
     public struct MessageBody: AWSShape {
@@ -1209,6 +1600,10 @@ extension Pinpoint {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requestID = dictionary["RequestID"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct SegmentDimensions: AWSShape {
@@ -1232,6 +1627,19 @@ extension Pinpoint {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.SegmentDemographics(dictionary: demographic) }
+            if let behavior = dictionary["Behavior"] as? [String: Any] { self.behavior = try Pinpoint.SegmentBehaviors(dictionary: behavior) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] {
+                var attributesDict: [String: AttributeDimension] = [:]
+                for (key, value) in attributes {
+                    guard let attributeDimensionDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    attributesDict[key] = try AttributeDimension(dictionary: attributeDimensionDict)
+                }
+                self.attributes = attributesDict
+            }
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.SegmentLocation(dictionary: location) }
+        }
     }
 
     public struct GetGcmChannelResponse: AWSShape {
@@ -1245,6 +1653,10 @@ extension Pinpoint {
             self.gCMChannelResponse = gCMChannelResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gCMChannelResponse = dictionary["GCMChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelResponse") }
+            self.gCMChannelResponse = try Pinpoint.GCMChannelResponse(dictionary: gCMChannelResponse)
+        }
     }
 
     public struct GetSegmentVersionsResponse: AWSShape {
@@ -1258,6 +1670,10 @@ extension Pinpoint {
             self.segmentsResponse = segmentsResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentsResponse = dictionary["SegmentsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentsResponse") }
+            self.segmentsResponse = try Pinpoint.SegmentsResponse(dictionary: segmentsResponse)
+        }
     }
 
     public struct ApplicationSettingsResource: AWSShape {
@@ -1281,6 +1697,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
+            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) }
+            self.applicationId = dictionary["ApplicationId"] as? String
+        }
     }
 
     public struct UpdateEndpointResponse: AWSShape {
@@ -1294,6 +1716,10 @@ extension Pinpoint {
             self.messageBody = messageBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let messageBody = dictionary["MessageBody"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MessageBody") }
+            self.messageBody = try Pinpoint.MessageBody(dictionary: messageBody)
+        }
     }
 
     public struct GetCampaignActivitiesResponse: AWSShape {
@@ -1307,6 +1733,10 @@ extension Pinpoint {
             self.activitiesResponse = activitiesResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let activitiesResponse = dictionary["ActivitiesResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActivitiesResponse") }
+            self.activitiesResponse = try Pinpoint.ActivitiesResponse(dictionary: activitiesResponse)
+        }
     }
 
     public struct GetCampaignVersionsRequest: AWSShape {
@@ -1332,6 +1762,14 @@ extension Pinpoint {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.campaignId = campaignId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            self.token = dictionary["Token"] as? String
+        }
     }
 
     public struct AttributeDimension: AWSShape {
@@ -1347,6 +1785,12 @@ extension Pinpoint {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeType = dictionary["AttributeType"] as? String
+            if let values = dictionary["Values"] as? [String] {
+                self.values = values
+            }
+        }
     }
 
     public struct UpdateEndpointsBatchRequest: AWSShape {
@@ -1365,6 +1809,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointBatchRequest = dictionary["EndpointBatchRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointBatchRequest") }
+            self.endpointBatchRequest = try Pinpoint.EndpointBatchRequest(dictionary: endpointBatchRequest)
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct APNSChannelResponse: AWSShape {
@@ -1398,6 +1848,16 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.version = dictionary["Version"] as? Int32
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.isArchived = dictionary["IsArchived"] as? Bool
+            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        }
     }
 
     public struct SegmentsResponse: AWSShape {
@@ -1415,6 +1875,12 @@ extension Pinpoint {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try SegmentResponse(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct SegmentResponse: AWSShape {
@@ -1452,6 +1918,17 @@ extension Pinpoint {
             self.segmentType = segmentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? Int32
+            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) }
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            if let importDefinition = dictionary["ImportDefinition"] as? [String: Any] { self.importDefinition = try Pinpoint.SegmentImportResource(dictionary: importDefinition) }
+            self.segmentType = dictionary["SegmentType"] as? String
+        }
     }
 
     public struct ImportJobResponse: AWSShape {
@@ -1500,6 +1977,23 @@ extension Pinpoint {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.completionDate = dictionary["CompletionDate"] as? String
+            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Pinpoint.ImportJobResource(dictionary: definition) }
+            self.failedPieces = dictionary["FailedPieces"] as? Int32
+            self.totalPieces = dictionary["TotalPieces"] as? Int32
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.jobStatus = dictionary["JobStatus"] as? String
+            self.id = dictionary["Id"] as? String
+            self.totalProcessed = dictionary["TotalProcessed"] as? Int32
+            self.completedPieces = dictionary["CompletedPieces"] as? Int32
+            self.totalFailures = dictionary["TotalFailures"] as? Int32
+            if let failures = dictionary["Failures"] as? [String] {
+                self.failures = failures
+            }
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct CreateImportJobResponse: AWSShape {
@@ -1513,6 +2007,10 @@ extension Pinpoint {
             self.importJobResponse = importJobResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let importJobResponse = dictionary["ImportJobResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobResponse") }
+            self.importJobResponse = try Pinpoint.ImportJobResponse(dictionary: importJobResponse)
+        }
     }
 
     public struct GetApplicationSettingsResponse: AWSShape {
@@ -1526,6 +2024,10 @@ extension Pinpoint {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationSettingsResource = dictionary["ApplicationSettingsResource"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationSettingsResource") }
+            self.applicationSettingsResource = try Pinpoint.ApplicationSettingsResource(dictionary: applicationSettingsResource)
+        }
     }
 
     public struct GetImportJobsResponse: AWSShape {
@@ -1539,6 +2041,10 @@ extension Pinpoint {
             self.importJobsResponse = importJobsResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let importJobsResponse = dictionary["ImportJobsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobsResponse") }
+            self.importJobsResponse = try Pinpoint.ImportJobsResponse(dictionary: importJobsResponse)
+        }
     }
 
     public struct GetCampaignResponse: AWSShape {
@@ -1552,6 +2058,10 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
+            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        }
     }
 
     public struct UpdateSegmentRequest: AWSShape {
@@ -1572,6 +2082,14 @@ extension Pinpoint {
             self.writeSegmentRequest = writeSegmentRequest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            self.segmentId = segmentId
+            guard let writeSegmentRequest = dictionary["WriteSegmentRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteSegmentRequest") }
+            self.writeSegmentRequest = try Pinpoint.WriteSegmentRequest(dictionary: writeSegmentRequest)
+        }
     }
 
     public struct DeleteGcmChannelRequest: AWSShape {
@@ -1588,6 +2106,10 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct UpdateApnsChannelResponse: AWSShape {
@@ -1601,6 +2123,10 @@ extension Pinpoint {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aPNSChannelResponse = dictionary["APNSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelResponse") }
+            self.aPNSChannelResponse = try Pinpoint.APNSChannelResponse(dictionary: aPNSChannelResponse)
+        }
     }
 
     public struct UpdateGcmChannelRequest: AWSShape {
@@ -1619,6 +2145,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let gCMChannelRequest = dictionary["GCMChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelRequest") }
+            self.gCMChannelRequest = try Pinpoint.GCMChannelRequest(dictionary: gCMChannelRequest)
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct DeleteCampaignResponse: AWSShape {
@@ -1632,6 +2164,10 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
+            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        }
     }
 
     public struct CampaignLimits: AWSShape {
@@ -1649,6 +2185,10 @@ extension Pinpoint {
             self.total = total
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.daily = dictionary["Daily"] as? Int32
+            self.total = dictionary["Total"] as? Int32
+        }
     }
 
     public struct SegmentDemographics: AWSShape {
@@ -1675,6 +2215,13 @@ extension Pinpoint {
             self.model = model
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let make = dictionary["Make"] as? [String: Any] { self.make = try Pinpoint.SetDimension(dictionary: make) }
+            if let platform = dictionary["Platform"] as? [String: Any] { self.platform = try Pinpoint.SetDimension(dictionary: platform) }
+            if let deviceType = dictionary["DeviceType"] as? [String: Any] { self.deviceType = try Pinpoint.SetDimension(dictionary: deviceType) }
+            if let appVersion = dictionary["AppVersion"] as? [String: Any] { self.appVersion = try Pinpoint.SetDimension(dictionary: appVersion) }
+            if let model = dictionary["Model"] as? [String: Any] { self.model = try Pinpoint.SetDimension(dictionary: model) }
+        }
     }
 
     public struct CreateCampaignResponse: AWSShape {
@@ -1688,6 +2235,10 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
+            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        }
     }
 
     public struct ActivityResponse: AWSShape {
@@ -1732,6 +2283,19 @@ extension Pinpoint {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.campaignId = dictionary["CampaignId"] as? String
+            self.scheduledStart = dictionary["ScheduledStart"] as? String
+            self.start = dictionary["Start"] as? String
+            self.state = dictionary["State"] as? String
+            self.end = dictionary["End"] as? String
+            self.totalEndpointCount = dictionary["TotalEndpointCount"] as? Int32
+            self.applicationId = dictionary["ApplicationId"] as? String
+            self.result = dictionary["Result"] as? String
+            self.successfulEndpointCount = dictionary["SuccessfulEndpointCount"] as? Int32
+            self.treatmentId = dictionary["TreatmentId"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct GetSegmentResponse: AWSShape {
@@ -1745,6 +2309,10 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
+            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        }
     }
 
     public struct GetSegmentImportJobsRequest: AWSShape {
@@ -1770,6 +2338,14 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            self.token = dictionary["Token"] as? String
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            self.segmentId = segmentId
+        }
     }
 
     public struct UpdateApnsChannelRequest: AWSShape {
@@ -1788,6 +2364,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aPNSChannelRequest = dictionary["APNSChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelRequest") }
+            self.aPNSChannelRequest = try Pinpoint.APNSChannelRequest(dictionary: aPNSChannelRequest)
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct UpdateCampaignRequest: AWSShape {
@@ -1808,6 +2390,14 @@ extension Pinpoint {
             self.writeCampaignRequest = writeCampaignRequest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.campaignId = campaignId
+            guard let writeCampaignRequest = dictionary["WriteCampaignRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteCampaignRequest") }
+            self.writeCampaignRequest = try Pinpoint.WriteCampaignRequest(dictionary: writeCampaignRequest)
+        }
     }
 
     public struct CreateSegmentResponse: AWSShape {
@@ -1821,6 +2411,10 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
+            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        }
     }
 
     public struct DeleteSegmentResponse: AWSShape {
@@ -1834,6 +2428,10 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
+            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        }
     }
 
     public struct GetSegmentsResponse: AWSShape {
@@ -1847,6 +2445,10 @@ extension Pinpoint {
             self.segmentsResponse = segmentsResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentsResponse = dictionary["SegmentsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentsResponse") }
+            self.segmentsResponse = try Pinpoint.SegmentsResponse(dictionary: segmentsResponse)
+        }
     }
 
     public struct GetCampaignVersionsResponse: AWSShape {
@@ -1860,6 +2462,10 @@ extension Pinpoint {
             self.campaignsResponse = campaignsResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignsResponse = dictionary["CampaignsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignsResponse") }
+            self.campaignsResponse = try Pinpoint.CampaignsResponse(dictionary: campaignsResponse)
+        }
     }
 
     public struct GetCampaignsResponse: AWSShape {
@@ -1873,6 +2479,10 @@ extension Pinpoint {
             self.campaignsResponse = campaignsResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignsResponse = dictionary["CampaignsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignsResponse") }
+            self.campaignsResponse = try Pinpoint.CampaignsResponse(dictionary: campaignsResponse)
+        }
     }
 
     public struct GetSegmentVersionResponse: AWSShape {
@@ -1886,6 +2496,10 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
+            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        }
     }
 
     public struct GetEndpointRequest: AWSShape {
@@ -1904,6 +2518,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endpointId = dictionary["EndpointId"] as? String else { throw InitializableError.missingRequiredParam("EndpointId") }
+            self.endpointId = endpointId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct GetCampaignVersionRequest: AWSShape {
@@ -1924,6 +2544,14 @@ extension Pinpoint {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.campaignId = campaignId
+            guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+        }
     }
 
     public struct UpdateCampaignResponse: AWSShape {
@@ -1937,6 +2565,10 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
+            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        }
     }
 
     public struct SegmentBehaviors: AWSShape {
@@ -1951,6 +2583,9 @@ extension Pinpoint {
             self.recency = recency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recency = dictionary["Recency"] as? [String: Any] { self.recency = try Pinpoint.RecencyDimension(dictionary: recency) }
+        }
     }
 
     public struct UpdateSegmentResponse: AWSShape {
@@ -1964,6 +2599,10 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
+            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        }
     }
 
     public struct CampaignState: AWSShape {
@@ -1977,6 +2616,9 @@ extension Pinpoint {
             self.campaignStatus = campaignStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.campaignStatus = dictionary["CampaignStatus"] as? String
+        }
     }
 
     public struct DeleteApnsChannelResponse: AWSShape {
@@ -1990,6 +2632,10 @@ extension Pinpoint {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aPNSChannelResponse = dictionary["APNSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelResponse") }
+            self.aPNSChannelResponse = try Pinpoint.APNSChannelResponse(dictionary: aPNSChannelResponse)
+        }
     }
 
     public struct DeleteSegmentRequest: AWSShape {
@@ -2008,6 +2654,12 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            self.segmentId = segmentId
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+        }
     }
 
     public struct ImportJobsResponse: AWSShape {
@@ -2025,6 +2677,12 @@ extension Pinpoint {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try ImportJobResponse(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetImportJobsRequest: AWSShape {
@@ -2048,6 +2706,12 @@ extension Pinpoint {
             self.token = token
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? String
+            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.applicationId = applicationId
+            self.token = dictionary["Token"] as? String
+        }
     }
 
     public struct MessageConfiguration: AWSShape {
@@ -2068,6 +2732,11 @@ extension Pinpoint {
             self.defaultMessage = defaultMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let gCMMessage = dictionary["GCMMessage"] as? [String: Any] { self.gCMMessage = try Pinpoint.Message(dictionary: gCMMessage) }
+            if let aPNSMessage = dictionary["APNSMessage"] as? [String: Any] { self.aPNSMessage = try Pinpoint.Message(dictionary: aPNSMessage) }
+            if let defaultMessage = dictionary["DefaultMessage"] as? [String: Any] { self.defaultMessage = try Pinpoint.Message(dictionary: defaultMessage) }
+        }
     }
 
     public struct EndpointDemographic: AWSShape {
@@ -2103,6 +2772,16 @@ extension Pinpoint {
             self.modelVersion = modelVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.locale = dictionary["Locale"] as? String
+            self.platform = dictionary["Platform"] as? String
+            self.timezone = dictionary["Timezone"] as? String
+            self.platformVersion = dictionary["PlatformVersion"] as? String
+            self.make = dictionary["Make"] as? String
+            self.appVersion = dictionary["AppVersion"] as? String
+            self.model = dictionary["Model"] as? String
+            self.modelVersion = dictionary["ModelVersion"] as? String
+        }
     }
 
     public struct WriteSegmentRequest: AWSShape {
@@ -2120,6 +2799,10 @@ extension Pinpoint {
             self.dimensions = dimensions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) }
+        }
     }
 
 }

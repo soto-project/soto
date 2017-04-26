@@ -44,6 +44,12 @@ extension Redshift {
             self.clusterSubnetGroups = clusterSubnetGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let clusterSubnetGroups = dictionary["ClusterSubnetGroups"] as? [[String: Any]] {
+                self.clusterSubnetGroups = try clusterSubnetGroups.map({ try ClusterSubnetGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteClusterResult: AWSShape {
@@ -57,6 +63,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct EventsMessage: AWSShape {
@@ -74,6 +83,12 @@ extension Redshift {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try Event(dictionary: $0) })
+            }
+        }
     }
 
     public struct TaggedResourceListMessage: AWSShape {
@@ -91,6 +106,12 @@ extension Redshift {
             self.taggedResources = taggedResources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let taggedResources = dictionary["TaggedResources"] as? [[String: Any]] {
+                self.taggedResources = try taggedResources.map({ try TaggedResource(dictionary: $0) })
+            }
+        }
     }
 
     public struct RevokeClusterSecurityGroupIngressResult: AWSShape {
@@ -104,6 +125,9 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [String: Any] { self.clusterSecurityGroup = try Redshift.ClusterSecurityGroup(dictionary: clusterSecurityGroup) }
+        }
     }
 
     public struct AuthorizeClusterSecurityGroupIngressMessage: AWSShape {
@@ -127,6 +151,13 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cIDRIP = dictionary["CIDRIP"] as? String
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
+            self.clusterSecurityGroupName = clusterSecurityGroupName
+        }
     }
 
     public struct ClusterSecurityGroupMessage: AWSShape {
@@ -144,6 +175,12 @@ extension Redshift {
             self.clusterSecurityGroups = clusterSecurityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [[String: Any]] {
+                self.clusterSecurityGroups = try clusterSecurityGroups.map({ try ClusterSecurityGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeTableRestoreStatusMessage: AWSShape {
@@ -167,6 +204,12 @@ extension Redshift {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.tableRestoreRequestId = dictionary["TableRestoreRequestId"] as? String
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct RebootClusterResult: AWSShape {
@@ -180,6 +223,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct DeleteHsmClientCertificateMessage: AWSShape {
@@ -194,6 +240,10 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmClientCertificateIdentifier") }
+            self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
+        }
     }
 
     public struct OrderableClusterOptionsMessage: AWSShape {
@@ -211,6 +261,12 @@ extension Redshift {
             self.orderableClusterOptions = orderableClusterOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let orderableClusterOptions = dictionary["OrderableClusterOptions"] as? [[String: Any]] {
+                self.orderableClusterOptions = try orderableClusterOptions.map({ try OrderableClusterOption(dictionary: $0) })
+            }
+        }
     }
 
     public struct AuthorizeSnapshotAccessMessage: AWSShape {
@@ -231,6 +287,13 @@ extension Redshift {
             self.accountWithRestoreAccess = accountWithRestoreAccess
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+            guard let accountWithRestoreAccess = dictionary["AccountWithRestoreAccess"] as? String else { throw InitializableError.missingRequiredParam("AccountWithRestoreAccess") }
+            self.accountWithRestoreAccess = accountWithRestoreAccess
+        }
     }
 
     public struct Endpoint: AWSShape {
@@ -248,6 +311,10 @@ extension Redshift {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.address = dictionary["Address"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct CreateClusterParameterGroupResult: AWSShape {
@@ -261,6 +328,9 @@ extension Redshift {
             self.clusterParameterGroup = clusterParameterGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterParameterGroup = dictionary["ClusterParameterGroup"] as? [String: Any] { self.clusterParameterGroup = try Redshift.ClusterParameterGroup(dictionary: clusterParameterGroup) }
+        }
     }
 
     public struct HsmConfigurationMessage: AWSShape {
@@ -278,6 +348,12 @@ extension Redshift {
             self.hsmConfigurations = hsmConfigurations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let hsmConfigurations = dictionary["HsmConfigurations"] as? [[String: Any]] {
+                self.hsmConfigurations = try hsmConfigurations.map({ try HsmConfiguration(dictionary: $0) })
+            }
+        }
     }
 
     public struct PurchaseReservedNodeOfferingMessage: AWSShape {
@@ -295,6 +371,11 @@ extension Redshift {
             self.nodeCount = nodeCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedNodeOfferingId") }
+            self.reservedNodeOfferingId = reservedNodeOfferingId
+            self.nodeCount = dictionary["NodeCount"] as? Int32
+        }
     }
 
     public struct ModifySnapshotCopyRetentionPeriodResult: AWSShape {
@@ -308,6 +389,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct HsmStatus: AWSShape {
@@ -328,6 +412,11 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
+            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+        }
     }
 
     public struct ModifyClusterSubnetGroupMessage: AWSShape {
@@ -348,6 +437,13 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
+            self.clusterSubnetGroupName = clusterSubnetGroupName
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct RestoreTableFromClusterSnapshotResult: AWSShape {
@@ -361,6 +457,9 @@ extension Redshift {
             self.tableRestoreStatus = tableRestoreStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tableRestoreStatus = dictionary["TableRestoreStatus"] as? [String: Any] { self.tableRestoreStatus = try Redshift.TableRestoreStatus(dictionary: tableRestoreStatus) }
+        }
     }
 
     public struct AuthorizeSnapshotAccessResult: AWSShape {
@@ -374,6 +473,9 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct ClusterSubnetGroup: AWSShape {
@@ -403,6 +505,18 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
+            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
+                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            }
+            self.vpcId = dictionary["VpcId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateHsmConfigurationMessage: AWSShape {
@@ -435,6 +549,23 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hsmPartitionName = dictionary["HsmPartitionName"] as? String else { throw InitializableError.missingRequiredParam("HsmPartitionName") }
+            self.hsmPartitionName = hsmPartitionName
+            guard let hsmPartitionPassword = dictionary["HsmPartitionPassword"] as? String else { throw InitializableError.missingRequiredParam("HsmPartitionPassword") }
+            self.hsmPartitionPassword = hsmPartitionPassword
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let hsmServerPublicCertificate = dictionary["HsmServerPublicCertificate"] as? String else { throw InitializableError.missingRequiredParam("HsmServerPublicCertificate") }
+            self.hsmServerPublicCertificate = hsmServerPublicCertificate
+            guard let hsmIpAddress = dictionary["HsmIpAddress"] as? String else { throw InitializableError.missingRequiredParam("HsmIpAddress") }
+            self.hsmIpAddress = hsmIpAddress
+            guard let hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmConfigurationIdentifier") }
+            self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct RestoreTableFromClusterSnapshotMessage: AWSShape {
@@ -470,6 +601,21 @@ extension Redshift {
             self.targetSchemaName = targetSchemaName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+            guard let sourceDatabaseName = dictionary["SourceDatabaseName"] as? String else { throw InitializableError.missingRequiredParam("SourceDatabaseName") }
+            self.sourceDatabaseName = sourceDatabaseName
+            guard let sourceTableName = dictionary["SourceTableName"] as? String else { throw InitializableError.missingRequiredParam("SourceTableName") }
+            self.sourceTableName = sourceTableName
+            self.sourceSchemaName = dictionary["SourceSchemaName"] as? String
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            self.targetDatabaseName = dictionary["TargetDatabaseName"] as? String
+            guard let newTableName = dictionary["NewTableName"] as? String else { throw InitializableError.missingRequiredParam("NewTableName") }
+            self.newTableName = newTableName
+            self.targetSchemaName = dictionary["TargetSchemaName"] as? String
+        }
     }
 
     public struct DisableSnapshotCopyResult: AWSShape {
@@ -483,6 +629,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -500,6 +649,10 @@ extension Redshift {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ResizeProgressMessage: AWSShape {
@@ -547,6 +700,26 @@ extension Redshift {
             self.importTablesCompleted = importTablesCompleted
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.estimatedTimeToCompletionInSeconds = dictionary["EstimatedTimeToCompletionInSeconds"] as? Int64
+            self.targetClusterType = dictionary["TargetClusterType"] as? String
+            self.avgResizeRateInMegaBytesPerSecond = dictionary["AvgResizeRateInMegaBytesPerSecond"] as? Double
+            self.progressInMegaBytes = dictionary["ProgressInMegaBytes"] as? Int64
+            if let importTablesInProgress = dictionary["ImportTablesInProgress"] as? [String] {
+                self.importTablesInProgress = importTablesInProgress
+            }
+            self.totalResizeDataInMegaBytes = dictionary["TotalResizeDataInMegaBytes"] as? Int64
+            self.elapsedTimeInSeconds = dictionary["ElapsedTimeInSeconds"] as? Int64
+            if let importTablesNotStarted = dictionary["ImportTablesNotStarted"] as? [String] {
+                self.importTablesNotStarted = importTablesNotStarted
+            }
+            self.targetNumberOfNodes = dictionary["TargetNumberOfNodes"] as? Int32
+            self.targetNodeType = dictionary["TargetNodeType"] as? String
+            if let importTablesCompleted = dictionary["ImportTablesCompleted"] as? [String] {
+                self.importTablesCompleted = importTablesCompleted
+            }
+        }
     }
 
     public struct OrderableClusterOption: AWSShape {
@@ -570,6 +743,14 @@ extension Redshift {
             self.nodeType = nodeType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            }
+            self.clusterType = dictionary["ClusterType"] as? String
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.nodeType = dictionary["NodeType"] as? String
+        }
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
@@ -605,6 +786,24 @@ extension Redshift {
             self.sourceIds = sourceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.severity = dictionary["Severity"] as? String
+            guard let snsTopicArn = dictionary["SnsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("SnsTopicArn") }
+            self.snsTopicArn = snsTopicArn
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceIds = dictionary["SourceIds"] as? [String] {
+                self.sourceIds = sourceIds
+            }
+        }
     }
 
     public struct EventCategoriesMessage: AWSShape {
@@ -619,6 +818,11 @@ extension Redshift {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventCategoriesMapList = dictionary["EventCategoriesMapList"] as? [[String: Any]] {
+                self.eventCategoriesMapList = try eventCategoriesMapList.map({ try EventCategoriesMap(dictionary: $0) })
+            }
+        }
     }
 
     public struct RecurringCharge: AWSShape {
@@ -636,6 +840,10 @@ extension Redshift {
             self.recurringChargeFrequency = recurringChargeFrequency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.recurringChargeAmount = dictionary["RecurringChargeAmount"] as? Double
+            self.recurringChargeFrequency = dictionary["RecurringChargeFrequency"] as? String
+        }
     }
 
     public struct HsmClientCertificateMessage: AWSShape {
@@ -653,6 +861,12 @@ extension Redshift {
             self.hsmClientCertificates = hsmClientCertificates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let hsmClientCertificates = dictionary["HsmClientCertificates"] as? [[String: Any]] {
+                self.hsmClientCertificates = try hsmClientCertificates.map({ try HsmClientCertificate(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeEventsMessage: AWSShape {
@@ -685,6 +899,15 @@ extension Redshift {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.sourceType = dictionary["SourceType"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+        }
     }
 
     public struct EnableSnapshotCopyMessage: AWSShape {
@@ -708,6 +931,14 @@ extension Redshift {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let destinationRegion = dictionary["DestinationRegion"] as? String else { throw InitializableError.missingRequiredParam("DestinationRegion") }
+            self.destinationRegion = destinationRegion
+            self.retentionPeriod = dictionary["RetentionPeriod"] as? Int32
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
+        }
     }
 
     public struct DescribeClusterSecurityGroupsMessage: AWSShape {
@@ -734,6 +965,17 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
+        }
     }
 
     public struct CreateClusterSecurityGroupMessage: AWSShape {
@@ -754,6 +996,15 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
+            self.clusterSecurityGroupName = clusterSecurityGroupName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct DescribeHsmConfigurationsMessage: AWSShape {
@@ -780,6 +1031,17 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct DeleteClusterSnapshotResult: AWSShape {
@@ -793,6 +1055,9 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct ClusterParameterGroup: AWSShape {
@@ -816,6 +1081,14 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+            self.parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ReservedNode: AWSShape {
@@ -863,6 +1136,22 @@ extension Redshift {
             self.fixedPrice = fixedPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.nodeCount = dictionary["NodeCount"] as? Int32
+            self.usagePrice = dictionary["UsagePrice"] as? Double
+            self.state = dictionary["State"] as? String
+            self.nodeType = dictionary["NodeType"] as? String
+            self.reservedNodeId = dictionary["ReservedNodeId"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Double
+        }
     }
 
     public struct RestoreStatus: AWSShape {
@@ -892,6 +1181,14 @@ extension Redshift {
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.snapshotSizeInMegaBytes = dictionary["SnapshotSizeInMegaBytes"] as? Int64
+            self.currentRestoreRateInMegaBytesPerSecond = dictionary["CurrentRestoreRateInMegaBytesPerSecond"] as? Double
+            self.estimatedTimeToCompletionInSeconds = dictionary["EstimatedTimeToCompletionInSeconds"] as? Int64
+            self.progressInMegaBytes = dictionary["ProgressInMegaBytes"] as? Int64
+            self.elapsedTimeInSeconds = dictionary["ElapsedTimeInSeconds"] as? Int64
+        }
     }
 
     public struct RestoreFromClusterSnapshotMessage: AWSShape {
@@ -969,6 +1266,38 @@ extension Redshift {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String] {
+                self.clusterSecurityGroups = clusterSecurityGroups
+            }
+            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
+            self.ownerAccount = dictionary["OwnerAccount"] as? String
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
+            self.nodeType = dictionary["NodeType"] as? String
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
+            if let iamRoles = dictionary["IamRoles"] as? [String] {
+                self.iamRoles = iamRoles
+            }
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+            self.elasticIp = dictionary["ElasticIp"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct DeleteTagsMessage: AWSShape {
@@ -986,6 +1315,12 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct RebootClusterMessage: AWSShape {
@@ -1000,6 +1335,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+        }
     }
 
     public struct ReservedNodesMessage: AWSShape {
@@ -1017,6 +1356,12 @@ extension Redshift {
             self.reservedNodes = reservedNodes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let reservedNodes = dictionary["ReservedNodes"] as? [[String: Any]] {
+                self.reservedNodes = try reservedNodes.map({ try ReservedNode(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeLoggingStatusMessage: AWSShape {
@@ -1031,6 +1376,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+        }
     }
 
     public struct ResetClusterParameterGroupMessage: AWSShape {
@@ -1051,6 +1400,14 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
+            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
+            self.parameterGroupName = parameterGroupName
+        }
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
@@ -1065,6 +1422,10 @@ extension Redshift {
             self.subscriptionName = subscriptionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+        }
     }
 
     public struct DescribeOrderableClusterOptionsMessage: AWSShape {
@@ -1088,6 +1449,12 @@ extension Redshift {
             self.nodeType = nodeType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.nodeType = dictionary["NodeType"] as? String
+        }
     }
 
     public struct ClusterVersion: AWSShape {
@@ -1108,6 +1475,11 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.clusterParameterGroupFamily = dictionary["ClusterParameterGroupFamily"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Subnet: AWSShape {
@@ -1127,6 +1499,11 @@ extension Redshift {
             self.subnetStatus = subnetStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
+            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Redshift.AvailabilityZone(dictionary: subnetAvailabilityZone) }
+            self.subnetStatus = dictionary["SubnetStatus"] as? String
+        }
     }
 
     public struct EC2SecurityGroup: AWSShape {
@@ -1150,6 +1527,14 @@ extension Redshift {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+        }
     }
 
     public struct Parameter: AWSShape {
@@ -1188,6 +1573,17 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterValue = dictionary["ParameterValue"] as? String
+            self.allowedValues = dictionary["AllowedValues"] as? String
+            self.dataType = dictionary["DataType"] as? String
+            self.parameterName = dictionary["ParameterName"] as? String
+            self.applyType = dictionary["ApplyType"] as? String
+            self.source = dictionary["Source"] as? String
+            self.isModifiable = dictionary["IsModifiable"] as? Bool
+            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateClusterParameterGroupMessage: AWSShape {
@@ -1211,6 +1607,17 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
+            self.parameterGroupName = parameterGroupName
+            guard let parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupFamily") }
+            self.parameterGroupFamily = parameterGroupFamily
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct DescribeHsmClientCertificatesMessage: AWSShape {
@@ -1237,6 +1644,17 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+            self.marker = dictionary["Marker"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct DescribeResizeMessage: AWSShape {
@@ -1251,6 +1669,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+        }
     }
 
     public struct ClusterVersionsMessage: AWSShape {
@@ -1268,6 +1690,12 @@ extension Redshift {
             self.clusterVersions = clusterVersions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let clusterVersions = dictionary["ClusterVersions"] as? [[String: Any]] {
+                self.clusterVersions = try clusterVersions.map({ try ClusterVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct Event: AWSShape {
@@ -1300,6 +1728,17 @@ extension Redshift {
             self.date = date
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.severity = dictionary["Severity"] as? String
+            self.message = dictionary["Message"] as? String
+            self.sourceType = dictionary["SourceType"] as? String
+            self.eventId = dictionary["EventId"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
+            self.date = dictionary["Date"] as? Date
+        }
     }
 
     public struct ReservedNodeOffering: AWSShape {
@@ -1335,6 +1774,18 @@ extension Redshift {
             self.fixedPrice = fixedPrice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.usagePrice = dictionary["UsagePrice"] as? Double
+            self.nodeType = dictionary["NodeType"] as? String
+            self.currencyCode = dictionary["CurrencyCode"] as? String
+            self.reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Double
+        }
     }
 
     public struct RevokeSnapshotAccessResult: AWSShape {
@@ -1348,6 +1799,9 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct CreateClusterResult: AWSShape {
@@ -1361,6 +1815,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct EventCategoriesMap: AWSShape {
@@ -1378,6 +1835,12 @@ extension Redshift {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceType = dictionary["SourceType"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try EventInfoMap(dictionary: $0) })
+            }
+        }
     }
 
     public struct TableRestoreStatus: AWSShape {
@@ -1431,6 +1894,22 @@ extension Redshift {
             self.targetSchemaName = targetSchemaName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["Message"] as? String
+            self.progressInMegaBytes = dictionary["ProgressInMegaBytes"] as? Int64
+            self.sourceSchemaName = dictionary["SourceSchemaName"] as? String
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            self.targetDatabaseName = dictionary["TargetDatabaseName"] as? String
+            self.totalDataInMegaBytes = dictionary["TotalDataInMegaBytes"] as? Int64
+            self.requestTime = dictionary["RequestTime"] as? Date
+            self.tableRestoreRequestId = dictionary["TableRestoreRequestId"] as? String
+            self.status = dictionary["Status"] as? String
+            self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
+            self.sourceDatabaseName = dictionary["SourceDatabaseName"] as? String
+            self.sourceTableName = dictionary["SourceTableName"] as? String
+            self.newTableName = dictionary["NewTableName"] as? String
+            self.targetSchemaName = dictionary["TargetSchemaName"] as? String
+        }
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
@@ -1451,6 +1930,11 @@ extension Redshift {
             self.subscriptionName = subscriptionName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.subscriptionName = dictionary["SubscriptionName"] as? String
+        }
     }
 
     public struct DescribeDefaultClusterParametersResult: AWSShape {
@@ -1464,6 +1948,9 @@ extension Redshift {
             self.defaultClusterParameters = defaultClusterParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let defaultClusterParameters = dictionary["DefaultClusterParameters"] as? [String: Any] { self.defaultClusterParameters = try Redshift.DefaultClusterParameters(dictionary: defaultClusterParameters) }
+        }
     }
 
     public struct ModifyEventSubscriptionResult: AWSShape {
@@ -1477,6 +1964,9 @@ extension Redshift {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Redshift.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct ClusterParameterGroupStatus: AWSShape {
@@ -1497,6 +1987,13 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterParameterStatusList = dictionary["ClusterParameterStatusList"] as? [[String: Any]] {
+                self.clusterParameterStatusList = try clusterParameterStatusList.map({ try ClusterParameterStatus(dictionary: $0) })
+            }
+            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
+            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+        }
     }
 
     public struct CreateClusterSubnetGroupMessage: AWSShape {
@@ -1520,6 +2017,17 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
+            self.clusterSubnetGroupName = clusterSubnetGroupName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct CopyClusterSnapshotMessage: AWSShape {
@@ -1540,6 +2048,13 @@ extension Redshift {
             self.sourceSnapshotClusterIdentifier = sourceSnapshotClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetSnapshotIdentifier = dictionary["TargetSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetSnapshotIdentifier") }
+            self.targetSnapshotIdentifier = targetSnapshotIdentifier
+            guard let sourceSnapshotIdentifier = dictionary["SourceSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceSnapshotIdentifier") }
+            self.sourceSnapshotIdentifier = sourceSnapshotIdentifier
+            self.sourceSnapshotClusterIdentifier = dictionary["SourceSnapshotClusterIdentifier"] as? String
+        }
     }
 
     public struct DeleteHsmConfigurationMessage: AWSShape {
@@ -1554,6 +2069,10 @@ extension Redshift {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmConfigurationIdentifier") }
+            self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
+        }
     }
 
     public struct RestoreFromClusterSnapshotResult: AWSShape {
@@ -1567,6 +2086,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct DescribeClusterVersionsMessage: AWSShape {
@@ -1590,6 +2112,12 @@ extension Redshift {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.clusterParameterGroupFamily = dictionary["ClusterParameterGroupFamily"] as? String
+        }
     }
 
     public struct LoggingStatus: AWSShape {
@@ -1619,6 +2147,14 @@ extension Redshift {
             self.lastSuccessfulDeliveryTime = lastSuccessfulDeliveryTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
+            self.bucketName = dictionary["BucketName"] as? String
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+            self.loggingEnabled = dictionary["LoggingEnabled"] as? Bool
+            self.lastFailureTime = dictionary["LastFailureTime"] as? Date
+            self.lastSuccessfulDeliveryTime = dictionary["LastSuccessfulDeliveryTime"] as? Date
+        }
     }
 
     public struct EnableSnapshotCopyResult: AWSShape {
@@ -1632,6 +2168,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct DeleteClusterMessage: AWSShape {
@@ -1652,6 +2191,12 @@ extension Redshift {
             self.skipFinalClusterSnapshot = skipFinalClusterSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            self.finalClusterSnapshotIdentifier = dictionary["FinalClusterSnapshotIdentifier"] as? String
+            self.skipFinalClusterSnapshot = dictionary["SkipFinalClusterSnapshot"] as? Bool
+        }
     }
 
     public struct DeleteClusterSecurityGroupMessage: AWSShape {
@@ -1666,6 +2211,10 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
+            self.clusterSecurityGroupName = clusterSecurityGroupName
+        }
     }
 
     public struct DescribeReservedNodeOfferingsMessage: AWSShape {
@@ -1686,6 +2235,11 @@ extension Redshift {
             self.reservedNodeOfferingId = reservedNodeOfferingId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String
+        }
     }
 
     public struct ModifyClusterResult: AWSShape {
@@ -1699,6 +2253,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct EventSubscriptionsMessage: AWSShape {
@@ -1716,6 +2273,12 @@ extension Redshift {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [[String: Any]] {
+                self.eventSubscriptionsList = try eventSubscriptionsList.map({ try EventSubscription(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct ClusterParameterGroupNameMessage: AWSShape {
@@ -1733,6 +2296,10 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterGroupStatus = dictionary["ParameterGroupStatus"] as? String
+            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+        }
     }
 
     public struct TableRestoreStatusMessage: AWSShape {
@@ -1750,6 +2317,12 @@ extension Redshift {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tableRestoreStatusDetails = dictionary["TableRestoreStatusDetails"] as? [[String: Any]] {
+                self.tableRestoreStatusDetails = try tableRestoreStatusDetails.map({ try TableRestoreStatus(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct CreateEventSubscriptionResult: AWSShape {
@@ -1763,6 +2336,9 @@ extension Redshift {
             self.eventSubscription = eventSubscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Redshift.EventSubscription(dictionary: eventSubscription) }
+        }
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
@@ -1780,6 +2356,10 @@ extension Redshift {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? String
+        }
     }
 
     public struct HsmClientCertificate: AWSShape {
@@ -1800,6 +2380,13 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.hsmClientCertificatePublicKey = dictionary["HsmClientCertificatePublicKey"] as? String
+            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+        }
     }
 
     public struct DescribeClusterSnapshotsMessage: AWSShape {
@@ -1841,6 +2428,22 @@ extension Redshift {
             self.ownerAccount = ownerAccount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
+            self.marker = dictionary["Marker"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.snapshotType = dictionary["SnapshotType"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.ownerAccount = dictionary["OwnerAccount"] as? String
+        }
     }
 
     public struct DeleteSnapshotCopyGrantMessage: AWSShape {
@@ -1855,6 +2458,10 @@ extension Redshift {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotCopyGrantName") }
+            self.snapshotCopyGrantName = snapshotCopyGrantName
+        }
     }
 
     public struct ClusterParameterGroupsMessage: AWSShape {
@@ -1872,6 +2479,12 @@ extension Redshift {
             self.parameterGroups = parameterGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let parameterGroups = dictionary["ParameterGroups"] as? [[String: Any]] {
+                self.parameterGroups = try parameterGroups.map({ try ClusterParameterGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeDefaultClusterParametersMessage: AWSShape {
@@ -1892,6 +2505,12 @@ extension Redshift {
             self.parameterGroupFamily = parameterGroupFamily
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            guard let parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupFamily") }
+            self.parameterGroupFamily = parameterGroupFamily
+        }
     }
 
     public struct CreateClusterSubnetGroupResult: AWSShape {
@@ -1905,6 +2524,9 @@ extension Redshift {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSubnetGroup = dictionary["ClusterSubnetGroup"] as? [String: Any] { self.clusterSubnetGroup = try Redshift.ClusterSubnetGroup(dictionary: clusterSubnetGroup) }
+        }
     }
 
     public struct ModifyClusterIamRolesResult: AWSShape {
@@ -1918,6 +2540,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct ClusterSecurityGroupMembership: AWSShape {
@@ -1935,6 +2560,10 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
+        }
     }
 
     public struct DescribeReservedNodesMessage: AWSShape {
@@ -1955,6 +2584,11 @@ extension Redshift {
             self.maxRecords = maxRecords
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.reservedNodeId = dictionary["ReservedNodeId"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+        }
     }
 
     public struct CopyClusterSnapshotResult: AWSShape {
@@ -1968,6 +2602,9 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct DescribeTagsMessage: AWSShape {
@@ -1997,6 +2634,18 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.resourceName = dictionary["ResourceName"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct Snapshot: AWSShape {
@@ -2095,6 +2744,43 @@ extension Redshift {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actualIncrementalBackupSizeInMegaBytes = dictionary["ActualIncrementalBackupSizeInMegaBytes"] as? Double
+            self.dBName = dictionary["DBName"] as? String
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            self.currentBackupRateInMegaBytesPerSecond = dictionary["CurrentBackupRateInMegaBytesPerSecond"] as? Double
+            self.ownerAccount = dictionary["OwnerAccount"] as? String
+            self.backupProgressInMegaBytes = dictionary["BackupProgressInMegaBytes"] as? Double
+            if let restorableNodeTypes = dictionary["RestorableNodeTypes"] as? [String] {
+                self.restorableNodeTypes = restorableNodeTypes
+            }
+            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
+            self.encryptedWithHSM = dictionary["EncryptedWithHSM"] as? Bool
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.status = dictionary["Status"] as? String
+            self.estimatedSecondsToCompletion = dictionary["EstimatedSecondsToCompletion"] as? Int64
+            self.vpcId = dictionary["VpcId"] as? String
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            if let accountsWithRestoreAccess = dictionary["AccountsWithRestoreAccess"] as? [[String: Any]] {
+                self.accountsWithRestoreAccess = try accountsWithRestoreAccess.map({ try AccountWithRestoreAccess(dictionary: $0) })
+            }
+            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            self.sourceRegion = dictionary["SourceRegion"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.nodeType = dictionary["NodeType"] as? String
+            self.snapshotType = dictionary["SnapshotType"] as? String
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.totalBackupSizeInMegaBytes = dictionary["TotalBackupSizeInMegaBytes"] as? Double
+            self.elapsedTimeInSeconds = dictionary["ElapsedTimeInSeconds"] as? Int64
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct EventSubscription: AWSShape {
@@ -2139,6 +2825,25 @@ extension Redshift {
             self.subscriptionCreationTime = subscriptionCreationTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.severity = dictionary["Severity"] as? String
+            self.status = dictionary["Status"] as? String
+            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
+            if let sourceIdsList = dictionary["SourceIdsList"] as? [String] {
+                self.sourceIdsList = sourceIdsList
+            }
+            self.sourceType = dictionary["SourceType"] as? String
+            self.custSubscriptionId = dictionary["CustSubscriptionId"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.customerAwsId = dictionary["CustomerAwsId"] as? String
+            if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String] {
+                self.eventCategoriesList = eventCategoriesList
+            }
+            self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? Date
+        }
     }
 
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
@@ -2159,6 +2864,14 @@ extension Redshift {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotCopyGrantName") }
+            self.snapshotCopyGrantName = snapshotCopyGrantName
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct ElasticIpStatus: AWSShape {
@@ -2176,6 +2889,10 @@ extension Redshift {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.elasticIp = dictionary["ElasticIp"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
@@ -2190,6 +2907,9 @@ extension Redshift {
             self.sourceType = sourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceType = dictionary["SourceType"] as? String
+        }
     }
 
     public struct DeleteClusterParameterGroupMessage: AWSShape {
@@ -2204,6 +2924,10 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
+            self.parameterGroupName = parameterGroupName
+        }
     }
 
     public struct CreateHsmClientCertificateMessage: AWSShape {
@@ -2221,6 +2945,13 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmClientCertificateIdentifier") }
+            self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
+        }
     }
 
     public struct DescribeSnapshotCopyGrantsMessage: AWSShape {
@@ -2247,6 +2978,17 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
+            self.marker = dictionary["Marker"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct ClustersMessage: AWSShape {
@@ -2264,6 +3006,12 @@ extension Redshift {
             self.clusters = clusters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let clusters = dictionary["Clusters"] as? [[String: Any]] {
+                self.clusters = try clusters.map({ try Cluster(dictionary: $0) })
+            }
+        }
     }
 
     public struct PurchaseReservedNodeOfferingResult: AWSShape {
@@ -2277,6 +3025,9 @@ extension Redshift {
             self.reservedNode = reservedNode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedNode = dictionary["ReservedNode"] as? [String: Any] { self.reservedNode = try Redshift.ReservedNode(dictionary: reservedNode) }
+        }
     }
 
     public struct DefaultClusterParameters: AWSShape {
@@ -2297,6 +3048,13 @@ extension Redshift {
             self.parameterGroupFamily = parameterGroupFamily
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String
+        }
     }
 
     public struct ModifyClusterMessage: AWSShape {
@@ -2362,6 +3120,31 @@ extension Redshift {
             self.numberOfNodes = numberOfNodes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String] {
+                self.clusterSecurityGroups = clusterSecurityGroups
+            }
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.newClusterIdentifier = dictionary["NewClusterIdentifier"] as? String
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.nodeType = dictionary["NodeType"] as? String
+            self.clusterType = dictionary["ClusterType"] as? String
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
+            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
+            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+            self.elasticIp = dictionary["ElasticIp"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
+            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
+        }
     }
 
     public struct RotateEncryptionKeyResult: AWSShape {
@@ -2375,6 +3158,9 @@ extension Redshift {
             self.cluster = cluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) }
+        }
     }
 
     public struct DescribeClusterSubnetGroupsMessage: AWSShape {
@@ -2401,6 +3187,17 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.marker = dictionary["Marker"] as? String
+            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct ModifyClusterIamRolesMessage: AWSShape {
@@ -2421,6 +3218,16 @@ extension Redshift {
             self.removeIamRoles = removeIamRoles
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            if let addIamRoles = dictionary["AddIamRoles"] as? [String] {
+                self.addIamRoles = addIamRoles
+            }
+            if let removeIamRoles = dictionary["RemoveIamRoles"] as? [String] {
+                self.removeIamRoles = removeIamRoles
+            }
+        }
     }
 
     public struct ClusterIamRole: AWSShape {
@@ -2438,6 +3245,10 @@ extension Redshift {
             self.applyStatus = applyStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamRoleArn = dictionary["IamRoleArn"] as? String
+            self.applyStatus = dictionary["ApplyStatus"] as? String
+        }
     }
 
     public struct CreateClusterSnapshotMessage: AWSShape {
@@ -2458,6 +3269,15 @@ extension Redshift {
             self.snapshotIdentifier = snapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+        }
     }
 
     public struct ClusterParameterGroupDetails: AWSShape {
@@ -2475,6 +3295,12 @@ extension Redshift {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct AuthorizeClusterSecurityGroupIngressResult: AWSShape {
@@ -2488,6 +3314,9 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [String: Any] { self.clusterSecurityGroup = try Redshift.ClusterSecurityGroup(dictionary: clusterSecurityGroup) }
+        }
     }
 
     public struct ClusterSecurityGroup: AWSShape {
@@ -2514,6 +3343,19 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            if let iPRanges = dictionary["IPRanges"] as? [[String: Any]] {
+                self.iPRanges = try iPRanges.map({ try IPRange(dictionary: $0) })
+            }
+            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [[String: Any]] {
+                self.eC2SecurityGroups = try eC2SecurityGroups.map({ try EC2SecurityGroup(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
+        }
     }
 
     public struct TaggedResource: AWSShape {
@@ -2534,6 +3376,11 @@ extension Redshift {
             self.resourceType = resourceType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try Redshift.Tag(dictionary: tag) }
+            self.resourceName = dictionary["ResourceName"] as? String
+            self.resourceType = dictionary["ResourceType"] as? String
+        }
     }
 
     public struct ReservedNodeOfferingsMessage: AWSShape {
@@ -2551,6 +3398,12 @@ extension Redshift {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedNodeOfferings = dictionary["ReservedNodeOfferings"] as? [[String: Any]] {
+                self.reservedNodeOfferings = try reservedNodeOfferings.map({ try ReservedNodeOffering(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct ClusterNode: AWSShape {
@@ -2571,6 +3424,11 @@ extension Redshift {
             self.publicIPAddress = publicIPAddress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nodeRole = dictionary["NodeRole"] as? String
+            self.privateIPAddress = dictionary["PrivateIPAddress"] as? String
+            self.publicIPAddress = dictionary["PublicIPAddress"] as? String
+        }
     }
 
     public struct SnapshotCopyGrantMessage: AWSShape {
@@ -2588,6 +3446,12 @@ extension Redshift {
             self.snapshotCopyGrants = snapshotCopyGrants
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let snapshotCopyGrants = dictionary["SnapshotCopyGrants"] as? [[String: Any]] {
+                self.snapshotCopyGrants = try snapshotCopyGrants.map({ try SnapshotCopyGrant(dictionary: $0) })
+            }
+        }
     }
 
     public struct Cluster: AWSShape {
@@ -2698,6 +3562,53 @@ extension Redshift {
             self.modifyStatus = modifyStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
+                self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            }
+            if let clusterNodes = dictionary["ClusterNodes"] as? [[String: Any]] {
+                self.clusterNodes = try clusterNodes.map({ try ClusterNode(dictionary: $0) })
+            }
+            self.dBName = dictionary["DBName"] as? String
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
+            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
+            if let clusterSnapshotCopyStatus = dictionary["ClusterSnapshotCopyStatus"] as? [String: Any] { self.clusterSnapshotCopyStatus = try Redshift.ClusterSnapshotCopyStatus(dictionary: clusterSnapshotCopyStatus) }
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            if let iamRoles = dictionary["IamRoles"] as? [[String: Any]] {
+                self.iamRoles = try iamRoles.map({ try ClusterIamRole(dictionary: $0) })
+            }
+            self.clusterStatus = dictionary["ClusterStatus"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Redshift.Endpoint(dictionary: endpoint) }
+            self.clusterRevisionNumber = dictionary["ClusterRevisionNumber"] as? String
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Redshift.PendingModifiedValues(dictionary: pendingModifiedValues) }
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [[String: Any]] {
+                self.clusterSecurityGroups = try clusterSecurityGroups.map({ try ClusterSecurityGroupMembership(dictionary: $0) })
+            }
+            if let clusterParameterGroups = dictionary["ClusterParameterGroups"] as? [[String: Any]] {
+                self.clusterParameterGroups = try clusterParameterGroups.map({ try ClusterParameterGroupStatus(dictionary: $0) })
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.nodeType = dictionary["NodeType"] as? String
+            self.clusterPublicKey = dictionary["ClusterPublicKey"] as? String
+            if let hsmStatus = dictionary["HsmStatus"] as? [String: Any] { self.hsmStatus = try Redshift.HsmStatus(dictionary: hsmStatus) }
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            if let elasticIpStatus = dictionary["ElasticIpStatus"] as? [String: Any] { self.elasticIpStatus = try Redshift.ElasticIpStatus(dictionary: elasticIpStatus) }
+            if let restoreStatus = dictionary["RestoreStatus"] as? [String: Any] { self.restoreStatus = try Redshift.RestoreStatus(dictionary: restoreStatus) }
+            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
+            self.masterUsername = dictionary["MasterUsername"] as? String
+            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
+            self.modifyStatus = dictionary["ModifyStatus"] as? String
+        }
     }
 
     public struct CreateClusterSnapshotResult: AWSShape {
@@ -2711,6 +3622,9 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
@@ -2743,6 +3657,20 @@ extension Redshift {
             self.sourceIds = sourceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.severity = dictionary["Severity"] as? String
+            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
+            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
+            self.subscriptionName = subscriptionName
+            self.sourceType = dictionary["SourceType"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+            self.enabled = dictionary["Enabled"] as? Bool
+            if let sourceIds = dictionary["SourceIds"] as? [String] {
+                self.sourceIds = sourceIds
+            }
+        }
     }
 
     public struct ClusterSnapshotCopyStatus: AWSShape {
@@ -2763,6 +3691,11 @@ extension Redshift {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.destinationRegion = dictionary["DestinationRegion"] as? String
+            self.retentionPeriod = dictionary["RetentionPeriod"] as? Int64
+            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -2777,6 +3710,9 @@ extension Redshift {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct ModifyClusterSubnetGroupResult: AWSShape {
@@ -2790,6 +3726,9 @@ extension Redshift {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSubnetGroup = dictionary["ClusterSubnetGroup"] as? [String: Any] { self.clusterSubnetGroup = try Redshift.ClusterSubnetGroup(dictionary: clusterSubnetGroup) }
+        }
     }
 
     public struct HsmConfiguration: AWSShape {
@@ -2816,6 +3755,15 @@ extension Redshift {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.hsmIpAddress = dictionary["HsmIpAddress"] as? String
+            self.hsmPartitionName = dictionary["HsmPartitionName"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct DisableLoggingMessage: AWSShape {
@@ -2830,6 +3778,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+        }
     }
 
     public struct DescribeClustersMessage: AWSShape {
@@ -2856,6 +3808,17 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct RotateEncryptionKeyMessage: AWSShape {
@@ -2870,6 +3833,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+        }
     }
 
     public struct RevokeClusterSecurityGroupIngressMessage: AWSShape {
@@ -2893,6 +3860,13 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cIDRIP = dictionary["CIDRIP"] as? String
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
+            self.clusterSecurityGroupName = clusterSecurityGroupName
+        }
     }
 
     public struct EnableLoggingMessage: AWSShape {
@@ -2913,6 +3887,13 @@ extension Redshift {
             self.s3KeyPrefix = s3KeyPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            guard let bucketName = dictionary["BucketName"] as? String else { throw InitializableError.missingRequiredParam("BucketName") }
+            self.bucketName = bucketName
+            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+        }
     }
 
     public struct SnapshotMessage: AWSShape {
@@ -2930,6 +3911,12 @@ extension Redshift {
             self.snapshots = snapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
+                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateClusterMessage: AWSShape {
@@ -3022,6 +4009,47 @@ extension Redshift {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dBName = dictionary["DBName"] as? String
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.encrypted = dictionary["Encrypted"] as? Bool
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            self.clusterType = dictionary["ClusterType"] as? String
+            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
+            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
+            guard let masterUserPassword = dictionary["MasterUserPassword"] as? String else { throw InitializableError.missingRequiredParam("MasterUserPassword") }
+            self.masterUserPassword = masterUserPassword
+            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
+            if let iamRoles = dictionary["IamRoles"] as? [String] {
+                self.iamRoles = iamRoles
+            }
+            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+            self.elasticIp = dictionary["ElasticIp"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String] {
+                self.clusterSecurityGroups = clusterSecurityGroups
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            guard let nodeType = dictionary["NodeType"] as? String else { throw InitializableError.missingRequiredParam("NodeType") }
+            self.nodeType = nodeType
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
+                self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            }
+            self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+            guard let masterUsername = dictionary["MasterUsername"] as? String else { throw InitializableError.missingRequiredParam("MasterUsername") }
+            self.masterUsername = masterUsername
+            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
+            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct SnapshotCopyGrant: AWSShape {
@@ -3042,6 +4070,13 @@ extension Redshift {
             self.kmsKeyId = kmsKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
     }
 
     public struct ModifySnapshotCopyRetentionPeriodMessage: AWSShape {
@@ -3059,6 +4094,12 @@ extension Redshift {
             self.retentionPeriod = retentionPeriod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            guard let retentionPeriod = dictionary["RetentionPeriod"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriod") }
+            self.retentionPeriod = retentionPeriod
+        }
     }
 
     public struct DeleteClusterSubnetGroupMessage: AWSShape {
@@ -3073,6 +4114,10 @@ extension Redshift {
             self.clusterSubnetGroupName = clusterSubnetGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
+            self.clusterSubnetGroupName = clusterSubnetGroupName
+        }
     }
 
     public struct RevokeSnapshotAccessMessage: AWSShape {
@@ -3093,6 +4138,13 @@ extension Redshift {
             self.accountWithRestoreAccess = accountWithRestoreAccess
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+            guard let accountWithRestoreAccess = dictionary["AccountWithRestoreAccess"] as? String else { throw InitializableError.missingRequiredParam("AccountWithRestoreAccess") }
+            self.accountWithRestoreAccess = accountWithRestoreAccess
+        }
     }
 
     public struct CreateHsmClientCertificateResult: AWSShape {
@@ -3106,6 +4158,9 @@ extension Redshift {
             self.hsmClientCertificate = hsmClientCertificate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hsmClientCertificate = dictionary["HsmClientCertificate"] as? [String: Any] { self.hsmClientCertificate = try Redshift.HsmClientCertificate(dictionary: hsmClientCertificate) }
+        }
     }
 
     public struct CreateSnapshotCopyGrantResult: AWSShape {
@@ -3119,6 +4174,9 @@ extension Redshift {
             self.snapshotCopyGrant = snapshotCopyGrant
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotCopyGrant = dictionary["SnapshotCopyGrant"] as? [String: Any] { self.snapshotCopyGrant = try Redshift.SnapshotCopyGrant(dictionary: snapshotCopyGrant) }
+        }
     }
 
     public struct ClusterParameterStatus: AWSShape {
@@ -3139,6 +4197,11 @@ extension Redshift {
             self.parameterApplyStatus = parameterApplyStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterApplyErrorDescription = dictionary["ParameterApplyErrorDescription"] as? String
+            self.parameterName = dictionary["ParameterName"] as? String
+            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
+        }
     }
 
     public struct CreateClusterSecurityGroupResult: AWSShape {
@@ -3152,6 +4215,9 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [String: Any] { self.clusterSecurityGroup = try Redshift.ClusterSecurityGroup(dictionary: clusterSecurityGroup) }
+        }
     }
 
     public struct PendingModifiedValues: AWSShape {
@@ -3190,6 +4256,17 @@ extension Redshift {
             self.publiclyAccessible = publiclyAccessible
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clusterVersion = dictionary["ClusterVersion"] as? String
+            self.nodeType = dictionary["NodeType"] as? String
+            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
+            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
+            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
+            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
+            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
+            self.clusterType = dictionary["ClusterType"] as? String
+            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+        }
     }
 
     public struct CreateHsmConfigurationResult: AWSShape {
@@ -3203,6 +4280,9 @@ extension Redshift {
             self.hsmConfiguration = hsmConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hsmConfiguration = dictionary["HsmConfiguration"] as? [String: Any] { self.hsmConfiguration = try Redshift.HsmConfiguration(dictionary: hsmConfiguration) }
+        }
     }
 
     public struct CreateTagsMessage: AWSShape {
@@ -3220,6 +4300,12 @@ extension Redshift {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+        }
     }
 
     public struct IPRange: AWSShape {
@@ -3240,6 +4326,13 @@ extension Redshift {
             self.cIDRIP = cIDRIP
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.cIDRIP = dictionary["CIDRIP"] as? String
+        }
     }
 
     public struct DeleteClusterSnapshotMessage: AWSShape {
@@ -3257,6 +4350,11 @@ extension Redshift {
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
+            self.snapshotIdentifier = snapshotIdentifier
+            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
+        }
     }
 
     public struct DescribeClusterParameterGroupsMessage: AWSShape {
@@ -3283,6 +4381,17 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            if let tagValues = dictionary["TagValues"] as? [String] {
+                self.tagValues = tagValues
+            }
+            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+            self.marker = dictionary["Marker"] as? String
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct DisableSnapshotCopyMessage: AWSShape {
@@ -3297,6 +4406,10 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+        }
     }
 
     public struct ModifyClusterParameterGroupMessage: AWSShape {
@@ -3314,6 +4427,12 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parameters = dictionary["Parameters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Parameters") }
+            self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
+            self.parameterGroupName = parameterGroupName
+        }
     }
 
     public struct DescribeClusterParametersMessage: AWSShape {
@@ -3337,6 +4456,13 @@ extension Redshift {
             self.source = source
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
+            self.parameterGroupName = parameterGroupName
+            self.marker = dictionary["Marker"] as? String
+            self.source = dictionary["Source"] as? String
+        }
     }
 
     public struct AccountWithRestoreAccess: AWSShape {
@@ -3351,6 +4477,9 @@ extension Redshift {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accountId = dictionary["AccountId"] as? String
+        }
     }
 
     public struct EventInfoMap: AWSShape {
@@ -3374,6 +4503,14 @@ extension Redshift {
             self.eventCategories = eventCategories
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.severity = dictionary["Severity"] as? String
+            self.eventId = dictionary["EventId"] as? String
+            self.eventDescription = dictionary["EventDescription"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String] {
+                self.eventCategories = eventCategories
+            }
+        }
     }
 
 }

@@ -47,6 +47,12 @@ extension Streamsdynamodb {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let streamArn = dictionary["StreamArn"] as? String else { throw InitializableError.missingRequiredParam("StreamArn") }
+            self.streamArn = streamArn
+            self.exclusiveStartShardId = dictionary["ExclusiveStartShardId"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct KeySchemaElement: AWSShape {
@@ -64,6 +70,12 @@ extension Streamsdynamodb {
             self.keyType = keyType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            guard let keyType = dictionary["KeyType"] as? String else { throw InitializableError.missingRequiredParam("KeyType") }
+            self.keyType = keyType
+        }
     }
 
     public struct Shard: AWSShape {
@@ -84,6 +96,11 @@ extension Streamsdynamodb {
             self.parentShardId = parentShardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shardId = dictionary["ShardId"] as? String
+            if let sequenceNumberRange = dictionary["SequenceNumberRange"] as? [String: Any] { self.sequenceNumberRange = try Streamsdynamodb.SequenceNumberRange(dictionary: sequenceNumberRange) }
+            self.parentShardId = dictionary["ParentShardId"] as? String
+        }
     }
 
     public struct DescribeStreamOutput: AWSShape {
@@ -98,6 +115,9 @@ extension Streamsdynamodb {
             self.streamDescription = streamDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let streamDescription = dictionary["StreamDescription"] as? [String: Any] { self.streamDescription = try Streamsdynamodb.StreamDescription(dictionary: streamDescription) }
+        }
     }
 
     public struct Record: AWSShape {
@@ -130,6 +150,15 @@ extension Streamsdynamodb {
             self.eventVersion = eventVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventName = dictionary["eventName"] as? String
+            self.eventSource = dictionary["eventSource"] as? String
+            if let userIdentity = dictionary["userIdentity"] as? [String: Any] { self.userIdentity = try Streamsdynamodb.Identity(dictionary: userIdentity) }
+            self.eventID = dictionary["eventID"] as? String
+            if let dynamodb = dictionary["dynamodb"] as? [String: Any] { self.dynamodb = try Streamsdynamodb.StreamRecord(dictionary: dynamodb) }
+            self.awsRegion = dictionary["awsRegion"] as? String
+            self.eventVersion = dictionary["eventVersion"] as? String
+        }
     }
 
     public struct GetShardIteratorInput: AWSShape {
@@ -153,6 +182,15 @@ extension Streamsdynamodb {
             self.shardId = shardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let shardIteratorType = dictionary["ShardIteratorType"] as? String else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
+            self.shardIteratorType = shardIteratorType
+            self.sequenceNumber = dictionary["SequenceNumber"] as? String
+            guard let streamArn = dictionary["StreamArn"] as? String else { throw InitializableError.missingRequiredParam("StreamArn") }
+            self.streamArn = streamArn
+            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
+            self.shardId = shardId
+        }
     }
 
     public struct SequenceNumberRange: AWSShape {
@@ -170,6 +208,10 @@ extension Streamsdynamodb {
             self.startingSequenceNumber = startingSequenceNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.endingSequenceNumber = dictionary["EndingSequenceNumber"] as? String
+            self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
+        }
     }
 
     public struct Stream: AWSShape {
@@ -190,6 +232,11 @@ extension Streamsdynamodb {
             self.tableName = tableName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.streamArn = dictionary["StreamArn"] as? String
+            self.streamLabel = dictionary["StreamLabel"] as? String
+            self.tableName = dictionary["TableName"] as? String
+        }
     }
 
     public struct GetRecordsInput: AWSShape {
@@ -207,6 +254,11 @@ extension Streamsdynamodb {
             self.shardIterator = shardIterator
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            guard let shardIterator = dictionary["ShardIterator"] as? String else { throw InitializableError.missingRequiredParam("ShardIterator") }
+            self.shardIterator = shardIterator
+        }
     }
 
     public struct GetShardIteratorOutput: AWSShape {
@@ -221,6 +273,9 @@ extension Streamsdynamodb {
             self.shardIterator = shardIterator
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.shardIterator = dictionary["ShardIterator"] as? String
+        }
     }
 
     public struct Identity: AWSShape {
@@ -238,6 +293,10 @@ extension Streamsdynamodb {
             self.principalId = principalId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.principalId = dictionary["PrincipalId"] as? String
+        }
     }
 
     public struct AttributeValue: AWSShape {
@@ -279,6 +338,33 @@ extension Streamsdynamodb {
             self.s = s
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nS = dictionary["NS"] as? [String] {
+                self.nS = nS
+            }
+            self.n = dictionary["N"] as? String
+            self.bOOL = dictionary["BOOL"] as? Bool
+            if let bS = dictionary["BS"] as? [Data] {
+                self.bS = bS
+            }
+            if let l = dictionary["L"] as? [[String: Any]] {
+                self.l = try l.map({ try AttributeValue(dictionary: $0) })
+            }
+            self.nULL = dictionary["NULL"] as? Bool
+            self.b = dictionary["B"] as? Data
+            if let m = dictionary["M"] as? [String: Any] {
+                var mDict: [String: AttributeValue] = [:]
+                for (key, value) in m {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    mDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.m = mDict
+            }
+            if let sS = dictionary["SS"] as? [String] {
+                self.sS = sS
+            }
+            self.s = dictionary["S"] as? String
+        }
     }
 
     public struct ListStreamsOutput: AWSShape {
@@ -296,6 +382,12 @@ extension Streamsdynamodb {
             self.lastEvaluatedStreamArn = lastEvaluatedStreamArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let streams = dictionary["Streams"] as? [[String: Any]] {
+                self.streams = try streams.map({ try Stream(dictionary: $0) })
+            }
+            self.lastEvaluatedStreamArn = dictionary["LastEvaluatedStreamArn"] as? String
+        }
     }
 
     public struct ListStreamsInput: AWSShape {
@@ -316,6 +408,11 @@ extension Streamsdynamodb {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.exclusiveStartStreamArn = dictionary["ExclusiveStartStreamArn"] as? String
+            self.tableName = dictionary["TableName"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct GetRecordsOutput: AWSShape {
@@ -333,6 +430,12 @@ extension Streamsdynamodb {
             self.records = records
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextShardIterator = dictionary["NextShardIterator"] as? String
+            if let records = dictionary["Records"] as? [[String: Any]] {
+                self.records = try records.map({ try Record(dictionary: $0) })
+            }
+        }
     }
 
     public struct StreamRecord: AWSShape {
@@ -365,6 +468,36 @@ extension Streamsdynamodb {
             self.oldImage = oldImage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sequenceNumber = dictionary["SequenceNumber"] as? String
+            if let keys = dictionary["Keys"] as? [String: Any] {
+                var keysDict: [String: AttributeValue] = [:]
+                for (key, value) in keys {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    keysDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.keys = keysDict
+            }
+            if let newImage = dictionary["NewImage"] as? [String: Any] {
+                var newImageDict: [String: AttributeValue] = [:]
+                for (key, value) in newImage {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    newImageDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.newImage = newImageDict
+            }
+            self.sizeBytes = dictionary["SizeBytes"] as? Int64
+            self.streamViewType = dictionary["StreamViewType"] as? String
+            self.approximateCreationDateTime = dictionary["ApproximateCreationDateTime"] as? Date
+            if let oldImage = dictionary["OldImage"] as? [String: Any] {
+                var oldImageDict: [String: AttributeValue] = [:]
+                for (key, value) in oldImage {
+                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    oldImageDict[key] = try AttributeValue(dictionary: attributeValueDict)
+                }
+                self.oldImage = oldImageDict
+            }
+        }
     }
 
     public struct StreamDescription: AWSShape {
@@ -403,6 +536,21 @@ extension Streamsdynamodb {
             self.lastEvaluatedShardId = lastEvaluatedShardId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
+                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+            }
+            self.streamArn = dictionary["StreamArn"] as? String
+            self.creationRequestDateTime = dictionary["CreationRequestDateTime"] as? Date
+            if let shards = dictionary["Shards"] as? [[String: Any]] {
+                self.shards = try shards.map({ try Shard(dictionary: $0) })
+            }
+            self.streamLabel = dictionary["StreamLabel"] as? String
+            self.tableName = dictionary["TableName"] as? String
+            self.streamViewType = dictionary["StreamViewType"] as? String
+            self.streamStatus = dictionary["StreamStatus"] as? String
+            self.lastEvaluatedShardId = dictionary["LastEvaluatedShardId"] as? String
+        }
     }
 
 }

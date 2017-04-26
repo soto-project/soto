@@ -41,6 +41,9 @@ extension CognitoIdp {
             self.userImportJob = userImportJob
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+        }
     }
 
     public struct AdminUserGlobalSignOutResponse: AWSShape {
@@ -49,6 +52,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateUserPoolRequest: AWSShape {
@@ -108,6 +113,33 @@ extension CognitoIdp {
             self.deviceConfiguration = deviceConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPoolTags = dictionary["UserPoolTags"] as? [String: String] {
+                self.userPoolTags = userPoolTags
+            }
+            self.emailVerificationSubject = dictionary["EmailVerificationSubject"] as? String
+            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) }
+            if let schema = dictionary["Schema"] as? [[String: Any]] {
+                self.schema = try schema.map({ try SchemaAttributeType(dictionary: $0) })
+            }
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) }
+            if let aliasAttributes = dictionary["AliasAttributes"] as? [String] {
+                self.aliasAttributes = aliasAttributes
+            }
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            self.mfaConfiguration = dictionary["MfaConfiguration"] as? String
+            guard let poolName = dictionary["PoolName"] as? String else { throw InitializableError.missingRequiredParam("PoolName") }
+            self.poolName = poolName
+            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) }
+            self.smsVerificationMessage = dictionary["SmsVerificationMessage"] as? String
+            self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
+            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) }
+            self.smsAuthenticationMessage = dictionary["SmsAuthenticationMessage"] as? String
+            if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] {
+                self.autoVerifiedAttributes = autoVerifiedAttributes
+            }
+            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) }
+        }
     }
 
     public struct AddCustomAttributesResponse: AWSShape {
@@ -116,6 +148,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListUsersInGroupResponse: AWSShape {
@@ -133,6 +167,12 @@ extension CognitoIdp {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let users = dictionary["Users"] as? [[String: Any]] {
+                self.users = try users.map({ try UserType(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct NumberAttributeConstraintsType: AWSShape {
@@ -150,6 +190,10 @@ extension CognitoIdp {
             self.maxValue = maxValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minValue = dictionary["MinValue"] as? String
+            self.maxValue = dictionary["MaxValue"] as? String
+        }
     }
 
     public struct ListDevicesRequest: AWSShape {
@@ -170,6 +214,12 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            guard let accessToken = dictionary["AccessToken"] as? String else { throw InitializableError.missingRequiredParam("AccessToken") }
+            self.accessToken = accessToken
+        }
     }
 
     public struct DeleteUserPoolRequest: AWSShape {
@@ -184,6 +234,10 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct GetUserAttributeVerificationCodeResponse: AWSShape {
@@ -198,6 +252,9 @@ extension CognitoIdp {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+        }
     }
 
     public struct SignUpRequest: AWSShape {
@@ -227,6 +284,21 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
+                self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            }
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            if let validationData = dictionary["ValidationData"] as? [[String: Any]] {
+                self.validationData = try validationData.map({ try AttributeType(dictionary: $0) })
+            }
+            self.secretHash = dictionary["SecretHash"] as? String
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct DescribeUserPoolClientResponse: AWSShape {
@@ -241,6 +313,9 @@ extension CognitoIdp {
             self.userPoolClient = userPoolClient
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) }
+        }
     }
 
     public struct AdminRespondToAuthChallengeRequest: AWSShape {
@@ -267,6 +342,18 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let challengeName = dictionary["ChallengeName"] as? String else { throw InitializableError.missingRequiredParam("ChallengeName") }
+            self.challengeName = challengeName
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            self.session = dictionary["Session"] as? String
+            if let challengeResponses = dictionary["ChallengeResponses"] as? [String: String] {
+                self.challengeResponses = challengeResponses
+            }
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct AdminListGroupsForUserRequest: AWSShape {
@@ -290,6 +377,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct SetUserSettingsResponse: AWSShape {
@@ -298,6 +393,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ConfirmSignUpResponse: AWSShape {
@@ -306,6 +403,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListUserPoolsRequest: AWSShape {
@@ -323,6 +422,11 @@ extension CognitoIdp {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let maxResults = dictionary["MaxResults"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxResults") }
+            self.maxResults = maxResults
+        }
     }
 
     public struct UpdateGroupRequest: AWSShape {
@@ -349,6 +453,15 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.precedence = dictionary["Precedence"] as? Int32
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            self.roleArn = dictionary["RoleArn"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct InitiateAuthResponse: AWSShape {
@@ -372,6 +485,14 @@ extension CognitoIdp {
             self.session = session
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.challengeName = dictionary["ChallengeName"] as? String
+            if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
+                self.challengeParameters = challengeParameters
+            }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            self.session = dictionary["Session"] as? String
+        }
     }
 
     public struct DeleteUserAttributesRequest: AWSShape {
@@ -389,6 +510,11 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userAttributeNames = dictionary["UserAttributeNames"] as? [String] else { throw InitializableError.missingRequiredParam("UserAttributeNames") }
+            self.userAttributeNames = userAttributeNames
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct StartUserImportJobRequest: AWSShape {
@@ -406,6 +532,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct GetUserRequest: AWSShape {
@@ -420,6 +552,9 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct DeleteUserPoolClientRequest: AWSShape {
@@ -437,6 +572,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct UpdateDeviceStatusRequest: AWSShape {
@@ -457,6 +598,13 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            self.deviceRememberedStatus = dictionary["DeviceRememberedStatus"] as? String
+            guard let accessToken = dictionary["AccessToken"] as? String else { throw InitializableError.missingRequiredParam("AccessToken") }
+            self.accessToken = accessToken
+        }
     }
 
     public struct AdminRemoveUserFromGroupRequest: AWSShape {
@@ -477,6 +625,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct AdminDeleteUserAttributesRequest: AWSShape {
@@ -497,6 +653,14 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let userAttributeNames = dictionary["UserAttributeNames"] as? [String] else { throw InitializableError.missingRequiredParam("UserAttributeNames") }
+            self.userAttributeNames = userAttributeNames
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct UserPoolClientDescription: AWSShape {
@@ -517,6 +681,11 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientName = dictionary["ClientName"] as? String
+            self.clientId = dictionary["ClientId"] as? String
+            self.userPoolId = dictionary["UserPoolId"] as? String
+        }
     }
 
     public struct DeviceSecretVerifierConfigType: AWSShape {
@@ -534,6 +703,10 @@ extension CognitoIdp {
             self.passwordVerifier = passwordVerifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.salt = dictionary["Salt"] as? String
+            self.passwordVerifier = dictionary["PasswordVerifier"] as? String
+        }
     }
 
     public struct ListUserImportJobsResponse: AWSShape {
@@ -551,6 +724,12 @@ extension CognitoIdp {
             self.userImportJobs = userImportJobs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            if let userImportJobs = dictionary["UserImportJobs"] as? [[String: Any]] {
+                self.userImportJobs = try userImportJobs.map({ try UserImportJobType(dictionary: $0) })
+            }
+        }
     }
 
     public struct RespondToAuthChallengeResponse: AWSShape {
@@ -574,6 +753,14 @@ extension CognitoIdp {
             self.session = session
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.challengeName = dictionary["ChallengeName"] as? String
+            if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
+                self.challengeParameters = challengeParameters
+            }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            self.session = dictionary["Session"] as? String
+        }
     }
 
     public struct CreateUserPoolClientResponse: AWSShape {
@@ -588,6 +775,9 @@ extension CognitoIdp {
             self.userPoolClient = userPoolClient
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) }
+        }
     }
 
     public struct ListGroupsResponse: AWSShape {
@@ -605,6 +795,12 @@ extension CognitoIdp {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupType(dictionary: $0) })
+            }
+        }
     }
 
     public struct AdminInitiateAuthRequest: AWSShape {
@@ -631,6 +827,20 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clientMetadata = dictionary["ClientMetadata"] as? [String: String] {
+                self.clientMetadata = clientMetadata
+            }
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            if let authParameters = dictionary["AuthParameters"] as? [String: String] {
+                self.authParameters = authParameters
+            }
+            guard let authFlow = dictionary["AuthFlow"] as? String else { throw InitializableError.missingRequiredParam("AuthFlow") }
+            self.authFlow = authFlow
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct UpdateUserPoolClientResponse: AWSShape {
@@ -645,6 +855,9 @@ extension CognitoIdp {
             self.userPoolClient = userPoolClient
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) }
+        }
     }
 
     public struct DescribeUserImportJobRequest: AWSShape {
@@ -662,6 +875,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct DeleteUserRequest: AWSShape {
@@ -676,6 +895,9 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct GlobalSignOutRequest: AWSShape {
@@ -690,6 +912,9 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct CreateUserPoolClientRequest: AWSShape {
@@ -722,6 +947,23 @@ extension CognitoIdp {
             self.generateSecret = generateSecret
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientName = dictionary["ClientName"] as? String else { throw InitializableError.missingRequiredParam("ClientName") }
+            self.clientName = clientName
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            if let writeAttributes = dictionary["WriteAttributes"] as? [String] {
+                self.writeAttributes = writeAttributes
+            }
+            self.refreshTokenValidity = dictionary["RefreshTokenValidity"] as? Int32
+            if let readAttributes = dictionary["ReadAttributes"] as? [String] {
+                self.readAttributes = readAttributes
+            }
+            if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] {
+                self.explicitAuthFlows = explicitAuthFlows
+            }
+            self.generateSecret = dictionary["GenerateSecret"] as? Bool
+        }
     }
 
     public struct AttributeType: AWSShape {
@@ -739,6 +981,11 @@ extension CognitoIdp {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct VerifyUserAttributeResponse: AWSShape {
@@ -747,6 +994,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UserPoolClientType: AWSShape {
@@ -788,6 +1037,24 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientName = dictionary["ClientName"] as? String
+            self.refreshTokenValidity = dictionary["RefreshTokenValidity"] as? Int32
+            if let writeAttributes = dictionary["WriteAttributes"] as? [String] {
+                self.writeAttributes = writeAttributes
+            }
+            if let readAttributes = dictionary["ReadAttributes"] as? [String] {
+                self.readAttributes = readAttributes
+            }
+            self.clientId = dictionary["ClientId"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] {
+                self.explicitAuthFlows = explicitAuthFlows
+            }
+            self.clientSecret = dictionary["ClientSecret"] as? String
+            self.userPoolId = dictionary["UserPoolId"] as? String
+        }
     }
 
     public struct CreateUserImportJobRequest: AWSShape {
@@ -808,6 +1075,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobName = dictionary["JobName"] as? String else { throw InitializableError.missingRequiredParam("JobName") }
+            self.jobName = jobName
+            guard let cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String else { throw InitializableError.missingRequiredParam("CloudWatchLogsRoleArn") }
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct SchemaAttributeType: AWSShape {
@@ -840,6 +1115,15 @@ extension CognitoIdp {
             self.mutable = mutable
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let numberAttributeConstraints = dictionary["NumberAttributeConstraints"] as? [String: Any] { self.numberAttributeConstraints = try CognitoIdp.NumberAttributeConstraintsType(dictionary: numberAttributeConstraints) }
+            self.developerOnlyAttribute = dictionary["DeveloperOnlyAttribute"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.attributeDataType = dictionary["AttributeDataType"] as? String
+            if let stringAttributeConstraints = dictionary["StringAttributeConstraints"] as? [String: Any] { self.stringAttributeConstraints = try CognitoIdp.StringAttributeConstraintsType(dictionary: stringAttributeConstraints) }
+            self.required = dictionary["Required"] as? Bool
+            self.mutable = dictionary["Mutable"] as? Bool
+        }
     }
 
     public struct ConfirmForgotPasswordRequest: AWSShape {
@@ -866,6 +1150,17 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let confirmationCode = dictionary["ConfirmationCode"] as? String else { throw InitializableError.missingRequiredParam("ConfirmationCode") }
+            self.confirmationCode = confirmationCode
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            self.secretHash = dictionary["SecretHash"] as? String
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct ConfirmSignUpRequest: AWSShape {
@@ -892,6 +1187,16 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.forceAliasCreation = dictionary["ForceAliasCreation"] as? Bool
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let confirmationCode = dictionary["ConfirmationCode"] as? String else { throw InitializableError.missingRequiredParam("ConfirmationCode") }
+            self.confirmationCode = confirmationCode
+            self.secretHash = dictionary["SecretHash"] as? String
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct GroupType: AWSShape {
@@ -924,6 +1229,15 @@ extension CognitoIdp {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userPoolId = dictionary["UserPoolId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.precedence = dictionary["Precedence"] as? Int32
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct StopUserImportJobResponse: AWSShape {
@@ -938,6 +1252,9 @@ extension CognitoIdp {
             self.userImportJob = userImportJob
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+        }
     }
 
     public struct AdminEnableUserRequest: AWSShape {
@@ -955,6 +1272,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct ForgotPasswordRequest: AWSShape {
@@ -975,6 +1298,13 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.secretHash = dictionary["SecretHash"] as? String
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct AdminListDevicesRequest: AWSShape {
@@ -998,6 +1328,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct UpdateDeviceStatusResponse: AWSShape {
@@ -1006,6 +1344,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetUserAttributeVerificationCodeRequest: AWSShape {
@@ -1023,6 +1363,11 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct AdminInitiateAuthResponse: AWSShape {
@@ -1046,6 +1391,14 @@ extension CognitoIdp {
             self.session = session
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.challengeName = dictionary["ChallengeName"] as? String
+            if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
+                self.challengeParameters = challengeParameters
+            }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            self.session = dictionary["Session"] as? String
+        }
     }
 
     public struct AdminDeleteUserRequest: AWSShape {
@@ -1063,6 +1416,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct GetGroupRequest: AWSShape {
@@ -1080,6 +1439,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct ListUserImportJobsRequest: AWSShape {
@@ -1100,6 +1465,13 @@ extension CognitoIdp {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            guard let maxResults = dictionary["MaxResults"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxResults") }
+            self.maxResults = maxResults
+        }
     }
 
     public struct AdminResetUserPasswordRequest: AWSShape {
@@ -1117,6 +1489,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct ChangePasswordRequest: AWSShape {
@@ -1137,6 +1515,13 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let previousPassword = dictionary["PreviousPassword"] as? String else { throw InitializableError.missingRequiredParam("PreviousPassword") }
+            self.previousPassword = previousPassword
+            guard let proposedPassword = dictionary["ProposedPassword"] as? String else { throw InitializableError.missingRequiredParam("ProposedPassword") }
+            self.proposedPassword = proposedPassword
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct UserPoolDescriptionType: AWSShape {
@@ -1166,6 +1551,14 @@ extension CognitoIdp {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.status = dictionary["Status"] as? String
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DeviceConfigurationType: AWSShape {
@@ -1183,6 +1576,10 @@ extension CognitoIdp {
             self.challengeRequiredOnNewDevice = challengeRequiredOnNewDevice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceOnlyRememberedOnUserPrompt = dictionary["DeviceOnlyRememberedOnUserPrompt"] as? Bool
+            self.challengeRequiredOnNewDevice = dictionary["ChallengeRequiredOnNewDevice"] as? Bool
+        }
     }
 
     public struct ListUserPoolsResponse: AWSShape {
@@ -1200,6 +1597,12 @@ extension CognitoIdp {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPools = dictionary["UserPools"] as? [[String: Any]] {
+                self.userPools = try userPools.map({ try UserPoolDescriptionType(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct AdminGetUserResponse: AWSShape {
@@ -1232,6 +1635,20 @@ extension CognitoIdp {
             self.userAttributes = userAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userStatus = dictionary["UserStatus"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            self.userCreateDate = dictionary["UserCreateDate"] as? Date
+            if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
+                self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            }
+            self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? Date
+            if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
+                self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListUsersInGroupRequest: AWSShape {
@@ -1255,6 +1672,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct CreateGroupRequest: AWSShape {
@@ -1281,6 +1706,15 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.precedence = dictionary["Precedence"] as? Int32
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            self.roleArn = dictionary["RoleArn"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct MessageTemplateType: AWSShape {
@@ -1301,6 +1735,11 @@ extension CognitoIdp {
             self.emailSubject = emailSubject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sMSMessage = dictionary["SMSMessage"] as? String
+            self.emailMessage = dictionary["EmailMessage"] as? String
+            self.emailSubject = dictionary["EmailSubject"] as? String
+        }
     }
 
     public struct ConfirmDeviceResponse: AWSShape {
@@ -1315,6 +1754,9 @@ extension CognitoIdp {
             self.userConfirmationNecessary = userConfirmationNecessary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userConfirmationNecessary = dictionary["UserConfirmationNecessary"] as? Bool
+        }
     }
 
     public struct StartUserImportJobResponse: AWSShape {
@@ -1329,6 +1771,9 @@ extension CognitoIdp {
             self.userImportJob = userImportJob
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+        }
     }
 
     public struct AdminDisableUserRequest: AWSShape {
@@ -1346,6 +1791,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct UpdateUserAttributesRequest: AWSShape {
@@ -1363,6 +1814,11 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("UserAttributes") }
+            self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct MFAOptionType: AWSShape {
@@ -1380,6 +1836,10 @@ extension CognitoIdp {
             self.deliveryMedium = deliveryMedium
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? String
+            self.deliveryMedium = dictionary["DeliveryMedium"] as? String
+        }
     }
 
     public struct ConfirmForgotPasswordResponse: AWSShape {
@@ -1388,6 +1848,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DescribeUserPoolRequest: AWSShape {
@@ -1402,6 +1864,10 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct GetUserResponse: AWSShape {
@@ -1422,6 +1888,15 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("UserAttributes") }
+            self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
+                self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            }
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct AdminSetUserSettingsResponse: AWSShape {
@@ -1430,6 +1905,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AdminRespondToAuthChallengeResponse: AWSShape {
@@ -1453,6 +1930,14 @@ extension CognitoIdp {
             self.session = session
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.challengeName = dictionary["ChallengeName"] as? String
+            if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
+                self.challengeParameters = challengeParameters
+            }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            self.session = dictionary["Session"] as? String
+        }
     }
 
     public struct UpdateUserPoolClientRequest: AWSShape {
@@ -1485,6 +1970,23 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientName = dictionary["ClientName"] as? String
+            self.refreshTokenValidity = dictionary["RefreshTokenValidity"] as? Int32
+            if let writeAttributes = dictionary["WriteAttributes"] as? [String] {
+                self.writeAttributes = writeAttributes
+            }
+            if let readAttributes = dictionary["ReadAttributes"] as? [String] {
+                self.readAttributes = readAttributes
+            }
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] {
+                self.explicitAuthFlows = explicitAuthFlows
+            }
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct DeviceType: AWSShape {
@@ -1511,6 +2013,15 @@ extension CognitoIdp {
             self.deviceLastAuthenticatedDate = deviceLastAuthenticatedDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceKey = dictionary["DeviceKey"] as? String
+            self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? Date
+            if let deviceAttributes = dictionary["DeviceAttributes"] as? [[String: Any]] {
+                self.deviceAttributes = try deviceAttributes.map({ try AttributeType(dictionary: $0) })
+            }
+            self.deviceCreateDate = dictionary["DeviceCreateDate"] as? Date
+            self.deviceLastAuthenticatedDate = dictionary["DeviceLastAuthenticatedDate"] as? Date
+        }
     }
 
     public struct AdminUpdateDeviceStatusResponse: AWSShape {
@@ -1519,6 +2030,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AdminUpdateUserAttributesRequest: AWSShape {
@@ -1539,6 +2052,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            guard let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("UserAttributes") }
+            self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct SmsConfigurationType: AWSShape {
@@ -1556,6 +2077,11 @@ extension CognitoIdp {
             self.snsCallerArn = snsCallerArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.externalId = dictionary["ExternalId"] as? String
+            guard let snsCallerArn = dictionary["SnsCallerArn"] as? String else { throw InitializableError.missingRequiredParam("SnsCallerArn") }
+            self.snsCallerArn = snsCallerArn
+        }
     }
 
     public struct CodeDeliveryDetailsType: AWSShape {
@@ -1576,6 +2102,11 @@ extension CognitoIdp {
             self.deliveryMedium = deliveryMedium
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? String
+            self.destination = dictionary["Destination"] as? String
+            self.deliveryMedium = dictionary["DeliveryMedium"] as? String
+        }
     }
 
     public struct GetCSVHeaderResponse: AWSShape {
@@ -1593,6 +2124,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cSVHeader = dictionary["CSVHeader"] as? [String] {
+                self.cSVHeader = cSVHeader
+            }
+            self.userPoolId = dictionary["UserPoolId"] as? String
+        }
     }
 
     public struct AdminEnableUserResponse: AWSShape {
@@ -1601,6 +2138,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AdminConfirmSignUpRequest: AWSShape {
@@ -1618,6 +2157,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct ForgetDeviceRequest: AWSShape {
@@ -1635,6 +2180,11 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct ListUsersResponse: AWSShape {
@@ -1652,6 +2202,12 @@ extension CognitoIdp {
             self.paginationToken = paginationToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let users = dictionary["Users"] as? [[String: Any]] {
+                self.users = try users.map({ try UserType(dictionary: $0) })
+            }
+            self.paginationToken = dictionary["PaginationToken"] as? String
+        }
     }
 
     public struct UserPoolType: AWSShape {
@@ -1732,6 +2288,39 @@ extension CognitoIdp {
             self.deviceConfiguration = deviceConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.emailConfigurationFailure = dictionary["EmailConfigurationFailure"] as? String
+            if let userPoolTags = dictionary["UserPoolTags"] as? [String: String] {
+                self.userPoolTags = userPoolTags
+            }
+            self.emailVerificationSubject = dictionary["EmailVerificationSubject"] as? String
+            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) }
+            self.estimatedNumberOfUsers = dictionary["EstimatedNumberOfUsers"] as? Int32
+            if let aliasAttributes = dictionary["AliasAttributes"] as? [String] {
+                self.aliasAttributes = aliasAttributes
+            }
+            if let schemaAttributes = dictionary["SchemaAttributes"] as? [[String: Any]] {
+                self.schemaAttributes = try schemaAttributes.map({ try SchemaAttributeType(dictionary: $0) })
+            }
+            self.smsConfigurationFailure = dictionary["SmsConfigurationFailure"] as? String
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) }
+            self.mfaConfiguration = dictionary["MfaConfiguration"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.id = dictionary["Id"] as? String
+            self.status = dictionary["Status"] as? String
+            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) }
+            self.smsVerificationMessage = dictionary["SmsVerificationMessage"] as? String
+            self.smsAuthenticationMessage = dictionary["SmsAuthenticationMessage"] as? String
+            self.name = dictionary["Name"] as? String
+            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) }
+            self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] {
+                self.autoVerifiedAttributes = autoVerifiedAttributes
+            }
+            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) }
+        }
     }
 
     public struct GetDeviceRequest: AWSShape {
@@ -1749,6 +2338,11 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct ListDevicesResponse: AWSShape {
@@ -1766,6 +2360,12 @@ extension CognitoIdp {
             self.devices = devices
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            if let devices = dictionary["Devices"] as? [[String: Any]] {
+                self.devices = try devices.map({ try DeviceType(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateUserPoolResponse: AWSShape {
@@ -1780,6 +2380,9 @@ extension CognitoIdp {
             self.userPool = userPool
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPool = dictionary["UserPool"] as? [String: Any] { self.userPool = try CognitoIdp.UserPoolType(dictionary: userPool) }
+        }
     }
 
     public struct ResendConfirmationCodeResponse: AWSShape {
@@ -1794,6 +2397,9 @@ extension CognitoIdp {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+        }
     }
 
     public struct AdminConfirmSignUpResponse: AWSShape {
@@ -1802,6 +2408,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateUserImportJobResponse: AWSShape {
@@ -1816,6 +2424,9 @@ extension CognitoIdp {
             self.userImportJob = userImportJob
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+        }
     }
 
     public struct RespondToAuthChallengeRequest: AWSShape {
@@ -1839,6 +2450,16 @@ extension CognitoIdp {
             self.challengeResponses = challengeResponses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let challengeName = dictionary["ChallengeName"] as? String else { throw InitializableError.missingRequiredParam("ChallengeName") }
+            self.challengeName = challengeName
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            self.session = dictionary["Session"] as? String
+            if let challengeResponses = dictionary["ChallengeResponses"] as? [String: String] {
+                self.challengeResponses = challengeResponses
+            }
+        }
     }
 
     public struct UpdateUserPoolResponse: AWSShape {
@@ -1847,6 +2468,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateUserPoolRequest: AWSShape {
@@ -1900,6 +2523,27 @@ extension CognitoIdp {
             self.deviceConfiguration = deviceConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPoolTags = dictionary["UserPoolTags"] as? [String: String] {
+                self.userPoolTags = userPoolTags
+            }
+            self.emailVerificationSubject = dictionary["EmailVerificationSubject"] as? String
+            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) }
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) }
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            self.mfaConfiguration = dictionary["MfaConfiguration"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) }
+            self.smsVerificationMessage = dictionary["SmsVerificationMessage"] as? String
+            self.smsAuthenticationMessage = dictionary["SmsAuthenticationMessage"] as? String
+            self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
+            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) }
+            if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] {
+                self.autoVerifiedAttributes = autoVerifiedAttributes
+            }
+            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) }
+        }
     }
 
     public struct LambdaConfigType: AWSShape {
@@ -1935,6 +2579,16 @@ extension CognitoIdp {
             self.postConfirmation = postConfirmation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.postAuthentication = dictionary["PostAuthentication"] as? String
+            self.customMessage = dictionary["CustomMessage"] as? String
+            self.preSignUp = dictionary["PreSignUp"] as? String
+            self.verifyAuthChallengeResponse = dictionary["VerifyAuthChallengeResponse"] as? String
+            self.defineAuthChallenge = dictionary["DefineAuthChallenge"] as? String
+            self.createAuthChallenge = dictionary["CreateAuthChallenge"] as? String
+            self.preAuthentication = dictionary["PreAuthentication"] as? String
+            self.postConfirmation = dictionary["PostConfirmation"] as? String
+        }
     }
 
     public struct ListGroupsRequest: AWSShape {
@@ -1955,6 +2609,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct SetUserSettingsRequest: AWSShape {
@@ -1972,6 +2632,12 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MFAOptions") }
+            self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            guard let accessToken = dictionary["AccessToken"] as? String else { throw InitializableError.missingRequiredParam("AccessToken") }
+            self.accessToken = accessToken
+        }
     }
 
     public struct AdminGetUserRequest: AWSShape {
@@ -1989,6 +2655,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct GetGroupResponse: AWSShape {
@@ -2003,6 +2675,9 @@ extension CognitoIdp {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) }
+        }
     }
 
     public struct AuthenticationResultType: AWSShape {
@@ -2032,6 +2707,14 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.expiresIn = dictionary["ExpiresIn"] as? Int32
+            if let newDeviceMetadata = dictionary["NewDeviceMetadata"] as? [String: Any] { self.newDeviceMetadata = try CognitoIdp.NewDeviceMetadataType(dictionary: newDeviceMetadata) }
+            self.idToken = dictionary["IdToken"] as? String
+            self.tokenType = dictionary["TokenType"] as? String
+            self.refreshToken = dictionary["RefreshToken"] as? String
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct AdminCreateUserConfigType: AWSShape {
@@ -2052,6 +2735,11 @@ extension CognitoIdp {
             self.inviteMessageTemplate = inviteMessageTemplate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowAdminCreateUserOnly = dictionary["AllowAdminCreateUserOnly"] as? Bool
+            self.unusedAccountValidityDays = dictionary["UnusedAccountValidityDays"] as? Int32
+            if let inviteMessageTemplate = dictionary["InviteMessageTemplate"] as? [String: Any] { self.inviteMessageTemplate = try CognitoIdp.MessageTemplateType(dictionary: inviteMessageTemplate) }
+        }
     }
 
     public struct StringAttributeConstraintsType: AWSShape {
@@ -2069,6 +2757,10 @@ extension CognitoIdp {
             self.maxLength = maxLength
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minLength = dictionary["MinLength"] as? String
+            self.maxLength = dictionary["MaxLength"] as? String
+        }
     }
 
     public struct UserPoolPolicyType: AWSShape {
@@ -2083,6 +2775,9 @@ extension CognitoIdp {
             self.passwordPolicy = passwordPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let passwordPolicy = dictionary["PasswordPolicy"] as? [String: Any] { self.passwordPolicy = try CognitoIdp.PasswordPolicyType(dictionary: passwordPolicy) }
+        }
     }
 
     public struct ForgotPasswordResponse: AWSShape {
@@ -2097,6 +2792,9 @@ extension CognitoIdp {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+        }
     }
 
     public struct CreateGroupResponse: AWSShape {
@@ -2111,6 +2809,9 @@ extension CognitoIdp {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) }
+        }
     }
 
     public struct GlobalSignOutResponse: AWSShape {
@@ -2119,6 +2820,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct NewDeviceMetadataType: AWSShape {
@@ -2136,6 +2839,10 @@ extension CognitoIdp {
             self.deviceKey = deviceKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deviceGroupKey = dictionary["DeviceGroupKey"] as? String
+            self.deviceKey = dictionary["DeviceKey"] as? String
+        }
     }
 
     public struct DescribeUserPoolClientRequest: AWSShape {
@@ -2153,6 +2860,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct SignUpResponse: AWSShape {
@@ -2170,6 +2883,10 @@ extension CognitoIdp {
             self.userConfirmed = userConfirmed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+            self.userConfirmed = dictionary["UserConfirmed"] as? Bool
+        }
     }
 
     public struct UpdateGroupResponse: AWSShape {
@@ -2184,6 +2901,9 @@ extension CognitoIdp {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) }
+        }
     }
 
     public struct AdminResetUserPasswordResponse: AWSShape {
@@ -2192,6 +2912,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AdminSetUserSettingsRequest: AWSShape {
@@ -2212,6 +2934,14 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MFAOptions") }
+            self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct AdminDisableUserResponse: AWSShape {
@@ -2220,6 +2950,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AdminDeleteUserAttributesResponse: AWSShape {
@@ -2228,6 +2960,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct StopUserImportJobRequest: AWSShape {
@@ -2245,6 +2979,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            self.jobId = jobId
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct GetCSVHeaderRequest: AWSShape {
@@ -2259,6 +2999,10 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct ResendConfirmationCodeRequest: AWSShape {
@@ -2279,6 +3023,13 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.secretHash = dictionary["SecretHash"] as? String
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct DescribeUserPoolResponse: AWSShape {
@@ -2293,6 +3044,9 @@ extension CognitoIdp {
             self.userPool = userPool
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let userPool = dictionary["UserPool"] as? [String: Any] { self.userPool = try CognitoIdp.UserPoolType(dictionary: userPool) }
+        }
     }
 
     public struct AddCustomAttributesRequest: AWSShape {
@@ -2310,6 +3064,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let customAttributes = dictionary["CustomAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("CustomAttributes") }
+            self.customAttributes = try customAttributes.map({ try SchemaAttributeType(dictionary: $0) })
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct UpdateUserAttributesResponse: AWSShape {
@@ -2324,6 +3084,11 @@ extension CognitoIdp {
             self.codeDeliveryDetailsList = codeDeliveryDetailsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let codeDeliveryDetailsList = dictionary["CodeDeliveryDetailsList"] as? [[String: Any]] {
+                self.codeDeliveryDetailsList = try codeDeliveryDetailsList.map({ try CodeDeliveryDetailsType(dictionary: $0) })
+            }
+        }
     }
 
     public struct UserImportJobType: AWSShape {
@@ -2374,6 +3139,21 @@ extension CognitoIdp {
             self.importedUsers = importedUsers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.completionDate = dictionary["CompletionDate"] as? Date
+            self.completionMessage = dictionary["CompletionMessage"] as? String
+            self.failedUsers = dictionary["FailedUsers"] as? Int64
+            self.skippedUsers = dictionary["SkippedUsers"] as? Int64
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.jobId = dictionary["JobId"] as? String
+            self.userPoolId = dictionary["UserPoolId"] as? String
+            self.status = dictionary["Status"] as? String
+            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+            self.startDate = dictionary["StartDate"] as? Date
+            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
+            self.jobName = dictionary["JobName"] as? String
+            self.importedUsers = dictionary["ImportedUsers"] as? Int64
+        }
     }
 
     public struct AdminUpdateUserAttributesResponse: AWSShape {
@@ -2382,6 +3162,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteUserAttributesResponse: AWSShape {
@@ -2390,6 +3172,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ConfirmDeviceRequest: AWSShape {
@@ -2413,6 +3197,14 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            if let deviceSecretVerifierConfig = dictionary["DeviceSecretVerifierConfig"] as? [String: Any] { self.deviceSecretVerifierConfig = try CognitoIdp.DeviceSecretVerifierConfigType(dictionary: deviceSecretVerifierConfig) }
+            self.deviceName = dictionary["DeviceName"] as? String
+            guard let accessToken = dictionary["AccessToken"] as? String else { throw InitializableError.missingRequiredParam("AccessToken") }
+            self.accessToken = accessToken
+        }
     }
 
     public struct AdminCreateUserRequest: AWSShape {
@@ -2448,6 +3240,24 @@ extension CognitoIdp {
             self.userAttributes = userAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.forceAliasCreation = dictionary["ForceAliasCreation"] as? Bool
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            if let desiredDeliveryMediums = dictionary["DesiredDeliveryMediums"] as? [String] {
+                self.desiredDeliveryMediums = desiredDeliveryMediums
+            }
+            self.messageAction = dictionary["MessageAction"] as? String
+            if let validationData = dictionary["ValidationData"] as? [[String: Any]] {
+                self.validationData = try validationData.map({ try AttributeType(dictionary: $0) })
+            }
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            self.temporaryPassword = dictionary["TemporaryPassword"] as? String
+            if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
+                self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            }
+        }
     }
 
     public struct AdminListGroupsForUserResponse: AWSShape {
@@ -2465,6 +3275,12 @@ extension CognitoIdp {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let groups = dictionary["Groups"] as? [[String: Any]] {
+                self.groups = try groups.map({ try GroupType(dictionary: $0) })
+            }
+        }
     }
 
     public struct AdminListDevicesResponse: AWSShape {
@@ -2482,6 +3298,12 @@ extension CognitoIdp {
             self.devices = devices
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            if let devices = dictionary["Devices"] as? [[String: Any]] {
+                self.devices = try devices.map({ try DeviceType(dictionary: $0) })
+            }
+        }
     }
 
     public struct PasswordPolicyType: AWSShape {
@@ -2508,6 +3330,13 @@ extension CognitoIdp {
             self.requireNumbers = requireNumbers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.minimumLength = dictionary["MinimumLength"] as? Int32
+            self.requireLowercase = dictionary["RequireLowercase"] as? Bool
+            self.requireSymbols = dictionary["RequireSymbols"] as? Bool
+            self.requireUppercase = dictionary["RequireUppercase"] as? Bool
+            self.requireNumbers = dictionary["RequireNumbers"] as? Bool
+        }
     }
 
     public struct UserType: AWSShape {
@@ -2540,6 +3369,19 @@ extension CognitoIdp {
             self.mFAOptions = mFAOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userStatus = dictionary["UserStatus"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.username = dictionary["Username"] as? String
+            self.userCreateDate = dictionary["UserCreateDate"] as? Date
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try AttributeType(dictionary: $0) })
+            }
+            self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? Date
+            if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
+                self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListUsersRequest: AWSShape {
@@ -2566,6 +3408,16 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributesToGet = dictionary["AttributesToGet"] as? [String] {
+                self.attributesToGet = attributesToGet
+            }
+            self.paginationToken = dictionary["PaginationToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.filter = dictionary["Filter"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct GetDeviceResponse: AWSShape {
@@ -2580,6 +3432,10 @@ extension CognitoIdp {
             self.device = device
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let device = dictionary["Device"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Device") }
+            self.device = try CognitoIdp.DeviceType(dictionary: device)
+        }
     }
 
     public struct AdminGetDeviceResponse: AWSShape {
@@ -2594,6 +3450,10 @@ extension CognitoIdp {
             self.device = device
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let device = dictionary["Device"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Device") }
+            self.device = try CognitoIdp.DeviceType(dictionary: device)
+        }
     }
 
     public struct AdminUpdateDeviceStatusRequest: AWSShape {
@@ -2617,6 +3477,15 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            self.deviceRememberedStatus = dictionary["DeviceRememberedStatus"] as? String
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct VerifyUserAttributeRequest: AWSShape {
@@ -2637,6 +3506,13 @@ extension CognitoIdp {
             self.accessToken = accessToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
+            self.attributeName = attributeName
+            guard let code = dictionary["Code"] as? String else { throw InitializableError.missingRequiredParam("Code") }
+            self.code = code
+            self.accessToken = dictionary["AccessToken"] as? String
+        }
     }
 
     public struct ChangePasswordResponse: AWSShape {
@@ -2645,6 +3521,8 @@ extension CognitoIdp {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AdminForgetDeviceRequest: AWSShape {
@@ -2665,6 +3543,14 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct AdminGetDeviceRequest: AWSShape {
@@ -2685,6 +3571,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
+            self.deviceKey = deviceKey
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct InitiateAuthRequest: AWSShape {
@@ -2708,6 +3602,18 @@ extension CognitoIdp {
             self.authFlow = authFlow
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let clientMetadata = dictionary["ClientMetadata"] as? [String: String] {
+                self.clientMetadata = clientMetadata
+            }
+            guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
+            self.clientId = clientId
+            if let authParameters = dictionary["AuthParameters"] as? [String: String] {
+                self.authParameters = authParameters
+            }
+            guard let authFlow = dictionary["AuthFlow"] as? String else { throw InitializableError.missingRequiredParam("AuthFlow") }
+            self.authFlow = authFlow
+        }
     }
 
     public struct ListUserPoolClientsRequest: AWSShape {
@@ -2728,6 +3634,12 @@ extension CognitoIdp {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct AdminAddUserToGroupRequest: AWSShape {
@@ -2748,6 +3660,14 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
     public struct EmailConfigurationType: AWSShape {
@@ -2765,6 +3685,10 @@ extension CognitoIdp {
             self.sourceArn = sourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.replyToEmailAddress = dictionary["ReplyToEmailAddress"] as? String
+            self.sourceArn = dictionary["SourceArn"] as? String
+        }
     }
 
     public struct AdminUserGlobalSignOutRequest: AWSShape {
@@ -2782,6 +3706,12 @@ extension CognitoIdp {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+        }
     }
 
     public struct AdminCreateUserResponse: AWSShape {
@@ -2796,6 +3726,9 @@ extension CognitoIdp {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let user = dictionary["User"] as? [String: Any] { self.user = try CognitoIdp.UserType(dictionary: user) }
+        }
     }
 
     public struct ListUserPoolClientsResponse: AWSShape {
@@ -2813,6 +3746,12 @@ extension CognitoIdp {
             self.userPoolClients = userPoolClients
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let userPoolClients = dictionary["UserPoolClients"] as? [[String: Any]] {
+                self.userPoolClients = try userPoolClients.map({ try UserPoolClientDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteGroupRequest: AWSShape {
@@ -2830,6 +3769,12 @@ extension CognitoIdp {
             self.userPoolId = userPoolId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
+            self.userPoolId = userPoolId
+        }
     }
 
 }

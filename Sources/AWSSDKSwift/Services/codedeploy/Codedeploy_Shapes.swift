@@ -47,6 +47,11 @@ extension Codedeploy {
             self.revisionType = revisionType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codedeploy.S3Location(dictionary: s3Location) }
+            if let gitHubLocation = dictionary["gitHubLocation"] as? [String: Any] { self.gitHubLocation = try Codedeploy.GitHubLocation(dictionary: gitHubLocation) }
+            self.revisionType = dictionary["revisionType"] as? String
+        }
     }
 
     public struct GetDeploymentConfigOutput: AWSShape {
@@ -61,6 +66,9 @@ extension Codedeploy {
             self.deploymentConfigInfo = deploymentConfigInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentConfigInfo = dictionary["deploymentConfigInfo"] as? [String: Any] { self.deploymentConfigInfo = try Codedeploy.DeploymentConfigInfo(dictionary: deploymentConfigInfo) }
+        }
     }
 
     public struct CreateDeploymentOutput: AWSShape {
@@ -75,6 +83,9 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["deploymentId"] as? String
+        }
     }
 
     public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
@@ -89,6 +100,9 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["deploymentId"] as? String
+        }
     }
 
     public struct GetDeploymentOutput: AWSShape {
@@ -103,6 +117,9 @@ extension Codedeploy {
             self.deploymentInfo = deploymentInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentInfo = dictionary["deploymentInfo"] as? [String: Any] { self.deploymentInfo = try Codedeploy.DeploymentInfo(dictionary: deploymentInfo) }
+        }
     }
 
     public struct BatchGetDeploymentInstancesOutput: AWSShape {
@@ -120,6 +137,12 @@ extension Codedeploy {
             self.errorMessage = errorMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instancesSummary = dictionary["instancesSummary"] as? [[String: Any]] {
+                self.instancesSummary = try instancesSummary.map({ try InstanceSummary(dictionary: $0) })
+            }
+            self.errorMessage = dictionary["errorMessage"] as? String
+        }
     }
 
     public struct GetDeploymentInput: AWSShape {
@@ -134,6 +157,10 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+        }
     }
 
     public struct DeploymentStyle: AWSShape {
@@ -151,6 +178,10 @@ extension Codedeploy {
             self.deploymentOption = deploymentOption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentType = dictionary["deploymentType"] as? String
+            self.deploymentOption = dictionary["deploymentOption"] as? String
+        }
     }
 
     public struct DeploymentInfo: AWSShape {
@@ -231,6 +262,31 @@ extension Codedeploy {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targetInstances = dictionary["targetInstances"] as? [String: Any] { self.targetInstances = try Codedeploy.TargetInstances(dictionary: targetInstances) }
+            self.completeTime = dictionary["completeTime"] as? Date
+            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
+            self.instanceTerminationWaitTimeStarted = dictionary["instanceTerminationWaitTimeStarted"] as? Bool
+            if let rollbackInfo = dictionary["rollbackInfo"] as? [String: Any] { self.rollbackInfo = try Codedeploy.RollbackInfo(dictionary: rollbackInfo) }
+            self.description = dictionary["description"] as? String
+            self.ignoreApplicationStopFailures = dictionary["ignoreApplicationStopFailures"] as? Bool
+            self.additionalDeploymentStatusInfo = dictionary["additionalDeploymentStatusInfo"] as? String
+            self.creator = dictionary["creator"] as? String
+            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) }
+            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) }
+            self.applicationName = dictionary["applicationName"] as? String
+            self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
+            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) }
+            self.status = dictionary["status"] as? String
+            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
+            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) }
+            self.deploymentId = dictionary["deploymentId"] as? String
+            if let errorInformation = dictionary["errorInformation"] as? [String: Any] { self.errorInformation = try Codedeploy.ErrorInformation(dictionary: errorInformation) }
+            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) }
+            if let deploymentOverview = dictionary["deploymentOverview"] as? [String: Any] { self.deploymentOverview = try Codedeploy.DeploymentOverview(dictionary: deploymentOverview) }
+            self.createTime = dictionary["createTime"] as? Date
+            self.startTime = dictionary["startTime"] as? Date
+        }
     }
 
     public struct BatchGetApplicationRevisionsInput: AWSShape {
@@ -248,6 +304,12 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let revisions = dictionary["revisions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("revisions") }
+            self.revisions = try revisions.map({ try RevisionLocation(dictionary: $0) })
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct TimeRange: AWSShape {
@@ -265,6 +327,10 @@ extension Codedeploy {
             self.end = end
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.start = dictionary["start"] as? Date
+            self.end = dictionary["end"] as? Date
+        }
     }
 
     public struct Tag: AWSShape {
@@ -282,6 +348,10 @@ extension Codedeploy {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct BatchGetOnPremisesInstancesInput: AWSShape {
@@ -296,6 +366,11 @@ extension Codedeploy {
             self.instanceNames = instanceNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceNames = dictionary["instanceNames"] as? [String] {
+                self.instanceNames = instanceNames
+            }
+        }
     }
 
     public struct TagFilter: AWSShape {
@@ -316,6 +391,11 @@ extension Codedeploy {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ErrorInformation: AWSShape {
@@ -333,6 +413,10 @@ extension Codedeploy {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.code = dictionary["code"] as? String
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct ListApplicationRevisionsInput: AWSShape {
@@ -365,6 +449,16 @@ extension Codedeploy {
             self.deployed = deployed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.sortOrder = dictionary["sortOrder"] as? String
+            self.s3KeyPrefix = dictionary["s3KeyPrefix"] as? String
+            self.s3Bucket = dictionary["s3Bucket"] as? String
+            self.sortBy = dictionary["sortBy"] as? String
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+            self.deployed = dictionary["deployed"] as? String
+        }
     }
 
     public struct BatchGetDeploymentsOutput: AWSShape {
@@ -379,6 +473,11 @@ extension Codedeploy {
             self.deploymentsInfo = deploymentsInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentsInfo = dictionary["deploymentsInfo"] as? [[String: Any]] {
+                self.deploymentsInfo = try deploymentsInfo.map({ try DeploymentInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateApplicationInput: AWSShape {
@@ -393,6 +492,10 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct UpdateDeploymentGroupOutput: AWSShape {
@@ -407,6 +510,11 @@ extension Codedeploy {
             self.hooksNotCleanedUp = hooksNotCleanedUp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hooksNotCleanedUp = dictionary["hooksNotCleanedUp"] as? [[String: Any]] {
+                self.hooksNotCleanedUp = try hooksNotCleanedUp.map({ try AutoScalingGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct Alarm: AWSShape {
@@ -421,6 +529,9 @@ extension Codedeploy {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+        }
     }
 
     public struct CreateDeploymentConfigOutput: AWSShape {
@@ -435,6 +546,9 @@ extension Codedeploy {
             self.deploymentConfigId = deploymentConfigId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentConfigId = dictionary["deploymentConfigId"] as? String
+        }
     }
 
     public struct GetOnPremisesInstanceOutput: AWSShape {
@@ -449,6 +563,9 @@ extension Codedeploy {
             self.instanceInfo = instanceInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceInfo = dictionary["instanceInfo"] as? [String: Any] { self.instanceInfo = try Codedeploy.InstanceInfo(dictionary: instanceInfo) }
+        }
     }
 
     public struct GetDeploymentInstanceOutput: AWSShape {
@@ -463,6 +580,9 @@ extension Codedeploy {
             self.instanceSummary = instanceSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceSummary = dictionary["instanceSummary"] as? [String: Any] { self.instanceSummary = try Codedeploy.InstanceSummary(dictionary: instanceSummary) }
+        }
     }
 
     public struct DeploymentReadyOption: AWSShape {
@@ -480,6 +600,10 @@ extension Codedeploy {
             self.waitTimeInMinutes = waitTimeInMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.actionOnTimeout = dictionary["actionOnTimeout"] as? String
+            self.waitTimeInMinutes = dictionary["waitTimeInMinutes"] as? Int32
+        }
     }
 
     public struct RollbackInfo: AWSShape {
@@ -500,6 +624,11 @@ extension Codedeploy {
             self.rollbackMessage = rollbackMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.rollbackDeploymentId = dictionary["rollbackDeploymentId"] as? String
+            self.rollbackTriggeringDeploymentId = dictionary["rollbackTriggeringDeploymentId"] as? String
+            self.rollbackMessage = dictionary["rollbackMessage"] as? String
+        }
     }
 
     public struct ListDeploymentsInput: AWSShape {
@@ -526,6 +655,15 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let createTimeRange = dictionary["createTimeRange"] as? [String: Any] { self.createTimeRange = try Codedeploy.TimeRange(dictionary: createTimeRange) }
+            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
+            if let includeOnlyStatuses = dictionary["includeOnlyStatuses"] as? [String] {
+                self.includeOnlyStatuses = includeOnlyStatuses
+            }
+            self.applicationName = dictionary["applicationName"] as? String
+        }
     }
 
     public struct BatchGetDeploymentsInput: AWSShape {
@@ -540,6 +678,11 @@ extension Codedeploy {
             self.deploymentIds = deploymentIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentIds = dictionary["deploymentIds"] as? [String] {
+                self.deploymentIds = deploymentIds
+            }
+        }
     }
 
     public struct DeleteDeploymentGroupOutput: AWSShape {
@@ -554,6 +697,11 @@ extension Codedeploy {
             self.hooksNotCleanedUp = hooksNotCleanedUp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hooksNotCleanedUp = dictionary["hooksNotCleanedUp"] as? [[String: Any]] {
+                self.hooksNotCleanedUp = try hooksNotCleanedUp.map({ try AutoScalingGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListApplicationRevisionsOutput: AWSShape {
@@ -571,6 +719,12 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let revisions = dictionary["revisions"] as? [[String: Any]] {
+                self.revisions = try revisions.map({ try RevisionLocation(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListOnPremisesInstancesOutput: AWSShape {
@@ -588,6 +742,12 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceNames = dictionary["instanceNames"] as? [String] {
+                self.instanceNames = instanceNames
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListDeploymentConfigsInput: AWSShape {
@@ -602,6 +762,9 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct BatchGetApplicationsOutput: AWSShape {
@@ -616,6 +779,11 @@ extension Codedeploy {
             self.applicationsInfo = applicationsInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let applicationsInfo = dictionary["applicationsInfo"] as? [[String: Any]] {
+                self.applicationsInfo = try applicationsInfo.map({ try ApplicationInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct BlueGreenDeploymentConfiguration: AWSShape {
@@ -636,6 +804,11 @@ extension Codedeploy {
             self.deploymentReadyOption = deploymentReadyOption
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let terminateBlueInstancesOnDeploymentSuccess = dictionary["terminateBlueInstancesOnDeploymentSuccess"] as? [String: Any] { self.terminateBlueInstancesOnDeploymentSuccess = try Codedeploy.BlueInstanceTerminationOption(dictionary: terminateBlueInstancesOnDeploymentSuccess) }
+            if let greenFleetProvisioningOption = dictionary["greenFleetProvisioningOption"] as? [String: Any] { self.greenFleetProvisioningOption = try Codedeploy.GreenFleetProvisioningOption(dictionary: greenFleetProvisioningOption) }
+            if let deploymentReadyOption = dictionary["deploymentReadyOption"] as? [String: Any] { self.deploymentReadyOption = try Codedeploy.DeploymentReadyOption(dictionary: deploymentReadyOption) }
+        }
     }
 
     public struct BatchGetDeploymentGroupsOutput: AWSShape {
@@ -653,6 +826,12 @@ extension Codedeploy {
             self.errorMessage = errorMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentGroupsInfo = dictionary["deploymentGroupsInfo"] as? [[String: Any]] {
+                self.deploymentGroupsInfo = try deploymentGroupsInfo.map({ try DeploymentGroupInfo(dictionary: $0) })
+            }
+            self.errorMessage = dictionary["errorMessage"] as? String
+        }
     }
 
     public struct ContinueDeploymentInput: AWSShape {
@@ -667,6 +846,9 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["deploymentId"] as? String
+        }
     }
 
     public struct DeleteDeploymentConfigInput: AWSShape {
@@ -681,6 +863,10 @@ extension Codedeploy {
             self.deploymentConfigName = deploymentConfigName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
+            self.deploymentConfigName = deploymentConfigName
+        }
     }
 
     public struct AutoScalingGroup: AWSShape {
@@ -698,6 +884,10 @@ extension Codedeploy {
             self.hook = hook
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.hook = dictionary["hook"] as? String
+        }
     }
 
     public struct ListDeploymentGroupsInput: AWSShape {
@@ -715,6 +905,11 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct ListDeploymentInstancesInput: AWSShape {
@@ -738,6 +933,17 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceStatusFilter = dictionary["instanceStatusFilter"] as? [String] {
+                self.instanceStatusFilter = instanceStatusFilter
+            }
+            if let instanceTypeFilter = dictionary["instanceTypeFilter"] as? [String] {
+                self.instanceTypeFilter = instanceTypeFilter
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+        }
     }
 
     public struct DeleteApplicationInput: AWSShape {
@@ -752,6 +958,10 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct CreateDeploymentGroupInput: AWSShape {
@@ -802,6 +1012,32 @@ extension Codedeploy {
             self.autoRollbackConfiguration = autoRollbackConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentGroupName = dictionary["deploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("deploymentGroupName") }
+            self.deploymentGroupName = deploymentGroupName
+            guard let serviceRoleArn = dictionary["serviceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("serviceRoleArn") }
+            self.serviceRoleArn = serviceRoleArn
+            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) }
+            if let alarmConfiguration = dictionary["alarmConfiguration"] as? [String: Any] { self.alarmConfiguration = try Codedeploy.AlarmConfiguration(dictionary: alarmConfiguration) }
+            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) }
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+            if let autoScalingGroups = dictionary["autoScalingGroups"] as? [String] {
+                self.autoScalingGroups = autoScalingGroups
+            }
+            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
+            if let triggerConfigurations = dictionary["triggerConfigurations"] as? [[String: Any]] {
+                self.triggerConfigurations = try triggerConfigurations.map({ try TriggerConfig(dictionary: $0) })
+            }
+            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) }
+            if let ec2TagFilters = dictionary["ec2TagFilters"] as? [[String: Any]] {
+                self.ec2TagFilters = try ec2TagFilters.map({ try EC2TagFilter(dictionary: $0) })
+            }
+            if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
+                self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
+            }
+            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) }
+        }
     }
 
     public struct LoadBalancerInfo: AWSShape {
@@ -816,6 +1052,11 @@ extension Codedeploy {
             self.elbInfoList = elbInfoList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let elbInfoList = dictionary["elbInfoList"] as? [[String: Any]] {
+                self.elbInfoList = try elbInfoList.map({ try ELBInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct BatchGetDeploymentInstancesInput: AWSShape {
@@ -833,6 +1074,12 @@ extension Codedeploy {
             self.instanceIds = instanceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+            guard let instanceIds = dictionary["instanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("instanceIds") }
+            self.instanceIds = instanceIds
+        }
     }
 
     public struct BatchGetOnPremisesInstancesOutput: AWSShape {
@@ -847,6 +1094,11 @@ extension Codedeploy {
             self.instanceInfos = instanceInfos
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceInfos = dictionary["instanceInfos"] as? [[String: Any]] {
+                self.instanceInfos = try instanceInfos.map({ try InstanceInfo(dictionary: $0) })
+            }
+        }
     }
 
     public struct StopDeploymentOutput: AWSShape {
@@ -864,6 +1116,10 @@ extension Codedeploy {
             self.statusMessage = statusMessage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.statusMessage = dictionary["statusMessage"] as? String
+        }
     }
 
     public struct AutoRollbackConfiguration: AWSShape {
@@ -881,6 +1137,12 @@ extension Codedeploy {
             self.enabled = enabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let events = dictionary["events"] as? [String] {
+                self.events = events
+            }
+            self.enabled = dictionary["enabled"] as? Bool
+        }
     }
 
     public struct ListDeploymentGroupsOutput: AWSShape {
@@ -901,6 +1163,13 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentGroups = dictionary["deploymentGroups"] as? [String] {
+                self.deploymentGroups = deploymentGroups
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.applicationName = dictionary["applicationName"] as? String
+        }
     }
 
     public struct ListDeploymentConfigsOutput: AWSShape {
@@ -918,6 +1187,12 @@ extension Codedeploy {
             self.deploymentConfigsList = deploymentConfigsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let deploymentConfigsList = dictionary["deploymentConfigsList"] as? [String] {
+                self.deploymentConfigsList = deploymentConfigsList
+            }
+        }
     }
 
     public struct AddTagsToOnPremisesInstancesInput: AWSShape {
@@ -935,6 +1210,12 @@ extension Codedeploy {
             self.instanceNames = instanceNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
+            self.instanceNames = instanceNames
+        }
     }
 
     public struct GitHubLocation: AWSShape {
@@ -952,6 +1233,10 @@ extension Codedeploy {
             self.repository = repository
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.commitId = dictionary["commitId"] as? String
+            self.repository = dictionary["repository"] as? String
+        }
     }
 
     public struct CreateDeploymentConfigInput: AWSShape {
@@ -969,6 +1254,11 @@ extension Codedeploy {
             self.minimumHealthyHosts = minimumHealthyHosts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
+            self.deploymentConfigName = deploymentConfigName
+            if let minimumHealthyHosts = dictionary["minimumHealthyHosts"] as? [String: Any] { self.minimumHealthyHosts = try Codedeploy.MinimumHealthyHosts(dictionary: minimumHealthyHosts) }
+        }
     }
 
     public struct ListOnPremisesInstancesInput: AWSShape {
@@ -989,6 +1279,13 @@ extension Codedeploy {
             self.registrationStatus = registrationStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagFilters = dictionary["tagFilters"] as? [[String: Any]] {
+                self.tagFilters = try tagFilters.map({ try TagFilter(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.registrationStatus = dictionary["registrationStatus"] as? String
+        }
     }
 
     public struct RegisterApplicationRevisionInput: AWSShape {
@@ -1009,6 +1306,13 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let revision = dictionary["revision"] as? [String: Any] else { throw InitializableError.missingRequiredParam("revision") }
+            self.revision = try Codedeploy.RevisionLocation(dictionary: revision)
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct CreateApplicationOutput: AWSShape {
@@ -1023,6 +1327,9 @@ extension Codedeploy {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.applicationId = dictionary["applicationId"] as? String
+        }
     }
 
     public struct RemoveTagsFromOnPremisesInstancesInput: AWSShape {
@@ -1040,6 +1347,12 @@ extension Codedeploy {
             self.instanceNames = instanceNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
+            self.instanceNames = instanceNames
+        }
     }
 
     public struct RevisionInfo: AWSShape {
@@ -1057,6 +1370,10 @@ extension Codedeploy {
             self.revisionLocation = revisionLocation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let genericRevisionInfo = dictionary["genericRevisionInfo"] as? [String: Any] { self.genericRevisionInfo = try Codedeploy.GenericRevisionInfo(dictionary: genericRevisionInfo) }
+            if let revisionLocation = dictionary["revisionLocation"] as? [String: Any] { self.revisionLocation = try Codedeploy.RevisionLocation(dictionary: revisionLocation) }
+        }
     }
 
     public struct EC2TagFilter: AWSShape {
@@ -1077,6 +1394,11 @@ extension Codedeploy {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct DeploymentGroupInfo: AWSShape {
@@ -1133,6 +1455,31 @@ extension Codedeploy {
             self.targetRevision = targetRevision
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
+            self.serviceRoleArn = dictionary["serviceRoleArn"] as? String
+            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) }
+            self.deploymentGroupId = dictionary["deploymentGroupId"] as? String
+            if let alarmConfiguration = dictionary["alarmConfiguration"] as? [String: Any] { self.alarmConfiguration = try Codedeploy.AlarmConfiguration(dictionary: alarmConfiguration) }
+            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) }
+            self.applicationName = dictionary["applicationName"] as? String
+            if let autoScalingGroups = dictionary["autoScalingGroups"] as? [[String: Any]] {
+                self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
+            }
+            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
+            if let triggerConfigurations = dictionary["triggerConfigurations"] as? [[String: Any]] {
+                self.triggerConfigurations = try triggerConfigurations.map({ try TriggerConfig(dictionary: $0) })
+            }
+            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) }
+            if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
+                self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
+            }
+            if let ec2TagFilters = dictionary["ec2TagFilters"] as? [[String: Any]] {
+                self.ec2TagFilters = try ec2TagFilters.map({ try EC2TagFilter(dictionary: $0) })
+            }
+            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) }
+            if let targetRevision = dictionary["targetRevision"] as? [String: Any] { self.targetRevision = try Codedeploy.RevisionLocation(dictionary: targetRevision) }
+        }
     }
 
     public struct ListApplicationsInput: AWSShape {
@@ -1147,6 +1494,9 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct StopDeploymentInput: AWSShape {
@@ -1164,6 +1514,11 @@ extension Codedeploy {
             self.autoRollbackEnabled = autoRollbackEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+            self.autoRollbackEnabled = dictionary["autoRollbackEnabled"] as? Bool
+        }
     }
 
     public struct InstanceInfo: AWSShape {
@@ -1196,6 +1551,17 @@ extension Codedeploy {
             self.iamUserArn = iamUserArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamSessionArn = dictionary["iamSessionArn"] as? String
+            self.instanceName = dictionary["instanceName"] as? String
+            self.deregisterTime = dictionary["deregisterTime"] as? Date
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.registerTime = dictionary["registerTime"] as? Date
+            self.instanceArn = dictionary["instanceArn"] as? String
+            self.iamUserArn = dictionary["iamUserArn"] as? String
+        }
     }
 
     public struct ListApplicationsOutput: AWSShape {
@@ -1213,6 +1579,12 @@ extension Codedeploy {
             self.applications = applications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let applications = dictionary["applications"] as? [String] {
+                self.applications = applications
+            }
+        }
     }
 
     public struct Diagnostics: AWSShape {
@@ -1236,6 +1608,12 @@ extension Codedeploy {
             self.logTail = logTail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.scriptName = dictionary["scriptName"] as? String
+            self.message = dictionary["message"] as? String
+            self.errorCode = dictionary["errorCode"] as? String
+            self.logTail = dictionary["logTail"] as? String
+        }
     }
 
     public struct GenericRevisionInfo: AWSShape {
@@ -1262,6 +1640,15 @@ extension Codedeploy {
             self.deploymentGroups = deploymentGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.firstUsedTime = dictionary["firstUsedTime"] as? Date
+            self.lastUsedTime = dictionary["lastUsedTime"] as? Date
+            self.registerTime = dictionary["registerTime"] as? Date
+            if let deploymentGroups = dictionary["deploymentGroups"] as? [String] {
+                self.deploymentGroups = deploymentGroups
+            }
+        }
     }
 
     public struct BatchGetApplicationsInput: AWSShape {
@@ -1276,6 +1663,11 @@ extension Codedeploy {
             self.applicationNames = applicationNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let applicationNames = dictionary["applicationNames"] as? [String] {
+                self.applicationNames = applicationNames
+            }
+        }
     }
 
     public struct GetApplicationRevisionInput: AWSShape {
@@ -1293,6 +1685,12 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let revision = dictionary["revision"] as? [String: Any] else { throw InitializableError.missingRequiredParam("revision") }
+            self.revision = try Codedeploy.RevisionLocation(dictionary: revision)
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct ApplicationInfo: AWSShape {
@@ -1316,6 +1714,12 @@ extension Codedeploy {
             self.applicationId = applicationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.linkedToGitHub = dictionary["linkedToGitHub"] as? Bool
+            self.createTime = dictionary["createTime"] as? Date
+            self.applicationName = dictionary["applicationName"] as? String
+            self.applicationId = dictionary["applicationId"] as? String
+        }
     }
 
     public struct GetDeploymentGroupOutput: AWSShape {
@@ -1330,6 +1734,9 @@ extension Codedeploy {
             self.deploymentGroupInfo = deploymentGroupInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deploymentGroupInfo = dictionary["deploymentGroupInfo"] as? [String: Any] { self.deploymentGroupInfo = try Codedeploy.DeploymentGroupInfo(dictionary: deploymentGroupInfo) }
+        }
     }
 
     public struct BlueInstanceTerminationOption: AWSShape {
@@ -1347,6 +1754,10 @@ extension Codedeploy {
             self.terminationWaitTimeInMinutes = terminationWaitTimeInMinutes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.action = dictionary["action"] as? String
+            self.terminationWaitTimeInMinutes = dictionary["terminationWaitTimeInMinutes"] as? Int32
+        }
     }
 
     public struct TriggerConfig: AWSShape {
@@ -1367,6 +1778,13 @@ extension Codedeploy {
             self.triggerTargetArn = triggerTargetArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let triggerEvents = dictionary["triggerEvents"] as? [String] {
+                self.triggerEvents = triggerEvents
+            }
+            self.triggerName = dictionary["triggerName"] as? String
+            self.triggerTargetArn = dictionary["triggerTargetArn"] as? String
+        }
     }
 
     public struct GetDeploymentGroupInput: AWSShape {
@@ -1384,6 +1802,12 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentGroupName = dictionary["deploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("deploymentGroupName") }
+            self.deploymentGroupName = deploymentGroupName
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct AlarmConfiguration: AWSShape {
@@ -1404,6 +1828,13 @@ extension Codedeploy {
             self.ignorePollAlarmFailure = ignorePollAlarmFailure
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let alarms = dictionary["alarms"] as? [[String: Any]] {
+                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
+            }
+            self.enabled = dictionary["enabled"] as? Bool
+            self.ignorePollAlarmFailure = dictionary["ignorePollAlarmFailure"] as? Bool
+        }
     }
 
     public struct BatchGetDeploymentGroupsInput: AWSShape {
@@ -1421,6 +1852,12 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentGroupNames = dictionary["deploymentGroupNames"] as? [String] else { throw InitializableError.missingRequiredParam("deploymentGroupNames") }
+            self.deploymentGroupNames = deploymentGroupNames
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct CreateDeploymentInput: AWSShape {
@@ -1459,6 +1896,18 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) }
+            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
+            if let targetInstances = dictionary["targetInstances"] as? [String: Any] { self.targetInstances = try Codedeploy.TargetInstances(dictionary: targetInstances) }
+            self.ignoreApplicationStopFailures = dictionary["ignoreApplicationStopFailures"] as? Bool
+            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
+            self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
+            self.description = dictionary["description"] as? String
+            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) }
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct S3Location: AWSShape {
@@ -1485,6 +1934,13 @@ extension Codedeploy {
             self.eTag = eTag
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bundleType = dictionary["bundleType"] as? String
+            self.version = dictionary["version"] as? String
+            self.bucket = dictionary["bucket"] as? String
+            self.key = dictionary["key"] as? String
+            self.eTag = dictionary["eTag"] as? String
+        }
     }
 
     public struct GetApplicationOutput: AWSShape {
@@ -1499,6 +1955,9 @@ extension Codedeploy {
             self.application = application
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let application = dictionary["application"] as? [String: Any] { self.application = try Codedeploy.ApplicationInfo(dictionary: application) }
+        }
     }
 
     public struct ELBInfo: AWSShape {
@@ -1513,6 +1972,9 @@ extension Codedeploy {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+        }
     }
 
     public struct GetDeploymentConfigInput: AWSShape {
@@ -1527,6 +1989,10 @@ extension Codedeploy {
             self.deploymentConfigName = deploymentConfigName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
+            self.deploymentConfigName = deploymentConfigName
+        }
     }
 
     public struct ListDeploymentsOutput: AWSShape {
@@ -1544,6 +2010,12 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deployments = dictionary["deployments"] as? [String] {
+                self.deployments = deployments
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteDeploymentGroupInput: AWSShape {
@@ -1561,6 +2033,12 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentGroupName = dictionary["deploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("deploymentGroupName") }
+            self.deploymentGroupName = deploymentGroupName
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct ListDeploymentInstancesOutput: AWSShape {
@@ -1578,6 +2056,12 @@ extension Codedeploy {
             self.instancesList = instancesList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let instancesList = dictionary["instancesList"] as? [String] {
+                self.instancesList = instancesList
+            }
+        }
     }
 
     public struct DeregisterOnPremisesInstanceInput: AWSShape {
@@ -1592,6 +2076,10 @@ extension Codedeploy {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct BatchGetApplicationRevisionsOutput: AWSShape {
@@ -1612,6 +2100,13 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let revisions = dictionary["revisions"] as? [[String: Any]] {
+                self.revisions = try revisions.map({ try RevisionInfo(dictionary: $0) })
+            }
+            self.errorMessage = dictionary["errorMessage"] as? String
+            self.applicationName = dictionary["applicationName"] as? String
+        }
     }
 
     public struct GetApplicationInput: AWSShape {
@@ -1626,6 +2121,10 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+        }
     }
 
     public struct GetOnPremisesInstanceInput: AWSShape {
@@ -1640,6 +2139,10 @@ extension Codedeploy {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct GetApplicationRevisionOutput: AWSShape {
@@ -1660,6 +2163,11 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) }
+            if let revisionInfo = dictionary["revisionInfo"] as? [String: Any] { self.revisionInfo = try Codedeploy.GenericRevisionInfo(dictionary: revisionInfo) }
+            self.applicationName = dictionary["applicationName"] as? String
+        }
     }
 
     public struct GreenFleetProvisioningOption: AWSShape {
@@ -1674,6 +2182,9 @@ extension Codedeploy {
             self.action = action
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.action = dictionary["action"] as? String
+        }
     }
 
     public struct DeploymentOverview: AWSShape {
@@ -1703,6 +2214,14 @@ extension Codedeploy {
             self.failed = failed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.inProgress = dictionary["InProgress"] as? Int64
+            self.pending = dictionary["Pending"] as? Int64
+            self.skipped = dictionary["Skipped"] as? Int64
+            self.succeeded = dictionary["Succeeded"] as? Int64
+            self.ready = dictionary["Ready"] as? Int64
+            self.failed = dictionary["Failed"] as? Int64
+        }
     }
 
     public struct UpdateApplicationInput: AWSShape {
@@ -1720,6 +2239,10 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newApplicationName = dictionary["newApplicationName"] as? String
+            self.applicationName = dictionary["applicationName"] as? String
+        }
     }
 
     public struct UpdateDeploymentGroupInput: AWSShape {
@@ -1773,6 +2296,32 @@ extension Codedeploy {
             self.autoRollbackConfiguration = autoRollbackConfiguration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.serviceRoleArn = dictionary["serviceRoleArn"] as? String
+            self.newDeploymentGroupName = dictionary["newDeploymentGroupName"] as? String
+            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) }
+            if let alarmConfiguration = dictionary["alarmConfiguration"] as? [String: Any] { self.alarmConfiguration = try Codedeploy.AlarmConfiguration(dictionary: alarmConfiguration) }
+            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) }
+            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
+            self.applicationName = applicationName
+            if let autoScalingGroups = dictionary["autoScalingGroups"] as? [String] {
+                self.autoScalingGroups = autoScalingGroups
+            }
+            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
+            if let triggerConfigurations = dictionary["triggerConfigurations"] as? [[String: Any]] {
+                self.triggerConfigurations = try triggerConfigurations.map({ try TriggerConfig(dictionary: $0) })
+            }
+            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) }
+            guard let currentDeploymentGroupName = dictionary["currentDeploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("currentDeploymentGroupName") }
+            self.currentDeploymentGroupName = currentDeploymentGroupName
+            if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
+                self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
+            }
+            if let ec2TagFilters = dictionary["ec2TagFilters"] as? [[String: Any]] {
+                self.ec2TagFilters = try ec2TagFilters.map({ try EC2TagFilter(dictionary: $0) })
+            }
+            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) }
+        }
     }
 
     public struct CreateDeploymentGroupOutput: AWSShape {
@@ -1787,6 +2336,9 @@ extension Codedeploy {
             self.deploymentGroupId = deploymentGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentGroupId = dictionary["deploymentGroupId"] as? String
+        }
     }
 
     public struct InstanceSummary: AWSShape {
@@ -1816,6 +2368,16 @@ extension Codedeploy {
             self.lifecycleEvents = lifecycleEvents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["instanceId"] as? String
+            self.status = dictionary["status"] as? String
+            self.instanceType = dictionary["instanceType"] as? String
+            self.lastUpdatedAt = dictionary["lastUpdatedAt"] as? Date
+            self.deploymentId = dictionary["deploymentId"] as? String
+            if let lifecycleEvents = dictionary["lifecycleEvents"] as? [[String: Any]] {
+                self.lifecycleEvents = try lifecycleEvents.map({ try LifecycleEvent(dictionary: $0) })
+            }
+        }
     }
 
     public struct RegisterOnPremisesInstanceInput: AWSShape {
@@ -1836,6 +2398,12 @@ extension Codedeploy {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.iamSessionArn = dictionary["iamSessionArn"] as? String
+            self.iamUserArn = dictionary["iamUserArn"] as? String
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct DeploymentConfigInfo: AWSShape {
@@ -1859,6 +2427,12 @@ extension Codedeploy {
             self.deploymentConfigId = deploymentConfigId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
+            if let minimumHealthyHosts = dictionary["minimumHealthyHosts"] as? [String: Any] { self.minimumHealthyHosts = try Codedeploy.MinimumHealthyHosts(dictionary: minimumHealthyHosts) }
+            self.createTime = dictionary["createTime"] as? Date
+            self.deploymentConfigId = dictionary["deploymentConfigId"] as? String
+        }
     }
 
     public struct LifecycleEvent: AWSShape {
@@ -1885,6 +2459,13 @@ extension Codedeploy {
             self.lifecycleEventName = lifecycleEventName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let diagnostics = dictionary["diagnostics"] as? [String: Any] { self.diagnostics = try Codedeploy.Diagnostics(dictionary: diagnostics) }
+            self.status = dictionary["status"] as? String
+            self.endTime = dictionary["endTime"] as? Date
+            self.startTime = dictionary["startTime"] as? Date
+            self.lifecycleEventName = dictionary["lifecycleEventName"] as? String
+        }
     }
 
     public struct TargetInstances: AWSShape {
@@ -1902,6 +2483,14 @@ extension Codedeploy {
             self.autoScalingGroups = autoScalingGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagFilters = dictionary["tagFilters"] as? [[String: Any]] {
+                self.tagFilters = try tagFilters.map({ try EC2TagFilter(dictionary: $0) })
+            }
+            if let autoScalingGroups = dictionary["autoScalingGroups"] as? [String] {
+                self.autoScalingGroups = autoScalingGroups
+            }
+        }
     }
 
     public struct GetDeploymentInstanceInput: AWSShape {
@@ -1919,6 +2508,12 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceId = dictionary["instanceId"] as? String else { throw InitializableError.missingRequiredParam("instanceId") }
+            self.instanceId = instanceId
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+        }
     }
 
     public struct MinimumHealthyHosts: AWSShape {
@@ -1936,6 +2531,10 @@ extension Codedeploy {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.value = dictionary["value"] as? Int32
+        }
     }
 
 }

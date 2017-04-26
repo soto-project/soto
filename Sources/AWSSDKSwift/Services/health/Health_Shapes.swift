@@ -41,6 +41,11 @@ extension Health {
             self.entityAggregates = entityAggregates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let entityAggregates = dictionary["entityAggregates"] as? [[String: Any]] {
+                self.entityAggregates = try entityAggregates.map({ try EntityAggregate(dictionary: $0) })
+            }
+        }
     }
 
     public struct AffectedEntity: AWSShape {
@@ -73,6 +78,17 @@ extension Health {
             self.entityValue = entityValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lastUpdatedTime = dictionary["lastUpdatedTime"] as? Date
+            self.statusCode = dictionary["statusCode"] as? String
+            self.entityArn = dictionary["entityArn"] as? String
+            if let tags = dictionary["tags"] as? [String: String] {
+                self.tags = tags
+            }
+            self.awsAccountId = dictionary["awsAccountId"] as? String
+            self.eventArn = dictionary["eventArn"] as? String
+            self.entityValue = dictionary["entityValue"] as? String
+        }
     }
 
     public struct EventDetailsErrorItem: AWSShape {
@@ -93,6 +109,11 @@ extension Health {
             self.errorName = errorName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventArn = dictionary["eventArn"] as? String
+            self.errorMessage = dictionary["errorMessage"] as? String
+            self.errorName = dictionary["errorName"] as? String
+        }
     }
 
     public struct EventTypeFilter: AWSShape {
@@ -113,6 +134,17 @@ extension Health {
             self.eventTypeCodes = eventTypeCodes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] {
+                self.eventTypeCategories = eventTypeCategories
+            }
+            if let services = dictionary["services"] as? [String] {
+                self.services = services
+            }
+            if let eventTypeCodes = dictionary["eventTypeCodes"] as? [String] {
+                self.eventTypeCodes = eventTypeCodes
+            }
+        }
     }
 
     public struct DescribeAffectedEntitiesResponse: AWSShape {
@@ -130,6 +162,12 @@ extension Health {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let entities = dictionary["entities"] as? [[String: Any]] {
+                self.entities = try entities.map({ try AffectedEntity(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct Event: AWSShape {
@@ -171,6 +209,18 @@ extension Health {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.service = dictionary["service"] as? String
+            self.availabilityZone = dictionary["availabilityZone"] as? String
+            self.lastUpdatedTime = dictionary["lastUpdatedTime"] as? Date
+            self.statusCode = dictionary["statusCode"] as? String
+            self.eventTypeCategory = dictionary["eventTypeCategory"] as? String
+            self.region = dictionary["region"] as? String
+            self.endTime = dictionary["endTime"] as? Date
+            self.eventTypeCode = dictionary["eventTypeCode"] as? String
+            self.startTime = dictionary["startTime"] as? Date
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct DescribeEventDetailsResponse: AWSShape {
@@ -188,6 +238,14 @@ extension Health {
             self.successfulSet = successfulSet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let failedSet = dictionary["failedSet"] as? [[String: Any]] {
+                self.failedSet = try failedSet.map({ try EventDetailsErrorItem(dictionary: $0) })
+            }
+            if let successfulSet = dictionary["successfulSet"] as? [[String: Any]] {
+                self.successfulSet = try successfulSet.map({ try EventDetails(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeEventDetailsRequest: AWSShape {
@@ -205,6 +263,11 @@ extension Health {
             self.locale = locale
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let eventArns = dictionary["eventArns"] as? [String] else { throw InitializableError.missingRequiredParam("eventArns") }
+            self.eventArns = eventArns
+            self.locale = dictionary["locale"] as? String
+        }
     }
 
     public struct EventDescription: AWSShape {
@@ -219,6 +282,9 @@ extension Health {
             self.latestDescription = latestDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.latestDescription = dictionary["latestDescription"] as? String
+        }
     }
 
     public struct DescribeEventAggregatesResponse: AWSShape {
@@ -236,6 +302,12 @@ extension Health {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventAggregates = dictionary["eventAggregates"] as? [[String: Any]] {
+                self.eventAggregates = try eventAggregates.map({ try EventAggregate(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeEventAggregatesRequest: AWSShape {
@@ -259,6 +331,13 @@ extension Health {
             self.aggregateField = aggregateField
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) }
+            self.maxResults = dictionary["maxResults"] as? Int32
+            guard let aggregateField = dictionary["aggregateField"] as? String else { throw InitializableError.missingRequiredParam("aggregateField") }
+            self.aggregateField = aggregateField
+        }
     }
 
     public struct EventFilter: AWSShape {
@@ -309,6 +388,47 @@ extension Health {
             self.startTimes = startTimes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] {
+                self.eventTypeCategories = eventTypeCategories
+            }
+            if let eventArns = dictionary["eventArns"] as? [String] {
+                self.eventArns = eventArns
+            }
+            if let eventStatusCodes = dictionary["eventStatusCodes"] as? [String] {
+                self.eventStatusCodes = eventStatusCodes
+            }
+            if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
+                self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
+            }
+            if let tags = dictionary["tags"] as? [[String: String]] {
+                self.tags = tags
+            }
+            if let eventTypeCodes = dictionary["eventTypeCodes"] as? [String] {
+                self.eventTypeCodes = eventTypeCodes
+            }
+            if let entityArns = dictionary["entityArns"] as? [String] {
+                self.entityArns = entityArns
+            }
+            if let entityValues = dictionary["entityValues"] as? [String] {
+                self.entityValues = entityValues
+            }
+            if let availabilityZones = dictionary["availabilityZones"] as? [String] {
+                self.availabilityZones = availabilityZones
+            }
+            if let services = dictionary["services"] as? [String] {
+                self.services = services
+            }
+            if let endTimes = dictionary["endTimes"] as? [[String: Any]] {
+                self.endTimes = try endTimes.map({ try DateTimeRange(dictionary: $0) })
+            }
+            if let regions = dictionary["regions"] as? [String] {
+                self.regions = regions
+            }
+            if let startTimes = dictionary["startTimes"] as? [[String: Any]] {
+                self.startTimes = try startTimes.map({ try DateTimeRange(dictionary: $0) })
+            }
+        }
     }
 
     public struct EventAggregate: AWSShape {
@@ -326,6 +446,10 @@ extension Health {
             self.aggregateValue = aggregateValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.count = dictionary["count"] as? Int32
+            self.aggregateValue = dictionary["aggregateValue"] as? String
+        }
     }
 
     public struct EntityAggregate: AWSShape {
@@ -343,6 +467,10 @@ extension Health {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eventArn = dictionary["eventArn"] as? String
+            self.count = dictionary["count"] as? Int32
+        }
     }
 
     public struct EventType: AWSShape {
@@ -363,6 +491,11 @@ extension Health {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.service = dictionary["service"] as? String
+            self.category = dictionary["category"] as? String
+            self.code = dictionary["code"] as? String
+        }
     }
 
     public struct DescribeEntityAggregatesRequest: AWSShape {
@@ -377,6 +510,11 @@ extension Health {
             self.eventArns = eventArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventArns = dictionary["eventArns"] as? [String] {
+                self.eventArns = eventArns
+            }
+        }
     }
 
     public struct DescribeEventTypesResponse: AWSShape {
@@ -394,6 +532,12 @@ extension Health {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventTypes = dictionary["eventTypes"] as? [[String: Any]] {
+                self.eventTypes = try eventTypes.map({ try EventType(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct EventDetails: AWSShape {
@@ -414,6 +558,13 @@ extension Health {
             self.eventDescription = eventDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let eventMetadata = dictionary["eventMetadata"] as? [String: String] {
+                self.eventMetadata = eventMetadata
+            }
+            if let event = dictionary["event"] as? [String: Any] { self.event = try Health.Event(dictionary: event) }
+            if let eventDescription = dictionary["eventDescription"] as? [String: Any] { self.eventDescription = try Health.EventDescription(dictionary: eventDescription) }
+        }
     }
 
     public struct DescribeAffectedEntitiesRequest: AWSShape {
@@ -437,6 +588,13 @@ extension Health {
             self.locale = locale
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            guard let filter = dictionary["filter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("filter") }
+            self.filter = try Health.EntityFilter(dictionary: filter)
+            self.nextToken = dictionary["nextToken"] as? String
+            self.locale = dictionary["locale"] as? String
+        }
     }
 
     public struct DescribeEventsRequest: AWSShape {
@@ -460,6 +618,12 @@ extension Health {
             self.locale = locale
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.locale = dictionary["locale"] as? String
+        }
     }
 
     public struct DateTimeRange: AWSShape {
@@ -477,6 +641,10 @@ extension Health {
             self.from = from
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.to = dictionary["to"] as? Date
+            self.from = dictionary["from"] as? Date
+        }
     }
 
     public struct EntityFilter: AWSShape {
@@ -506,6 +674,25 @@ extension Health {
             self.entityValues = entityValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let eventArns = dictionary["eventArns"] as? [String] else { throw InitializableError.missingRequiredParam("eventArns") }
+            self.eventArns = eventArns
+            if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
+                self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
+            }
+            if let statusCodes = dictionary["statusCodes"] as? [String] {
+                self.statusCodes = statusCodes
+            }
+            if let tags = dictionary["tags"] as? [[String: String]] {
+                self.tags = tags
+            }
+            if let entityArns = dictionary["entityArns"] as? [String] {
+                self.entityArns = entityArns
+            }
+            if let entityValues = dictionary["entityValues"] as? [String] {
+                self.entityValues = entityValues
+            }
+        }
     }
 
     public struct DescribeEventTypesRequest: AWSShape {
@@ -529,6 +716,12 @@ extension Health {
             self.locale = locale
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventTypeFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            self.locale = dictionary["locale"] as? String
+        }
     }
 
     public struct DescribeEventsResponse: AWSShape {
@@ -546,6 +739,12 @@ extension Health {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let events = dictionary["events"] as? [[String: Any]] {
+                self.events = try events.map({ try Event(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
 }

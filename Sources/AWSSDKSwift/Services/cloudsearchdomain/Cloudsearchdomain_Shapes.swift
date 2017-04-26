@@ -44,6 +44,10 @@ extension Cloudsearchdomain {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["value"] as? String
+            self.count = dictionary["count"] as? Int64
+        }
     }
 
     public struct SuggestResponse: AWSShape {
@@ -61,6 +65,10 @@ extension Cloudsearchdomain {
             self.suggest = suggest
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let status = dictionary["status"] as? [String: Any] { self.status = try Cloudsearchdomain.SuggestStatus(dictionary: status) }
+            if let suggest = dictionary["suggest"] as? [String: Any] { self.suggest = try Cloudsearchdomain.SuggestModel(dictionary: suggest) }
+        }
     }
 
     public struct FieldStats: AWSShape {
@@ -96,6 +104,16 @@ extension Cloudsearchdomain {
             self.mean = mean
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stddev = dictionary["stddev"] as? Double
+            self.max = dictionary["max"] as? String
+            self.count = dictionary["count"] as? Int64
+            self.min = dictionary["min"] as? String
+            self.missing = dictionary["missing"] as? Int64
+            self.sumOfSquares = dictionary["sumOfSquares"] as? Double
+            self.sum = dictionary["sum"] as? Double
+            self.mean = dictionary["mean"] as? String
+        }
     }
 
     public struct SearchStatus: AWSShape {
@@ -113,6 +131,10 @@ extension Cloudsearchdomain {
             self.timems = timems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.rid = dictionary["rid"] as? String
+            self.timems = dictionary["timems"] as? Int64
+        }
     }
 
     public struct SearchResponse: AWSShape {
@@ -136,6 +158,26 @@ extension Cloudsearchdomain {
             self.facets = facets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hits = dictionary["hits"] as? [String: Any] { self.hits = try Cloudsearchdomain.Hits(dictionary: hits) }
+            if let status = dictionary["status"] as? [String: Any] { self.status = try Cloudsearchdomain.SearchStatus(dictionary: status) }
+            if let stats = dictionary["stats"] as? [String: Any] {
+                var statsDict: [String: FieldStats] = [:]
+                for (key, value) in stats {
+                    guard let fieldStatsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    statsDict[key] = try FieldStats(dictionary: fieldStatsDict)
+                }
+                self.stats = statsDict
+            }
+            if let facets = dictionary["facets"] as? [String: Any] {
+                var facetsDict: [String: BucketInfo] = [:]
+                for (key, value) in facets {
+                    guard let bucketInfoDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    facetsDict[key] = try BucketInfo(dictionary: bucketInfoDict)
+                }
+                self.facets = facetsDict
+            }
+        }
     }
 
     public struct SuggestRequest: AWSShape {
@@ -159,6 +201,13 @@ extension Cloudsearchdomain {
             self.query = query
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let suggester = dictionary["suggester"] as? String else { throw InitializableError.missingRequiredParam("suggester") }
+            self.suggester = suggester
+            self.size = dictionary["size"] as? Int64
+            guard let query = dictionary["query"] as? String else { throw InitializableError.missingRequiredParam("query") }
+            self.query = query
+        }
     }
 
     public struct SuggestModel: AWSShape {
@@ -179,6 +228,13 @@ extension Cloudsearchdomain {
             self.query = query
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let suggestions = dictionary["suggestions"] as? [[String: Any]] {
+                self.suggestions = try suggestions.map({ try SuggestionMatch(dictionary: $0) })
+            }
+            self.found = dictionary["found"] as? Int64
+            self.query = dictionary["query"] as? String
+        }
     }
 
     public struct DocumentServiceWarning: AWSShape {
@@ -193,6 +249,9 @@ extension Cloudsearchdomain {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.message = dictionary["message"] as? String
+        }
     }
 
     public struct Hits: AWSShape {
@@ -216,6 +275,14 @@ extension Cloudsearchdomain {
             self.found = found
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let hit = dictionary["hit"] as? [[String: Any]] {
+                self.hit = try hit.map({ try Hit(dictionary: $0) })
+            }
+            self.cursor = dictionary["cursor"] as? String
+            self.start = dictionary["start"] as? Int64
+            self.found = dictionary["found"] as? Int64
+        }
     }
 
     public struct SuggestionMatch: AWSShape {
@@ -236,6 +303,11 @@ extension Cloudsearchdomain {
             self.suggestion = suggestion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            self.score = dictionary["score"] as? Int64
+            self.suggestion = dictionary["suggestion"] as? String
+        }
     }
 
     public struct UploadDocumentsRequest: AWSShape {
@@ -256,6 +328,12 @@ extension Cloudsearchdomain {
             self.contentType = contentType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documents = dictionary["documents"] as? Data else { throw InitializableError.missingRequiredParam("documents") }
+            self.documents = documents
+            guard let contentType = dictionary["contentType"] as? String else { throw InitializableError.missingRequiredParam("contentType") }
+            self.contentType = contentType
+        }
     }
 
     public struct BucketInfo: AWSShape {
@@ -270,6 +348,11 @@ extension Cloudsearchdomain {
             self.buckets = buckets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let buckets = dictionary["buckets"] as? [[String: Any]] {
+                self.buckets = try buckets.map({ try Bucket(dictionary: $0) })
+            }
+        }
     }
 
     public struct SuggestStatus: AWSShape {
@@ -287,6 +370,10 @@ extension Cloudsearchdomain {
             self.timems = timems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.rid = dictionary["rid"] as? String
+            self.timems = dictionary["timems"] as? Int64
+        }
     }
 
     public struct Hit: AWSShape {
@@ -310,6 +397,23 @@ extension Cloudsearchdomain {
             self.highlights = highlights
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let fields = dictionary["fields"] as? [String: Any] {
+                var fieldsDict: [String: [String]] = [:]
+                for (key, value) in fields {
+                    guard let fieldValue = value as? [String] else { throw InitializableError.convertingError }
+                    fieldsDict[key] = fieldValue
+                }
+                self.fields = fieldsDict
+            }
+            self.id = dictionary["id"] as? String
+            if let exprs = dictionary["exprs"] as? [String: String] {
+                self.exprs = exprs
+            }
+            if let highlights = dictionary["highlights"] as? [String: String] {
+                self.highlights = highlights
+            }
+        }
     }
 
     public struct SearchRequest: AWSShape {
@@ -366,6 +470,23 @@ extension Cloudsearchdomain {
             self.queryOptions = queryOptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sort = dictionary["sort"] as? String
+            self.expr = dictionary["expr"] as? String
+            self.size = dictionary["size"] as? Int64
+            self.highlight = dictionary["highlight"] as? String
+            guard let query = dictionary["query"] as? String else { throw InitializableError.missingRequiredParam("query") }
+            self.query = query
+            self.start = dictionary["start"] as? Int64
+            self.stats = dictionary["stats"] as? String
+            self.queryParser = dictionary["queryParser"] as? String
+            self.facet = dictionary["facet"] as? String
+            self.filterQuery = dictionary["filterQuery"] as? String
+            self.`return` = dictionary["return"] as? String
+            self.partial = dictionary["partial"] as? Bool
+            self.cursor = dictionary["cursor"] as? String
+            self.queryOptions = dictionary["queryOptions"] as? String
+        }
     }
 
     public struct UploadDocumentsResponse: AWSShape {
@@ -389,6 +510,14 @@ extension Cloudsearchdomain {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["status"] as? String
+            self.deletes = dictionary["deletes"] as? Int64
+            self.adds = dictionary["adds"] as? Int64
+            if let warnings = dictionary["warnings"] as? [[String: Any]] {
+                self.warnings = try warnings.map({ try DocumentServiceWarning(dictionary: $0) })
+            }
+        }
     }
 
 }

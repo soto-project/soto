@@ -47,6 +47,15 @@ extension Xray {
             self.unprocessedTraceIds = unprocessedTraceIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let traces = dictionary["Traces"] as? [[String: Any]] {
+                self.traces = try traces.map({ try Trace(dictionary: $0) })
+            }
+            if let unprocessedTraceIds = dictionary["UnprocessedTraceIds"] as? [String] {
+                self.unprocessedTraceIds = unprocessedTraceIds
+            }
+        }
     }
 
     public struct EdgeStatistics: AWSShape {
@@ -73,6 +82,13 @@ extension Xray {
             self.totalCount = totalCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.totalResponseTime = dictionary["TotalResponseTime"] as? Double
+            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) }
+            self.okCount = dictionary["OkCount"] as? Int64
+            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) }
+            self.totalCount = dictionary["TotalCount"] as? Int64
+        }
     }
 
     public struct Segment: AWSShape {
@@ -90,6 +106,10 @@ extension Xray {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.document = dictionary["Document"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct Alias: AWSShape {
@@ -110,6 +130,13 @@ extension Xray {
             self.names = names
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+        }
     }
 
     public struct ValueWithServiceIds: AWSShape {
@@ -127,6 +154,12 @@ extension Xray {
             self.annotationValue = annotationValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
+                self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
+            }
+            if let annotationValue = dictionary["AnnotationValue"] as? [String: Any] { self.annotationValue = try Xray.AnnotationValue(dictionary: annotationValue) }
+        }
     }
 
     public struct HistogramEntry: AWSShape {
@@ -144,6 +177,10 @@ extension Xray {
             self.count = count
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? Double
+            self.count = dictionary["Count"] as? Int32
+        }
     }
 
     public struct UnprocessedTraceSegment: AWSShape {
@@ -164,6 +201,11 @@ extension Xray {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct GetTraceSummariesResult: AWSShape {
@@ -187,6 +229,14 @@ extension Xray {
             self.approximateTime = approximateTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.tracesProcessedCount = dictionary["TracesProcessedCount"] as? Int64
+            if let traceSummaries = dictionary["TraceSummaries"] as? [[String: Any]] {
+                self.traceSummaries = try traceSummaries.map({ try TraceSummary(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.approximateTime = dictionary["ApproximateTime"] as? Date
+        }
     }
 
     public struct Edge: AWSShape {
@@ -216,6 +266,18 @@ extension Xray {
             self.responseTimeHistogram = responseTimeHistogram
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.EdgeStatistics(dictionary: summaryStatistics) }
+            self.endTime = dictionary["EndTime"] as? Date
+            self.referenceId = dictionary["ReferenceId"] as? Int32
+            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
+                self.aliases = try aliases.map({ try Alias(dictionary: $0) })
+            }
+            if let responseTimeHistogram = dictionary["ResponseTimeHistogram"] as? [[String: Any]] {
+                self.responseTimeHistogram = try responseTimeHistogram.map({ try HistogramEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct ErrorStatistics: AWSShape {
@@ -236,6 +298,11 @@ extension Xray {
             self.throttleCount = throttleCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.totalCount = dictionary["TotalCount"] as? Int64
+            self.otherCount = dictionary["OtherCount"] as? Int64
+            self.throttleCount = dictionary["ThrottleCount"] as? Int64
+        }
     }
 
     public struct GetServiceGraphRequest: AWSShape {
@@ -256,6 +323,13 @@ extension Xray {
             self.startTime = startTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            self.endTime = endTime
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+        }
     }
 
     public struct PutTraceSegmentsResult: AWSShape {
@@ -270,6 +344,11 @@ extension Xray {
             self.unprocessedTraceSegments = unprocessedTraceSegments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let unprocessedTraceSegments = dictionary["UnprocessedTraceSegments"] as? [[String: Any]] {
+                self.unprocessedTraceSegments = try unprocessedTraceSegments.map({ try UnprocessedTraceSegment(dictionary: $0) })
+            }
+        }
     }
 
     public struct AnnotationValue: AWSShape {
@@ -290,6 +369,11 @@ extension Xray {
             self.numberValue = numberValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.booleanValue = dictionary["BooleanValue"] as? Bool
+            self.stringValue = dictionary["StringValue"] as? String
+            self.numberValue = dictionary["NumberValue"] as? Double
+        }
     }
 
     public struct GetServiceGraphResult: AWSShape {
@@ -313,6 +397,14 @@ extension Xray {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? Date
+            if let services = dictionary["Services"] as? [[String: Any]] {
+                self.services = try services.map({ try Service(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct TraceUser: AWSShape {
@@ -330,6 +422,12 @@ extension Xray {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
+                self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
+            }
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct FaultStatistics: AWSShape {
@@ -347,6 +445,10 @@ extension Xray {
             self.otherCount = otherCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.totalCount = dictionary["TotalCount"] as? Int64
+            self.otherCount = dictionary["OtherCount"] as? Int64
+        }
     }
 
     public struct Http: AWSShape {
@@ -373,6 +475,13 @@ extension Xray {
             self.userAgent = userAgent
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientIp = dictionary["ClientIp"] as? String
+            self.httpURL = dictionary["HttpURL"] as? String
+            self.httpMethod = dictionary["HttpMethod"] as? String
+            self.httpStatus = dictionary["HttpStatus"] as? Int32
+            self.userAgent = dictionary["UserAgent"] as? String
+        }
     }
 
     public struct ServiceStatistics: AWSShape {
@@ -399,6 +508,13 @@ extension Xray {
             self.totalCount = totalCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.totalResponseTime = dictionary["TotalResponseTime"] as? Double
+            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) }
+            self.okCount = dictionary["OkCount"] as? Int64
+            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) }
+            self.totalCount = dictionary["TotalCount"] as? Int64
+        }
     }
 
     public struct GetTraceGraphRequest: AWSShape {
@@ -416,6 +532,11 @@ extension Xray {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let traceIds = dictionary["TraceIds"] as? [String] else { throw InitializableError.missingRequiredParam("TraceIds") }
+            self.traceIds = traceIds
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct GetTraceGraphResult: AWSShape {
@@ -433,6 +554,12 @@ extension Xray {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let services = dictionary["Services"] as? [[String: Any]] {
+                self.services = try services.map({ try Service(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Trace: AWSShape {
@@ -453,6 +580,13 @@ extension Xray {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let segments = dictionary["Segments"] as? [[String: Any]] {
+                self.segments = try segments.map({ try Segment(dictionary: $0) })
+            }
+            self.duration = dictionary["Duration"] as? Double
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct PutTraceSegmentsRequest: AWSShape {
@@ -467,6 +601,10 @@ extension Xray {
             self.traceSegmentDocuments = traceSegmentDocuments
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let traceSegmentDocuments = dictionary["TraceSegmentDocuments"] as? [String] else { throw InitializableError.missingRequiredParam("TraceSegmentDocuments") }
+            self.traceSegmentDocuments = traceSegmentDocuments
+        }
     }
 
     public struct GetTraceSummariesRequest: AWSShape {
@@ -493,6 +631,15 @@ extension Xray {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            self.startTime = startTime
+            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            self.endTime = endTime
+            self.filterExpression = dictionary["FilterExpression"] as? String
+            self.sampling = dictionary["Sampling"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct PutTelemetryRecordsResult: AWSShape {
@@ -501,6 +648,8 @@ extension Xray {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PutTelemetryRecordsRequest: AWSShape {
@@ -520,6 +669,13 @@ extension Xray {
             self.resourceARN = resourceARN
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eC2InstanceId = dictionary["EC2InstanceId"] as? String
+            self.hostname = dictionary["Hostname"] as? String
+            guard let telemetryRecords = dictionary["TelemetryRecords"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TelemetryRecords") }
+            self.telemetryRecords = try telemetryRecords.map({ try TelemetryRecord(dictionary: $0) })
+            self.resourceARN = dictionary["ResourceARN"] as? String
+        }
     }
 
     public struct Service: AWSShape {
@@ -567,6 +723,26 @@ extension Xray {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.ServiceStatistics(dictionary: summaryStatistics) }
+            if let durationHistogram = dictionary["DurationHistogram"] as? [[String: Any]] {
+                self.durationHistogram = try durationHistogram.map({ try HistogramEntry(dictionary: $0) })
+            }
+            self.accountId = dictionary["AccountId"] as? String
+            self.root = dictionary["Root"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.state = dictionary["State"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.referenceId = dictionary["ReferenceId"] as? Int32
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+            if let edges = dictionary["Edges"] as? [[String: Any]] {
+                self.edges = try edges.map({ try Edge(dictionary: $0) })
+            }
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct ServiceId: AWSShape {
@@ -586,6 +762,14 @@ extension Xray {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accountId = dictionary["AccountId"] as? String
+            if let names = dictionary["Names"] as? [String] {
+                self.names = names
+            }
+            self.type = dictionary["Type"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct BackendConnectionErrors: AWSShape {
@@ -609,6 +793,14 @@ extension Xray {
             self.hTTPCode4XXCount = hTTPCode4XXCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.connectionRefusedCount = dictionary["ConnectionRefusedCount"] as? Int32
+            self.timeoutCount = dictionary["TimeoutCount"] as? Int32
+            self.unknownHostCount = dictionary["UnknownHostCount"] as? Int32
+            self.hTTPCode5XXCount = dictionary["HTTPCode5XXCount"] as? Int32
+            self.otherCount = dictionary["OtherCount"] as? Int32
+            self.hTTPCode4XXCount = dictionary["HTTPCode4XXCount"] as? Int32
+        }
     }
 
     public struct TelemetryRecord: AWSShape {
@@ -632,6 +824,14 @@ extension Xray {
             self.backendConnectionErrors = backendConnectionErrors
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.segmentsRejectedCount = dictionary["SegmentsRejectedCount"] as? Int32
+            self.timestamp = dictionary["Timestamp"] as? Date
+            self.segmentsReceivedCount = dictionary["SegmentsReceivedCount"] as? Int32
+            self.segmentsSentCount = dictionary["SegmentsSentCount"] as? Int32
+            self.segmentsSpilloverCount = dictionary["SegmentsSpilloverCount"] as? Int32
+            if let backendConnectionErrors = dictionary["BackendConnectionErrors"] as? [String: Any] { self.backendConnectionErrors = try Xray.BackendConnectionErrors(dictionary: backendConnectionErrors) }
+        }
     }
 
     public struct BatchGetTracesRequest: AWSShape {
@@ -649,6 +849,11 @@ extension Xray {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let traceIds = dictionary["TraceIds"] as? [String] else { throw InitializableError.missingRequiredParam("TraceIds") }
+            self.traceIds = traceIds
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct TraceSummary: AWSShape {
@@ -693,6 +898,31 @@ extension Xray {
             self.responseTime = responseTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isPartial = dictionary["IsPartial"] as? Bool
+            if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
+                self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
+            }
+            if let http = dictionary["Http"] as? [String: Any] { self.http = try Xray.Http(dictionary: http) }
+            self.hasError = dictionary["HasError"] as? Bool
+            self.id = dictionary["Id"] as? String
+            self.hasThrottle = dictionary["HasThrottle"] as? Bool
+            if let users = dictionary["Users"] as? [[String: Any]] {
+                self.users = try users.map({ try TraceUser(dictionary: $0) })
+            }
+            if let annotations = dictionary["Annotations"] as? [String: Any] {
+                var annotationsDict: [String: [ValueWithServiceIds]] = [:]
+                for (key, value) in annotations {
+                    guard let valueWithServiceIds = value as? [[String: Any]] else { throw InitializableError.convertingError }
+                    let valueWithServiceIdsList: [ValueWithServiceIds] = try valueWithServiceIds.map { try ValueWithServiceIds(dictionary: $0) }
+                    annotationsDict[key] = valueWithServiceIdsList
+                }
+                self.annotations = annotationsDict
+            }
+            self.duration = dictionary["Duration"] as? Double
+            self.hasFault = dictionary["HasFault"] as? Bool
+            self.responseTime = dictionary["ResponseTime"] as? Double
+        }
     }
 
 }

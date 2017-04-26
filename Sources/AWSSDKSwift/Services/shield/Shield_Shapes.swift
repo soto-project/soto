@@ -47,6 +47,11 @@ extension Shield {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceArn = dictionary["ResourceArn"] as? String
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DeleteSubscriptionRequest: AWSShape {
@@ -55,6 +60,8 @@ extension Shield {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AttackSummary: AWSShape {
@@ -81,6 +88,15 @@ extension Shield {
             self.attackId = attackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? Date
+            self.resourceArn = dictionary["ResourceArn"] as? String
+            if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
+                self.attackVectors = try attackVectors.map({ try AttackVectorDescription(dictionary: $0) })
+            }
+            self.attackId = dictionary["AttackId"] as? String
+        }
     }
 
     public struct Subscription: AWSShape {
@@ -98,6 +114,10 @@ extension Shield {
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.timeCommitmentInSeconds = dictionary["TimeCommitmentInSeconds"] as? Int64
+        }
     }
 
     public struct AttackDetail: AWSShape {
@@ -130,6 +150,21 @@ extension Shield {
             self.attackId = attackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            if let mitigations = dictionary["Mitigations"] as? [[String: Any]] {
+                self.mitigations = try mitigations.map({ try Mitigation(dictionary: $0) })
+            }
+            self.resourceArn = dictionary["ResourceArn"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            if let subResources = dictionary["SubResources"] as? [[String: Any]] {
+                self.subResources = try subResources.map({ try SubResourceSummary(dictionary: $0) })
+            }
+            if let attackCounters = dictionary["AttackCounters"] as? [[String: Any]] {
+                self.attackCounters = try attackCounters.map({ try SummarizedCounter(dictionary: $0) })
+            }
+            self.attackId = dictionary["AttackId"] as? String
+        }
     }
 
     public struct ListAttacksResponse: AWSShape {
@@ -147,6 +182,12 @@ extension Shield {
             self.attackSummaries = attackSummaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let attackSummaries = dictionary["AttackSummaries"] as? [[String: Any]] {
+                self.attackSummaries = try attackSummaries.map({ try AttackSummary(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeAttackResponse: AWSShape {
@@ -161,6 +202,9 @@ extension Shield {
             self.attack = attack
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attack = dictionary["Attack"] as? [String: Any] { self.attack = try Shield.AttackDetail(dictionary: attack) }
+        }
     }
 
     public struct ListProtectionsResponse: AWSShape {
@@ -178,6 +222,12 @@ extension Shield {
             self.protections = protections
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let protections = dictionary["Protections"] as? [[String: Any]] {
+                self.protections = try protections.map({ try Protection(dictionary: $0) })
+            }
+        }
     }
 
     public struct SummarizedCounter: AWSShape {
@@ -207,6 +257,14 @@ extension Shield {
             self.sum = sum
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.unit = dictionary["Unit"] as? String
+            self.average = dictionary["Average"] as? Double
+            self.n = dictionary["N"] as? Int32
+            self.max = dictionary["Max"] as? Double
+            self.name = dictionary["Name"] as? String
+            self.sum = dictionary["Sum"] as? Double
+        }
     }
 
     public struct CreateProtectionRequest: AWSShape {
@@ -224,6 +282,12 @@ extension Shield {
             self.resourceArn = resourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+        }
     }
 
     public struct DescribeProtectionRequest: AWSShape {
@@ -238,6 +302,10 @@ extension Shield {
             self.protectionId = protectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let protectionId = dictionary["ProtectionId"] as? String else { throw InitializableError.missingRequiredParam("ProtectionId") }
+            self.protectionId = protectionId
+        }
     }
 
     public struct DescribeAttackRequest: AWSShape {
@@ -252,6 +320,10 @@ extension Shield {
             self.attackId = attackId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attackId = dictionary["AttackId"] as? String else { throw InitializableError.missingRequiredParam("AttackId") }
+            self.attackId = attackId
+        }
     }
 
     public struct DescribeProtectionResponse: AWSShape {
@@ -266,6 +338,9 @@ extension Shield {
             self.protection = protection
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let protection = dictionary["Protection"] as? [String: Any] { self.protection = try Shield.Protection(dictionary: protection) }
+        }
     }
 
     public struct DeleteProtectionRequest: AWSShape {
@@ -280,6 +355,10 @@ extension Shield {
             self.protectionId = protectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let protectionId = dictionary["ProtectionId"] as? String else { throw InitializableError.missingRequiredParam("ProtectionId") }
+            self.protectionId = protectionId
+        }
     }
 
     public struct DeleteSubscriptionResponse: AWSShape {
@@ -288,6 +367,8 @@ extension Shield {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct TimeRange: AWSShape {
@@ -305,6 +386,10 @@ extension Shield {
             self.fromInclusive = fromInclusive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.toExclusive = dictionary["ToExclusive"] as? Date
+            self.fromInclusive = dictionary["FromInclusive"] as? Date
+        }
     }
 
     public struct CreateSubscriptionResponse: AWSShape {
@@ -313,6 +398,8 @@ extension Shield {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateProtectionResponse: AWSShape {
@@ -327,6 +414,9 @@ extension Shield {
             self.protectionId = protectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.protectionId = dictionary["ProtectionId"] as? String
+        }
     }
 
     public struct SummarizedAttackVector: AWSShape {
@@ -344,6 +434,13 @@ extension Shield {
             self.vectorType = vectorType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vectorCounters = dictionary["VectorCounters"] as? [[String: Any]] {
+                self.vectorCounters = try vectorCounters.map({ try SummarizedCounter(dictionary: $0) })
+            }
+            guard let vectorType = dictionary["VectorType"] as? String else { throw InitializableError.missingRequiredParam("VectorType") }
+            self.vectorType = vectorType
+        }
     }
 
     public struct Mitigation: AWSShape {
@@ -358,6 +455,9 @@ extension Shield {
             self.mitigationName = mitigationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.mitigationName = dictionary["MitigationName"] as? String
+        }
     }
 
     public struct DescribeSubscriptionResponse: AWSShape {
@@ -372,6 +472,9 @@ extension Shield {
             self.subscription = subscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Shield.Subscription(dictionary: subscription) }
+        }
     }
 
     public struct CreateSubscriptionRequest: AWSShape {
@@ -380,6 +483,8 @@ extension Shield {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListAttacksRequest: AWSShape {
@@ -406,6 +511,15 @@ extension Shield {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let startTime = dictionary["StartTime"] as? [String: Any] { self.startTime = try Shield.TimeRange(dictionary: startTime) }
+            if let resourceArns = dictionary["ResourceArns"] as? [String] {
+                self.resourceArns = resourceArns
+            }
+            if let endTime = dictionary["EndTime"] as? [String: Any] { self.endTime = try Shield.TimeRange(dictionary: endTime) }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct AttackVectorDescription: AWSShape {
@@ -420,6 +534,10 @@ extension Shield {
             self.vectorType = vectorType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let vectorType = dictionary["VectorType"] as? String else { throw InitializableError.missingRequiredParam("VectorType") }
+            self.vectorType = vectorType
+        }
     }
 
     public struct SubResourceSummary: AWSShape {
@@ -443,6 +561,16 @@ extension Shield {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let counters = dictionary["Counters"] as? [[String: Any]] {
+                self.counters = try counters.map({ try SummarizedCounter(dictionary: $0) })
+            }
+            self.type = dictionary["Type"] as? String
+            if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
+                self.attackVectors = try attackVectors.map({ try SummarizedAttackVector(dictionary: $0) })
+            }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct ListProtectionsRequest: AWSShape {
@@ -460,6 +588,10 @@ extension Shield {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DescribeSubscriptionRequest: AWSShape {
@@ -468,6 +600,8 @@ extension Shield {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteProtectionResponse: AWSShape {
@@ -476,6 +610,8 @@ extension Shield {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
 }

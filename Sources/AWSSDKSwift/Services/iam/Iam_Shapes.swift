@@ -41,6 +41,9 @@ extension Iam {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Iam.Policy(dictionary: policy) }
+        }
     }
 
     public struct GetSAMLProviderResponse: AWSShape {
@@ -61,6 +64,11 @@ extension Iam {
             self.validUntil = validUntil
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.sAMLMetadataDocument = dictionary["SAMLMetadataDocument"] as? String
+            self.validUntil = dictionary["ValidUntil"] as? Date
+        }
     }
 
     public struct Policy: AWSShape {
@@ -101,6 +109,18 @@ extension Iam {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.defaultVersionId = dictionary["DefaultVersionId"] as? String
+            self.policyId = dictionary["PolicyId"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.isAttachable = dictionary["IsAttachable"] as? Bool
+            self.policyName = dictionary["PolicyName"] as? String
+            self.updateDate = dictionary["UpdateDate"] as? Date
+            self.path = dictionary["Path"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.attachmentCount = dictionary["AttachmentCount"] as? Int32
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListRolePoliciesRequest: AWSShape {
@@ -121,6 +141,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct GetOpenIDConnectProviderRequest: AWSShape {
@@ -135,6 +161,10 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
     }
 
     public struct DeleteRolePolicyRequest: AWSShape {
@@ -152,6 +182,12 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct UpdateGroupRequest: AWSShape {
@@ -172,6 +208,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newPath = dictionary["NewPath"] as? String
+            self.newGroupName = dictionary["NewGroupName"] as? String
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct DeleteRoleRequest: AWSShape {
@@ -186,6 +228,10 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct DeleteVirtualMFADeviceRequest: AWSShape {
@@ -200,6 +246,10 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
+            self.serialNumber = serialNumber
+        }
     }
 
     public struct AttachUserPolicyRequest: AWSShape {
@@ -217,6 +267,12 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+        }
     }
 
     public struct CreateVirtualMFADeviceResponse: AWSShape {
@@ -231,6 +287,10 @@ extension Iam {
             self.virtualMFADevice = virtualMFADevice
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualMFADevice = dictionary["VirtualMFADevice"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VirtualMFADevice") }
+            self.virtualMFADevice = try Iam.VirtualMFADevice(dictionary: virtualMFADevice)
+        }
     }
 
     public struct ListOpenIDConnectProvidersResponse: AWSShape {
@@ -245,6 +305,11 @@ extension Iam {
             self.openIDConnectProviderList = openIDConnectProviderList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let openIDConnectProviderList = dictionary["OpenIDConnectProviderList"] as? [[String: Any]] {
+                self.openIDConnectProviderList = try openIDConnectProviderList.map({ try OpenIDConnectProviderListEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetUserRequest: AWSShape {
@@ -259,6 +324,9 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct InstanceProfile: AWSShape {
@@ -288,6 +356,20 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
+            self.instanceProfileName = instanceProfileName
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            guard let roles = dictionary["Roles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Roles") }
+            self.roles = try roles.map({ try Role(dictionary: $0) })
+            guard let instanceProfileId = dictionary["InstanceProfileId"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileId") }
+            self.instanceProfileId = instanceProfileId
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+        }
     }
 
     public struct CreateServiceSpecificCredentialResponse: AWSShape {
@@ -302,6 +384,9 @@ extension Iam {
             self.serviceSpecificCredential = serviceSpecificCredential
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceSpecificCredential = dictionary["ServiceSpecificCredential"] as? [String: Any] { self.serviceSpecificCredential = try Iam.ServiceSpecificCredential(dictionary: serviceSpecificCredential) }
+        }
     }
 
     public struct UpdateSAMLProviderRequest: AWSShape {
@@ -319,6 +404,12 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sAMLMetadataDocument = dictionary["SAMLMetadataDocument"] as? String else { throw InitializableError.missingRequiredParam("SAMLMetadataDocument") }
+            self.sAMLMetadataDocument = sAMLMetadataDocument
+            guard let sAMLProviderArn = dictionary["SAMLProviderArn"] as? String else { throw InitializableError.missingRequiredParam("SAMLProviderArn") }
+            self.sAMLProviderArn = sAMLProviderArn
+        }
     }
 
     public struct GetGroupPolicyRequest: AWSShape {
@@ -336,6 +427,12 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct UploadServerCertificateResponse: AWSShape {
@@ -350,6 +447,9 @@ extension Iam {
             self.serverCertificateMetadata = serverCertificateMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serverCertificateMetadata = dictionary["ServerCertificateMetadata"] as? [String: Any] { self.serverCertificateMetadata = try Iam.ServerCertificateMetadata(dictionary: serverCertificateMetadata) }
+        }
     }
 
     public struct ContextEntry: AWSShape {
@@ -370,6 +470,13 @@ extension Iam {
             self.contextKeyType = contextKeyType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let contextKeyValues = dictionary["ContextKeyValues"] as? [String] {
+                self.contextKeyValues = contextKeyValues
+            }
+            self.contextKeyName = dictionary["ContextKeyName"] as? String
+            self.contextKeyType = dictionary["ContextKeyType"] as? String
+        }
     }
 
     public struct GetSSHPublicKeyResponse: AWSShape {
@@ -384,6 +491,9 @@ extension Iam {
             self.sSHPublicKey = sSHPublicKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sSHPublicKey = dictionary["SSHPublicKey"] as? [String: Any] { self.sSHPublicKey = try Iam.SSHPublicKey(dictionary: sSHPublicKey) }
+        }
     }
 
     public struct AttachGroupPolicyRequest: AWSShape {
@@ -401,6 +511,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct ListEntitiesForPolicyRequest: AWSShape {
@@ -427,6 +543,14 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.entityFilter = dictionary["EntityFilter"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            self.marker = dictionary["Marker"] as? String
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct SSHPublicKeyMetadata: AWSShape {
@@ -450,6 +574,16 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let uploadDate = dictionary["UploadDate"] as? Date else { throw InitializableError.missingRequiredParam("UploadDate") }
+            self.uploadDate = uploadDate
+            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
     }
 
     public struct ListAttachedRolePoliciesResponse: AWSShape {
@@ -470,6 +604,13 @@ extension Iam {
             self.attachedPolicies = attachedPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let attachedPolicies = dictionary["AttachedPolicies"] as? [[String: Any]] {
+                self.attachedPolicies = try attachedPolicies.map({ try AttachedPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListMFADevicesResponse: AWSShape {
@@ -490,6 +631,12 @@ extension Iam {
             self.mFADevices = mFADevices
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let mFADevices = dictionary["MFADevices"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MFADevices") }
+            self.mFADevices = try mFADevices.map({ try MFADevice(dictionary: $0) })
+        }
     }
 
     public struct ListInstanceProfilesForRoleRequest: AWSShape {
@@ -510,6 +657,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct ListGroupsResponse: AWSShape {
@@ -530,6 +683,12 @@ extension Iam {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let groups = dictionary["Groups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Groups") }
+            self.groups = try groups.map({ try Group(dictionary: $0) })
+        }
     }
 
     public struct CreateUserRequest: AWSShape {
@@ -547,6 +706,11 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct AccessKey: AWSShape {
@@ -573,6 +737,17 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["CreateDate"] as? Date
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let secretAccessKey = dictionary["SecretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("SecretAccessKey") }
+            self.secretAccessKey = secretAccessKey
+            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
+            self.accessKeyId = accessKeyId
+        }
     }
 
     public struct AddRoleToInstanceProfileRequest: AWSShape {
@@ -590,6 +765,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
+            self.instanceProfileName = instanceProfileName
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct CreateInstanceProfileRequest: AWSShape {
@@ -607,6 +788,11 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
+            self.instanceProfileName = instanceProfileName
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct ListGroupsForUserResponse: AWSShape {
@@ -627,6 +813,12 @@ extension Iam {
             self.groups = groups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let groups = dictionary["Groups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Groups") }
+            self.groups = try groups.map({ try Group(dictionary: $0) })
+        }
     }
 
     public struct ListInstanceProfilesRequest: AWSShape {
@@ -647,6 +839,11 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct UploadSSHPublicKeyRequest: AWSShape {
@@ -664,6 +861,12 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sSHPublicKeyBody = dictionary["SSHPublicKeyBody"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyBody") }
+            self.sSHPublicKeyBody = sSHPublicKeyBody
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+        }
     }
 
     public struct DeleteUserRequest: AWSShape {
@@ -678,6 +881,10 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+        }
     }
 
     public struct ListSSHPublicKeysRequest: AWSShape {
@@ -698,6 +905,11 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.userName = dictionary["UserName"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct UpdateAccessKeyRequest: AWSShape {
@@ -718,6 +930,13 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
+            self.accessKeyId = accessKeyId
+        }
     }
 
     public struct UploadServerCertificateRequest: AWSShape {
@@ -744,6 +963,16 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
+            self.serverCertificateName = serverCertificateName
+            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
+            self.certificateBody = certificateBody
+            guard let privateKey = dictionary["PrivateKey"] as? String else { throw InitializableError.missingRequiredParam("PrivateKey") }
+            self.privateKey = privateKey
+            self.certificateChain = dictionary["CertificateChain"] as? String
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct SimulateCustomPolicyRequest: AWSShape {
@@ -785,6 +1014,24 @@ extension Iam {
             self.contextEntries = contextEntries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let actionNames = dictionary["ActionNames"] as? [String] else { throw InitializableError.missingRequiredParam("ActionNames") }
+            self.actionNames = actionNames
+            self.marker = dictionary["Marker"] as? String
+            guard let policyInputList = dictionary["PolicyInputList"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyInputList") }
+            self.policyInputList = policyInputList
+            self.resourceHandlingOption = dictionary["ResourceHandlingOption"] as? String
+            if let resourceArns = dictionary["ResourceArns"] as? [String] {
+                self.resourceArns = resourceArns
+            }
+            self.callerArn = dictionary["CallerArn"] as? String
+            self.resourceOwner = dictionary["ResourceOwner"] as? String
+            self.resourcePolicy = dictionary["ResourcePolicy"] as? String
+            if let contextEntries = dictionary["ContextEntries"] as? [[String: Any]] {
+                self.contextEntries = try contextEntries.map({ try ContextEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetGroupPolicyResponse: AWSShape {
@@ -805,6 +1052,14 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct GetAccountSummaryResponse: AWSShape {
@@ -819,6 +1074,11 @@ extension Iam {
             self.summaryMap = summaryMap
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let summaryMap = dictionary["SummaryMap"] as? [String: Int32] {
+                self.summaryMap = summaryMap
+            }
+        }
     }
 
     public struct CreateLoginProfileResponse: AWSShape {
@@ -833,6 +1093,10 @@ extension Iam {
             self.loginProfile = loginProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loginProfile = dictionary["LoginProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LoginProfile") }
+            self.loginProfile = try Iam.LoginProfile(dictionary: loginProfile)
+        }
     }
 
     public struct RoleDetail: AWSShape {
@@ -870,6 +1134,23 @@ extension Iam {
             self.instanceProfileList = instanceProfileList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attachedManagedPolicies = dictionary["AttachedManagedPolicies"] as? [[String: Any]] {
+                self.attachedManagedPolicies = try attachedManagedPolicies.map({ try AttachedPolicy(dictionary: $0) })
+            }
+            self.arn = dictionary["Arn"] as? String
+            self.assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String
+            self.path = dictionary["Path"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.roleId = dictionary["RoleId"] as? String
+            self.roleName = dictionary["RoleName"] as? String
+            if let rolePolicyList = dictionary["RolePolicyList"] as? [[String: Any]] {
+                self.rolePolicyList = try rolePolicyList.map({ try PolicyDetail(dictionary: $0) })
+            }
+            if let instanceProfileList = dictionary["InstanceProfileList"] as? [[String: Any]] {
+                self.instanceProfileList = try instanceProfileList.map({ try InstanceProfile(dictionary: $0) })
+            }
+        }
     }
 
     public struct PutUserPolicyRequest: AWSShape {
@@ -890,6 +1171,14 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct PutRolePolicyRequest: AWSShape {
@@ -910,6 +1199,14 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ListAttachedRolePoliciesRequest: AWSShape {
@@ -933,6 +1230,13 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            self.marker = dictionary["Marker"] as? String
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct Position: AWSShape {
@@ -950,6 +1254,10 @@ extension Iam {
             self.column = column
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.line = dictionary["Line"] as? Int32
+            self.column = dictionary["Column"] as? Int32
+        }
     }
 
     public struct ListAccessKeysResponse: AWSShape {
@@ -970,6 +1278,12 @@ extension Iam {
             self.accessKeyMetadata = accessKeyMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let accessKeyMetadata = dictionary["AccessKeyMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AccessKeyMetadata") }
+            self.accessKeyMetadata = try accessKeyMetadata.map({ try AccessKeyMetadata(dictionary: $0) })
+        }
     }
 
     public struct UpdateServiceSpecificCredentialRequest: AWSShape {
@@ -990,6 +1304,13 @@ extension Iam {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            self.userName = dictionary["UserName"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct DetachRolePolicyRequest: AWSShape {
@@ -1007,6 +1328,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct CreateSAMLProviderRequest: AWSShape {
@@ -1024,6 +1351,12 @@ extension Iam {
             self.sAMLMetadataDocument = sAMLMetadataDocument
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let sAMLMetadataDocument = dictionary["SAMLMetadataDocument"] as? String else { throw InitializableError.missingRequiredParam("SAMLMetadataDocument") }
+            self.sAMLMetadataDocument = sAMLMetadataDocument
+        }
     }
 
     public struct ListVirtualMFADevicesRequest: AWSShape {
@@ -1044,6 +1377,11 @@ extension Iam {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.assignmentStatus = dictionary["AssignmentStatus"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct GetRoleRequest: AWSShape {
@@ -1058,6 +1396,10 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct AddUserToGroupRequest: AWSShape {
@@ -1075,6 +1417,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct UpdateUserRequest: AWSShape {
@@ -1095,6 +1443,12 @@ extension Iam {
             self.newUserName = newUserName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newPath = dictionary["NewPath"] as? String
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.newUserName = dictionary["NewUserName"] as? String
+        }
     }
 
     public struct OpenIDConnectProviderListEntry: AWSShape {
@@ -1108,6 +1462,9 @@ extension Iam {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+        }
     }
 
     public struct CreatePolicyVersionRequest: AWSShape {
@@ -1128,6 +1485,13 @@ extension Iam {
             self.setAsDefault = setAsDefault
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            self.setAsDefault = dictionary["SetAsDefault"] as? Bool
+        }
     }
 
     public struct CreateServiceSpecificCredentialRequest: AWSShape {
@@ -1145,6 +1509,12 @@ extension Iam {
             self.serviceName = serviceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
+            self.serviceName = serviceName
+        }
     }
 
     public struct PasswordPolicy: AWSShape {
@@ -1186,6 +1556,18 @@ extension Iam {
             self.allowUsersToChangePassword = allowUsersToChangePassword
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requireNumbers = dictionary["RequireNumbers"] as? Bool
+            self.expirePasswords = dictionary["ExpirePasswords"] as? Bool
+            self.maxPasswordAge = dictionary["MaxPasswordAge"] as? Int32
+            self.minimumPasswordLength = dictionary["MinimumPasswordLength"] as? Int32
+            self.requireLowercaseCharacters = dictionary["RequireLowercaseCharacters"] as? Bool
+            self.passwordReusePrevention = dictionary["PasswordReusePrevention"] as? Int32
+            self.requireSymbols = dictionary["RequireSymbols"] as? Bool
+            self.requireUppercaseCharacters = dictionary["RequireUppercaseCharacters"] as? Bool
+            self.hardExpiry = dictionary["HardExpiry"] as? Bool
+            self.allowUsersToChangePassword = dictionary["AllowUsersToChangePassword"] as? Bool
+        }
     }
 
     public struct CreateRoleResponse: AWSShape {
@@ -1200,6 +1582,10 @@ extension Iam {
             self.role = role
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let role = dictionary["Role"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = try Iam.Role(dictionary: role)
+        }
     }
 
     public struct ListServerCertificatesRequest: AWSShape {
@@ -1220,6 +1606,11 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
@@ -1237,6 +1628,12 @@ extension Iam {
             self.versionId = versionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+        }
     }
 
     public struct ListOpenIDConnectProvidersRequest: AWSShape {
@@ -1245,6 +1642,8 @@ extension Iam {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct UpdateServerCertificateRequest: AWSShape {
@@ -1265,6 +1664,12 @@ extension Iam {
             self.newServerCertificateName = newServerCertificateName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.newPath = dictionary["NewPath"] as? String
+            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
+            self.serverCertificateName = serverCertificateName
+            self.newServerCertificateName = dictionary["NewServerCertificateName"] as? String
+        }
     }
 
     public struct ListPoliciesResponse: AWSShape {
@@ -1285,6 +1690,13 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let policies = dictionary["Policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try Policy(dictionary: $0) })
+            }
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct GetServerCertificateRequest: AWSShape {
@@ -1299,6 +1711,10 @@ extension Iam {
             self.serverCertificateName = serverCertificateName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
+            self.serverCertificateName = serverCertificateName
+        }
     }
 
     public struct ServiceSpecificCredential: AWSShape {
@@ -1331,6 +1747,22 @@ extension Iam {
             self.servicePassword = servicePassword
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let serviceUserName = dictionary["ServiceUserName"] as? String else { throw InitializableError.missingRequiredParam("ServiceUserName") }
+            self.serviceUserName = serviceUserName
+            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
+            self.serviceName = serviceName
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+            guard let servicePassword = dictionary["ServicePassword"] as? String else { throw InitializableError.missingRequiredParam("ServicePassword") }
+            self.servicePassword = servicePassword
+        }
     }
 
     public struct GetOpenIDConnectProviderResponse: AWSShape {
@@ -1354,6 +1786,16 @@ extension Iam {
             self.clientIDList = clientIDList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.url = dictionary["Url"] as? String
+            if let thumbprintList = dictionary["ThumbprintList"] as? [String] {
+                self.thumbprintList = thumbprintList
+            }
+            if let clientIDList = dictionary["ClientIDList"] as? [String] {
+                self.clientIDList = clientIDList
+            }
+        }
     }
 
     public struct UserDetail: AWSShape {
@@ -1388,6 +1830,22 @@ extension Iam {
             self.attachedManagedPolicies = attachedManagedPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            self.userId = dictionary["UserId"] as? String
+            self.arn = dictionary["Arn"] as? String
+            if let groupList = dictionary["GroupList"] as? [String] {
+                self.groupList = groupList
+            }
+            self.path = dictionary["Path"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            if let userPolicyList = dictionary["UserPolicyList"] as? [[String: Any]] {
+                self.userPolicyList = try userPolicyList.map({ try PolicyDetail(dictionary: $0) })
+            }
+            if let attachedManagedPolicies = dictionary["AttachedManagedPolicies"] as? [[String: Any]] {
+                self.attachedManagedPolicies = try attachedManagedPolicies.map({ try AttachedPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListSAMLProvidersRequest: AWSShape {
@@ -1396,6 +1854,8 @@ extension Iam {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListAttachedGroupPoliciesResponse: AWSShape {
@@ -1416,6 +1876,13 @@ extension Iam {
             self.attachedPolicies = attachedPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let attachedPolicies = dictionary["AttachedPolicies"] as? [[String: Any]] {
+                self.attachedPolicies = try attachedPolicies.map({ try AttachedPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListUserPoliciesResponse: AWSShape {
@@ -1436,6 +1903,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct ListAccountAliasesRequest: AWSShape {
@@ -1453,6 +1926,10 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct UploadSigningCertificateRequest: AWSShape {
@@ -1470,6 +1947,11 @@ extension Iam {
             self.certificateBody = certificateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
+            self.certificateBody = certificateBody
+        }
     }
 
     public struct DeactivateMFADeviceRequest: AWSShape {
@@ -1487,6 +1969,12 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
+            self.serialNumber = serialNumber
+        }
     }
 
     public struct DeleteAccountAliasRequest: AWSShape {
@@ -1501,6 +1989,10 @@ extension Iam {
             self.accountAlias = accountAlias
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountAlias = dictionary["AccountAlias"] as? String else { throw InitializableError.missingRequiredParam("AccountAlias") }
+            self.accountAlias = accountAlias
+        }
     }
 
     public struct GetSAMLProviderRequest: AWSShape {
@@ -1515,6 +2007,10 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sAMLProviderArn = dictionary["SAMLProviderArn"] as? String else { throw InitializableError.missingRequiredParam("SAMLProviderArn") }
+            self.sAMLProviderArn = sAMLProviderArn
+        }
     }
 
     public struct GenerateCredentialReportResponse: AWSShape {
@@ -1532,6 +2028,10 @@ extension Iam {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["State"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListGroupPoliciesResponse: AWSShape {
@@ -1552,6 +2052,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct CreateUserResponse: AWSShape {
@@ -1566,6 +2072,9 @@ extension Iam {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Iam.User(dictionary: user) }
+        }
     }
 
     public struct SigningCertificate: AWSShape {
@@ -1592,6 +2101,17 @@ extension Iam {
             self.certificateBody = certificateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
+            self.certificateId = certificateId
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            self.uploadDate = dictionary["UploadDate"] as? Date
+            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
+            self.certificateBody = certificateBody
+        }
     }
 
     public struct GetGroupRequest: AWSShape {
@@ -1612,6 +2132,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct AttachRolePolicyRequest: AWSShape {
@@ -1629,6 +2155,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct ChangePasswordRequest: AWSShape {
@@ -1646,6 +2178,12 @@ extension Iam {
             self.newPassword = newPassword
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let oldPassword = dictionary["OldPassword"] as? String else { throw InitializableError.missingRequiredParam("OldPassword") }
+            self.oldPassword = oldPassword
+            guard let newPassword = dictionary["NewPassword"] as? String else { throw InitializableError.missingRequiredParam("NewPassword") }
+            self.newPassword = newPassword
+        }
     }
 
     public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSShape {
@@ -1663,6 +2201,12 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let thumbprintList = dictionary["ThumbprintList"] as? [String] else { throw InitializableError.missingRequiredParam("ThumbprintList") }
+            self.thumbprintList = thumbprintList
+            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
     }
 
     public struct User: AWSShape {
@@ -1692,6 +2236,19 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+            self.passwordLastUsed = dictionary["PasswordLastUsed"] as? Date
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+        }
     }
 
     public struct DeleteSSHPublicKeyRequest: AWSShape {
@@ -1709,6 +2266,12 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
     }
 
     public struct CreateOpenIDConnectProviderRequest: AWSShape {
@@ -1729,6 +2292,15 @@ extension Iam {
             self.clientIDList = clientIDList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let url = dictionary["Url"] as? String else { throw InitializableError.missingRequiredParam("Url") }
+            self.url = url
+            guard let thumbprintList = dictionary["ThumbprintList"] as? [String] else { throw InitializableError.missingRequiredParam("ThumbprintList") }
+            self.thumbprintList = thumbprintList
+            if let clientIDList = dictionary["ClientIDList"] as? [String] {
+                self.clientIDList = clientIDList
+            }
+        }
     }
 
     public struct CreatePolicyRequest: AWSShape {
@@ -1752,6 +2324,14 @@ extension Iam {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.path = dictionary["Path"] as? String
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct ListUserPoliciesRequest: AWSShape {
@@ -1772,6 +2352,12 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct DeleteServerCertificateRequest: AWSShape {
@@ -1786,6 +2372,10 @@ extension Iam {
             self.serverCertificateName = serverCertificateName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
+            self.serverCertificateName = serverCertificateName
+        }
     }
 
     public struct SimulatePolicyResponse: AWSShape {
@@ -1806,6 +2396,13 @@ extension Iam {
             self.evaluationResults = evaluationResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let evaluationResults = dictionary["EvaluationResults"] as? [[String: Any]] {
+                self.evaluationResults = try evaluationResults.map({ try EvaluationResult(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetUserPolicyResponse: AWSShape {
@@ -1826,6 +2423,14 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct DeletePolicyVersionRequest: AWSShape {
@@ -1843,6 +2448,12 @@ extension Iam {
             self.versionId = versionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+        }
     }
 
     public struct SAMLProviderListEntry: AWSShape {
@@ -1863,6 +2474,11 @@ extension Iam {
             self.validUntil = validUntil
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.arn = dictionary["Arn"] as? String
+            self.validUntil = dictionary["ValidUntil"] as? Date
+        }
     }
 
     public struct UpdateSAMLProviderResponse: AWSShape {
@@ -1877,6 +2493,9 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sAMLProviderArn = dictionary["SAMLProviderArn"] as? String
+        }
     }
 
     public struct GetContextKeysForPolicyResponse: AWSShape {
@@ -1891,6 +2510,11 @@ extension Iam {
             self.contextKeyNames = contextKeyNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let contextKeyNames = dictionary["ContextKeyNames"] as? [String] {
+                self.contextKeyNames = contextKeyNames
+            }
+        }
     }
 
     public struct CreateAccountAliasRequest: AWSShape {
@@ -1905,6 +2529,10 @@ extension Iam {
             self.accountAlias = accountAlias
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountAlias = dictionary["AccountAlias"] as? String else { throw InitializableError.missingRequiredParam("AccountAlias") }
+            self.accountAlias = accountAlias
+        }
     }
 
     public struct EvaluationResult: AWSShape {
@@ -1940,6 +2568,26 @@ extension Iam {
             self.resourceSpecificResults = resourceSpecificResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let evalDecision = dictionary["EvalDecision"] as? String else { throw InitializableError.missingRequiredParam("EvalDecision") }
+            self.evalDecision = evalDecision
+            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: String] {
+                self.evalDecisionDetails = evalDecisionDetails
+            }
+            self.evalResourceName = dictionary["EvalResourceName"] as? String
+            if let matchedStatements = dictionary["MatchedStatements"] as? [[String: Any]] {
+                self.matchedStatements = try matchedStatements.map({ try Statement(dictionary: $0) })
+            }
+            guard let evalActionName = dictionary["EvalActionName"] as? String else { throw InitializableError.missingRequiredParam("EvalActionName") }
+            self.evalActionName = evalActionName
+            if let organizationsDecisionDetail = dictionary["OrganizationsDecisionDetail"] as? [String: Any] { self.organizationsDecisionDetail = try Iam.OrganizationsDecisionDetail(dictionary: organizationsDecisionDetail) }
+            if let missingContextValues = dictionary["MissingContextValues"] as? [String] {
+                self.missingContextValues = missingContextValues
+            }
+            if let resourceSpecificResults = dictionary["ResourceSpecificResults"] as? [[String: Any]] {
+                self.resourceSpecificResults = try resourceSpecificResults.map({ try ResourceSpecificResult(dictionary: $0) })
+            }
+        }
     }
 
     public struct ResourceSpecificResult: AWSShape {
@@ -1966,6 +2614,21 @@ extension Iam {
             self.evalResourceName = evalResourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let missingContextValues = dictionary["MissingContextValues"] as? [String] {
+                self.missingContextValues = missingContextValues
+            }
+            guard let evalResourceDecision = dictionary["EvalResourceDecision"] as? String else { throw InitializableError.missingRequiredParam("EvalResourceDecision") }
+            self.evalResourceDecision = evalResourceDecision
+            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: String] {
+                self.evalDecisionDetails = evalDecisionDetails
+            }
+            if let matchedStatements = dictionary["MatchedStatements"] as? [[String: Any]] {
+                self.matchedStatements = try matchedStatements.map({ try Statement(dictionary: $0) })
+            }
+            guard let evalResourceName = dictionary["EvalResourceName"] as? String else { throw InitializableError.missingRequiredParam("EvalResourceName") }
+            self.evalResourceName = evalResourceName
+        }
     }
 
     public struct ListEntitiesForPolicyResponse: AWSShape {
@@ -1992,6 +2655,19 @@ extension Iam {
             self.policyGroups = policyGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let policyUsers = dictionary["PolicyUsers"] as? [[String: Any]] {
+                self.policyUsers = try policyUsers.map({ try PolicyUser(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            if let policyRoles = dictionary["PolicyRoles"] as? [[String: Any]] {
+                self.policyRoles = try policyRoles.map({ try PolicyRole(dictionary: $0) })
+            }
+            if let policyGroups = dictionary["PolicyGroups"] as? [[String: Any]] {
+                self.policyGroups = try policyGroups.map({ try PolicyGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetUserPolicyRequest: AWSShape {
@@ -2009,6 +2685,12 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct CreateGroupRequest: AWSShape {
@@ -2026,6 +2708,11 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.path = dictionary["Path"] as? String
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct DeleteAccessKeyRequest: AWSShape {
@@ -2043,6 +2730,11 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
+            self.accessKeyId = accessKeyId
+        }
     }
 
     public struct CreateLoginProfileRequest: AWSShape {
@@ -2063,6 +2755,13 @@ extension Iam {
             self.passwordResetRequired = passwordResetRequired
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
+        }
     }
 
     public struct DeleteLoginProfileRequest: AWSShape {
@@ -2077,6 +2776,10 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+        }
     }
 
     public struct UploadSSHPublicKeyResponse: AWSShape {
@@ -2091,6 +2794,9 @@ extension Iam {
             self.sSHPublicKey = sSHPublicKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sSHPublicKey = dictionary["SSHPublicKey"] as? [String: Any] { self.sSHPublicKey = try Iam.SSHPublicKey(dictionary: sSHPublicKey) }
+        }
     }
 
     public struct GetLoginProfileRequest: AWSShape {
@@ -2105,6 +2811,10 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+        }
     }
 
     public struct GetAccountAuthorizationDetailsRequest: AWSShape {
@@ -2125,6 +2835,13 @@ extension Iam {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            if let filter = dictionary["Filter"] as? [String] {
+                self.filter = filter
+            }
+        }
     }
 
     public struct AccessKeyMetadata: AWSShape {
@@ -2148,6 +2865,12 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.userName = dictionary["UserName"] as? String
+            self.status = dictionary["Status"] as? String
+            self.accessKeyId = dictionary["AccessKeyId"] as? String
+        }
     }
 
     public struct Statement: AWSShape {
@@ -2171,6 +2894,12 @@ extension Iam {
             self.endPosition = endPosition
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourcePolicyType = dictionary["SourcePolicyType"] as? String
+            if let startPosition = dictionary["StartPosition"] as? [String: Any] { self.startPosition = try Iam.Position(dictionary: startPosition) }
+            self.sourcePolicyId = dictionary["SourcePolicyId"] as? String
+            if let endPosition = dictionary["EndPosition"] as? [String: Any] { self.endPosition = try Iam.Position(dictionary: endPosition) }
+        }
     }
 
     public struct SimulatePrincipalPolicyRequest: AWSShape {
@@ -2215,6 +2944,27 @@ extension Iam {
             self.contextEntries = contextEntries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let actionNames = dictionary["ActionNames"] as? [String] else { throw InitializableError.missingRequiredParam("ActionNames") }
+            self.actionNames = actionNames
+            self.marker = dictionary["Marker"] as? String
+            if let policyInputList = dictionary["PolicyInputList"] as? [String] {
+                self.policyInputList = policyInputList
+            }
+            self.resourceHandlingOption = dictionary["ResourceHandlingOption"] as? String
+            if let resourceArns = dictionary["ResourceArns"] as? [String] {
+                self.resourceArns = resourceArns
+            }
+            guard let policySourceArn = dictionary["PolicySourceArn"] as? String else { throw InitializableError.missingRequiredParam("PolicySourceArn") }
+            self.policySourceArn = policySourceArn
+            self.resourceOwner = dictionary["ResourceOwner"] as? String
+            self.resourcePolicy = dictionary["ResourcePolicy"] as? String
+            self.callerArn = dictionary["CallerArn"] as? String
+            if let contextEntries = dictionary["ContextEntries"] as? [[String: Any]] {
+                self.contextEntries = try contextEntries.map({ try ContextEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetUserResponse: AWSShape {
@@ -2229,6 +2979,10 @@ extension Iam {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let user = dictionary["User"] as? [String: Any] else { throw InitializableError.missingRequiredParam("User") }
+            self.user = try Iam.User(dictionary: user)
+        }
     }
 
     public struct RemoveClientIDFromOpenIDConnectProviderRequest: AWSShape {
@@ -2246,6 +3000,12 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientID = dictionary["ClientID"] as? String else { throw InitializableError.missingRequiredParam("ClientID") }
+            self.clientID = clientID
+            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
     }
 
     public struct LoginProfile: AWSShape {
@@ -2266,6 +3026,13 @@ extension Iam {
             self.passwordResetRequired = passwordResetRequired
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
+        }
     }
 
     public struct ListAttachedUserPoliciesResponse: AWSShape {
@@ -2286,6 +3053,13 @@ extension Iam {
             self.attachedPolicies = attachedPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let attachedPolicies = dictionary["AttachedPolicies"] as? [[String: Any]] {
+                self.attachedPolicies = try attachedPolicies.map({ try AttachedPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveRoleFromInstanceProfileRequest: AWSShape {
@@ -2303,6 +3077,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
+            self.instanceProfileName = instanceProfileName
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct CreateSAMLProviderResponse: AWSShape {
@@ -2317,6 +3097,9 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sAMLProviderArn = dictionary["SAMLProviderArn"] as? String
+        }
     }
 
     public struct CreateVirtualMFADeviceRequest: AWSShape {
@@ -2334,6 +3117,11 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualMFADeviceName = dictionary["VirtualMFADeviceName"] as? String else { throw InitializableError.missingRequiredParam("VirtualMFADeviceName") }
+            self.virtualMFADeviceName = virtualMFADeviceName
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct EnableMFADeviceRequest: AWSShape {
@@ -2357,6 +3145,16 @@ extension Iam {
             self.authenticationCode2 = authenticationCode2
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let authenticationCode1 = dictionary["AuthenticationCode1"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode1") }
+            self.authenticationCode1 = authenticationCode1
+            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
+            self.serialNumber = serialNumber
+            guard let authenticationCode2 = dictionary["AuthenticationCode2"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode2") }
+            self.authenticationCode2 = authenticationCode2
+        }
     }
 
     public struct UpdateAssumeRolePolicyRequest: AWSShape {
@@ -2374,6 +3172,12 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+        }
     }
 
     public struct ListSAMLProvidersResponse: AWSShape {
@@ -2388,6 +3192,11 @@ extension Iam {
             self.sAMLProviderList = sAMLProviderList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sAMLProviderList = dictionary["SAMLProviderList"] as? [[String: Any]] {
+                self.sAMLProviderList = try sAMLProviderList.map({ try SAMLProviderListEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct ServiceSpecificCredentialMetadata: AWSShape {
@@ -2417,6 +3226,20 @@ extension Iam {
             self.createDate = createDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
+            self.serviceName = serviceName
+            guard let serviceUserName = dictionary["ServiceUserName"] as? String else { throw InitializableError.missingRequiredParam("ServiceUserName") }
+            self.serviceUserName = serviceUserName
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+        }
     }
 
     public struct SSHPublicKey: AWSShape {
@@ -2446,6 +3269,19 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sSHPublicKeyBody = dictionary["SSHPublicKeyBody"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyBody") }
+            self.sSHPublicKeyBody = sSHPublicKeyBody
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let fingerprint = dictionary["Fingerprint"] as? String else { throw InitializableError.missingRequiredParam("Fingerprint") }
+            self.fingerprint = fingerprint
+            self.uploadDate = dictionary["UploadDate"] as? Date
+            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
     }
 
     public struct AccessKeyLastUsed: AWSShape {
@@ -2466,6 +3302,14 @@ extension Iam {
             self.serviceName = serviceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let lastUsedDate = dictionary["LastUsedDate"] as? Date else { throw InitializableError.missingRequiredParam("LastUsedDate") }
+            self.lastUsedDate = lastUsedDate
+            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
+            self.region = region
+            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
+            self.serviceName = serviceName
+        }
     }
 
     public struct ResetServiceSpecificCredentialRequest: AWSShape {
@@ -2483,6 +3327,11 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct ListPolicyVersionsRequest: AWSShape {
@@ -2503,6 +3352,12 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct GetLoginProfileResponse: AWSShape {
@@ -2517,6 +3372,10 @@ extension Iam {
             self.loginProfile = loginProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let loginProfile = dictionary["LoginProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LoginProfile") }
+            self.loginProfile = try Iam.LoginProfile(dictionary: loginProfile)
+        }
     }
 
     public struct ManagedPolicyDetail: AWSShape {
@@ -2560,6 +3419,21 @@ extension Iam {
             self.defaultVersionId = defaultVersionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.policyId = dictionary["PolicyId"] as? String
+            self.arn = dictionary["Arn"] as? String
+            self.isAttachable = dictionary["IsAttachable"] as? Bool
+            self.policyName = dictionary["PolicyName"] as? String
+            if let policyVersionList = dictionary["PolicyVersionList"] as? [[String: Any]] {
+                self.policyVersionList = try policyVersionList.map({ try PolicyVersion(dictionary: $0) })
+            }
+            self.updateDate = dictionary["UpdateDate"] as? Date
+            self.path = dictionary["Path"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.attachmentCount = dictionary["AttachmentCount"] as? Int32
+            self.defaultVersionId = dictionary["DefaultVersionId"] as? String
+        }
     }
 
     public struct GetAccountAuthorizationDetailsResponse: AWSShape {
@@ -2589,6 +3463,22 @@ extension Iam {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let roleDetailList = dictionary["RoleDetailList"] as? [[String: Any]] {
+                self.roleDetailList = try roleDetailList.map({ try RoleDetail(dictionary: $0) })
+            }
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let policies = dictionary["Policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try ManagedPolicyDetail(dictionary: $0) })
+            }
+            if let userDetailList = dictionary["UserDetailList"] as? [[String: Any]] {
+                self.userDetailList = try userDetailList.map({ try UserDetail(dictionary: $0) })
+            }
+            if let groupDetailList = dictionary["GroupDetailList"] as? [[String: Any]] {
+                self.groupDetailList = try groupDetailList.map({ try GroupDetail(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct ListUsersResponse: AWSShape {
@@ -2609,6 +3499,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let users = dictionary["Users"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Users") }
+            self.users = try users.map({ try User(dictionary: $0) })
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct PolicyVersion: AWSShape {
@@ -2632,6 +3528,12 @@ extension Iam {
             self.isDefaultVersion = isDefaultVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.versionId = dictionary["VersionId"] as? String
+            self.document = dictionary["Document"] as? String
+            self.isDefaultVersion = dictionary["IsDefaultVersion"] as? Bool
+        }
     }
 
     public struct DeleteInstanceProfileRequest: AWSShape {
@@ -2646,6 +3548,10 @@ extension Iam {
             self.instanceProfileName = instanceProfileName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
+            self.instanceProfileName = instanceProfileName
+        }
     }
 
     public struct MFADevice: AWSShape {
@@ -2666,6 +3572,14 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let enableDate = dictionary["EnableDate"] as? Date else { throw InitializableError.missingRequiredParam("EnableDate") }
+            self.enableDate = enableDate
+            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
+            self.serialNumber = serialNumber
+        }
     }
 
     public struct ServerCertificateMetadata: AWSShape {
@@ -2695,6 +3609,18 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
+            self.serverCertificateName = serverCertificateName
+            guard let serverCertificateId = dictionary["ServerCertificateId"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateId") }
+            self.serverCertificateId = serverCertificateId
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            self.expiration = dictionary["Expiration"] as? Date
+            self.uploadDate = dictionary["UploadDate"] as? Date
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+        }
     }
 
     public struct GroupDetail: AWSShape {
@@ -2726,6 +3652,19 @@ extension Iam {
             self.attachedManagedPolicies = attachedManagedPolicies
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+            if let groupPolicyList = dictionary["GroupPolicyList"] as? [[String: Any]] {
+                self.groupPolicyList = try groupPolicyList.map({ try PolicyDetail(dictionary: $0) })
+            }
+            self.path = dictionary["Path"] as? String
+            self.createDate = dictionary["CreateDate"] as? Date
+            self.groupId = dictionary["GroupId"] as? String
+            if let attachedManagedPolicies = dictionary["AttachedManagedPolicies"] as? [[String: Any]] {
+                self.attachedManagedPolicies = try attachedManagedPolicies.map({ try AttachedPolicy(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteSigningCertificateRequest: AWSShape {
@@ -2743,6 +3682,11 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
+            self.certificateId = certificateId
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct ListPoliciesRequest: AWSShape {
@@ -2769,6 +3713,13 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.onlyAttached = dictionary["OnlyAttached"] as? Bool
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.scope = dictionary["Scope"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct ListAccessKeysRequest: AWSShape {
@@ -2789,6 +3740,11 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.userName = dictionary["UserName"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct ListGroupsForUserRequest: AWSShape {
@@ -2809,6 +3765,12 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct ListInstanceProfilesResponse: AWSShape {
@@ -2829,6 +3791,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let instanceProfiles = dictionary["InstanceProfiles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InstanceProfiles") }
+            self.instanceProfiles = try instanceProfiles.map({ try InstanceProfile(dictionary: $0) })
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct GetAccountPasswordPolicyResponse: AWSShape {
@@ -2843,6 +3811,10 @@ extension Iam {
             self.passwordPolicy = passwordPolicy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let passwordPolicy = dictionary["PasswordPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PasswordPolicy") }
+            self.passwordPolicy = try Iam.PasswordPolicy(dictionary: passwordPolicy)
+        }
     }
 
     public struct AddClientIDToOpenIDConnectProviderRequest: AWSShape {
@@ -2860,6 +3832,12 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientID = dictionary["ClientID"] as? String else { throw InitializableError.missingRequiredParam("ClientID") }
+            self.clientID = clientID
+            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
@@ -2880,6 +3858,13 @@ extension Iam {
             self.versions = versions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            if let versions = dictionary["Versions"] as? [[String: Any]] {
+                self.versions = try versions.map({ try PolicyVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetPolicyVersionResponse: AWSShape {
@@ -2894,6 +3879,9 @@ extension Iam {
             self.policyVersion = policyVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policyVersion = dictionary["PolicyVersion"] as? [String: Any] { self.policyVersion = try Iam.PolicyVersion(dictionary: policyVersion) }
+        }
     }
 
     public struct PolicyUser: AWSShape {
@@ -2911,6 +3899,10 @@ extension Iam {
             self.userId = userId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            self.userId = dictionary["UserId"] as? String
+        }
     }
 
     public struct ListGroupsRequest: AWSShape {
@@ -2931,6 +3923,11 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct GetAccessKeyLastUsedRequest: AWSShape {
@@ -2945,6 +3942,10 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
+            self.accessKeyId = accessKeyId
+        }
     }
 
     public struct GetRoleResponse: AWSShape {
@@ -2959,6 +3960,10 @@ extension Iam {
             self.role = role
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let role = dictionary["Role"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = try Iam.Role(dictionary: role)
+        }
     }
 
     public struct GetPolicyVersionRequest: AWSShape {
@@ -2976,6 +3981,12 @@ extension Iam {
             self.versionId = versionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+        }
     }
 
     public struct DeleteServiceSpecificCredentialRequest: AWSShape {
@@ -2993,6 +4004,11 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct ListServiceSpecificCredentialsRequest: AWSShape {
@@ -3010,6 +4026,10 @@ extension Iam {
             self.serviceName = serviceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+            self.serviceName = dictionary["ServiceName"] as? String
+        }
     }
 
     public struct GetInstanceProfileResponse: AWSShape {
@@ -3024,6 +4044,10 @@ extension Iam {
             self.instanceProfile = instanceProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfile = dictionary["InstanceProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceProfile") }
+            self.instanceProfile = try Iam.InstanceProfile(dictionary: instanceProfile)
+        }
     }
 
     public struct UpdateSSHPublicKeyRequest: AWSShape {
@@ -3044,6 +4068,14 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
     }
 
     public struct GetServerCertificateResponse: AWSShape {
@@ -3058,6 +4090,10 @@ extension Iam {
             self.serverCertificate = serverCertificate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let serverCertificate = dictionary["ServerCertificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ServerCertificate") }
+            self.serverCertificate = try Iam.ServerCertificate(dictionary: serverCertificate)
+        }
     }
 
     public struct CreateRoleRequest: AWSShape {
@@ -3078,6 +4114,13 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            guard let assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("AssumeRolePolicyDocument") }
+            self.assumeRolePolicyDocument = assumeRolePolicyDocument
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct GetGroupResponse: AWSShape {
@@ -3101,6 +4144,14 @@ extension Iam {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let users = dictionary["Users"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Users") }
+            self.users = try users.map({ try User(dictionary: $0) })
+            guard let group = dictionary["Group"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Group") }
+            self.group = try Iam.Group(dictionary: group)
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DeleteOpenIDConnectProviderRequest: AWSShape {
@@ -3115,6 +4166,10 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
     }
 
     public struct CreatePolicyVersionResponse: AWSShape {
@@ -3129,6 +4184,9 @@ extension Iam {
             self.policyVersion = policyVersion
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policyVersion = dictionary["PolicyVersion"] as? [String: Any] { self.policyVersion = try Iam.PolicyVersion(dictionary: policyVersion) }
+        }
     }
 
     public struct PutGroupPolicyRequest: AWSShape {
@@ -3149,6 +4207,14 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct VirtualMFADevice: AWSShape {
@@ -3175,6 +4241,14 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.enableDate = dictionary["EnableDate"] as? Date
+            self.qRCodePNG = dictionary["QRCodePNG"] as? Data
+            self.base32StringSeed = dictionary["Base32StringSeed"] as? Data
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Iam.User(dictionary: user) }
+            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
+            self.serialNumber = serialNumber
+        }
     }
 
     public struct GetRolePolicyResponse: AWSShape {
@@ -3195,6 +4269,14 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
+            self.policyDocument = policyDocument
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct CreateGroupResponse: AWSShape {
@@ -3209,6 +4291,10 @@ extension Iam {
             self.group = group
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let group = dictionary["Group"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Group") }
+            self.group = try Iam.Group(dictionary: group)
+        }
     }
 
     public struct UpdateSigningCertificateRequest: AWSShape {
@@ -3229,6 +4315,13 @@ extension Iam {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
+            self.certificateId = certificateId
+            self.userName = dictionary["UserName"] as? String
+            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            self.status = status
+        }
     }
 
     public struct PolicyDetail: AWSShape {
@@ -3246,6 +4339,10 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyDocument = dictionary["PolicyDocument"] as? String
+            self.policyName = dictionary["PolicyName"] as? String
+        }
     }
 
     public struct UpdateAccountPasswordPolicyRequest: AWSShape {
@@ -3284,6 +4381,17 @@ extension Iam {
             self.allowUsersToChangePassword = allowUsersToChangePassword
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.requireNumbers = dictionary["RequireNumbers"] as? Bool
+            self.maxPasswordAge = dictionary["MaxPasswordAge"] as? Int32
+            self.minimumPasswordLength = dictionary["MinimumPasswordLength"] as? Int32
+            self.requireLowercaseCharacters = dictionary["RequireLowercaseCharacters"] as? Bool
+            self.passwordReusePrevention = dictionary["PasswordReusePrevention"] as? Int32
+            self.requireSymbols = dictionary["RequireSymbols"] as? Bool
+            self.requireUppercaseCharacters = dictionary["RequireUppercaseCharacters"] as? Bool
+            self.hardExpiry = dictionary["HardExpiry"] as? Bool
+            self.allowUsersToChangePassword = dictionary["AllowUsersToChangePassword"] as? Bool
+        }
     }
 
     public struct GetCredentialReportResponse: AWSShape {
@@ -3304,6 +4412,11 @@ extension Iam {
             self.generatedTime = generatedTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.content = dictionary["Content"] as? Data
+            self.reportFormat = dictionary["ReportFormat"] as? String
+            self.generatedTime = dictionary["GeneratedTime"] as? Date
+        }
     }
 
     public struct Group: AWSShape {
@@ -3330,6 +4443,18 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
+            self.groupId = groupId
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+        }
     }
 
     public struct ListSigningCertificatesResponse: AWSShape {
@@ -3350,6 +4475,12 @@ extension Iam {
             self.certificates = certificates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let certificates = dictionary["Certificates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Certificates") }
+            self.certificates = try certificates.map({ try SigningCertificate(dictionary: $0) })
+        }
     }
 
     public struct DetachUserPolicyRequest: AWSShape {
@@ -3367,6 +4498,12 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+        }
     }
 
     public struct GetRolePolicyRequest: AWSShape {
@@ -3384,6 +4521,12 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ListAttachedUserPoliciesRequest: AWSShape {
@@ -3407,6 +4550,13 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.marker = dictionary["Marker"] as? String
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct PolicyGroup: AWSShape {
@@ -3424,6 +4574,10 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.groupId = dictionary["GroupId"] as? String
+            self.groupName = dictionary["GroupName"] as? String
+        }
     }
 
     public struct CreateAccessKeyResponse: AWSShape {
@@ -3438,6 +4592,10 @@ extension Iam {
             self.accessKey = accessKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accessKey = dictionary["AccessKey"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccessKey") }
+            self.accessKey = try Iam.AccessKey(dictionary: accessKey)
+        }
     }
 
     public struct CreateInstanceProfileResponse: AWSShape {
@@ -3452,6 +4610,10 @@ extension Iam {
             self.instanceProfile = instanceProfile
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfile = dictionary["InstanceProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceProfile") }
+            self.instanceProfile = try Iam.InstanceProfile(dictionary: instanceProfile)
+        }
     }
 
     public struct CreateAccessKeyRequest: AWSShape {
@@ -3466,6 +4628,9 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct GetAccessKeyLastUsedResponse: AWSShape {
@@ -3483,6 +4648,10 @@ extension Iam {
             self.userName = userName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accessKeyLastUsed = dictionary["AccessKeyLastUsed"] as? [String: Any] { self.accessKeyLastUsed = try Iam.AccessKeyLastUsed(dictionary: accessKeyLastUsed) }
+            self.userName = dictionary["UserName"] as? String
+        }
     }
 
     public struct GetPolicyRequest: AWSShape {
@@ -3497,6 +4666,10 @@ extension Iam {
             self.policyArn = policyArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+        }
     }
 
     public struct GetSSHPublicKeyRequest: AWSShape {
@@ -3517,6 +4690,14 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let encoding = dictionary["Encoding"] as? String else { throw InitializableError.missingRequiredParam("Encoding") }
+            self.encoding = encoding
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
     }
 
     public struct CreateOpenIDConnectProviderResponse: AWSShape {
@@ -3531,6 +4712,9 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String
+        }
     }
 
     public struct ListRolePoliciesResponse: AWSShape {
@@ -3551,6 +4735,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct UploadSigningCertificateResponse: AWSShape {
@@ -3565,6 +4755,10 @@ extension Iam {
             self.certificate = certificate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let certificate = dictionary["Certificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Certificate") }
+            self.certificate = try Iam.SigningCertificate(dictionary: certificate)
+        }
     }
 
     public struct GetPolicyResponse: AWSShape {
@@ -3579,6 +4773,9 @@ extension Iam {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Iam.Policy(dictionary: policy) }
+        }
     }
 
     public struct RemoveUserFromGroupRequest: AWSShape {
@@ -3596,6 +4793,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct ServerCertificate: AWSShape {
@@ -3616,6 +4819,13 @@ extension Iam {
             self.certificateBody = certificateBody
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateChain = dictionary["CertificateChain"] as? String
+            guard let serverCertificateMetadata = dictionary["ServerCertificateMetadata"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ServerCertificateMetadata") }
+            self.serverCertificateMetadata = try Iam.ServerCertificateMetadata(dictionary: serverCertificateMetadata)
+            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
+            self.certificateBody = certificateBody
+        }
     }
 
     public struct ListSigningCertificatesRequest: AWSShape {
@@ -3636,6 +4846,11 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.userName = dictionary["UserName"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct AttachedPolicy: AWSShape {
@@ -3652,6 +4867,10 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyArn = dictionary["PolicyArn"] as? String
+            self.policyName = dictionary["PolicyName"] as? String
+        }
     }
 
     public struct Role: AWSShape {
@@ -3681,6 +4900,19 @@ extension Iam {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let createDate = dictionary["CreateDate"] as? Date else { throw InitializableError.missingRequiredParam("CreateDate") }
+            self.createDate = createDate
+            guard let roleId = dictionary["RoleId"] as? String else { throw InitializableError.missingRequiredParam("RoleId") }
+            self.roleId = roleId
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            self.assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+        }
     }
 
     public struct ListAttachedGroupPoliciesRequest: AWSShape {
@@ -3704,6 +4936,13 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            self.marker = dictionary["Marker"] as? String
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct ListServerCertificatesResponse: AWSShape {
@@ -3724,6 +4963,12 @@ extension Iam {
             self.serverCertificateMetadataList = serverCertificateMetadataList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let serverCertificateMetadataList = dictionary["ServerCertificateMetadataList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ServerCertificateMetadataList") }
+            self.serverCertificateMetadataList = try serverCertificateMetadataList.map({ try ServerCertificateMetadata(dictionary: $0) })
+        }
     }
 
     public struct ListRolesRequest: AWSShape {
@@ -3744,6 +4989,11 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct DeletePolicyRequest: AWSShape {
@@ -3758,6 +5008,10 @@ extension Iam {
             self.policyArn = policyArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+        }
     }
 
     public struct DeleteGroupPolicyRequest: AWSShape {
@@ -3775,6 +5029,12 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ResyncMFADeviceRequest: AWSShape {
@@ -3798,6 +5058,16 @@ extension Iam {
             self.authenticationCode2 = authenticationCode2
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let authenticationCode1 = dictionary["AuthenticationCode1"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode1") }
+            self.authenticationCode1 = authenticationCode1
+            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
+            self.serialNumber = serialNumber
+            guard let authenticationCode2 = dictionary["AuthenticationCode2"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode2") }
+            self.authenticationCode2 = authenticationCode2
+        }
     }
 
     public struct ListInstanceProfilesForRoleResponse: AWSShape {
@@ -3818,6 +5088,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let instanceProfiles = dictionary["InstanceProfiles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InstanceProfiles") }
+            self.instanceProfiles = try instanceProfiles.map({ try InstanceProfile(dictionary: $0) })
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct DeleteSAMLProviderRequest: AWSShape {
@@ -3832,6 +5108,10 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sAMLProviderArn = dictionary["SAMLProviderArn"] as? String else { throw InitializableError.missingRequiredParam("SAMLProviderArn") }
+            self.sAMLProviderArn = sAMLProviderArn
+        }
     }
 
     public struct PolicyRole: AWSShape {
@@ -3849,6 +5129,10 @@ extension Iam {
             self.roleName = roleName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.roleId = dictionary["RoleId"] as? String
+            self.roleName = dictionary["RoleName"] as? String
+        }
     }
 
     public struct GetContextKeysForCustomPolicyRequest: AWSShape {
@@ -3863,6 +5147,10 @@ extension Iam {
             self.policyInputList = policyInputList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyInputList = dictionary["PolicyInputList"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyInputList") }
+            self.policyInputList = policyInputList
+        }
     }
 
     public struct ListUsersRequest: AWSShape {
@@ -3883,6 +5171,11 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
     }
 
     public struct OrganizationsDecisionDetail: AWSShape {
@@ -3897,6 +5190,9 @@ extension Iam {
             self.allowedByOrganizations = allowedByOrganizations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.allowedByOrganizations = dictionary["AllowedByOrganizations"] as? Bool
+        }
     }
 
     public struct GetContextKeysForPrincipalPolicyRequest: AWSShape {
@@ -3914,6 +5210,13 @@ extension Iam {
             self.policySourceArn = policySourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policyInputList = dictionary["PolicyInputList"] as? [String] {
+                self.policyInputList = policyInputList
+            }
+            guard let policySourceArn = dictionary["PolicySourceArn"] as? String else { throw InitializableError.missingRequiredParam("PolicySourceArn") }
+            self.policySourceArn = policySourceArn
+        }
     }
 
     public struct ListGroupPoliciesRequest: AWSShape {
@@ -3934,6 +5237,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct DetachGroupPolicyRequest: AWSShape {
@@ -3951,6 +5260,12 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
+            self.policyArn = policyArn
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
     public struct ListVirtualMFADevicesResponse: AWSShape {
@@ -3971,6 +5286,12 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let virtualMFADevices = dictionary["VirtualMFADevices"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("VirtualMFADevices") }
+            self.virtualMFADevices = try virtualMFADevices.map({ try VirtualMFADevice(dictionary: $0) })
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct GetInstanceProfileRequest: AWSShape {
@@ -3985,6 +5306,10 @@ extension Iam {
             self.instanceProfileName = instanceProfileName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
+            self.instanceProfileName = instanceProfileName
+        }
     }
 
     public struct ListRolesResponse: AWSShape {
@@ -4005,6 +5330,12 @@ extension Iam {
             self.roles = roles
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let roles = dictionary["Roles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Roles") }
+            self.roles = try roles.map({ try Role(dictionary: $0) })
+        }
     }
 
     public struct DeleteUserPolicyRequest: AWSShape {
@@ -4022,6 +5353,12 @@ extension Iam {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct ResetServiceSpecificCredentialResponse: AWSShape {
@@ -4036,6 +5373,9 @@ extension Iam {
             self.serviceSpecificCredential = serviceSpecificCredential
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceSpecificCredential = dictionary["ServiceSpecificCredential"] as? [String: Any] { self.serviceSpecificCredential = try Iam.ServiceSpecificCredential(dictionary: serviceSpecificCredential) }
+        }
     }
 
     public struct UpdateLoginProfileRequest: AWSShape {
@@ -4056,6 +5396,12 @@ extension Iam {
             self.passwordResetRequired = passwordResetRequired
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.password = dictionary["Password"] as? String
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
+        }
     }
 
     public struct ListAccountAliasesResponse: AWSShape {
@@ -4076,6 +5422,12 @@ extension Iam {
             self.accountAliases = accountAliases
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+            guard let accountAliases = dictionary["AccountAliases"] as? [String] else { throw InitializableError.missingRequiredParam("AccountAliases") }
+            self.accountAliases = accountAliases
+        }
     }
 
     public struct ListSSHPublicKeysResponse: AWSShape {
@@ -4096,6 +5448,13 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let sSHPublicKeys = dictionary["SSHPublicKeys"] as? [[String: Any]] {
+                self.sSHPublicKeys = try sSHPublicKeys.map({ try SSHPublicKeyMetadata(dictionary: $0) })
+            }
+            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        }
     }
 
     public struct ListServiceSpecificCredentialsResponse: AWSShape {
@@ -4110,6 +5469,11 @@ extension Iam {
             self.serviceSpecificCredentials = serviceSpecificCredentials
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let serviceSpecificCredentials = dictionary["ServiceSpecificCredentials"] as? [[String: Any]] {
+                self.serviceSpecificCredentials = try serviceSpecificCredentials.map({ try ServiceSpecificCredentialMetadata(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListMFADevicesRequest: AWSShape {
@@ -4130,6 +5494,11 @@ extension Iam {
             self.maxItems = maxItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.userName = dictionary["UserName"] as? String
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
     }
 
     public struct DeleteGroupRequest: AWSShape {
@@ -4144,6 +5513,10 @@ extension Iam {
             self.groupName = groupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
+            self.groupName = groupName
+        }
     }
 
 }

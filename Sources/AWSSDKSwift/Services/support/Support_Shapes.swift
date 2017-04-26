@@ -44,6 +44,12 @@ extension Support {
             self.communications = communications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let communications = dictionary["communications"] as? [[String: Any]] {
+                self.communications = try communications.map({ try Communication(dictionary: $0) })
+            }
+        }
     }
 
     public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
@@ -61,6 +67,12 @@ extension Support {
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let estimatedMonthlySavings = dictionary["estimatedMonthlySavings"] as? Double else { throw InitializableError.missingRequiredParam("estimatedMonthlySavings") }
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            guard let estimatedPercentMonthlySavings = dictionary["estimatedPercentMonthlySavings"] as? Double else { throw InitializableError.missingRequiredParam("estimatedPercentMonthlySavings") }
+            self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
+        }
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
@@ -75,6 +87,10 @@ extension Support {
             self.summaries = summaries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let summaries = dictionary["summaries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("summaries") }
+            self.summaries = try summaries.map({ try TrustedAdvisorCheckSummary(dictionary: $0) })
+        }
     }
 
     public struct ResolveCaseResponse: AWSShape {
@@ -92,6 +108,10 @@ extension Support {
             self.finalCaseStatus = finalCaseStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.initialCaseStatus = dictionary["initialCaseStatus"] as? String
+            self.finalCaseStatus = dictionary["finalCaseStatus"] as? String
+        }
     }
 
     public struct DescribeCasesResponse: AWSShape {
@@ -109,6 +129,12 @@ extension Support {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cases = dictionary["cases"] as? [[String: Any]] {
+                self.cases = try cases.map({ try CaseDetails(dictionary: $0) })
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct CreateCaseResponse: AWSShape {
@@ -123,6 +149,9 @@ extension Support {
             self.caseId = caseId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.caseId = dictionary["caseId"] as? String
+        }
     }
 
     public struct DescribeCasesRequest: AWSShape {
@@ -161,6 +190,19 @@ extension Support {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.afterTime = dictionary["afterTime"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.includeCommunications = dictionary["includeCommunications"] as? Bool
+            self.displayId = dictionary["displayId"] as? String
+            self.includeResolvedCases = dictionary["includeResolvedCases"] as? Bool
+            self.language = dictionary["language"] as? String
+            if let caseIdList = dictionary["caseIdList"] as? [String] {
+                self.caseIdList = caseIdList
+            }
+            self.beforeTime = dictionary["beforeTime"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct DescribeCommunicationsRequest: AWSShape {
@@ -187,6 +229,14 @@ extension Support {
             self.beforeTime = beforeTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let caseId = dictionary["caseId"] as? String else { throw InitializableError.missingRequiredParam("caseId") }
+            self.caseId = caseId
+            self.afterTime = dictionary["afterTime"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.beforeTime = dictionary["beforeTime"] as? String
+        }
     }
 
     public struct AddCommunicationToCaseRequest: AWSShape {
@@ -210,6 +260,15 @@ extension Support {
             self.attachmentSetId = attachmentSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.caseId = dictionary["caseId"] as? String
+            if let ccEmailAddresses = dictionary["ccEmailAddresses"] as? [String] {
+                self.ccEmailAddresses = ccEmailAddresses
+            }
+            guard let communicationBody = dictionary["communicationBody"] as? String else { throw InitializableError.missingRequiredParam("communicationBody") }
+            self.communicationBody = communicationBody
+            self.attachmentSetId = dictionary["attachmentSetId"] as? String
+        }
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
@@ -224,6 +283,10 @@ extension Support {
             self.statuses = statuses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let statuses = dictionary["statuses"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("statuses") }
+            self.statuses = try statuses.map({ try TrustedAdvisorCheckRefreshStatus(dictionary: $0) })
+        }
     }
 
     public struct TrustedAdvisorCheckSummary: AWSShape {
@@ -252,6 +315,19 @@ extension Support {
             self.resourcesSummary = resourcesSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
+            self.checkId = checkId
+            guard let categorySpecificSummary = dictionary["categorySpecificSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("categorySpecificSummary") }
+            self.categorySpecificSummary = try Support.TrustedAdvisorCategorySpecificSummary(dictionary: categorySpecificSummary)
+            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
+            self.timestamp = timestamp
+            self.hasFlaggedResources = dictionary["hasFlaggedResources"] as? Bool
+            guard let resourcesSummary = dictionary["resourcesSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("resourcesSummary") }
+            self.resourcesSummary = try Support.TrustedAdvisorResourcesSummary(dictionary: resourcesSummary)
+        }
     }
 
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
@@ -269,6 +345,11 @@ extension Support {
             self.checkId = checkId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.language = dictionary["language"] as? String
+            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
+            self.checkId = checkId
+        }
     }
 
     public struct DescribeAttachmentRequest: AWSShape {
@@ -283,6 +364,10 @@ extension Support {
             self.attachmentId = attachmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attachmentId = dictionary["attachmentId"] as? String else { throw InitializableError.missingRequiredParam("attachmentId") }
+            self.attachmentId = attachmentId
+        }
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
@@ -297,6 +382,10 @@ extension Support {
             self.checkIds = checkIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let checkIds = dictionary["checkIds"] as? [String] else { throw InitializableError.missingRequiredParam("checkIds") }
+            self.checkIds = checkIds
+        }
     }
 
     public struct TrustedAdvisorCheckResult: AWSShape {
@@ -325,6 +414,20 @@ extension Support {
             self.categorySpecificSummary = categorySpecificSummary
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
+            self.checkId = checkId
+            guard let flaggedResources = dictionary["flaggedResources"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("flaggedResources") }
+            self.flaggedResources = try flaggedResources.map({ try TrustedAdvisorResourceDetail(dictionary: $0) })
+            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
+            self.timestamp = timestamp
+            guard let resourcesSummary = dictionary["resourcesSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("resourcesSummary") }
+            self.resourcesSummary = try Support.TrustedAdvisorResourcesSummary(dictionary: resourcesSummary)
+            guard let categorySpecificSummary = dictionary["categorySpecificSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("categorySpecificSummary") }
+            self.categorySpecificSummary = try Support.TrustedAdvisorCategorySpecificSummary(dictionary: categorySpecificSummary)
+        }
     }
 
     public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
@@ -339,6 +442,10 @@ extension Support {
             self.checks = checks
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let checks = dictionary["checks"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("checks") }
+            self.checks = try checks.map({ try TrustedAdvisorCheckDescription(dictionary: $0) })
+        }
     }
 
     public struct DescribeAttachmentResponse: AWSShape {
@@ -353,6 +460,9 @@ extension Support {
             self.attachment = attachment
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attachment = dictionary["attachment"] as? [String: Any] { self.attachment = try Support.Attachment(dictionary: attachment) }
+        }
     }
 
     public struct Service: AWSShape {
@@ -373,6 +483,13 @@ extension Support {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let categories = dictionary["categories"] as? [[String: Any]] {
+                self.categories = try categories.map({ try Category(dictionary: $0) })
+            }
+            self.name = dictionary["name"] as? String
+            self.code = dictionary["code"] as? String
+        }
     }
 
     public struct TrustedAdvisorResourcesSummary: AWSShape {
@@ -396,6 +513,16 @@ extension Support {
             self.resourcesProcessed = resourcesProcessed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourcesFlagged = dictionary["resourcesFlagged"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesFlagged") }
+            self.resourcesFlagged = resourcesFlagged
+            guard let resourcesIgnored = dictionary["resourcesIgnored"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesIgnored") }
+            self.resourcesIgnored = resourcesIgnored
+            guard let resourcesSuppressed = dictionary["resourcesSuppressed"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesSuppressed") }
+            self.resourcesSuppressed = resourcesSuppressed
+            guard let resourcesProcessed = dictionary["resourcesProcessed"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesProcessed") }
+            self.resourcesProcessed = resourcesProcessed
+        }
     }
 
     public struct CaseDetails: AWSShape {
@@ -443,6 +570,22 @@ extension Support {
             self.subject = subject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.submittedBy = dictionary["submittedBy"] as? String
+            self.status = dictionary["status"] as? String
+            self.serviceCode = dictionary["serviceCode"] as? String
+            self.displayId = dictionary["displayId"] as? String
+            if let ccEmailAddresses = dictionary["ccEmailAddresses"] as? [String] {
+                self.ccEmailAddresses = ccEmailAddresses
+            }
+            self.severityCode = dictionary["severityCode"] as? String
+            self.timeCreated = dictionary["timeCreated"] as? String
+            self.language = dictionary["language"] as? String
+            self.categoryCode = dictionary["categoryCode"] as? String
+            self.caseId = dictionary["caseId"] as? String
+            if let recentCommunications = dictionary["recentCommunications"] as? [String: Any] { self.recentCommunications = try Support.RecentCaseCommunications(dictionary: recentCommunications) }
+            self.subject = dictionary["subject"] as? String
+        }
     }
 
     public struct DescribeServicesResponse: AWSShape {
@@ -457,6 +600,11 @@ extension Support {
             self.services = services
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let services = dictionary["services"] as? [[String: Any]] {
+                self.services = try services.map({ try Service(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddAttachmentsToSetRequest: AWSShape {
@@ -474,6 +622,11 @@ extension Support {
             self.attachmentSetId = attachmentSetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attachments = dictionary["attachments"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attachments") }
+            self.attachments = try attachments.map({ try Attachment(dictionary: $0) })
+            self.attachmentSetId = dictionary["attachmentSetId"] as? String
+        }
     }
 
     public struct ResolveCaseRequest: AWSShape {
@@ -488,6 +641,9 @@ extension Support {
             self.caseId = caseId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.caseId = dictionary["caseId"] as? String
+        }
     }
 
     public struct AddAttachmentsToSetResponse: AWSShape {
@@ -505,6 +661,10 @@ extension Support {
             self.expiryTime = expiryTime
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachmentSetId = dictionary["attachmentSetId"] as? String
+            self.expiryTime = dictionary["expiryTime"] as? String
+        }
     }
 
     public struct Category: AWSShape {
@@ -522,6 +682,10 @@ extension Support {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.code = dictionary["code"] as? String
+        }
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
@@ -536,6 +700,10 @@ extension Support {
             self.checkIds = checkIds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let checkIds = dictionary["checkIds"] as? [String] else { throw InitializableError.missingRequiredParam("checkIds") }
+            self.checkIds = checkIds
+        }
     }
 
     public struct DescribeSeverityLevelsRequest: AWSShape {
@@ -550,6 +718,9 @@ extension Support {
             self.language = language
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.language = dictionary["language"] as? String
+        }
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
@@ -564,6 +735,10 @@ extension Support {
             self.checkId = checkId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
+            self.checkId = checkId
+        }
     }
 
     public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
@@ -578,6 +753,9 @@ extension Support {
             self.costOptimizing = costOptimizing
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let costOptimizing = dictionary["costOptimizing"] as? [String: Any] { self.costOptimizing = try Support.TrustedAdvisorCostOptimizingSummary(dictionary: costOptimizing) }
+        }
     }
 
     public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
@@ -592,6 +770,9 @@ extension Support {
             self.result = result
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let result = dictionary["result"] as? [String: Any] { self.result = try Support.TrustedAdvisorCheckResult(dictionary: result) }
+        }
     }
 
     public struct DescribeSeverityLevelsResponse: AWSShape {
@@ -606,6 +787,11 @@ extension Support {
             self.severityLevels = severityLevels
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let severityLevels = dictionary["severityLevels"] as? [[String: Any]] {
+                self.severityLevels = try severityLevels.map({ try SeverityLevel(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeServicesRequest: AWSShape {
@@ -623,6 +809,12 @@ extension Support {
             self.serviceCodeList = serviceCodeList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.language = dictionary["language"] as? String
+            if let serviceCodeList = dictionary["serviceCodeList"] as? [String] {
+                self.serviceCodeList = serviceCodeList
+            }
+        }
     }
 
     public struct AddCommunicationToCaseResponse: AWSShape {
@@ -637,6 +829,9 @@ extension Support {
             self.result = result
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.result = dictionary["result"] as? Bool
+        }
     }
 
     public struct TrustedAdvisorCheckDescription: AWSShape {
@@ -663,6 +858,18 @@ extension Support {
             self.category = category
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metadata = dictionary["metadata"] as? [String] else { throw InitializableError.missingRequiredParam("metadata") }
+            self.metadata = metadata
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let description = dictionary["description"] as? String else { throw InitializableError.missingRequiredParam("description") }
+            self.description = description
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            self.category = category
+        }
     }
 
     public struct Attachment: AWSShape {
@@ -680,6 +887,10 @@ extension Support {
             self.data = data
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileName = dictionary["fileName"] as? String
+            self.data = dictionary["data"] as? Data
+        }
     }
 
     public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
@@ -694,6 +905,10 @@ extension Support {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("status") }
+            self.status = try Support.TrustedAdvisorCheckRefreshStatus(dictionary: status)
+        }
     }
 
     public struct TrustedAdvisorResourceDetail: AWSShape {
@@ -720,6 +935,16 @@ extension Support {
             self.region = region
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let metadata = dictionary["metadata"] as? [String] else { throw InitializableError.missingRequiredParam("metadata") }
+            self.metadata = metadata
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            self.isSuppressed = dictionary["isSuppressed"] as? Bool
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            self.region = dictionary["region"] as? String
+        }
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
@@ -734,6 +959,10 @@ extension Support {
             self.language = language
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let language = dictionary["language"] as? String else { throw InitializableError.missingRequiredParam("language") }
+            self.language = language
+        }
     }
 
     public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
@@ -754,6 +983,14 @@ extension Support {
             self.millisUntilNextRefreshable = millisUntilNextRefreshable
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
+            self.checkId = checkId
+            guard let millisUntilNextRefreshable = dictionary["millisUntilNextRefreshable"] as? Int64 else { throw InitializableError.missingRequiredParam("millisUntilNextRefreshable") }
+            self.millisUntilNextRefreshable = millisUntilNextRefreshable
+        }
     }
 
     public struct Communication: AWSShape {
@@ -780,6 +1017,15 @@ extension Support {
             self.timeCreated = timeCreated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.caseId = dictionary["caseId"] as? String
+            self.submittedBy = dictionary["submittedBy"] as? String
+            self.body = dictionary["body"] as? String
+            if let attachmentSet = dictionary["attachmentSet"] as? [[String: Any]] {
+                self.attachmentSet = try attachmentSet.map({ try AttachmentDetails(dictionary: $0) })
+            }
+            self.timeCreated = dictionary["timeCreated"] as? String
+        }
     }
 
     public struct SeverityLevel: AWSShape {
@@ -797,6 +1043,10 @@ extension Support {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.code = dictionary["code"] as? String
+        }
     }
 
     public struct AttachmentDetails: AWSShape {
@@ -814,6 +1064,10 @@ extension Support {
             self.attachmentId = attachmentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fileName = dictionary["fileName"] as? String
+            self.attachmentId = dictionary["attachmentId"] as? String
+        }
     }
 
     public struct RecentCaseCommunications: AWSShape {
@@ -831,6 +1085,12 @@ extension Support {
             self.communications = communications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let communications = dictionary["communications"] as? [[String: Any]] {
+                self.communications = try communications.map({ try Communication(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateCaseRequest: AWSShape {
@@ -869,6 +1129,21 @@ extension Support {
             self.subject = subject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.issueType = dictionary["issueType"] as? String
+            self.serviceCode = dictionary["serviceCode"] as? String
+            self.attachmentSetId = dictionary["attachmentSetId"] as? String
+            self.severityCode = dictionary["severityCode"] as? String
+            if let ccEmailAddresses = dictionary["ccEmailAddresses"] as? [String] {
+                self.ccEmailAddresses = ccEmailAddresses
+            }
+            self.categoryCode = dictionary["categoryCode"] as? String
+            self.language = dictionary["language"] as? String
+            guard let communicationBody = dictionary["communicationBody"] as? String else { throw InitializableError.missingRequiredParam("communicationBody") }
+            self.communicationBody = communicationBody
+            guard let subject = dictionary["subject"] as? String else { throw InitializableError.missingRequiredParam("subject") }
+            self.subject = subject
+        }
     }
 
 }

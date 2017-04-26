@@ -47,6 +47,11 @@ extension Rekognition {
             self.y = y
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.x = dictionary["X"] as? Float
+            self.type = dictionary["Type"] as? String
+            self.y = dictionary["Y"] as? Float
+        }
     }
 
     public struct SearchFacesByImageResponse: AWSShape {
@@ -67,6 +72,13 @@ extension Rekognition {
             self.searchedFaceBoundingBox = searchedFaceBoundingBox
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.searchedFaceConfidence = dictionary["SearchedFaceConfidence"] as? Float
+            if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
+                self.faceMatches = try faceMatches.map({ try FaceMatch(dictionary: $0) })
+            }
+            if let searchedFaceBoundingBox = dictionary["SearchedFaceBoundingBox"] as? [String: Any] { self.searchedFaceBoundingBox = try Rekognition.BoundingBox(dictionary: searchedFaceBoundingBox) }
+        }
     }
 
     public struct DeleteCollectionResponse: AWSShape {
@@ -81,6 +93,9 @@ extension Rekognition {
             self.statusCode = statusCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.statusCode = dictionary["StatusCode"] as? Int32
+        }
     }
 
     public struct ListCollectionsResponse: AWSShape {
@@ -98,6 +113,12 @@ extension Rekognition {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let collectionIds = dictionary["CollectionIds"] as? [String] {
+                self.collectionIds = collectionIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct Emotion: AWSShape {
@@ -115,6 +136,10 @@ extension Rekognition {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct DeleteFacesRequest: AWSShape {
@@ -132,6 +157,12 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let faceIds = dictionary["FaceIds"] as? [String] else { throw InitializableError.missingRequiredParam("FaceIds") }
+            self.faceIds = faceIds
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+        }
     }
 
     public struct DeleteFacesResponse: AWSShape {
@@ -146,6 +177,11 @@ extension Rekognition {
             self.deletedFaces = deletedFaces
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let deletedFaces = dictionary["DeletedFaces"] as? [String] {
+                self.deletedFaces = deletedFaces
+            }
+        }
     }
 
     public struct BoundingBox: AWSShape {
@@ -169,6 +205,12 @@ extension Rekognition {
             self.width = width
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.height = dictionary["Height"] as? Float
+            self.top = dictionary["Top"] as? Float
+            self.left = dictionary["Left"] as? Float
+            self.width = dictionary["Width"] as? Float
+        }
     }
 
     public struct Pose: AWSShape {
@@ -189,6 +231,11 @@ extension Rekognition {
             self.pitch = pitch
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.yaw = dictionary["Yaw"] as? Float
+            self.roll = dictionary["Roll"] as? Float
+            self.pitch = dictionary["Pitch"] as? Float
+        }
     }
 
     public struct ComparedFace: AWSShape {
@@ -205,6 +252,10 @@ extension Rekognition {
             self.boundingBox = boundingBox
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+        }
     }
 
     public struct SearchFacesByImageRequest: AWSShape {
@@ -227,6 +278,14 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Rekognition.Image(dictionary: image)
+            self.faceMatchThreshold = dictionary["FaceMatchThreshold"] as? Float
+            self.maxFaces = dictionary["MaxFaces"] as? Int32
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+        }
     }
 
     public struct FaceMatch: AWSShape {
@@ -243,6 +302,10 @@ extension Rekognition {
             self.similarity = similarity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) }
+            self.similarity = dictionary["Similarity"] as? Float
+        }
     }
 
     public struct Gender: AWSShape {
@@ -260,6 +323,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? String
+        }
     }
 
     public struct Smile: AWSShape {
@@ -277,6 +344,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct S3Object: AWSShape {
@@ -297,6 +368,11 @@ extension Rekognition {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.name = dictionary["Name"] as? String
+            self.version = dictionary["Version"] as? String
+        }
     }
 
     public struct DetectFacesResponse: AWSShape {
@@ -314,6 +390,12 @@ extension Rekognition {
             self.faceDetails = faceDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.orientationCorrection = dictionary["OrientationCorrection"] as? String
+            if let faceDetails = dictionary["FaceDetails"] as? [[String: Any]] {
+                self.faceDetails = try faceDetails.map({ try FaceDetail(dictionary: $0) })
+            }
+        }
     }
 
     public struct IndexFacesResponse: AWSShape {
@@ -331,6 +413,12 @@ extension Rekognition {
             self.faceRecords = faceRecords
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.orientationCorrection = dictionary["OrientationCorrection"] as? String
+            if let faceRecords = dictionary["FaceRecords"] as? [[String: Any]] {
+                self.faceRecords = try faceRecords.map({ try FaceRecord(dictionary: $0) })
+            }
+        }
     }
 
     public struct Label: AWSShape {
@@ -348,6 +436,10 @@ extension Rekognition {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct FaceDetail: AWSShape {
@@ -404,6 +496,27 @@ extension Rekognition {
             self.emotions = emotions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let sunglasses = dictionary["Sunglasses"] as? [String: Any] { self.sunglasses = try Rekognition.Sunglasses(dictionary: sunglasses) }
+            if let gender = dictionary["Gender"] as? [String: Any] { self.gender = try Rekognition.Gender(dictionary: gender) }
+            if let eyesOpen = dictionary["EyesOpen"] as? [String: Any] { self.eyesOpen = try Rekognition.EyeOpen(dictionary: eyesOpen) }
+            if let smile = dictionary["Smile"] as? [String: Any] { self.smile = try Rekognition.Smile(dictionary: smile) }
+            if let mouthOpen = dictionary["MouthOpen"] as? [String: Any] { self.mouthOpen = try Rekognition.MouthOpen(dictionary: mouthOpen) }
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+            if let pose = dictionary["Pose"] as? [String: Any] { self.pose = try Rekognition.Pose(dictionary: pose) }
+            if let ageRange = dictionary["AgeRange"] as? [String: Any] { self.ageRange = try Rekognition.AgeRange(dictionary: ageRange) }
+            if let eyeglasses = dictionary["Eyeglasses"] as? [String: Any] { self.eyeglasses = try Rekognition.Eyeglasses(dictionary: eyeglasses) }
+            if let landmarks = dictionary["Landmarks"] as? [[String: Any]] {
+                self.landmarks = try landmarks.map({ try Landmark(dictionary: $0) })
+            }
+            if let beard = dictionary["Beard"] as? [String: Any] { self.beard = try Rekognition.Beard(dictionary: beard) }
+            if let quality = dictionary["Quality"] as? [String: Any] { self.quality = try Rekognition.ImageQuality(dictionary: quality) }
+            self.confidence = dictionary["Confidence"] as? Float
+            if let mustache = dictionary["Mustache"] as? [String: Any] { self.mustache = try Rekognition.Mustache(dictionary: mustache) }
+            if let emotions = dictionary["Emotions"] as? [[String: Any]] {
+                self.emotions = try emotions.map({ try Emotion(dictionary: $0) })
+            }
+        }
     }
 
     public struct CompareFacesMatch: AWSShape {
@@ -421,6 +534,10 @@ extension Rekognition {
             self.similarity = similarity
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.ComparedFace(dictionary: face) }
+            self.similarity = dictionary["Similarity"] as? Float
+        }
     }
 
     public struct SearchFacesResponse: AWSShape {
@@ -438,6 +555,12 @@ extension Rekognition {
             self.searchedFaceId = searchedFaceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
+                self.faceMatches = try faceMatches.map({ try FaceMatch(dictionary: $0) })
+            }
+            self.searchedFaceId = dictionary["SearchedFaceId"] as? String
+        }
     }
 
     public struct SearchFacesRequest: AWSShape {
@@ -461,6 +584,14 @@ extension Rekognition {
             self.faceId = faceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.faceMatchThreshold = dictionary["FaceMatchThreshold"] as? Float
+            self.maxFaces = dictionary["MaxFaces"] as? Int32
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+            guard let faceId = dictionary["FaceId"] as? String else { throw InitializableError.missingRequiredParam("FaceId") }
+            self.faceId = faceId
+        }
     }
 
     public struct Mustache: AWSShape {
@@ -478,6 +609,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct ListCollectionsRequest: AWSShape {
@@ -495,6 +630,10 @@ extension Rekognition {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct EyeOpen: AWSShape {
@@ -512,6 +651,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct DetectLabelsRequest: AWSShape {
@@ -532,6 +675,12 @@ extension Rekognition {
             self.minConfidence = minConfidence
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Rekognition.Image(dictionary: image)
+            self.maxLabels = dictionary["MaxLabels"] as? Int32
+            self.minConfidence = dictionary["MinConfidence"] as? Float
+        }
     }
 
     public struct CreateCollectionResponse: AWSShape {
@@ -549,6 +698,10 @@ extension Rekognition {
             self.statusCode = statusCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.collectionArn = dictionary["CollectionArn"] as? String
+            self.statusCode = dictionary["StatusCode"] as? Int32
+        }
     }
 
     public struct DetectFacesRequest: AWSShape {
@@ -566,6 +719,13 @@ extension Rekognition {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Rekognition.Image(dictionary: image)
+            if let attributes = dictionary["Attributes"] as? [String] {
+                self.attributes = attributes
+            }
+        }
     }
 
     public struct FaceRecord: AWSShape {
@@ -581,6 +741,10 @@ extension Rekognition {
             self.faceDetail = faceDetail
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) }
+            if let faceDetail = dictionary["FaceDetail"] as? [String: Any] { self.faceDetail = try Rekognition.FaceDetail(dictionary: faceDetail) }
+        }
     }
 
     public struct Beard: AWSShape {
@@ -598,6 +762,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct Face: AWSShape {
@@ -623,6 +791,13 @@ extension Rekognition {
             self.imageId = imageId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+            self.externalImageId = dictionary["ExternalImageId"] as? String
+            self.confidence = dictionary["Confidence"] as? Float
+            self.faceId = dictionary["FaceId"] as? String
+            self.imageId = dictionary["ImageId"] as? String
+        }
     }
 
     public struct CompareFacesRequest: AWSShape {
@@ -643,6 +818,13 @@ extension Rekognition {
             self.similarityThreshold = similarityThreshold
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sourceImage = dictionary["SourceImage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SourceImage") }
+            self.sourceImage = try Rekognition.Image(dictionary: sourceImage)
+            guard let targetImage = dictionary["TargetImage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetImage") }
+            self.targetImage = try Rekognition.Image(dictionary: targetImage)
+            self.similarityThreshold = dictionary["SimilarityThreshold"] as? Float
+        }
     }
 
     public struct Sunglasses: AWSShape {
@@ -660,6 +842,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct MouthOpen: AWSShape {
@@ -677,6 +863,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct Image: AWSShape {
@@ -694,6 +884,10 @@ extension Rekognition {
             self.s3Object = s3Object
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bytes = dictionary["Bytes"] as? Data
+            if let s3Object = dictionary["S3Object"] as? [String: Any] { self.s3Object = try Rekognition.S3Object(dictionary: s3Object) }
+        }
     }
 
     public struct CompareFacesResponse: AWSShape {
@@ -711,6 +905,12 @@ extension Rekognition {
             self.sourceImageFace = sourceImageFace
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
+                self.faceMatches = try faceMatches.map({ try CompareFacesMatch(dictionary: $0) })
+            }
+            if let sourceImageFace = dictionary["SourceImageFace"] as? [String: Any] { self.sourceImageFace = try Rekognition.ComparedSourceImageFace(dictionary: sourceImageFace) }
+        }
     }
 
     public struct AgeRange: AWSShape {
@@ -728,6 +928,10 @@ extension Rekognition {
             self.low = low
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.high = dictionary["High"] as? Int32
+            self.low = dictionary["Low"] as? Int32
+        }
     }
 
     public struct Eyeglasses: AWSShape {
@@ -745,6 +949,10 @@ extension Rekognition {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            self.value = dictionary["Value"] as? Bool
+        }
     }
 
     public struct DeleteCollectionRequest: AWSShape {
@@ -759,6 +967,10 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+        }
     }
 
     public struct CreateCollectionRequest: AWSShape {
@@ -773,6 +985,10 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+        }
     }
 
     public struct ListFacesRequest: AWSShape {
@@ -793,6 +1009,12 @@ extension Rekognition {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ImageQuality: AWSShape {
@@ -810,6 +1032,10 @@ extension Rekognition {
             self.brightness = brightness
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sharpness = dictionary["Sharpness"] as? Float
+            self.brightness = dictionary["Brightness"] as? Float
+        }
     }
 
     public struct DetectLabelsResponse: AWSShape {
@@ -827,6 +1053,12 @@ extension Rekognition {
             self.labels = labels
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.orientationCorrection = dictionary["OrientationCorrection"] as? String
+            if let labels = dictionary["Labels"] as? [[String: Any]] {
+                self.labels = try labels.map({ try Label(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListFacesResponse: AWSShape {
@@ -844,6 +1076,12 @@ extension Rekognition {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let faces = dictionary["Faces"] as? [[String: Any]] {
+                self.faces = try faces.map({ try Face(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct IndexFacesRequest: AWSShape {
@@ -866,6 +1104,16 @@ extension Rekognition {
             self.detectionAttributes = detectionAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
+            self.image = try Rekognition.Image(dictionary: image)
+            self.externalImageId = dictionary["ExternalImageId"] as? String
+            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
+            self.collectionId = collectionId
+            if let detectionAttributes = dictionary["DetectionAttributes"] as? [String] {
+                self.detectionAttributes = detectionAttributes
+            }
+        }
     }
 
     public struct ComparedSourceImageFace: AWSShape {
@@ -882,6 +1130,10 @@ extension Rekognition {
             self.boundingBox = boundingBox
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.confidence = dictionary["Confidence"] as? Float
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+        }
     }
 
 }

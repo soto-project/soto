@@ -40,6 +40,9 @@ extension Elasticache {
             self.engineDefaults = engineDefaults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Elasticache.EngineDefaults(dictionary: engineDefaults) }
+        }
     }
 
     public struct EventsMessage: AWSShape {
@@ -57,6 +60,12 @@ extension Elasticache {
             self.events = events
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let events = dictionary["Events"] as? [[String: Any]] {
+                self.events = try events.map({ try Event(dictionary: $0) })
+            }
+        }
     }
 
     public struct ReplicationGroup: AWSShape {
@@ -101,6 +110,23 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Elasticache.ReplicationGroupPendingModifiedValues(dictionary: pendingModifiedValues) }
+            self.status = dictionary["Status"] as? String
+            if let configurationEndpoint = dictionary["ConfigurationEndpoint"] as? [String: Any] { self.configurationEndpoint = try Elasticache.Endpoint(dictionary: configurationEndpoint) }
+            self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+            if let nodeGroups = dictionary["NodeGroups"] as? [[String: Any]] {
+                self.nodeGroups = try nodeGroups.map({ try NodeGroup(dictionary: $0) })
+            }
+            self.automaticFailover = dictionary["AutomaticFailover"] as? String
+            if let memberClusters = dictionary["MemberClusters"] as? [String] {
+                self.memberClusters = memberClusters
+            }
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CacheSubnetGroupMessage: AWSShape {
@@ -118,6 +144,12 @@ extension Elasticache {
             self.cacheSubnetGroups = cacheSubnetGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let cacheSubnetGroups = dictionary["CacheSubnetGroups"] as? [[String: Any]] {
+                self.cacheSubnetGroups = try cacheSubnetGroups.map({ try CacheSubnetGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateCacheClusterResult: AWSShape {
@@ -131,6 +163,9 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) }
+        }
     }
 
     public struct Endpoint: AWSShape {
@@ -148,6 +183,10 @@ extension Elasticache {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.address = dictionary["Address"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct ParameterNameValue: AWSShape {
@@ -165,6 +204,10 @@ extension Elasticache {
             self.parameterValue = parameterValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterName = dictionary["ParameterName"] as? String
+            self.parameterValue = dictionary["ParameterValue"] as? String
+        }
     }
 
     public struct DeleteCacheSubnetGroupMessage: AWSShape {
@@ -179,6 +222,10 @@ extension Elasticache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+        }
     }
 
     public struct CacheClusterMessage: AWSShape {
@@ -196,6 +243,12 @@ extension Elasticache {
             self.cacheClusters = cacheClusters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let cacheClusters = dictionary["CacheClusters"] as? [[String: Any]] {
+                self.cacheClusters = try cacheClusters.map({ try CacheCluster(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeCacheParametersMessage: AWSShape {
@@ -219,6 +272,13 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.source = dictionary["Source"] as? String
+            self.marker = dictionary["Marker"] as? String
+            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
     }
 
     public struct ReservedCacheNode: AWSShape {
@@ -266,6 +326,22 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.cacheNodeCount = dictionary["CacheNodeCount"] as? Int32
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.fixedPrice = dictionary["FixedPrice"] as? Double
+            self.usagePrice = dictionary["UsagePrice"] as? Double
+            self.state = dictionary["State"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.reservedCacheNodeId = dictionary["ReservedCacheNodeId"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct Tag: AWSShape {
@@ -283,6 +359,10 @@ extension Elasticache {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct ResetCacheParameterGroupMessage: AWSShape {
@@ -303,6 +383,14 @@ extension Elasticache {
             self.resetAllParameters = resetAllParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
+            self.cacheParameterGroupName = cacheParameterGroupName
+            if let parameterNameValues = dictionary["ParameterNameValues"] as? [[String: Any]] {
+                self.parameterNameValues = try parameterNameValues.map({ try ParameterNameValue(dictionary: $0) })
+            }
+            self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
+        }
     }
 
     public struct CopySnapshotResult: AWSShape {
@@ -316,6 +404,9 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Elasticache.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
@@ -330,6 +421,10 @@ extension Elasticache {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+        }
     }
 
     public struct ReservedCacheNodesOffering: AWSShape {
@@ -365,6 +460,18 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.offeringType = dictionary["OfferingType"] as? String
+            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
+                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            }
+            self.usagePrice = dictionary["UsagePrice"] as? Double
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
+            self.fixedPrice = dictionary["FixedPrice"] as? Double
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct RevokeCacheSecurityGroupIngressMessage: AWSShape {
@@ -385,6 +492,14 @@ extension Elasticache {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupOwnerId") }
+            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            guard let eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupName") }
+            self.eC2SecurityGroupName = eC2SecurityGroupName
+        }
     }
 
     public struct RecurringCharge: AWSShape {
@@ -402,6 +517,10 @@ extension Elasticache {
             self.recurringChargeFrequency = recurringChargeFrequency
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.recurringChargeAmount = dictionary["RecurringChargeAmount"] as? Double
+            self.recurringChargeFrequency = dictionary["RecurringChargeFrequency"] as? String
+        }
     }
 
     public struct CreateSnapshotMessage: AWSShape {
@@ -422,6 +541,12 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+            guard let snapshotName = dictionary["SnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotName") }
+            self.snapshotName = snapshotName
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        }
     }
 
     public struct DescribeEventsMessage: AWSShape {
@@ -454,6 +579,15 @@ extension Elasticache {
             self.duration = duration
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startTime = dictionary["StartTime"] as? Date
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.sourceType = dictionary["SourceType"] as? String
+            self.endTime = dictionary["EndTime"] as? Date
+            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
+            self.duration = dictionary["Duration"] as? Int32
+        }
     }
 
     public struct CacheNode: AWSShape {
@@ -486,6 +620,15 @@ extension Elasticache {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceCacheNodeId = dictionary["SourceCacheNodeId"] as? String
+            self.customerAvailabilityZone = dictionary["CustomerAvailabilityZone"] as? String
+            self.cacheNodeId = dictionary["CacheNodeId"] as? String
+            self.cacheNodeStatus = dictionary["CacheNodeStatus"] as? String
+            self.parameterGroupStatus = dictionary["ParameterGroupStatus"] as? String
+            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? Date
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Elasticache.Endpoint(dictionary: endpoint) }
+        }
     }
 
     public struct CreateCacheClusterMessage: AWSShape {
@@ -566,6 +709,42 @@ extension Elasticache {
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.authToken = dictionary["AuthToken"] as? String
+            self.aZMode = dictionary["AZMode"] as? String
+            if let snapshotArns = dictionary["SnapshotArns"] as? [String] {
+                self.snapshotArns = snapshotArns
+            }
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String] {
+                self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            }
+            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            if let preferredAvailabilityZones = dictionary["PreferredAvailabilityZones"] as? [String] {
+                self.preferredAvailabilityZones = preferredAvailabilityZones
+            }
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.snapshotName = dictionary["SnapshotName"] as? String
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
+            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
+            self.cacheClusterId = cacheClusterId
+            self.port = dictionary["Port"] as? Int32
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+        }
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
@@ -583,6 +762,12 @@ extension Elasticache {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct DeleteReplicationGroupResult: AWSShape {
@@ -596,6 +781,9 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) }
+        }
     }
 
     public struct CacheParameterGroupsMessage: AWSShape {
@@ -613,6 +801,12 @@ extension Elasticache {
             self.cacheParameterGroups = cacheParameterGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let cacheParameterGroups = dictionary["CacheParameterGroups"] as? [[String: Any]] {
+                self.cacheParameterGroups = try cacheParameterGroups.map({ try CacheParameterGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct CacheEngineVersion: AWSShape {
@@ -639,6 +833,13 @@ extension Elasticache {
             self.cacheEngineVersionDescription = cacheEngineVersionDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheEngineDescription = dictionary["CacheEngineDescription"] as? String
+            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.cacheEngineVersionDescription = dictionary["CacheEngineVersionDescription"] as? String
+        }
     }
 
     public struct CacheParameterGroupDetails: AWSShape {
@@ -659,6 +860,15 @@ extension Elasticache {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [[String: Any]] {
+                self.cacheNodeTypeSpecificParameters = try cacheNodeTypeSpecificParameters.map({ try CacheNodeTypeSpecificParameter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeSnapshotsMessage: AWSShape {
@@ -691,6 +901,15 @@ extension Elasticache {
             self.snapshotName = snapshotName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.showNodeGroupConfig = dictionary["ShowNodeGroupConfig"] as? Bool
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.snapshotSource = dictionary["SnapshotSource"] as? String
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+            self.snapshotName = dictionary["SnapshotName"] as? String
+        }
     }
 
     public struct RevokeCacheSecurityGroupIngressResult: AWSShape {
@@ -704,6 +923,9 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) }
+        }
     }
 
     public struct EC2SecurityGroup: AWSShape {
@@ -724,6 +946,11 @@ extension Elasticache {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
+            self.status = dictionary["Status"] as? String
+            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+        }
     }
 
     public struct Subnet: AWSShape {
@@ -741,6 +968,10 @@ extension Elasticache {
             self.subnetAvailabilityZone = subnetAvailabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
+            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Elasticache.AvailabilityZone(dictionary: subnetAvailabilityZone) }
+        }
     }
 
     public struct Parameter: AWSShape {
@@ -779,6 +1010,17 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parameterValue = dictionary["ParameterValue"] as? String
+            self.allowedValues = dictionary["AllowedValues"] as? String
+            self.dataType = dictionary["DataType"] as? String
+            self.parameterName = dictionary["ParameterName"] as? String
+            self.source = dictionary["Source"] as? String
+            self.isModifiable = dictionary["IsModifiable"] as? Bool
+            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
+            self.changeType = dictionary["ChangeType"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CacheParameterGroupStatus: AWSShape {
@@ -799,6 +1041,13 @@ extension Elasticache {
             self.parameterApplyStatus = parameterApplyStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            if let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String] {
+                self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
+            }
+            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
+        }
     }
 
     public struct Event: AWSShape {
@@ -822,6 +1071,12 @@ extension Elasticache {
             self.date = date
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
+            self.message = dictionary["Message"] as? String
+            self.sourceType = dictionary["SourceType"] as? String
+            self.date = dictionary["Date"] as? Date
+        }
     }
 
     public struct DeleteCacheClusterResult: AWSShape {
@@ -835,6 +1090,9 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) }
+        }
     }
 
     public struct CacheNodeTypeSpecificValue: AWSShape {
@@ -852,6 +1110,10 @@ extension Elasticache {
             self.cacheNodeType = cacheNodeType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+        }
     }
 
     public struct CacheCluster: AWSShape {
@@ -925,6 +1187,36 @@ extension Elasticache {
             self.engine = engine
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Elasticache.PendingModifiedValues(dictionary: pendingModifiedValues) }
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? Date
+            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
+            self.cacheClusterStatus = dictionary["CacheClusterStatus"] as? String
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            if let cacheNodes = dictionary["CacheNodes"] as? [[String: Any]] {
+                self.cacheNodes = try cacheNodes.map({ try CacheNode(dictionary: $0) })
+            }
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            if let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] { self.notificationConfiguration = try Elasticache.NotificationConfiguration(dictionary: notificationConfiguration) }
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            if let configurationEndpoint = dictionary["ConfigurationEndpoint"] as? [String: Any] { self.configurationEndpoint = try Elasticache.Endpoint(dictionary: configurationEndpoint) }
+            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
+            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
+                self.securityGroups = try securityGroups.map({ try SecurityGroupMembership(dictionary: $0) })
+            }
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+            if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [String: Any] { self.cacheParameterGroup = try Elasticache.CacheParameterGroupStatus(dictionary: cacheParameterGroup) }
+            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [[String: Any]] {
+                self.cacheSecurityGroups = try cacheSecurityGroups.map({ try CacheSecurityGroupMembership(dictionary: $0) })
+            }
+            self.clientDownloadLandingPage = dictionary["ClientDownloadLandingPage"] as? String
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.engine = dictionary["Engine"] as? String
+        }
     }
 
     public struct CacheSecurityGroupMessage: AWSShape {
@@ -942,6 +1234,12 @@ extension Elasticache {
             self.cacheSecurityGroups = cacheSecurityGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [[String: Any]] {
+                self.cacheSecurityGroups = try cacheSecurityGroups.map({ try CacheSecurityGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct NodeGroupMember: AWSShape {
@@ -967,6 +1265,13 @@ extension Elasticache {
             self.cacheClusterId = cacheClusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let readEndpoint = dictionary["ReadEndpoint"] as? [String: Any] { self.readEndpoint = try Elasticache.Endpoint(dictionary: readEndpoint) }
+            self.currentRole = dictionary["CurrentRole"] as? String
+            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
+            self.cacheNodeId = dictionary["CacheNodeId"] as? String
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+        }
     }
 
     public struct PurchaseReservedCacheNodesOfferingMessage: AWSShape {
@@ -987,6 +1292,12 @@ extension Elasticache {
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.reservedCacheNodeId = dictionary["ReservedCacheNodeId"] as? String
+            self.cacheNodeCount = dictionary["CacheNodeCount"] as? Int32
+            guard let reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedCacheNodesOfferingId") }
+            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+        }
     }
 
     public struct DescribeSnapshotsListMessage: AWSShape {
@@ -1004,6 +1315,12 @@ extension Elasticache {
             self.snapshots = snapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
+                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct CacheSecurityGroupMembership: AWSShape {
@@ -1021,6 +1338,10 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.status = dictionary["Status"] as? String
+            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
+        }
     }
 
     public struct ModifyCacheParameterGroupMessage: AWSShape {
@@ -1038,6 +1359,12 @@ extension Elasticache {
             self.parameterNameValues = parameterNameValues
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
+            self.cacheParameterGroupName = cacheParameterGroupName
+            guard let parameterNameValues = dictionary["ParameterNameValues"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ParameterNameValues") }
+            self.parameterNameValues = try parameterNameValues.map({ try ParameterNameValue(dictionary: $0) })
+        }
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
@@ -1055,6 +1382,12 @@ extension Elasticache {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
+            self.resourceName = resourceName
+        }
     }
 
     public struct RebootCacheClusterResult: AWSShape {
@@ -1068,6 +1401,9 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) }
+        }
     }
 
     public struct ModifyCacheSubnetGroupMessage: AWSShape {
@@ -1088,6 +1424,14 @@ extension Elasticache {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            if let subnetIds = dictionary["SubnetIds"] as? [String] {
+                self.subnetIds = subnetIds
+            }
+            self.cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String
+        }
     }
 
     public struct ModifyCacheClusterResult: AWSShape {
@@ -1101,6 +1445,9 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) }
+        }
     }
 
     public struct ModifyCacheClusterMessage: AWSShape {
@@ -1163,6 +1510,34 @@ extension Elasticache {
             self.aZMode = aZMode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String] {
+                self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
+            }
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String] {
+                self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            }
+            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
+            self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            if let newAvailabilityZones = dictionary["NewAvailabilityZones"] as? [String] {
+                self.newAvailabilityZones = newAvailabilityZones
+            }
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
+            self.cacheClusterId = cacheClusterId
+            self.aZMode = dictionary["AZMode"] as? String
+        }
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
@@ -1183,6 +1558,12 @@ extension Elasticache {
             self.maxRecords = maxRecords
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupFamily") }
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+        }
     }
 
     public struct CopySnapshotMessage: AWSShape {
@@ -1203,6 +1584,13 @@ extension Elasticache {
             self.sourceSnapshotName = sourceSnapshotName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetSnapshotName = dictionary["TargetSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("TargetSnapshotName") }
+            self.targetSnapshotName = targetSnapshotName
+            self.targetBucket = dictionary["TargetBucket"] as? String
+            guard let sourceSnapshotName = dictionary["SourceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SourceSnapshotName") }
+            self.sourceSnapshotName = sourceSnapshotName
+        }
     }
 
     public struct ListAllowedNodeTypeModificationsMessage: AWSShape {
@@ -1220,6 +1608,10 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        }
     }
 
     public struct EngineDefaults: AWSShape {
@@ -1243,6 +1635,16 @@ extension Elasticache {
             self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [[String: Any]] {
+                self.cacheNodeTypeSpecificParameters = try cacheNodeTypeSpecificParameters.map({ try CacheNodeTypeSpecificParameter(dictionary: $0) })
+            }
+        }
     }
 
     public struct NotificationConfiguration: AWSShape {
@@ -1260,6 +1662,10 @@ extension Elasticache {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.topicStatus = dictionary["TopicStatus"] as? String
+            self.topicArn = dictionary["TopicArn"] as? String
+        }
     }
 
     public struct DescribeReservedCacheNodesOfferingsMessage: AWSShape {
@@ -1292,6 +1698,15 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.duration = dictionary["Duration"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct CreateCacheParameterGroupResult: AWSShape {
@@ -1305,6 +1720,9 @@ extension Elasticache {
             self.cacheParameterGroup = cacheParameterGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [String: Any] { self.cacheParameterGroup = try Elasticache.CacheParameterGroup(dictionary: cacheParameterGroup) }
+        }
     }
 
     public struct Snapshot: AWSShape {
@@ -1388,6 +1806,34 @@ extension Elasticache {
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.port = dictionary["Port"] as? Int32
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? Date
+            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
+            self.automaticFailover = dictionary["AutomaticFailover"] as? String
+            self.topicArn = dictionary["TopicArn"] as? String
+            self.snapshotStatus = dictionary["SnapshotStatus"] as? String
+            self.snapshotSource = dictionary["SnapshotSource"] as? String
+            self.snapshotName = dictionary["SnapshotName"] as? String
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+            self.numNodeGroups = dictionary["NumNodeGroups"] as? Int32
+            self.replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String
+            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            if let nodeSnapshots = dictionary["NodeSnapshots"] as? [[String: Any]] {
+                self.nodeSnapshots = try nodeSnapshots.map({ try NodeSnapshot(dictionary: $0) })
+            }
+            self.engine = dictionary["Engine"] as? String
+            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+        }
     }
 
     public struct DeleteCacheClusterMessage: AWSShape {
@@ -1405,6 +1851,11 @@ extension Elasticache {
             self.finalSnapshotIdentifier = finalSnapshotIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
+            self.cacheClusterId = cacheClusterId
+            self.finalSnapshotIdentifier = dictionary["FinalSnapshotIdentifier"] as? String
+        }
     }
 
     public struct AllowedNodeTypeModificationsMessage: AWSShape {
@@ -1418,6 +1869,11 @@ extension Elasticache {
             self.scaleUpModifications = scaleUpModifications
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let scaleUpModifications = dictionary["ScaleUpModifications"] as? [String] {
+                self.scaleUpModifications = scaleUpModifications
+            }
+        }
     }
 
     public struct DeleteSnapshotResult: AWSShape {
@@ -1431,6 +1887,9 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Elasticache.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct ReplicationGroupPendingModifiedValues: AWSShape {
@@ -1448,6 +1907,10 @@ extension Elasticache {
             self.automaticFailoverStatus = automaticFailoverStatus
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
+            self.automaticFailoverStatus = dictionary["AutomaticFailoverStatus"] as? String
+        }
     }
 
     public struct ReplicationGroupMessage: AWSShape {
@@ -1465,6 +1928,12 @@ extension Elasticache {
             self.replicationGroups = replicationGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let replicationGroups = dictionary["ReplicationGroups"] as? [[String: Any]] {
+                self.replicationGroups = try replicationGroups.map({ try ReplicationGroup(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeCacheSubnetGroupsMessage: AWSShape {
@@ -1485,6 +1954,11 @@ extension Elasticache {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct ReservedCacheNodesOfferingMessage: AWSShape {
@@ -1502,6 +1976,12 @@ extension Elasticache {
             self.reservedCacheNodesOfferings = reservedCacheNodesOfferings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let reservedCacheNodesOfferings = dictionary["ReservedCacheNodesOfferings"] as? [[String: Any]] {
+                self.reservedCacheNodesOfferings = try reservedCacheNodesOfferings.map({ try ReservedCacheNodesOffering(dictionary: $0) })
+            }
+        }
     }
 
     public struct NodeGroupConfiguration: AWSShape {
@@ -1525,6 +2005,14 @@ extension Elasticache {
             self.replicaCount = replicaCount
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.slots = dictionary["Slots"] as? String
+            if let replicaAvailabilityZones = dictionary["ReplicaAvailabilityZones"] as? [String] {
+                self.replicaAvailabilityZones = replicaAvailabilityZones
+            }
+            self.primaryAvailabilityZone = dictionary["PrimaryAvailabilityZone"] as? String
+            self.replicaCount = dictionary["ReplicaCount"] as? Int32
+        }
     }
 
     public struct CacheParameterGroupNameMessage: AWSShape {
@@ -1539,6 +2027,9 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+        }
     }
 
     public struct CreateSnapshotResult: AWSShape {
@@ -1552,6 +2043,9 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Elasticache.Snapshot(dictionary: snapshot) }
+        }
     }
 
     public struct CreateCacheSecurityGroupMessage: AWSShape {
@@ -1569,6 +2063,12 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct DescribeReservedCacheNodesMessage: AWSShape {
@@ -1604,6 +2104,16 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.reservedCacheNodeId = dictionary["ReservedCacheNodeId"] as? String
+            self.duration = dictionary["Duration"] as? String
+            self.offeringType = dictionary["OfferingType"] as? String
+            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
+            self.productDescription = dictionary["ProductDescription"] as? String
+        }
     }
 
     public struct DescribeCacheEngineVersionsMessage: AWSShape {
@@ -1633,6 +2143,14 @@ extension Elasticache {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
+            self.engine = dictionary["Engine"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.defaultOnly = dictionary["DefaultOnly"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct ModifyCacheSubnetGroupResult: AWSShape {
@@ -1646,6 +2164,9 @@ extension Elasticache {
             self.cacheSubnetGroup = cacheSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSubnetGroup = dictionary["CacheSubnetGroup"] as? [String: Any] { self.cacheSubnetGroup = try Elasticache.CacheSubnetGroup(dictionary: cacheSubnetGroup) }
+        }
     }
 
     public struct NodeSnapshot: AWSShape {
@@ -1678,6 +2199,15 @@ extension Elasticache {
             self.cacheSize = cacheSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [String: Any] { self.nodeGroupConfiguration = try Elasticache.NodeGroupConfiguration(dictionary: nodeGroupConfiguration) }
+            self.cacheNodeId = dictionary["CacheNodeId"] as? String
+            self.nodeGroupId = dictionary["NodeGroupId"] as? String
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? Date
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+            self.cacheSize = dictionary["CacheSize"] as? String
+        }
     }
 
     public struct CreateReplicationGroupMessage: AWSShape {
@@ -1767,6 +2297,48 @@ extension Elasticache {
             self.port = port
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotArns = dictionary["SnapshotArns"] as? [String] {
+                self.snapshotArns = snapshotArns
+            }
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String] {
+                self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            }
+            self.replicasPerNodeGroup = dictionary["ReplicasPerNodeGroup"] as? Int32
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [[String: Any]] {
+                self.nodeGroupConfiguration = try nodeGroupConfiguration.map({ try NodeGroupConfiguration(dictionary: $0) })
+            }
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
+            self.replicationGroupId = replicationGroupId
+            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.automaticFailoverEnabled = dictionary["AutomaticFailoverEnabled"] as? Bool
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+            if let preferredCacheClusterAZs = dictionary["PreferredCacheClusterAZs"] as? [String] {
+                self.preferredCacheClusterAZs = preferredCacheClusterAZs
+            }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.numCacheClusters = dictionary["NumCacheClusters"] as? Int32
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.snapshotName = dictionary["SnapshotName"] as? String
+            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
+            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            self.numNodeGroups = dictionary["NumNodeGroups"] as? Int32
+            guard let replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupDescription") }
+            self.replicationGroupDescription = replicationGroupDescription
+            self.engine = dictionary["Engine"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.authToken = dictionary["AuthToken"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
     }
 
     public struct CacheEngineVersionMessage: AWSShape {
@@ -1784,6 +2356,12 @@ extension Elasticache {
             self.cacheEngineVersions = cacheEngineVersions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let cacheEngineVersions = dictionary["CacheEngineVersions"] as? [[String: Any]] {
+                self.cacheEngineVersions = try cacheEngineVersions.map({ try CacheEngineVersion(dictionary: $0) })
+            }
+        }
     }
 
     public struct SecurityGroupMembership: AWSShape {
@@ -1801,6 +2379,10 @@ extension Elasticache {
             self.status = status
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.securityGroupId = dictionary["SecurityGroupId"] as? String
+            self.status = dictionary["Status"] as? String
+        }
     }
 
     public struct DescribeCacheClustersMessage: AWSShape {
@@ -1824,6 +2406,12 @@ extension Elasticache {
             self.cacheClusterId = cacheClusterId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.showCacheNodeInfo = dictionary["ShowCacheNodeInfo"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+        }
     }
 
     public struct CacheSubnetGroup: AWSShape {
@@ -1847,6 +2435,14 @@ extension Elasticache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
+                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            }
+            self.cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String
+            self.vpcId = dictionary["VpcId"] as? String
+            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+        }
     }
 
     public struct RebootCacheClusterMessage: AWSShape {
@@ -1864,6 +2460,12 @@ extension Elasticache {
             self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
+            self.cacheClusterId = cacheClusterId
+            guard let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String] else { throw InitializableError.missingRequiredParam("CacheNodeIdsToReboot") }
+            self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
+        }
     }
 
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
@@ -1884,6 +2486,14 @@ extension Elasticache {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupOwnerId") }
+            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+            guard let eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupName") }
+            self.eC2SecurityGroupName = eC2SecurityGroupName
+        }
     }
 
     public struct CacheSecurityGroup: AWSShape {
@@ -1907,6 +2517,14 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
+            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [[String: Any]] {
+                self.eC2SecurityGroups = try eC2SecurityGroups.map({ try EC2SecurityGroup(dictionary: $0) })
+            }
+            self.ownerId = dictionary["OwnerId"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -1921,6 +2539,9 @@ extension Elasticache {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct DeleteCacheParameterGroupMessage: AWSShape {
@@ -1935,6 +2556,10 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
+            self.cacheParameterGroupName = cacheParameterGroupName
+        }
     }
 
     public struct CreateCacheSecurityGroupResult: AWSShape {
@@ -1948,6 +2573,9 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) }
+        }
     }
 
     public struct CreateReplicationGroupResult: AWSShape {
@@ -1961,6 +2589,9 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) }
+        }
     }
 
     public struct AuthorizeCacheSecurityGroupIngressResult: AWSShape {
@@ -1974,6 +2605,9 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) }
+        }
     }
 
     public struct CacheParameterGroup: AWSShape {
@@ -1994,6 +2628,11 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateCacheParameterGroupMessage: AWSShape {
@@ -2014,6 +2653,14 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupFamily") }
+            self.cacheParameterGroupFamily = cacheParameterGroupFamily
+            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
+            self.cacheParameterGroupName = cacheParameterGroupName
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct NodeGroup: AWSShape {
@@ -2040,6 +2687,15 @@ extension Elasticache {
             self.primaryEndpoint = primaryEndpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let nodeGroupMembers = dictionary["NodeGroupMembers"] as? [[String: Any]] {
+                self.nodeGroupMembers = try nodeGroupMembers.map({ try NodeGroupMember(dictionary: $0) })
+            }
+            self.slots = dictionary["Slots"] as? String
+            self.status = dictionary["Status"] as? String
+            self.nodeGroupId = dictionary["NodeGroupId"] as? String
+            if let primaryEndpoint = dictionary["PrimaryEndpoint"] as? [String: Any] { self.primaryEndpoint = try Elasticache.Endpoint(dictionary: primaryEndpoint) }
+        }
     }
 
     public struct DeleteSnapshotMessage: AWSShape {
@@ -2054,6 +2710,10 @@ extension Elasticache {
             self.snapshotName = snapshotName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let snapshotName = dictionary["SnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotName") }
+            self.snapshotName = snapshotName
+        }
     }
 
     public struct TagListMessage: AWSShape {
@@ -2068,6 +2728,11 @@ extension Elasticache {
             self.tagList = tagList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tagList = dictionary["TagList"] as? [[String: Any]] {
+                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteReplicationGroupMessage: AWSShape {
@@ -2088,6 +2753,12 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.retainPrimaryCluster = dictionary["RetainPrimaryCluster"] as? Bool
+            self.finalSnapshotIdentifier = dictionary["FinalSnapshotIdentifier"] as? String
+            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
+            self.replicationGroupId = replicationGroupId
+        }
     }
 
     public struct ModifyReplicationGroupResult: AWSShape {
@@ -2101,6 +2772,9 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) }
+        }
     }
 
     public struct ReservedCacheNodeMessage: AWSShape {
@@ -2118,6 +2792,12 @@ extension Elasticache {
             self.reservedCacheNodes = reservedCacheNodes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let reservedCacheNodes = dictionary["ReservedCacheNodes"] as? [[String: Any]] {
+                self.reservedCacheNodes = try reservedCacheNodes.map({ try ReservedCacheNode(dictionary: $0) })
+            }
+        }
     }
 
     public struct DescribeReplicationGroupsMessage: AWSShape {
@@ -2138,6 +2818,11 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        }
     }
 
     public struct DeleteCacheSecurityGroupMessage: AWSShape {
@@ -2152,6 +2837,10 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+        }
     }
 
     public struct CreateCacheSubnetGroupMessage: AWSShape {
@@ -2172,6 +2861,14 @@ extension Elasticache {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
+            self.cacheSubnetGroupName = cacheSubnetGroupName
+            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = subnetIds
+            guard let cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupDescription") }
+            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
+        }
     }
 
     public struct PendingModifiedValues: AWSShape {
@@ -2195,6 +2892,14 @@ extension Elasticache {
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
+            if let cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String] {
+                self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
+            }
+        }
     }
 
     public struct ModifyReplicationGroupMessage: AWSShape {
@@ -2257,6 +2962,30 @@ extension Elasticache {
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String] {
+                self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            }
+            self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
+                self.securityGroupIds = securityGroupIds
+            }
+            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
+            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
+            self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.engineVersion = dictionary["EngineVersion"] as? String
+            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
+            self.replicationGroupId = replicationGroupId
+            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+            self.replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String
+            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.automaticFailoverEnabled = dictionary["AutomaticFailoverEnabled"] as? Bool
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+        }
     }
 
     public struct DescribeCacheSecurityGroupsMessage: AWSShape {
@@ -2277,6 +3006,11 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
+        }
     }
 
     public struct CacheNodeTypeSpecificParameter: AWSShape {
@@ -2315,6 +3049,19 @@ extension Elasticache {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheNodeTypeSpecificValues = dictionary["CacheNodeTypeSpecificValues"] as? [[String: Any]] {
+                self.cacheNodeTypeSpecificValues = try cacheNodeTypeSpecificValues.map({ try CacheNodeTypeSpecificValue(dictionary: $0) })
+            }
+            self.allowedValues = dictionary["AllowedValues"] as? String
+            self.dataType = dictionary["DataType"] as? String
+            self.parameterName = dictionary["ParameterName"] as? String
+            self.source = dictionary["Source"] as? String
+            self.isModifiable = dictionary["IsModifiable"] as? Bool
+            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
+            self.changeType = dictionary["ChangeType"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct PurchaseReservedCacheNodesOfferingResult: AWSShape {
@@ -2328,6 +3075,9 @@ extension Elasticache {
             self.reservedCacheNode = reservedCacheNode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let reservedCacheNode = dictionary["ReservedCacheNode"] as? [String: Any] { self.reservedCacheNode = try Elasticache.ReservedCacheNode(dictionary: reservedCacheNode) }
+        }
     }
 
     public struct DescribeCacheParameterGroupsMessage: AWSShape {
@@ -2348,6 +3098,11 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+        }
     }
 
     public struct CreateCacheSubnetGroupResult: AWSShape {
@@ -2361,6 +3116,9 @@ extension Elasticache {
             self.cacheSubnetGroup = cacheSubnetGroup
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSubnetGroup = dictionary["CacheSubnetGroup"] as? [String: Any] { self.cacheSubnetGroup = try Elasticache.CacheSubnetGroup(dictionary: cacheSubnetGroup) }
+        }
     }
 
 }

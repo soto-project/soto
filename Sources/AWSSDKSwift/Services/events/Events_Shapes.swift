@@ -44,6 +44,13 @@ extension Events {
             self.inputPathsMap = inputPathsMap
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let inputTemplate = dictionary["InputTemplate"] as? String else { throw InitializableError.missingRequiredParam("InputTemplate") }
+            self.inputTemplate = inputTemplate
+            if let inputPathsMap = dictionary["InputPathsMap"] as? [String: String] {
+                self.inputPathsMap = inputPathsMap
+            }
+        }
     }
 
     public struct PutTargetsResponse: AWSShape {
@@ -61,6 +68,12 @@ extension Events {
             self.failedEntries = failedEntries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
+            if let failedEntries = dictionary["FailedEntries"] as? [[String: Any]] {
+                self.failedEntries = try failedEntries.map({ try PutTargetsResultEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct Rule: AWSShape {
@@ -93,6 +106,15 @@ extension Events {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            self.state = dictionary["State"] as? String
+            self.name = dictionary["Name"] as? String
+            self.eventPattern = dictionary["EventPattern"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct Target: AWSShape {
@@ -131,6 +153,19 @@ extension Events {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let runCommandParameters = dictionary["RunCommandParameters"] as? [String: Any] { self.runCommandParameters = try Events.RunCommandParameters(dictionary: runCommandParameters) }
+            if let inputTransformer = dictionary["InputTransformer"] as? [String: Any] { self.inputTransformer = try Events.InputTransformer(dictionary: inputTransformer) }
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            self.input = dictionary["Input"] as? String
+            self.inputPath = dictionary["InputPath"] as? String
+            if let ecsParameters = dictionary["EcsParameters"] as? [String: Any] { self.ecsParameters = try Events.EcsParameters(dictionary: ecsParameters) }
+            self.roleArn = dictionary["RoleArn"] as? String
+            if let kinesisParameters = dictionary["KinesisParameters"] as? [String: Any] { self.kinesisParameters = try Events.KinesisParameters(dictionary: kinesisParameters) }
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct DisableRuleRequest: AWSShape {
@@ -145,6 +180,10 @@ extension Events {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct TestEventPatternRequest: AWSShape {
@@ -162,6 +201,12 @@ extension Events {
             self.eventPattern = eventPattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let event = dictionary["Event"] as? String else { throw InitializableError.missingRequiredParam("Event") }
+            self.event = event
+            guard let eventPattern = dictionary["EventPattern"] as? String else { throw InitializableError.missingRequiredParam("EventPattern") }
+            self.eventPattern = eventPattern
+        }
     }
 
     public struct RunCommandTarget: AWSShape {
@@ -179,6 +224,12 @@ extension Events {
             self.values = values
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = values
+        }
     }
 
     public struct ListRuleNamesByTargetRequest: AWSShape {
@@ -199,6 +250,12 @@ extension Events {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let targetArn = dictionary["TargetArn"] as? String else { throw InitializableError.missingRequiredParam("TargetArn") }
+            self.targetArn = targetArn
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct PutRuleRequest: AWSShape {
@@ -228,6 +285,15 @@ extension Events {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.eventPattern = dictionary["EventPattern"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct RunCommandParameters: AWSShape {
@@ -242,6 +308,10 @@ extension Events {
             self.runCommandTargets = runCommandTargets
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let runCommandTargets = dictionary["RunCommandTargets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RunCommandTargets") }
+            self.runCommandTargets = try runCommandTargets.map({ try RunCommandTarget(dictionary: $0) })
+        }
     }
 
     public struct ListTargetsByRuleResponse: AWSShape {
@@ -259,6 +329,12 @@ extension Events {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct DeleteRuleRequest: AWSShape {
@@ -273,6 +349,10 @@ extension Events {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct DescribeRuleResponse: AWSShape {
@@ -305,6 +385,15 @@ extension Events {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            self.state = dictionary["State"] as? String
+            self.name = dictionary["Name"] as? String
+            self.eventPattern = dictionary["EventPattern"] as? String
+            self.roleArn = dictionary["RoleArn"] as? String
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct PutEventsRequest: AWSShape {
@@ -319,6 +408,10 @@ extension Events {
             self.entries = entries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try entries.map({ try PutEventsRequestEntry(dictionary: $0) })
+        }
     }
 
     public struct RemoveTargetsResultEntry: AWSShape {
@@ -339,6 +432,11 @@ extension Events {
             self.targetId = targetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.targetId = dictionary["TargetId"] as? String
+        }
     }
 
     public struct PutEventsRequestEntry: AWSShape {
@@ -365,6 +463,15 @@ extension Events {
             self.resources = resources
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.detail = dictionary["Detail"] as? String
+            self.detailType = dictionary["DetailType"] as? String
+            self.source = dictionary["Source"] as? String
+            self.time = dictionary["Time"] as? Date
+            if let resources = dictionary["Resources"] as? [String] {
+                self.resources = resources
+            }
+        }
     }
 
     public struct TestEventPatternResponse: AWSShape {
@@ -379,6 +486,9 @@ extension Events {
             self.result = result
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.result = dictionary["Result"] as? Bool
+        }
     }
 
     public struct PutTargetsRequest: AWSShape {
@@ -396,6 +506,12 @@ extension Events {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
+            self.targets = try targets.map({ try Target(dictionary: $0) })
+            guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
+            self.rule = rule
+        }
     }
 
     public struct EnableRuleRequest: AWSShape {
@@ -410,6 +526,10 @@ extension Events {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct PutTargetsResultEntry: AWSShape {
@@ -430,6 +550,11 @@ extension Events {
             self.targetId = targetId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+            self.targetId = dictionary["TargetId"] as? String
+        }
     }
 
     public struct ListRulesResponse: AWSShape {
@@ -447,6 +572,12 @@ extension Events {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            }
+        }
     }
 
     public struct RemoveTargetsResponse: AWSShape {
@@ -464,6 +595,12 @@ extension Events {
             self.failedEntries = failedEntries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
+            if let failedEntries = dictionary["FailedEntries"] as? [[String: Any]] {
+                self.failedEntries = try failedEntries.map({ try RemoveTargetsResultEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct EcsParameters: AWSShape {
@@ -481,6 +618,11 @@ extension Events {
             self.taskDefinitionArn = taskDefinitionArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.taskCount = dictionary["TaskCount"] as? Int32
+            guard let taskDefinitionArn = dictionary["TaskDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("TaskDefinitionArn") }
+            self.taskDefinitionArn = taskDefinitionArn
+        }
     }
 
     public struct DescribeRuleRequest: AWSShape {
@@ -495,6 +637,10 @@ extension Events {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct RemoveTargetsRequest: AWSShape {
@@ -512,6 +658,12 @@ extension Events {
             self.rule = rule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ids = dictionary["Ids"] as? [String] else { throw InitializableError.missingRequiredParam("Ids") }
+            self.ids = ids
+            guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
+            self.rule = rule
+        }
     }
 
     public struct PutRuleResponse: AWSShape {
@@ -526,6 +678,9 @@ extension Events {
             self.ruleArn = ruleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ruleArn = dictionary["RuleArn"] as? String
+        }
     }
 
     public struct ListRulesRequest: AWSShape {
@@ -546,6 +701,11 @@ extension Events {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namePrefix = dictionary["NamePrefix"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct ListRuleNamesByTargetResponse: AWSShape {
@@ -563,6 +723,12 @@ extension Events {
             self.ruleNames = ruleNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let ruleNames = dictionary["RuleNames"] as? [String] {
+                self.ruleNames = ruleNames
+            }
+        }
     }
 
     public struct ListTargetsByRuleRequest: AWSShape {
@@ -583,6 +749,12 @@ extension Events {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
+            self.rule = rule
+            self.nextToken = dictionary["NextToken"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct PutEventsResultEntry: AWSShape {
@@ -603,6 +775,11 @@ extension Events {
             self.errorCode = errorCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.errorMessage = dictionary["ErrorMessage"] as? String
+            self.eventId = dictionary["EventId"] as? String
+            self.errorCode = dictionary["ErrorCode"] as? String
+        }
     }
 
     public struct PutEventsResponse: AWSShape {
@@ -620,6 +797,12 @@ extension Events {
             self.entries = entries
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
+            if let entries = dictionary["Entries"] as? [[String: Any]] {
+                self.entries = try entries.map({ try PutEventsResultEntry(dictionary: $0) })
+            }
+        }
     }
 
     public struct KinesisParameters: AWSShape {
@@ -634,6 +817,10 @@ extension Events {
             self.partitionKeyPath = partitionKeyPath
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let partitionKeyPath = dictionary["PartitionKeyPath"] as? String else { throw InitializableError.missingRequiredParam("PartitionKeyPath") }
+            self.partitionKeyPath = partitionKeyPath
+        }
     }
 
 }

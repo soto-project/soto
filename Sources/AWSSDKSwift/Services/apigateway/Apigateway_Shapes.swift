@@ -44,6 +44,10 @@ extension Apigateway {
             self.apiKey = apiKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let apiKey = dictionary["apiKey"] as? String else { throw InitializableError.missingRequiredParam("apiKey") }
+            self.apiKey = apiKey
+        }
     }
 
     public struct PutRestApiRequest: AWSShape {
@@ -76,6 +80,17 @@ extension Apigateway {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.mode = dictionary["mode"] as? String
+            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
+            self.body = body
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct DeleteDomainNameRequest: AWSShape {
@@ -93,6 +108,10 @@ extension Apigateway {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetDocumentationVersionRequest: AWSShape {
@@ -113,6 +132,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            self.documentationVersion = documentationVersion
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct GetUsagePlanKeyRequest: AWSShape {
@@ -133,6 +158,12 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            self.keyId = keyId
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+        }
     }
 
     public struct UpdateDocumentationVersionRequest: AWSShape {
@@ -156,6 +187,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            self.documentationVersion = documentationVersion
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateModelRequest: AWSShape {
@@ -185,6 +225,16 @@ extension Apigateway {
             self.schema = schema
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let contentType = dictionary["contentType"] as? String else { throw InitializableError.missingRequiredParam("contentType") }
+            self.contentType = contentType
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.schema = dictionary["schema"] as? String
+        }
     }
 
     public struct UpdateMethodResponseRequest: AWSShape {
@@ -214,6 +264,19 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct UpdateDeploymentRequest: AWSShape {
@@ -237,6 +300,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteMethodRequest: AWSShape {
@@ -260,6 +332,14 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct GetStageRequest: AWSShape {
@@ -280,6 +360,12 @@ extension Apigateway {
             self.stageName = stageName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+        }
     }
 
     public struct GetApiKeysRequest: AWSShape {
@@ -309,6 +395,13 @@ extension Apigateway {
             self.customerId = customerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.includeValues = dictionary["includeValues"] as? Bool
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            self.nameQuery = dictionary["nameQuery"] as? String
+            self.customerId = dictionary["customerId"] as? String
+        }
     }
 
     public struct BasePathMappings: AWSShape {
@@ -325,6 +418,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try BasePathMapping(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct GetUsageRequest: AWSShape {
@@ -360,6 +459,17 @@ extension Apigateway {
             self.endDate = endDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyId = dictionary["keyId"] as? String
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
+            self.startDate = startDate
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+            guard let endDate = dictionary["endDate"] as? String else { throw InitializableError.missingRequiredParam("endDate") }
+            self.endDate = endDate
+        }
     }
 
     public struct SdkTypes: AWSShape {
@@ -376,6 +486,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try SdkType(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct GetIntegrationRequest: AWSShape {
@@ -399,6 +515,14 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct RestApis: AWSShape {
@@ -415,6 +539,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try RestApi(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct GetDocumentationPartRequest: AWSShape {
@@ -435,6 +565,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationPartId = dictionary["documentationPartId"] as? String else { throw InitializableError.missingRequiredParam("documentationPartId") }
+            self.documentationPartId = documentationPartId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct GetDocumentationVersionsRequest: AWSShape {
@@ -461,6 +597,12 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct UpdateBasePathMappingRequest: AWSShape {
@@ -484,6 +626,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let basePath = dictionary["basePath"] as? String else { throw InitializableError.missingRequiredParam("basePath") }
+            self.basePath = basePath
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteClientCertificateRequest: AWSShape {
@@ -501,6 +652,10 @@ extension Apigateway {
             self.clientCertificateId = clientCertificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientCertificateId = dictionary["clientCertificateId"] as? String else { throw InitializableError.missingRequiredParam("clientCertificateId") }
+            self.clientCertificateId = clientCertificateId
+        }
     }
 
     public struct DeleteModelRequest: AWSShape {
@@ -521,6 +676,12 @@ extension Apigateway {
             self.modelName = modelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            self.modelName = modelName
+        }
     }
 
     public struct Resource: AWSShape {
@@ -547,6 +708,20 @@ extension Apigateway {
             self.resourceMethods = resourceMethods
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parentId = dictionary["parentId"] as? String
+            self.pathPart = dictionary["pathPart"] as? String
+            self.path = dictionary["path"] as? String
+            self.id = dictionary["id"] as? String
+            if let resourceMethods = dictionary["resourceMethods"] as? [String: Any] {
+                var resourceMethodsDict: [String: Method] = [:]
+                for (key, value) in resourceMethods {
+                    guard let methodDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    resourceMethodsDict[key] = try Method(dictionary: methodDict)
+                }
+                self.resourceMethods = resourceMethodsDict
+            }
+        }
     }
 
     public struct DeleteDocumentationVersionRequest: AWSShape {
@@ -567,6 +742,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            self.documentationVersion = documentationVersion
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct GetAuthorizersRequest: AWSShape {
@@ -593,6 +774,12 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct CreateDomainNameRequest: AWSShape {
@@ -622,6 +809,15 @@ extension Apigateway {
             self.certificateArn = certificateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateName = dictionary["certificateName"] as? String
+            self.certificatePrivateKey = dictionary["certificatePrivateKey"] as? String
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+            self.certificateChain = dictionary["certificateChain"] as? String
+            self.certificateBody = dictionary["certificateBody"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+        }
     }
 
     public struct ApiKeyIds: AWSShape {
@@ -639,6 +835,14 @@ extension Apigateway {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ids = dictionary["ids"] as? [String] {
+                self.ids = ids
+            }
+            if let warnings = dictionary["warnings"] as? [String] {
+                self.warnings = warnings
+            }
+        }
     }
 
     public struct Stage: AWSShape {
@@ -686,6 +890,29 @@ extension Apigateway {
             self.cacheClusterEnabled = cacheClusterEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.documentationVersion = dictionary["documentationVersion"] as? String
+            self.cacheClusterStatus = dictionary["cacheClusterStatus"] as? String
+            self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
+            if let variables = dictionary["variables"] as? [String: String] {
+                self.variables = variables
+            }
+            self.createdDate = dictionary["createdDate"] as? Date
+            self.description = dictionary["description"] as? String
+            self.deploymentId = dictionary["deploymentId"] as? String
+            self.clientCertificateId = dictionary["clientCertificateId"] as? String
+            if let methodSettings = dictionary["methodSettings"] as? [String: Any] {
+                var methodSettingsDict: [String: MethodSetting] = [:]
+                for (key, value) in methodSettings {
+                    guard let methodSettingDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    methodSettingsDict[key] = try MethodSetting(dictionary: methodSettingDict)
+                }
+                self.methodSettings = methodSettingsDict
+            }
+            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? Date
+            self.stageName = dictionary["stageName"] as? String
+            self.cacheClusterEnabled = dictionary["cacheClusterEnabled"] as? Bool
+        }
     }
 
     public struct GetMethodRequest: AWSShape {
@@ -709,6 +936,14 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct UsagePlans: AWSShape {
@@ -725,6 +960,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try UsagePlan(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct DeleteStageRequest: AWSShape {
@@ -745,6 +986,12 @@ extension Apigateway {
             self.stageName = stageName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+        }
     }
 
     public struct DeleteDeploymentRequest: AWSShape {
@@ -765,6 +1012,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct TestInvokeAuthorizerRequest: AWSShape {
@@ -800,6 +1053,23 @@ extension Apigateway {
             self.additionalContext = additionalContext
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            self.authorizerId = authorizerId
+            if let headers = dictionary["headers"] as? [String: String] {
+                self.headers = headers
+            }
+            self.pathWithQueryString = dictionary["pathWithQueryString"] as? String
+            self.body = dictionary["body"] as? String
+            if let stageVariables = dictionary["stageVariables"] as? [String: String] {
+                self.stageVariables = stageVariables
+            }
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let additionalContext = dictionary["additionalContext"] as? [String: String] {
+                self.additionalContext = additionalContext
+            }
+        }
     }
 
     public struct PutMethodRequest: AWSShape {
@@ -841,6 +1111,25 @@ extension Apigateway {
             self.operationName = operationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.authorizerId = dictionary["authorizerId"] as? String
+            if let requestModels = dictionary["requestModels"] as? [String: String] {
+                self.requestModels = requestModels
+            }
+            if let requestParameters = dictionary["requestParameters"] as? [String: Bool] {
+                self.requestParameters = requestParameters
+            }
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
+            guard let authorizationType = dictionary["authorizationType"] as? String else { throw InitializableError.missingRequiredParam("authorizationType") }
+            self.authorizationType = authorizationType
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            self.operationName = dictionary["operationName"] as? String
+        }
     }
 
     public struct GetBasePathMappingsRequest: AWSShape {
@@ -867,6 +1156,12 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct PatchOperation: AWSShape {
@@ -890,6 +1185,12 @@ extension Apigateway {
             self.op = op
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.from = dictionary["from"] as? String
+            self.value = dictionary["value"] as? String
+            self.path = dictionary["path"] as? String
+            self.op = dictionary["op"] as? String
+        }
     }
 
     public struct TestInvokeMethodRequest: AWSShape {
@@ -928,6 +1229,23 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let headers = dictionary["headers"] as? [String: String] {
+                self.headers = headers
+            }
+            self.pathWithQueryString = dictionary["pathWithQueryString"] as? String
+            self.body = dictionary["body"] as? String
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            if let stageVariables = dictionary["stageVariables"] as? [String: String] {
+                self.stageVariables = stageVariables
+            }
+            self.clientCertificateId = dictionary["clientCertificateId"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct CreateDocumentationVersionRequest: AWSShape {
@@ -954,6 +1272,14 @@ extension Apigateway {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            self.documentationVersion = documentationVersion
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.stageName = dictionary["stageName"] as? String
+            self.description = dictionary["description"] as? String
+        }
     }
 
     public struct GetDeploymentsRequest: AWSShape {
@@ -980,6 +1306,12 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct DeleteUsagePlanKeyRequest: AWSShape {
@@ -1000,6 +1332,12 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            self.keyId = keyId
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+        }
     }
 
     public struct TestInvokeMethodResponse: AWSShape {
@@ -1026,6 +1364,15 @@ extension Apigateway {
             self.body = body
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.log = dictionary["log"] as? String
+            self.status = dictionary["status"] as? Int32
+            if let headers = dictionary["headers"] as? [String: String] {
+                self.headers = headers
+            }
+            self.latency = dictionary["latency"] as? Int64
+            self.body = dictionary["body"] as? String
+        }
     }
 
     public struct DeleteResourceRequest: AWSShape {
@@ -1046,6 +1393,12 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct GetSdkTypesRequest: AWSShape {
@@ -1066,6 +1419,10 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct Models: AWSShape {
@@ -1082,6 +1439,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try Model(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct Resources: AWSShape {
@@ -1098,6 +1461,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try Resource(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct ExportResponse: AWSShape {
@@ -1121,6 +1490,11 @@ extension Apigateway {
             self.body = body
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentType = dictionary["contentType"] as? String
+            self.contentDisposition = dictionary["contentDisposition"] as? String
+            self.body = dictionary["body"] as? Data
+        }
     }
 
     public struct GetModelRequest: AWSShape {
@@ -1147,6 +1521,13 @@ extension Apigateway {
             self.modelName = modelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.flatten = dictionary["flatten"] as? Bool
+            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            self.modelName = modelName
+        }
     }
 
     public struct UpdateAuthorizerRequest: AWSShape {
@@ -1170,6 +1551,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            self.authorizerId = authorizerId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct StageKey: AWSShape {
@@ -1187,6 +1577,10 @@ extension Apigateway {
             self.stageName = stageName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.restApiId = dictionary["restApiId"] as? String
+            self.stageName = dictionary["stageName"] as? String
+        }
     }
 
     public struct ApiKeys: AWSShape {
@@ -1206,6 +1600,15 @@ extension Apigateway {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try ApiKey(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+            if let warnings = dictionary["warnings"] as? [String] {
+                self.warnings = warnings
+            }
+        }
     }
 
     public struct CreateStageRequest: AWSShape {
@@ -1244,6 +1647,21 @@ extension Apigateway {
             self.cacheClusterEnabled = cacheClusterEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.documentationVersion = dictionary["documentationVersion"] as? String
+            if let variables = dictionary["variables"] as? [String: String] {
+                self.variables = variables
+            }
+            self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            self.description = dictionary["description"] as? String
+            self.cacheClusterEnabled = dictionary["cacheClusterEnabled"] as? Bool
+        }
     }
 
     public struct GetSdkTypeRequest: AWSShape {
@@ -1261,6 +1679,10 @@ extension Apigateway {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            self.id = id
+        }
     }
 
     public struct ImportApiKeysRequest: AWSShape {
@@ -1284,6 +1706,13 @@ extension Apigateway {
             self.failOnWarnings = failOnWarnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
+            self.body = body
+            guard let format = dictionary["format"] as? String else { throw InitializableError.missingRequiredParam("format") }
+            self.format = format
+            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+        }
     }
 
     public struct MethodSetting: AWSShape {
@@ -1325,6 +1754,18 @@ extension Apigateway {
             self.requireAuthorizationForCacheControl = requireAuthorizationForCacheControl
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataTraceEnabled = dictionary["dataTraceEnabled"] as? Bool
+            self.metricsEnabled = dictionary["metricsEnabled"] as? Bool
+            self.cacheDataEncrypted = dictionary["cacheDataEncrypted"] as? Bool
+            self.cachingEnabled = dictionary["cachingEnabled"] as? Bool
+            self.cacheTtlInSeconds = dictionary["cacheTtlInSeconds"] as? Int32
+            self.throttlingBurstLimit = dictionary["throttlingBurstLimit"] as? Int32
+            self.throttlingRateLimit = dictionary["throttlingRateLimit"] as? Double
+            self.loggingLevel = dictionary["loggingLevel"] as? String
+            self.unauthorizedCacheControlHeaderStrategy = dictionary["unauthorizedCacheControlHeaderStrategy"] as? String
+            self.requireAuthorizationForCacheControl = dictionary["requireAuthorizationForCacheControl"] as? Bool
+        }
     }
 
     public struct ApiKey: AWSShape {
@@ -1363,6 +1804,19 @@ extension Apigateway {
             self.customerId = customerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.value = dictionary["value"] as? String
+            self.id = dictionary["id"] as? String
+            self.createdDate = dictionary["createdDate"] as? Date
+            self.description = dictionary["description"] as? String
+            if let stageKeys = dictionary["stageKeys"] as? [String] {
+                self.stageKeys = stageKeys
+            }
+            self.enabled = dictionary["enabled"] as? Bool
+            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? Date
+            self.customerId = dictionary["customerId"] as? String
+        }
     }
 
     public struct UpdateIntegrationResponseRequest: AWSShape {
@@ -1392,6 +1846,19 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct GetDomainNamesRequest: AWSShape {
@@ -1412,6 +1879,10 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct DocumentationPartLocation: AWSShape {
@@ -1438,6 +1909,14 @@ extension Apigateway {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.method = dictionary["method"] as? String
+            self.path = dictionary["path"] as? String
+            self.statusCode = dictionary["statusCode"] as? String
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+        }
     }
 
     public struct MethodSnapshot: AWSShape {
@@ -1455,6 +1934,10 @@ extension Apigateway {
             self.authorizationType = authorizationType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
+            self.authorizationType = dictionary["authorizationType"] as? String
+        }
     }
 
     public struct UpdateRestApiRequest: AWSShape {
@@ -1475,6 +1958,13 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DomainName: AWSShape {
@@ -1501,6 +1991,13 @@ extension Apigateway {
             self.distributionDomainName = distributionDomainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.certificateName = dictionary["certificateName"] as? String
+            self.domainName = dictionary["domainName"] as? String
+            self.certificateArn = dictionary["certificateArn"] as? String
+            self.certificateUploadDate = dictionary["certificateUploadDate"] as? Date
+            self.distributionDomainName = dictionary["distributionDomainName"] as? String
+        }
     }
 
     public struct GetExportRequest: AWSShape {
@@ -1533,6 +2030,18 @@ extension Apigateway {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            guard let exportType = dictionary["exportType"] as? String else { throw InitializableError.missingRequiredParam("exportType") }
+            self.exportType = exportType
+            self.accepts = dictionary["accepts"] as? String
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct SdkConfigurationProperty: AWSShape {
@@ -1559,6 +2068,13 @@ extension Apigateway {
             self.friendlyName = friendlyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.defaultValue = dictionary["defaultValue"] as? String
+            self.name = dictionary["name"] as? String
+            self.required = dictionary["required"] as? Bool
+            self.friendlyName = dictionary["friendlyName"] as? String
+        }
     }
 
     public struct GetModelsRequest: AWSShape {
@@ -1585,6 +2101,12 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct PutIntegrationResponseRequest: AWSShape {
@@ -1623,6 +2145,24 @@ extension Apigateway {
             self.selectionPattern = selectionPattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let responseTemplates = dictionary["responseTemplates"] as? [String: String] {
+                self.responseTemplates = responseTemplates
+            }
+            if let responseParameters = dictionary["responseParameters"] as? [String: String] {
+                self.responseParameters = responseParameters
+            }
+            self.contentHandling = dictionary["contentHandling"] as? String
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            self.selectionPattern = dictionary["selectionPattern"] as? String
+        }
     }
 
     public struct GetResourceRequest: AWSShape {
@@ -1643,6 +2183,12 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct Deployments: AWSShape {
@@ -1659,6 +2205,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try Deployment(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct FlushStageCacheRequest: AWSShape {
@@ -1679,6 +2231,12 @@ extension Apigateway {
             self.stageName = stageName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+        }
     }
 
     public struct BasePathMapping: AWSShape {
@@ -1699,6 +2257,11 @@ extension Apigateway {
             self.stage = stage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.basePath = dictionary["basePath"] as? String
+            self.restApiId = dictionary["restApiId"] as? String
+            self.stage = dictionary["stage"] as? String
+        }
     }
 
     public struct GetClientCertificateRequest: AWSShape {
@@ -1716,6 +2279,10 @@ extension Apigateway {
             self.clientCertificateId = clientCertificateId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientCertificateId = dictionary["clientCertificateId"] as? String else { throw InitializableError.missingRequiredParam("clientCertificateId") }
+            self.clientCertificateId = clientCertificateId
+        }
     }
 
     public struct UpdateModelRequest: AWSShape {
@@ -1739,6 +2306,15 @@ extension Apigateway {
             self.modelName = modelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            self.modelName = modelName
+        }
     }
 
     public struct DocumentationPart: AWSShape {
@@ -1759,6 +2335,11 @@ extension Apigateway {
             self.properties = properties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Apigateway.DocumentationPartLocation(dictionary: location) }
+            self.properties = dictionary["properties"] as? String
+        }
     }
 
     public struct ClientCertificates: AWSShape {
@@ -1775,6 +2356,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try ClientCertificate(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct DeleteBasePathMappingRequest: AWSShape {
@@ -1795,6 +2382,12 @@ extension Apigateway {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let basePath = dictionary["basePath"] as? String else { throw InitializableError.missingRequiredParam("basePath") }
+            self.basePath = basePath
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct UpdateUsageRequest: AWSShape {
@@ -1818,6 +2411,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            self.keyId = keyId
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateUsagePlanRequest: AWSShape {
@@ -1844,6 +2446,16 @@ extension Apigateway {
             self.throttle = throttle
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let apiStages = dictionary["apiStages"] as? [[String: Any]] {
+                self.apiStages = try apiStages.map({ try ApiStage(dictionary: $0) })
+            }
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.description = dictionary["description"] as? String
+            if let quota = dictionary["quota"] as? [String: Any] { self.quota = try Apigateway.QuotaSettings(dictionary: quota) }
+            if let throttle = dictionary["throttle"] as? [String: Any] { self.throttle = try Apigateway.ThrottleSettings(dictionary: throttle) }
+        }
     }
 
     public struct SdkType: AWSShape {
@@ -1867,6 +2479,14 @@ extension Apigateway {
             self.friendlyName = friendlyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            if let configurationProperties = dictionary["configurationProperties"] as? [[String: Any]] {
+                self.configurationProperties = try configurationProperties.map({ try SdkConfigurationProperty(dictionary: $0) })
+            }
+            self.id = dictionary["id"] as? String
+            self.friendlyName = dictionary["friendlyName"] as? String
+        }
     }
 
     public struct Integration: AWSShape {
@@ -1911,6 +2531,32 @@ extension Apigateway {
             self.passthroughBehavior = passthroughBehavior
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let integrationResponses = dictionary["integrationResponses"] as? [String: Any] {
+                var integrationResponsesDict: [String: IntegrationResponse] = [:]
+                for (key, value) in integrationResponses {
+                    guard let integrationResponseDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    integrationResponsesDict[key] = try IntegrationResponse(dictionary: integrationResponseDict)
+                }
+                self.integrationResponses = integrationResponsesDict
+            }
+            self.cacheNamespace = dictionary["cacheNamespace"] as? String
+            self.uri = dictionary["uri"] as? String
+            if let requestParameters = dictionary["requestParameters"] as? [String: String] {
+                self.requestParameters = requestParameters
+            }
+            self.httpMethod = dictionary["httpMethod"] as? String
+            if let cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String] {
+                self.cacheKeyParameters = cacheKeyParameters
+            }
+            if let requestTemplates = dictionary["requestTemplates"] as? [String: String] {
+                self.requestTemplates = requestTemplates
+            }
+            self.contentHandling = dictionary["contentHandling"] as? String
+            self.credentials = dictionary["credentials"] as? String
+            self.type = dictionary["type"] as? String
+            self.passthroughBehavior = dictionary["passthroughBehavior"] as? String
+        }
     }
 
     public struct Usage: AWSShape {
@@ -1936,6 +2582,12 @@ extension Apigateway {
             self.endDate = endDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            self.startDate = dictionary["startDate"] as? String
+            self.usagePlanId = dictionary["usagePlanId"] as? String
+            self.endDate = dictionary["endDate"] as? String
+        }
     }
 
     public struct Deployment: AWSShape {
@@ -1959,6 +2611,23 @@ extension Apigateway {
             self.createdDate = createdDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            if let apiSummary = dictionary["apiSummary"] as? [String: Any] {
+                var apiSummaryDict: [String: [String: MethodSnapshot]] = [:]
+                for (key, value) in apiSummary {
+                    guard let value = value as? [String: [String: Any]] else { throw InitializableError.convertingError }
+                    var mapOfMethodSnapshotDict: [String: MethodSnapshot] = [:]
+                    for (key, value) in value {
+                        mapOfMethodSnapshotDict[key] = try MethodSnapshot(dictionary: value)
+                    }
+                    apiSummaryDict[key] = mapOfMethodSnapshotDict
+                }
+                self.apiSummary = apiSummaryDict
+            }
+            self.id = dictionary["id"] as? String
+            self.createdDate = dictionary["createdDate"] as? Date
+        }
     }
 
     public struct ImportDocumentationPartsRequest: AWSShape {
@@ -1988,6 +2657,14 @@ extension Apigateway {
             self.body = body
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.mode = dictionary["mode"] as? String
+            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
+            self.body = body
+        }
     }
 
     public struct ClientCertificate: AWSShape {
@@ -2014,6 +2691,13 @@ extension Apigateway {
             self.createdDate = createdDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.clientCertificateId = dictionary["clientCertificateId"] as? String
+            self.description = dictionary["description"] as? String
+            self.expirationDate = dictionary["expirationDate"] as? Date
+            self.pemEncodedCertificate = dictionary["pemEncodedCertificate"] as? String
+            self.createdDate = dictionary["createdDate"] as? Date
+        }
     }
 
     public struct Authorizers: AWSShape {
@@ -2030,6 +2714,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try Authorizer(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct DocumentationVersion: AWSShape {
@@ -2050,6 +2740,11 @@ extension Apigateway {
             self.createdDate = createdDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.version = dictionary["version"] as? String
+            self.createdDate = dictionary["createdDate"] as? Date
+        }
     }
 
     public struct CreateBasePathMappingRequest: AWSShape {
@@ -2076,6 +2771,14 @@ extension Apigateway {
             self.stage = stage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+            self.basePath = dictionary["basePath"] as? String
+            self.stage = dictionary["stage"] as? String
+        }
     }
 
     public struct UpdateApiKeyRequest: AWSShape {
@@ -2096,6 +2799,13 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let apiKey = dictionary["apiKey"] as? String else { throw InitializableError.missingRequiredParam("apiKey") }
+            self.apiKey = apiKey
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetRestApiRequest: AWSShape {
@@ -2113,6 +2823,10 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct Template: AWSShape {
@@ -2127,6 +2841,9 @@ extension Apigateway {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct GetApiKeyRequest: AWSShape {
@@ -2150,6 +2867,11 @@ extension Apigateway {
             self.apiKey = apiKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.includeValue = dictionary["includeValue"] as? Bool
+            guard let apiKey = dictionary["apiKey"] as? String else { throw InitializableError.missingRequiredParam("apiKey") }
+            self.apiKey = apiKey
+        }
     }
 
     public struct CreateDocumentationPartRequest: AWSShape {
@@ -2173,6 +2895,14 @@ extension Apigateway {
             self.properties = properties
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let location = dictionary["location"] as? [String: Any] else { throw InitializableError.missingRequiredParam("location") }
+            self.location = try Apigateway.DocumentationPartLocation(dictionary: location)
+            guard let properties = dictionary["properties"] as? String else { throw InitializableError.missingRequiredParam("properties") }
+            self.properties = properties
+        }
     }
 
     public struct ThrottleSettings: AWSShape {
@@ -2190,6 +2920,10 @@ extension Apigateway {
             self.rateLimit = rateLimit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.burstLimit = dictionary["burstLimit"] as? Int32
+            self.rateLimit = dictionary["rateLimit"] as? Double
+        }
     }
 
     public struct DeleteIntegrationResponseRequest: AWSShape {
@@ -2216,6 +2950,16 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct SdkResponse: AWSShape {
@@ -2239,6 +2983,11 @@ extension Apigateway {
             self.body = body
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentType = dictionary["contentType"] as? String
+            self.contentDisposition = dictionary["contentDisposition"] as? String
+            self.body = dictionary["body"] as? Data
+        }
     }
 
     public struct UpdateResourceRequest: AWSShape {
@@ -2262,6 +3011,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateIntegrationRequest: AWSShape {
@@ -2288,6 +3046,17 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct UsagePlanKeys: AWSShape {
@@ -2304,6 +3073,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try UsagePlanKey(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct ApiStage: AWSShape {
@@ -2321,6 +3096,10 @@ extension Apigateway {
             self.stage = stage
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.apiId = dictionary["apiId"] as? String
+            self.stage = dictionary["stage"] as? String
+        }
     }
 
     public struct CreateResourceRequest: AWSShape {
@@ -2344,6 +3123,14 @@ extension Apigateway {
             self.parentId = parentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let pathPart = dictionary["pathPart"] as? String else { throw InitializableError.missingRequiredParam("pathPart") }
+            self.pathPart = pathPart
+            guard let parentId = dictionary["parentId"] as? String else { throw InitializableError.missingRequiredParam("parentId") }
+            self.parentId = parentId
+        }
     }
 
     public struct GetMethodResponseRequest: AWSShape {
@@ -2370,6 +3157,16 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct GetDocumentationPartsRequest: AWSShape {
@@ -2405,6 +3202,15 @@ extension Apigateway {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
+            self.path = dictionary["path"] as? String
+            self.nameQuery = dictionary["nameQuery"] as? String
+            self.type = dictionary["type"] as? String
+        }
     }
 
     public struct GetDeploymentRequest: AWSShape {
@@ -2425,6 +3231,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            self.deploymentId = deploymentId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct UpdateAccountRequest: AWSShape {
@@ -2439,6 +3251,11 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GenerateClientCertificateRequest: AWSShape {
@@ -2453,6 +3270,9 @@ extension Apigateway {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+        }
     }
 
     public struct DomainNames: AWSShape {
@@ -2469,6 +3289,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try DomainName(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct PutMethodResponseRequest: AWSShape {
@@ -2501,6 +3327,22 @@ extension Apigateway {
             self.responseParameters = responseParameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            if let responseModels = dictionary["responseModels"] as? [String: String] {
+                self.responseModels = responseModels
+            }
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            if let responseParameters = dictionary["responseParameters"] as? [String: Bool] {
+                self.responseParameters = responseParameters
+            }
+        }
     }
 
     public struct UsagePlan: AWSShape {
@@ -2533,6 +3375,17 @@ extension Apigateway {
             self.productCode = productCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let apiStages = dictionary["apiStages"] as? [[String: Any]] {
+                self.apiStages = try apiStages.map({ try ApiStage(dictionary: $0) })
+            }
+            if let quota = dictionary["quota"] as? [String: Any] { self.quota = try Apigateway.QuotaSettings(dictionary: quota) }
+            self.name = dictionary["name"] as? String
+            self.id = dictionary["id"] as? String
+            if let throttle = dictionary["throttle"] as? [String: Any] { self.throttle = try Apigateway.ThrottleSettings(dictionary: throttle) }
+            self.description = dictionary["description"] as? String
+            self.productCode = dictionary["productCode"] as? String
+        }
     }
 
     public struct GetResourcesRequest: AWSShape {
@@ -2559,6 +3412,12 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct RestApi: AWSShape {
@@ -2591,6 +3450,19 @@ extension Apigateway {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String] {
+                self.binaryMediaTypes = binaryMediaTypes
+            }
+            self.name = dictionary["name"] as? String
+            self.id = dictionary["id"] as? String
+            self.createdDate = dictionary["createdDate"] as? Date
+            self.description = dictionary["description"] as? String
+            self.version = dictionary["version"] as? String
+            if let warnings = dictionary["warnings"] as? [String] {
+                self.warnings = warnings
+            }
+        }
     }
 
     public struct IntegrationResponse: AWSShape {
@@ -2617,6 +3489,17 @@ extension Apigateway {
             self.selectionPattern = selectionPattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let responseTemplates = dictionary["responseTemplates"] as? [String: String] {
+                self.responseTemplates = responseTemplates
+            }
+            self.contentHandling = dictionary["contentHandling"] as? String
+            self.statusCode = dictionary["statusCode"] as? String
+            if let responseParameters = dictionary["responseParameters"] as? [String: String] {
+                self.responseParameters = responseParameters
+            }
+            self.selectionPattern = dictionary["selectionPattern"] as? String
+        }
     }
 
     public struct Account: AWSShape {
@@ -2640,6 +3523,14 @@ extension Apigateway {
             self.cloudwatchRoleArn = cloudwatchRoleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let features = dictionary["features"] as? [String] {
+                self.features = features
+            }
+            self.apiKeyVersion = dictionary["apiKeyVersion"] as? String
+            if let throttleSettings = dictionary["throttleSettings"] as? [String: Any] { self.throttleSettings = try Apigateway.ThrottleSettings(dictionary: throttleSettings) }
+            self.cloudwatchRoleArn = dictionary["cloudwatchRoleArn"] as? String
+        }
     }
 
     public struct CreateAuthorizerRequest: AWSShape {
@@ -2684,6 +3575,24 @@ extension Apigateway {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.identityValidationExpression = dictionary["identityValidationExpression"] as? String
+            self.authorizerResultTtlInSeconds = dictionary["authorizerResultTtlInSeconds"] as? Int32
+            self.authorizerUri = dictionary["authorizerUri"] as? String
+            self.authorizerCredentials = dictionary["authorizerCredentials"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let identitySource = dictionary["identitySource"] as? String else { throw InitializableError.missingRequiredParam("identitySource") }
+            self.identitySource = identitySource
+            self.authType = dictionary["authType"] as? String
+            if let providerARNs = dictionary["providerARNs"] as? [String] {
+                self.providerARNs = providerARNs
+            }
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+        }
     }
 
     public struct GetStagesRequest: AWSShape {
@@ -2707,6 +3616,11 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["deploymentId"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct ImportRestApiRequest: AWSShape {
@@ -2730,6 +3644,14 @@ extension Apigateway {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
+            self.body = body
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct GetRestApisRequest: AWSShape {
@@ -2750,6 +3672,10 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct GetSdkRequest: AWSShape {
@@ -2776,6 +3702,17 @@ extension Apigateway {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let sdkType = dictionary["sdkType"] as? String else { throw InitializableError.missingRequiredParam("sdkType") }
+            self.sdkType = sdkType
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct TestInvokeAuthorizerResponse: AWSShape {
@@ -2807,6 +3744,24 @@ extension Apigateway {
             self.claims = claims
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let authorization = dictionary["authorization"] as? [String: Any] {
+                var authorizationDict: [String: [String]] = [:]
+                for (key, value) in authorization {
+                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
+                    authorizationDict[key] = listOfString
+                }
+                self.authorization = authorizationDict
+            }
+            self.principalId = dictionary["principalId"] as? String
+            self.log = dictionary["log"] as? String
+            self.latency = dictionary["latency"] as? Int64
+            self.policy = dictionary["policy"] as? String
+            self.clientStatus = dictionary["clientStatus"] as? Int32
+            if let claims = dictionary["claims"] as? [String: String] {
+                self.claims = claims
+            }
+        }
     }
 
     public struct UpdateMethodRequest: AWSShape {
@@ -2833,6 +3788,17 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct Authorizer: AWSShape {
@@ -2874,6 +3840,20 @@ extension Apigateway {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.id = dictionary["id"] as? String
+            self.identityValidationExpression = dictionary["identityValidationExpression"] as? String
+            self.authorizerResultTtlInSeconds = dictionary["authorizerResultTtlInSeconds"] as? Int32
+            self.authorizerUri = dictionary["authorizerUri"] as? String
+            self.authorizerCredentials = dictionary["authorizerCredentials"] as? String
+            self.identitySource = dictionary["identitySource"] as? String
+            self.authType = dictionary["authType"] as? String
+            if let providerARNs = dictionary["providerARNs"] as? [String] {
+                self.providerARNs = providerARNs
+            }
+            self.type = dictionary["type"] as? String
+        }
     }
 
     public struct GetUsagePlansRequest: AWSShape {
@@ -2897,6 +3877,11 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyId = dictionary["keyId"] as? String
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct UpdateStageRequest: AWSShape {
@@ -2920,6 +3905,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetClientCertificatesRequest: AWSShape {
@@ -2940,6 +3934,10 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct GetUsagePlanRequest: AWSShape {
@@ -2957,6 +3955,10 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+        }
     }
 
     public struct DocumentationParts: AWSShape {
@@ -2973,6 +3975,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try DocumentationPart(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct GetAccountRequest: AWSShape {
@@ -2981,6 +3989,8 @@ extension Apigateway {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteDocumentationPartRequest: AWSShape {
@@ -3001,6 +4011,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationPartId = dictionary["documentationPartId"] as? String else { throw InitializableError.missingRequiredParam("documentationPartId") }
+            self.documentationPartId = documentationPartId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct CreateRestApiRequest: AWSShape {
@@ -3027,6 +4043,16 @@ extension Apigateway {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            if let binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String] {
+                self.binaryMediaTypes = binaryMediaTypes
+            }
+            self.cloneFrom = dictionary["cloneFrom"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            self.version = dictionary["version"] as? String
+        }
     }
 
     public struct CreateDeploymentRequest: AWSShape {
@@ -3062,6 +4088,18 @@ extension Apigateway {
             self.stageDescription = stageDescription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheClusterEnabled = dictionary["cacheClusterEnabled"] as? Bool
+            self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
+            if let variables = dictionary["variables"] as? [String: String] {
+                self.variables = variables
+            }
+            self.description = dictionary["description"] as? String
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            self.stageName = dictionary["stageName"] as? String
+            self.stageDescription = dictionary["stageDescription"] as? String
+        }
     }
 
     public struct GetBasePathMappingRequest: AWSShape {
@@ -3082,6 +4120,12 @@ extension Apigateway {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let basePath = dictionary["basePath"] as? String else { throw InitializableError.missingRequiredParam("basePath") }
+            self.basePath = basePath
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct UsagePlanKey: AWSShape {
@@ -3105,6 +4149,12 @@ extension Apigateway {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.value = dictionary["value"] as? String
+            self.id = dictionary["id"] as? String
+            self.type = dictionary["type"] as? String
+        }
     }
 
     public struct DocumentationVersions: AWSShape {
@@ -3121,6 +4171,12 @@ extension Apigateway {
             self.position = position
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["items"] as? [[String: Any]] {
+                self.items = try items.map({ try DocumentationVersion(dictionary: $0) })
+            }
+            self.position = dictionary["position"] as? String
+        }
     }
 
     public struct UpdateDomainNameRequest: AWSShape {
@@ -3141,6 +4197,13 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteIntegrationRequest: AWSShape {
@@ -3164,6 +4227,14 @@ extension Apigateway {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct CreateUsagePlanKeyRequest: AWSShape {
@@ -3187,6 +4258,14 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            self.keyId = keyId
+            guard let keyType = dictionary["keyType"] as? String else { throw InitializableError.missingRequiredParam("keyType") }
+            self.keyType = keyType
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+        }
     }
 
     public struct GetDomainNameRequest: AWSShape {
@@ -3204,6 +4283,10 @@ extension Apigateway {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetAuthorizerRequest: AWSShape {
@@ -3224,6 +4307,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            self.authorizerId = authorizerId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct GetUsagePlanKeysRequest: AWSShape {
@@ -3253,6 +4342,13 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            self.limit = dictionary["limit"] as? Int32
+            self.nameQuery = dictionary["nameQuery"] as? String
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+        }
     }
 
     public struct DocumentationPartIds: AWSShape {
@@ -3270,6 +4366,14 @@ extension Apigateway {
             self.warnings = warnings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ids = dictionary["ids"] as? [String] {
+                self.ids = ids
+            }
+            if let warnings = dictionary["warnings"] as? [String] {
+                self.warnings = warnings
+            }
+        }
     }
 
     public struct PutIntegrationRequest: AWSShape {
@@ -3323,6 +4427,31 @@ extension Apigateway {
             self.passthroughBehavior = passthroughBehavior
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cacheNamespace = dictionary["cacheNamespace"] as? String
+            self.uri = dictionary["uri"] as? String
+            if let cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String] {
+                self.cacheKeyParameters = cacheKeyParameters
+            }
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.type = type
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            if let requestParameters = dictionary["requestParameters"] as? [String: String] {
+                self.requestParameters = requestParameters
+            }
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+            if let requestTemplates = dictionary["requestTemplates"] as? [String: String] {
+                self.requestTemplates = requestTemplates
+            }
+            self.contentHandling = dictionary["contentHandling"] as? String
+            self.credentials = dictionary["credentials"] as? String
+            self.integrationHttpMethod = dictionary["integrationHttpMethod"] as? String
+            self.passthroughBehavior = dictionary["passthroughBehavior"] as? String
+        }
     }
 
     public struct UpdateClientCertificateRequest: AWSShape {
@@ -3343,6 +4472,13 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let clientCertificateId = dictionary["clientCertificateId"] as? String else { throw InitializableError.missingRequiredParam("clientCertificateId") }
+            self.clientCertificateId = clientCertificateId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteRestApiRequest: AWSShape {
@@ -3360,6 +4496,10 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct MethodResponse: AWSShape {
@@ -3380,6 +4520,15 @@ extension Apigateway {
             self.statusCode = statusCode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let responseParameters = dictionary["responseParameters"] as? [String: Bool] {
+                self.responseParameters = responseParameters
+            }
+            if let responseModels = dictionary["responseModels"] as? [String: String] {
+                self.responseModels = responseModels
+            }
+            self.statusCode = dictionary["statusCode"] as? String
+        }
     }
 
     public struct GetModelTemplateRequest: AWSShape {
@@ -3400,6 +4549,12 @@ extension Apigateway {
             self.modelName = modelName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            self.modelName = modelName
+        }
     }
 
     public struct Model: AWSShape {
@@ -3426,6 +4581,13 @@ extension Apigateway {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.contentType = dictionary["contentType"] as? String
+            self.name = dictionary["name"] as? String
+            self.schema = dictionary["schema"] as? String
+            self.id = dictionary["id"] as? String
+        }
     }
 
     public struct FlushStageAuthorizersCacheRequest: AWSShape {
@@ -3446,6 +4608,12 @@ extension Apigateway {
             self.stageName = stageName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            self.stageName = stageName
+        }
     }
 
     public struct QuotaSettings: AWSShape {
@@ -3466,6 +4634,11 @@ extension Apigateway {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.period = dictionary["period"] as? String
+            self.offset = dictionary["offset"] as? Int32
+            self.limit = dictionary["limit"] as? Int32
+        }
     }
 
     public struct UpdateUsagePlanRequest: AWSShape {
@@ -3486,6 +4659,13 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct Stages: AWSShape {
@@ -3500,6 +4680,11 @@ extension Apigateway {
             self.item = item
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["item"] as? [[String: Any]] {
+                self.item = try item.map({ try Stage(dictionary: $0) })
+            }
+        }
     }
 
     public struct Method: AWSShape {
@@ -3538,6 +4723,28 @@ extension Apigateway {
             self.operationName = operationName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.authorizerId = dictionary["authorizerId"] as? String
+            if let methodResponses = dictionary["methodResponses"] as? [String: Any] {
+                var methodResponsesDict: [String: MethodResponse] = [:]
+                for (key, value) in methodResponses {
+                    guard let methodResponseDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    methodResponsesDict[key] = try MethodResponse(dictionary: methodResponseDict)
+                }
+                self.methodResponses = methodResponsesDict
+            }
+            if let requestModels = dictionary["requestModels"] as? [String: String] {
+                self.requestModels = requestModels
+            }
+            if let requestParameters = dictionary["requestParameters"] as? [String: Bool] {
+                self.requestParameters = requestParameters
+            }
+            if let methodIntegration = dictionary["methodIntegration"] as? [String: Any] { self.methodIntegration = try Apigateway.Integration(dictionary: methodIntegration) }
+            self.httpMethod = dictionary["httpMethod"] as? String
+            self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
+            self.authorizationType = dictionary["authorizationType"] as? String
+            self.operationName = dictionary["operationName"] as? String
+        }
     }
 
     public struct DeleteMethodResponseRequest: AWSShape {
@@ -3564,6 +4771,16 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
     public struct DeleteUsagePlanRequest: AWSShape {
@@ -3581,6 +4798,10 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.usagePlanId = usagePlanId
+        }
     }
 
     public struct UpdateDocumentationPartRequest: AWSShape {
@@ -3604,6 +4825,15 @@ extension Apigateway {
             self.patchOperations = patchOperations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentationPartId = dictionary["documentationPartId"] as? String else { throw InitializableError.missingRequiredParam("documentationPartId") }
+            self.documentationPartId = documentationPartId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateApiKeyRequest: AWSShape {
@@ -3636,6 +4866,17 @@ extension Apigateway {
             self.customerId = customerId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.generateDistinctId = dictionary["generateDistinctId"] as? Bool
+            self.value = dictionary["value"] as? String
+            self.description = dictionary["description"] as? String
+            if let stageKeys = dictionary["stageKeys"] as? [[String: Any]] {
+                self.stageKeys = try stageKeys.map({ try StageKey(dictionary: $0) })
+            }
+            self.enabled = dictionary["enabled"] as? Bool
+            self.customerId = dictionary["customerId"] as? String
+        }
     }
 
     public struct DeleteAuthorizerRequest: AWSShape {
@@ -3656,6 +4897,12 @@ extension Apigateway {
             self.restApiId = restApiId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            self.authorizerId = authorizerId
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+        }
     }
 
     public struct GetIntegrationResponseRequest: AWSShape {
@@ -3682,6 +4929,16 @@ extension Apigateway {
             self.httpMethod = httpMethod
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.restApiId = restApiId
+            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            self.statusCode = statusCode
+            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            self.resourceId = resourceId
+            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            self.httpMethod = httpMethod
+        }
     }
 
 }

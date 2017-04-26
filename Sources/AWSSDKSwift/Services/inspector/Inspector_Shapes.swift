@@ -44,6 +44,11 @@ extension Inspector {
             self.locale = locale
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
+            self.rulesPackageArns = rulesPackageArns
+            self.locale = dictionary["locale"] as? String
+        }
     }
 
     public struct RemoveAttributesFromFindingsResponse: AWSShape {
@@ -58,6 +63,15 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+        }
     }
 
     public struct DescribeResourceGroupsRequest: AWSShape {
@@ -72,6 +86,10 @@ extension Inspector {
             self.resourceGroupArns = resourceGroupArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceGroupArns = dictionary["resourceGroupArns"] as? [String] else { throw InitializableError.missingRequiredParam("resourceGroupArns") }
+            self.resourceGroupArns = resourceGroupArns
+        }
     }
 
     public struct ListFindingsRequest: AWSShape {
@@ -95,6 +113,14 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.FindingFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            if let assessmentRunArns = dictionary["assessmentRunArns"] as? [String] {
+                self.assessmentRunArns = assessmentRunArns
+            }
+        }
     }
 
     public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
@@ -115,6 +141,14 @@ extension Inspector {
             self.registeredAt = registeredAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let valid = dictionary["valid"] as? Bool else { throw InitializableError.missingRequiredParam("valid") }
+            self.valid = valid
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+            guard let registeredAt = dictionary["registeredAt"] as? Date else { throw InitializableError.missingRequiredParam("registeredAt") }
+            self.registeredAt = registeredAt
+        }
     }
 
     public struct PreviewAgentsRequest: AWSShape {
@@ -135,6 +169,12 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let previewAgentsArn = dictionary["previewAgentsArn"] as? String else { throw InitializableError.missingRequiredParam("previewAgentsArn") }
+            self.previewAgentsArn = previewAgentsArn
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeRulesPackagesResponse: AWSShape {
@@ -152,6 +192,17 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rulesPackages = dictionary["rulesPackages"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("rulesPackages") }
+            self.rulesPackages = try rulesPackages.map({ try RulesPackage(dictionary: $0) })
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+        }
     }
 
     public struct Subscription: AWSShape {
@@ -172,6 +223,14 @@ extension Inspector {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+            guard let eventSubscriptions = dictionary["eventSubscriptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("eventSubscriptions") }
+            self.eventSubscriptions = try eventSubscriptions.map({ try EventSubscription(dictionary: $0) })
+            guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
+            self.topicArn = topicArn
+        }
     }
 
     public struct AssessmentTarget: AWSShape {
@@ -198,6 +257,18 @@ extension Inspector {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
+            self.resourceGroupArn = resourceGroupArn
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let updatedAt = dictionary["updatedAt"] as? Date else { throw InitializableError.missingRequiredParam("updatedAt") }
+            self.updatedAt = updatedAt
+            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            self.createdAt = createdAt
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct DescribeAssessmentTemplatesRequest: AWSShape {
@@ -211,6 +282,10 @@ extension Inspector {
             self.assessmentTemplateArns = assessmentTemplateArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTemplateArns = dictionary["assessmentTemplateArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTemplateArns") }
+            self.assessmentTemplateArns = assessmentTemplateArns
+        }
     }
 
     public struct AddAttributesToFindingsRequest: AWSShape {
@@ -228,6 +303,12 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
+            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
+            self.findingArns = findingArns
+        }
     }
 
     public struct PreviewAgentsResponse: AWSShape {
@@ -245,6 +326,11 @@ extension Inspector {
             self.agentPreviews = agentPreviews
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let agentPreviews = dictionary["agentPreviews"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("agentPreviews") }
+            self.agentPreviews = try agentPreviews.map({ try AgentPreview(dictionary: $0) })
+        }
     }
 
     public struct DescribeAssessmentRunsResponse: AWSShape {
@@ -262,6 +348,17 @@ extension Inspector {
             self.assessmentRuns = assessmentRuns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+            guard let assessmentRuns = dictionary["assessmentRuns"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentRuns") }
+            self.assessmentRuns = try assessmentRuns.map({ try AssessmentRun(dictionary: $0) })
+        }
     }
 
     public struct EventSubscription: AWSShape {
@@ -279,6 +376,12 @@ extension Inspector {
             self.subscribedAt = subscribedAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            self.event = event
+            guard let subscribedAt = dictionary["subscribedAt"] as? Date else { throw InitializableError.missingRequiredParam("subscribedAt") }
+            self.subscribedAt = subscribedAt
+        }
     }
 
     public struct CreateResourceGroupResponse: AWSShape {
@@ -293,6 +396,10 @@ extension Inspector {
             self.resourceGroupArn = resourceGroupArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
+            self.resourceGroupArn = resourceGroupArn
+        }
     }
 
     public struct ResourceGroupTag: AWSShape {
@@ -310,6 +417,11 @@ extension Inspector {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct RemoveAttributesFromFindingsRequest: AWSShape {
@@ -327,6 +439,12 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeKeys = dictionary["attributeKeys"] as? [String] else { throw InitializableError.missingRequiredParam("attributeKeys") }
+            self.attributeKeys = attributeKeys
+            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
+            self.findingArns = findingArns
+        }
     }
 
     public struct DescribeAssessmentRunsRequest: AWSShape {
@@ -341,6 +459,10 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentRunArns = dictionary["assessmentRunArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentRunArns") }
+            self.assessmentRunArns = assessmentRunArns
+        }
     }
 
     public struct ListAssessmentTemplatesResponse: AWSShape {
@@ -358,6 +480,11 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTemplateArns = dictionary["assessmentTemplateArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTemplateArns") }
+            self.assessmentTemplateArns = assessmentTemplateArns
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DescribeAssessmentTemplatesResponse: AWSShape {
@@ -375,6 +502,17 @@ extension Inspector {
             self.assessmentTemplates = assessmentTemplates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+            guard let assessmentTemplates = dictionary["assessmentTemplates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentTemplates") }
+            self.assessmentTemplates = try assessmentTemplates.map({ try AssessmentTemplate(dictionary: $0) })
+        }
     }
 
     public struct StartAssessmentRunResponse: AWSShape {
@@ -389,6 +527,10 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
     }
 
     public struct Tag: AWSShape {
@@ -406,6 +548,11 @@ extension Inspector {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct ListAssessmentTargetsResponse: AWSShape {
@@ -423,6 +570,11 @@ extension Inspector {
             self.assessmentTargetArns = assessmentTargetArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let assessmentTargetArns = dictionary["assessmentTargetArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTargetArns") }
+            self.assessmentTargetArns = assessmentTargetArns
+        }
     }
 
     public struct ResourceGroup: AWSShape {
@@ -443,6 +595,14 @@ extension Inspector {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try ResourceGroupTag(dictionary: $0) })
+            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            self.createdAt = createdAt
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct UnsubscribeFromEventRequest: AWSShape {
@@ -463,6 +623,14 @@ extension Inspector {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            self.event = event
+            guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
+            self.topicArn = topicArn
+        }
     }
 
     public struct Attribute: AWSShape {
@@ -480,6 +648,11 @@ extension Inspector {
             self.value = value
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            self.key = key
+            self.value = dictionary["value"] as? String
+        }
     }
 
     public struct DeleteAssessmentTemplateRequest: AWSShape {
@@ -494,6 +667,10 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
     }
 
     public struct DescribeAssessmentTargetsRequest: AWSShape {
@@ -508,6 +685,10 @@ extension Inspector {
             self.assessmentTargetArns = assessmentTargetArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTargetArns = dictionary["assessmentTargetArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTargetArns") }
+            self.assessmentTargetArns = assessmentTargetArns
+        }
     }
 
     public struct DeleteAssessmentRunRequest: AWSShape {
@@ -522,6 +703,10 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
     }
 
     public struct FindingFilter: AWSShape {
@@ -557,6 +742,30 @@ extension Inspector {
             self.autoScalingGroups = autoScalingGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ruleNames = dictionary["ruleNames"] as? [String] {
+                self.ruleNames = ruleNames
+            }
+            if let severities = dictionary["severities"] as? [String] {
+                self.severities = severities
+            }
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            }
+            if let userAttributes = dictionary["userAttributes"] as? [[String: Any]] {
+                self.userAttributes = try userAttributes.map({ try Attribute(dictionary: $0) })
+            }
+            if let agentIds = dictionary["agentIds"] as? [String] {
+                self.agentIds = agentIds
+            }
+            if let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] {
+                self.rulesPackageArns = rulesPackageArns
+            }
+            if let creationTimeRange = dictionary["creationTimeRange"] as? [String: Any] { self.creationTimeRange = try Inspector.TimestampRange(dictionary: creationTimeRange) }
+            if let autoScalingGroups = dictionary["autoScalingGroups"] as? [String] {
+                self.autoScalingGroups = autoScalingGroups
+            }
+        }
     }
 
     public struct RulesPackage: AWSShape {
@@ -583,6 +792,17 @@ extension Inspector {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
+            self.version = version
+            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
+            self.provider = provider
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct AssessmentRunStateChange: AWSShape {
@@ -600,6 +820,12 @@ extension Inspector {
             self.stateChangedAt = stateChangedAt
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let state = dictionary["state"] as? String else { throw InitializableError.missingRequiredParam("state") }
+            self.state = state
+            guard let stateChangedAt = dictionary["stateChangedAt"] as? Date else { throw InitializableError.missingRequiredParam("stateChangedAt") }
+            self.stateChangedAt = stateChangedAt
+        }
     }
 
     public struct ListFindingsResponse: AWSShape {
@@ -617,6 +843,11 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
+            self.findingArns = findingArns
+        }
     }
 
     public struct ListAssessmentRunsRequest: AWSShape {
@@ -640,6 +871,14 @@ extension Inspector {
             self.assessmentTemplateArns = assessmentTemplateArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AssessmentRunFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            if let assessmentTemplateArns = dictionary["assessmentTemplateArns"] as? [String] {
+                self.assessmentTemplateArns = assessmentTemplateArns
+            }
+        }
     }
 
     public struct AgentPreview: AWSShape {
@@ -657,6 +896,11 @@ extension Inspector {
             self.agentId = agentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
+            guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
+            self.agentId = agentId
+        }
     }
 
     public struct ListRulesPackagesRequest: AWSShape {
@@ -674,6 +918,10 @@ extension Inspector {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct AssessmentRunFilter: AWSShape {
@@ -706,6 +954,19 @@ extension Inspector {
             self.stateChangeTimeRange = stateChangeTimeRange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namePattern = dictionary["namePattern"] as? String
+            if let states = dictionary["states"] as? [String] {
+                self.states = states
+            }
+            if let startTimeRange = dictionary["startTimeRange"] as? [String: Any] { self.startTimeRange = try Inspector.TimestampRange(dictionary: startTimeRange) }
+            if let durationRange = dictionary["durationRange"] as? [String: Any] { self.durationRange = try Inspector.DurationRange(dictionary: durationRange) }
+            if let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] {
+                self.rulesPackageArns = rulesPackageArns
+            }
+            if let completionTimeRange = dictionary["completionTimeRange"] as? [String: Any] { self.completionTimeRange = try Inspector.TimestampRange(dictionary: completionTimeRange) }
+            if let stateChangeTimeRange = dictionary["stateChangeTimeRange"] as? [String: Any] { self.stateChangeTimeRange = try Inspector.TimestampRange(dictionary: stateChangeTimeRange) }
+        }
     }
 
     public struct GetTelemetryMetadataRequest: AWSShape {
@@ -720,6 +981,10 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
     }
 
     public struct AssessmentTargetFilter: AWSShape {
@@ -734,6 +999,9 @@ extension Inspector {
             self.assessmentTargetNamePattern = assessmentTargetNamePattern
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.assessmentTargetNamePattern = dictionary["assessmentTargetNamePattern"] as? String
+        }
     }
 
     public struct AssessmentRun: AWSShape {
@@ -787,6 +1055,34 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let state = dictionary["state"] as? String else { throw InitializableError.missingRequiredParam("state") }
+            self.state = state
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            self.createdAt = createdAt
+            self.startedAt = dictionary["startedAt"] as? Date
+            guard let notifications = dictionary["notifications"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("notifications") }
+            self.notifications = try notifications.map({ try AssessmentRunNotification(dictionary: $0) })
+            guard let dataCollected = dictionary["dataCollected"] as? Bool else { throw InitializableError.missingRequiredParam("dataCollected") }
+            self.dataCollected = dataCollected
+            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
+            self.rulesPackageArns = rulesPackageArns
+            guard let stateChangedAt = dictionary["stateChangedAt"] as? Date else { throw InitializableError.missingRequiredParam("stateChangedAt") }
+            self.stateChangedAt = stateChangedAt
+            guard let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributesForFindings") }
+            self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+            guard let stateChanges = dictionary["stateChanges"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stateChanges") }
+            self.stateChanges = try stateChanges.map({ try AssessmentRunStateChange(dictionary: $0) })
+            self.completedAt = dictionary["completedAt"] as? Date
+            guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
+            self.durationInSeconds = durationInSeconds
+            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
     }
 
     public struct ListEventSubscriptionsResponse: AWSShape {
@@ -804,6 +1100,11 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let subscriptions = dictionary["subscriptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("subscriptions") }
+            self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct DeleteAssessmentTargetRequest: AWSShape {
@@ -818,6 +1119,10 @@ extension Inspector {
             self.assessmentTargetArn = assessmentTargetArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
+            self.assessmentTargetArn = assessmentTargetArn
+        }
     }
 
     public struct CreateAssessmentTemplateResponse: AWSShape {
@@ -832,6 +1137,10 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
     }
 
     public struct Finding: AWSShape {
@@ -896,6 +1205,31 @@ extension Inspector {
             self.confidence = confidence
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.assetType = dictionary["assetType"] as? String
+            self.schemaVersion = dictionary["schemaVersion"] as? Int32
+            guard let userAttributes = dictionary["userAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributes") }
+            self.userAttributes = try userAttributes.map({ try Attribute(dictionary: $0) })
+            self.recommendation = dictionary["recommendation"] as? String
+            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            self.createdAt = createdAt
+            self.description = dictionary["description"] as? String
+            if let serviceAttributes = dictionary["serviceAttributes"] as? [String: Any] { self.serviceAttributes = try Inspector.InspectorServiceAttributes(dictionary: serviceAttributes) }
+            self.indicatorOfCompromise = dictionary["indicatorOfCompromise"] as? Bool
+            self.severity = dictionary["severity"] as? String
+            if let assetAttributes = dictionary["assetAttributes"] as? [String: Any] { self.assetAttributes = try Inspector.AssetAttributes(dictionary: assetAttributes) }
+            self.numericSeverity = dictionary["numericSeverity"] as? Double
+            self.service = dictionary["service"] as? String
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
+            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            self.id = dictionary["id"] as? String
+            guard let updatedAt = dictionary["updatedAt"] as? Date else { throw InitializableError.missingRequiredParam("updatedAt") }
+            self.updatedAt = updatedAt
+            self.title = dictionary["title"] as? String
+            self.confidence = dictionary["confidence"] as? Int32
+        }
     }
 
     public struct ListAssessmentRunAgentsRequest: AWSShape {
@@ -919,6 +1253,13 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AgentFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -933,6 +1274,10 @@ extension Inspector {
             self.resourceArn = resourceArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+        }
     }
 
     public struct ListEventSubscriptionsRequest: AWSShape {
@@ -953,6 +1298,11 @@ extension Inspector {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceArn = dictionary["resourceArn"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
     }
 
     public struct UpdateAssessmentTargetRequest: AWSShape {
@@ -973,6 +1323,14 @@ extension Inspector {
             self.assessmentTargetName = assessmentTargetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
+            self.resourceGroupArn = resourceGroupArn
+            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
+            self.assessmentTargetArn = assessmentTargetArn
+            guard let assessmentTargetName = dictionary["assessmentTargetName"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetName") }
+            self.assessmentTargetName = assessmentTargetName
+        }
     }
 
     public struct AddAttributesToFindingsResponse: AWSShape {
@@ -987,6 +1345,15 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+        }
     }
 
     public struct CreateAssessmentTargetResponse: AWSShape {
@@ -1001,6 +1368,10 @@ extension Inspector {
             self.assessmentTargetArn = assessmentTargetArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
+            self.assessmentTargetArn = assessmentTargetArn
+        }
     }
 
     public struct ListAssessmentRunsResponse: AWSShape {
@@ -1018,6 +1389,11 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let assessmentRunArns = dictionary["assessmentRunArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentRunArns") }
+            self.assessmentRunArns = assessmentRunArns
+        }
     }
 
     public struct AssessmentRunAgent: AWSShape {
@@ -1050,6 +1426,20 @@ extension Inspector {
             self.agentId = agentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let telemetryMetadata = dictionary["telemetryMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("telemetryMetadata") }
+            self.telemetryMetadata = try telemetryMetadata.map({ try TelemetryMetadata(dictionary: $0) })
+            self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
+            guard let agentHealth = dictionary["agentHealth"] as? String else { throw InitializableError.missingRequiredParam("agentHealth") }
+            self.agentHealth = agentHealth
+            self.agentHealthDetails = dictionary["agentHealthDetails"] as? String
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+            guard let agentHealthCode = dictionary["agentHealthCode"] as? String else { throw InitializableError.missingRequiredParam("agentHealthCode") }
+            self.agentHealthCode = agentHealthCode
+            guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
+            self.agentId = agentId
+        }
     }
 
     public struct DescribeResourceGroupsResponse: AWSShape {
@@ -1067,6 +1457,17 @@ extension Inspector {
             self.resourceGroups = resourceGroups
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+            guard let resourceGroups = dictionary["resourceGroups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("resourceGroups") }
+            self.resourceGroups = try resourceGroups.map({ try ResourceGroup(dictionary: $0) })
+        }
     }
 
     public struct AssessmentTemplateFilter: AWSShape {
@@ -1087,6 +1488,13 @@ extension Inspector {
             self.durationRange = durationRange
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.namePattern = dictionary["namePattern"] as? String
+            if let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] {
+                self.rulesPackageArns = rulesPackageArns
+            }
+            if let durationRange = dictionary["durationRange"] as? [String: Any] { self.durationRange = try Inspector.DurationRange(dictionary: durationRange) }
+        }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
@@ -1101,6 +1509,10 @@ extension Inspector {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct AgentAlreadyRunningAssessment: AWSShape {
@@ -1118,6 +1530,12 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
+            self.agentId = agentId
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
     }
 
     public struct DurationRange: AWSShape {
@@ -1135,6 +1553,10 @@ extension Inspector {
             self.minSeconds = minSeconds
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxSeconds = dictionary["maxSeconds"] as? Int32
+            self.minSeconds = dictionary["minSeconds"] as? Int32
+        }
     }
 
     public struct TimestampRange: AWSShape {
@@ -1152,6 +1574,10 @@ extension Inspector {
             self.endDate = endDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.beginDate = dictionary["beginDate"] as? Date
+            self.endDate = dictionary["endDate"] as? Date
+        }
     }
 
     public struct TelemetryMetadata: AWSShape {
@@ -1172,6 +1598,13 @@ extension Inspector {
             self.messageType = messageType
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.dataSize = dictionary["dataSize"] as? Int64
+            guard let count = dictionary["count"] as? Int64 else { throw InitializableError.missingRequiredParam("count") }
+            self.count = count
+            guard let messageType = dictionary["messageType"] as? String else { throw InitializableError.missingRequiredParam("messageType") }
+            self.messageType = messageType
+        }
     }
 
     public struct AssessmentTemplate: AWSShape {
@@ -1204,6 +1637,22 @@ extension Inspector {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
+            self.assessmentTargetArn = assessmentTargetArn
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
+            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            self.createdAt = createdAt
+            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
+            self.rulesPackageArns = rulesPackageArns
+            guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
+            self.durationInSeconds = durationInSeconds
+            guard let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributesForFindings") }
+            self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
+            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
+            self.arn = arn
+        }
     }
 
     public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
@@ -1218,6 +1667,10 @@ extension Inspector {
             self.roleArn = roleArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
+            self.roleArn = roleArn
+        }
     }
 
     public struct AssetAttributes: AWSShape {
@@ -1247,6 +1700,17 @@ extension Inspector {
             self.ipv4Addresses = ipv4Addresses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
+            self.hostname = dictionary["hostname"] as? String
+            self.amiId = dictionary["amiId"] as? String
+            self.agentId = dictionary["agentId"] as? String
+            guard let schemaVersion = dictionary["schemaVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("schemaVersion") }
+            self.schemaVersion = schemaVersion
+            if let ipv4Addresses = dictionary["ipv4Addresses"] as? [String] {
+                self.ipv4Addresses = ipv4Addresses
+            }
+        }
     }
 
     public struct ListAssessmentRunAgentsResponse: AWSShape {
@@ -1264,6 +1728,11 @@ extension Inspector {
             self.assessmentRunAgents = assessmentRunAgents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            guard let assessmentRunAgents = dictionary["assessmentRunAgents"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentRunAgents") }
+            self.assessmentRunAgents = try assessmentRunAgents.map({ try AssessmentRunAgent(dictionary: $0) })
+        }
     }
 
     public struct ListAssessmentTargetsRequest: AWSShape {
@@ -1284,6 +1753,11 @@ extension Inspector {
             self.filter = filter
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AssessmentTargetFilter(dictionary: filter) }
+        }
     }
 
     public struct GetTelemetryMetadataResponse: AWSShape {
@@ -1298,6 +1772,10 @@ extension Inspector {
             self.telemetryMetadata = telemetryMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let telemetryMetadata = dictionary["telemetryMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("telemetryMetadata") }
+            self.telemetryMetadata = try telemetryMetadata.map({ try TelemetryMetadata(dictionary: $0) })
+        }
     }
 
     public struct CreateAssessmentTemplateRequest: AWSShape {
@@ -1324,6 +1802,19 @@ extension Inspector {
             self.userAttributesForFindings = userAttributesForFindings
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTemplateName = dictionary["assessmentTemplateName"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateName") }
+            self.assessmentTemplateName = assessmentTemplateName
+            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
+            self.assessmentTargetArn = assessmentTargetArn
+            guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
+            self.durationInSeconds = durationInSeconds
+            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
+            self.rulesPackageArns = rulesPackageArns
+            if let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] {
+                self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartAssessmentRunRequest: AWSShape {
@@ -1341,6 +1832,11 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.assessmentRunName = dictionary["assessmentRunName"] as? String
+            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
     }
 
     public struct AgentFilter: AWSShape {
@@ -1358,6 +1854,12 @@ extension Inspector {
             self.agentHealths = agentHealths
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let agentHealthCodes = dictionary["agentHealthCodes"] as? [String] else { throw InitializableError.missingRequiredParam("agentHealthCodes") }
+            self.agentHealthCodes = agentHealthCodes
+            guard let agentHealths = dictionary["agentHealths"] as? [String] else { throw InitializableError.missingRequiredParam("agentHealths") }
+            self.agentHealths = agentHealths
+        }
     }
 
     public struct SubscribeToEventRequest: AWSShape {
@@ -1378,6 +1880,14 @@ extension Inspector {
             self.topicArn = topicArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            self.event = event
+            guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
+            self.topicArn = topicArn
+        }
     }
 
     public struct CreateResourceGroupRequest: AWSShape {
@@ -1392,6 +1902,10 @@ extension Inspector {
             self.resourceGroupTags = resourceGroupTags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceGroupTags = dictionary["resourceGroupTags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("resourceGroupTags") }
+            self.resourceGroupTags = try resourceGroupTags.map({ try ResourceGroupTag(dictionary: $0) })
+        }
     }
 
     public struct DescribeFindingsResponse: AWSShape {
@@ -1409,6 +1923,17 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let findings = dictionary["findings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("findings") }
+            self.findings = try findings.map({ try Finding(dictionary: $0) })
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+        }
     }
 
     public struct SetTagsForResourceRequest: AWSShape {
@@ -1426,6 +1951,13 @@ extension Inspector {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
+            self.resourceArn = resourceArn
+            if let tags = dictionary["tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct FailedItemDetails: AWSShape {
@@ -1443,6 +1975,12 @@ extension Inspector {
             self.retryable = retryable
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let failureCode = dictionary["failureCode"] as? String else { throw InitializableError.missingRequiredParam("failureCode") }
+            self.failureCode = failureCode
+            guard let retryable = dictionary["retryable"] as? Bool else { throw InitializableError.missingRequiredParam("retryable") }
+            self.retryable = retryable
+        }
     }
 
     public struct AssessmentRunNotification: AWSShape {
@@ -1471,6 +2009,17 @@ extension Inspector {
             self.error = error
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.snsTopicArn = dictionary["snsTopicArn"] as? String
+            self.snsPublishStatusCode = dictionary["snsPublishStatusCode"] as? String
+            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            self.event = event
+            self.message = dictionary["message"] as? String
+            guard let date = dictionary["date"] as? Date else { throw InitializableError.missingRequiredParam("date") }
+            self.date = date
+            guard let error = dictionary["error"] as? Bool else { throw InitializableError.missingRequiredParam("error") }
+            self.error = error
+        }
     }
 
     public struct ListAssessmentTemplatesRequest: AWSShape {
@@ -1494,6 +2043,14 @@ extension Inspector {
             self.assessmentTargetArns = assessmentTargetArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["maxResults"] as? Int32
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AssessmentTemplateFilter(dictionary: filter) }
+            self.nextToken = dictionary["nextToken"] as? String
+            if let assessmentTargetArns = dictionary["assessmentTargetArns"] as? [String] {
+                self.assessmentTargetArns = assessmentTargetArns
+            }
+        }
     }
 
     public struct StopAssessmentRunRequest: AWSShape {
@@ -1508,6 +2065,10 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
     }
 
     public struct ListRulesPackagesResponse: AWSShape {
@@ -1525,6 +2086,11 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
+            self.rulesPackageArns = rulesPackageArns
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct CreateAssessmentTargetRequest: AWSShape {
@@ -1542,6 +2108,12 @@ extension Inspector {
             self.assessmentTargetName = assessmentTargetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
+            self.resourceGroupArn = resourceGroupArn
+            guard let assessmentTargetName = dictionary["assessmentTargetName"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetName") }
+            self.assessmentTargetName = assessmentTargetName
+        }
     }
 
     public struct InspectorServiceAttributes: AWSShape {
@@ -1562,6 +2134,12 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaVersion = dictionary["schemaVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("schemaVersion") }
+            self.schemaVersion = schemaVersion
+            self.rulesPackageArn = dictionary["rulesPackageArn"] as? String
+            self.assessmentRunArn = dictionary["assessmentRunArn"] as? String
+        }
     }
 
     public struct DescribeAssessmentTargetsResponse: AWSShape {
@@ -1579,6 +2157,17 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let assessmentTargets = dictionary["assessmentTargets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentTargets") }
+            self.assessmentTargets = try assessmentTargets.map({ try AssessmentTarget(dictionary: $0) })
+            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
+            var failedItemsDict: [String: FailedItemDetails] = [:]
+            for (key, value) in failedItems {
+                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
+            }
+            self.failedItems = failedItemsDict
+        }
     }
 
     public struct DescribeFindingsRequest: AWSShape {
@@ -1596,6 +2185,11 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.locale = dictionary["locale"] as? String
+            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
+            self.findingArns = findingArns
+        }
     }
 
 }

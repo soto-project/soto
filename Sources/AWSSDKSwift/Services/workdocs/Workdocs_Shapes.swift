@@ -59,6 +59,14 @@ extension Workdocs {
             self.include = include
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fields = dictionary["Fields"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+            self.include = dictionary["Include"] as? String
+        }
     }
 
     public struct CreateNotificationSubscriptionRequest: AWSShape {
@@ -85,6 +93,16 @@ extension Workdocs {
             self.endpoint = endpoint
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
+            self.organizationId = organizationId
+            guard let subscriptionType = dictionary["SubscriptionType"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionType") }
+            self.subscriptionType = subscriptionType
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            guard let endpoint = dictionary["Endpoint"] as? String else { throw InitializableError.missingRequiredParam("Endpoint") }
+            self.endpoint = endpoint
+        }
     }
 
     public struct ShareResult: AWSShape {
@@ -111,6 +129,13 @@ extension Workdocs {
             self.shareId = shareId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.role = dictionary["Role"] as? String
+            self.status = dictionary["Status"] as? String
+            self.principalId = dictionary["PrincipalId"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.shareId = dictionary["ShareId"] as? String
+        }
     }
 
     public struct GetDocumentVersionRequest: AWSShape {
@@ -137,6 +162,13 @@ extension Workdocs {
             self.documentId = documentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fields = dictionary["Fields"] as? String
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+        }
     }
 
     public struct PermissionInfo: AWSShape {
@@ -154,6 +186,10 @@ extension Workdocs {
             self.role = role
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.role = dictionary["Role"] as? String
+        }
     }
 
     public struct UpdateUserResponse: AWSShape {
@@ -168,6 +204,9 @@ extension Workdocs {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) }
+        }
     }
 
     public struct DescribeUsersResponse: AWSShape {
@@ -188,6 +227,13 @@ extension Workdocs {
             self.totalNumberOfUsers = totalNumberOfUsers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let users = dictionary["Users"] as? [[String: Any]] {
+                self.users = try users.map({ try User(dictionary: $0) })
+            }
+            self.totalNumberOfUsers = dictionary["TotalNumberOfUsers"] as? Int64
+        }
     }
 
     public struct Subscription: AWSShape {
@@ -208,6 +254,11 @@ extension Workdocs {
             self.`protocol` = `protocol`
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.subscriptionId = dictionary["SubscriptionId"] as? String
+            self.endPoint = dictionary["EndPoint"] as? String
+            self.`protocol` = dictionary["Protocol"] as? String
+        }
     }
 
     public struct DescribeFolderContentsResponse: AWSShape {
@@ -228,6 +279,15 @@ extension Workdocs {
             self.folders = folders
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let documents = dictionary["Documents"] as? [[String: Any]] {
+                self.documents = try documents.map({ try DocumentMetadata(dictionary: $0) })
+            }
+            if let folders = dictionary["Folders"] as? [[String: Any]] {
+                self.folders = try folders.map({ try FolderMetadata(dictionary: $0) })
+            }
+        }
     }
 
     public struct ResourcePathComponent: AWSShape {
@@ -245,6 +305,10 @@ extension Workdocs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeResourcePermissionsResponse: AWSShape {
@@ -262,6 +326,12 @@ extension Workdocs {
             self.principals = principals
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let principals = dictionary["Principals"] as? [[String: Any]] {
+                self.principals = try principals.map({ try Principal(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteDocumentRequest: AWSShape {
@@ -279,6 +349,10 @@ extension Workdocs {
             self.documentId = documentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+        }
     }
 
     public struct UpdateDocumentRequest: AWSShape {
@@ -305,6 +379,13 @@ extension Workdocs {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parentFolderId = dictionary["ParentFolderId"] as? String
+            self.resourceState = dictionary["ResourceState"] as? String
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct GetDocumentRequest: AWSShape {
@@ -322,6 +403,10 @@ extension Workdocs {
             self.documentId = documentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+        }
     }
 
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
@@ -354,6 +439,16 @@ extension Workdocs {
             self.documentSizeInBytes = documentSizeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["Id"] as? String
+            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? Date
+            self.name = dictionary["Name"] as? String
+            self.contentType = dictionary["ContentType"] as? String
+            guard let parentFolderId = dictionary["ParentFolderId"] as? String else { throw InitializableError.missingRequiredParam("ParentFolderId") }
+            self.parentFolderId = parentFolderId
+            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? Date
+            self.documentSizeInBytes = dictionary["DocumentSizeInBytes"] as? Int64
+        }
     }
 
     public struct AddResourcePermissionsResponse: AWSShape {
@@ -368,6 +463,11 @@ extension Workdocs {
             self.shareResults = shareResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let shareResults = dictionary["ShareResults"] as? [[String: Any]] {
+                self.shareResults = try shareResults.map({ try ShareResult(dictionary: $0) })
+            }
+        }
     }
 
     public struct FolderMetadata: AWSShape {
@@ -403,6 +503,16 @@ extension Workdocs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.signature = dictionary["Signature"] as? String
+            self.resourceState = dictionary["ResourceState"] as? String
+            self.name = dictionary["Name"] as? String
+            self.creatorId = dictionary["CreatorId"] as? String
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.parentFolderId = dictionary["ParentFolderId"] as? String
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DocumentVersionMetadata: AWSShape {
@@ -453,6 +563,25 @@ extension Workdocs {
             self.contentCreatedTimestamp = contentCreatedTimestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? Date
+            self.signature = dictionary["Signature"] as? String
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            if let source = dictionary["Source"] as? [String: String] {
+                self.source = source
+            }
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.id = dictionary["Id"] as? String
+            self.status = dictionary["Status"] as? String
+            self.name = dictionary["Name"] as? String
+            self.size = dictionary["Size"] as? Int64
+            self.contentType = dictionary["ContentType"] as? String
+            self.creatorId = dictionary["CreatorId"] as? String
+            if let thumbnail = dictionary["Thumbnail"] as? [String: String] {
+                self.thumbnail = thumbnail
+            }
+            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? Date
+        }
     }
 
     public struct UserStorageMetadata: AWSShape {
@@ -470,6 +599,10 @@ extension Workdocs {
             self.storageUtilizedInBytes = storageUtilizedInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) }
+            self.storageUtilizedInBytes = dictionary["StorageUtilizedInBytes"] as? Int64
+        }
     }
 
     public struct GetFolderPathResponse: AWSShape {
@@ -484,6 +617,9 @@ extension Workdocs {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) }
+        }
     }
 
     public struct GetFolderResponse: AWSShape {
@@ -498,6 +634,9 @@ extension Workdocs {
             self.metadata = metadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) }
+        }
     }
 
     public struct CreateUserRequest: AWSShape {
@@ -530,6 +669,19 @@ extension Workdocs {
             self.storageRule = storageRule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.timeZoneId = dictionary["TimeZoneId"] as? String
+            guard let givenName = dictionary["GivenName"] as? String else { throw InitializableError.missingRequiredParam("GivenName") }
+            self.givenName = givenName
+            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
+            self.username = username
+            guard let surname = dictionary["Surname"] as? String else { throw InitializableError.missingRequiredParam("Surname") }
+            self.surname = surname
+            self.organizationId = dictionary["OrganizationId"] as? String
+            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
+            self.password = password
+            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) }
+        }
     }
 
     public struct ActivateUserResponse: AWSShape {
@@ -544,6 +696,9 @@ extension Workdocs {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) }
+        }
     }
 
     public struct GetFolderRequest: AWSShape {
@@ -561,6 +716,10 @@ extension Workdocs {
             self.folderId = folderId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
+            self.folderId = folderId
+        }
     }
 
     public struct GetDocumentResponse: AWSShape {
@@ -575,6 +734,9 @@ extension Workdocs {
             self.metadata = metadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) }
+        }
     }
 
     public struct AddResourcePermissionsRequest: AWSShape {
@@ -595,6 +757,12 @@ extension Workdocs {
             self.principals = principals
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let principals = dictionary["Principals"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Principals") }
+            self.principals = try principals.map({ try SharePrincipal(dictionary: $0) })
+        }
     }
 
     public struct DeleteUserRequest: AWSShape {
@@ -612,6 +780,10 @@ extension Workdocs {
             self.userId = userId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+        }
     }
 
     public struct UploadMetadata: AWSShape {
@@ -629,6 +801,12 @@ extension Workdocs {
             self.signedHeaders = signedHeaders
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uploadUrl = dictionary["UploadUrl"] as? String
+            if let signedHeaders = dictionary["SignedHeaders"] as? [String: String] {
+                self.signedHeaders = signedHeaders
+            }
+        }
     }
 
     public struct CreateNotificationSubscriptionResponse: AWSShape {
@@ -643,6 +821,9 @@ extension Workdocs {
             self.subscription = subscription
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Workdocs.Subscription(dictionary: subscription) }
+        }
     }
 
     public struct UpdateFolderRequest: AWSShape {
@@ -669,6 +850,13 @@ extension Workdocs {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.parentFolderId = dictionary["ParentFolderId"] as? String
+            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
+            self.folderId = folderId
+            self.resourceState = dictionary["ResourceState"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct DescribeNotificationSubscriptionsRequest: AWSShape {
@@ -695,6 +883,12 @@ extension Workdocs {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
+            self.organizationId = organizationId
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
@@ -712,6 +906,10 @@ extension Workdocs {
             self.resourceId = resourceId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+        }
     }
 
     public struct GetDocumentPathResponse: AWSShape {
@@ -726,6 +924,9 @@ extension Workdocs {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) }
+        }
     }
 
     public struct UpdateUserRequest: AWSShape {
@@ -761,6 +962,16 @@ extension Workdocs {
             self.storageRule = storageRule
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.locale = dictionary["Locale"] as? String
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+            self.givenName = dictionary["GivenName"] as? String
+            self.timeZoneId = dictionary["TimeZoneId"] as? String
+            self.surname = dictionary["Surname"] as? String
+            self.type = dictionary["Type"] as? String
+            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) }
+        }
     }
 
     public struct DeleteFolderRequest: AWSShape {
@@ -778,6 +989,10 @@ extension Workdocs {
             self.folderId = folderId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
+            self.folderId = folderId
+        }
     }
 
     public struct CreateFolderRequest: AWSShape {
@@ -795,6 +1010,11 @@ extension Workdocs {
             self.parentFolderId = parentFolderId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? String
+            guard let parentFolderId = dictionary["ParentFolderId"] as? String else { throw InitializableError.missingRequiredParam("ParentFolderId") }
+            self.parentFolderId = parentFolderId
+        }
     }
 
     public struct DocumentMetadata: AWSShape {
@@ -827,6 +1047,15 @@ extension Workdocs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.resourceState = dictionary["ResourceState"] as? String
+            self.creatorId = dictionary["CreatorId"] as? String
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.parentFolderId = dictionary["ParentFolderId"] as? String
+            if let latestVersionMetadata = dictionary["LatestVersionMetadata"] as? [String: Any] { self.latestVersionMetadata = try Workdocs.DocumentVersionMetadata(dictionary: latestVersionMetadata) }
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeResourcePermissionsRequest: AWSShape {
@@ -853,6 +1082,12 @@ extension Workdocs {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct Principal: AWSShape {
@@ -873,6 +1108,13 @@ extension Workdocs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            if let roles = dictionary["Roles"] as? [[String: Any]] {
+                self.roles = try roles.map({ try PermissionInfo(dictionary: $0) })
+            }
+            self.id = dictionary["Id"] as? String
+        }
     }
 
     public struct DescribeNotificationSubscriptionsResponse: AWSShape {
@@ -890,6 +1132,12 @@ extension Workdocs {
             self.subscriptions = subscriptions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
+                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
+            }
+        }
     }
 
     public struct UpdateDocumentVersionRequest: AWSShape {
@@ -913,6 +1161,13 @@ extension Workdocs {
             self.documentId = documentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.versionStatus = dictionary["VersionStatus"] as? String
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+        }
     }
 
     public struct GetDocumentPathRequest: AWSShape {
@@ -942,6 +1197,13 @@ extension Workdocs {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fields = dictionary["Fields"] as? String
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct RemoveResourcePermissionRequest: AWSShape {
@@ -968,6 +1230,13 @@ extension Workdocs {
             self.principalId = principalId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            self.principalType = dictionary["PrincipalType"] as? String
+            guard let principalId = dictionary["PrincipalId"] as? String else { throw InitializableError.missingRequiredParam("PrincipalId") }
+            self.principalId = principalId
+        }
     }
 
     public struct CreateUserResponse: AWSShape {
@@ -982,6 +1251,9 @@ extension Workdocs {
             self.user = user
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) }
+        }
     }
 
     public struct DescribeDocumentVersionsResponse: AWSShape {
@@ -999,6 +1271,12 @@ extension Workdocs {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let documentVersions = dictionary["DocumentVersions"] as? [[String: Any]] {
+                self.documentVersions = try documentVersions.map({ try DocumentVersionMetadata(dictionary: $0) })
+            }
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct User: AWSShape {
@@ -1055,6 +1333,23 @@ extension Workdocs {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.emailAddress = dictionary["EmailAddress"] as? String
+            self.recycleBinFolderId = dictionary["RecycleBinFolderId"] as? String
+            self.username = dictionary["Username"] as? String
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.organizationId = dictionary["OrganizationId"] as? String
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.id = dictionary["Id"] as? String
+            self.timeZoneId = dictionary["TimeZoneId"] as? String
+            self.locale = dictionary["Locale"] as? String
+            self.status = dictionary["Status"] as? String
+            self.givenName = dictionary["GivenName"] as? String
+            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Workdocs.UserStorageMetadata(dictionary: storage) }
+            self.surname = dictionary["Surname"] as? String
+            self.rootFolderId = dictionary["RootFolderId"] as? String
+            self.type = dictionary["Type"] as? String
+        }
     }
 
     public struct StorageRuleType: AWSShape {
@@ -1072,6 +1367,10 @@ extension Workdocs {
             self.storageAllocatedInBytes = storageAllocatedInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.storageType = dictionary["StorageType"] as? String
+            self.storageAllocatedInBytes = dictionary["StorageAllocatedInBytes"] as? Int64
+        }
     }
 
     public struct CreateFolderResponse: AWSShape {
@@ -1086,6 +1385,9 @@ extension Workdocs {
             self.metadata = metadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) }
+        }
     }
 
     public struct SharePrincipal: AWSShape {
@@ -1106,6 +1408,14 @@ extension Workdocs {
             self.id = id
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            self.role = role
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
     }
 
     public struct GetFolderPathRequest: AWSShape {
@@ -1135,6 +1445,13 @@ extension Workdocs {
             self.marker = marker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fields = dictionary["Fields"] as? String
+            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
+            self.folderId = folderId
+            self.limit = dictionary["Limit"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+        }
     }
 
     public struct DeactivateUserRequest: AWSShape {
@@ -1152,6 +1469,10 @@ extension Workdocs {
             self.userId = userId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+        }
     }
 
     public struct ResourcePath: AWSShape {
@@ -1166,6 +1487,11 @@ extension Workdocs {
             self.components = components
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let components = dictionary["Components"] as? [[String: Any]] {
+                self.components = try components.map({ try ResourcePathComponent(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteFolderContentsRequest: AWSShape {
@@ -1183,6 +1509,10 @@ extension Workdocs {
             self.folderId = folderId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
+            self.folderId = folderId
+        }
     }
 
     public struct DescribeUsersRequest: AWSShape {
@@ -1224,6 +1554,17 @@ extension Workdocs {
             self.include = include
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.fields = dictionary["Fields"] as? String
+            self.userIds = dictionary["UserIds"] as? String
+            self.sort = dictionary["Sort"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.query = dictionary["Query"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.organizationId = dictionary["OrganizationId"] as? String
+            self.order = dictionary["Order"] as? String
+            self.include = dictionary["Include"] as? String
+        }
     }
 
     public struct InitiateDocumentVersionUploadResponse: AWSShape {
@@ -1241,6 +1582,10 @@ extension Workdocs {
             self.uploadMetadata = uploadMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) }
+            if let uploadMetadata = dictionary["UploadMetadata"] as? [String: Any] { self.uploadMetadata = try Workdocs.UploadMetadata(dictionary: uploadMetadata) }
+        }
     }
 
     public struct DescribeFolderContentsRequest: AWSShape {
@@ -1279,6 +1624,16 @@ extension Workdocs {
             self.include = include
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sort = dictionary["Sort"] as? String
+            self.marker = dictionary["Marker"] as? String
+            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
+            self.folderId = folderId
+            self.limit = dictionary["Limit"] as? Int32
+            self.order = dictionary["Order"] as? String
+            self.type = dictionary["Type"] as? String
+            self.include = dictionary["Include"] as? String
+        }
     }
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
@@ -1299,6 +1654,12 @@ extension Workdocs {
             self.documentId = documentId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
+            self.versionId = versionId
+            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
+            self.documentId = documentId
+        }
     }
 
     public struct GetDocumentVersionResponse: AWSShape {
@@ -1313,6 +1674,9 @@ extension Workdocs {
             self.metadata = metadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentVersionMetadata(dictionary: metadata) }
+        }
     }
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
@@ -1333,6 +1697,12 @@ extension Workdocs {
             self.subscriptionId = subscriptionId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
+            self.organizationId = organizationId
+            guard let subscriptionId = dictionary["SubscriptionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionId") }
+            self.subscriptionId = subscriptionId
+        }
     }
 
     public struct ActivateUserRequest: AWSShape {
@@ -1350,6 +1720,10 @@ extension Workdocs {
             self.userId = userId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
+            self.userId = userId
+        }
     }
 
 }

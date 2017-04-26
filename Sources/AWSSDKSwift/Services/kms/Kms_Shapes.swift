@@ -47,6 +47,13 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.truncated = dictionary["Truncated"] as? Bool
+            if let policyNames = dictionary["PolicyNames"] as? [String] {
+                self.policyNames = policyNames
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct GetParametersForImportRequest: AWSShape {
@@ -67,6 +74,14 @@ extension Kms {
             self.wrappingKeySpec = wrappingKeySpec
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            guard let wrappingAlgorithm = dictionary["WrappingAlgorithm"] as? String else { throw InitializableError.missingRequiredParam("WrappingAlgorithm") }
+            self.wrappingAlgorithm = wrappingAlgorithm
+            guard let wrappingKeySpec = dictionary["WrappingKeySpec"] as? String else { throw InitializableError.missingRequiredParam("WrappingKeySpec") }
+            self.wrappingKeySpec = wrappingKeySpec
+        }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -84,6 +99,12 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct GenerateRandomRequest: AWSShape {
@@ -98,6 +119,9 @@ extension Kms {
             self.numberOfBytes = numberOfBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.numberOfBytes = dictionary["NumberOfBytes"] as? Int32
+        }
     }
 
     public struct UpdateAliasRequest: AWSShape {
@@ -115,6 +139,12 @@ extension Kms {
             self.targetKeyId = targetKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aliasName = dictionary["AliasName"] as? String else { throw InitializableError.missingRequiredParam("AliasName") }
+            self.aliasName = aliasName
+            guard let targetKeyId = dictionary["TargetKeyId"] as? String else { throw InitializableError.missingRequiredParam("TargetKeyId") }
+            self.targetKeyId = targetKeyId
+        }
     }
 
     public struct ReEncryptRequest: AWSShape {
@@ -141,6 +171,21 @@ extension Kms {
             self.destinationKeyId = destinationKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let destinationEncryptionContext = dictionary["DestinationEncryptionContext"] as? [String: String] {
+                self.destinationEncryptionContext = destinationEncryptionContext
+            }
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+            guard let ciphertextBlob = dictionary["CiphertextBlob"] as? Data else { throw InitializableError.missingRequiredParam("CiphertextBlob") }
+            self.ciphertextBlob = ciphertextBlob
+            if let sourceEncryptionContext = dictionary["SourceEncryptionContext"] as? [String: String] {
+                self.sourceEncryptionContext = sourceEncryptionContext
+            }
+            guard let destinationKeyId = dictionary["DestinationKeyId"] as? String else { throw InitializableError.missingRequiredParam("DestinationKeyId") }
+            self.destinationKeyId = destinationKeyId
+        }
     }
 
     public struct ReEncryptResponse: AWSShape {
@@ -161,6 +206,11 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
+            self.sourceKeyId = dictionary["SourceKeyId"] as? String
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct KeyListEntry: AWSShape {
@@ -178,6 +228,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyArn = dictionary["KeyArn"] as? String
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct DescribeKeyRequest: AWSShape {
@@ -195,6 +249,13 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct GetKeyPolicyResponse: AWSShape {
@@ -209,6 +270,9 @@ extension Kms {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+        }
     }
 
     public struct DecryptRequest: AWSShape {
@@ -229,6 +293,16 @@ extension Kms {
             self.grantTokens = grantTokens
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let ciphertextBlob = dictionary["CiphertextBlob"] as? Data else { throw InitializableError.missingRequiredParam("CiphertextBlob") }
+            self.ciphertextBlob = ciphertextBlob
+            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
+                self.encryptionContext = encryptionContext
+            }
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+        }
     }
 
     public struct ListAliasesResponse: AWSShape {
@@ -249,6 +323,13 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
+                self.aliases = try aliases.map({ try AliasListEntry(dictionary: $0) })
+            }
+            self.truncated = dictionary["Truncated"] as? Bool
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct Tag: AWSShape {
@@ -266,6 +347,12 @@ extension Kms {
             self.tagKey = tagKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let tagValue = dictionary["TagValue"] as? String else { throw InitializableError.missingRequiredParam("TagValue") }
+            self.tagValue = tagValue
+            guard let tagKey = dictionary["TagKey"] as? String else { throw InitializableError.missingRequiredParam("TagKey") }
+            self.tagKey = tagKey
+        }
     }
 
     public struct GetKeyRotationStatusResponse: AWSShape {
@@ -280,6 +367,9 @@ extension Kms {
             self.keyRotationEnabled = keyRotationEnabled
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyRotationEnabled = dictionary["KeyRotationEnabled"] as? Bool
+        }
     }
 
     public struct PutKeyPolicyRequest: AWSShape {
@@ -303,6 +393,15 @@ extension Kms {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bypassPolicyLockoutSafetyCheck = dictionary["BypassPolicyLockoutSafetyCheck"] as? Bool
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
+            self.policy = policy
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct KeyMetadata: AWSShape {
@@ -350,6 +449,21 @@ extension Kms {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            self.origin = dictionary["Origin"] as? String
+            self.expirationModel = dictionary["ExpirationModel"] as? String
+            self.aWSAccountId = dictionary["AWSAccountId"] as? String
+            self.enabled = dictionary["Enabled"] as? Bool
+            self.keyState = dictionary["KeyState"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.keyUsage = dictionary["KeyUsage"] as? String
+            self.validTo = dictionary["ValidTo"] as? Date
+            self.deletionDate = dictionary["DeletionDate"] as? Date
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CancelKeyDeletionRequest: AWSShape {
@@ -364,6 +478,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct ListKeyPoliciesRequest: AWSShape {
@@ -384,6 +502,12 @@ extension Kms {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct CreateAliasRequest: AWSShape {
@@ -401,6 +525,12 @@ extension Kms {
             self.targetKeyId = targetKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aliasName = dictionary["AliasName"] as? String else { throw InitializableError.missingRequiredParam("AliasName") }
+            self.aliasName = aliasName
+            guard let targetKeyId = dictionary["TargetKeyId"] as? String else { throw InitializableError.missingRequiredParam("TargetKeyId") }
+            self.targetKeyId = targetKeyId
+        }
     }
 
     public struct ScheduleKeyDeletionRequest: AWSShape {
@@ -418,6 +548,11 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pendingWindowInDays = dictionary["PendingWindowInDays"] as? Int32
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct CreateGrantResponse: AWSShape {
@@ -435,6 +570,10 @@ extension Kms {
             self.grantId = grantId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.grantToken = dictionary["GrantToken"] as? String
+            self.grantId = dictionary["GrantId"] as? String
+        }
     }
 
     public struct ListRetirableGrantsRequest: AWSShape {
@@ -455,6 +594,12 @@ extension Kms {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let retiringPrincipal = dictionary["RetiringPrincipal"] as? String else { throw InitializableError.missingRequiredParam("RetiringPrincipal") }
+            self.retiringPrincipal = retiringPrincipal
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct ListKeysRequest: AWSShape {
@@ -472,6 +617,10 @@ extension Kms {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct GetParametersForImportResponse: AWSShape {
@@ -495,6 +644,12 @@ extension Kms {
             self.parametersValidTo = parametersValidTo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.importToken = dictionary["ImportToken"] as? Data
+            self.publicKey = dictionary["PublicKey"] as? Data
+            self.keyId = dictionary["KeyId"] as? String
+            self.parametersValidTo = dictionary["ParametersValidTo"] as? Date
+        }
     }
 
     public struct DisableKeyRotationRequest: AWSShape {
@@ -509,6 +664,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct ListResourceTagsRequest: AWSShape {
@@ -529,6 +688,12 @@ extension Kms {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct EnableKeyRequest: AWSShape {
@@ -543,6 +708,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct ImportKeyMaterialResponse: AWSShape {
@@ -551,6 +720,8 @@ extension Kms {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct EncryptRequest: AWSShape {
@@ -574,6 +745,18 @@ extension Kms {
             self.grantTokens = grantTokens
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
+                self.encryptionContext = encryptionContext
+            }
+            guard let plaintext = dictionary["Plaintext"] as? Data else { throw InitializableError.missingRequiredParam("Plaintext") }
+            self.plaintext = plaintext
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+        }
     }
 
     public struct EnableKeyRotationRequest: AWSShape {
@@ -588,6 +771,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct RevokeGrantRequest: AWSShape {
@@ -605,6 +792,12 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let grantId = dictionary["GrantId"] as? String else { throw InitializableError.missingRequiredParam("GrantId") }
+            self.grantId = grantId
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct RetireGrantRequest: AWSShape {
@@ -625,6 +818,11 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.grantToken = dictionary["GrantToken"] as? String
+            self.grantId = dictionary["GrantId"] as? String
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct CancelKeyDeletionResponse: AWSShape {
@@ -639,6 +837,9 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct GenerateRandomResponse: AWSShape {
@@ -653,6 +854,9 @@ extension Kms {
             self.plaintext = plaintext
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.plaintext = dictionary["Plaintext"] as? Data
+        }
     }
 
     public struct CreateGrantRequest: AWSShape {
@@ -685,6 +889,21 @@ extension Kms {
             self.constraints = constraints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            self.retiringPrincipal = dictionary["RetiringPrincipal"] as? String
+            self.name = dictionary["Name"] as? String
+            if let operations = dictionary["Operations"] as? [String] {
+                self.operations = operations
+            }
+            guard let granteePrincipal = dictionary["GranteePrincipal"] as? String else { throw InitializableError.missingRequiredParam("GranteePrincipal") }
+            self.granteePrincipal = granteePrincipal
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Kms.GrantConstraints(dictionary: constraints) }
+        }
     }
 
     public struct DescribeKeyResponse: AWSShape {
@@ -699,6 +918,9 @@ extension Kms {
             self.keyMetadata = keyMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyMetadata = dictionary["KeyMetadata"] as? [String: Any] { self.keyMetadata = try Kms.KeyMetadata(dictionary: keyMetadata) }
+        }
     }
 
     public struct UpdateKeyDescriptionRequest: AWSShape {
@@ -716,6 +938,12 @@ extension Kms {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
     }
 
     public struct GetKeyPolicyRequest: AWSShape {
@@ -733,6 +961,12 @@ extension Kms {
             self.policyName = policyName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
     }
 
     public struct GenerateDataKeyWithoutPlaintextRequest: AWSShape {
@@ -759,6 +993,18 @@ extension Kms {
             self.keySpec = keySpec
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
+                self.encryptionContext = encryptionContext
+            }
+            self.numberOfBytes = dictionary["NumberOfBytes"] as? Int32
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+            self.keySpec = dictionary["KeySpec"] as? String
+        }
     }
 
     public struct ListKeysResponse: AWSShape {
@@ -779,6 +1025,13 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.truncated = dictionary["Truncated"] as? Bool
+            if let keys = dictionary["Keys"] as? [[String: Any]] {
+                self.keys = try keys.map({ try KeyListEntry(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct ListGrantsResponse: AWSShape {
@@ -799,6 +1052,13 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.truncated = dictionary["Truncated"] as? Bool
+            if let grants = dictionary["Grants"] as? [[String: Any]] {
+                self.grants = try grants.map({ try GrantListEntry(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct DeleteAliasRequest: AWSShape {
@@ -813,6 +1073,10 @@ extension Kms {
             self.aliasName = aliasName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let aliasName = dictionary["AliasName"] as? String else { throw InitializableError.missingRequiredParam("AliasName") }
+            self.aliasName = aliasName
+        }
     }
 
     public struct ListAliasesRequest: AWSShape {
@@ -830,6 +1094,10 @@ extension Kms {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+        }
     }
 
     public struct DecryptResponse: AWSShape {
@@ -847,6 +1115,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.plaintext = dictionary["Plaintext"] as? Data
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct GenerateDataKeyResponse: AWSShape {
@@ -867,6 +1139,11 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
+            self.plaintext = dictionary["Plaintext"] as? Data
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct ScheduleKeyDeletionResponse: AWSShape {
@@ -884,6 +1161,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.deletionDate = dictionary["DeletionDate"] as? Date
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct DeleteImportedKeyMaterialRequest: AWSShape {
@@ -898,6 +1179,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct GenerateDataKeyRequest: AWSShape {
@@ -924,6 +1209,18 @@ extension Kms {
             self.keySpec = keySpec
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
+                self.encryptionContext = encryptionContext
+            }
+            self.numberOfBytes = dictionary["NumberOfBytes"] as? Int32
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            if let grantTokens = dictionary["GrantTokens"] as? [String] {
+                self.grantTokens = grantTokens
+            }
+            self.keySpec = dictionary["KeySpec"] as? String
+        }
     }
 
     public struct CreateKeyResponse: AWSShape {
@@ -938,6 +1235,9 @@ extension Kms {
             self.keyMetadata = keyMetadata
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyMetadata = dictionary["KeyMetadata"] as? [String: Any] { self.keyMetadata = try Kms.KeyMetadata(dictionary: keyMetadata) }
+        }
     }
 
     public struct GrantListEntry: AWSShape {
@@ -976,6 +1276,19 @@ extension Kms {
             self.constraints = constraints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.keyId = dictionary["KeyId"] as? String
+            self.retiringPrincipal = dictionary["RetiringPrincipal"] as? String
+            self.name = dictionary["Name"] as? String
+            if let operations = dictionary["Operations"] as? [String] {
+                self.operations = operations
+            }
+            self.grantId = dictionary["GrantId"] as? String
+            self.issuingAccount = dictionary["IssuingAccount"] as? String
+            self.creationDate = dictionary["CreationDate"] as? Date
+            self.granteePrincipal = dictionary["GranteePrincipal"] as? String
+            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Kms.GrantConstraints(dictionary: constraints) }
+        }
     }
 
     public struct ListGrantsRequest: AWSShape {
@@ -996,6 +1309,12 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct GrantConstraints: AWSShape {
@@ -1013,6 +1332,14 @@ extension Kms {
             self.encryptionContextEquals = encryptionContextEquals
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let encryptionContextSubset = dictionary["EncryptionContextSubset"] as? [String: String] {
+                self.encryptionContextSubset = encryptionContextSubset
+            }
+            if let encryptionContextEquals = dictionary["EncryptionContextEquals"] as? [String: String] {
+                self.encryptionContextEquals = encryptionContextEquals
+            }
+        }
     }
 
     public struct GetKeyRotationStatusRequest: AWSShape {
@@ -1027,6 +1354,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct DisableKeyRequest: AWSShape {
@@ -1041,6 +1372,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+        }
     }
 
     public struct AliasListEntry: AWSShape {
@@ -1061,6 +1396,11 @@ extension Kms {
             self.targetKeyId = targetKeyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.aliasName = dictionary["AliasName"] as? String
+            self.aliasArn = dictionary["AliasArn"] as? String
+            self.targetKeyId = dictionary["TargetKeyId"] as? String
+        }
     }
 
     public struct ImportKeyMaterialRequest: AWSShape {
@@ -1087,6 +1427,16 @@ extension Kms {
             self.validTo = validTo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let importToken = dictionary["ImportToken"] as? Data else { throw InitializableError.missingRequiredParam("ImportToken") }
+            self.importToken = importToken
+            guard let encryptedKeyMaterial = dictionary["EncryptedKeyMaterial"] as? Data else { throw InitializableError.missingRequiredParam("EncryptedKeyMaterial") }
+            self.encryptedKeyMaterial = encryptedKeyMaterial
+            self.expirationModel = dictionary["ExpirationModel"] as? String
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            self.validTo = dictionary["ValidTo"] as? Date
+        }
     }
 
     public struct EncryptResponse: AWSShape {
@@ -1104,6 +1454,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
     public struct CreateKeyRequest: AWSShape {
@@ -1133,6 +1487,16 @@ extension Kms {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bypassPolicyLockoutSafetyCheck = dictionary["BypassPolicyLockoutSafetyCheck"] as? Bool
+            self.keyUsage = dictionary["KeyUsage"] as? String
+            self.origin = dictionary["Origin"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.policy = dictionary["Policy"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -1150,6 +1514,12 @@ extension Kms {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
+            self.keyId = keyId
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct ListResourceTagsResponse: AWSShape {
@@ -1170,6 +1540,13 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.truncated = dictionary["Truncated"] as? Bool
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
     }
 
     public struct GenerateDataKeyWithoutPlaintextResponse: AWSShape {
@@ -1187,6 +1564,10 @@ extension Kms {
             self.keyId = keyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
+            self.keyId = dictionary["KeyId"] as? String
+        }
     }
 
 }

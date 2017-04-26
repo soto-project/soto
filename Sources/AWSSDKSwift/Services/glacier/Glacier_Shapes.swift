@@ -44,6 +44,9 @@ extension Glacier {
             self.capacityId = capacityId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.capacityId = dictionary["capacityId"] as? String
+        }
     }
 
     public struct SetDataRetrievalPolicyInput: AWSShape {
@@ -64,6 +67,11 @@ extension Glacier {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Glacier.DataRetrievalPolicy(dictionary: policy) }
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+        }
     }
 
     public struct AbortMultipartUploadInput: AWSShape {
@@ -87,6 +95,14 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            self.uploadId = uploadId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct DeleteVaultNotificationsInput: AWSShape {
@@ -107,6 +123,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct InitiateVaultLockInput: AWSShape {
@@ -130,6 +152,13 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            if let policy = dictionary["policy"] as? [String: Any] { self.policy = try Glacier.VaultLockPolicy(dictionary: policy) }
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct InitiateMultipartUploadInput: AWSShape {
@@ -159,6 +188,14 @@ extension Glacier {
             self.partSize = partSize
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            self.archiveDescription = dictionary["archiveDescription"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+            self.partSize = dictionary["partSize"] as? String
+        }
     }
 
     public struct ListMultipartUploadsOutput: AWSShape {
@@ -176,6 +213,12 @@ extension Glacier {
             self.uploadsList = uploadsList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let uploadsList = dictionary["UploadsList"] as? [[String: Any]] {
+                self.uploadsList = try uploadsList.map({ try UploadListElement(dictionary: $0) })
+            }
+        }
     }
 
     public struct PartListElement: AWSShape {
@@ -193,6 +236,10 @@ extension Glacier {
             self.rangeInBytes = rangeInBytes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sHA256TreeHash = dictionary["SHA256TreeHash"] as? String
+            self.rangeInBytes = dictionary["RangeInBytes"] as? String
+        }
     }
 
     public struct ListMultipartUploadsInput: AWSShape {
@@ -222,6 +269,14 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            self.marker = dictionary["marker"] as? String
+            self.limit = dictionary["limit"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct GetVaultLockInput: AWSShape {
@@ -242,6 +297,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct GetDataRetrievalPolicyInput: AWSShape {
@@ -259,6 +320,10 @@ extension Glacier {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+        }
     }
 
     public struct GetJobOutputInput: AWSShape {
@@ -288,6 +353,15 @@ extension Glacier {
             self.jobId = jobId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            self.range = dictionary["range"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+        }
     }
 
     public struct PurchaseProvisionedCapacityInput: AWSShape {
@@ -305,6 +379,10 @@ extension Glacier {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+        }
     }
 
     public struct GetDataRetrievalPolicyOutput: AWSShape {
@@ -319,6 +397,9 @@ extension Glacier {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Glacier.DataRetrievalPolicy(dictionary: policy) }
+        }
     }
 
     public struct UploadArchiveInput: AWSShape {
@@ -351,6 +432,15 @@ extension Glacier {
             self.body = body
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            self.archiveDescription = dictionary["archiveDescription"] as? String
+            self.checksum = dictionary["checksum"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+            self.body = dictionary["body"] as? Data
+        }
     }
 
     public struct UploadMultipartPartInput: AWSShape {
@@ -386,6 +476,17 @@ extension Glacier {
             self.body = body
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            self.uploadId = uploadId
+            self.range = dictionary["range"] as? String
+            self.checksum = dictionary["checksum"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+            self.body = dictionary["body"] as? Data
+        }
     }
 
     public struct SetVaultNotificationsInput: AWSShape {
@@ -409,6 +510,13 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vaultNotificationConfig = dictionary["vaultNotificationConfig"] as? [String: Any] { self.vaultNotificationConfig = try Glacier.VaultNotificationConfig(dictionary: vaultNotificationConfig) }
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct ListTagsForVaultInput: AWSShape {
@@ -429,6 +537,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct DataRetrievalRule: AWSShape {
@@ -446,6 +560,10 @@ extension Glacier {
             self.strategy = strategy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.bytesPerHour = dictionary["BytesPerHour"] as? Int64
+            self.strategy = dictionary["Strategy"] as? String
+        }
     }
 
     public struct RemoveTagsFromVaultInput: AWSShape {
@@ -469,6 +587,15 @@ extension Glacier {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+            if let tagKeys = dictionary["TagKeys"] as? [String] {
+                self.tagKeys = tagKeys
+            }
+        }
     }
 
     public struct ListProvisionedCapacityOutput: AWSShape {
@@ -483,6 +610,11 @@ extension Glacier {
             self.provisionedCapacityList = provisionedCapacityList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let provisionedCapacityList = dictionary["ProvisionedCapacityList"] as? [[String: Any]] {
+                self.provisionedCapacityList = try provisionedCapacityList.map({ try ProvisionedCapacityDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct AddTagsToVaultInput: AWSShape {
@@ -506,6 +638,15 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            if let tags = dictionary["Tags"] as? [String: String] {
+                self.tags = tags
+            }
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct UploadListElement: AWSShape {
@@ -532,6 +673,13 @@ extension Glacier {
             self.multipartUploadId = multipartUploadId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vaultARN = dictionary["VaultARN"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.archiveDescription = dictionary["ArchiveDescription"] as? String
+            self.partSizeInBytes = dictionary["PartSizeInBytes"] as? Int64
+            self.multipartUploadId = dictionary["MultipartUploadId"] as? String
+        }
     }
 
     public struct CompleteMultipartUploadInput: AWSShape {
@@ -564,6 +712,16 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            self.uploadId = uploadId
+            self.archiveSize = dictionary["archiveSize"] as? String
+            self.checksum = dictionary["checksum"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct ListJobsInput: AWSShape {
@@ -599,6 +757,16 @@ extension Glacier {
             self.completed = completed
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            self.marker = dictionary["marker"] as? String
+            self.limit = dictionary["limit"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+            self.statuscode = dictionary["statuscode"] as? String
+            self.completed = dictionary["completed"] as? String
+        }
     }
 
     public struct DeleteVaultInput: AWSShape {
@@ -619,6 +787,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct DeleteVaultAccessPolicyInput: AWSShape {
@@ -639,6 +813,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct InitiateJobInput: AWSShape {
@@ -662,6 +842,13 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            if let jobParameters = dictionary["jobParameters"] as? [String: Any] { self.jobParameters = try Glacier.JobParameters(dictionary: jobParameters) }
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct ArchiveCreationOutput: AWSShape {
@@ -685,6 +872,11 @@ extension Glacier {
             self.checksum = checksum
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.archiveId = dictionary["archiveId"] as? String
+            self.location = dictionary["location"] as? String
+            self.checksum = dictionary["checksum"] as? String
+        }
     }
 
     public struct ListTagsForVaultOutput: AWSShape {
@@ -699,6 +891,11 @@ extension Glacier {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [String: String] {
+                self.tags = tags
+            }
+        }
     }
 
     public struct CreateVaultOutput: AWSShape {
@@ -716,6 +913,9 @@ extension Glacier {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.location = dictionary["location"] as? String
+        }
     }
 
     public struct InitiateJobOutput: AWSShape {
@@ -736,6 +936,10 @@ extension Glacier {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.jobId = dictionary["jobId"] as? String
+            self.location = dictionary["location"] as? String
+        }
     }
 
     public struct ListVaultsOutput: AWSShape {
@@ -753,6 +957,12 @@ extension Glacier {
             self.vaultList = vaultList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let vaultList = dictionary["VaultList"] as? [[String: Any]] {
+                self.vaultList = try vaultList.map({ try DescribeVaultOutput(dictionary: $0) })
+            }
+        }
     }
 
     public struct GlacierJobDescription: AWSShape {
@@ -818,6 +1028,26 @@ extension Glacier {
             self.tier = tier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vaultARN = dictionary["VaultARN"] as? String
+            self.completionDate = dictionary["CompletionDate"] as? String
+            self.inventorySizeInBytes = dictionary["InventorySizeInBytes"] as? Int64
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.archiveId = dictionary["ArchiveId"] as? String
+            self.sNSTopic = dictionary["SNSTopic"] as? String
+            self.archiveSHA256TreeHash = dictionary["ArchiveSHA256TreeHash"] as? String
+            self.jobId = dictionary["JobId"] as? String
+            self.sHA256TreeHash = dictionary["SHA256TreeHash"] as? String
+            self.action = dictionary["Action"] as? String
+            self.retrievalByteRange = dictionary["RetrievalByteRange"] as? String
+            if let inventoryRetrievalParameters = dictionary["InventoryRetrievalParameters"] as? [String: Any] { self.inventoryRetrievalParameters = try Glacier.InventoryRetrievalJobDescription(dictionary: inventoryRetrievalParameters) }
+            self.statusCode = dictionary["StatusCode"] as? String
+            self.archiveSizeInBytes = dictionary["ArchiveSizeInBytes"] as? Int64
+            self.completed = dictionary["Completed"] as? Bool
+            self.jobDescription = dictionary["JobDescription"] as? String
+            self.statusMessage = dictionary["StatusMessage"] as? String
+            self.tier = dictionary["Tier"] as? String
+        }
     }
 
     public struct ProvisionedCapacityDescription: AWSShape {
@@ -838,6 +1068,11 @@ extension Glacier {
             self.expirationDate = expirationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startDate = dictionary["StartDate"] as? String
+            self.capacityId = dictionary["CapacityId"] as? String
+            self.expirationDate = dictionary["ExpirationDate"] as? String
+        }
     }
 
     public struct GetVaultLockOutput: AWSShape {
@@ -861,6 +1096,12 @@ extension Glacier {
             self.expirationDate = expirationDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.policy = dictionary["Policy"] as? String
+            self.state = dictionary["State"] as? String
+            self.expirationDate = dictionary["ExpirationDate"] as? String
+        }
     }
 
     public struct InventoryRetrievalJobDescription: AWSShape {
@@ -887,6 +1128,13 @@ extension Glacier {
             self.endDate = endDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.format = dictionary["Format"] as? String
+            self.startDate = dictionary["StartDate"] as? String
+            self.limit = dictionary["Limit"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.endDate = dictionary["EndDate"] as? String
+        }
     }
 
     public struct GetVaultNotificationsInput: AWSShape {
@@ -907,6 +1155,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct ListVaultsInput: AWSShape {
@@ -933,6 +1187,12 @@ extension Glacier {
             self.limit = limit
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["marker"] as? String
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            self.limit = dictionary["limit"] as? String
+        }
     }
 
     public struct GetVaultAccessPolicyOutput: AWSShape {
@@ -947,6 +1207,9 @@ extension Glacier {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policy = dictionary["policy"] as? [String: Any] { self.policy = try Glacier.VaultAccessPolicy(dictionary: policy) }
+        }
     }
 
     public struct InitiateMultipartUploadOutput: AWSShape {
@@ -967,6 +1230,10 @@ extension Glacier {
             self.location = location
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.uploadId = dictionary["uploadId"] as? String
+            self.location = dictionary["location"] as? String
+        }
     }
 
     public struct ListPartsOutput: AWSShape {
@@ -999,6 +1266,17 @@ extension Glacier {
             self.parts = parts
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.vaultARN = dictionary["VaultARN"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.archiveDescription = dictionary["ArchiveDescription"] as? String
+            self.partSizeInBytes = dictionary["PartSizeInBytes"] as? Int64
+            self.multipartUploadId = dictionary["MultipartUploadId"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
+            if let parts = dictionary["Parts"] as? [[String: Any]] {
+                self.parts = try parts.map({ try PartListElement(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListPartsInput: AWSShape {
@@ -1031,6 +1309,16 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            self.uploadId = uploadId
+            self.limit = dictionary["limit"] as? String
+            self.marker = dictionary["marker"] as? String
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct VaultAccessPolicy: AWSShape {
@@ -1045,6 +1333,9 @@ extension Glacier {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+        }
     }
 
     public struct AbortVaultLockInput: AWSShape {
@@ -1065,6 +1356,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct DescribeVaultInput: AWSShape {
@@ -1085,6 +1382,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct DeleteArchiveInput: AWSShape {
@@ -1108,6 +1411,14 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let archiveId = dictionary["archiveId"] as? String else { throw InitializableError.missingRequiredParam("archiveId") }
+            self.archiveId = archiveId
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct SetVaultAccessPolicyInput: AWSShape {
@@ -1131,6 +1442,13 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            if let policy = dictionary["policy"] as? [String: Any] { self.policy = try Glacier.VaultAccessPolicy(dictionary: policy) }
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct VaultLockPolicy: AWSShape {
@@ -1145,6 +1463,9 @@ extension Glacier {
             self.policy = policy
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+        }
     }
 
     public struct GetJobOutputOutput: AWSShape {
@@ -1180,6 +1501,15 @@ extension Glacier {
             self.checksum = checksum
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.contentRange = dictionary["contentRange"] as? String
+            self.status = dictionary["status"] as? Int32
+            self.contentType = dictionary["contentType"] as? String
+            self.acceptRanges = dictionary["acceptRanges"] as? String
+            self.body = dictionary["body"] as? Data
+            self.archiveDescription = dictionary["archiveDescription"] as? String
+            self.checksum = dictionary["checksum"] as? String
+        }
     }
 
     public struct ListProvisionedCapacityInput: AWSShape {
@@ -1197,6 +1527,10 @@ extension Glacier {
             self.accountId = accountId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+        }
     }
 
     public struct UploadMultipartPartOutput: AWSShape {
@@ -1214,6 +1548,9 @@ extension Glacier {
             self.checksum = checksum
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.checksum = dictionary["checksum"] as? String
+        }
     }
 
     public struct VaultNotificationConfig: AWSShape {
@@ -1231,6 +1568,12 @@ extension Glacier {
             self.sNSTopic = sNSTopic
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let events = dictionary["Events"] as? [String] {
+                self.events = events
+            }
+            self.sNSTopic = dictionary["SNSTopic"] as? String
+        }
     }
 
     public struct ListJobsOutput: AWSShape {
@@ -1248,6 +1591,12 @@ extension Glacier {
             self.jobList = jobList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let jobList = dictionary["JobList"] as? [[String: Any]] {
+                self.jobList = try jobList.map({ try GlacierJobDescription(dictionary: $0) })
+            }
+        }
     }
 
     public struct DataRetrievalPolicy: AWSShape {
@@ -1262,6 +1611,11 @@ extension Glacier {
             self.rules = rules
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try DataRetrievalRule(dictionary: $0) })
+            }
+        }
     }
 
     public struct JobParameters: AWSShape {
@@ -1297,6 +1651,16 @@ extension Glacier {
             self.description = description
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let inventoryRetrievalParameters = dictionary["InventoryRetrievalParameters"] as? [String: Any] { self.inventoryRetrievalParameters = try Glacier.InventoryRetrievalJobInput(dictionary: inventoryRetrievalParameters) }
+            self.retrievalByteRange = dictionary["RetrievalByteRange"] as? String
+            self.format = dictionary["Format"] as? String
+            self.archiveId = dictionary["ArchiveId"] as? String
+            self.sNSTopic = dictionary["SNSTopic"] as? String
+            self.type = dictionary["Type"] as? String
+            self.tier = dictionary["Tier"] as? String
+            self.description = dictionary["Description"] as? String
+        }
     }
 
     public struct CreateVaultInput: AWSShape {
@@ -1317,6 +1681,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct GetVaultAccessPolicyInput: AWSShape {
@@ -1337,6 +1707,12 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct GetVaultNotificationsOutput: AWSShape {
@@ -1351,6 +1727,9 @@ extension Glacier {
             self.vaultNotificationConfig = vaultNotificationConfig
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let vaultNotificationConfig = dictionary["vaultNotificationConfig"] as? [String: Any] { self.vaultNotificationConfig = try Glacier.VaultNotificationConfig(dictionary: vaultNotificationConfig) }
+        }
     }
 
     public struct DescribeJobInput: AWSShape {
@@ -1374,6 +1753,14 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct CompleteVaultLockInput: AWSShape {
@@ -1397,6 +1784,14 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.accountId = accountId
+            guard let lockId = dictionary["lockId"] as? String else { throw InitializableError.missingRequiredParam("lockId") }
+            self.lockId = lockId
+            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.vaultName = vaultName
+        }
     }
 
     public struct InventoryRetrievalJobInput: AWSShape {
@@ -1420,6 +1815,12 @@ extension Glacier {
             self.endDate = endDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.startDate = dictionary["StartDate"] as? String
+            self.limit = dictionary["Limit"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.endDate = dictionary["EndDate"] as? String
+        }
     }
 
     public struct InitiateVaultLockOutput: AWSShape {
@@ -1437,6 +1838,9 @@ extension Glacier {
             self.lockId = lockId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.lockId = dictionary["lockId"] as? String
+        }
     }
 
     public struct DescribeVaultOutput: AWSShape {
@@ -1466,6 +1870,14 @@ extension Glacier {
             self.lastInventoryDate = lastInventoryDate
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sizeInBytes = dictionary["SizeInBytes"] as? Int64
+            self.vaultARN = dictionary["VaultARN"] as? String
+            self.numberOfArchives = dictionary["NumberOfArchives"] as? Int64
+            self.vaultName = dictionary["VaultName"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.lastInventoryDate = dictionary["LastInventoryDate"] as? String
+        }
     }
 
 }

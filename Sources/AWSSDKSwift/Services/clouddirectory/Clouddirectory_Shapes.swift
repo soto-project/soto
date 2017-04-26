@@ -50,6 +50,13 @@ extension Clouddirectory {
             self.requiredBehavior = requiredBehavior
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attributeDefinition = dictionary["AttributeDefinition"] as? [String: Any] { self.attributeDefinition = try Clouddirectory.FacetAttributeDefinition(dictionary: attributeDefinition) }
+            if let attributeReference = dictionary["AttributeReference"] as? [String: Any] { self.attributeReference = try Clouddirectory.FacetAttributeReference(dictionary: attributeReference) }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            self.requiredBehavior = dictionary["RequiredBehavior"] as? String
+        }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -67,6 +74,12 @@ extension Clouddirectory {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
     }
 
     public struct UpdateSchemaResponse: AWSShape {
@@ -81,6 +94,9 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaArn = dictionary["SchemaArn"] as? String
+        }
     }
 
     public struct Rule: AWSShape {
@@ -98,6 +114,12 @@ extension Clouddirectory {
             self.parameters = parameters
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            if let parameters = dictionary["Parameters"] as? [String: String] {
+                self.parameters = parameters
+            }
+        }
     }
 
     public struct GetDirectoryRequest: AWSShape {
@@ -115,6 +137,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ListObjectChildrenResponse: AWSShape {
@@ -132,6 +158,12 @@ extension Clouddirectory {
             self.children = children
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let children = dictionary["Children"] as? [String: String] {
+                self.children = children
+            }
+        }
     }
 
     public struct AddFacetToObjectResponse: AWSShape {
@@ -140,6 +172,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct TypedAttributeValueRange: AWSShape {
@@ -163,6 +197,14 @@ extension Clouddirectory {
             self.startMode = startMode
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let endValue = dictionary["EndValue"] as? [String: Any] { self.endValue = try Clouddirectory.TypedAttributeValue(dictionary: endValue) }
+            guard let endMode = dictionary["EndMode"] as? String else { throw InitializableError.missingRequiredParam("EndMode") }
+            self.endMode = endMode
+            if let startValue = dictionary["StartValue"] as? [String: Any] { self.startValue = try Clouddirectory.TypedAttributeValue(dictionary: startValue) }
+            guard let startMode = dictionary["StartMode"] as? String else { throw InitializableError.missingRequiredParam("StartMode") }
+            self.startMode = startMode
+        }
     }
 
     public struct GetSchemaAsJsonResponse: AWSShape {
@@ -180,6 +222,10 @@ extension Clouddirectory {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.document = dictionary["Document"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct AddFacetToObjectRequest: AWSShape {
@@ -206,6 +252,17 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
+            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
+            if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
+                self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
+            }
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct ListDevelopmentSchemaArnsRequest: AWSShape {
@@ -223,6 +280,10 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct Directory: AWSShape {
@@ -246,6 +307,12 @@ extension Clouddirectory {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.directoryArn = dictionary["DirectoryArn"] as? String
+            self.name = dictionary["Name"] as? String
+            self.state = dictionary["State"] as? String
+        }
     }
 
     public struct LookupPolicyResponse: AWSShape {
@@ -263,6 +330,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policyToPathList = dictionary["PolicyToPathList"] as? [[String: Any]] {
+                self.policyToPathList = try policyToPathList.map({ try PolicyToPath(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct BatchRemoveFacetFromObjectResponse: AWSShape {
@@ -271,6 +344,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateSchemaResponse: AWSShape {
@@ -285,6 +360,9 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaArn = dictionary["SchemaArn"] as? String
+        }
     }
 
     public struct RemoveFacetFromObjectRequest: AWSShape {
@@ -308,6 +386,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
+            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ObjectAttributeRange: AWSShape {
@@ -325,6 +411,10 @@ extension Clouddirectory {
             self.attributeKey = attributeKey
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let range = dictionary["Range"] as? [String: Any] { self.range = try Clouddirectory.TypedAttributeValueRange(dictionary: range) }
+            if let attributeKey = dictionary["AttributeKey"] as? [String: Any] { self.attributeKey = try Clouddirectory.AttributeKey(dictionary: attributeKey) }
+        }
     }
 
     public struct Tag: AWSShape {
@@ -342,6 +432,10 @@ extension Clouddirectory {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
     }
 
     public struct BatchWriteOperationResponse: AWSShape {
@@ -374,6 +468,15 @@ extension Clouddirectory {
             self.removeFacetFromObject = removeFacetFromObject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObjectResponse(dictionary: addFacetToObject) }
+            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributesResponse(dictionary: updateObjectAttributes) }
+            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObjectResponse(dictionary: detachObject) }
+            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObjectResponse(dictionary: attachObject) }
+            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObjectResponse(dictionary: createObject) }
+            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObjectResponse(dictionary: deleteObject) }
+            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObjectResponse(dictionary: removeFacetFromObject) }
+        }
     }
 
     public struct ApplySchemaRequest: AWSShape {
@@ -394,6 +497,12 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let publishedSchemaArn = dictionary["PublishedSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("PublishedSchemaArn") }
+            self.publishedSchemaArn = publishedSchemaArn
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ListIndexRequest: AWSShape {
@@ -426,6 +535,18 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
+            self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            if let rangesOnIndexedValues = dictionary["RangesOnIndexedValues"] as? [[String: Any]] {
+                self.rangesOnIndexedValues = try rangesOnIndexedValues.map({ try ObjectAttributeRange(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct AttachToIndexRequest: AWSShape {
@@ -449,6 +570,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
+            self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
+            guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
+            self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct BatchListObjectAttributesResponse: AWSShape {
@@ -466,6 +595,12 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try AttributeKeyAndValue(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteDirectoryRequest: AWSShape {
@@ -483,6 +618,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct DeleteFacetResponse: AWSShape {
@@ -491,6 +630,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BatchWriteResponse: AWSShape {
@@ -505,6 +646,11 @@ extension Clouddirectory {
             self.responses = responses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let responses = dictionary["Responses"] as? [[String: Any]] {
+                self.responses = try responses.map({ try BatchWriteOperationResponse(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteDirectoryResponse: AWSShape {
@@ -519,6 +665,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct AttachObjectRequest: AWSShape {
@@ -545,6 +695,16 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
+            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
+            guard let childReference = dictionary["ChildReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChildReference") }
+            self.childReference = try Clouddirectory.ObjectReference(dictionary: childReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
+            self.linkName = linkName
+        }
     }
 
     public struct GetObjectInformationRequest: AWSShape {
@@ -568,6 +728,13 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct DeleteObjectResponse: AWSShape {
@@ -576,6 +743,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListAttachedIndicesRequest: AWSShape {
@@ -605,6 +774,15 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
+            self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
+            self.nextToken = dictionary["NextToken"] as? String
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateIndexResponse: AWSShape {
@@ -619,6 +797,9 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct PolicyAttachment: AWSShape {
@@ -639,6 +820,11 @@ extension Clouddirectory {
             self.policyId = policyId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.policyType = dictionary["PolicyType"] as? String
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+            self.policyId = dictionary["PolicyId"] as? String
+        }
     }
 
     public struct ListAppliedSchemaArnsResponse: AWSShape {
@@ -656,6 +842,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let schemaArns = dictionary["SchemaArns"] as? [String] {
+                self.schemaArns = schemaArns
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct EnableDirectoryResponse: AWSShape {
@@ -670,6 +862,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -690,6 +886,12 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
@@ -707,6 +909,12 @@ extension Clouddirectory {
             self.tags = tags
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            }
+        }
     }
 
     public struct ListPolicyAttachmentsResponse: AWSShape {
@@ -724,6 +932,12 @@ extension Clouddirectory {
             self.objectIdentifiers = objectIdentifiers
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String] {
+                self.objectIdentifiers = objectIdentifiers
+            }
+        }
     }
 
     public struct ListObjectParentsRequest: AWSShape {
@@ -753,6 +967,15 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct PutSchemaFromJsonRequest: AWSShape {
@@ -773,6 +996,12 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
+            self.document = document
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct ListAppliedSchemaArnsRequest: AWSShape {
@@ -793,6 +1022,12 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ObjectAttributeAction: AWSShape {
@@ -810,6 +1045,10 @@ extension Clouddirectory {
             self.objectAttributeUpdateValue = objectAttributeUpdateValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectAttributeActionType = dictionary["ObjectAttributeActionType"] as? String
+            if let objectAttributeUpdateValue = dictionary["ObjectAttributeUpdateValue"] as? [String: Any] { self.objectAttributeUpdateValue = try Clouddirectory.TypedAttributeValue(dictionary: objectAttributeUpdateValue) }
+        }
     }
 
     public struct DetachObjectRequest: AWSShape {
@@ -833,6 +1072,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
+            self.linkName = linkName
+            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
+            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct DetachPolicyRequest: AWSShape {
@@ -856,6 +1103,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
+            self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct SchemaFacet: AWSShape {
@@ -873,6 +1128,10 @@ extension Clouddirectory {
             self.facetName = facetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaArn = dictionary["SchemaArn"] as? String
+            self.facetName = dictionary["FacetName"] as? String
+        }
     }
 
     public struct PublishSchemaRequest: AWSShape {
@@ -896,6 +1155,13 @@ extension Clouddirectory {
             self.version = version
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let developmentSchemaArn = dictionary["DevelopmentSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("DevelopmentSchemaArn") }
+            self.developmentSchemaArn = developmentSchemaArn
+            self.name = dictionary["Name"] as? String
+            guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
+            self.version = version
+        }
     }
 
     public struct GetDirectoryResponse: AWSShape {
@@ -910,6 +1176,10 @@ extension Clouddirectory {
             self.directory = directory
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directory = dictionary["Directory"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Directory") }
+            self.directory = try Clouddirectory.Directory(dictionary: directory)
+        }
     }
 
     public struct BatchReadResponse: AWSShape {
@@ -924,6 +1194,11 @@ extension Clouddirectory {
             self.responses = responses
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let responses = dictionary["Responses"] as? [[String: Any]] {
+                self.responses = try responses.map({ try BatchReadOperationResponse(dictionary: $0) })
+            }
+        }
     }
 
     public struct BatchDetachObjectResponse: AWSShape {
@@ -938,6 +1213,9 @@ extension Clouddirectory {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.detachedObjectIdentifier = dictionary["detachedObjectIdentifier"] as? String
+        }
     }
 
     public struct FacetAttributeReference: AWSShape {
@@ -955,6 +1233,12 @@ extension Clouddirectory {
             self.targetFacetName = targetFacetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetAttributeName = dictionary["TargetAttributeName"] as? String else { throw InitializableError.missingRequiredParam("TargetAttributeName") }
+            self.targetAttributeName = targetAttributeName
+            guard let targetFacetName = dictionary["TargetFacetName"] as? String else { throw InitializableError.missingRequiredParam("TargetFacetName") }
+            self.targetFacetName = targetFacetName
+        }
     }
 
     public struct BatchDeleteObject: AWSShape {
@@ -969,6 +1253,10 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct CreateObjectRequest: AWSShape {
@@ -998,6 +1286,17 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SchemaFacets") }
+            self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
+            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) }
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
+                self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
+            }
+            self.linkName = dictionary["LinkName"] as? String
+        }
     }
 
     public struct ApplySchemaResponse: AWSShape {
@@ -1015,6 +1314,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.appliedSchemaArn = dictionary["AppliedSchemaArn"] as? String
+            self.directoryArn = dictionary["DirectoryArn"] as? String
+        }
     }
 
     public struct CreateFacetResponse: AWSShape {
@@ -1023,6 +1326,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct LookupPolicyRequest: AWSShape {
@@ -1049,6 +1354,14 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct BatchReadOperationResponse: AWSShape {
@@ -1066,6 +1379,10 @@ extension Clouddirectory {
             self.successfulResponse = successfulResponse
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let exceptionResponse = dictionary["ExceptionResponse"] as? [String: Any] { self.exceptionResponse = try Clouddirectory.BatchReadException(dictionary: exceptionResponse) }
+            if let successfulResponse = dictionary["SuccessfulResponse"] as? [String: Any] { self.successfulResponse = try Clouddirectory.BatchReadSuccessfulResponse(dictionary: successfulResponse) }
+        }
     }
 
     public struct ListAttachedIndicesResponse: AWSShape {
@@ -1083,6 +1400,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let indexAttachments = dictionary["IndexAttachments"] as? [[String: Any]] {
+                self.indexAttachments = try indexAttachments.map({ try IndexAttachment(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct BatchAddFacetToObject: AWSShape {
@@ -1103,6 +1426,14 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
+            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
+            guard let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ObjectAttributeList") }
+            self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct ListObjectAttributesResponse: AWSShape {
@@ -1120,6 +1451,12 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try AttributeKeyAndValue(dictionary: $0) })
+            }
+        }
     }
 
     public struct BatchUpdateObjectAttributes: AWSShape {
@@ -1137,6 +1474,12 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeUpdates") }
+            self.attributeUpdates = try attributeUpdates.map({ try ObjectAttributeUpdate(dictionary: $0) })
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct CreateFacetRequest: AWSShape {
@@ -1163,6 +1506,17 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectType = dictionary["ObjectType"] as? String else { throw InitializableError.missingRequiredParam("ObjectType") }
+            self.objectType = objectType
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct RemoveFacetFromObjectResponse: AWSShape {
@@ -1171,6 +1525,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListFacetNamesResponse: AWSShape {
@@ -1188,6 +1544,12 @@ extension Clouddirectory {
             self.facetNames = facetNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let facetNames = dictionary["FacetNames"] as? [String] {
+                self.facetNames = facetNames
+            }
+        }
     }
 
     public struct CreateDirectoryResponse: AWSShape {
@@ -1211,6 +1573,16 @@ extension Clouddirectory {
             self.appliedSchemaArn = appliedSchemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let objectIdentifier = dictionary["ObjectIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ObjectIdentifier") }
+            self.objectIdentifier = objectIdentifier
+            guard let appliedSchemaArn = dictionary["AppliedSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("AppliedSchemaArn") }
+            self.appliedSchemaArn = appliedSchemaArn
+        }
     }
 
     public struct AttachPolicyResponse: AWSShape {
@@ -1219,6 +1591,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BatchCreateObject: AWSShape {
@@ -1245,6 +1619,18 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
+            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
+            guard let schemaFacet = dictionary["SchemaFacet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
+            self.schemaFacet = try schemaFacet.map({ try SchemaFacet(dictionary: $0) })
+            guard let batchReferenceName = dictionary["BatchReferenceName"] as? String else { throw InitializableError.missingRequiredParam("BatchReferenceName") }
+            self.batchReferenceName = batchReferenceName
+            guard let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ObjectAttributeList") }
+            self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
+            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
+            self.linkName = linkName
+        }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -1262,6 +1648,12 @@ extension Clouddirectory {
             self.tagKeys = tagKeys
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
     }
 
     public struct ListDirectoriesResponse: AWSShape {
@@ -1279,6 +1671,11 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directories = dictionary["Directories"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Directories") }
+            self.directories = try directories.map({ try Directory(dictionary: $0) })
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct BatchListObjectChildrenResponse: AWSShape {
@@ -1296,6 +1693,12 @@ extension Clouddirectory {
             self.children = children
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let children = dictionary["Children"] as? [String: String] {
+                self.children = children
+            }
+        }
     }
 
     public struct ListObjectPoliciesRequest: AWSShape {
@@ -1325,6 +1728,15 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct DisableDirectoryRequest: AWSShape {
@@ -1342,6 +1754,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct DetachFromIndexResponse: AWSShape {
@@ -1356,6 +1772,9 @@ extension Clouddirectory {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.detachedObjectIdentifier = dictionary["DetachedObjectIdentifier"] as? String
+        }
     }
 
     public struct BatchAddFacetToObjectResponse: AWSShape {
@@ -1364,6 +1783,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct BatchListObjectAttributes: AWSShape {
@@ -1384,6 +1805,12 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct AttachObjectResponse: AWSShape {
@@ -1398,6 +1825,9 @@ extension Clouddirectory {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachedObjectIdentifier = dictionary["AttachedObjectIdentifier"] as? String
+        }
     }
 
     public struct ListObjectParentPathsRequest: AWSShape {
@@ -1424,6 +1854,14 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct CreateDirectoryRequest: AWSShape {
@@ -1444,6 +1882,12 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct GetSchemaAsJsonRequest: AWSShape {
@@ -1461,6 +1905,10 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct UpdateFacetRequest: AWSShape {
@@ -1487,6 +1935,16 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectType = dictionary["ObjectType"] as? String
+            if let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] {
+                self.attributeUpdates = try attributeUpdates.map({ try FacetAttributeUpdate(dictionary: $0) })
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct DisableDirectoryResponse: AWSShape {
@@ -1501,6 +1959,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct AttachPolicyRequest: AWSShape {
@@ -1524,6 +1986,13 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
+            self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            self.directoryArn = dictionary["DirectoryArn"] as? String
+        }
     }
 
     public struct ListDevelopmentSchemaArnsResponse: AWSShape {
@@ -1541,6 +2010,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let schemaArns = dictionary["SchemaArns"] as? [String] {
+                self.schemaArns = schemaArns
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct BatchWriteRequest: AWSShape {
@@ -1561,6 +2036,12 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
+            self.operations = try operations.map({ try BatchWriteOperation(dictionary: $0) })
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct BatchCreateObjectResponse: AWSShape {
@@ -1575,6 +2056,9 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct BatchUpdateObjectAttributesResponse: AWSShape {
@@ -1589,6 +2073,9 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct BatchReadRequest: AWSShape {
@@ -1612,6 +2099,13 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
+            self.operations = try operations.map({ try BatchReadOperation(dictionary: $0) })
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ListPublishedSchemaArnsResponse: AWSShape {
@@ -1629,6 +2123,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let schemaArns = dictionary["SchemaArns"] as? [String] {
+                self.schemaArns = schemaArns
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct BatchReadSuccessfulResponse: AWSShape {
@@ -1646,6 +2146,10 @@ extension Clouddirectory {
             self.listObjectAttributes = listObjectAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildrenResponse(dictionary: listObjectChildren) }
+            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributesResponse(dictionary: listObjectAttributes) }
+        }
     }
 
     public struct TypedAttributeValue: AWSShape {
@@ -1672,6 +2176,13 @@ extension Clouddirectory {
             self.numberValue = numberValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.stringValue = dictionary["StringValue"] as? String
+            self.binaryValue = dictionary["BinaryValue"] as? Data
+            self.booleanValue = dictionary["BooleanValue"] as? Bool
+            self.datetimeValue = dictionary["DatetimeValue"] as? Date
+            self.numberValue = dictionary["NumberValue"] as? String
+        }
     }
 
     public struct ListObjectParentPathsResponse: AWSShape {
@@ -1689,6 +2200,12 @@ extension Clouddirectory {
             self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let pathToObjectIdentifiersList = dictionary["PathToObjectIdentifiersList"] as? [[String: Any]] {
+                self.pathToObjectIdentifiersList = try pathToObjectIdentifiersList.map({ try PathToObjectIdentifiers(dictionary: $0) })
+            }
+        }
     }
 
     public struct AttributeKey: AWSShape {
@@ -1709,6 +2226,14 @@ extension Clouddirectory {
             self.facetName = facetName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+            guard let facetName = dictionary["FacetName"] as? String else { throw InitializableError.missingRequiredParam("FacetName") }
+            self.facetName = facetName
+        }
     }
 
     public struct PathToObjectIdentifiers: AWSShape {
@@ -1726,6 +2251,12 @@ extension Clouddirectory {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String] {
+                self.objectIdentifiers = objectIdentifiers
+            }
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct BatchDetachObject: AWSShape {
@@ -1746,6 +2277,14 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let batchReferenceName = dictionary["BatchReferenceName"] as? String else { throw InitializableError.missingRequiredParam("BatchReferenceName") }
+            self.batchReferenceName = batchReferenceName
+            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
+            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
+            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
+            self.linkName = linkName
+        }
     }
 
     public struct GetFacetRequest: AWSShape {
@@ -1766,6 +2305,12 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct UpdateSchemaRequest: AWSShape {
@@ -1786,6 +2331,12 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct IndexAttachment: AWSShape {
@@ -1803,6 +2354,12 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let indexedAttributes = dictionary["IndexedAttributes"] as? [[String: Any]] {
+                self.indexedAttributes = try indexedAttributes.map({ try AttributeKeyAndValue(dictionary: $0) })
+            }
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct ObjectAttributeUpdate: AWSShape {
@@ -1820,6 +2377,10 @@ extension Clouddirectory {
             self.objectAttributeAction = objectAttributeAction
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let objectAttributeKey = dictionary["ObjectAttributeKey"] as? [String: Any] { self.objectAttributeKey = try Clouddirectory.AttributeKey(dictionary: objectAttributeKey) }
+            if let objectAttributeAction = dictionary["ObjectAttributeAction"] as? [String: Any] { self.objectAttributeAction = try Clouddirectory.ObjectAttributeAction(dictionary: objectAttributeAction) }
+        }
     }
 
     public struct CreateIndexRequest: AWSShape {
@@ -1849,6 +2410,16 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let orderedIndexedAttributeList = dictionary["OrderedIndexedAttributeList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("OrderedIndexedAttributeList") }
+            self.orderedIndexedAttributeList = try orderedIndexedAttributeList.map({ try AttributeKey(dictionary: $0) })
+            guard let isUnique = dictionary["IsUnique"] as? Bool else { throw InitializableError.missingRequiredParam("IsUnique") }
+            self.isUnique = isUnique
+            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) }
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.linkName = dictionary["LinkName"] as? String
+        }
     }
 
     public struct Facet: AWSShape {
@@ -1866,6 +2437,10 @@ extension Clouddirectory {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectType = dictionary["ObjectType"] as? String
+            self.name = dictionary["Name"] as? String
+        }
     }
 
     public struct ListDirectoriesRequest: AWSShape {
@@ -1886,6 +2461,11 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct FacetAttributeDefinition: AWSShape {
@@ -1909,6 +2489,20 @@ extension Clouddirectory {
             self.defaultValue = defaultValue
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isImmutable = dictionary["IsImmutable"] as? Bool
+            if let rules = dictionary["Rules"] as? [String: Any] {
+                var rulesDict: [String: Rule] = [:]
+                for (key, value) in rules {
+                    guard let ruleDict = value as? [String: Any] else { throw InitializableError.convertingError }
+                    rulesDict[key] = try Rule(dictionary: ruleDict)
+                }
+                self.rules = rulesDict
+            }
+            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.type = type
+            if let defaultValue = dictionary["DefaultValue"] as? [String: Any] { self.defaultValue = try Clouddirectory.TypedAttributeValue(dictionary: defaultValue) }
+        }
     }
 
     public struct DetachPolicyResponse: AWSShape {
@@ -1917,6 +2511,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListObjectAttributesRequest: AWSShape {
@@ -1946,6 +2542,15 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct PublishSchemaResponse: AWSShape {
@@ -1960,6 +2565,9 @@ extension Clouddirectory {
             self.publishedSchemaArn = publishedSchemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.publishedSchemaArn = dictionary["PublishedSchemaArn"] as? String
+        }
     }
 
     public struct CreateObjectResponse: AWSShape {
@@ -1974,6 +2582,9 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct DeleteSchemaRequest: AWSShape {
@@ -1991,6 +2602,10 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
     public struct GetObjectInformationResponse: AWSShape {
@@ -2008,6 +2623,12 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] {
+                self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
+            }
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct TagResourceResponse: AWSShape {
@@ -2016,6 +2637,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListIndexResponse: AWSShape {
@@ -2033,6 +2656,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let indexAttachments = dictionary["IndexAttachments"] as? [[String: Any]] {
+                self.indexAttachments = try indexAttachments.map({ try IndexAttachment(dictionary: $0) })
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct UpdateObjectAttributesRequest: AWSShape {
@@ -2056,6 +2685,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            guard let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeUpdates") }
+            self.attributeUpdates = try attributeUpdates.map({ try ObjectAttributeUpdate(dictionary: $0) })
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct BatchWriteOperation: AWSShape {
@@ -2088,6 +2725,15 @@ extension Clouddirectory {
             self.removeFacetFromObject = removeFacetFromObject
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObject(dictionary: addFacetToObject) }
+            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributes(dictionary: updateObjectAttributes) }
+            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObject(dictionary: detachObject) }
+            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObject(dictionary: attachObject) }
+            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObject(dictionary: createObject) }
+            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObject(dictionary: deleteObject) }
+            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObject(dictionary: removeFacetFromObject) }
+        }
     }
 
     public struct DeleteSchemaResponse: AWSShape {
@@ -2102,6 +2748,9 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.schemaArn = dictionary["SchemaArn"] as? String
+        }
     }
 
     public struct ListObjectChildrenRequest: AWSShape {
@@ -2131,6 +2780,15 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct ListPublishedSchemaArnsRequest: AWSShape {
@@ -2148,6 +2806,10 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct CreateSchemaRequest: AWSShape {
@@ -2162,6 +2824,10 @@ extension Clouddirectory {
             self.name = name
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct GetFacetResponse: AWSShape {
@@ -2176,6 +2842,9 @@ extension Clouddirectory {
             self.facet = facet
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let facet = dictionary["Facet"] as? [String: Any] { self.facet = try Clouddirectory.Facet(dictionary: facet) }
+        }
     }
 
     public struct ListObjectPoliciesResponse: AWSShape {
@@ -2193,6 +2862,12 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let attachedPolicyIds = dictionary["AttachedPolicyIds"] as? [String] {
+                self.attachedPolicyIds = attachedPolicyIds
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
     }
 
     public struct PutSchemaFromJsonResponse: AWSShape {
@@ -2207,6 +2882,9 @@ extension Clouddirectory {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.arn = dictionary["Arn"] as? String
+        }
     }
 
     public struct BatchAttachObject: AWSShape {
@@ -2227,6 +2905,14 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let childReference = dictionary["ChildReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChildReference") }
+            self.childReference = try Clouddirectory.ObjectReference(dictionary: childReference)
+            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
+            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
+            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
+            self.linkName = linkName
+        }
     }
 
     public struct DetachObjectResponse: AWSShape {
@@ -2241,6 +2927,9 @@ extension Clouddirectory {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.detachedObjectIdentifier = dictionary["DetachedObjectIdentifier"] as? String
+        }
     }
 
     public struct AttributeKeyAndValue: AWSShape {
@@ -2258,6 +2947,12 @@ extension Clouddirectory {
             self.key = key
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = try Clouddirectory.TypedAttributeValue(dictionary: value)
+            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = try Clouddirectory.AttributeKey(dictionary: key)
+        }
     }
 
     public struct EnableDirectoryRequest: AWSShape {
@@ -2275,6 +2970,10 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct ListFacetAttributesResponse: AWSShape {
@@ -2292,6 +2991,12 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
+            }
+        }
     }
 
     public struct BatchReadOperation: AWSShape {
@@ -2309,6 +3014,10 @@ extension Clouddirectory {
             self.listObjectAttributes = listObjectAttributes
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildren(dictionary: listObjectChildren) }
+            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributes(dictionary: listObjectAttributes) }
+        }
     }
 
     public struct ListFacetAttributesRequest: AWSShape {
@@ -2335,6 +3044,14 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct BatchReadException: AWSShape {
@@ -2352,6 +3069,10 @@ extension Clouddirectory {
             self.message = message
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["Type"] as? String
+            self.message = dictionary["Message"] as? String
+        }
     }
 
     public struct DeleteObjectRequest: AWSShape {
@@ -2372,6 +3093,12 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct BatchListObjectChildren: AWSShape {
@@ -2392,6 +3119,12 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct UntagResourceResponse: AWSShape {
@@ -2400,6 +3133,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct PolicyToPath: AWSShape {
@@ -2417,6 +3152,12 @@ extension Clouddirectory {
             self.path = path
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let policies = dictionary["Policies"] as? [[String: Any]] {
+                self.policies = try policies.map({ try PolicyAttachment(dictionary: $0) })
+            }
+            self.path = dictionary["Path"] as? String
+        }
     }
 
     public struct ObjectReference: AWSShape {
@@ -2431,6 +3172,9 @@ extension Clouddirectory {
             self.selector = selector
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.selector = dictionary["Selector"] as? String
+        }
     }
 
     public struct UpdateFacetResponse: AWSShape {
@@ -2439,6 +3183,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct AttachToIndexResponse: AWSShape {
@@ -2453,6 +3199,9 @@ extension Clouddirectory {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachedObjectIdentifier = dictionary["AttachedObjectIdentifier"] as? String
+        }
     }
 
     public struct DetachFromIndexRequest: AWSShape {
@@ -2476,6 +3225,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
+            self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
+            guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
+            self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+        }
     }
 
     public struct BatchRemoveFacetFromObject: AWSShape {
@@ -2493,6 +3250,12 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
+            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
+            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
+            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        }
     }
 
     public struct ListFacetNamesRequest: AWSShape {
@@ -2516,6 +3279,12 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct BatchAttachObjectResponse: AWSShape {
@@ -2530,6 +3299,9 @@ extension Clouddirectory {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachedObjectIdentifier = dictionary["attachedObjectIdentifier"] as? String
+        }
     }
 
     public struct FacetAttributeUpdate: AWSShape {
@@ -2547,6 +3319,10 @@ extension Clouddirectory {
             self.attribute = attribute
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.action = dictionary["Action"] as? String
+            if let attribute = dictionary["Attribute"] as? [String: Any] { self.attribute = try Clouddirectory.FacetAttribute(dictionary: attribute) }
+        }
     }
 
     public struct UpdateObjectAttributesResponse: AWSShape {
@@ -2561,6 +3337,9 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        }
     }
 
     public struct BatchDeleteObjectResponse: AWSShape {
@@ -2569,6 +3348,8 @@ extension Clouddirectory {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct ListPolicyAttachmentsRequest: AWSShape {
@@ -2598,6 +3379,15 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
+            self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
+            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            self.directoryArn = directoryArn
+            self.nextToken = dictionary["NextToken"] as? String
+            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct ListObjectParentsResponse: AWSShape {
@@ -2615,6 +3405,12 @@ extension Clouddirectory {
             self.parents = parents
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let parents = dictionary["Parents"] as? [String: String] {
+                self.parents = parents
+            }
+        }
     }
 
     public struct DeleteFacetRequest: AWSShape {
@@ -2635,6 +3431,12 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            self.schemaArn = schemaArn
+        }
     }
 
 }

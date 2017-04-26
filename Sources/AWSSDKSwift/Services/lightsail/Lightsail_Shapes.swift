@@ -41,6 +41,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct GetInstanceStateResult: AWSShape {
@@ -55,6 +58,9 @@ extension Lightsail {
             self.state = state
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) }
+        }
     }
 
     public struct GetDomainsResult: AWSShape {
@@ -72,6 +78,12 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domains = dictionary["domains"] as? [[String: Any]] {
+                self.domains = try domains.map({ try Domain(dictionary: $0) })
+            }
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+        }
     }
 
     public struct GetInstanceMetricDataResult: AWSShape {
@@ -89,6 +101,12 @@ extension Lightsail {
             self.metricName = metricName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let metricData = dictionary["metricData"] as? [[String: Any]] {
+                self.metricData = try metricData.map({ try MetricDatapoint(dictionary: $0) })
+            }
+            self.metricName = dictionary["metricName"] as? String
+        }
     }
 
     public struct CreateDomainResult: AWSShape {
@@ -103,6 +121,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct UnpeerVpcRequest: AWSShape {
@@ -111,6 +132,8 @@ extension Lightsail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct DeleteDomainResult: AWSShape {
@@ -125,6 +148,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct CreateKeyPairResult: AWSShape {
@@ -148,6 +174,12 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) }
+            self.publicKeyBase64 = dictionary["publicKeyBase64"] as? String
+            self.privateKeyBase64 = dictionary["privateKeyBase64"] as? String
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct GetOperationsForResourceRequest: AWSShape {
@@ -165,6 +197,11 @@ extension Lightsail {
             self.resourceName = resourceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+            guard let resourceName = dictionary["resourceName"] as? String else { throw InitializableError.missingRequiredParam("resourceName") }
+            self.resourceName = resourceName
+        }
     }
 
     public struct AttachStaticIpRequest: AWSShape {
@@ -182,6 +219,12 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
+            self.staticIpName = staticIpName
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct InstanceSnapshot: AWSShape {
@@ -232,6 +275,21 @@ extension Lightsail {
             self.progress = progress
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            self.name = dictionary["name"] as? String
+            self.resourceType = dictionary["resourceType"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.fromBundleId = dictionary["fromBundleId"] as? String
+            self.supportCode = dictionary["supportCode"] as? String
+            self.fromInstanceArn = dictionary["fromInstanceArn"] as? String
+            self.arn = dictionary["arn"] as? String
+            self.fromBlueprintId = dictionary["fromBlueprintId"] as? String
+            self.sizeInGb = dictionary["sizeInGb"] as? Int32
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.fromInstanceName = dictionary["fromInstanceName"] as? String
+            self.progress = dictionary["progress"] as? String
+        }
     }
 
     public struct InstanceAccessDetails: AWSShape {
@@ -267,6 +325,16 @@ extension Lightsail {
             self.username = username
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateKey = dictionary["privateKey"] as? String
+            self.ipAddress = dictionary["ipAddress"] as? String
+            self.instanceName = dictionary["instanceName"] as? String
+            self.`protocol` = dictionary["protocol"] as? String
+            self.password = dictionary["password"] as? String
+            self.certKey = dictionary["certKey"] as? String
+            self.expiresAt = dictionary["expiresAt"] as? Date
+            self.username = dictionary["username"] as? String
+        }
     }
 
     public struct GetBundlesRequest: AWSShape {
@@ -284,6 +352,10 @@ extension Lightsail {
             self.includeInactive = includeInactive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+            self.includeInactive = dictionary["includeInactive"] as? Bool
+        }
     }
 
     public struct DeleteDomainEntryResult: AWSShape {
@@ -298,6 +370,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct GetRegionsResult: AWSShape {
@@ -312,6 +387,11 @@ extension Lightsail {
             self.regions = regions
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let regions = dictionary["regions"] as? [[String: Any]] {
+                self.regions = try regions.map({ try Region(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetInstanceResult: AWSShape {
@@ -326,6 +406,9 @@ extension Lightsail {
             self.instance = instance
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instance = dictionary["instance"] as? [String: Any] { self.instance = try Lightsail.Instance(dictionary: instance) }
+        }
     }
 
     public struct DeleteInstanceResult: AWSShape {
@@ -340,6 +423,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetInstanceAccessDetailsRequest: AWSShape {
@@ -357,6 +445,11 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`protocol` = dictionary["protocol"] as? String
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct GetInstanceSnapshotsResult: AWSShape {
@@ -374,6 +467,12 @@ extension Lightsail {
             self.instanceSnapshots = instanceSnapshots
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let instanceSnapshots = dictionary["instanceSnapshots"] as? [[String: Any]] {
+                self.instanceSnapshots = try instanceSnapshots.map({ try InstanceSnapshot(dictionary: $0) })
+            }
+        }
     }
 
     public struct StaticIp: AWSShape {
@@ -412,6 +511,17 @@ extension Lightsail {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.attachedTo = dictionary["attachedTo"] as? String
+            self.isAttached = dictionary["isAttached"] as? Bool
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.resourceType = dictionary["resourceType"] as? String
+            self.ipAddress = dictionary["ipAddress"] as? String
+            self.name = dictionary["name"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.supportCode = dictionary["supportCode"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct GetInstancePortStatesResult: AWSShape {
@@ -426,6 +536,11 @@ extension Lightsail {
             self.portStates = portStates
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let portStates = dictionary["portStates"] as? [String] {
+                self.portStates = portStates
+            }
+        }
     }
 
     public struct KeyPair: AWSShape {
@@ -458,6 +573,15 @@ extension Lightsail {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.resourceType = dictionary["resourceType"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.fingerprint = dictionary["fingerprint"] as? String
+            self.supportCode = dictionary["supportCode"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct GetStaticIpRequest: AWSShape {
@@ -472,6 +596,10 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
+            self.staticIpName = staticIpName
+        }
     }
 
     public struct GetKeyPairsResult: AWSShape {
@@ -489,6 +617,12 @@ extension Lightsail {
             self.keyPairs = keyPairs
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let keyPairs = dictionary["keyPairs"] as? [[String: Any]] {
+                self.keyPairs = try keyPairs.map({ try KeyPair(dictionary: $0) })
+            }
+        }
     }
 
     public struct Bundle: AWSShape {
@@ -530,6 +664,18 @@ extension Lightsail {
             self.price = price
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.instanceType = dictionary["instanceType"] as? String
+            self.isActive = dictionary["isActive"] as? Bool
+            self.power = dictionary["power"] as? Int32
+            self.cpuCount = dictionary["cpuCount"] as? Int32
+            self.ramSizeInGb = dictionary["ramSizeInGb"] as? Float
+            self.bundleId = dictionary["bundleId"] as? String
+            self.transferPerMonthInGb = dictionary["transferPerMonthInGb"] as? Int32
+            self.diskSizeInGb = dictionary["diskSizeInGb"] as? Int32
+            self.price = dictionary["price"] as? Float
+        }
     }
 
     public struct PeerVpcRequest: AWSShape {
@@ -538,6 +684,8 @@ extension Lightsail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct RebootInstanceResult: AWSShape {
@@ -552,6 +700,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateInstancesFromSnapshotRequest: AWSShape {
@@ -581,6 +734,18 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let availabilityZone = dictionary["availabilityZone"] as? String else { throw InitializableError.missingRequiredParam("availabilityZone") }
+            self.availabilityZone = availabilityZone
+            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
+            self.instanceNames = instanceNames
+            guard let bundleId = dictionary["bundleId"] as? String else { throw InitializableError.missingRequiredParam("bundleId") }
+            self.bundleId = bundleId
+            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
+            self.instanceSnapshotName = instanceSnapshotName
+            self.userData = dictionary["userData"] as? String
+            self.keyPairName = dictionary["keyPairName"] as? String
+        }
     }
 
     public struct GetOperationRequest: AWSShape {
@@ -595,6 +760,10 @@ extension Lightsail {
             self.operationId = operationId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let operationId = dictionary["operationId"] as? String else { throw InitializableError.missingRequiredParam("operationId") }
+            self.operationId = operationId
+        }
     }
 
     public struct ImportKeyPairResult: AWSShape {
@@ -609,6 +778,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct DeleteDomainRequest: AWSShape {
@@ -623,6 +795,10 @@ extension Lightsail {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetKeyPairRequest: AWSShape {
@@ -637,6 +813,10 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
+            self.keyPairName = keyPairName
+        }
     }
 
     public struct ReleaseStaticIpRequest: AWSShape {
@@ -651,6 +831,10 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
+            self.staticIpName = staticIpName
+        }
     }
 
     public struct IsVpcPeeredResult: AWSShape {
@@ -665,6 +849,9 @@ extension Lightsail {
             self.isPeered = isPeered
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isPeered = dictionary["isPeered"] as? Bool
+        }
     }
 
     public struct OpenInstancePublicPortsRequest: AWSShape {
@@ -682,6 +869,12 @@ extension Lightsail {
             self.portInfo = portInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+            guard let portInfo = dictionary["portInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("portInfo") }
+            self.portInfo = try Lightsail.PortInfo(dictionary: portInfo)
+        }
     }
 
     public struct CreateInstancesResult: AWSShape {
@@ -696,6 +889,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetInstanceRequest: AWSShape {
@@ -710,6 +908,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct CloseInstancePublicPortsRequest: AWSShape {
@@ -727,6 +929,12 @@ extension Lightsail {
             self.portInfo = portInfo
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+            guard let portInfo = dictionary["portInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("portInfo") }
+            self.portInfo = try Lightsail.PortInfo(dictionary: portInfo)
+        }
     }
 
     public struct Instance: AWSShape {
@@ -792,6 +1000,26 @@ extension Lightsail {
             self.networking = networking
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) }
+            self.name = dictionary["name"] as? String
+            self.resourceType = dictionary["resourceType"] as? String
+            self.publicIpAddress = dictionary["publicIpAddress"] as? String
+            self.privateIpAddress = dictionary["privateIpAddress"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.sshKeyName = dictionary["sshKeyName"] as? String
+            self.supportCode = dictionary["supportCode"] as? String
+            self.bundleId = dictionary["bundleId"] as? String
+            self.isStaticIp = dictionary["isStaticIp"] as? Bool
+            self.blueprintName = dictionary["blueprintName"] as? String
+            self.username = dictionary["username"] as? String
+            self.ipv6Address = dictionary["ipv6Address"] as? String
+            if let hardware = dictionary["hardware"] as? [String: Any] { self.hardware = try Lightsail.InstanceHardware(dictionary: hardware) }
+            self.blueprintId = dictionary["blueprintId"] as? String
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.arn = dictionary["arn"] as? String
+            if let networking = dictionary["networking"] as? [String: Any] { self.networking = try Lightsail.InstanceNetworking(dictionary: networking) }
+        }
     }
 
     public struct Domain: AWSShape {
@@ -824,6 +1052,17 @@ extension Lightsail {
             self.arn = arn
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.resourceType = dictionary["resourceType"] as? String
+            if let domainEntries = dictionary["domainEntries"] as? [[String: Any]] {
+                self.domainEntries = try domainEntries.map({ try DomainEntry(dictionary: $0) })
+            }
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.supportCode = dictionary["supportCode"] as? String
+            self.arn = dictionary["arn"] as? String
+        }
     }
 
     public struct GetStaticIpResult: AWSShape {
@@ -838,6 +1077,9 @@ extension Lightsail {
             self.staticIp = staticIp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let staticIp = dictionary["staticIp"] as? [String: Any] { self.staticIp = try Lightsail.StaticIp(dictionary: staticIp) }
+        }
     }
 
     public struct DetachStaticIpRequest: AWSShape {
@@ -852,6 +1094,10 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
+            self.staticIpName = staticIpName
+        }
     }
 
     public struct GetActiveNamesResult: AWSShape {
@@ -869,6 +1115,12 @@ extension Lightsail {
             self.activeNames = activeNames
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let activeNames = dictionary["activeNames"] as? [String] {
+                self.activeNames = activeNames
+            }
+        }
     }
 
     public struct DeleteInstanceRequest: AWSShape {
@@ -883,6 +1135,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct GetOperationsForResourceResult: AWSShape {
@@ -900,6 +1156,12 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageCount = dictionary["nextPageCount"] as? String
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct Disk: AWSShape {
@@ -953,6 +1215,22 @@ extension Lightsail {
             self.iops = iops
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.isAttached = dictionary["isAttached"] as? Bool
+            self.name = dictionary["name"] as? String
+            self.resourceType = dictionary["resourceType"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.supportCode = dictionary["supportCode"] as? String
+            self.isSystemDisk = dictionary["isSystemDisk"] as? Bool
+            self.attachmentState = dictionary["attachmentState"] as? String
+            self.arn = dictionary["arn"] as? String
+            self.attachedTo = dictionary["attachedTo"] as? String
+            self.sizeInGb = dictionary["sizeInGb"] as? Int32
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.path = dictionary["path"] as? String
+            self.gbInUse = dictionary["gbInUse"] as? Int32
+            self.iops = dictionary["iops"] as? Int32
+        }
     }
 
     public struct GetDomainsRequest: AWSShape {
@@ -967,6 +1245,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct UpdateDomainEntryResult: AWSShape {
@@ -981,6 +1262,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetKeyPairsRequest: AWSShape {
@@ -995,6 +1281,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct DomainEntry: AWSShape {
@@ -1021,6 +1310,15 @@ extension Lightsail {
             self.type = type
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let options = dictionary["options"] as? [String: String] {
+                self.options = options
+            }
+            self.name = dictionary["name"] as? String
+            self.target = dictionary["target"] as? String
+            self.id = dictionary["id"] as? String
+            self.type = dictionary["type"] as? String
+        }
     }
 
     public struct DownloadDefaultKeyPairResult: AWSShape {
@@ -1038,6 +1336,10 @@ extension Lightsail {
             self.publicKeyBase64 = publicKeyBase64
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.privateKeyBase64 = dictionary["privateKeyBase64"] as? String
+            self.publicKeyBase64 = dictionary["publicKeyBase64"] as? String
+        }
     }
 
     public struct CreateInstancesFromSnapshotResult: AWSShape {
@@ -1052,6 +1354,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -1069,6 +1376,10 @@ extension Lightsail {
             self.zoneName = zoneName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.state = dictionary["state"] as? String
+            self.zoneName = dictionary["zoneName"] as? String
+        }
     }
 
     public struct IsVpcPeeredRequest: AWSShape {
@@ -1077,6 +1388,8 @@ extension Lightsail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct CreateDomainEntryRequest: AWSShape {
@@ -1094,6 +1407,12 @@ extension Lightsail {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainEntry = dictionary["domainEntry"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainEntry") }
+            self.domainEntry = try Lightsail.DomainEntry(dictionary: domainEntry)
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct CreateInstanceSnapshotRequest: AWSShape {
@@ -1111,6 +1430,12 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
+            self.instanceSnapshotName = instanceSnapshotName
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct StopInstanceResult: AWSShape {
@@ -1125,6 +1450,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetInstancesResult: AWSShape {
@@ -1142,6 +1472,12 @@ extension Lightsail {
             self.instances = instances
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let instances = dictionary["instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            }
+        }
     }
 
     public struct InstanceState: AWSShape {
@@ -1159,6 +1495,10 @@ extension Lightsail {
             self.code = code
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["name"] as? String
+            self.code = dictionary["code"] as? Int32
+        }
     }
 
     public struct PeerVpcResult: AWSShape {
@@ -1173,6 +1513,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct GetInstanceSnapshotRequest: AWSShape {
@@ -1187,6 +1530,10 @@ extension Lightsail {
             self.instanceSnapshotName = instanceSnapshotName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
+            self.instanceSnapshotName = instanceSnapshotName
+        }
     }
 
     public struct AllocateStaticIpResult: AWSShape {
@@ -1201,6 +1548,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DeleteKeyPairResult: AWSShape {
@@ -1215,6 +1567,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct GetKeyPairResult: AWSShape {
@@ -1229,6 +1584,9 @@ extension Lightsail {
             self.keyPair = keyPair
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) }
+        }
     }
 
     public struct GetRegionsRequest: AWSShape {
@@ -1243,6 +1601,9 @@ extension Lightsail {
             self.includeAvailabilityZones = includeAvailabilityZones
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.includeAvailabilityZones = dictionary["includeAvailabilityZones"] as? Bool
+        }
     }
 
     public struct AttachStaticIpResult: AWSShape {
@@ -1257,6 +1618,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetInstanceAccessDetailsResult: AWSShape {
@@ -1271,6 +1637,9 @@ extension Lightsail {
             self.accessDetails = accessDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let accessDetails = dictionary["accessDetails"] as? [String: Any] { self.accessDetails = try Lightsail.InstanceAccessDetails(dictionary: accessDetails) }
+        }
     }
 
     public struct ResourceLocation: AWSShape {
@@ -1288,6 +1657,10 @@ extension Lightsail {
             self.availabilityZone = availabilityZone
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.regionName = dictionary["regionName"] as? String
+            self.availabilityZone = dictionary["availabilityZone"] as? String
+        }
     }
 
     public struct PortInfo: AWSShape {
@@ -1308,6 +1681,11 @@ extension Lightsail {
             self.toPort = toPort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.`protocol` = dictionary["protocol"] as? String
+            self.fromPort = dictionary["fromPort"] as? Int32
+            self.toPort = dictionary["toPort"] as? Int32
+        }
     }
 
     public struct GetActiveNamesRequest: AWSShape {
@@ -1322,6 +1700,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct RebootInstanceRequest: AWSShape {
@@ -1336,6 +1717,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct MetricDatapoint: AWSShape {
@@ -1368,6 +1753,15 @@ extension Lightsail {
             self.timestamp = timestamp
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.sampleCount = dictionary["sampleCount"] as? Double
+            self.unit = dictionary["unit"] as? String
+            self.average = dictionary["average"] as? Double
+            self.maximum = dictionary["maximum"] as? Double
+            self.minimum = dictionary["minimum"] as? Double
+            self.sum = dictionary["sum"] as? Double
+            self.timestamp = dictionary["timestamp"] as? Date
+        }
     }
 
     public struct GetInstancesRequest: AWSShape {
@@ -1382,6 +1776,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct InstanceNetworking: AWSShape {
@@ -1399,6 +1796,12 @@ extension Lightsail {
             self.monthlyTransfer = monthlyTransfer
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let ports = dictionary["ports"] as? [[String: Any]] {
+                self.ports = try ports.map({ try InstancePortInfo(dictionary: $0) })
+            }
+            if let monthlyTransfer = dictionary["monthlyTransfer"] as? [String: Any] { self.monthlyTransfer = try Lightsail.MonthlyTransfer(dictionary: monthlyTransfer) }
+        }
     }
 
     public struct DownloadDefaultKeyPairRequest: AWSShape {
@@ -1407,6 +1810,8 @@ extension Lightsail {
 
         public init() {}
 
+        public init(dictionary: [String: Any]) throws {
+        }
     }
 
     public struct GetInstanceSnapshotsRequest: AWSShape {
@@ -1421,6 +1826,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct GetInstanceSnapshotResult: AWSShape {
@@ -1435,6 +1843,9 @@ extension Lightsail {
             self.instanceSnapshot = instanceSnapshot
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let instanceSnapshot = dictionary["instanceSnapshot"] as? [String: Any] { self.instanceSnapshot = try Lightsail.InstanceSnapshot(dictionary: instanceSnapshot) }
+        }
     }
 
     public struct DeleteDomainEntryRequest: AWSShape {
@@ -1452,6 +1863,12 @@ extension Lightsail {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainEntry = dictionary["domainEntry"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainEntry") }
+            self.domainEntry = try Lightsail.DomainEntry(dictionary: domainEntry)
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct Operation: AWSShape {
@@ -1499,6 +1916,20 @@ extension Lightsail {
             self.operationDetails = operationDetails
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.operationType = dictionary["operationType"] as? String
+            self.isTerminal = dictionary["isTerminal"] as? Bool
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            self.resourceType = dictionary["resourceType"] as? String
+            self.id = dictionary["id"] as? String
+            self.errorCode = dictionary["errorCode"] as? String
+            self.resourceName = dictionary["resourceName"] as? String
+            self.errorDetails = dictionary["errorDetails"] as? String
+            self.createdAt = dictionary["createdAt"] as? Date
+            self.status = dictionary["status"] as? String
+            self.statusChangedAt = dictionary["statusChangedAt"] as? Date
+            self.operationDetails = dictionary["operationDetails"] as? String
+        }
     }
 
     public struct GetOperationsResult: AWSShape {
@@ -1516,6 +1947,12 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetBlueprintsResult: AWSShape {
@@ -1533,6 +1970,12 @@ extension Lightsail {
             self.blueprints = blueprints
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let blueprints = dictionary["blueprints"] as? [[String: Any]] {
+                self.blueprints = try blueprints.map({ try Blueprint(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateKeyPairRequest: AWSShape {
@@ -1547,6 +1990,10 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
+            self.keyPairName = keyPairName
+        }
     }
 
     public struct ReleaseStaticIpResult: AWSShape {
@@ -1561,6 +2008,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct DetachStaticIpResult: AWSShape {
@@ -1575,6 +2027,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct ImportKeyPairRequest: AWSShape {
@@ -1592,6 +2049,12 @@ extension Lightsail {
             self.publicKeyBase64 = publicKeyBase64
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
+            self.keyPairName = keyPairName
+            guard let publicKeyBase64 = dictionary["publicKeyBase64"] as? String else { throw InitializableError.missingRequiredParam("publicKeyBase64") }
+            self.publicKeyBase64 = publicKeyBase64
+        }
     }
 
     public struct GetBlueprintsRequest: AWSShape {
@@ -1609,6 +2072,10 @@ extension Lightsail {
             self.includeInactive = includeInactive
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+            self.includeInactive = dictionary["includeInactive"] as? Bool
+        }
     }
 
     public struct DeleteKeyPairRequest: AWSShape {
@@ -1623,6 +2090,10 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
+            self.keyPairName = keyPairName
+        }
     }
 
     public struct InstancePortInfo: AWSShape {
@@ -1655,6 +2126,15 @@ extension Lightsail {
             self.toPort = toPort
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.accessFrom = dictionary["accessFrom"] as? String
+            self.fromPort = dictionary["fromPort"] as? Int32
+            self.commonName = dictionary["commonName"] as? String
+            self.`protocol` = dictionary["protocol"] as? String
+            self.accessDirection = dictionary["accessDirection"] as? String
+            self.accessType = dictionary["accessType"] as? String
+            self.toPort = dictionary["toPort"] as? Int32
+        }
     }
 
     public struct GetDomainRequest: AWSShape {
@@ -1669,6 +2149,10 @@ extension Lightsail {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetInstancePortStatesRequest: AWSShape {
@@ -1683,6 +2167,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct GetInstanceStateRequest: AWSShape {
@@ -1697,6 +2185,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct DeleteInstanceSnapshotResult: AWSShape {
@@ -1711,6 +2203,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateInstancesRequest: AWSShape {
@@ -1743,6 +2240,19 @@ extension Lightsail {
             self.blueprintId = blueprintId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let availabilityZone = dictionary["availabilityZone"] as? String else { throw InitializableError.missingRequiredParam("availabilityZone") }
+            self.availabilityZone = availabilityZone
+            self.keyPairName = dictionary["keyPairName"] as? String
+            self.customImageName = dictionary["customImageName"] as? String
+            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
+            self.instanceNames = instanceNames
+            guard let bundleId = dictionary["bundleId"] as? String else { throw InitializableError.missingRequiredParam("bundleId") }
+            self.bundleId = bundleId
+            self.userData = dictionary["userData"] as? String
+            guard let blueprintId = dictionary["blueprintId"] as? String else { throw InitializableError.missingRequiredParam("blueprintId") }
+            self.blueprintId = blueprintId
+        }
     }
 
     public struct Blueprint: AWSShape {
@@ -1787,6 +2297,19 @@ extension Lightsail {
             self.blueprintId = blueprintId
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.type = dictionary["type"] as? String
+            self.isActive = dictionary["isActive"] as? Bool
+            self.productUrl = dictionary["productUrl"] as? String
+            self.name = dictionary["name"] as? String
+            self.description = dictionary["description"] as? String
+            self.version = dictionary["version"] as? String
+            self.licenseUrl = dictionary["licenseUrl"] as? String
+            self.versionCode = dictionary["versionCode"] as? String
+            self.group = dictionary["group"] as? String
+            self.minPower = dictionary["minPower"] as? Int32
+            self.blueprintId = dictionary["blueprintId"] as? String
+        }
     }
 
     public struct DeleteInstanceSnapshotRequest: AWSShape {
@@ -1801,6 +2324,10 @@ extension Lightsail {
             self.instanceSnapshotName = instanceSnapshotName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
+            self.instanceSnapshotName = instanceSnapshotName
+        }
     }
 
     public struct GetBundlesResult: AWSShape {
@@ -1818,6 +2345,12 @@ extension Lightsail {
             self.bundles = bundles
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let bundles = dictionary["bundles"] as? [[String: Any]] {
+                self.bundles = try bundles.map({ try Bundle(dictionary: $0) })
+            }
+        }
     }
 
     public struct Region: AWSShape {
@@ -1844,6 +2377,15 @@ extension Lightsail {
             self.availabilityZones = availabilityZones
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["description"] as? String
+            self.displayName = dictionary["displayName"] as? String
+            self.name = dictionary["name"] as? String
+            self.continentCode = dictionary["continentCode"] as? String
+            if let availabilityZones = dictionary["availabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            }
+        }
     }
 
     public struct CreateDomainEntryResult: AWSShape {
@@ -1858,6 +2400,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct UpdateDomainEntryRequest: AWSShape {
@@ -1875,6 +2420,12 @@ extension Lightsail {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainEntry = dictionary["domainEntry"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainEntry") }
+            self.domainEntry = try Lightsail.DomainEntry(dictionary: domainEntry)
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
     public struct GetDomainResult: AWSShape {
@@ -1889,6 +2440,9 @@ extension Lightsail {
             self.domain = domain
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let domain = dictionary["domain"] as? [String: Any] { self.domain = try Lightsail.Domain(dictionary: domain) }
+        }
     }
 
     public struct CloseInstancePublicPortsResult: AWSShape {
@@ -1903,6 +2457,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct GetOperationResult: AWSShape {
@@ -1917,6 +2474,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct AllocateStaticIpRequest: AWSShape {
@@ -1931,6 +2491,10 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
+            self.staticIpName = staticIpName
+        }
     }
 
     public struct MonthlyTransfer: AWSShape {
@@ -1945,6 +2509,9 @@ extension Lightsail {
             self.gbPerMonthAllocated = gbPerMonthAllocated
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.gbPerMonthAllocated = dictionary["gbPerMonthAllocated"] as? Int32
+        }
     }
 
     public struct UnpeerVpcResult: AWSShape {
@@ -1959,6 +2526,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct StartInstanceRequest: AWSShape {
@@ -1973,6 +2543,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct OpenInstancePublicPortsResult: AWSShape {
@@ -1987,6 +2561,9 @@ extension Lightsail {
             self.operation = operation
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+        }
     }
 
     public struct CreateInstanceSnapshotResult: AWSShape {
@@ -2001,6 +2578,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct StartInstanceResult: AWSShape {
@@ -2015,6 +2597,11 @@ extension Lightsail {
             self.operations = operations
         }
 
+        public init(dictionary: [String: Any]) throws {
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetStaticIpsResult: AWSShape {
@@ -2032,6 +2619,12 @@ extension Lightsail {
             self.staticIps = staticIps
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.nextPageToken = dictionary["nextPageToken"] as? String
+            if let staticIps = dictionary["staticIps"] as? [[String: Any]] {
+                self.staticIps = try staticIps.map({ try StaticIp(dictionary: $0) })
+            }
+        }
     }
 
     public struct GetInstanceMetricDataRequest: AWSShape {
@@ -2064,6 +2657,22 @@ extension Lightsail {
             self.metricName = metricName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+            guard let unit = dictionary["unit"] as? String else { throw InitializableError.missingRequiredParam("unit") }
+            self.unit = unit
+            guard let statistics = dictionary["statistics"] as? [String] else { throw InitializableError.missingRequiredParam("statistics") }
+            self.statistics = statistics
+            guard let endTime = dictionary["endTime"] as? Date else { throw InitializableError.missingRequiredParam("endTime") }
+            self.endTime = endTime
+            guard let period = dictionary["period"] as? Int32 else { throw InitializableError.missingRequiredParam("period") }
+            self.period = period
+            guard let startTime = dictionary["startTime"] as? Date else { throw InitializableError.missingRequiredParam("startTime") }
+            self.startTime = startTime
+            guard let metricName = dictionary["metricName"] as? String else { throw InitializableError.missingRequiredParam("metricName") }
+            self.metricName = metricName
+        }
     }
 
     public struct StopInstanceRequest: AWSShape {
@@ -2078,6 +2687,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
+        }
     }
 
     public struct InstanceHardware: AWSShape {
@@ -2098,6 +2711,13 @@ extension Lightsail {
             self.ramSizeInGb = ramSizeInGb
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.cpuCount = dictionary["cpuCount"] as? Int32
+            if let disks = dictionary["disks"] as? [[String: Any]] {
+                self.disks = try disks.map({ try Disk(dictionary: $0) })
+            }
+            self.ramSizeInGb = dictionary["ramSizeInGb"] as? Float
+        }
     }
 
     public struct GetStaticIpsRequest: AWSShape {
@@ -2112,6 +2732,9 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public init(dictionary: [String: Any]) throws {
+            self.pageToken = dictionary["pageToken"] as? String
+        }
     }
 
     public struct CreateDomainRequest: AWSShape {
@@ -2126,6 +2749,10 @@ extension Lightsail {
             self.domainName = domainName
         }
 
+        public init(dictionary: [String: Any]) throws {
+            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.domainName = domainName
+        }
     }
 
 }
