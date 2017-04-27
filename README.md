@@ -1,6 +1,8 @@
 # aws-sdk-swift
 
-AWS SDK for the Swift programming language.
+AWS SDK for the Swift programming language that works on Linux and Mac.
+
+<img src="https://camo.githubusercontent.com/93de6573350b91e48ab570a4fe710e4e8baa38b8/687474703a2f2f696d672e736869656c64732e696f2f62616467652f73776966742d332e302d627269676874677265656e2e737667"> [<img src="https://travis-ci.org/noppoMan/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/noppoMan/aws-sdk-swift)
 
 ## ⚠️ A Work In Progress
 aws-sdk-swift is currently pretty experimental and not well tested. So Don't use this in production.
@@ -14,6 +16,7 @@ Visit the aws-sdk-swift [documentation](http://htmlpreview.github.io/?https://gi
 ### SPM
 
 Package.swift
+
 ```swift
 import PackageDescription
 
@@ -53,7 +56,7 @@ Not supported yet
 
 Alternatively, you can set the following environment variables:
 
-```sh
+```
 AWS_ACCESS_KEY_ID=bar
 AWS_SECRET_ACCESS_KEY=foo
 ```
@@ -92,10 +95,12 @@ do {
     let putObjectRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: "public-read")
     _ = try s3.putObject(putObjectRequest)
 
+    // Get text file from s3
     let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
     let getObjectOutput = try s3.getObject(getObjectRequest)
-    print(getObjectOutput)
-
+    if let body = getObjectOutput.body {
+      print(String(data: body, encoding: .utf8))
+    }
 } catch {
     print(error)
 }
