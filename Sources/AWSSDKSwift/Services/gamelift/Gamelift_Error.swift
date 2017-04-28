@@ -44,6 +44,10 @@ public enum GameliftError: AWSErrorType {
 
 extension GameliftError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "UnauthorizedException":
             self = .unauthorizedException(message: message)

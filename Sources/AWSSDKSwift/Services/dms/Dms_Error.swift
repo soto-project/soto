@@ -45,6 +45,10 @@ public enum DmsError: AWSErrorType {
 
 extension DmsError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "InvalidResourceStateFault":
             self = .invalidResourceStateFault(message: message)

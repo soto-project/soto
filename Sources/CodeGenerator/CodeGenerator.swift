@@ -132,6 +132,11 @@ extension AWSService {
         code += "\n\n"
         code += "extension \(serviceErrorName) {\n"
         code += "\(indt(1))public init?(errorCode: String, message: String?){\n"
+        code += "\(indt(2))var errorCode = errorCode\n"
+        code += "\(indt(2))if let index = errorCode.index(of: \"#\") {\n"
+            code += "\(indt(3))errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))\n"
+        code += "\(indt(2))}\n"
+        
         code += "\(indt(2))switch errorCode {\n"
         for name in errorShapeNames {
             code += "\(indt(2))case \"\(name)\":\n"

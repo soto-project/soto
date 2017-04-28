@@ -53,6 +53,10 @@ public enum KmsError: AWSErrorType {
 
 extension KmsError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "MalformedPolicyDocumentException":
             self = .malformedPolicyDocumentException(message: message)

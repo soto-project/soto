@@ -54,6 +54,10 @@ public enum LambdaError: AWSErrorType {
 
 extension LambdaError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "ServiceException":
             self = .serviceException(message: message)

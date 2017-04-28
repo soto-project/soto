@@ -39,6 +39,10 @@ public enum Appstream2Error: AWSErrorType {
 
 extension Appstream2Error {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)

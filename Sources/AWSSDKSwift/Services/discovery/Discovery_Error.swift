@@ -38,6 +38,10 @@ public enum DiscoveryError: AWSErrorType {
 
 extension DiscoveryError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "AuthorizationErrorException":
             self = .authorizationErrorException(message: message)

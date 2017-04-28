@@ -60,6 +60,10 @@ public enum ConfigError: AWSErrorType {
 
 extension ConfigError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "NoSuchDeliveryChannelException":
             self = .noSuchDeliveryChannelException(message: message)

@@ -48,6 +48,10 @@ public enum WorkdocsError: AWSErrorType {
 
 extension WorkdocsError {
     public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+        }
         switch errorCode {
         case "EntityNotExistsException":
             self = .entityNotExistsException(message: message)
